@@ -4,7 +4,7 @@
     "built": 187,
     "commands": 263,
     "doors": 1027,
-    "scenarios": 1355,
+    "scenarios": 1357,
     "modules": 261,
     "lines": 50877
   },
@@ -1258,7 +1258,7 @@
         "element.setTag"
       ],
       "doors": 29,
-      "scenarios": 4,
+      "scenarios": 6,
       "modules": [
         "src/core/elements/tag.ts",
         "src/core/structure/hand.ts",

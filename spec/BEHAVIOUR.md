@@ -4173,6 +4173,10 @@ None in Pager.
 
 ## nesting-grammar-structure
 
+Keyboard refusal scenarios explicitly choose their surface after adjusting zoom: click the selected item's Layers
+row, then Escape for the canvas case, or keep the row focused for the Layers case. This reaches the structure
+command without bypassing the deliberate-focus rule of keyboard-panel-navigation; the grammar refusals stay unchanged.
+
 How Pager behaves, observed by running it from `.cache/pager-run` (Chrome, window 1600×900) and read from its source. Source references are `path:line` inside Pager. The rule data and functions are the ones described in `nesting-grammar.md` (`src/model/grammar.js`, `src/model/elements.js`).
 
 ### Trigger
