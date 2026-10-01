@@ -1,4 +1,4 @@
-import type { Sample } from '../../tools/perf/metrics.ts';
+import type { Sample } from './metrics.ts';
 
 export interface Probe {
   phase: string | null;

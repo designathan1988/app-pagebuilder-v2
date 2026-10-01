@@ -4,7 +4,7 @@ import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
 import { control, runDoor, setSectionOpen } from '../e2e/door.ts';
 import { walk, type DocumentJson } from '../../src/core/document/model.ts';
-import { installPerformanceProbe, type ProbedWindow } from './probe.ts';
+import { installPerformanceProbe, type ProbedWindow } from '../../tools/perf/probe.ts';
 import type { PerformanceRun } from '../../tools/perf/metrics.ts';
 
 const budget = JSON.parse(fs.readFileSync('tests/perf/budget.json', 'utf8')) as { fixture: string; nodes: number; runs: number };

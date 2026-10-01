@@ -25,7 +25,9 @@
     "inventory": "node tools/inventory/generate.ts",
     "inventory:check": "node tools/inventory/check.ts",
     "check:fast": "npm run gen:check && npm run manifest:check && npm run inventory:check && npm run typecheck && npm run lint && npm run unit",
-    "perf": "node tools/perf/run.ts"
+    "perf": "node tools/perf/run.ts",
+    "journey": "node tools/journey/cli.mjs",
+    "journey:check": "node --test tools/journey/*.test.mjs"
   },
   "dependencies": {
     "react": "^19.3.0",
