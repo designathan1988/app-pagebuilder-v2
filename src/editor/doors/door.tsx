@@ -7,7 +7,7 @@ import { COMMANDS, PREDICATES } from '../../app/commands.ts';
 import { isFeatureBuilt } from '../../app/features.ts';
 import { isBuilt, type Message, type PredicateTable } from '../../core/commands/registry.ts';
 import { projectFileText } from '../../core/project/archive.ts';
-import { readUploadFile } from '../../core/files/files.ts';
+import { pickedFilePath, readUploadFile } from '../../core/files/files.ts';
 import type { FolderFile } from '../../core/import/folder.ts';
 import { readPickedFiles } from '../../core/import/import.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
@@ -96,7 +96,7 @@ export function useDoor(entry: DoorEntry, args: Readonly<Record<string, unknown>
     // its entries — and runs with what they hold (core/import/import.ts readPickedFiles)
     const files = Object.entries(entry.command.args).find(([name, arg]) => arg.type === 'files' && !arg.optional && !(name in given))?.[0];
     if (files !== undefined) {
-      void chooseFiles().then(async (chosen) => {
+      void (entry.door.adapter.fileReading === 'folder' ? chooseDirectoryFiles() : chooseFiles()).then(async (chosen) => {
         if (chosen.length === 0) return;
         dispatch(entry.command.id, { ...given, [files]: await readPickedFiles(chosen) });
       });
@@ -182,8 +182,8 @@ function chooseFiles(): Promise<readonly File[]> {
 // and its files, each with the path it holds inside the folder (the browser's own webkitRelativePath, the picked
 // folder's name left out, so the tree the import builds stands where the folder does). Every file is read by the one
 // reader of a file a door hands over (core/files/files.ts readUploadFile). Null when nothing was picked.
-async function chooseFolder(): Promise<{ readonly name: string; readonly files: readonly FolderFile[] } | null> {
-  const chosen = await new Promise<readonly File[]>((resolve) => {
+function chooseDirectoryFiles(): Promise<readonly File[]> {
+  return new Promise<readonly File[]>((resolve) => {
     const input = document.createElement('input');
     input.type = 'file';
     input.multiple = true;
@@ -192,6 +192,10 @@ async function chooseFolder(): Promise<{ readonly name: string; readonly files: 
     input.addEventListener('cancel', () => resolve([]));
     input.click();
   });
+}
+
+async function chooseFolder(): Promise<{ readonly name: string; readonly files: readonly FolderFile[] } | null> {
+  const chosen = await chooseDirectoryFiles();
   if (chosen.length === 0) return null;
   const inside = (file: File): readonly string[] => file.webkitRelativePath.split('/').filter((one) => one !== '');
   const name = inside(chosen[0] as File)[0] ?? '';
@@ -200,8 +204,7 @@ async function chooseFolder(): Promise<{ readonly name: string; readonly files: 
   const files = await Promise.all(
     ordered.map(async (file): Promise<FolderFile> => {
       const read = await readUploadFile(file);
-      const parts = inside(file);
-      return { ...read, path: (parts.length > 1 ? parts.slice(1) : parts).join('/') };
+      return { ...read, path: pickedFilePath(file) };
     }),
   );
   return { name, files };

@@ -127,6 +127,10 @@ async function runStep(page: Page, step: Step): Promise<string> {
     await page.reload();
     await page.locator('.workbench').waitFor();
     page.off('dialog', accept);
+  } else if ('files' in step) {
+    const chooser = page.waitForEvent('filechooser');
+    await page.locator(step.files.at).first().click();
+    await (await chooser).setFiles([...step.files.paths]);
   } else if ('move' in step) {
     const box = await page.locator(step.move.at).first().boundingBox();
     if (box === null) throw new Error(`the pointer target is not drawn: ${step.move.at}`);

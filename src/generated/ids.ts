@@ -640,6 +640,10 @@ export const DOOR_IDS = [
   "project.openFolder#command-bar",
   "project.importHtml#menu-file",
   "project.importHtml#command-bar",
+  "project.importHtml#menu-file-folder",
+  "project.importHtml#destination-page",
+  "project.importHtml#destination-inside",
+  "project.importHtml#destination-replace",
   "project.export#menu-file",
   "project.export#toolbar-top-bar-export",
   "project.export#toolbar-preview-bar-export",
@@ -2090,6 +2094,7 @@ export const REGION_IDS = [
   "component-prompt",
   "inspector-component-notice",
   "grid-edit-chrome",
+  "html-import",
 ] as const;
 export type RegionId = (typeof REGION_IDS)[number];
 
@@ -4608,5 +4613,15 @@ export const MESSAGE_IDS = [
   "status.element.notApplicable",
   "status.keys.notChosen",
   "status.keys.typedNotShortcuts",
+  "command.importHtmlFolder",
+  "import.title",
+  "import.destinationHelp",
+  "import.destination.page",
+  "import.destination.inside",
+  "import.destination.replace",
+  "import.hint.page",
+  "import.hint.inside",
+  "import.hint.replace",
+  "status.import.insideRefused",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

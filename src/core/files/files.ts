@@ -268,6 +268,18 @@ export function folderOf(path: string): string {
 }
 export const nameOfPath = (path: string): string => path.slice(path.lastIndexOf('/') + 1);
 
+// Keep the source extension and folder when an imported page or asset needs a free path.
+export function uniqueFilePath(document: DocumentJson, path: string, reserved: ReadonlySet<string> = new Set()): string {
+  const slash = path.lastIndexOf('/');
+  const dot = path.lastIndexOf('.');
+  const split = dot > slash + 1 ? dot : path.length;
+  let candidate = path;
+  for (let n = 2; pathTaken(document, candidate) || reserved.has(candidate); n += 1) candidate = `${path.slice(0, split)}-${n}${path.slice(split)}`;
+  return candidate;
+}
+
+export const pickedFilePath = (file: File): string => file.webkitRelativePath ? file.webkitRelativePath.split('/').slice(1).join('/') : file.name;
+
 // A path as a browser resolves it from the file that holds it (spec export-multi-page, export-file-tree): the pages
 // live at their paths in the archive, so a link from company/about-us.html to the stylesheet is "../css/styles.css"
 // and to another page of its own folder the name alone. The one rule of a relative path, which the export's value

@@ -61,6 +61,7 @@ import { setStyleCommand } from '../core/style/set.ts';
 import { applyCssRuleCommand } from '../core/style/css-rule.ts';
 import { applyHtmlCommand } from '../core/import/apply-html.ts';
 import { openFolderCommand } from '../core/import/folder.ts';
+import { choosingImport } from '../editor/import/html-import.ts';
 import { importHtmlCommand } from '../core/import/import.ts';
 import { setSpacingCommand } from '../core/style/spacing.ts';
 import { exportProject } from '../core/export/export.ts';
@@ -241,7 +242,7 @@ export const COMMANDS = {
   'project.save': saveProject,
   'project.open': openProject,
   'project.openFolder': openFolderCommand,
-  'project.importHtml': importHtmlCommand,
+  'project.importHtml': choosingImport(importHtmlCommand),
   'project.export': exportProject,
   'selection.select': selectCommand,
   'selection.clear': clearSelectionCommand,

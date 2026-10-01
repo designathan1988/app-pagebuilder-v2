@@ -6,6 +6,7 @@
 import type { AttributeValue, ComponentDefinition, DocNode, DocumentJson, StyleClass, Styles } from '../document/model.ts';
 import type { Patch } from '../history/transaction.ts';
 import { cssFamily } from './fonts.ts';
+import { mapInlineLinks } from '../text/inline.ts';
 
 // A path's new place, or the same path when the move does not touch it.
 export type PathRewrite = (path: string) => string;
@@ -34,8 +35,8 @@ function followList(value: string, rewrite: PathRewrite, separator: RegExp, join
   return moved.some((part, i) => part !== parts[i]?.trim()) ? moved.join(joiner) : value;
 }
 
-function followAttribute(name: string, value: AttributeValue, rewrite: PathRewrite): AttributeValue {
-  if (typeof value !== 'string' || value === '') return value;
+function followAttribute(name: string, value: AttributeValue, rewrite: PathRewrite, addresses?: ReadonlySet<string>): AttributeValue {
+  if (typeof value !== 'string' || value === '' || (addresses !== undefined && !addresses.has(name))) return value;
   if (name === 'pageScripts') return followList(value, rewrite, /\s+/, ' ');
   if (name === 'srcset') return followList(value, rewrite, /,/, ', ');
   return followAddress(value, rewrite);
@@ -43,6 +44,13 @@ function followAttribute(name: string, value: AttributeValue, rewrite: PathRewri
 
 // url("…") / url('…') / url(…) inside a declaration value
 const URL = /url\(\s*(["']?)([^"')]+)\1\s*\)/g;
+
+export function followCssUrls(value: string, rewrite: PathRewrite): string {
+  return value.includes('url(') ? value.replace(URL, (all, quote: string, address: string) => {
+    const moved = followAddress(address.trim(), rewrite);
+    return moved === address.trim() ? all : `url(${quote === '' ? '"' : quote}${moved}${quote === '' ? '"' : quote})`;
+  }) : value;
+}
 
 // The renamed font families, and the properties whose value is a list of families (the manifest's properties of the
 // font-family-list codec): where a family name is written.
@@ -53,10 +61,7 @@ export interface FamilyRenames {
 const NO_FAMILIES: FamilyRenames = { names: new Map(), properties: new Set() };
 
 function followDeclaration(property: string, value: string, rewrite: PathRewrite, families: FamilyRenames): string {
-  let next = value.includes('url(') ? value.replace(URL, (all, quote: string, address: string) => {
-    const moved = followAddress(address.trim(), rewrite);
-    return moved === address.trim() ? all : `url(${quote === '' ? '"' : quote}${moved}${quote === '' ? '"' : quote})`;
-  }) : value;
+  let next = followCssUrls(value, rewrite);
   if (families.names.size > 0 && families.properties.has(property)) {
     const names = next.split(',').map((one) => one.trim());
     const renamed = names.map((one) => {
@@ -88,25 +93,26 @@ function followStyles(styles: Styles, rewrite: PathRewrite, families: FamilyRena
   return changed ? (next as Styles) : styles;
 }
 
-function followNode(node: DocNode, rewrite: PathRewrite, families: FamilyRenames): DocNode {
+function followNode(node: DocNode, rewrite: PathRewrite, families: FamilyRenames, addresses?: ReadonlySet<string>): DocNode {
   let attributes = node.attributes;
   for (const [name, value] of Object.entries(node.attributes)) {
     if (value === undefined) continue;
-    const moved = followAttribute(name, value, rewrite);
+    const moved = followAttribute(name, value, rewrite, addresses);
     if (moved !== value) attributes = { ...attributes, [name]: moved };
   }
   const styles = followStyles(node.styles, rewrite, families);
-  const children = node.children.map((child) => followNode(child, rewrite, families));
-  const same = attributes === node.attributes && styles === node.styles && children.every((child, i) => child === node.children[i]);
-  return same ? node : { ...node, attributes, styles, children };
+  const inline = node.inline === undefined ? undefined : mapInlineLinks(node.inline, href => followAddress(href, rewrite));
+  const children = node.children.map((child) => followNode(child, rewrite, families, addresses));
+  const same = attributes === node.attributes && styles === node.styles && inline === node.inline && children.every((child, i) => child === node.children[i]);
+  return same ? node : { ...node, attributes, styles, ...(inline === undefined ? {} : { inline }), children };
 }
 
 // The patches that write every reference of the document through `rewrite` (and the renamed font families), one per
 // part of the document that changed: a page's tree, the classes, the components.
-export function followPaths(document: DocumentJson, rewrite: PathRewrite, families: FamilyRenames = NO_FAMILIES): Patch[] {
+export function followPaths(document: DocumentJson, rewrite: PathRewrite, families: FamilyRenames = NO_FAMILIES, addresses?: ReadonlySet<string>): Patch[] {
   const patches: Patch[] = [];
   document.pages.forEach((page, index) => {
-    const tree = followNode(page.tree, rewrite, families);
+    const tree = followNode(page.tree, rewrite, families, addresses);
     if (tree !== page.tree) patches.push({ op: 'replace', path: ['pages', index, 'tree'], value: tree });
   });
   const classes: readonly StyleClass[] = document.classes ?? [];
@@ -117,7 +123,7 @@ export function followPaths(document: DocumentJson, rewrite: PathRewrite, famili
   if (nextClasses.some((one, i) => one !== classes[i])) patches.push({ op: 'replace', path: ['classes'], value: nextClasses });
   const components: readonly ComponentDefinition[] = document.components ?? [];
   const nextComponents = components.map((one) => {
-    const tree = followNode(one.tree, rewrite, families);
+    const tree = followNode(one.tree, rewrite, families, addresses);
     return tree === one.tree ? one : { ...one, tree };
   });
   if (nextComponents.some((one, i) => one !== components[i])) patches.push({ op: 'replace', path: ['components'], value: nextComponents });

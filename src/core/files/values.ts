@@ -20,9 +20,16 @@ const isReference = (name: string, value: string): boolean => name === 'for' || 
 // export-file-tree), so a page in a folder reaches the stylesheet and its neighbours.
 export function exportValue(document: DocumentJson, name: string, value: string, from = ''): string | null {
   if (isReference(name, value)) return resolvedReference(document, value);
+  return exportPath(document, value, from);
+}
+
+// Inline text links carry literal HTML fragments, not model-node references, but share project path resolution.
+export function exportPath(document: DocumentJson, value: string, from = ''): string {
   if (from === '' || value === '') return value;
-  const known = fileAt(document, value) !== null || pageAtPath(document, value) !== null;
-  return known ? relativePath(from, value) : value;
+  const cut = value.search(/[#?]/);
+  const path = cut < 0 ? value : value.slice(0, cut);
+  const known = fileAt(document, path) !== null || pageAtPath(document, path) !== null;
+  return known ? relativePath(from, path) + (cut < 0 ? '' : value.slice(cut)) : value;
 }
 
 // What the canvas writes: the same, except that a source naming a project file draws through the file's object URL.

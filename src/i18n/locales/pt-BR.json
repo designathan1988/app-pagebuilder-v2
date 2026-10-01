@@ -519,7 +519,7 @@
   "dialog.delete": "Excluir",
   "dialog.deleteFiles.message": "Apagar esta pasta e tudo o que ela guarda?",
   "dialog.deletePage.message": "Excluir a página {name}?",
-  "dialog.importHtml.message": "Substituir a página pelo HTML importado?",
+  "dialog.importHtml.message": "Substituir o projeto inteiro pelo HTML importado? Todas as páginas e os recursos atuais serão removidos. Você pode desfazer essa mudança.",
   "dialog.newBlankPage.confirm": "Recomeçar",
   "dialog.newBlankPage.message": "Recomeçar com uma página vazia? A página atual e o histórico de desfazer serão apagados.",
   "dialog.openFolder.message": "Substituir o projeto atual pelos arquivos desta pasta?",
@@ -2103,5 +2103,15 @@
   "status.change.failed": "“{command}” falhou e nada mudou. Os detalhes estão em Incidentes.",
   "status.element.notApplicable": "“{command}” não se aplica a {name}.",
   "status.keys.notChosen": "Letras digitadas aqui não fazem nada: clique no canvas ou numa linha das Camadas para usar os atalhos delas, ou num campo para digitar nele.",
-  "status.keys.typedNotShortcuts": "Digitação não é atalho: desfeito {keys}."
+  "status.keys.typedNotShortcuts": "Digitação não é atalho: desfeito {keys}.",
+  "command.importHtmlFolder": "Importar pasta HTML",
+  "import.title": "Importar HTML",
+  "import.destinationHelp": "Escolha onde estas páginas serão colocadas. Suas páginas atuais permanecem, a menos que você escolha substituir o projeto.",
+  "import.destination.page": "Adicionar como novas páginas",
+  "import.destination.inside": "Inserir dentro do elemento selecionado",
+  "import.destination.replace": "Substituir o projeto inteiro…",
+  "import.hint.page": "Manter suas páginas e adicionar as páginas importadas ao lado delas.",
+  "import.hint.inside": "Adicionar o conteúdo de cada página importada dentro do contêiner selecionado.",
+  "import.hint.replace": "Remover as páginas e os recursos atuais do projeto. Será pedida uma confirmação.",
+  "status.import.insideRefused": "Escolha um contêiner que possa receber o conteúdo das páginas importadas."
 }

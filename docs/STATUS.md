@@ -116,3 +116,9 @@ Nothing of the chapter's plan is left undone; three items were decided rather th
   a unique name because scenario paths name pages by it.
 - **T7 deferred with its reason**: the pointer's module-level singletons only matter when two editors share a page,
   and no flow opens two; it waits for the first feature that does.
+
+## Jornada 03: functional blockers delivered
+
+The stage-1 fixes are implemented: command refusals, typing/shortcut safety, in-place spaces, field undo, nonmodal outside clicks and activity panels, draft recovery, values-menu confirmation and additive import with explicit destinations. QA-LOG rows32–43 record the individual commits and real Chrome evidence. The final stage-1 regression run passed53cases alongside the import and related suites; this is not a new full-suite claim.
+
+Stage-1 canonical comparisons in both themes/languages and journey remeasurement remain to be completed with the pending stage-0 measurement work. Stages2–17 remain the active product mission. The conservative affected selector stays deferred under review R4; it is safe and broad.

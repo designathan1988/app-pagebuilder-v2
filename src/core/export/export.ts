@@ -30,7 +30,7 @@ import { classesCss, elementAttributes, fileUrlsIn, nodeCss, writesNode } from '
 import { svgMarkupOf } from '../elements/svg.ts';
 import { dataUrl, fileAt, fileBytes, filesOf, relativePath } from '../files/files.ts';
 import { fontFaceCss, fontFiles } from '../files/fonts.ts';
-import { exportValue } from '../files/values.ts';
+import { exportPath, exportValue } from '../files/values.ts';
 import { rootCss } from '../design/tokens.ts';
 import type { InlineRun } from '../text/inline.ts';
 import { animationsOf, keyframesCss, playedClassDeclarations, playedClassName, animationDeclarations } from '../animation/animation.ts';
@@ -73,12 +73,12 @@ function headLines(document: DocumentJson, page: DocNode, rules: ModelRules, fro
 }
 
 // a text's runs as HTML: marks as their elements, a line break as <br>
-function runsHtml(runs: readonly InlineRun[]): string {
+function runsHtml(runs: readonly InlineRun[], resolve: (href: string) => string): string {
   return runs
     .map((run) => {
       if (typeof run === 'string') return run.split('\n').map(escapeText).join('<br>');
-      const href = run.tag === 'a' ? ` href="${escapeAttribute(run.href)}"` : '';
-      return `<${run.tag}${href}>${runsHtml(run.children)}</${run.tag}>`;
+      const href = run.tag === 'a' ? ` href="${escapeAttribute(resolve(run.href))}"` : '';
+      return `<${run.tag}${href}>${runsHtml(run.children, resolve)}</${run.tag}>`;
     })
     .join('');
 }
@@ -253,7 +253,7 @@ export function pageLines(document: DocumentJson, pageIndex: number, rules: Mode
     if (contentModel.isVoid(tag)) return put(open);
     const content = output.elements.get(node.type)?.content;
     if (content === 'text' || content === 'markup') {
-      return put(`${open}${content === 'text' ? runsHtml(node.inline ?? [node.text ?? '']) : (node.text ?? '')}</${tag}>`);
+      return put(`${open}${content === 'text' ? runsHtml(node.inline ?? [node.text ?? ''], href => exportPath(document, href, from)) : (node.text ?? '')}</${tag}>`);
     }
     // an SVG's markup after its shapes (core/elements/svg.ts)
     const markup = svgMarkupOf(node);

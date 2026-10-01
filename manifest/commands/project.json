@@ -33,7 +33,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "menu:file",
-            "order": 6
+            "order": 7
           },
           "adapter": {
             "selection": "none",
@@ -384,6 +384,20 @@
           "type": "files",
           "values": [],
           "optional": false
+        },
+        "destination": {
+          "type": "enum",
+          "values": [
+            "page",
+            "inside",
+            "replace"
+          ],
+          "optional": true
+        },
+        "target": {
+          "type": "node",
+          "values": [],
+          "optional": true
         }
       },
       "availability": {
@@ -392,7 +406,8 @@
       },
       "refusals": [
         "status.import.noPage",
-        "status.import.invalidArchive"
+        "status.import.invalidArchive",
+        "status.import.insideRefused"
       ],
       "confirmation": {
         "messageKey": "dialog.importHtml.message",
@@ -449,6 +464,116 @@
             "fields": []
           },
           "args": {}
+        },
+        {
+          "id": "menu-file-folder",
+          "kind": "menu",
+          "feature": "html-import-structure",
+          "menu": "file",
+          "checked": null,
+          "labelKey": "command.importHtmlFolder",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "menu:file",
+            "order": 5
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": [],
+            "fileReading": "folder"
+          },
+          "args": {}
+        },
+        {
+          "id": "destination-page",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "html-import-structure",
+          "panel": "html-import",
+          "control": "page",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "import.destination.page",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "html-import",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "destination": "page",
+            "files": []
+          }
+        },
+        {
+          "id": "destination-inside",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "html-import-structure",
+          "panel": "html-import",
+          "control": "inside",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "import.destination.inside",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "html-import",
+            "order": 2
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "destination": "inside",
+            "files": []
+          }
+        },
+        {
+          "id": "destination-replace",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "html-import-structure",
+          "panel": "html-import",
+          "control": "replace",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "import.destination.replace",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "html-import",
+            "order": 3
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "destination": "replace",
+            "files": []
+          }
         }
       ]
     },
@@ -480,7 +605,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "menu:file",
-            "order": 5
+            "order": 6
           },
           "adapter": {
             "selection": "none",

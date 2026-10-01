@@ -19,6 +19,7 @@ export type Step =
   | { readonly text: string }
   // accept the browser's pending-draft warning and reload the real page
   | { readonly reload: true }
+  | { readonly files: { readonly at: string; readonly paths: readonly string[] } }
   // move across a control in small real pointer steps; fractions are relative to its drawn box
   | { readonly move: { readonly at: string; readonly from: readonly [number, number]; readonly to: readonly [number, number]; readonly steps: number; readonly interval: number } }
   // a real drag: from one node or point to another, in page pixels (the frame's own space)
@@ -52,6 +53,43 @@ const INSERT_PANEL = { door: 'workspace.setPanelOpen#toolbar-activity-bar-insert
 const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as const;
 
 export const FLOWS: readonly Flow[] = [
+  {
+    name: 'import-folder',
+    about: 'a folder contributes two pages with its images and stylesheet while preserving the client pages',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/client-site.json'] } },
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.importHtml#menu-file-folder"]', paths: ['manifest/features/fixtures/folders/legacy'] } },
+      { photo: 'folder-pages-ready' },
+      { click: '[data-door="project.importHtml#destination-page"]' },
+      { photo: 'four-pages-and-coffee-image' },
+    ],
+  },
+  {
+    name: 'import-pages',
+    about: 'importing a legacy page alongside two existing client pages',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/client-site.json'] } },
+      { photo: 'two-client-pages' },
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.importHtml#menu-file"]', paths: ['manifest/features/fixtures/import/legacy.html'] } },
+      { photo: 'import-destination' },
+      { click: '[data-door="project.importHtml#destination-page"]' },
+      { photo: 'after-import' },
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.importHtml#menu-file"]', paths: ['manifest/features/fixtures/import/legacy.html'] } },
+      { click: '[data-door="project.importHtml#destination-inside"]' },
+      { photo: 'inside-current-page' },
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.importHtml#menu-file"]', paths: ['manifest/features/fixtures/import/legacy.html'] } },
+      { click: '[data-door="project.importHtml#destination-replace"]' },
+      { photo: 'replace-confirmation' },
+      { click: '[data-confirmation="confirm"]' },
+      { photo: 'project-replaced-after-confirmation' },
+    ],
+  },
   {
     name: 'font-menu-draft',
     about: 'the font list opens without confirming unfinished typing, then Escape returns to that draft',

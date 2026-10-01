@@ -14,8 +14,9 @@ export const INITIAL_OVERLAYS: OverlaysState = { dismissals: 0 };
 
 // it also closes the dialog that is open (workspace/dialogs.ts) and the command bar (command-bar/command-bar.ts)
 export const dismiss = registerHandler<'ui.dismiss', EditorUi>('ui.dismiss', ({ state }) => {
-  const { dialog: _closed, commandBar: _bar, ...rest } = state.ui;
+  const { dialog: _closed, commandBar: _bar, htmlImport: _import, ...rest } = state.ui;
   void _closed;
   void _bar;
+  void _import;
   return { kind: 'change', ui: { ...rest, overlays: { dismissals: state.ui.overlays.dismissals + 1 } } };
 });

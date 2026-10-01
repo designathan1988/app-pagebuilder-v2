@@ -1052,3 +1052,9 @@
   background: var(--color-accent-soft);
   color: var(--color-accent);
 }
+
+/* Import destinations share the existing modal and command controls. */
+.html-import__choices { display: grid; gap: var(--space-6); }
+.html-import__choice { display: grid; gap: var(--space-2); }
+.html-import__choice p { margin: 0; color: var(--color-text-muted); }
+.html-import li { overflow-wrap: anywhere; }

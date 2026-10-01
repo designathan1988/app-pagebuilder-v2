@@ -1,3 +1,4 @@
+import { HtmlImportDialog } from './html-import.tsx';
 // The shell regions (ARCHITECTURE.md): the window grid of DESIGN.md "The window", with the top bar, the activity
 // bar and the sidebar, the centre column, the inspector, the dock and the status bar. The sidebar, the inspector and
 // the dock are shown or hidden by the workspace state; the theme and the language follow the preferences.
@@ -156,6 +157,7 @@ export function Shell() {
             <GuidesGridsDialog />
             <SnapSettingsDialog />
             <RecoveryDialog />
+            <HtmlImportDialog />
             <TabGuardNotice />
             {inPreview ? (
               <div className="preview" data-key-context="preview" tabIndex={-1}>

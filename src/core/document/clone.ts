@@ -2,13 +2,14 @@
 // the identities shared by all of them: HTML ids, references inside the copied group and interaction targets.
 import { allNodes, type DocNode, type DocumentJson, type NodeId } from './model.ts';
 import { referenceHtmlOf } from '../elements/references.ts';
+import { mapInlineLinks } from '../text/inline.ts';
 
 type Pair = { readonly source: DocNode; readonly copy: DocNode };
 
 const IDREF_LISTS = new Set(['aria-labelledby', 'aria-describedby', 'aria-controls', 'aria-owns', 'headers']);
 const IDREF_SINGLES = new Set(['aria-activedescendant', 'list']);
 
-export function refreshCopiedIdentities(document: DocumentJson, pairs: readonly Pair[], regenerateHtmlIds = true): DocNode[] {
+export function refreshCopiedIdentities(document: DocumentJson, pairs: readonly Pair[], regenerateHtmlIds: boolean | 'collisions' = true): DocNode[] {
   const occupied = new Set([...allNodes(document)].map((node) => node.attributes.id).filter((id): id is string => typeof id === 'string' && id !== ''));
   const nodeIds = new Map<string, NodeId>();
   const htmlIds = new Map<string, string>();
@@ -16,12 +17,13 @@ export function refreshCopiedIdentities(document: DocumentJson, pairs: readonly 
   const visitPairs = (source: DocNode, copy: DocNode): void => {
     nodeIds.set(source.id, copy.id);
     const htmlId = source.attributes.id;
-    if (regenerateHtmlIds && typeof htmlId === 'string' && htmlId !== '') {
+    if (regenerateHtmlIds && typeof htmlId === 'string' && htmlId !== '' && (regenerateHtmlIds !== 'collisions' || occupied.has(htmlId))) {
       let candidate = `${htmlId}-copy`;
       for (let n = 2; occupied.has(candidate); n += 1) candidate = `${htmlId}-copy-${n}`;
       occupied.add(candidate);
       htmlIds.set(htmlId, candidate);
     }
+    if (typeof htmlId === 'string') occupied.add(htmlId);
     if (source.children.length !== copy.children.length) throw new Error('refreshCopiedIdentities: the copy changed the tree shape');
     source.children.forEach((child, index) => {
       const copiedChild = copy.children[index];
@@ -54,8 +56,10 @@ export function refreshCopiedIdentities(document: DocumentJson, pairs: readonly 
       return target === undefined ? interaction : { ...interaction, target };
     });
     const layerColors = copy.layerColors?.map((colour) => ({ ...colour, node: nodeIds.get(colour.node) ?? colour.node }));
+    const inline = copy.inline === undefined ? undefined : mapInlineLinks(copy.inline, href => href.startsWith('#') ? reference(href) : href);
     return { ...copy, attributes, ...(customAttributes === undefined ? {} : { customAttributes }),
       ...(interactions === undefined ? {} : { interactions }), ...(layerColors === undefined ? {} : { layerColors }),
+      ...(inline === undefined ? {} : { inline }),
       children: copy.children.map(repair) };
   };
   return pairs.map(({ copy }) => repair(copy));

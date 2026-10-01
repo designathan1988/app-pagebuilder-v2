@@ -1,3 +1,4 @@
+import type { PickedFile } from '../generated/commands.ts';
 // The editor's part of the store state: panel visibility (workspace/panels.ts), the workspace layout
 // (workspace/layout.ts), the preferences (preferences/preferences.ts), the keyboard focus requests (focus/focus.ts),
 // the overlays' dismissals (menus/overlays.ts), the context menu's opening (menus/context-menu.ts), the folded
@@ -64,7 +65,8 @@ export interface EditorUi {
   // the class the Style tab's writes go to (inspector/style-target.ts); absent while the target is the element
   readonly styleTarget?: string | undefined;
   // the dialog open (workspace/dialogs.ts): Guides & Grids, Snap settings; absent while none is
-  readonly dialog?: 'guides-grids' | 'snap-settings' | 'recovery' | undefined;
+  readonly dialog?: 'guides-grids' | 'snap-settings' | 'recovery' | 'html-import' | undefined;
+  readonly htmlImport?: { readonly files: readonly PickedFile[] } | undefined;
   // the saved versions the recovery dialog offers, the newest first, with their times (spec
   // autosave-corruption-recovery); absent when the saved work was read
   readonly recovery?: readonly { readonly revision: number; readonly time: number }[] | undefined;

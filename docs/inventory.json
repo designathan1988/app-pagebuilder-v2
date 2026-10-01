@@ -3,10 +3,10 @@
     "features": 188,
     "built": 187,
     "commands": 263,
-    "doors": 1027,
-    "scenarios": 1357,
-    "modules": 264,
-    "lines": 51216
+    "doors": 1031,
+    "scenarios": 1361,
+    "modules": 267,
+    "lines": 51431
   },
   "features": [
     {
@@ -2311,8 +2311,8 @@
       "commands": [
         "project.importHtml"
       ],
-      "doors": 2,
-      "scenarios": 3,
+      "doors": 6,
+      "scenarios": 7,
       "modules": [
         "src/core/import/import.ts"
       ]
@@ -2323,7 +2323,7 @@
       "commands": [
         "project.importHtml"
       ],
-      "doors": 2,
+      "doors": 6,
       "scenarios": 2,
       "modules": [
         "src/core/import/import.ts"
@@ -2335,7 +2335,7 @@
       "commands": [
         "project.importHtml"
       ],
-      "doors": 2,
+      "doors": 6,
       "scenarios": 2,
       "modules": [
         "src/core/import/import.ts"
@@ -2347,7 +2347,7 @@
       "commands": [
         "project.importHtml"
       ],
-      "doors": 2,
+      "doors": 6,
       "scenarios": 2,
       "modules": [
         "src/core/import/import.ts"
@@ -2360,7 +2360,7 @@
         "view.enterPreview",
         "project.importHtml"
       ],
-      "doors": 6,
+      "doors": 10,
       "scenarios": 1,
       "modules": [
         "src/core/import/import.ts",
@@ -2374,7 +2374,7 @@
         "project.importHtml",
         "project.export"
       ],
-      "doors": 6,
+      "doors": 10,
       "scenarios": 1,
       "modules": [
         "src/core/export/export.ts",
@@ -2807,7 +2807,7 @@
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 397,
+      "lines": 398,
       "commands": [],
       "features": []
     },
@@ -2884,7 +2884,7 @@
     },
     {
       "path": "src/core/design/classes.ts",
-      "lines": 150,
+      "lines": 156,
       "commands": [
         "classes.create",
         "classes.apply",
@@ -2946,7 +2946,7 @@
     },
     {
       "path": "src/core/document/clone.ts",
-      "lines": 63,
+      "lines": 67,
       "commands": [],
       "features": []
     },
@@ -3168,7 +3168,7 @@
     },
     {
       "path": "src/core/files/files.ts",
-      "lines": 534,
+      "lines": 546,
       "commands": [
         "files.upload",
         "files.createFolder",
@@ -3196,13 +3196,13 @@
     },
     {
       "path": "src/core/files/references.ts",
-      "lines": 126,
+      "lines": 132,
       "commands": [],
       "features": []
     },
     {
       "path": "src/core/files/values.ts",
-      "lines": 33,
+      "lines": 40,
       "commands": [],
       "features": []
     },
@@ -3305,6 +3305,12 @@
       "features": []
     },
     {
+      "path": "src/core/import/destinations.ts",
+      "lines": 82,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/core/import/folder.ts",
       "lines": 252,
       "commands": [
@@ -3316,7 +3322,7 @@
     },
     {
       "path": "src/core/import/import.ts",
-      "lines": 1254,
+      "lines": 1261,
       "commands": [
         "project.importHtml"
       ],
@@ -3999,7 +4005,7 @@
     },
     {
       "path": "src/core/text/inline.ts",
-      "lines": 327,
+      "lines": 338,
       "commands": [],
       "features": []
     },
@@ -4230,7 +4236,7 @@
     },
     {
       "path": "src/editor/doors/door.tsx",
-      "lines": 313,
+      "lines": 316,
       "commands": [],
       "features": []
     },
@@ -4321,6 +4327,12 @@
         "keyboard-panel-navigation",
         "layers-keyboard-navigation"
       ]
+    },
+    {
+      "path": "src/editor/import/html-import.ts",
+      "lines": 20,
+      "commands": [],
+      "features": []
     },
     {
       "path": "src/editor/input/drafts.ts",
@@ -4570,7 +4582,7 @@
     },
     {
       "path": "src/editor/menus/overlays.ts",
-      "lines": 22,
+      "lines": 23,
       "commands": [
         "ui.dismiss"
       ],
@@ -4777,6 +4789,12 @@
       "features": []
     },
     {
+      "path": "src/editor/shell/html-import.tsx",
+      "lines": 36,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/editor/shell/inspector-controls.tsx",
       "lines": 588,
       "commands": [],
@@ -4856,7 +4874,7 @@
     },
     {
       "path": "src/editor/shell/shell.tsx",
-      "lines": 173,
+      "lines": 175,
       "commands": [],
       "features": []
     },
@@ -4916,7 +4934,7 @@
     },
     {
       "path": "src/editor/state.ts",
-      "lines": 122,
+      "lines": 124,
       "commands": [],
       "features": []
     },
@@ -5157,7 +5175,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 4613,
+      "lines": 4628,
       "commands": [],
       "features": []
     },

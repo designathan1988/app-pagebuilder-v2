@@ -25,6 +25,17 @@ export interface TextRange {
   readonly end: number;
 }
 
+// Reference owners use this traversal when file paths or copied HTML anchors change.
+export function mapInlineLinks(runs: readonly InlineRun[], rewrite: (href: string) => string): readonly InlineRun[] {
+  const next = runs.map(run => {
+    if (typeof run === 'string') return run;
+    const children = mapInlineLinks(run.children, rewrite);
+    const href = run.tag === 'a' ? rewrite(run.href) : null;
+    return children === run.children && (run.tag !== 'a' || href === run.href) ? run : { ...run, children, ...(href === null ? {} : { href }) };
+  });
+  return next.every((run, i) => run === runs[i]) ? runs : next;
+}
+
 // One stretch of characters with the same marks: the flat form every change works on.
 export interface Segment {
   readonly text: string;

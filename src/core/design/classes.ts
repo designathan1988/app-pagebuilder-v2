@@ -117,6 +117,15 @@ function classUses(document: DocumentJson, name: string) {
   return document.pages.flatMap((page) => [...walk(page.tree)].filter((node) => node.classes.includes(name)).map((node) => locate(document, node.id)).filter((at) => at !== null));
 }
 
+// Shared by class renaming and collision isolation of an imported group.
+export function renameClassPatches(document: DocumentJson, className: string, nextName: string): Patch[] {
+  const index = classesOf(document).findIndex(c => c.name === className);
+  return [
+    ...(index < 0 ? [] : [{ op: 'replace' as const, path: ['classes', index, 'name'], value: nextName }]),
+    ...classUses(document, className).map((at): Patch => ({ op: 'replace', path: [...at.path, 'classes'], value: at.node.classes.map(name => name === className ? nextName : name) })),
+  ];
+}
+
 export const renameClassCommand = registerHandler('classes.rename', ({ state }, { className, nextName }): Outcome<never> => {
   const typed = nextName.trim();
   const index = classesOf(state.document).findIndex((c) => c.name === className);
@@ -126,10 +135,7 @@ export const renameClassCommand = registerHandler('classes.rename', ({ state }, 
   const uses = classUses(state.document, className);
   const locked = firstLockRefusal(state.document, uses.map((at) => at.node.id as NodeId), 'status.locked.edit');
   if (locked !== null) return { kind: 'refused', message: locked };
-  const patches: Patch[] = [
-    { op: 'replace', path: ['classes', index, 'name'], value: typed },
-    ...uses.map((at): Patch => ({ op: 'replace', path: [...at.path, 'classes'], value: at.node.classes.map((name) => name === className ? typed : name) })),
-  ];
+  const patches = renameClassPatches(state.document, className, typed);
   return { kind: 'change', patches, message: message('status.classes.renamed', { oldName: className, name: typed }) };
 });
 

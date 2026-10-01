@@ -156,7 +156,7 @@ export interface CommandArgs {
   "project.save": Record<string, never>;
   "project.open": { readonly file: string };
   "project.openFolder": { readonly folder: string };
-  "project.importHtml": { readonly files: readonly PickedFile[] };
+  "project.importHtml": { readonly files: readonly PickedFile[]; readonly destination?: "page" | "inside" | "replace"; readonly target?: NodeId };
   "project.export": Record<string, never>;
   "selection.select": { readonly target: NodeId };
   "selection.clear": Record<string, never>;

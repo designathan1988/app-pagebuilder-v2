@@ -32,15 +32,16 @@
 import type { NodeId, PickedFile } from '../../generated/commands.ts';
 import type { ElementType, MessageId } from '../../generated/ids.ts';
 import { message, registerHandler, type HandlerContext, type Message } from '../commands/registry.ts';
-import { isEmptyProject, type DocNode, type Page, type ProjectFile, type StoredValue, type Styles } from '../document/model.ts';
+import { allNodes, isEmptyProject, type DocNode, type Page, type ProjectFile, type StoredValue, type Styles } from '../document/model.ts';
 import type { InlineRun } from '../text/inline.ts';
 import { attributeValueRefusal, customAttributeRefusal, type ModelRules } from '../document/validate.ts';
 import { validClassName } from '../design/classes.ts';
-import type { Patch } from '../history/transaction.ts';
+import { followCssUrls } from '../files/references.ts';
+import { importDestination } from './destinations.ts';
 import { childrenRefusal } from '../elements/content-model.ts';
 import { readAddress } from '../elements/address.ts';
 import { sanitizedSvgMarkup } from '../elements/svg.ts';
-import { fileBytes, typeOfFile } from '../files/files.ts';
+import { fileBytes, pickedFilePath, resolveHref, typeOfFile } from '../files/files.ts';
 import { isZip, unzip } from '../project/zip.ts';
 import { canonical, hasMarks } from '../text/inline.ts';
 import { freshName, type NodeMaker } from '../structure/insert.ts';
@@ -77,7 +78,7 @@ export async function readPickedFiles(files: readonly File[]): Promise<readonly 
       }
       continue;
     }
-    picked.push(await fileOf(file.name, bytes, file.type));
+    picked.push(await fileOf(pickedFilePath(file), bytes, file.type));
   }
   return picked;
 }
@@ -259,6 +260,16 @@ interface Builder {
   problem: ImportProblem | null;
 }
 
+// Resolve only addresses that name picked resources; external addresses retain the address owner's rules.
+function importedPath(builder: Builder, address: string, from = builder.file): string | null {
+  const cut = address.search(/[#?]/);
+  const path = cut < 0 ? address : address.slice(0, cut);
+  if (path === '') return null;
+  const resolved = resolveHref(from, path);
+  const found = builder.picked.find(file => file.name === resolved) ?? builder.picked.find(file => file.name === path);
+  return found ? found.name + (cut < 0 ? '' : address.slice(cut)) : null;
+}
+
 // the element type whose tags name this tag, the type the tag is its own first tag for: <section> is the Section and
 // not the Div that may also be written with it, <pre> is the Pre and not the Paragraph that offers it too
 function typeOfTag(tag: string, rules: ModelRules): string | null {
@@ -322,7 +333,7 @@ function runsOf(children: readonly MarkupChild[], builder: Builder): InlineRun[]
       // and the report names the line
       const read = readAddress(href);
       if (href !== '' && !read.ok) builder.report.attributes.push(lineOfNode(builder.markup, child));
-      out.push({ tag: 'a', href: read.ok ? read.value : '', children: inner });
+      out.push({ tag: 'a', href: read.ok ? (importedPath(builder, href) ?? read.value) : '', children: inner });
       continue;
     }
     if (child.tag === 'strong' || child.tag === 'b') out.push({ tag: 'strong', children: inner });
@@ -355,7 +366,8 @@ function scriptPath(builder: Builder, module: boolean): string {
 // files keeps that file, at its own path; any other src stays the address the page lists). Never runs on the canvas.
 function keepScript(child: MarkupNode, builder: Builder): void {
   const line = lineOfNode(builder.markup, child);
-  const src = (child.attributes.get('src') ?? '').trim();
+  const source = (child.attributes.get('src') ?? '').trim();
+  const src = importedPath(builder, source) ?? source;
   const type = (child.attributes.get('type') ?? '').trim().toLowerCase();
   if (src === '') {
     // a script that is data (a JSON-LD block) holds no code the editor could keep: it is dropped, reported
@@ -498,7 +510,7 @@ function build(child: MarkupChild, builder: Builder, ancestors: readonly string[
     const id = attributeNamed(html, type, rules);
     if (id !== null) {
       const facts = rules.attributeValues.get(id);
-      const kept = facts?.valueType === 'boolean' ? true : facts?.valueType === 'number' ? Number(value) : value;
+      const kept = facts?.valueType === 'boolean' ? true : facts?.valueType === 'number' ? Number(value) : facts?.valueType === 'url' ? (importedPath(builder, value) ?? value) : html === 'srcset' ? value.split(',').map(part => part.trim().replace(/^([^\s]+)/, address => importedPath(builder, address) ?? address)).join(', ') : value;
       if (attributeValueRefusal(id, kept, rules) !== null) {
         if (builder.mode === 'import') builder.report.attributes.push(line);
         else builder.dropped.attributes += 1;
@@ -682,6 +694,7 @@ function nodeMarkup(node: MarkupNode): string {
 // The declared values one declaration's text stands for: the pairs "property: value" (a composite expanded into its
 // longhands, a shadow read into its layers), or nothing when the editor does not store it, reported with its line.
 function storedDeclarations(builder: Builder, text: string, line: number, file: string): readonly (readonly [string, StoredValue])[] {
+  text = followCssUrls(text, path => importedPath(builder, path, file) ?? path);
   const colon = text.indexOf(':');
   const property = colon <= 0 ? '' : text.slice(0, colon).trim().toLowerCase();
   if (property === '') {
@@ -1041,7 +1054,7 @@ function pageFrom(file: PickedFile, builder: Builder): Page {
   const body: DocNode = {
     id: ids.next(),
     type: rules.root.type as ElementType,
-    name: words((rootElement?.labelKey ?? 'element.page.label') as MessageId),
+    name: freshName(builder.make, words((rootElement?.labelKey ?? 'element.page.label') as MessageId)),
     tag: rootElement?.tags[0] ?? 'body',
     attributes: {},
     classes: [],
@@ -1070,7 +1083,8 @@ function pageFrom(file: PickedFile, builder: Builder): Page {
     }
     if (node.tag === 'link') {
       const rel = (node.attributes.get('rel') ?? '').trim().toLowerCase();
-      const href = (node.attributes.get('href') ?? '').trim();
+      const originalHref = (node.attributes.get('href') ?? '').trim();
+      const href = importedPath(builder, originalHref) ?? originalHref;
       if (href === '') continue;
       if (rel.split(/\s+/).includes('stylesheet')) {
         const sheet = builder.picked.find((one) => !isHtmlFile(one.name) && (one.name === href || one.name.endsWith(`/${href}`) || one.name === href.replace(/^\.?\//, '')));
@@ -1117,7 +1131,7 @@ function pageFrom(file: PickedFile, builder: Builder): Page {
   for (const [setting, value] of settings) {
     const facts = rules.attributeValues.get(setting);
     if (facts === undefined) continue;
-    const kept = settingValue(facts.valueType, value, rules, setting);
+    const kept = settingValue(facts.valueType, facts.valueType === 'url' ? (importedPath(builder, value) ?? value) : value, rules, setting);
     if (kept !== null) attributes[setting] = kept;
   }
   // the scripts the page keeps, in order, as the export writes them back one <script src> each
@@ -1147,21 +1161,23 @@ function settingValue(valueType: string, value: string, rules: ModelRules, setti
 
 // ---------------------------------------------------------------- the command
 
-export const importHtmlCommand = registerHandler('project.importHtml', (context, { files }) => {
+export const importPageFiles = (files: readonly PickedFile[]): PickedFile[] => files.filter(file => isHtmlFile(file.name)).sort((a, b) => rank(a.name) - rank(b.name) || a.name.localeCompare(b.name));
+
+export const importHtmlCommand = registerHandler('project.importHtml', (context, { files, destination = 'page', target }) => {
   const { state, rules, ids, words, confirmed } = context;
   const picked = (files ?? []) as readonly PickedFile[];
   const broken = picked.find((file) => typeof file.error === 'string' && file.error !== '');
   if (broken !== undefined) return { kind: 'refused' as const, message: message('status.import.invalidArchive', { file: broken.name, reason: broken.error ?? '' }) };
   // the home page first: index.html, else the files in their own order
-  const markup = picked.filter((file) => isHtmlFile(file.name)).sort((a, b) => rank(a.name) - rank(b.name) || a.name.localeCompare(b.name));
+  const markup = importPageFiles(picked);
   if (markup.length === 0) return { kind: 'refused' as const, message: message('status.import.noPage') };
-  // the import replaces the pages: the person is asked first unless the project holds nothing (File › Open asks the
-  // same way; the manifest declares the confirmation)
-  if (confirmed !== true && !isEmptyProject(state.document)) return { kind: 'confirm' as const };
+  // Only explicit replacement asks to remove work; new-page import may reuse a pristine blank placeholder.
+  if (destination === 'replace' && confirmed !== true) return { kind: 'confirm' as const };
+  const pristine = isEmptyProject(state.document) && [state.document.classes, state.document.files, state.document.components, state.document.tokens, state.document.swatches, state.document.folders].every(values => !values?.length);
+  const replacing = destination === 'replace' || (destination === 'page' && pristine);
   const report = emptyReport();
-  // the names no imported node has: the import replaces the pages, so the names the document holds now do not stand in
-  // their way (a fresh maker, not nodeMaker: that one counts the document's own names in)
-  const make: NodeMaker = { rules, ids, words, taken: new Set() };
+  // Merging reserves every existing node name; replacement starts a fresh naming scope.
+  const make: NodeMaker = { rules, ids, words, taken: replacing ? new Set() : new Set([...allNodes(state.document)].map(node => node.name)) };
   const held: ProjectFile[] = [];
   const pages: Page[] = [];
   const sources: SheetSource[] = [];
@@ -1199,24 +1215,15 @@ export const importHtmlCommand = registerHandler('project.importHtml', (context,
     if (referenced !== undefined && held.some((one) => one.path === referenced[0])) continue;
     held.push(referenced === undefined ? recordOf(file) : { ...recordOf(file), path: referenced[0] });
   }
-  // the patches: the pages as a whole, the classes the pages' stylesheets define (a class of the same name the project
-  // held is replaced by the imported one), and the files the import keeps beside the ones the project holds
-  const patches: Patch[] = [{ op: 'replace', path: ['pages'], value: pages }];
-  if (definitions.size > 0) {
-    const kept = (state.document.classes ?? []).filter((one) => !definitions.has(one.name));
-    const imported = [...definitions].map(([name, styles]) => ({ name, styles }));
-    patches.push({ op: state.document.classes === undefined ? 'add' : 'replace', path: ['classes'], value: [...kept, ...imported] });
-  }
-  if (held.length > 0) {
-    const current = (state.document.files ?? []).filter((file) => !held.some((one) => one.path === file.path));
-    patches.push({ op: state.document.files === undefined && current.length === 0 ? 'add' : 'replace', path: ['files'], value: [...current, ...held] });
-  }
+  const parsed = { version: state.document.version, pages, ...(definitions.size ? { classes: [...definitions].map(([name, styles]) => ({ name, styles })) } : {}), ...(held.length ? { files: held } : {}) };
+  const composed = importDestination(context, parsed, replacing ? 'replace' : destination, (target ?? (state.selection.length === 1 ? state.selection[0] : undefined)) as NodeId | undefined);
+  if ('refused' in composed) return { kind: 'refused' as const, message: composed.refused };
   const said = message('status.import.done', {
     elements,
     files: markup.map((file) => file.name).join(', '),
     notes: reportNotes(report, words),
   });
-  return { kind: 'change' as const, patches, selection: [pages[0]?.tree.id as NodeId], message: said };
+  return { kind: 'change' as const, ...composed, message: said };
 });
 
 const rank = (name: string): number => (name === 'index.html' || name.endsWith('/index.html') ? 0 : 1);

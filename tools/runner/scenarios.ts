@@ -1125,7 +1125,7 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
   const own = Object.fromEntries(
     Object.entries(args).flatMap(([name, value]): [string, unknown][] => {
       const fixed = (d.args as Record<string, unknown>)[name];
-      if (name === fileArg) return [];
+      if (name === fileArg || (chooser !== null && ref.startsWith('project.importHtml#') && name === 'destination')) return [];
       if (!(name in d.args)) return [[name, value]];
       // a door that declares an argument as the empty string hands it to the item it is drawn for: the drawing gives
       // the real value (a file tab's page, the top bar's page switcher — DoorControl merges the item's arguments over
@@ -1677,8 +1677,12 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
     const folders = picked.flatMap((one) => (one.folder === undefined ? [] : [one.folder]));
     await (await chooser).setFiles(folders.length > 0 ? folders : picked.map((one) => ({ name: one.name, mimeType: one.mimeType, buffer: one.buffer })));
     await expect
-      .poll(async () => (await page.locator('[data-confirmation-dialog]').count()) > 0 || (await page.getByRole('status').textContent()) !== saidBefore, { message: `step ${ref}: the command reads the chosen file` })
+      .poll(async () => (await page.locator('[data-confirmation-dialog], [data-region="html-import"]').count()) > 0 || (await page.getByRole('status').textContent()) !== saidBefore, { message: `step ${ref}: the command reads the chosen file` })
       .toBe(true);
+    // Import now asks for a destination. A step with no destination leaves that choice to its next explicit door.
+    if (typeof step.args.destination === 'string' && await page.locator('[data-region="html-import"]').count()) {
+      await page.locator(`[data-region="html-import"] [data-args*='"destination":"${step.args.destination}"']`).click();
+    }
   }
   // the confirmation the command asks, answered as the step says; none may be left waiting
   const dialog = page.locator('[data-confirmation-dialog]');

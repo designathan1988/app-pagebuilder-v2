@@ -1761,7 +1761,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "menu:file",
-            "order": 7
+            "order": 8
           },
           "adapter": {
             "selection": "none",

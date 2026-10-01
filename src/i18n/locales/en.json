@@ -519,7 +519,7 @@
   "dialog.delete": "Delete",
   "dialog.deleteFiles.message": "Delete this folder and everything it holds?",
   "dialog.deletePage.message": "Delete the page {name}?",
-  "dialog.importHtml.message": "Replace the page with the imported HTML?",
+  "dialog.importHtml.message": "Replace the entire project with the imported HTML? All current pages and project resources will be removed. You can undo this change.",
   "dialog.newBlankPage.confirm": "Start over",
   "dialog.newBlankPage.message": "Start over with an empty page? The current page and its undo history are cleared.",
   "dialog.openFolder.message": "Replace the current project with the files of this folder?",
@@ -2103,5 +2103,15 @@
   "status.change.failed": "“{command}” failed and nothing changed. The details are in Incidents.",
   "status.element.notApplicable": "“{command}” does not apply to {name}.",
   "status.keys.notChosen": "Letters typed here do nothing: click the canvas or a Layers row to use their keys, or a field to type into it.",
-  "status.keys.typedNotShortcuts": "Typing is not a shortcut: took back {keys}."
+  "status.keys.typedNotShortcuts": "Typing is not a shortcut: took back {keys}.",
+  "command.importHtmlFolder": "Import HTML folder",
+  "import.title": "Import HTML",
+  "import.destinationHelp": "Choose where these pages will go. Your current pages stay unless you choose to replace the project.",
+  "import.destination.page": "Add as new pages",
+  "import.destination.inside": "Insert inside the selected element",
+  "import.destination.replace": "Replace the entire project…",
+  "import.hint.page": "Keep your pages and add the imported pages alongside them.",
+  "import.hint.inside": "Add each imported page’s contents inside the selected container.",
+  "import.hint.replace": "Remove the current pages and project resources. A confirmation follows.",
+  "status.import.insideRefused": "Choose a container that can hold the imported page contents."
 }

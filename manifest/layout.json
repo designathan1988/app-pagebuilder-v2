@@ -302,6 +302,10 @@
     {
       "id": "grid-edit-chrome",
       "area": "centre"
+    },
+    {
+      "id": "html-import",
+      "area": "overlay"
     }
   ],
   "menus": [
@@ -317,8 +321,8 @@
         }
       ],
       "breaks": [
-        5,
-        7
+        6,
+        8
       ]
     },
     {
