@@ -36,6 +36,12 @@ credential, note it in your memory under "Waiting on the user", and carry on wit
   owner per concept (`check:fast` and the inventory enforce this).
 - **Everything committed and pushed**, one change per commit, through the gate (below), with its QA-LOG row.
 - **Tell the user what you are doing**, as you go, in plain Portuguese with every acronym or code spelled out.
+- **Show the user every delivery, always, until the end of the plan.** The user cannot see the app through your
+  eyes. For every item, every part of a large item, every review finding fixed and every stage closing: say in two
+  or three plain sentences what a person saw in the app before and what they see now (never in terms of tests),
+  and put the photos in the message itself as images (`![what it shows](absolute path of the PNG)`): at least one
+  of the defect or the old state and one of the result; for new capabilities, one photo per state that matters.
+  The commit and the tests go last, in one line. At a stage closing, a gallery of every surface the stage touched.
 
 ## 4. The reviewer
 
