@@ -10,6 +10,8 @@ advances; a change that is not finished stays in the working tree, never on anot
 
 ## The documents (three, and one of them is generated)
 
+- `AGENTS.md` — the entry for Codex: it sends Codex to this file and adds only what is Codex-specific (the gate
+  through Git Bash on Windows, the reviewer's `.memory/review.md`).
 - `docs/PROJECT.md` — the one project document: the layers, the document's rules, the interface contract, the
   development loop, the recipe for a new feature, and the state of the application.
 - `spec/BEHAVIOUR.md` — the behaviour specs, one section per feature, anchored by the feature's id. The manifest
