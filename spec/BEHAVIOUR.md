@@ -8129,3 +8129,9 @@ This is the zoom feature.
 Asset, link, colour and component pickers, menus and anchored popovers close on outside pointer press without preventing the target action. Their trigger and nested portal layers count as inside. Picker choices and Escape restore the trigger if focus would otherwise be lost; application menu commands retain their command-specific focus destination; outside closure never steals the target focus. Choosing an asset closes its picker. Colour outside closure cancels its preview before the target action starts; Apply retains one undo step. The command bar remains modal.
 
 Activity icons open and focus their panel; pressing an active icon keeps it open and in its current dock or floating placement. The panel close control and Ctrl+B remain closing actions.
+
+## performance-budget
+
+The repository performance runner uses the original 641-node study fixture in serial installed Chrome, on a production build. Three fresh profiles measure selection, canvas typing, style confirmation, undo buttons and undo shortcuts. The document and rendered node count must match the fixture; each undo route restores it exactly. Trusted events, per-phase sample counts, nonnegative timings and complete runs are required. Raw samples and inspected app/report screenshots are retained.
+
+The primary metric is the event timestamp to the second animation frame on that event window’s clock, a rendering proxy rather than physical presentation. The historical handler-to-frame figures are shown separately, never claimed as a direct improvement comparison. Opening includes driver handoff and readiness checks. Targets of35ms typical and100ms tail are checked per group, a conservative additional guard. Recording mode reports unmet targets; --enforce fails on them. --render reuses a recorded run without new measurements or changing its timestamp/commit/environment.

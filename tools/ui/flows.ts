@@ -54,6 +54,16 @@ const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as cons
 
 export const FLOWS: readonly Flow[] = [
   {
+    name: 'large-page',
+    about: 'the unchanged 641-node study page opens and draws every element',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['jornada03/00-frame/targets/probe-large.json'] } },
+      { expect: { nodes: 641 } },
+      { photo: 'large-page-ready' },
+    ],
+  },
+  {
     name: 'import-folder',
     about: 'a folder contributes two pages with its images and stylesheet while preserving the client pages',
     steps: [

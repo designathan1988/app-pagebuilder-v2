@@ -1,0 +1,7 @@
+{
+  "fixture": "jornada03/00-frame/targets/probe-large.json",
+  "nodes": 641,
+  "historical": { "source": "jornada03/data/probe-P1.json", "p50": 90.1, "p95": 286.6, "method": "handler start to second animation frame; original study environment" },
+  "target": { "p50": 35, "p95": 100, "source": ".memory/plan.md stage 3, measurement scheduler and autosave" },
+  "runs": 3
+}

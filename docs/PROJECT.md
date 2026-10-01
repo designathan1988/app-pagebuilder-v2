@@ -201,3 +201,7 @@ npm run inventory         # regenerate docs/INVENTORY.md and docs/inventory.json
 - Never run two suites at once; the complete suite only when the whole application is ready.
 - Code, file names, commits and documents in English; UI text only through the i18n catalogues.
 - The product name appears only in `src/config/product.ts`.
+
+### Repeating the large-page measurement
+
+Run `npm run perf` without other browser tests, builds or unit suites running. It records the measurements and reports the budget separately; `npm run perf -- --enforce` fails when a measured action group exceeds its declared target. See `tests/perf/README.md` for the protocol, limitations, raw evidence and report-only rendering. This is a benchmark of selected interactions on the641-node fixture, not a replay of the entire Journey03 P1 task.

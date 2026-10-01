@@ -24,7 +24,8 @@
     "ui": "node tools/ui/drive.ts",
     "inventory": "node tools/inventory/generate.ts",
     "inventory:check": "node tools/inventory/check.ts",
-    "check:fast": "npm run gen:check && npm run manifest:check && npm run inventory:check && npm run typecheck && npm run lint && npm run unit"
+    "check:fast": "npm run gen:check && npm run manifest:check && npm run inventory:check && npm run typecheck && npm run lint && npm run unit",
+    "perf": "node tools/perf/run.ts"
   },
   "dependencies": {
     "react": "^19.3.0",
