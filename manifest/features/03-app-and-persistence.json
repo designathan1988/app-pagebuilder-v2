@@ -2496,7 +2496,8 @@
           "After each change the status bar shows 'Saving…' [status.save.saving] and then 'Saved' [status.save.saved] when the project record in IndexedDB matches the document JSON.",
           "After the reload the document JSON and the selection are exactly what they were.",
           "A fresh profile with no saved record shows an empty page and 'Not saved' [status.save.notSaved].",
-          "The IndexedDB record carries the schema version of the saved format from the first save, the same version project.json carries; every future migration is tested on this real loading path."
+          "The IndexedDB record carries the schema version of the saved format from the first save, the same version project.json carries; every future migration is tested on this real loading path.",
+          "Unconfirmed canvas and value-field drafts are journaled per input in this tab, restored with editing and caret after reload, and warn before leaving. They never enter document history until confirmed, and cannot leak to another project or read-only tab."
         ]
       },
       "scenarios": [
@@ -2815,7 +2816,8 @@
         "expected": [
           "Pending changes are written to IndexedDB on pagehide and visibilitychange, so the Section is present after the immediate reload.",
           "Closing or reloading while a save is pending or has failed triggers the browser's leave-page confirmation; once the status reads 'Saved' [status.save.saved] no confirmation appears.",
-          "If IndexedDB refuses a write, the status bar reads 'Not saved' [status.save.notSaved] with the reason and the change stays in memory until a later write succeeds."
+          "If IndexedDB refuses a write, the status bar reads 'Not saved' [status.save.notSaved] with the reason and the change stays in memory until a later write succeeds.",
+          "Unconfirmed canvas and value-field drafts are journaled per input in this tab, restored with editing and caret after reload, and warn before leaving. They never enter document history until confirmed, and cannot leak to another project or read-only tab."
         ]
       },
       "scenarios": [

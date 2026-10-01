@@ -17,6 +17,8 @@ export type Step =
   | { readonly key: string }
   // type into the currently focused editor, including its canvas iframe
   | { readonly text: string }
+  // accept the browser's pending-draft warning and reload the real page
+  | { readonly reload: true }
   // move across a control in small real pointer steps; fractions are relative to its drawn box
   | { readonly move: { readonly at: string; readonly from: readonly [number, number]; readonly to: readonly [number, number]; readonly steps: number; readonly interval: number } }
   // a real drag: from one node or point to another, in page pixels (the frame's own space)
@@ -50,6 +52,20 @@ const INSERT_PANEL = { door: 'workspace.setPanelOpen#toolbar-activity-bar-insert
 const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as const;
 
 export const FLOWS: readonly Flow[] = [
+  {
+    name: 'draft-recovery',
+    about: 'unconfirmed canvas text and a field return after reload, still ready for editing',
+    steps: [
+      INSERT_PANEL, HEADING_TILE,
+      { key: 'Escape' }, { key: 'Enter' }, { text: ' Especial' },
+      { photo: 'canvas-draft' }, { reload: true }, { photo: 'canvas-draft-restored' },
+      { text: '!' }, { key: 'Enter' },
+      { door: 'workspace.setActiveTab#inspector-tab-settings' },
+      { type: { at: '[data-door="element.setId#inspector-id"] input', text: 'draft-heading', enter: false } },
+      { photo: 'field-draft' }, { reload: true }, { photo: 'field-draft-restored' },
+      { key: 'Enter' }, { photo: 'draft-confirmed' },
+    ],
+  },
   {
     name: 'outside-picker',
     about: 'an outside click types into Alt immediately and active activity icons keep their panel open',

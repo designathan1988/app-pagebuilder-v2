@@ -12,12 +12,16 @@
 // autosave-corruption-recovery). A refused write is written again after autosave.retryDelay, and
 // with the next change. While a change is not in IndexedDB, or a write was refused, leaving or reloading the tab asks
 // the browser's leave-page confirmation (spec unsaved-work-guard).
+import { flushDraftCaret, hasPendingDraft } from './drafts.ts';
 import { readProject } from '../../core/project/archive.ts';
 import type { DocumentJson, Selection } from '../../core/document/model.ts';
 import { validateDocument, type ModelRules } from '../../core/document/validate.ts';
 import type { Store } from '../../core/store/store.ts';
 import { numberConstant } from '../../manifest/runtime.ts';
 import { systemClock } from '../../core/ports/clock.ts';
+
+let savedRevision = 0;
+export const currentWorkRevision = (): number => savedRevision;
 
 const RETRY_DELAY = numberConstant('autosave.retryDelay');
 
@@ -170,6 +174,7 @@ export function startAutosave<Ui>(store: Store<Ui>, saved: SavedWork | null | un
   // a saved work the reader refused: nothing is written until another project replaces the document
   let blocked = saved !== null && saved !== undefined && !restored;
   let revision = typeof saved?.revision === 'number' ? saved.revision : 0;
+  savedRevision = revision;
   let last = store.getState();
   setState(blocked ? 'recoveryRequired' : saved !== null && saved !== undefined ? 'saved' : 'notSaved');
   let writing = false;
@@ -215,7 +220,8 @@ export function startAutosave<Ui>(store: Store<Ui>, saved: SavedWork | null | un
   };
   // leaving or reloading the tab while the work is not all in IndexedDB asks the browser's confirmation
   const guard = (event: BeforeUnloadEvent) => {
-    if (state !== 'saving' && refusal === null) return;
+    flushDraftCaret();
+    if (state !== 'saving' && refusal === null && !hasPendingDraft()) return;
     event.preventDefault();
     event.returnValue = '';
   };
@@ -251,6 +257,7 @@ export function startAutosave<Ui>(store: Store<Ui>, saved: SavedWork | null | un
     if (blocked && !replaced) return;
     blocked = false;
     revision += 1;
+    savedRevision = revision;
     const work: SavedWork = { revision, format: now.document.version, document: now.document, selection: now.selection };
     try {
       window.localStorage.setItem(JOURNAL, JSON.stringify(work));

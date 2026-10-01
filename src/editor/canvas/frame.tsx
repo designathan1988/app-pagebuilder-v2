@@ -10,6 +10,7 @@ import { PageRenderer, renderModelFromManifest } from '../../core/render/render.
 import { applyInlineChange, plainText, type TextRange } from '../../core/text/inline.ts';
 import { canvasValue } from '../../core/files/values.ts';
 import { openedPage } from '../../core/project/pages.ts';
+import { canvasDraft, registerDraftCapture, saveCanvasDraft } from '../persistence/drafts.ts';
 import { installOsFileDrop } from '../input/pointer.ts';
 import { manifest } from '../../manifest/runtime.ts';
 import { activeState } from '../view/style-state.ts';
@@ -80,6 +81,14 @@ export function CanvasFrame({ width, screen, zoom }: { readonly width: number; r
       let prompting = false;
       let kept: TextRange | null = null;
       let stopKeys = () => {};
+      const captureDraft = () => {
+        const node = store.getState().ui.textEdit.node;
+        const content = renderer.editedContent();
+        if (node && content) saveCanvasDraft(node, content.runs, content.range);
+      };
+      target.addEventListener('input', captureDraft);
+      const stopDraftCapture = registerDraftCapture(captureDraft);
+      target.addEventListener('selectionchange', captureDraft);
       const followEdit = () => {
         const ui = store.getState().ui;
         const edit = ui.textEdit;
@@ -88,13 +97,15 @@ export function CanvasFrame({ width, screen, zoom }: { readonly width: number; r
           stopKeys();
           stopKeys = () => {};
           renderer.editText(store.getState().document, edit.node, TEXT_EDITING);
+          const recovered = edit.node === null ? null : canvasDraft(edit.node);
+          if (recovered) renderer.showEdited(recovered.runs, recovered.range ?? { start: 0, end: 0 });
           const view = frame.contentWindow;
           if (edit.node !== null && view) stopKeys = installKeymap(store, view);
           else if (frame.ownerDocument.activeElement === frame) frame.blur();
         }
         if (edit.lineBreaks !== lineBreaks) {
           lineBreaks = edit.lineBreaks;
-          if (edit.node !== null) renderer.insertLineBreak();
+          if (edit.node !== null) { renderer.insertLineBreak(); captureDraft(); }
         }
         if (edit.selectAlls !== selectAlls) {
           selectAlls = edit.selectAlls;
@@ -112,6 +123,7 @@ export function CanvasFrame({ width, screen, zoom }: { readonly width: number; r
             const end = plainText(content.runs).length;
             const after = applyInlineChange(content.runs, (prompting ? kept : null) ?? content.range ?? { start: end, end }, edit.change);
             renderer.showEdited(after.runs, after.range);
+            captureDraft();
           }
         } else if (prompting && !open && edit.node !== null) renderer.focusEdited(kept);
         if (!open) kept = null;
@@ -135,6 +147,9 @@ export function CanvasFrame({ width, screen, zoom }: { readonly width: number; r
       const stopReader = registerEditReader(() => renderer.editedContent());
       followEdit();
       stop = () => {
+        stopDraftCapture();
+        target.removeEventListener('input', captureDraft);
+        target.removeEventListener('selectionchange', captureDraft);
         stopDocument();
         stopReveal();
         stopPreview();

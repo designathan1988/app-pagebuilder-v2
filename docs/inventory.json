@@ -5,8 +5,8 @@
     "commands": 263,
     "doors": 1027,
     "scenarios": 1357,
-    "modules": 263,
-    "lines": 50995
+    "modules": 264,
+    "lines": 51192
   },
   "features": [
     {
@@ -4062,7 +4062,7 @@
     },
     {
       "path": "src/editor/canvas/frame.tsx",
-      "lines": 219,
+      "lines": 234,
       "commands": [],
       "features": []
     },
@@ -4324,7 +4324,7 @@
     },
     {
       "path": "src/editor/input/drafts.ts",
-      "lines": 27,
+      "lines": 29,
       "commands": [],
       "features": []
     },
@@ -4594,7 +4594,13 @@
     },
     {
       "path": "src/editor/persistence/autosave.ts",
-      "lines": 272,
+      "lines": 279,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/persistence/drafts.ts",
+      "lines": 166,
       "commands": [],
       "features": []
     },
@@ -4748,7 +4754,7 @@
     },
     {
       "path": "src/editor/shell/field.tsx",
-      "lines": 1427,
+      "lines": 1432,
       "commands": [],
       "features": []
     },
@@ -5169,7 +5175,7 @@
     },
     {
       "path": "src/main.tsx",
-      "lines": 63,
+      "lines": 65,
       "commands": [],
       "features": []
     },

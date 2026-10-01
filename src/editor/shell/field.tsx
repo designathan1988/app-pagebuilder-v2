@@ -50,6 +50,7 @@ import { useT, useValueLabel } from '../text.ts';
 import { createToken, tokenKindOf, tokensOf } from '../../core/design/tokens.ts';
 import { compactFieldValue, FieldOriginBadge, FieldValueSlot, useFieldAppearance } from './field-face.tsx';
 import { usePrimarySize } from '../view/selection-size.ts';
+import { restoreFieldDraft } from '../persistence/drafts.ts';
 import { DRAFT_KEPT, markFieldKept, recordFieldInput } from '../input/drafts.ts';
 
 // the key context a number field's input names (interactions.json)
@@ -469,6 +470,7 @@ export function NumberField({ entry, door, property, label, bare = false, labell
     element.value = shown;
     draft.current.typed = false;
     markFieldKept(element, shown);
+    return restoreFieldDraft(element, () => { draft.current.typed = recordFieldInput(element, new Event('input')); });
   }, [shown, said]);
   useEffect(() => {
     const element = input.current;
@@ -697,6 +699,7 @@ export function TextStyleField({
     element.value = shown;
     draft.current.typed = false;
     markFieldKept(element, shown);
+    return restoreFieldDraft(element, () => { draft.current.typed = recordFieldInput(element, new Event('input')); });
   }, [shown, said]);
   useEffect(() => {
     const element = sliderInput.current;
@@ -1185,6 +1188,7 @@ export function TextField({ entry, node, label, keepOnLeave = true }: { readonly
     element.value = stored;
     draft.current.typed = false;
     markFieldKept(element, stored);
+    return restoreFieldDraft(element, () => { draft.current.typed = recordFieldInput(element, new Event('input')); });
   }, [stored, said]);
   useEffect(() => {
     const element = field.current;
@@ -1341,6 +1345,7 @@ export function KeptTextField({ entry, node, kept, label, attribute, keepOnLeave
     draft.current.shown = stored;
     markFieldKept(element, stored);
     setTyped(stored);
+    return restoreFieldDraft(element, () => { recordFieldInput(element, new Event('input')); setTyped(element.value); });
   }, [stored, said]);
   // the field the inspector was asked to show (inspector.reveal) takes the focus
   const revealed = useEditorState((s) => s.ui.revealed);

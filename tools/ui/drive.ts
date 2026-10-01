@@ -121,6 +121,12 @@ async function runStep(page: Page, step: Step): Promise<string> {
     await page.keyboard.press(step.key);
   } else if ('text' in step) {
     await page.keyboard.type(step.text);
+  } else if ('reload' in step) {
+    const accept = (dialog: import('@playwright/test').Dialog) => { void dialog.accept(); };
+    page.on('dialog', accept);
+    await page.reload();
+    await page.locator('.workbench').waitFor();
+    page.off('dialog', accept);
   } else if ('move' in step) {
     const box = await page.locator(step.move.at).first().boundingBox();
     if (box === null) throw new Error(`the pointer target is not drawn: ${step.move.at}`);

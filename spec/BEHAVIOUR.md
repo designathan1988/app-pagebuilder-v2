@@ -382,6 +382,8 @@ Not affected: the history starts empty after a start, as always.
 
 ## autosave-restore
 
+Jornada 03 J23: canvas text (including inline marks) and the four value-field families keep their unconfirmed draft in session storage after every input and programmatic text change. Reload restores the same edit, target, style context and caret without confirming it or adding document history. Confirmation clears the journal and makes the ordinary undo step. Cancellation, project replacement and a stale saved revision discard it. A read-only tab never restores a copied draft. The leave-page guard warns while a draft exists; persistence does not depend on an unload event.
+
 How Pager behaves, observed by running it from `.cache/pager-run` (Chrome, window 1600×900) and read from its source. Source references are `path:line` inside Pager. Test document: a fresh profile, then a Section inserted from Elements.
 
 ### Trigger
@@ -7743,6 +7745,8 @@ The shortcuts above.
 3. **"Undone" says nothing of what was undone** (the user's real-use audit, item 1.5). Required: the status names it, `Undone: Height of Hero: 900px.` / `Redone: …` (`Desfeito: …` / `Refeito: …` in Portuguese): the action is the status message the undone step's command gave (a gesture's: its last), else "the last change"; a step merged from several commands names the latest.
 
 ## unsaved-work-guard
+
+Jornada 03 J23: an unconfirmed canvas or value-field draft also activates the browser's leave-page warning, even when the confirmed document is saved. Its text is journaled during editing, independently of whether the browser sends a departure event; the guard only flushes the latest caret position as an additional safeguard.
 
 Read from Pager's source (`reference/Pager`); references are `path:line` inside Pager. Our autosave is `autosave-restore.md`.
 

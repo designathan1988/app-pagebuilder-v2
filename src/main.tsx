@@ -17,8 +17,9 @@ import './editor/shell/canvas-editing.css';
 import './editor/shell/window-overlays.css';
 import sprite from './ui/icons.svg?raw';
 import { App } from './editor/App.tsx';
-import { readSavedWork, readVersions, restoredWork, startAutosave } from './editor/persistence/autosave.ts';
+import { currentWorkRevision, readSavedWork, readVersions, restoredWork, startAutosave } from './editor/persistence/autosave.ts';
 import { claimEditing, isEditing } from './editor/persistence/tab-guard.ts';
+import { startDrafts } from './editor/persistence/drafts.ts';
 import { MODEL_RULES, createEditorStore } from './editor/store.ts';
 import { installTestPort } from './editor/test-port.ts';
 import { installErrorFeed } from './editor/errors.ts';
@@ -46,6 +47,7 @@ const restored = restoredWork(saved, MODEL_RULES);
 const recovery = saved !== null && restored === null ? await readVersions() : null;
 const store = createEditorStore({ restored, recovery });
 startAutosave(store, saved, restored !== null, isEditing);
+startDrafts(store, currentWorkRevision, isEditing);
 // what the end-to-end tests read, in every build (src/editor/test-port.ts)
 installTestPort(store);
 
