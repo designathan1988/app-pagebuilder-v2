@@ -89,10 +89,21 @@ export interface Gesture {
   cancel(): void;
 }
 
+// Commands remain individual transactions, but a short ambiguous keyboard sequence may be cancelled as a whole.
+// Only this store owns its state snapshot. Any external dispatch or gesture settles it before doing other work.
+export interface CommandSequence {
+  dispatch<Id extends CommandId>(id: Id, args: CommandArgs[Id]): DispatchResult;
+  active(): boolean;
+  commit(): void;
+  cancel(): boolean;
+}
+
 export interface Store<Ui> {
   getState(): StoreState<Ui>;
   dispatch<Id extends CommandId>(id: Id, args: CommandArgs[Id]): DispatchResult;
   gesture(): Gesture;
+  sequence(): CommandSequence;
+  sequenceOpen(): boolean;
   // Whether a gesture is open: its changes are drawn, not committed yet (autosave keeps only committed work)
   gestureOpen(): boolean;
   // Whether the command would run now with these arguments: it is built, its availability predicate holds and its
@@ -232,6 +243,7 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
   );
   started = true;
   let open: OpenGesture | null = null;
+  let sequence: { readonly before: StoreState<Ui>; readonly mergeable: string | null; readonly inverses: Patch[] } | null = null;
   // the coalescing key of the last dispatch when it recorded an entry that may merge; any other dispatch clears it,
   // so a burst merges only when no other command came in between (spec absolute-nudge)
   let lastMergeable: string | null = null;
@@ -245,15 +257,22 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     return options.freeze ? deepFreeze(followed) : followed;
   };
 
-  const publish = (committed: StoreState<Ui>, patches: readonly Patch[] = []) => {
+  const publish = (committed: StoreState<Ui>, patches: readonly Patch[] = [], follow = true) => {
     const before = state;
-    const next = followSelection(before, committed);
+    const next = follow ? followSelection(before, committed) : committed;
     state = next;
     if (next.document !== before.document) {
       const change: DocumentChange = { before: before.document, after: next.document, patches };
       for (const listener of [...documentListeners]) listener(change);
     }
     for (const listener of [...listeners]) listener();
+  };
+
+  const settleSequence = () => {
+    if (sequence === null) return;
+    sequence = null;
+    // Persistence ignored provisional changes; it must hear that the current state is now settled.
+    publish(state);
   };
 
   // Commands that coalesce merge entries with the same target and property: the target is the node the arguments
@@ -324,6 +343,9 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
       return { status: 'refused', message: failed };
     }
 
+    // Effects outside state cannot be taken back by a typing guard. History walks and loads also end its scope.
+    if (outcome.kind === 'load' || outcome.kind === 'undo' || outcome.kind === 'redo' ||
+      (outcome.kind === 'change' && (outcome.download !== undefined || outcome.clipboard !== undefined || outcome.editing !== undefined))) settleSequence();
     // a read-only tab changes no document: a load, a confirmation before one, or patches, are refused
     if (options.readOnly?.() === true && (outcome.kind === 'load' || outcome.kind === 'confirm' || (outcome.kind === 'change' && (outcome.patches?.length ?? 0) > 0))) {
       const readOnly = message('status.tabGuard.readOnly');
@@ -398,6 +420,7 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
         publish(committed);
         return { status: 'refused', message: refused };
       }
+      if (documentChanged) sequence?.inverses.unshift(...applied.inverses);
       publish(committed, documentChanged ? applied.applied : []);
     }
     // the file the command hands out, once its state is committed
@@ -425,13 +448,37 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
   return {
     getState: () => state,
     gestureOpen: () => open !== null,
+    sequenceOpen: () => sequence !== null,
+    sequence: () => {
+      if (open) throw new Error('a pointer gesture is open: a command sequence cannot start');
+      settleSequence();
+      const current = { before: state, mergeable: lastMergeable, inverses: [] as Patch[] };
+      sequence = current;
+      return {
+        active: () => sequence === current,
+        dispatch: (id, args) => {
+          if (sequence !== current) throw new Error('this command sequence is closed');
+          return run(id, args, null);
+        },
+        commit: () => { if (sequence === current) settleSequence(); },
+        cancel: () => {
+          if (sequence !== current) return false;
+          sequence = null;
+          lastMergeable = current.mergeable;
+          publish(commit(current.before, 'a cancelled command sequence'), current.inverses, false);
+          return true;
+        },
+      };
+    },
     canRun: (id, args) => refusal(id, args) === null,
     refusal,
     dispatch: (id, args) => {
       if (open) throw new Error('a gesture is open: dispatch through it');
+      settleSequence();
       return run(id, args, null);
     },
     answer: (confirmed) => {
+      settleSequence();
       const waiting = state.confirmation ?? null;
       if (waiting === null) return { status: 'done', changed: false };
       if (open) throw new Error('a gesture is open: a confirmation waits outside gestures');
@@ -448,6 +495,7 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     },
     gesture: () => {
       if (open) throw new Error('a gesture is already open');
+      settleSequence();
       const current: OpenGesture = { before: state as StoreState<unknown>, command: null, patches: [], inverses: [] };
       open = current;
       const close = () => {

@@ -95,7 +95,9 @@ import {
   setHovered,
   setPanView,
   setPressPoint,
+  setPressRegion,
   setPressing,
+  type PressRegion,
   setResizing,
   setBanding,
   setMenuOver,
@@ -323,6 +325,15 @@ const WHEEL_FACTOR = numberConstant('zoom.wheelFactor');
 const WHEEL_LINE = 16;
 const panDrag = (source: string): DoorEntry | null => PAN_DRAGS.find((d) => d.door.kind === 'canvas-drag' && d.door.source === source) ?? null;
 const onStage = (target: EventTarget | null): boolean => target instanceof Element && target.closest('[data-canvas-stage]') !== null;
+// the region a press went down in, by the keys it gives the canvas (jornada03 J2; views.ts PressRegion): the page in
+// the frame (another document) or the stage is the canvas, the Layers tree its own, anything else elsewhere
+function pressRegionOf(target: EventTarget | null): PressRegion {
+  const element = target !== null && typeof (target as Element).closest === 'function' ? (target as Element) : null;
+  if (element === null) return 'elsewhere';
+  if (element.ownerDocument !== document) return 'canvas';
+  if (element.closest('[data-key-context="layers-tree"]') !== null) return 'layers';
+  return element.closest('[data-key-context="canvas"]') !== null ? 'canvas' : 'elsewhere';
+}
 let spaceDown = false;
 let overStage = false;
 let panning: { pointer: number; last: Point; moved: Point; entry: DoorEntry } | null = null;
@@ -1341,6 +1352,7 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     // a press or a gesture still open here lost its release: it ends before anything new begins
     if (pointerPressing() || spacing !== null || guiding !== null || rotating !== null || resizing !== null || panning !== null || pickingColor !== null || sliding !== null) onCancel();
     setPressing(true);
+    setPressRegion(pressRegionOf(event.target));
     // a slider a field draws (A3.30): the pointer moves the thumb freely, and only the release writes
     const commit = event.button === 0 && event.target instanceof HTMLInputElement && event.target.type === 'range' ? (SLIDER_COMMITS.get(event.target) ?? null) : null;
     if (commit !== null && event.target instanceof HTMLInputElement) {

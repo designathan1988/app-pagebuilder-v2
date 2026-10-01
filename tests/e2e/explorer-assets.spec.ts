@@ -36,6 +36,25 @@ const port = (page: Page) =>
   });
 const imagesOf = (tree: Node | undefined): Node[] => (tree === undefined ? [] : tree.type === 'image' ? [tree] : tree.children.flatMap(imagesOf));
 
+test('typing Grãos de café after a click outside the image picker never runs structure shortcuts', runs(INSERT_PANEL, EXPLORER_PANEL, UPLOAD, TILE, SETTINGS, PICKER_OPEN, PICKER_CHOOSE), async ({ page }) => {
+  await openEditorOnInsert(page);
+  await upload(page, 'photo.png');
+  await runDoor(page, INSERT_PANEL);
+  await runDoor(page, TILE, { args: { entry: 'image' } });
+  await runDoor(page, SETTINGS);
+  await runDoor(page, PICKER_OPEN);
+  await runDoor(page, PICKER_CHOOSE, { args: { value: 'img/photo.png' } });
+  const before = await port(page);
+  // The old picker shield swallowed this click; after J8 it reaches the intended Alt field.
+  const alt = control(page, 'element.setAttribute#inspector-alt').locator('input');
+  const box = await alt.boundingBox();
+  if (box === null) throw new Error('Alt is not visible');
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  await page.keyboard.type('Grãos de café');
+  expect(await port(page)).toEqual(before);
+  await expect(page.locator('.frame__page')).toBeVisible();
+});
+
 async function openEditorOnInsert(page: Page): Promise<void> {
   await openEditor(page);
   await runDoor(page, INSERT_PANEL);

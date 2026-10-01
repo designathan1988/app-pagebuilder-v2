@@ -10,15 +10,16 @@ import { previewing } from '../view/preview.ts';
 import type { CommandId, DoorId, FeatureId, KeyContextId, MessageId } from '../../generated/ids.ts';
 import { normaliseChord } from '../../manifest/chord.ts';
 import { keyContextChain, manifest, numberConstant, type DoorEntry } from '../../manifest/runtime.ts';
-import type { DispatchResult } from '../../core/store/store.ts';
+import type { CommandSequence, DispatchResult } from '../../core/store/store.ts';
 import { COMMANDS } from '../../app/commands.ts';
-import { isBuilt } from '../../core/commands/registry.ts';
+import { isBuilt, message } from '../../core/commands/registry.ts';
 import { aimArgs, heldHand } from '../../core/structure/hand.ts';
 import { isFeatureBuilt } from '../../app/features.ts';
 import { TEXT_EDITING, editArgs } from '../canvas/text-edit.ts';
 import { readClipboard } from '../clipboard.ts';
 import type { EditorStore } from '../store.ts';
 import { cancelPan, holdAlt, holdSpace, modifierOf, openGesture, pointerPressing } from './pointer.ts';
+import { canvasChosenCount, pressCount, pressRegion } from './pointer/views.ts';
 import { shortcutRuns } from './shortcut-rule.ts';
 import { keyContextIn } from '../canvas/edit-mode.ts';
 
@@ -224,6 +225,10 @@ const STEPPED: Readonly<Record<string, { readonly step: number; readonly shiftSt
 const SHIFT = 'Shift';
 // how soon after a letter another letter is typing rather than a shortcut (interactions.json)
 const TYPING_BURST = numberConstant('keys.typingBurst');
+// the contexts whose typed keys wait for the person to choose them (jornada03 J2), and the focus contexts they arrive in
+const CANVAS_CONTEXT = 'canvas' as KeyContextId;
+const LAYERS_CONTEXT = 'layers-tree' as KeyContextId;
+const CHOSEN_CONTEXTS: ReadonlySet<string> = new Set([CANVAS_CONTEXT, LAYERS_CONTEXT]);
 const CANVAS: KeyContextId = 'canvas';
 function positionedContext(store: EditorStore, context: KeyContextId): KeyContextId {
   const nudge = NUDGE_DOORS[0];
@@ -305,11 +310,51 @@ export function installKeymap(store: EditorStore, target: Window = window): () =
   // burst do not run. Shortcuts pressed in a row (R then S) still run; a click ends the burst.
   let lastLetterAt = Number.NEGATIVE_INFINITY;
   let typing = false;
+  // The canvas's typed keys (its letters, digits and signs, with or without Shift) act only where the person chose the
+  // canvas or the Layers (jornada03 J2: a press in the image picker, the picker closing, the focus left on the page
+  // body, and "Grãos de café" ran G and R: the image wrapped in a grid and a row, its direction flipped). Chosen by a
+  // press on the canvas or a Layers row, by the keyboard reaching a Layers row, by F6 onto the canvas, and by Escape on
+  // it; unchosen by a press anywhere else and by a focus lost to nowhere (a panel or a picker closing under it).
+  let lettersChosen = true;
+  let seenPresses = pressCount();
+  let seenChoices = canvasChosenCount();
+  const readChoice = () => {
+    if (pressCount() !== seenPresses || canvasChosenCount() !== seenChoices) {
+      seenPresses = pressCount();
+      seenChoices = canvasChosenCount();
+      lettersChosen = seenChoices > seenPresses || pressRegion() !== 'elsewhere';
+    }
+  };
+  // The store holds the reversible sequence; the keymap never keeps document or selection snapshots.
+  let burstSequence: CommandSequence | null = null;
+  let burstTimer: number | undefined;
+  let burstKeys = '';
+  let told = false;
+  const endBurst = () => {
+    target.clearTimeout(burstTimer);
+    burstSequence?.commit();
+    burstSequence = null;
+    lastLetterAt = Number.NEGATIVE_INFINITY;
+    typing = false;
+    burstKeys = '';
+    told = false;
+  };
+  const takeBackBurst = () => {
+    if (burstSequence?.cancel() === true) store.notice(message('status.keys.typedNotShortcuts', { keys: burstKeys }));
+    burstSequence = null;
+    burstKeys = '';
+  };
   const onKeyDown = (event: KeyboardEvent) => {
     const letter = event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey;
-    if (letter && event.timeStamp - lastLetterAt >= TYPING_BURST) typing = false;
+    if ((!letter && event.key !== SHIFT) || (letter && event.timeStamp - lastLetterAt >= TYPING_BURST)) {
+      endBurst();
+    }
     const inBurst = letter && typing;
-    if (letter) lastLetterAt = event.timeStamp;
+    if (letter) {
+      lastLetterAt = event.timeStamp;
+      target.clearTimeout(burstTimer);
+      burstTimer = target.setTimeout(endBurst, TYPING_BURST);
+    }
     // A modal owns Escape even when a press on its shield has left focus on the page body. Resolve its manifest door
     // before the canvas/global context can clear the selection, and do not let another key listener see that Escape.
     if (event.key === 'Escape' && store.getState().ui.dialog !== undefined && store.getState().confirmation === null) {
@@ -365,14 +410,34 @@ export function installKeymap(store: EditorStore, target: Window = window): () =
     const chain = gesture !== null || hand !== null || previewing(store.getState().ui) ? keyContextChain(context) : focusChain(event.target, context);
     const held = bindingIn(chain, chordOf(event)) === null ? heldKeyBindingIn(chain, event) : null;
     const binding = held?.entry ?? bindingIn(chain, chordOf(event));
-    // a letter that binds nothing outside a field marks the burst as typing
-    if (!binding && letter && !FIELDS.includes(focused) && context !== TEXT_EDITING) typing = true;
+    // a letter that binds nothing outside a field marks the burst as typing, and takes back the shortcuts the burst ran
+    if (!binding && letter && !FIELDS.includes(focused) && context !== TEXT_EDITING) {
+      typing = true;
+      takeBackBurst();
+    }
+    // Escape on the canvas chooses it (the person is back on the canvas, whatever closed under the focus)
+    if (event.key === 'Escape' && focused === CANVAS_CONTEXT && gesture === null) {
+      readChoice();
+      lettersChosen = true;
+    }
     if (!binding) return;
+    // a typed key of the canvas or the Layers acts only where the person chose them; elsewhere it does nothing and says
+    // why, once per burst
+    const typedKey = letter && binding.door.kind === 'shortcut' && CHOSEN_CONTEXTS.has(binding.door.context) && (focused === CANVAS_CONTEXT || focused === LAYERS_CONTEXT) && gesture === null;
+    if (typedKey) {
+      readChoice();
+      if (!lettersChosen) {
+        typing = true;
+        if (!told) store.notice(message('status.keys.notChosen'));
+        told = true;
+        return;
+      }
+    }
     // a bound chord is the editor's whether or not its door runs yet (DESIGN.md "Keyboard model")
     event.preventDefault();
     // a letter inside a burst of letters is typing: its single-letter shortcut does not run (outside a field and the
     // text edited in place, where letters are text already)
-    if (inBurst && binding.door.kind === 'shortcut' && binding.door.chord.length === 1 && !FIELDS.includes(focused) && context !== TEXT_EDITING) return;
+    if (inBurst && binding.door.kind === 'shortcut' && !FIELDS.includes(focused) && context !== TEXT_EDITING) return;
     if (!shortcutRunsNow(binding)) return;
     // a key of the text edited in place acts on the edit: its node and the text it holds (text-edit.ts); a key of the
     // hand acts at its aim (hand.ts)
@@ -386,7 +451,14 @@ export function installKeymap(store: EditorStore, target: Window = window): () =
     if (own === null) return;
     // the key held with a door whose gesture gives it a meaning, for a command that takes it
     const modifier = held !== null && 'modifier' in binding.command.args ? { modifier: held.modifier } : {};
-    const dispatch = (gesture?.gesture.dispatch ?? store.dispatch) as (id: CommandId, args: unknown) => DispatchResult;
+    if (typedKey) {
+      if (burstSequence?.active() !== true) {
+        burstSequence = store.sequence();
+        burstKeys = '';
+      }
+      burstKeys += event.key.toUpperCase();
+    }
+    const dispatch = (gesture?.gesture.dispatch ?? (typedKey ? burstSequence?.dispatch : undefined) ?? store.dispatch) as (id: CommandId, args: unknown) => DispatchResult;
     const given = withDoorArgs({ ...own, ...modifier }, binding.door.args);
     const args = binding.door.kind === 'shortcut' && binding.door.gesture !== null ? stepped(binding.door.gesture, given, held?.modifier ?? null) : given;
     // a command that takes what the system clipboard holds (an argument of type clipboard: text.paste) runs once the
@@ -401,6 +473,7 @@ export function installKeymap(store: EditorStore, target: Window = window): () =
     if (event.key === ALT) holdAlt(false);
   };
   const onBlur = () => {
+    endBurst();
     holdSpace(false);
     holdAlt(false);
   };
@@ -408,22 +481,37 @@ export function installKeymap(store: EditorStore, target: Window = window): () =
   // for Space (spaceIsTheControls); a focus that arrives otherwise (Tab, the arrows, a script after a key) clears it
   const onFocusIn = (event: FocusEvent) => {
     pointerFocused = pointerPressing() ? event.target : null;
+    if (!CHOSEN_CONTEXTS.has(contextOf(event.target))) endBurst();
+    // the keyboard reached a Layers row: its keys are chosen
+    if (!pointerPressing() && contextOf(event.target) === LAYERS_CONTEXT) {
+      readChoice();
+      lettersChosen = true;
+    }
+  };
+  // a focus lost to nowhere (a picker or a panel closed under it, no press, no key moving it) unchooses the canvas's
+  // typed keys: the focus rests on the page body without the person choosing the canvas
+  const onFocusOut = (event: FocusEvent) => {
+    if (event.relatedTarget !== null || pointerPressing()) return;
+    const from = contextOf(event.target);
+    if (from === CANVAS_CONTEXT || from === LAYERS_CONTEXT) return;
+    readChoice();
+    lettersChosen = false;
   };
   // a click between two letters ends the burst: the person is not typing
-  const onClick = () => {
-    lastLetterAt = Number.NEGATIVE_INFINITY;
-    typing = false;
-  };
+  const onClick = endBurst;
   target.addEventListener('focusin', onFocusIn, true);
+  target.addEventListener('focusout', onFocusOut, true);
   target.addEventListener('click', onClick, true);
   target.addEventListener('keydown', onKeyDown);
   target.addEventListener('keyup', onKeyUp);
   target.addEventListener('blur', onBlur);
   return () => {
+    endBurst();
     target.removeEventListener('keydown', onKeyDown);
     target.removeEventListener('click', onClick, true);
     target.removeEventListener('keyup', onKeyUp);
     target.removeEventListener('blur', onBlur);
     target.removeEventListener('focusin', onFocusIn, true);
+    target.removeEventListener('focusout', onFocusOut, true);
   };
 }

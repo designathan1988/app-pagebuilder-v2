@@ -13,12 +13,15 @@
       "intent": {
         "title": "Every listed shortcut works in its context",
         "steps": [
-          "Run the shortcut sweep test: for each row of the keymap, set up its context and press its keys."
+          "Run the shortcut sweep test: for each row of the keymap, set up its context and press its keys.",
+          "Type words on the canvas and after closing a picker or a panel; then choose the canvas or Layers and press an intentional letter shortcut."
         ],
         "expected": [
           "Every binding listed in the Keyboard shortcuts panel runs its command in its context, checked by the document JSON, the selection or the UI state it changes.",
           "No two bindings in the same context use the same keys (unit test on the keymap); a context includes what is selected or focused, so the arrow keys nudge a positioned selection and walk the tree otherwise, and keys handled inside a tree, tab strip, splitter or field belong to that control.",
-          "Each keymap row declares its own context setup and check next to its binding, so rows added by any entry are swept without editing the sweep test."
+          "Each keymap row declares its own context setup and check next to its binding, so rows added by any entry are swept without editing the sweep test.",
+          "Printable canvas and Layers shortcuts require a deliberate choice of that region. A press elsewhere or focus lost when a control closes does not choose the canvas; blocked letters explain how to choose it.",
+          "A word takes back the letter shortcuts already run in its typing burst, preserving the document, selection, redo history and transient editor modes; shifted letters are blocked too. The store owns cancellation and persistence waits for settlement. Intentional shortcut sequences and a later isolated shortcut keep working. A non-printable key or modified command ends the burst, except Shift alone, so later typing cannot undo an intervening command. The latest pointer or keyboard choice wins."
         ]
       },
       "scenarios": [

@@ -7,6 +7,7 @@
 import { registerHandler } from '../../core/commands/registry.ts';
 import type { EditorUi } from '../state.ts';
 import type { EditorStore } from '../store.ts';
+import { chooseCanvasByKeyboard } from '../input/pointer/views.ts';
 
 export type FocusMove = 'next' | 'previous' | 'first' | 'last' | 'activate' | 'parent' | 'nextRegion' | 'previousRegion' | 'canvas' | 'menuBar' | 'nextMenu' | 'previousMenu';
 
@@ -55,6 +56,8 @@ function focusRegion(region: Element): void {
 export function focusTheCanvas(): void {
   const held = document.activeElement;
   if (held instanceof HTMLElement && held !== document.body) held.blur();
+  // the keyboard chose the canvas: its single-letter keys act again (jornada03 J2, keymap.ts lettersChosen)
+  chooseCanvasByKeyboard();
 }
 
 export const focusNextRegion = registerHandler<'focus.nextRegion', EditorUi>('focus.nextRegion', ({ state }) => ({ kind: 'change', ui: asking(state.ui, 'nextRegion') }));
@@ -163,7 +166,9 @@ export function carryOut(move: FocusMove, focused: Element | null): void {
     if (regions.length === 0) return;
     const at = regions.findIndex((one) => one.contains(focused));
     const step = move === 'nextRegion' ? 1 : -1;
-    focusRegion(regions[at < 0 ? (step > 0 ? 0 : regions.length - 1) : (at + step + regions.length) % regions.length] as Element);
+    const region = regions[at < 0 ? (step > 0 ? 0 : regions.length - 1) : (at + step + regions.length) % regions.length] as Element;
+    focusRegion(region);
+    if (region.matches('.stage')) chooseCanvasByKeyboard();
     return;
   }
   if (comboboxMove(move, focused)) return;

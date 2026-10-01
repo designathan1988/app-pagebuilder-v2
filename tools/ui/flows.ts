@@ -47,6 +47,28 @@ const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as cons
 
 export const FLOWS: readonly Flow[] = [
   {
+    name: 'typing-safety',
+    about: 'letters after an outside press leave the structure intact; an intentional canvas shortcut still works',
+    steps: [
+      INSERT_PANEL,
+      CONTAINER_TILE,
+      HEADING_TILE,
+      { expect: { nodes: 3 } },
+      { click: '.status-bar__message' },
+      { key: 'g' },
+      { expect: { nodes: 3, message: 'Letters typed here do nothing' } },
+      { photo: 'outside-letters-blocked' },
+      { key: 'F6' },
+      { key: 'Escape' },
+      { wait: 400 },
+      { key: 'r' },
+      { expect: { nodes: 4 } },
+      { photo: 'chosen-canvas-shortcut' },
+      { key: 'Control+z' },
+      { expect: { nodes: 3 } },
+    ],
+  },
+  {
     name: 'open',
     about: 'the app opens, the empty project is there, and nothing is wrong',
     steps: [{ click: '.workbench' }, { photo: 'the-editor' }, { expect: { message: '' } }],

@@ -150,6 +150,28 @@ export function setPressPoint(at: Point | null): void {
   lastPress = at;
 }
 
+// Where the last press went down, by the keys it gives the canvas (jornada03 J2): on the canvas (the stage or the page
+// in its frame), on the Layers tree, or elsewhere (a panel, a picker, a menu). The keymap runs the canvas's
+// single-letter shortcuts only while the person chose the canvas or the Layers (keymap.ts lettersChosen); a count
+// tells the keymap a press happened since it last read. Pointer state: it changes no command.
+export type PressRegion = 'canvas' | 'layers' | 'elsewhere';
+let lastRegion: PressRegion = 'elsewhere';
+let choiceOrder = 0;
+let presses = 0;
+export const pressRegion = (): PressRegion => lastRegion;
+export const pressCount = (): number => presses;
+export function setPressRegion(region: PressRegion): void {
+  lastRegion = region;
+  presses = ++choiceOrder;
+}
+
+// The keyboard chose the canvas (F6 onto it, focus.ts): counted like a press, for the keymap
+let keyboardChoices = 0;
+export const canvasChosenCount = (): number => keyboardChoices;
+export function chooseCanvasByKeyboard(): void {
+  keyboardChoices = ++choiceOrder;
+}
+
 // Whether a pointer button is down anywhere in the editor: the keymap asks it to tell a focus a click gave from one
 // the keyboard gave (Space on a focused control, keymap.ts)
 let pressing = false;

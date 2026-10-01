@@ -2100,5 +2100,7 @@
   "status.change.invalid": "“{command}” não foi aplicado: o resultado deixaria a página inválida, então nada mudou. Os detalhes estão em Incidentes.",
   "status.data.imageNotFound": "Linha {row} dos dados: “{value}” na coluna {column} não é uma imagem do projeto (pelo caminho ou nome do arquivo) nem um endereço da web. Nada foi preenchido.",
   "status.change.failed": "“{command}” falhou e nada mudou. Os detalhes estão em Incidentes.",
-  "status.element.notApplicable": "“{command}” não se aplica a {name}."
+  "status.element.notApplicable": "“{command}” não se aplica a {name}.",
+  "status.keys.notChosen": "Letras digitadas aqui não fazem nada: clique no canvas ou numa linha das Camadas para usar os atalhos delas, ou num campo para digitar nele.",
+  "status.keys.typedNotShortcuts": "Digitação não é atalho: desfeito {keys}."
 }

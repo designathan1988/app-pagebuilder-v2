@@ -6,7 +6,7 @@
     "doors": 1027,
     "scenarios": 1355,
     "modules": 261,
-    "lines": 50695
+    "lines": 50872
   },
   "features": [
     {
@@ -3589,7 +3589,7 @@
     },
     {
       "path": "src/core/store/store.ts",
-      "lines": 493,
+      "lines": 541,
       "commands": [],
       "features": []
     },
@@ -4300,7 +4300,7 @@
     },
     {
       "path": "src/editor/focus/focus.ts",
-      "lines": 204,
+      "lines": 209,
       "commands": [
         "focus.next",
         "focus.previous",
@@ -4336,13 +4336,13 @@
     },
     {
       "path": "src/editor/input/keymap.ts",
-      "lines": 430,
+      "lines": 518,
       "commands": [],
       "features": []
     },
     {
       "path": "src/editor/input/pointer.ts",
-      "lines": 1960,
+      "lines": 1972,
       "commands": [],
       "features": []
     },
@@ -4360,7 +4360,7 @@
     },
     {
       "path": "src/editor/input/pointer/views.ts",
-      "lines": 288,
+      "lines": 310,
       "commands": [],
       "features": []
     },
@@ -5139,7 +5139,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 4609,
+      "lines": 4611,
       "commands": [],
       "features": []
     },

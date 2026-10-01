@@ -3152,6 +3152,24 @@ This is the keyboard feature.
 3. **Escape inside a panel does not reliably return to the canvas** (only the palette handles Escape, and it goes to the palette region). Required: Escape inside a panel returns focus to the canvas with the selection intact.
 4. **Unnamed focus stops** (a bare `DIV` in the Tab order). Required: every focusable element has an accessible name.
 5. **Words typed on the canvas ran its letter shortcuts** (the dogfooding pass: a title typed outside its text — the person thought it was being edited — wrapped, nested, took into the hand… one letter at a time). Required: letters pressed within `keys.typingBurst` (350 ms) of each other are a burst; once a letter of the burst binds nothing (a vowel: words are being typed), the single-letter shortcuts of the rest of the burst do not run. Shortcuts pressed in a row (R then S) still run, a letter on its own later runs, and a click ends the burst.
+6. **The first letters of a word still ran, and letters reached the canvas after a press elsewhere** (jornada03 J2:
+   Marina chose an image in the source picker, her next click was swallowed, and "Grãos de café" typed for the Alt text
+   wrapped the image in a Grid and a Row and flipped its direction; Carla's "Cardápio" changed the editor). Required:
+   - When a letter of a burst binds nothing, the shortcuts the burst already ran are taken back and the status
+     bar says so ("Typing is not a shortcut: took back R."), so a typed word changes nothing. A non-printable key or
+     a modified command ends the burst (Shift alone may still type a capital); later typing never takes back an
+     intervening undo, redo, navigation or command.
+   - The store owns a reversible command sequence: each shortcut still dispatches and records its own undo step,
+     but recognizing a word restores the complete pre-burst state, including redo and transient modes such as the
+     keyboard hand. No document or selection snapshot lives in the keymap. External commands invalidate cancellation;
+     a settled timeout commits the sequence. Autosave and preferences wait until it settles. Shifted letters in a
+     recognized word are blocked too, and the latest pointer or keyboard choice always wins.
+   - The canvas's and the Layers' typed keys (a letter, a digit or a sign, with or without Shift) act only while the
+     person chose the canvas or the Layers: a press on the canvas or on a Layers row, the keyboard reaching a Layers
+     row, F6 onto the canvas, or Escape on the canvas chooses it; a press anywhere else, or the focus lost to nowhere
+     (a picker or a panel closing under it), unchooses it. An unchosen typed key does nothing and the status bar says
+     why, once per burst ("Letters typed here do nothing: click the canvas or a Layers row to use their keys, or a
+     field to type into it."). The editor opens with the canvas chosen.
 
 ## keyboard-tree-walk
 

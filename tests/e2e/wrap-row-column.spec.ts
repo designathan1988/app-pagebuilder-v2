@@ -170,15 +170,147 @@ test(
 );
 
 // Words typed on the canvas are not shortcuts (keys.typingBurst; the dogfooding pass: words typed on the canvas wrapped,
-// moved and nested elements one letter at a time): once a letter of the burst binds nothing (the "a"), the letters after
-// it do not run; shortcuts pressed in a row (R then S, scenario swapping-the-direction-of-a-row) still do; a letter on
-// its own later runs again.
-test('a typed word on the canvas runs its first letter shortcut only', runs('project.open#menu-file', 'selection.select#canvas-click-element-or-page', 'element.wrapRow#key-r-in-canvas', 'element.wrapColumn#key-c-in-canvas'), async ({ page }) => {
+// moved and nested elements one letter at a time; jornada03 J2: the first letters still ran, "Grãos" wrapped an image in
+// a grid and a row). Changed on purpose with J2: once a letter of the burst binds nothing (the "a"), the shortcuts the
+// burst already ran are taken back and the letters after it do not run; shortcuts pressed in a row (R then S, scenario
+// swapping-the-direction-of-a-row) still do; a letter on its own later runs again.
+test('a typed word on the canvas runs no shortcut: the letters it ran before the word showed are taken back', runs('project.open#menu-file', 'selection.select#canvas-click-element-or-page', 'element.wrapRow#key-r-in-canvas', 'element.wrapColumn#key-c-in-canvas'), async ({ page }) => {
   await clickNode(page, 'n-intro');
+  const before = await read(page);
   await page.keyboard.type('racgm');
-  await expect.poll(() => read(page)).toMatchObject({ undoSteps: 1 });
-  expect((await read(page)).tree).toContain('Row(Intro)');
+  await expect(page.getByRole('status')).toHaveText('Typing is not a shortcut: took back R.');
+  expect(await read(page)).toMatchObject({ tree: before.tree, undoSteps: 0 });
   await page.waitForTimeout(500);
   await page.keyboard.press('c');
-  await expect.poll(() => read(page)).toMatchObject({ undoSteps: 2 });
+  await expect.poll(() => read(page)).toMatchObject({ undoSteps: 1 });
+  expect((await read(page)).tree).toContain('Column(Intro)');
+});
+
+for (const word of ['Grãos de café', 'Cardápio']) {
+  test(`typing ${word} on the canvas preserves the document and view`, runs('project.open#menu-file', 'selection.select#canvas-click-element-or-page'), async ({ page }) => {
+    await clickNode(page, 'n-intro');
+    const before = await read(page);
+    await page.keyboard.type(word);
+    expect(await read(page)).toEqual(before);
+    await expect(page.locator('.frame__page')).toBeVisible();
+  });
+}
+
+test('a shifted letter in a recognized word does not run a structure shortcut', runs('project.open#menu-file', 'selection.select#canvas-click-element-or-page', 'element.wrapRow#key-r-in-canvas', 'element.stackOnPhone#key-shift-s-in-canvas'), async ({ page }) => {
+  await clickNode(page, 'n-intro');
+  await page.keyboard.press('r');
+  await page.waitForTimeout(400);
+  const before = await page.evaluate(() => (window as unknown as { __builderTestPort: { document: () => unknown } }).__builderTestPort.document());
+  await page.keyboard.type('a');
+  await page.keyboard.press('Shift+s');
+  expect(await page.evaluate(() => (window as unknown as { __builderTestPort: { document: () => unknown } }).__builderTestPort.document())).toEqual(before);
+});
+
+test('a word beginning with M leaves no keyboard move active', runs('project.open#menu-file', 'selection.select#canvas-click-element-or-page', 'hand.take#key-m-in-canvas'), async ({ page }) => {
+  await clickNode(page, 'n-intro');
+  const before = await read(page);
+  await page.keyboard.type('marina');
+  await expect(page.locator('[data-chrome="drop"]')).toHaveCount(0);
+  expect(await read(page)).toEqual(before);
+});
+
+test('typing a word preserves the earlier redo action', runs('project.open#menu-file', 'selection.select#canvas-click-element-or-page', 'element.wrapColumn#key-c-in-canvas', 'history.undo#key-ctrl-z-in-global', 'history.redo#key-ctrl-shift-z-in-global'), async ({ page }) => {
+  await clickNode(page, 'n-intro');
+  await page.keyboard.press('c');
+  await page.keyboard.press('Control+z');
+  await page.keyboard.type('racgm');
+  await page.keyboard.press('Control+Shift+z');
+  expect((await read(page)).tree).toContain('Column(Intro)');
+});
+
+test('a press elsewhere after F6 cancels the canvas choice even before its first letter', runs('project.open#menu-file', 'selection.select#canvas-click-element-or-page', 'focus.nextRegion#key-f6-in-global'), async ({ page }) => {
+  await clickNode(page, 'n-intro');
+  const before = await read(page);
+  await page.locator('[data-region="status-bar"]').click({ position: { x: 4, y: 4 } });
+  for (let i = 0; i < 12; i += 1) {
+    await page.keyboard.press('F6');
+    if (await page.evaluate(() => document.activeElement?.closest('.stage') !== null)) break;
+  }
+  await page.locator('[data-region="status-bar"]').click({ position: { x: 4, y: 4 } });
+  await page.keyboard.type('r');
+  expect(await read(page)).toEqual(before);
+});
+
+test('F6 onto the canvas deliberately enables its letter shortcuts after focus elsewhere', runs('project.open#menu-file', 'selection.select#canvas-click-element-or-page', 'focus.nextRegion#key-f6-in-global', 'element.wrapRow#key-r-in-canvas'), async ({ page }) => {
+  await clickNode(page, 'n-intro');
+  await page.locator('[data-region="status-bar"]').click({ position: { x: 4, y: 4 } });
+  for (let i = 0; i < 12; i += 1) {
+    await page.keyboard.press('F6');
+    if (await page.evaluate(() => document.activeElement?.closest('.stage') !== null)) break;
+  }
+  expect(await page.evaluate(() => document.activeElement?.closest('.stage') !== null)).toBe(true);
+  await page.keyboard.press('r');
+  expect((await read(page)).tree).toContain('Row(Intro)');
+});
+
+test('an intervening modified shortcut ends the typing burst, so later typing cannot undo it', runs('project.open#menu-file', 'selection.select#canvas-click-element-or-page', 'element.wrapRow#key-r-in-canvas', 'history.undo#key-ctrl-z-in-global', 'history.redo#key-ctrl-shift-z-in-global'), async ({ page }) => {
+  await clickNode(page, 'n-intro');
+  await page.keyboard.press('r');
+  await page.keyboard.press('Control+z');
+  await page.keyboard.press('Control+Shift+z');
+  const before = await read(page);
+  await page.keyboard.type('a');
+  expect(await read(page)).toEqual(before);
+});
+
+test('autosave never records the accidental wrapper in a word but saves an isolated shortcut', runs('project.open#menu-file', 'selection.select#canvas-click-element-or-page', 'element.wrapRow#key-r-in-canvas'), async ({ page }) => {
+  await clickNode(page, 'n-intro');
+  const savedDocument = () => page.evaluate(() => new Promise<unknown>((resolve, reject) => {
+    const request = indexedDB.open('work');
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      const database = request.result;
+      const read = database.transaction('projects').objectStore('projects').get('current');
+      read.onerror = () => { database.close(); reject(read.error); };
+      read.onsuccess = () => { database.close(); resolve((read.result as { document?: unknown } | undefined)?.document); };
+    };
+  }));
+  const before = await savedDocument();
+  expect(before).toBeDefined();
+  await page.keyboard.press('r');
+  expect(await savedDocument()).toEqual(before);
+  await page.keyboard.type('acgm');
+  await page.waitForTimeout(400);
+  const versions = await page.evaluate(() => new Promise<{ document: { pages: { tree: Tree }[] } }[]>((resolve, reject) => {
+    const request = indexedDB.open('work');
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      const database = request.result;
+      const read = database.transaction('versions').objectStore('versions').getAll();
+      read.onerror = () => { database.close(); reject(read.error); };
+      read.onsuccess = () => { database.close(); resolve(read.result as { document: { pages: { tree: Tree }[] } }[]); };
+    };
+  }));
+  expect(versions.length).toBeGreaterThan(0);
+  const hasRow = (node: Tree): boolean => node.name === 'Row' || node.children.some(hasRow);
+  expect(versions.some((version) => version.document.pages.some((page) => hasRow(page.tree)))).toBe(false);
+  await page.keyboard.press('r');
+  await page.waitForTimeout(400);
+  await page.reload();
+  await expect(page.locator('.workbench')).toBeVisible();
+  expect((await read(page)).tree).toContain('Row(Intro)');
+});
+
+// jornada03 J2: a press away from the canvas (Marina chose an image in the picker, which closed; her next click was
+// swallowed) leaves the focus on the page body, and the letters she typed for the Alt text ran the canvas's keys. The
+// canvas's typed keys act only where the person chose the canvas or the Layers: elsewhere they do nothing and say why,
+// once; Escape on the canvas, or a press on it, chooses it again.
+test('letters typed after a press away from the canvas run nothing and say why; Escape chooses the canvas again', runs('project.open#menu-file', 'selection.select#canvas-click-element-or-page', 'element.wrapGrid#key-g-in-canvas'), async ({ page }) => {
+  await clickNode(page, 'n-intro');
+  const before = await read(page);
+  // a press on the status bar's message: no control there takes the focus, which rests on the page body
+  await page.locator('[data-region="status-bar"]').click({ position: { x: 4, y: 4 } });
+  await page.keyboard.type('Gr');
+  await expect(page.getByRole('status')).toHaveText('Letters typed here do nothing: click the canvas or a Layers row to use their keys, or a field to type into it.');
+  expect(await read(page)).toMatchObject({ tree: before.tree, undoSteps: 0 });
+  await page.waitForTimeout(500);
+  await page.keyboard.press('Escape');
+  await clickNode(page, 'n-intro');
+  await page.keyboard.press('g');
+  await expect.poll(() => read(page)).toMatchObject({ undoSteps: 1 });
 });

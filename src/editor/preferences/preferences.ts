@@ -216,7 +216,7 @@ export function persistPreferences(store: Store<EditorUi>, storage: PreferenceSt
   return store.subscribe(() => {
     const state = store.getState();
     const now = state.ui.preferences;
-    if (store.gestureOpen()) return;
+    if (store.gestureOpen() || store.sequenceOpen()) return;
     const changed = now !== last;
     const documentChanged = state.document !== lastDocument;
     last = now;

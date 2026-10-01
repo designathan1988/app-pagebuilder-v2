@@ -123,6 +123,65 @@ const insertInto = (s: TestStore, parent?: string) => s.store.dispatch('element.
 const nameOf = (doc: DocumentJson, id: string) => locate(doc, id)?.node.name;
 
 describe('the store', () => {
+  it('cancels a provisional command sequence with its original redo, selection and editor state intact', () => {
+    const s = testStore();
+    insertInto(s);
+    s.store.dispatch('element.rename', { target: s.store.getState().selection[0] ?? '', name: 'Kept name' });
+    s.store.dispatch('history.undo', {});
+    const before = s.store.getState();
+    const sequence = s.store.sequence();
+    sequence.dispatch('element.rename', { target: before.selection[0] ?? '', name: 'Accidental name' });
+    sequence.dispatch('hand.take', {});
+    expect(s.store.getState().ui.hand).not.toBeNull();
+    expect(s.store.sequenceOpen()).toBe(true);
+    expect(sequence.cancel()).toBe(true);
+    expect(s.store.getState()).toEqual(before);
+    expect(s.store.sequenceOpen()).toBe(false);
+    s.store.dispatch('history.redo', {});
+    expect(nameOf(s.store.getState().document, before.selection[0] ?? '')).toBe('Kept name');
+  });
+
+  it('commits each provisional command as its own undo step and notifies persistence when settled', () => {
+    const s = testStore();
+    const sequence = s.store.sequence();
+    const saved: unknown[] = [];
+    s.store.subscribe(() => { if (!s.store.sequenceOpen()) saved.push(s.store.getState().document); });
+    sequence.dispatch('element.insert', { entry: 'container' });
+    sequence.dispatch('element.insert', { entry: 'container' });
+    expect(s.store.getState().history.past).toHaveLength(2);
+    expect(saved).toHaveLength(0);
+    sequence.commit();
+    expect(saved).toEqual([s.store.getState().document]);
+    expect(sequence.cancel()).toBe(false);
+  });
+
+  it('never cancels through an intervening external dispatch, including a dispatch by a subscriber', () => {
+    const s = testStore();
+    const sequence = s.store.sequence();
+    let redirected = false;
+    s.store.subscribe(() => {
+      if (redirected || s.store.getState().selection.length === 0) return;
+      redirected = true;
+      s.store.dispatch('selection.select', { target: s.root });
+    });
+    sequence.dispatch('element.insert', { entry: 'container' });
+    const after = s.store.getState();
+    expect(sequence.cancel()).toBe(false);
+    expect(s.store.getState()).toBe(after);
+    expect(after.selection).toEqual([s.root]);
+    expect(after.document.pages[0]?.tree.children).toHaveLength(1);
+  });
+
+  it('settles a provisional sequence before a pointer gesture starts', () => {
+    const s = testStore();
+    const sequence = s.store.sequence();
+    sequence.dispatch('element.insert', { entry: 'container' });
+    const gesture = s.store.gesture();
+    expect(sequence.cancel()).toBe(false);
+    gesture.cancel();
+    expect(s.store.getState().document.pages[0]?.tree.children).toHaveLength(1);
+  });
+
   it('starts from a valid, frozen state with an empty history', () => {
     const { store } = testStore();
     const state = store.getState();

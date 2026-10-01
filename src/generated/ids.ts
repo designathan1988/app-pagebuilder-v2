@@ -4604,5 +4604,7 @@ export const MESSAGE_IDS = [
   "status.data.imageNotFound",
   "status.change.failed",
   "status.element.notApplicable",
+  "status.keys.notChosen",
+  "status.keys.typedNotShortcuts",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];
