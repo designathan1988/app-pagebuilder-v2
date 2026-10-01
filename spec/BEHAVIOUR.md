@@ -5723,6 +5723,8 @@ The fields and menus are keyboard-operable like every inspector field.
 
 ## props-typography
 
+Jornada 03 J15a: opening a field's values menu never confirms its unfinished text. The input, trigger and value list form one editing interaction. Choosing replaces the draft with one document change; Escape closes the list and returns to the unchanged draft. Enter, Tab or leaving the interaction confirms once, against the elements the draft was typed for. The arrows explore the list; its options are not separate Tab stops, so Tab and Shift+Tab leave the list and confirm once.
+
 How Pager behaves, read from its source. Source references are `path:line` inside Pager.
 
 ### Trigger

@@ -16468,7 +16468,8 @@
           "The font menu lists system and web-safe font stacks; weight offers 100-900 with names.",
           "Every value is written to the document JSON and the computed style of the paragraph in the iframe matches.",
           "In All properties each keyword control offers every value the browser data allows (the generated keywords of the property that Chrome, Firefox and Safari all support according to css-compat.json) plus the presets the manifest declares for it (the font stacks, the named weights 100 to 900). Essentials only may offer a declared subset of that list, never a value All properties lacks.",
-          "Each value is written by one command per property, and every other control for the same property must use that command."
+          "Each value is written by one command per property, and every other control for the same property must use that command.",
+          "Opening and exploring a values menu leaves unfinished typing uncommitted. Choice replaces it once; Escape returns to the draft; Enter, Tab or leaving the field confirms once."
         ]
       },
       "scenarios": [

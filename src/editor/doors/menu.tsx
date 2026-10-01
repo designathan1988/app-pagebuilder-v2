@@ -169,7 +169,7 @@ export function MenuGroup({ children }: { readonly children: ReactNode }) {
   return <MenuGroupContext.Provider value={{ active, dismissed, toggle, close: () => setOpened(null) }}>{children}</MenuGroupContext.Provider>;
 }
 
-export function useMenuLayer(button: RefObject<HTMLButtonElement | null>, list?: RefObject<HTMLElement | null>, menu?: MenuId): MenuLayer {
+export function useMenuLayer(button: RefObject<HTMLButtonElement | null>, list?: RefObject<HTMLElement | null>, menu?: MenuId, options?: { readonly onOutside?: () => void; readonly returnFocus?: RefObject<HTMLElement | null> }): MenuLayer {
   const group = useContext(MenuGroupContext);
   const grouped = group !== null && menu !== undefined;
   // the number of dismissals when the layer was opened, or null while it is closed: a later dismissal closes it
@@ -177,9 +177,10 @@ export function useMenuLayer(button: RefObject<HTMLButtonElement | null>, list?:
   const [openedAt, setOpenedAt] = useState<number | null>(null);
   const open = grouped ? group.active === menu : openedAt !== null && openedAt === dismissals;
   const dismissed = grouped ? group.dismissed === menu : openedAt !== null && !open;
+  const returnFocus = options?.returnFocus ?? button;
   useEffect(() => {
-    if (dismissed && (document.activeElement === null || document.activeElement === document.body)) button.current?.focus();
-  }, [dismissed, button]);
+    if (dismissed && (document.activeElement === null || document.activeElement === document.body)) returnFocus.current?.focus();
+  }, [dismissed, returnFocus]);
   // The focus goes into the layer's first item: the menu key context lives there, so Escape reaches it. A layer opened
   // by a press alone left the focus on its trigger, and Escape went to another context and closed nothing.
   useEffect(() => {
@@ -187,7 +188,7 @@ export function useMenuLayer(button: RefObject<HTMLButtonElement | null>, list?:
   }, [open, list]);
   const close = grouped ? group.close : () => setOpenedAt(null);
   const fallback = useRef<HTMLElement>(null);
-  useOutsideLayer(list ?? fallback, open && list !== undefined, close, button);
+  useOutsideLayer(list ?? fallback, open && list !== undefined, () => { options?.onOutside?.(); close(); }, button, true, returnFocus);
   return {
     open,
     toggle: grouped ? () => group.toggle(menu) : () => setOpenedAt(open ? null : dismissals),

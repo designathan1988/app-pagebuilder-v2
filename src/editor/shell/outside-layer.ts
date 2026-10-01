@@ -17,13 +17,13 @@ outsidePress.subscribe((target) => {
   for (const layer of [...layers].reverse()) if (!inside.has(layer)) layer.dismiss();
 });
 
-export function useOutsideLayer(panel: RefObject<HTMLElement | null>, open: boolean, close: () => void, anchor?: RefObject<HTMLElement | null>, restoreFocus = true): void {
+export function useOutsideLayer(panel: RefObject<HTMLElement | null>, open: boolean, close: () => void, anchor?: RefObject<HTMLElement | null>, restoreFocus = true, returnFocus?: RefObject<HTMLElement | null>): void {
   const latest = useRef(close);
   useLayoutEffect(() => { latest.current = close; });
   useLayoutEffect(() => {
     const own = panel.current;
     if (!open || !own) return;
-    const before = anchor?.current ?? document.activeElement;
+    const before = returnFocus?.current ?? anchor?.current ?? document.activeElement;
     const restore = before instanceof HTMLElement && before !== document.body ? before : null;
     let outside = false;
     const layer: Layer = {
@@ -37,5 +37,5 @@ export function useOutsideLayer(panel: RefObject<HTMLElement | null>, open: bool
       const focused = document.activeElement;
       if (restoreFocus && !outside && restore?.isConnected && (focused === document.body || focused === null || own.contains(focused))) restore.focus();
     };
-  }, [panel, open, anchor, restoreFocus]);
+  }, [panel, open, anchor, restoreFocus, returnFocus]);
 }

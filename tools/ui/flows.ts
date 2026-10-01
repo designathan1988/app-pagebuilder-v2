@@ -53,6 +53,17 @@ const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as cons
 
 export const FLOWS: readonly Flow[] = [
   {
+    name: 'font-menu-draft',
+    about: 'the font list opens without confirming unfinished typing, then Escape returns to that draft',
+    steps: [
+      INSERT_PANEL, HEADING_TILE,
+      { type: { at: '[data-door="style.set#inspector-font-family"] input', text: 'Ge', enter: false } },
+      { click: '[data-door="style.set#inspector-font-family"] button[aria-haspopup="menu"]' },
+      { photo: 'font-list-with-unfinished-word' },
+      { key: 'Escape' }, { photo: 'unfinished-word-after-escape' },
+    ],
+  },
+  {
     name: 'draft-recovery',
     about: 'unconfirmed canvas text and a field return after reload, still ready for editing',
     steps: [

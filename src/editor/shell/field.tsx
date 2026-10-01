@@ -42,7 +42,7 @@ import { GLYPHS, doorSlots } from '../doors/placement.ts';
 import { quickPanelOpen } from '../quick-panel/quick-panel.ts';
 import { unitMenu } from '../../core/style/units.ts';
 import { cssFamily, familyOf, isFontFile } from '../../core/files/fonts.ts';
-import { afterGesture, registerSlider } from '../input/pointer.ts';
+import { afterGesture, pointerPressing, registerSlider } from '../input/pointer.ts';
 import { MODEL_RULES, useEditorState, useStore, type EditorStore, layeredRules } from '../store.ts';
 import { styleClassOf, styleSource } from '../inspector/style-target.ts';
 import { useMenuLayer } from '../doors/menu.tsx';
@@ -669,9 +669,13 @@ export function TextStyleField({
   const draft = useRef({ typed: false });
   // the list of every value the field offers, opened by its own button (A3.33): all of them, whatever the field holds
   // the layer contract of the field values menu: the same owner the menu buttons stand on (doors/menu.tsx)
+  const valueScope = useRef<HTMLSpanElement>(null);
+  const keepPending = useRef<() => void>(() => {});
   const valuesButton = useRef<HTMLButtonElement>(null);
   const valuesList = useRef<HTMLDivElement>(null);
-  const valuesLayer = useMenuLayer(valuesButton, valuesList);
+  const valuesLayer = useMenuLayer(valuesButton, valuesList, undefined, { onOutside: () => keepPending.current(), returnFocus: input });
+  const closeValues = useRef(valuesLayer.close);
+  useLayoutEffect(() => { closeValues.current = valuesLayer.close; }, [valuesLayer.close]);
   const valueLabel = useValueLabel();
   const command = entry.command.id;
   // the list of its suggestions, one per field (the inspector and the quick panel may draw the same property)
@@ -728,11 +732,27 @@ export function TextStyleField({
     const onInput = (event: Event) => {
       typing.typed = recordFieldInput(element, event);
     };
+    keepPending.current = keep;
+    const scope = valueScope.current;
+    const inside = (target: EventTarget | null) => target === element || target === valuesButton.current || (target instanceof Node && valuesList.current?.contains(target) === true);
+    const finish = () => { keep(); closeValues.current(); };
+    const leave = (event: FocusEvent) => {
+      const next = event.relatedTarget;
+      // Removing a menu can report null before its focus restoration completes (Escape).
+      if (next === null) {
+        queueMicrotask(() => { if (!inside(document.activeElement)) finish(); });
+        return;
+      }
+      // A pointer opens the list without committing. Tab is an explicit confirmation, even onto its trigger.
+      if (inside(next) && !(next === valuesButton.current && !pointerPressing())) return;
+      finish();
+    };
     element.addEventListener('input', onInput);
-    element.addEventListener('blur', keep);
+    scope?.addEventListener('focusout', leave);
     return () => {
       element.removeEventListener('input', onInput);
-      element.removeEventListener('blur', keep);
+      scope?.removeEventListener('focusout', leave);
+      keepPending.current = () => {};
       // the field goes: the inspector keeps a text not kept yet; a quick panel field drops it (its dismissal cancels)
       if (keepOnLeave) keep();
     };
@@ -767,7 +787,7 @@ export function TextStyleField({
   const percent = sliderRange?.min === 0 && sliderRange.max === 1 && visible.trim() !== '' && Number.isFinite(Number(visible));
   const face = percent ? { value: String(Math.round(Number(visible) * 100)), unit: '%' } : compactFieldValue(visible, sliderRange !== undefined, colour);
   const cell = (
-    <span className="input-wrap" data-face="" data-origin={appearance.kind}>
+    <span ref={valueScope} className="input-wrap" data-face="" data-origin={appearance.kind}>
         {prefix !== null ? <span className="field__prefix">{prefix}</span> : null}
         {!colour && !sample && (entry.door.kind === 'inspector-field' || entry.door.kind === 'quick-panel') && entry.door.icon !== null ? <Icon name={entry.door.icon} size="sm" /> : null}
         {sample ? <span className="field__sample swatch" style={{ '--swatch-colour': shown || effective } as CSSProperties} title={shown || effective} /> : null}
@@ -816,10 +836,13 @@ export function TextStyleField({
                     type="button"
                     role="menuitemradio"
                     aria-checked={value === checkedValue}
+                    tabIndex={-1}
                     className="menu__item"
                     data-door={entry.ref}
                     data-args={JSON.stringify({ property, value })}
                     onClick={() => {
+                      draft.current.typed = false;
+                      if (input.current) input.current.dataset.draft = DRAFT_KEPT;
                       valuesLayer.close();
                       keepText.current(value, store.getState().selection);
                     }}
@@ -832,7 +855,7 @@ export function TextStyleField({
                   </button>
                 ))}
                 {hasMoreValues ? (
-                  <button type="button" className="menu__item" data-menu-more="" aria-label={t(moreValues ? 'field.values.fewer' : 'field.values.more')} onClick={() => setMoreValues(!moreValues)}>
+                  <button type="button" role="menuitem" tabIndex={-1} className="menu__item" data-menu-more="" aria-label={t(moreValues ? 'field.values.fewer' : 'field.values.more')} onClick={() => setMoreValues(!moreValues)}>
                     <span className="menu__icon">{moreValues ? <Icon name={GLYPHS.collapsed} size="sm" /> : null}</span>
                     <span className="menu__label">{t(moreValues ? 'field.values.fewer' : 'field.values.more')}</span>
                   </button>
