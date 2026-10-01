@@ -8,7 +8,7 @@
 //  - Its input names the key context `number-field` (interactions.json), whose doors are Enter (style.set keeps what
 //    the field holds), Escape (field.cancel), ArrowUp/ArrowDown with Shift and Alt and PageUp/PageDown (field.step):
 //    the keymap hands them the field's property and the text it holds; any other key (Delete, Backspace, letters,
-//    Ctrl+Z) stays the input's own and never reaches the canvas or the document's history.
+//    pending text undo) stays the input's own. Confirmed values forward undo/redo to document history via keymap.
 //  - Leaving the field with typing not kept yet (Tab, a click elsewhere, a step button, the unit menu, the label's
 //    scrub) keeps it: one undo step, before whatever the press does.
 //  - Its label is the scrub handle (the panel drag field.scrub#…, run by the pointer owner, src/editor/input/pointer.ts,
@@ -50,6 +50,7 @@ import { useT, useValueLabel } from '../text.ts';
 import { createToken, tokenKindOf, tokensOf } from '../../core/design/tokens.ts';
 import { compactFieldValue, FieldOriginBadge, FieldValueSlot, useFieldAppearance } from './field-face.tsx';
 import { usePrimarySize } from '../view/selection-size.ts';
+import { DRAFT_KEPT, markFieldKept, recordFieldInput } from '../input/drafts.ts';
 
 // the key context a number field's input names (interactions.json)
 const NUMBER_FIELD_CONTEXT: KeyContextId = 'number-field';
@@ -467,6 +468,7 @@ export function NumberField({ entry, door, property, label, bare = false, labell
     if (element === null) return;
     element.value = shown;
     draft.current.typed = false;
+    markFieldKept(element, shown);
   }, [shown, said]);
   useEffect(() => {
     const element = input.current;
@@ -475,6 +477,7 @@ export function NumberField({ entry, door, property, label, bare = false, labell
     const keep = () => {
       if (!typing.typed) return;
       typing.typed = false;
+      element.dataset.draft = DRAFT_KEPT;
       // one task later: a press on a control of this same field (its unit menu, its reset) must not see the layout the
       // commit makes (the reset appearing, the field narrowing) change what lies under the pointer
       const text = element.value;
@@ -483,13 +486,7 @@ export function NumberField({ entry, door, property, label, bare = false, labell
       window.setTimeout(() => keepValue(store, command, property, text, targets), 0);
     };
     const onInput = (event: Event) => {
-      // the browser's own undo and redo in the field give back what the field held: nothing typed to keep (the audit's
-      // U-022: a Ctrl+Z after Enter kept an empty value on leaving the field)
-      if (event instanceof InputEvent && event.inputType.startsWith('history')) {
-        typing.typed = false;
-        return;
-      }
-      typing.typed = true;
+      typing.typed = recordFieldInput(element, event);
     };
     element.addEventListener('input', onInput);
     element.addEventListener('blur', keep);
@@ -699,6 +696,7 @@ export function TextStyleField({
     if (element === null) return;
     element.value = shown;
     draft.current.typed = false;
+    markFieldKept(element, shown);
   }, [shown, said]);
   useEffect(() => {
     const element = sliderInput.current;
@@ -715,6 +713,7 @@ export function TextStyleField({
     const keep = () => {
       if (!typing.typed) return;
       typing.typed = false;
+      element.dataset.draft = DRAFT_KEPT;
       // a quick panel field keeps what it holds only while the panel is open: the panel's dismissal cancels the draft
       // as an Escape in an inspector field does (spec quick-panel)
       if (!keepOnLeave && !quickPanelOpen(store.getState().ui)) return;
@@ -724,13 +723,7 @@ export function TextStyleField({
       window.setTimeout(() => keepText.current(text, targets), 0);
     };
     const onInput = (event: Event) => {
-      // the browser's own undo and redo in the field give back what the field held: nothing typed to keep (the audit's
-      // U-022: a Ctrl+Z after Enter kept an empty value on leaving the field)
-      if (event instanceof InputEvent && event.inputType.startsWith('history')) {
-        typing.typed = false;
-        return;
-      }
-      typing.typed = true;
+      typing.typed = recordFieldInput(element, event);
     };
     element.addEventListener('input', onInput);
     element.addEventListener('blur', keep);
@@ -763,6 +756,7 @@ export function TextStyleField({
     const element = input.current;
     if (element === null || !draft.current.typed) return;
     draft.current.typed = false;
+    element.dataset.draft = DRAFT_KEPT;
     keepText.current(element.value, store.getState().selection);
   };
   const state = `${available ? '' : ' is-unavailable'}${set ? ' is-set' : ''}${refused.text !== null ? ' is-invalid' : ''}`;
@@ -1191,6 +1185,7 @@ export function TextField({ entry, node, label, keepOnLeave = true }: { readonly
     if (element === null) return;
     element.value = stored;
     draft.current.typed = false;
+    markFieldKept(element, stored);
   }, [stored, said]);
   useEffect(() => {
     const element = field.current;
@@ -1199,18 +1194,13 @@ export function TextField({ entry, node, label, keepOnLeave = true }: { readonly
     const keep = () => {
       if (!typing.typed) return;
       typing.typed = false;
+      element.dataset.draft = DRAFT_KEPT;
       // a quick panel field keeps what it holds only while the panel is open (spec quick-panel)
       if (!keepOnLeave && !quickPanelOpen(store.getState().ui)) return;
       keepTextWith(store, command, target, element.value);
     };
     const onInput = (event: Event) => {
-      // the browser's own undo and redo in the field give back what the field held: nothing typed to keep (the audit's
-      // U-022: a Ctrl+Z after Enter kept an empty value on leaving the field)
-      if (event instanceof InputEvent && event.inputType.startsWith('history')) {
-        typing.typed = false;
-        return;
-      }
-      typing.typed = true;
+      typing.typed = recordFieldInput(element, event);
     };
     element.addEventListener('input', onInput);
     element.addEventListener('blur', keep);
@@ -1350,6 +1340,7 @@ export function KeptTextField({ entry, node, kept, label, attribute, keepOnLeave
     if (element === null) return;
     element.value = stored;
     draft.current.shown = stored;
+    markFieldKept(element, stored);
     setTyped(stored);
   }, [stored, said]);
   // the field the inspector was asked to show (inspector.reveal) takes the focus
@@ -1380,9 +1371,14 @@ export function KeptTextField({ entry, node, kept, label, attribute, keepOnLeave
       keep();
     };
     row.addEventListener('submit', submit);
+    const onInput = (event: Event) => {
+      recordFieldInput(element, event);
+    };
+    element.addEventListener('input', onInput);
     element.addEventListener('blur', keep);
     return () => {
       row.removeEventListener('submit', submit);
+      element.removeEventListener('input', onInput);
       element.removeEventListener('blur', keep);
       // the field goes (another selection, another tab) with a text not kept yet: it is kept — unless it is a quick
       // panel field, whose dismissal cancels what it held (spec quick-panel)

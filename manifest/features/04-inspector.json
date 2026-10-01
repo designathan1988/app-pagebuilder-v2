@@ -1492,7 +1492,7 @@
           "ArrowUp/ArrowDown step by 1, with Shift by 10, with Alt by 0.1; dragging the label scrubs with the same multipliers.",
           "Invalid input is rejected with a message and the previous value stays; Escape restores the previous value.",
           "A whole scrub gesture or one typed commit is exactly one undo step.",
-          "Delete, Backspace, arrows, letters and Ctrl+Z typed in a field act on the field, never on the canvas selection or the document history."
+          "Delete, Backspace, arrows and letters stay in the field. Ctrl+Z uses native text undo while typing is pending; once a value field shows its confirmed document value, Ctrl+Z uses document history without moving focus. Ctrl+Shift+Z and Ctrl+Y redo native typing while its redo is pending, otherwise document history."
         ]
       },
       "scenarios": [

@@ -51,6 +51,24 @@ const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as cons
 
 export const FLOWS: readonly Flow[] = [
   {
+    name: 'field-history',
+    about: 'a confirmed field keeps focus while document undo and redo update it and the canvas',
+    steps: [
+      INSERT_PANEL,
+      HEADING_TILE,
+      STYLE_TAB,
+      { type: { at: '[data-door="inspector.search#inspector-search-field"] input', text: 'font-size', enter: false } },
+      { type: { at: '[data-door="style.set#inspector-font-size"] input', text: '32px' } },
+      { photo: 'confirmed-value' },
+      { key: 'Control+z' },
+      { expect: { message: 'Undone:' } },
+      { photo: 'undone-with-field-focused' },
+      { key: 'Control+y' },
+      { expect: { message: 'Redone:' } },
+      { photo: 'redone-with-field-focused' },
+    ],
+  },
+  {
     name: 'button-text-spaces',
     about: 'spaces typed in the button on the canvas are kept as text and undone together',
     steps: [

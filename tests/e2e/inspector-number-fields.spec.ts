@@ -1,7 +1,7 @@
 // inspector-number-fields beyond its scenarios (spec/BEHAVIOUR.md#inspector-number-fields): the multipliers of the
 // arrows in one run, PageUp/PageDown, the scrub following the pointer live and being one undo
 // step, Escape during a scrub, Escape in the field then leaving it, leaving the field with Tab, the keys a field keeps
-// (Delete, Backspace, letters, Ctrl+Z never reach the canvas nor the history), the unit menu's list, and a length field
+// (Delete, Backspace, letters and pending text undo stay in the field), the unit menu's list, and a length field
 // of a feature not registered yet. The document, the selection and the history are read through the read-only test
 // port; the element's width through the frame's computed style.
 import fs from 'node:fs';
@@ -220,15 +220,31 @@ test('Escape puts back what was typed, so leaving the field then keeps nothing; 
   await expect.poll(() => computedWidth(page)).toBe('320px');
 });
 
+// Changed on purpose with jornada03 J7: Ctrl+Z stays the field's while it holds typing not kept yet (the last press
+// here), and is the editor's history once the field shows the document's value again (next test).
 test('Delete, Backspace, letters and Ctrl+Z typed in a field stay in the field: the selection, the element and the history stay', runs(OPEN, SELECT, WIDTH, ENTER), async ({ page }) => {
   await typeWidth(page, '240');
   await expect.poll(() => stored(page)).toEqual({ width: '240px', undoSteps: 1, present: true });
   await input(page).click();
-  for (const key of ['End', 'Backspace', 'Home', 'Delete', 'x', 'Control+Z', 'Control+Z']) await page.keyboard.press(key);
+  for (const key of ['End', 'Backspace', 'Home', 'Delete', 'x', 'Control+Z']) await page.keyboard.press(key);
   const after = await port(page);
   expect(after.selection).toEqual([ACTIONS]);
   expect(await stored(page)).toEqual({ width: '240px', undoSteps: 1, present: true });
   await expect(drawn(page, ACTIONS)).toHaveCount(1);
+});
+
+// jornada03 J7: after Enter in Font size the focus stayed in the field and Ctrl+Z did nothing and said nothing; Marina
+// had to click the canvas first. Once the field shows the document's value, Ctrl+Z undoes the last change and
+// Ctrl+Shift+Z redoes it, from the field.
+test('Ctrl+Z in a field just kept with Enter undoes the change, and Ctrl+Shift+Z redoes it', runs(OPEN, SELECT, WIDTH, ENTER, 'history.undo#key-ctrl-z-in-global'), async ({ page }) => {
+  await typeWidth(page, '240');
+  await expect.poll(() => stored(page)).toEqual({ width: '240px', undoSteps: 1, present: true });
+  await expect(input(page)).toBeFocused();
+  await page.keyboard.press('Control+Z');
+  await expect.poll(() => stored(page)).toMatchObject({ undoSteps: 0 });
+  await expect(page.getByRole('status')).toContainText('Undone:');
+  await page.keyboard.press('Control+Shift+Z');
+  await expect.poll(() => stored(page)).toEqual({ width: '240px', undoSteps: 1, present: true });
 });
 
 test('the unit menu offers the units and keywords of Width; a point converts the width keeping its size, % is refused with a word', runs(OPEN, SELECT, WIDTH, ENTER, UNIT), async ({ page }) => {

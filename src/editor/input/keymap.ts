@@ -13,6 +13,8 @@ import { keyContextChain, manifest, numberConstant, type DoorEntry } from '../..
 import type { CommandSequence, DispatchResult } from '../../core/store/store.ts';
 import { COMMANDS } from '../../app/commands.ts';
 import { isBuilt, message } from '../../core/commands/registry.ts';
+import { redoCommand, undoCommand } from '../../core/history/history.ts';
+import { DRAFT_KEPT, hasDraftRedo, type DraftField } from './drafts.ts';
 import { aimArgs, heldHand } from '../../core/structure/hand.ts';
 import { isFeatureBuilt } from '../../app/features.ts';
 import { TEXT_EDITING, editArgs } from '../canvas/text-edit.ts';
@@ -229,6 +231,10 @@ const TYPING_BURST = numberConstant('keys.typingBurst');
 const CANVAS_CONTEXT = 'canvas' as KeyContextId;
 const LAYERS_CONTEXT = 'layers-tree' as KeyContextId;
 const CHOSEN_CONTEXTS: ReadonlySet<string> = new Set([CANVAS_CONTEXT, LAYERS_CONTEXT]);
+const FIELD_CONTEXT: KeyContextId = 'field';
+const GLOBAL_CONTEXT: KeyContextId = 'global';
+const keptField = (target: EventTarget | null): target is DraftField =>
+  (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) && target.dataset.draft === DRAFT_KEPT && target.value === target.dataset.shown;
 const CANVAS: KeyContextId = 'canvas';
 function positionedContext(store: EditorStore, context: KeyContextId): KeyContextId {
   const nudge = NUDGE_DOORS[0];
@@ -416,6 +422,17 @@ export function installKeymap(store: EditorStore, target: Window = window): () =
     // a session's context (a gesture, the hand, the preview) replaces the focused one; otherwise a field inside a region
     // that absorbs fields (the quick panel) runs the region's keys before its own (focusChain)
     const chain = gesture !== null || hand !== null || previewing(store.getState().ui) ? keyContextChain(context) : focusChain(event.target, context);
+    // Confirmed fields, including inherited number/text contexts, use document history. Native undo remains with
+    // pending typing; an unrelated field without the draft contract (such as search) never forwards these keys.
+    if (gesture === null && keyContextChain(focused).includes(FIELD_CONTEXT) && keptField(event.target)) {
+      const history = bindingIn(keyContextChain(GLOBAL_CONTEXT), chordOf(event));
+      if (history !== null && (history.command.id === undoCommand.command || history.command.id === redoCommand.command) && shortcutRunsNow(history)) {
+        if (history.command.id === redoCommand.command && hasDraftRedo(event.target)) return;
+        event.preventDefault();
+        (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(history.command.id, withDoorArgs({}, history.door.args));
+        return;
+      }
+    }
     const held = bindingIn(chain, chordOf(event)) === null ? heldKeyBindingIn(chain, event) : null;
     const binding = held?.entry ?? bindingIn(chain, chordOf(event));
     // a letter that binds nothing outside a field marks the burst as typing, and takes back the shortcuts the burst ran

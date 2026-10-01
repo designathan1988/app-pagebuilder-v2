@@ -2896,6 +2896,14 @@ The keys listed under Trigger. The glyph has no keyboard action; the arrow keys 
   a property the page does not measure (a width in %) is refused as before (`status.value.unitNotConverted`).
 6. **A click into a field put the caret after its value, so what was typed was appended** (the dogfooding pass: "80" typed into a padding side holding 56 wrote 5680px). Required: the click that focuses a value field of the Style tab, the Settings tab, the quick panel or the colour picker selects its whole value, and what is typed replaces it; a later click in the focused field places the caret; Tab selects the value as the browser does.
 
+- **Ctrl+Z after Enter in a field did nothing** (jornada03 J7). A confirmed value field forwards Ctrl+Z,
+  Ctrl+Shift+Z and Ctrl+Y to the editor's history and keeps focus. Pending typing keeps native text undo/redo.
+  The field records its draft status and displayed document value; both must agree before forwarding history.
+  Native redo of undone typing remains available even when the field again equals the document, until a new
+  confirmation or document-history command ends that draft. Native undo/redo that leaves a changed value keeps it pending.
+  This applies to numeric/style fields, element text, attribute fields and their quick-panel counterparts. A blur
+  after document undo never reapplies the value that was undone; search fields retain their own keyboard behavior.
+
 ## inspector-panel
 
 How Pager behaves, read from its source and observed by the coordinator running it from `.cache/pager-run` (Chrome, window 1600×900). The author of this spec did not run Pager (no browser in this session): what the coordinator observed is marked "observed"; everything else is read from the source. Source references are `path:line` inside Pager; without a file name the file is `src/features/inspector/properties.js`. Test documents: the empty page with nothing selected, then a Section (with a Paragraph inside) selected.
