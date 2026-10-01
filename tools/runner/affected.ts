@@ -5,11 +5,13 @@
 // reached, or when its scenarios' file of manifest/features changed. The affected features' scenario tests run
 // (@feature:<id>), with the spec files named after an affected feature and the spec files that changed. A change to
 // what every browser test stands on (tests/support, the scenario runner, the door helpers, the Playwright
-// configuration, the manifest's commands or layout) reaches everything: the run says so and runs the complete suite.
+// configuration, the manifest's commands or layout), shared door runtimes and unmapped production sources reach
+// everything: the run says why and runs the complete suite instead of treating an unknown path as unaffected.
 // The complete suite still runs once at the end of the work (CLAUDE.md, The loop); this is the loop between.
 import { execFileSync, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { affectedPlan, productionSource } from './affected-plan.ts';
 
 interface Inventory {
   readonly features: readonly { readonly id: string; readonly built: boolean; readonly modules: readonly string[] }[];
@@ -22,9 +24,6 @@ const posix = (p: string) => p.split(path.sep).join('/');
 
 const git = (...a: string[]) => execFileSync('git', ['-c', 'safe.directory=*', ...a], { encoding: 'utf8' }).split('\n').filter((l) => l !== '');
 const changed = [...new Set([...git('diff', '--name-only', since ?? 'HEAD'), ...git('ls-files', '--others', '--exclude-standard')])];
-
-// what every browser test stands on: a change there reaches every test
-const EVERYTHING = [/^tests\/support\//, /^tests\/e2e\/door\.ts$/, /^tools\/runner\/scenarios\.ts$/, /^playwright\.config\.ts$/, /^manifest\/(commands\/|layout\.json|interactions\.json|properties\.json|elements\.json|environment\.json)/, /^package(-lock)?\.json$/, /^vite\.config\.ts$/, /^index\.html$/, /^src\/main\.tsx$/];
 
 // the modules of src/ and what each imports (relative imports, resolved to files)
 function sourceFiles(dir: string): string[] {
@@ -63,46 +62,32 @@ function reachOf(start: string): Set<string> {
   }
   return reached;
 }
-const sources = changed.filter((f) => f.startsWith('src/') && /\.tsx?$/.test(f) && !/\.test\.tsx?$/.test(f));
+const sources = changed.filter(productionSource);
 const reaches = new Map(sources.map((f) => [f, reachOf(f)]));
-const reached = new Set([...reaches.values()].flatMap((r) => [...r]));
 
 const inventory = JSON.parse(fs.readFileSync('docs/inventory.json', 'utf8')) as Inventory;
-const featureModules = new Set(inventory.features.flatMap((f) => f.modules));
-// a changed module that reaches no feature's module (a component that draws doors): the inventory does not say which
-// tests prove it, so the run names it and its spec files are chosen by hand
-const unmapped = sources.filter((f) => ![...(reaches.get(f) ?? [])].some((m) => featureModules.has(m)));
 const featureFiles = changed.filter((f) => /^manifest\/features\/\d{2}-.*\.json$/.test(f));
 const featuresInFiles = new Set(
   featureFiles.filter((f) => fs.existsSync(f)).flatMap((f) => (JSON.parse(fs.readFileSync(f, 'utf8')) as { features: { id: string }[] }).features.map((x) => x.id)),
 );
-const affected = inventory.features.filter((f) => f.built && (featuresInFiles.has(f.id) || f.modules.some((m) => reached.has(m)))).map((f) => f.id);
-const specs = [
-  ...new Set([
-    ...affected.map((id) => `tests/e2e/${id}.spec.ts`).filter((f) => fs.existsSync(f)),
-    ...changed.filter((f) => /^tests\/e2e\/.*\.spec\.ts$/.test(f) && fs.existsSync(f)),
-  ]),
-];
-const everything = changed.filter((f) => EVERYTHING.some((r) => r.test(f)));
+const plan = affectedPlan({ changed, reaches, features: inventory.features, changedFeatures: featuresInFiles, availableSpecs: new Set(sourceFiles('tests/e2e').filter((file) => file.endsWith('.spec.ts'))) });
 const styles = changed.filter((f) => f.endsWith('.css'));
 
 console.log(`changed: ${changed.length} files${since === undefined ? '' : ` since ${since}`}`);
-if (everything.length > 0) console.log(`reaches every browser test: ${everything.join(', ')}`);
+if (plan.reasons.length > 0) console.log(`reaches every browser test: ${plan.reasons.join(', ')}`);
 else {
-  console.log(`features: ${affected.length === 0 ? 'none' : affected.join(' ')}`);
-  console.log(`spec files: ${specs.length === 0 ? 'none' : specs.join(' ')}`);
+  console.log(`features: ${plan.features.length === 0 ? 'none' : plan.features.join(' ')}`);
+  console.log(`spec files: ${plan.specs.length === 0 ? 'none' : plan.specs.join(' ')}`);
   if (styles.length > 0) console.log(`stylesheets changed (${styles.join(', ')}): the tests above prove behaviour; look at the screens with npm run ui`);
-  if (unmapped.length > 0) console.log(`no feature's module is reached by ${unmapped.join(', ')}: choose the spec files that prove it`);
 }
-if (listOnly) process.exit(0);
+if (listOnly) {
+  for (const run of plan.runs) console.log(`playwright arguments: ${JSON.stringify(run)}`);
+  process.exit(0);
+}
 
 const cli = path.join('node_modules', '@playwright', 'test', 'cli.js');
 const playwright = (a: string[]) => spawnSync(process.execPath, [cli, 'test', ...a], { stdio: 'inherit' }).status ?? 1;
 let status = 0;
-if (everything.length > 0) status = playwright([]);
-else {
-  if (affected.length > 0) status = playwright(['scenarios.spec', '--grep', affected.map((id) => `@feature:${id}(?![\\w-])`).join('|')]);
-  if (specs.length > 0) status = Math.max(status, playwright(specs));
-  if (affected.length === 0 && specs.length === 0) console.log('no browser test is reached by the change');
-}
+for (const run of plan.runs) status = Math.max(status, playwright(run));
+if (plan.runs.length === 0) console.log('no browser test is reached by the change');
 process.exit(status);

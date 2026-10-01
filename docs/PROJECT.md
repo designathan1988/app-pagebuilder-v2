@@ -140,10 +140,14 @@ npm run inventory         # regenerate docs/INVENTORY.md and docs/inventory.json
   palette, a menu and the sidebar, in the light and the dark theme, compared with the pictures kept beside the spec. A
   change of the design system fails there until it is looked at and taken again on purpose
   (`npx playwright test visual --update-snapshots`).
-- `npm run e2e:affected [--since <ref>] [--list]` follows the imports of `src/` from each changed module to the
-  modules the inventory names for each feature; a change to what every test stands on (tests/support, the runners,
-  the Playwright configuration, the manifest's commands or layout) runs the whole suite, and a changed component that
-  reaches no feature's module is named, for its spec files to be chosen by hand.
+- `npm run e2e:affected [--since <ref>] [--list]` follows runtime imports to built feature owners. Shared keyboard,
+  pointer, core/editor store and door dispatch code reaches every browser test even when the inventory maps it to
+  one feature: tests consume these owners through doors, not imports. Unmapped production sources (including CSS,
+  JSON and removed files) also select the complete suite, with the reason printed; unknown reach never means no
+  tests. Unit tests and declaration files alone do not trigger browser work; generated modules exporting runtime
+  values are treated as production code. Narrow handlers retain their
+  feature selection; propagation stops at the command-registration table. The shared test/manifest infrastructure
+  still selects the whole suite. `--list` prints the exact Playwright arguments without starting a browser.
 - A screen is not done until a photo shows it working: `npm run ui -- <flow>` (Playwright on the installed Chrome,
   never the editor's own preview pane) drives it with real gestures and writes one screenshot per step to
   `.cache/logs/ui-<flow>-<time>/`. It fails when the page logged a console error, when the incident feed holds
