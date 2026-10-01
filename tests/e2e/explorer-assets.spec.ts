@@ -45,13 +45,17 @@ test('typing Grãos de café after a click outside the image picker never runs s
   await runDoor(page, PICKER_OPEN);
   await runDoor(page, PICKER_CHOOSE, { args: { value: 'img/photo.png' } });
   const before = await port(page);
-  // The old picker shield swallowed this click; after J8 it reaches the intended Alt field.
-  const alt = control(page, 'element.setAttribute#inspector-alt').locator('input');
-  const box = await alt.boundingBox();
-  if (box === null) throw new Error('Alt is not visible');
-  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
-  await page.keyboard.type('Grãos de café');
+  // A non-field target keeps this proof independent of whether the picker forwards outside clicks (J8).
+  const box = await page.locator('[data-region="status-bar"]').boundingBox();
+  if (box === null) throw new Error('The status bar is not visible');
+  await page.mouse.click(box.x + 4, box.y + 4);
+  // G and R both bind structure commands: check before an unbound letter could cancel a typing sequence.
+  await page.keyboard.type('Gr');
   expect(await port(page)).toEqual(before);
+  await expect(page.getByRole('status')).toHaveText('Letters typed here do nothing: click the canvas or a Layers row to use their keys, or a field to type into it.');
+  await page.keyboard.type('ãos de café');
+  expect(await port(page)).toEqual(before);
+  await expect(page.getByRole('status')).toHaveText('Letters typed here do nothing: click the canvas or a Layers row to use their keys, or a field to type into it.');
   await expect(page.locator('.frame__page')).toBeVisible();
 });
 
