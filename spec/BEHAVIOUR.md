@@ -7431,6 +7431,11 @@ Editing happens in the zoomed iframe; the caret and text scale with the zoom.
 4. **A text left empty could not be seen nor clicked** (the user's real-use audit, A3.38: a heading whose text was cleared was 0 px tall on the canvas, reachable only through Layers). Required: on the canvas only (never in the document nor the export), a text element whose text is empty keeps canvas.emptyTextMinHeight of height and a dashed outline in its own colour, so it can be seen and clicked; the Layers row says it is empty; the element edited in place drops the mark while it is edited.
 5. **Escape threw away what was typed** (the dogfooding pass: a title typed on the canvas and left with Escape, as one leaves an edit in the design tools, was lost). Required — overriding Pager's "Escape cancels" above: Escape leaves the edit keeping the text, as Enter and a click away do (`text.set#key-escape-in-text-editing`), one undo step that Ctrl+Z takes back; a text left as it was says so ("Kept the text of Intro unchanged.", no undo step); the status bar says it while editing ("Enter, Escape or a click away keeps it; Ctrl+Z takes it back."). A field of the Settings tab keeps its own Escape, which puts back the value it held, as every field does.
 
+6. **Spaces typed in a button were dropped** (jornada03 J4: "Conhecer os planos" became "Conhecerosplanos").
+   Required: Space in text editing inserts at the caret or replaces the selection without activating the element.
+   Buttons, links, and the text children of labels and summaries follow the same rule. Enter and Escape keep the
+   text as one undo step. The keymap uses the edited element's own document, including the canvas iframe.
+
 ## text-inline-formatting
 
 How Pager behaves, observed by running it from `.cache/pager-run` (Chrome, window 1600×900) and read from its source. Source references are `path:line` inside Pager. Test: a Paragraph edited in place (see `text-edit-inline.md`) with the text `one two three four`.

@@ -119,6 +119,8 @@ async function runStep(page: Page, step: Step): Promise<string> {
     if (step.type.enter !== false) await page.keyboard.press('Enter');
   } else if ('key' in step) {
     await page.keyboard.press(step.key);
+  } else if ('text' in step) {
+    await page.keyboard.type(step.text);
   } else if ('move' in step) {
     const box = await page.locator(step.move.at).first().boundingBox();
     if (box === null) throw new Error(`the pointer target is not drawn: ${step.move.at}`);

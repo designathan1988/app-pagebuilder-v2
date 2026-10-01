@@ -15,6 +15,8 @@ export type Step =
   | { readonly type: { readonly at: string; readonly text: string; readonly enter?: boolean; readonly clear?: boolean } }
   // a key with its modifiers, as a person presses it
   | { readonly key: string }
+  // type into the currently focused editor, including its canvas iframe
+  | { readonly text: string }
   // move across a control in small real pointer steps; fractions are relative to its drawn box
   | { readonly move: { readonly at: string; readonly from: readonly [number, number]; readonly to: readonly [number, number]; readonly steps: number; readonly interval: number } }
   // a real drag: from one node or point to another, in page pixels (the frame's own space)
@@ -48,6 +50,24 @@ const INSERT_PANEL = { door: 'workspace.setPanelOpen#toolbar-activity-bar-insert
 const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as const;
 
 export const FLOWS: readonly Flow[] = [
+  {
+    name: 'button-text-spaces',
+    about: 'spaces typed in the button on the canvas are kept as text and undone together',
+    steps: [
+      INSERT_PANEL,
+      { door: 'element.insert#elements-tile', labelled: 'Button' },
+      { key: 'Escape' },
+      { key: 'Enter' },
+      { key: 'Control+a' },
+      { text: 'Conhecer os planos' },
+      { photo: 'button-with-spaces-during-edit' },
+      { key: 'Enter' },
+      { expect: { message: 'Saved the text of Button.' } },
+      { photo: 'button-with-spaces-saved' },
+      { key: 'Control+z' },
+      { photo: 'button-text-undone' },
+    ],
+  },
   {
     name: 'menu-rest',
     about: 'a slow crossing keeps File open, while a stationary pointer over Edit switches after the dwell',

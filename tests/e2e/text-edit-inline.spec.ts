@@ -8,7 +8,7 @@
 import fs from 'node:fs';
 import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
-import { openMenu, runs } from './door.ts';
+import { openMenu, runDoor, runs } from './door.ts';
 
 const FIXTURE = 'manifest/features/fixtures/aurora.json';
 const SELECT = 'selection.select#canvas-click-element-or-page';
@@ -210,3 +210,87 @@ test('Enter with several elements selected says the edit needs one',runs('projec
   await expect(drawn(page, 'n-intro')).not.toHaveAttribute('contenteditable');
   expect(await read(page)).toEqual({ hero: hero(INTRO), selection: ['n-intro', 'n-title'], undoSteps: 0 });
 });
+
+// jornada03 J4: Marina double-clicked the hero's button and typed "Conhecer os planos": the button kept
+// "Conhecerosplanos" (on a <button> the browser takes Space as a press of the button and types nothing). Space in the
+// text edited in place is a space on every element, a button included.
+test('spaces typed in a button edited in place are kept', runs('workspace.setPanelOpen#toolbar-activity-bar-insert', 'element.insert#elements-tile', DOUBLE_CLICK, ENTER_KEEP), async ({ page }) => {
+  const at = await centre(page, 'n-intro');
+  await page.mouse.click(at.x, at.y);
+  await runDoor(page, 'workspace.setPanelOpen#toolbar-activity-bar-insert');
+  await runDoor(page, 'element.insert#elements-tile', { args: { entry: 'button' } });
+  const button = await page.evaluate(() => (window as unknown as Record<string, { selection: () => string[] }>).__builderTestPort?.selection()[0] ?? '');
+  const spot = await centre(page, button);
+  await page.mouse.dblclick(spot.x, spot.y);
+  await expect(drawn(page, button)).toHaveAttribute('contenteditable', 'plaintext-only');
+  await page.keyboard.press('Control+A');
+  await page.keyboard.type('Conhecer os planos');
+  await page.keyboard.press('Enter');
+  await expect
+    .poll(() => page.evaluate((id) => {
+      const p = (window as unknown as Record<string, { document: () => { pages: { tree: Tree }[] } }>).__builderTestPort;
+      const find = (n: Tree): Tree | undefined => (n.id === id ? n : n.children.map(find).find((x) => x !== undefined));
+      return p ? (find(p.document().pages[0]?.tree as Tree)?.text ?? null) : null;
+    }, button))
+    .toBe('Conhecer os planos');
+  await expect(drawn(page, button)).toHaveText('Conhecer os planos');
+});
+
+for (const [name, entry, child, keep] of [
+  ['link', 'link', null, 'Enter'],
+  ['label text', 'template-form-group', 'label > span[data-node]', 'Escape'],
+  ['summary text', 'template-accordion', 'summary > span[data-node]', 'Enter'],
+] as const) {
+  test(`spaces in ${name} keep the caret and commit as one undo step`, runs('workspace.setPanelOpen#toolbar-activity-bar-insert', 'element.insert#elements-tile', DOUBLE_CLICK, ENTER_KEEP, ESCAPE, 'history.undo#key-ctrl-z-in-global'), async ({ page }) => {
+    await runDoor(page, 'workspace.setPanelOpen#toolbar-activity-bar-insert');
+    await runDoor(page, 'element.insert#elements-tile', { args: { entry } });
+    const root = await page.evaluate(() => (window as unknown as { __builderTestPort: { selection: () => string[] } }).__builderTestPort.selection()[0] ?? '');
+    const id = child === null ? root : await drawn(page, root).locator(child).first().getAttribute('data-node');
+    if (id === null) throw new Error(`No text node in ${name}`);
+    const snapshot = () => page.evaluate(() => {
+      const p = (window as unknown as { __builderTestPort: { document: () => unknown; history: () => { undoSteps: number } } }).__builderTestPort;
+      return { document: p.document(), undoSteps: p.history().undoSteps };
+    });
+    const before = await snapshot();
+    const at = await centre(page, id);
+    await page.mouse.dblclick(at.x, at.y);
+    await expect(drawn(page, id)).toHaveAttribute('contenteditable', 'plaintext-only');
+    await page.keyboard.press('Control+A');
+    await page.keyboard.type('Conhecer os planos');
+    await expect(drawn(page, id)).toBeFocused();
+    expect(await snapshot()).toEqual(before);
+    await page.keyboard.press(keep);
+    await expect(drawn(page, id)).not.toHaveAttribute('contenteditable');
+    expect(await drawn(page, id).textContent()).toBe('Conhecer os planos');
+    expect((await snapshot()).undoSteps).toBe(before.undoSteps + 1);
+    await page.keyboard.press('Control+z');
+    expect(await snapshot()).toEqual(before);
+  });
+}
+
+for (const [initial, selected, expected] of [
+  ['Conheceros planos', 0, 'Conhecer os planos'],
+  ['Conhecer--planos', 2, 'Conhecer planos'],
+] as const) {
+  test(`Space replaces ${selected} selected characters at the button caret`, runs('workspace.setPanelOpen#toolbar-activity-bar-insert', 'element.insert#elements-tile', DOUBLE_CLICK, ESCAPE, 'history.undo#key-ctrl-z-in-global'), async ({ page }) => {
+    await runDoor(page, 'workspace.setPanelOpen#toolbar-activity-bar-insert');
+    await runDoor(page, 'element.insert#elements-tile', { args: { entry: 'button' } });
+    const id = await page.evaluate(() => (window as unknown as { __builderTestPort: { selection: () => string[] } }).__builderTestPort.selection()[0] ?? '');
+    const before = await read(page);
+    const originalText = await drawn(page, id).textContent();
+    const at = await centre(page, id);
+    await page.mouse.dblclick(at.x, at.y);
+    await page.keyboard.press('Control+A');
+    await page.keyboard.type(initial);
+    await page.keyboard.press('Home');
+    for (let i = 0; i < 8; i += 1) await page.keyboard.press('ArrowRight');
+    for (let i = 0; i < selected; i += 1) await page.keyboard.press('Shift+ArrowRight');
+    await page.keyboard.press('Space');
+    await page.keyboard.press('Escape');
+    expect(await drawn(page, id).textContent()).toBe(expected);
+    expect((await read(page)).undoSteps).toBe(before.undoSteps + 1);
+    await page.keyboard.press('Control+z');
+    expect(await drawn(page, id).textContent()).toBe(originalText);
+    expect(await read(page)).toEqual(before);
+  });
+}

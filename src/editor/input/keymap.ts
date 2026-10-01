@@ -376,6 +376,14 @@ export function installKeymap(store: EditorStore, target: Window = window): () =
       event.preventDefault();
       return;
     }
+    // Native buttons consume Space even when contenteditable. Insert it in the edited element's own document;
+    // iframe elements do not inherit the editor window's Node constructor (htmlElement handles both realms).
+    const editedElement = focused === TEXT_EDITING ? htmlElement(event.target) : null;
+    if (event.key === ' ' && !event.ctrlKey && !event.altKey && !event.metaKey && !event.isComposing && editedElement !== null) {
+      event.preventDefault();
+      editedElement.ownerDocument.execCommand('insertText', false, ' ');
+      return;
+    }
     // Space held over the canvas arms the pan, whatever has the focus but a field, the text edited in place or a control
     // the keyboard focused that takes Space (spec zoom-wheel-pan, Problems in Pager 2); Escape during a pan puts the
     // view back (the pointer owner's)

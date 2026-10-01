@@ -12579,9 +12579,9 @@
           "Double-click it, type text and click elsewhere on the canvas."
         ],
         "expected": [
-          "Double-click or Enter makes the element's text editable in place with a caret; the status bar says 'Editing text — Enter or click away to keep it, Escape to cancel' [status.textEdit.editing].",
-          "Enter or clicking away writes the new text into the document JSON as one undo step.",
-          "Escape restores the text that was there before editing and leaves the document JSON unchanged.",
+          "Double-click or Enter makes the element's text editable in place with a caret; the status bar explains that Enter, Escape or a click away keeps it [status.textEdit.editing].",
+          "Enter, Escape or clicking away writes the new text into the document JSON as one undo step; Undo restores the original text.",
+          "Space inserts at the caret or replaces the text selection, including on buttons and links and in the text children of labels and summaries. It never activates the edited control.",
           "While editing, Delete, arrow keys and letter shortcuts act on the text, not on the tree."
         ]
       },
