@@ -95,7 +95,9 @@ describe('element.setLink (src/core/elements/link.ts)', () => {
     expect(run(docWith(undefined), { target: 'Inner', href: 'https://a.co' })).toEqual({ refused: { key: 'status.locked.byAncestor', params: { name: 'Inner', ancestor: 'Box' } } });
   });
 
-  it('a node that takes no link is a defect of the door', () => {
-    expect(() => run(docWith(undefined), { target: 'Intro', href: 'https://a.co' })).toThrow();
+  // changed on purpose (jornada03 J1): the command bar reaches the command on any element, so an element that takes
+  // no link is refused naming it instead of throwing
+  it('refuses a node that takes no link, naming it', () => {
+    expect(run(docWith(undefined), { target: 'Intro', href: 'https://a.co' })).toEqual({ refused: { key: 'status.element.notApplicable', params: { command: { key: 'command.setLink' }, name: 'Intro' } } });
   });
 });

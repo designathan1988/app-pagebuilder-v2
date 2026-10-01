@@ -6172,9 +6172,16 @@ In the Arrange menu, Repeat stands alone after a separator (layout.json breaks),
   data file in the Explorer (a JSON list, of objects or of lists, or the one list an object holds; or a CSV whose first
   line names the columns), drawn on JSON and CSV rows only, available while a repeated item (an instance) is selected.
 - The items are the instances of the selected item's component in its parent, in order; item *n* takes row *n*. Each
-  field of an item, in document order — an element that holds text, an image's source — takes the row's value named
-  like the definition element it comes from (any case: a `PlanTitle` column fills every item's title), else the value
-  at the field's place. A field the row has no value for keeps its own.
+  field of an item, in document order — an element that holds text, an image's source — takes the column named like
+  the definition element it comes from (any case: a `PlanTitle` column fills every item's title), else the next column
+  not taken yet **of its kind**: a column whose every filled cell names an image goes to the images, any other to the
+  texts, in the columns' order. A field the row has no value for keeps its own.
+- **A sheet as people bring it fills as it is** (jornada03 J1/C4: Carla's `cardapio.csv`, columns nome, preco, foto,
+  with photos named `graos.png`, filled the photo column into nothing and the name into the image source, and the whole
+  fill failed silently). An image cell names a project file by its path, a project image by its file name (any case,
+  with or without the extension: `graos.png` or `graos` for `img/graos.png`), or a web address (`https://…`). A cell
+  that names none of these is refused before any change, naming the row, the column and the cell
+  (`status.data.imageNotFound`).
 - Rows beyond the items add new items after the last one (instances named on from the selected item's name, filled
   with their rows); items beyond the rows keep their content. Texts and sources set this way are each item's own
   (spec reusable-components), so the shared styles stay shared.

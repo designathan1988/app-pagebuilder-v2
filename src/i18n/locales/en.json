@@ -2096,5 +2096,9 @@
   "feature.repeatElement": "Repeat an element",
   "command.components.fillFromData": "Fill the selected repeated items with this data",
   "status.data.unreadable": "{path} holds no rows to fill items with: a JSON list or a CSV with a header line.",
-  "status.data.filled": "Filled {count} items of {name} from {path}."
+  "status.data.filled": "Filled {count} items of {name} from {path}.",
+  "status.change.invalid": "“{command}” was not applied: its result would leave the page invalid, so nothing changed. The details are in Incidents.",
+  "status.data.imageNotFound": "Row {row} of the data: “{value}” in the column {column} names no image of the project (by its path or file name) nor a web address. Nothing was filled.",
+  "status.change.failed": "“{command}” failed and nothing changed. The details are in Incidents.",
+  "status.element.notApplicable": "“{command}” does not apply to {name}."
 }

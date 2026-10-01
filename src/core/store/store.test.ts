@@ -262,7 +262,13 @@ describe('the store', () => {
     const before = s.store.getState();
     const id = before.selection[0] ?? '';
     expect(() => s.store.dispatch('element.rename', { target: id, name: '' })).toThrow(InvalidStateError);
-    expect(s.store.getState()).toBe(before);
+    // nothing of the change is published; the status bar says the command's change was refused (jornada03 J1)
+    const after = s.store.getState();
+    expect(after.document).toBe(before.document);
+    expect(after.selection).toBe(before.selection);
+    expect(after.history).toBe(before.history);
+    expect(after.message?.key).toBe('status.change.invalid');
+    expect(after.refused).toBe(true);
   });
 
   it('throws when a command the manifest declares not undoable changes the document', () => {
@@ -431,13 +437,39 @@ describe('the store', () => {
     expect(recorded[0]?.kind).toBe('invariant');
     expect(recorded[0]?.what).toContain('element.insert');
     expect(recorded[0]?.detail).toContain('already used');
-    // production (no freeze): the dispatch answers, the previous state stays, the incident is recorded for the UI
+    // the person is told, even in development where it throws (jornada03 J1: the silent failures)
+    expect(s.store.getState().message?.key).toBe('status.change.invalid');
+    // production (no freeze): the dispatch answers that the change was refused and says so in the status bar, the
+    // previous document stays, the incident is recorded for the UI
     clearIncidents();
     const loose = testStore({ ...TEST_COMMANDS, 'element.insert': twinInsert }, TEST_PREDICATES, false);
     const kept = loose.store.getState();
-    expect(loose.store.dispatch('element.insert', { entry: 'container' })).toEqual({ status: 'done', changed: true });
+    const answer = loose.store.dispatch('element.insert', { entry: 'container' });
+    expect(answer.status).toBe('refused');
+    expect(answer.status === 'refused' ? answer.message.key : null).toBe('status.change.invalid');
     expect(loose.store.getState().document).toBe(kept.document);
+    expect(loose.store.getState().history).toBe(kept.history);
+    expect(loose.store.getState().message?.key).toBe('status.change.invalid');
     expect(incidents().length).toBe(1);
+  });
+
+  it('says a handler that threw failed and changed nothing, loud in development, a refusal in production (J1)', () => {
+    const throwing = registerHandler('element.insert', () => {
+      throw new Error('a defect');
+    });
+    const s = testStore({ ...TEST_COMMANDS, 'element.insert': throwing });
+    const before = s.store.getState();
+    expect(() => s.store.dispatch('element.insert', { entry: 'container' })).toThrow('a defect');
+    expect(s.store.getState().document).toBe(before.document);
+    expect(s.store.getState().message?.key).toBe('status.change.failed');
+    clearIncidents();
+    const loose = testStore({ ...TEST_COMMANDS, 'element.insert': throwing }, TEST_PREDICATES, false);
+    const kept = loose.store.getState();
+    const answer = loose.store.dispatch('element.insert', { entry: 'container' });
+    expect(answer.status === 'refused' ? answer.message.key : answer.status).toBe('status.change.failed');
+    expect(loose.store.getState().document).toBe(kept.document);
+    expect(loose.store.getState().message?.key).toBe('status.change.failed');
+    expect(incidents().map((i) => i.kind)).toEqual(['error']);
   });
 
   it('records an incident when a command answers with structural patches that leave the document as it was', () => {

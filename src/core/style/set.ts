@@ -36,6 +36,8 @@ type Layers = Record<string, Record<string, Record<string, StoredValue>> | undef
 // the path of a page's element: pages, its page, tree, then children and an index down to it
 const PAGES = 'pages';
 const CHILDREN = 'children';
+// the composites that repeat one value per side, corner or axis: one design token stands for each longhand
+const SPREAD_CODECS: ReadonlySet<string> = new Set(['box-sides', 'box-corners', 'axis-pair']);
 
 // What a style write of the selection writes into: a node whose styles it writes (an element, or a class read as the
 // primary element holding the class's styles, for the couplings and recipes), the path of that node's holder, the parent
@@ -231,7 +233,19 @@ export function readValue<Ui>(context: HandlerContext<Ui>, property: string, tex
   // a design token of the project, named as a CSS variable, is kept as written (spec css-variables-tokens, Problems in
   // Pager 4); one the project does not have is no value
   const token = new RegExp(`^\\s*var\\(\\s*--(${IDENTIFIER_SOURCE})\\s*\\)\\s*$`, 'u').exec(text);
-  if (token !== null) return (state.document.tokens ?? []).some((t) => t.name === token[1]) ? { value: { kind: 'expression', text: text.trim() }, css: text.trim() } : null;
+  if (token !== null) {
+    const held = (state.document.tokens ?? []).find((t) => t.name === token[1]);
+    if (held === undefined) return null;
+    const written = text.trim();
+    // a structured value (a shadow's layers) is stored as its layers, never as one text: a token is no value for it
+    if (rules.structures.has(property)) return null;
+    const composite = rules.compositeFacts.get(property);
+    if (composite === undefined) return { value: { kind: 'expression', text: written }, css: written };
+    // a composite is stored as its longhands (jornada03 J1: var(--line) as a border colour wrote the shorthand
+    // border-color, which the model refuses): a variable holding one value is every longhand's value where the
+    // composite repeats one value per side, corner or axis; anything else is no value for it
+    return SPREAD_CODECS.has(composite.codec) && !/\s/u.test(held.value.trim()) ? { value: { kind: 'longhands', values: composite.longhands.map(() => written), text: written }, css: written } : null;
+  }
   const codec = codecFor(property, rules);
   if (codec === null) return null;
   const { units, keywords, axes } = factsOf(property, rules);

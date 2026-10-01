@@ -164,7 +164,7 @@ export const setSvgMarkupCommand = registerHandler('element.setSvgMarkup', ({ st
   const at = locate(state.document, id);
   if (at === null) throw new Error(`element.setSvgMarkup: the document has no node ${id}`);
   const applies = rules.attributes.get(MARKUP);
-  if (applies === undefined || (applies !== 'all' && !applies.includes(at.node.type))) throw new Error(`element.setSvgMarkup: ${at.node.name} holds no SVG markup`);
+  if (applies === undefined || (applies !== 'all' && !applies.includes(at.node.type))) return { kind: 'refused', message: message('status.element.notApplicable', { command: { key: 'command.setSvgMarkup' }, name: at.node.name }) };
   const locked = lockRefusal(state.document, at.node.id, 'status.locked.edit');
   if (locked !== null) return { kind: 'refused', message: locked };
   const parsed = sanitizedSvgMarkup(String(markup));

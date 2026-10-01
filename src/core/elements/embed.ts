@@ -19,7 +19,7 @@ export const setEmbedMarkupCommand = registerHandler('element.setEmbedMarkup', (
   if (id === undefined) return { kind: 'refused', message: message('status.needsSingleSelection') };
   const at = locate(state.document, id);
   if (at === null) throw new Error(`element.setEmbedMarkup: the document has no node ${id}`);
-  if (rules.elements.get(at.node.type)?.content !== 'markup') throw new Error(`element.setEmbedMarkup: ${at.node.name} holds no markup`);
+  if (rules.elements.get(at.node.type)?.content !== 'markup') return { kind: 'refused', message: message('status.element.notApplicable', { command: { key: 'command.setEmbedMarkup' }, name: at.node.name }) };
   const locked = lockRefusal(state.document, at.node.id, 'status.locked.edit');
   if (locked !== null) return { kind: 'refused', message: locked };
   const text = String(markup);

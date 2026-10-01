@@ -2096,5 +2096,9 @@
   "feature.repeatElement": "Repetir um elemento",
   "command.components.fillFromData": "Preencher os itens repetidos selecionados com estes dados",
   "status.data.unreadable": "{path} não tem linhas para preencher itens: uma lista JSON ou um CSV com linha de cabeçalho.",
-  "status.data.filled": "{count} itens de {name} preenchidos com {path}."
+  "status.data.filled": "{count} itens de {name} preenchidos com {path}.",
+  "status.change.invalid": "“{command}” não foi aplicado: o resultado deixaria a página inválida, então nada mudou. Os detalhes estão em Incidentes.",
+  "status.data.imageNotFound": "Linha {row} dos dados: “{value}” na coluna {column} não é uma imagem do projeto (pelo caminho ou nome do arquivo) nem um endereço da web. Nada foi preenchido.",
+  "status.change.failed": "“{command}” falhou e nada mudou. Os detalhes estão em Incidentes.",
+  "status.element.notApplicable": "“{command}” não se aplica a {name}."
 }

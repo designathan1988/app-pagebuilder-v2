@@ -4600,5 +4600,9 @@ export const MESSAGE_IDS = [
   "command.components.fillFromData",
   "status.data.unreadable",
   "status.data.filled",
+  "status.change.invalid",
+  "status.data.imageNotFound",
+  "status.change.failed",
+  "status.element.notApplicable",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

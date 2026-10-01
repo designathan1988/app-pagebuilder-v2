@@ -32,7 +32,8 @@ import { deepEqual } from '../history/transaction.ts';
 import { lockRefusal } from '../nodes/flags.ts';
 import { nodeMaker, placement, type NodeMaker } from '../structure/insert.ts';
 import { copyName } from '../structure/duplicate.ts';
-import { fileAt } from '../files/files.ts';
+import { fileAt, imageFiles, isProjectPath } from '../files/files.ts';
+import { readAddress } from '../elements/address.ts';
 import { dataRows, type DataRow } from './data.ts';
 
 const NONE: readonly ComponentDefinition[] = [];
@@ -178,38 +179,99 @@ export const repeatCommand = registerHandler('components.repeat', ({ state, ids,
   return { kind: 'change', patches, selection: [node.id], message: message('status.components.repeated', { name: definition.name, count }) };
 });
 
-// An item filled with a row: each of its fields, in document order (an element holding text, an image's source), takes
-// the row's value named like the definition element the field comes from (any case), else the value at the field's
-// place; a field the row has no value for keeps its own.
-function filled(item: DocNode, row: DataRow, definition: ComponentDefinition, rules: ModelRules): DocNode {
-  const names = row.names.map((name) => name.trim().toLowerCase());
-  let place = 0;
-  const nameOf = (part: readonly number[] | undefined): string => {
-    let at: DocNode | undefined = definition.tree;
-    for (const index of part ?? []) at = at?.children[index];
-    return at?.name.toLowerCase() ?? '';
+// The fields an item fills (jornada03 J1/C4: the first column went into the image source by position and the whole
+// fill failed silently): an element holding text and an image's source, in document order, each named by the
+// definition element it comes from.
+interface Field {
+  readonly part: string;
+  readonly name: string;
+  readonly image: boolean;
+}
+function fieldsOf(definition: ComponentDefinition, rules: ModelRules): readonly Field[] {
+  const found: Field[] = [];
+  const visit = (node: DocNode, part: readonly number[]) => {
+    const content = rules.elements.get(node.type)?.content;
+    if (node.type === IMAGE) found.push({ part: JSON.stringify(part), name: node.name.trim().toLowerCase(), image: true });
+    else if (content === 'text' && node.children.length === 0) found.push({ part: JSON.stringify(part), name: node.name.trim().toLowerCase(), image: false });
+    node.children.forEach((child, index) => visit(child, [...part, index]));
   };
-  const take = (node: DocNode): string | undefined => {
-    const named = names.indexOf(nameOf(node.componentPart));
-    const value = named >= 0 ? row.values[named] : row.values[place];
-    place += 1;
-    return value;
+  visit(definition.tree, []);
+  return found;
+}
+
+// What a cell names as an image: a file of the project by its path, a project image by its file name (any case, with
+// or without its extension: "graos.png" or "graos" for img/graos.png), or an address of the web; null for anything else.
+const IMAGE_NAME = /\.(png|jpe?g|gif|webp|avif|svg|bmp|ico)$/iu;
+const WEB_ADDRESS = /^https?:\/\//iu;
+export function imageSource(document: DocumentJson, value: string): string | null {
+  const typed = value.trim();
+  if (typed === '') return null;
+  if (isProjectPath(document, typed)) return typed;
+  const lowered = typed.toLowerCase();
+  const named = imageFiles(document).find((file) => {
+    const name = (file.path.split('/').pop() ?? '').toLowerCase();
+    return name === lowered || name.replace(/\.[^.]+$/u, '') === lowered;
+  });
+  if (named !== undefined) return named.path;
+  return WEB_ADDRESS.test(typed) && readAddress(typed).ok ? typed : null;
+}
+
+// Which column each field takes, the same for every row: the column named like the field (any case), else the next
+// column not taken yet of the field's kind (a column whose every filled cell names an image goes to images, any other
+// to texts), in the columns' order.
+function columnsOf(fields: readonly Field[], rows: readonly DataRow[], document: DocumentJson): ReadonlyMap<string, number> {
+  const names = (rows[0]?.names ?? []).map((name) => name.trim().toLowerCase());
+  const width = Math.max(names.length, ...rows.map((row) => row.values.length));
+  const imageColumn = (column: number): boolean => {
+    const cells = rows.map((row) => (row.values[column] ?? '').trim()).filter((cell) => cell !== '');
+    return cells.length > 0 && cells.every((cell) => imageSource(document, cell) !== null || IMAGE_NAME.test(cell));
   };
+  const kinds = Array.from({ length: width }, (_, column) => imageColumn(column));
+  const taken = new Set<number>();
+  const chosen = new Map<string, number>();
+  for (const field of fields) {
+    const named = field.name === '' ? -1 : names.indexOf(field.name);
+    if (named >= 0 && !taken.has(named)) {
+      taken.add(named);
+      chosen.set(field.part, named);
+    }
+  }
+  for (const field of fields) {
+    if (chosen.has(field.part)) continue;
+    const next = kinds.findIndex((image, column) => image === field.image && !taken.has(column));
+    if (next < 0) continue;
+    taken.add(next);
+    chosen.set(field.part, next);
+  }
+  return chosen;
+}
+
+// An item filled with a row: each field takes its column's cell; a field the row has no value for keeps its own. An
+// image cell that names no image of the project nor of the web is refused, naming the row, the column and the cell,
+// before any patch (never a source the model refuses).
+function filled(item: DocNode, row: DataRow, at: number, columns: ReadonlyMap<string, number>, document: DocumentJson, rules: ModelRules): DocNode | Message {
+  let refusal: Message | null = null;
   const visit = (node: DocNode): DocNode => {
     const content = rules.elements.get(node.type)?.content;
+    const column = columns.get(JSON.stringify(node.componentPart ?? []));
+    const value = column === undefined ? undefined : row.values[column];
     let next: DocNode = node;
     if (node.type === IMAGE) {
-      const value = take(node);
-      if (value !== undefined) next = { ...node, attributes: { ...node.attributes, src: value } };
-    } else if (content === 'text' && node.children.length === 0) {
-      const value = take(node);
-      if (value !== undefined) next = { ...node, text: value };
+      if (value !== undefined && value.trim() !== '') {
+        const source = imageSource(document, value);
+        if (source === null) refusal ??= message('status.data.imageNotFound', { row: at + 1, column: row.names[column ?? 0] || String((column ?? 0) + 1), value: value.trim() });
+        else next = { ...node, attributes: { ...node.attributes, src: source } };
+      }
+    } else if (content === 'text' && node.children.length === 0 && value !== undefined) {
+      next = { ...node, text: value };
     }
     return { ...next, children: next.children.map(visit) };
   };
-  return visit(item);
+  const result = visit(item);
+  return refusal ?? result;
 }
 const IMAGE = 'image';
+const isMessage = (value: DocNode | Message): value is Message => !('children' in value);
 
 export const fillFromDataCommand = registerHandler('components.fillFromData', ({ state, ids, rules, words }, { path }): Outcome<never> => {
   const primary = state.selection[0];
@@ -225,26 +287,30 @@ export const fillFromDataCommand = registerHandler('components.fillFromData', ({
   if (lockedParent !== null) return { kind: 'refused', message: lockedParent };
   const parentPath = found.path.slice(0, -1);
   const items = parent.children.map((child, index) => ({ child, index })).filter(({ child }) => child.component === definition.name);
+  const columns = columnsOf(fieldsOf(definition, rules), rows, state.document);
   const patches: Patch[] = [];
-  items.forEach(({ child, index }, i) => {
+  for (const [i, { child, index }] of items.entries()) {
     const row = rows[i];
-    if (row === undefined) return;
-    const next = filled(child, row, definition, rules);
+    if (row === undefined) continue;
+    const next = filled(child, row, i, columns, state.document, rules);
+    if (isMessage(next)) return { kind: 'refused', message: next };
     if (!deepEqual(next, child)) patches.push({ op: 'replace', path: [...parentPath, index], value: next });
-  });
+  }
   // rows beyond the items: new items after the last one, each a fresh instance filled with its row
   const last = items.at(-1)?.index ?? found.index;
   const make = nodeMaker(state.document, rules, ids, words);
   let before = found.node.name;
-  rows.slice(items.length).forEach((row, i) => {
+  for (const [i, row] of rows.slice(items.length).entries()) {
     const name = copyName(before, make.taken);
     make.taken.add(name);
     before = name;
     const plainCopy = copied(definition.tree, () => ids.next() as NodeId, make, true);
     const tree = refreshCopiedIdentities(state.document, [{ source: definition.tree, copy: plainCopy }])[0];
     if (tree === undefined) throw new Error('components.fillFromData: the instance copy is missing');
-    patches.push({ op: 'add', path: [...parentPath, last + 1 + i], value: filled(marked({ ...tree, name }, [], definition.name), row, definition, rules) });
-  });
+    const next = filled(marked({ ...tree, name }, [], definition.name), row, items.length + i, columns, state.document, rules);
+    if (isMessage(next)) return { kind: 'refused', message: next };
+    patches.push({ op: 'add', path: [...parentPath, last + 1 + i], value: next });
+  }
   return { kind: 'change', patches, message: message('status.data.filled', { name: definition.name, count: rows.length, path }) };
 });
 

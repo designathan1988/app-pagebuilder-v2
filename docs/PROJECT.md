@@ -36,8 +36,10 @@ a concept that has an owner is a defect.
   a command writes back), and the single test for a move into its own subtree. Predictable invalid operations are
   refused **before** any patch exists.
 - **A refused commit is a bug, not a refusal.** If a command's patches are valid but the whole document fails
-  `validateDocument`, nothing is published: the previous state stays, the incident feed records it, and development
-  and tests throw.
+  `validateDocument`, nothing of the change is published: the previous document, selection and history stay, the
+  status bar says the command's change was refused and nothing changed (`status.change.invalid`, jornada03 J1: never
+  a silent failure), the dispatch answers `refused`, the incident feed records the details, and development and tests
+  throw.
 - **The model's versions** (`src/core/document/migrations.ts`) are read at the only two boundaries (File › Open and
   the restored autosave): an older file is carried forward step by step, a newer one is refused by name, and a hole in
   the chain is a refusal with its reason.

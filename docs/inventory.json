@@ -6,7 +6,7 @@
     "doors": 1027,
     "scenarios": 1355,
     "modules": 261,
-    "lines": 50573
+    "lines": 50695
   },
   "features": [
     {
@@ -2911,7 +2911,7 @@
     },
     {
       "path": "src/core/design/components.ts",
-      "lines": 295,
+      "lines": 361,
       "commands": [
         "components.create",
         "components.insertInstance",
@@ -3035,7 +3035,7 @@
     },
     {
       "path": "src/core/elements/link.ts",
-      "lines": 97,
+      "lines": 98,
       "commands": [
         "element.setLink"
       ],
@@ -3589,7 +3589,7 @@
     },
     {
       "path": "src/core/store/store.ts",
-      "lines": 456,
+      "lines": 493,
       "commands": [],
       "features": []
     },
@@ -3891,7 +3891,7 @@
     },
     {
       "path": "src/core/style/set.ts",
-      "lines": 367,
+      "lines": 381,
       "commands": [
         "style.set"
       ],
@@ -5139,7 +5139,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 4605,
+      "lines": 4609,
       "commands": [],
       "features": []
     },

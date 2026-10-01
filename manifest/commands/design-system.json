@@ -1201,6 +1201,7 @@
       },
       "refusals": [
         "status.data.unreadable",
+        "status.data.imageNotFound",
         "status.locked.edit",
         "status.locked.byAncestor"
       ],

@@ -79,8 +79,9 @@ npm run inventory      # regenerate the inventory
 - One store. State changes only through `dispatch(command)`; handlers are pure and return JSON patches, applied in
   `src/core/store/store.ts` with the tree's invariants owned by `src/core/document/tree.ts`. No document or selection
   state in `useState` or `useRef`.
-- A commit the validator refuses after a command produced patches is a bug: nothing is published, the incident feed
-  records it, and development and tests throw. Predictable invalid operations are refused before any patch exists.
+- A commit the validator refuses after a command produced patches is a bug: nothing of the change is published, the
+  status bar says the change was refused (never a silent failure), the incident feed records it, and development and
+  tests throw. Predictable invalid operations are refused before any patch exists.
 - The document JSON is the source of truth, never the DOM; the page renders in an iframe scaled with CSS `zoom`.
 - npm (never pnpm), TypeScript strict, Vite, Vitest, Playwright with `channel: 'chrome'`. Colors, spacing, type,
   radii and shadows come only from the tokens (`src/ui/tokens.css`, generated). UI text only through the i18n

@@ -16,7 +16,7 @@ import type { Clock } from '../ports/clock.ts';
 import type { ClipboardWriter } from '../ports/clipboard.ts';
 import { anyCss, type CssSupport } from '../ports/css.ts';
 import type { Downloads } from '../ports/download.ts';
-import { reportEmptyChange, reportInvariantBreach } from '../incidents.ts';
+import { reportEmptyChange, reportError, reportInvariantBreach } from '../incidents.ts';
 import type { IdGenerator } from '../ports/ids.ts';
 import { noLayout, type Layout } from '../ports/layout.ts';
 
@@ -195,16 +195,32 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     }
   }
 
-  // A command that produced patches the model refuses is a bug, never a normal refusal: nothing is published (the
-  // previous state stays), the incident feed records it, and development and tests throw so it is loud (plan T2).
+  // A command that produced patches the model refuses is a bug, never a normal refusal: nothing of the change is
+  // published (the previous document, selection and history stay), the incident feed records it, and development and
+  // tests throw so it is loud (plan T2). The person is never left with nothing (jornada03 J1, the silent failures):
+  // the status bar says the command's change was refused and nothing changed, before development throws.
   // Predictable invalid operations are refused by the operation itself, before any patch exists.
+  const breachMessage = (source: string): Message => {
+    const command = commands.get(source as CommandId);
+    return message('status.change.invalid', { command: command === undefined ? source : { key: command.labelKey as MessageId } });
+  };
+  // the refusal the last commit made of a command's own result, read by run() to answer the dispatch
+  let breach: Message | null = null;
+  const breachNow = (): Message | null => breach;
   const commit = (next: StoreState<Ui>, source: string): StoreState<Ui> => {
     const problems = validateDocument(next.document, next.selection, rules);
     if (problems.length > 0) {
       reportInvariantBreach(source, problems);
       // the first state has no previous one to keep: it must be valid, always
-      if (!started || options.freeze) throw new InvalidStateError(source, problems);
-      return state;
+      if (!started) throw new InvalidStateError(source, problems);
+      breach = breachMessage(source);
+      const kept: StoreState<Ui> = { ...state, message: breach, refused: true };
+      if (options.freeze) {
+        state = deepFreeze(kept);
+        for (const listener of [...listeners]) listener();
+        throw new InvalidStateError(source, problems);
+      }
+      return kept;
     }
     return options.freeze ? deepFreeze(next) : next;
   };
@@ -294,7 +310,19 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
       publish(commit({ ...state, message: refusal, refused: true }, id));
       return { status: 'refused', message: refusal };
     }
-    const outcome: Outcome<Ui> = entry.run(handlerContext(confirmed), args);
+    // a handler that throws is a defect too, never a silent one (jornada03 J1): the incident feed keeps what it threw,
+    // the status bar says the command failed and nothing changed, and development and tests still throw
+    let outcome: Outcome<Ui>;
+    try {
+      outcome = entry.run(handlerContext(confirmed), args);
+    } catch (error) {
+      const failed = message('status.change.failed', { command: { key: command.labelKey as MessageId } });
+      publish(commit({ ...state, message: failed, refused: true }, id));
+      // development hears it through the page's own error feed (src/editor/errors.ts)
+      if (options.freeze) throw error;
+      reportError(`${id} threw`, error instanceof Error ? (error.stack ?? error.message) : String(error));
+      return { status: 'refused', message: failed };
+    }
 
     // a read-only tab changes no document: a load, a confirmation before one, or patches, are refused
     if (options.readOnly?.() === true && (outcome.kind === 'load' || outcome.kind === 'confirm' || (outcome.kind === 'change' && (outcome.patches?.length ?? 0) > 0))) {
@@ -362,7 +390,16 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     };
     const next: StoreState<Ui> = options.followCommand === undefined ? ran : { ...ran, ui: options.followCommand(ran, command, args) };
     const changed = documentChanged || !deepEqual(before.selection, next.selection) || next.ui !== before.ui || next.message !== before.message;
-    if (changed) publish(commit(next, id), documentChanged ? applied.applied : []);
+    breach = null;
+    if (changed) {
+      const committed = commit(next, id);
+      const refused = breachNow();
+      if (refused !== null) {
+        publish(committed);
+        return { status: 'refused', message: refused };
+      }
+      publish(committed, documentChanged ? applied.applied : []);
+    }
     // the file the command hands out, once its state is committed
     if (outcome.download !== undefined) options.downloads?.deliver(outcome.download);
     // what the command copies, once its state is committed

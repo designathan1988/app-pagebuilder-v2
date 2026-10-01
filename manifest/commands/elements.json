@@ -1869,7 +1869,8 @@
       "refusals": [
         "status.url.unsafe",
         "status.locked.edit",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "status.element.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -2595,7 +2596,8 @@
         "status.svg.unclosed",
         "status.svg.unmatched",
         "status.svg.broken",
-        "status.locked.edit"
+        "status.locked.edit",
+        "status.element.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -2656,7 +2658,8 @@
         "refusalKey": null
       },
       "refusals": [
-        "status.locked.edit"
+        "status.locked.edit",
+        "status.element.notApplicable"
       ],
       "confirmation": null,
       "history": {

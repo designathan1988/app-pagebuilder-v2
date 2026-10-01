@@ -31,7 +31,8 @@ export const setLinkCommand = registerHandler('element.setLink', ({ state, rules
   const found = locate(state.document, id);
   if (!found) throw new Error(`element.setLink: the document has no node ${id}`);
   const appliesTo = rules.attributes.get(LINK);
-  if (appliesTo === undefined || (appliesTo !== 'all' && !appliesTo.includes(found.node.type))) throw new Error(`element.setLink: ${found.node.name} takes no link`);
+  // an element that takes no link is refused naming it (the command bar can reach the command on any element)
+  if (appliesTo === undefined || (appliesTo !== 'all' && !appliesTo.includes(found.node.type))) return { kind: 'refused', message: message('status.element.notApplicable', { command: { key: 'command.setLink' }, name: found.node.name }) };
 
   const locked = lockRefusal(state.document, found.node.id, 'status.locked.edit');
   if (locked !== null) return { kind: 'refused', message: locked };
