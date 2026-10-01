@@ -2308,6 +2308,7 @@ export const CONSTANT_IDS = [
   "grid.margin.phone",
   "keys.typingBurst",
   "menus.hoverSwitch",
+  "menus.hoverTolerance",
 ] as const;
 export type ConstantId = (typeof CONSTANT_IDS)[number];
 

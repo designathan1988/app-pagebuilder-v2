@@ -209,6 +209,7 @@ const PILL_OFFSET = pairConstant('wrap.pillOffset');
 const PILL_FREEZE = numberConstant('wrap.pillFreeze');
 // a pointer resting this long on another application menu's button opens it while one is open (spec app-menu)
 const MENU_HOVER_SWITCH = numberConstant('menus.hoverSwitch');
+const MENU_HOVER_TOLERANCE = numberConstant('menus.hoverTolerance');
 // autoscroll (spec drag-layout, row 8): the band along the page's visible edges, and the most it scrolls a frame
 const AUTOSCROLL_ZONE = numberConstant('drop.autoscrollZone');
 const AUTOSCROLL_MAX = numberConstant('drop.autoscrollMaxStep');
@@ -654,6 +655,7 @@ export function installPointer(store: EditorStore, target: Window = window): () 
   // the menu button the pointer rests on, published after menus.hoverSwitch (spec app-menu): a pointer crossing a
   // button on its way into the open menu switches nothing
   let menuResting: string | null = null;
+  let menuRestPoint: Point | null = null;
   let menuDwell: ReturnType<typeof setTimeout> | null = null;
   let scrolling = 0;
   // whether the pointer has been inside the page's visible box since the drag began, far enough from its edges: the
@@ -1501,8 +1503,10 @@ export function installPointer(store: EditorStore, target: Window = window): () 
       return event.clientX >= r.left && event.clientX <= r.right && event.clientY >= r.top && event.clientY <= r.bottom;
     });
     const menuUnder = menuButton?.getAttribute('data-menu') ?? null;
-    if (menuUnder !== menuResting) {
+    const menuMoved = menuRestPoint !== null && Math.hypot(event.clientX - menuRestPoint.x, event.clientY - menuRestPoint.y) > MENU_HOVER_TOLERANCE;
+    if (menuUnder !== menuResting || (menuUnder !== null && menuMoved)) {
       menuResting = menuUnder;
+      menuRestPoint = menuUnder === null ? null : { x: event.clientX, y: event.clientY };
       if (menuDwell !== null) clearTimeout(menuDwell);
       menuDwell = null;
       if (menuUnder === null) setMenuOver(null);

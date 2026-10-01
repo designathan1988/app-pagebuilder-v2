@@ -15,6 +15,8 @@ export type Step =
   | { readonly type: { readonly at: string; readonly text: string; readonly enter?: boolean; readonly clear?: boolean } }
   // a key with its modifiers, as a person presses it
   | { readonly key: string }
+  // move across a control in small real pointer steps; fractions are relative to its drawn box
+  | { readonly move: { readonly at: string; readonly from: readonly [number, number]; readonly to: readonly [number, number]; readonly steps: number; readonly interval: number } }
   // a real drag: from one node or point to another, in page pixels (the frame's own space)
   | { readonly drag: { readonly from: string | { readonly x: number; readonly y: number }; readonly to: string | { readonly x: number; readonly y: number }; readonly modifier?: string } }
   // wait for the app to settle (two frames and a breath)
@@ -46,6 +48,21 @@ const INSERT_PANEL = { door: 'workspace.setPanelOpen#toolbar-activity-bar-insert
 const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as const;
 
 export const FLOWS: readonly Flow[] = [
+  {
+    name: 'menu-rest',
+    about: 'a slow crossing keeps File open, while a stationary pointer over Edit switches after the dwell',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { move: { at: '[data-menu="edit"]', from: [0.1, 0.1], to: [0.9, 1.6], steps: 12, interval: 25 } },
+      { photo: 'file-after-slow-crossing' },
+      { click: '[data-door="project.save#menu-file"]' },
+      { photo: 'project-saved' },
+      { click: '[data-menu="file"]' },
+      { move: { at: '[data-menu="edit"]', from: [0.5, 0.5], to: [0.5, 0.5], steps: 1, interval: 180 } },
+      { photo: 'edit-after-rest' },
+      { key: 'Escape' },
+    ],
+  },
   {
     name: 'typing-safety',
     about: 'letters after an outside press leave the structure intact; an intentional canvas shortcut still works',

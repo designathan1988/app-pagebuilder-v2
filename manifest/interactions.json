@@ -1365,6 +1365,13 @@
       "unit": "ms",
       "source": "spec/BEHAVIOUR.md#app-menu",
       "note": "With an application menu open, the pointer resting this long on another menu's button opens that one: a pointer crossing a button on its way into the open menu (File to Save project, diagonally over Edit) switches nothing."
+    },
+    {
+      "id": "menus.hoverTolerance",
+      "value": 3,
+      "unit": "css-px",
+      "source": "spec/BEHAVIOUR.md#app-menu",
+      "note": "Movement farther than this from the last resting point restarts menus.hoverSwitch, even inside the same button. Small pointer jitter does not prevent an intentional hover."
     }
   ],
   "gestures": [

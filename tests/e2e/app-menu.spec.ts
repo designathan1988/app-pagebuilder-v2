@@ -98,6 +98,27 @@ test('a menu the pointer opened on its way stays open under the click that follo
   await expect(page.getByRole('menu', { name: 'Edit' })).toHaveCount(0);
 });
 
+test('a slow continuous crossing of Edit keeps File open and saves the project', runs(), async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await openEditor(page);
+  await page.locator('[data-menu="file"]').click();
+  const save = await page.locator('[data-door="project.save#menu-file"]').boundingBox();
+  const edit = await page.locator('[data-menu="edit"]').boundingBox();
+  if (save === null || edit === null) throw new Error('The menu controls are not drawn');
+  await page.mouse.move(edit.x + 3, edit.y + 3);
+  // Continuous small movements over at least 300 ms: no interval approaches the 150 ms resting threshold.
+  for (let step = 1; step <= 12; step += 1) {
+    await page.waitForTimeout(25);
+    await page.mouse.move(edit.x + 3 + (edit.width - 6) * step / 12, edit.y + 3 + (edit.height - 6) * step / 12);
+  }
+  await expect(page.getByRole('menu', { name: 'Edit' })).toHaveCount(0);
+  await expect(page.getByRole('menu', { name: 'File' })).toBeVisible();
+  const download = page.waitForEvent('download');
+  await page.mouse.click(save.x + save.width / 2, save.y + save.height / 2);
+  expect((await download).suggestedFilename()).toBe('project.zip');
+  await expect(page.locator('.status-bar__message')).not.toContainText('Undone');
+});
+
 test("a pointer crossing another menu's button on its way into the open menu clicks the item it went to", runs(), async ({ page }) => {
   // the journey "site": File open, the pointer went down-right to Save project over Edit; Edit opened and the click
   // landed on Undo, which undid the last change and saved nothing (spec app-menu; interactions.json menus.hoverSwitch)

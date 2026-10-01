@@ -119,6 +119,15 @@ async function runStep(page: Page, step: Step): Promise<string> {
     if (step.type.enter !== false) await page.keyboard.press('Enter');
   } else if ('key' in step) {
     await page.keyboard.press(step.key);
+  } else if ('move' in step) {
+    const box = await page.locator(step.move.at).first().boundingBox();
+    if (box === null) throw new Error(`the pointer target is not drawn: ${step.move.at}`);
+    const { from, to, steps, interval } = step.move;
+    await page.mouse.move(box.x + box.width * from[0], box.y + box.height * from[1]);
+    for (let i = 1; i <= steps; i += 1) {
+      await page.waitForTimeout(interval);
+      await page.mouse.move(box.x + box.width * (from[0] + (to[0] - from[0]) * i / steps), box.y + box.height * (from[1] + (to[1] - from[1]) * i / steps));
+    }
   } else if ('drag' in step) {
     const from = await pointFor(page, step.drag.from);
     const to = await pointFor(page, step.drag.to);
