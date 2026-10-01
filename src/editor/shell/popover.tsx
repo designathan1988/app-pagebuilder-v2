@@ -2,25 +2,16 @@
 // floats next to the control that opened it, drawn over the whole window from the document's body so no panel that
 // clips its content cuts it. Its parts are the one answer for every such layer:
 // - where it is drawn: float.ts floatBelow, under its anchor and always inside the window;
-// - how it closes: the backdrop under it is the door ui.dismiss#overlay-backdrop, and Escape in its key context is a
-//   dismissal too; a layer's opening (usePopover) is closed by any dismissal newer than it;
+// - how it closes: outside-layer observes outside presses without consuming them; Escape is a dismissal;
 // - where the focus goes: into the layer once it is placed (the element marked data-autofocus, else its first field or
 //   button), and back to the control that opened it when a dismissal took the focus down with it.
 // What the layer holds (a form, a list, a filter) and what it runs are its owner's.
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type FormEvent, type MouseEvent, type ReactNode, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import type { KeyContextId } from '../../generated/ids.ts';
-import { DoorControl } from '../doors/door.tsx';
-import { doorSlots } from '../doors/placement.ts';
 import { useEditorState } from '../store.ts';
+import { useOutsideLayer } from './outside-layer.ts';
 import { floatBelow, type Placed } from './float.ts';
-
-// the backdrop under an open layer: the door the manifest places in the overlay region (ui.dismiss)
-const BACKDROP = doorSlots('overlay')[0];
-
-export function PopoverBackdrop() {
-  return BACKDROP === undefined ? null : <DoorControl entry={BACKDROP} className="overlay-backdrop" />;
-}
 
 export interface PopoverState {
   readonly open: boolean;
@@ -28,7 +19,7 @@ export interface PopoverState {
 }
 
 // A layer's opening, owned by the component that draws its trigger: open until a dismissal newer than the opening
-// (Escape, the backdrop, another layer's opening that dismisses) closes it; a dismissed layer gives the focus back to
+// (Escape or another layer's opening that dismisses) closes it; a dismissed layer gives the focus back to
 // its trigger when the focus went down with it.
 export function usePopover(trigger: RefObject<HTMLElement | null>): PopoverState {
   const dismissals = useEditorState((s) => s.ui.overlays.dismissals);
@@ -63,11 +54,13 @@ export interface PopoverProps {
   readonly takesFocus?: boolean;
   readonly as?: 'div' | 'form';
   readonly onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
+  readonly onDismiss: () => void;
   readonly onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
-export function Popover({ anchor, className, children, role = 'dialog', label, keyContext = 'dialog' as KeyContextId, gap = 'small', takesFocus = true, as = 'div', onSubmit, onClick }: PopoverProps) {
+export function Popover({ anchor, className, children, role = 'dialog', label, keyContext = 'dialog' as KeyContextId, gap = 'small', takesFocus = true, as = 'div', onSubmit, onClick, onDismiss }: PopoverProps) {
   const own = useRef<HTMLElement | null>(null);
+  useOutsideLayer(own, true, onDismiss, anchor);
   const [at, setAt] = useState<Placed | null>(null);
   useLayoutEffect(() => {
     const from = anchor.current?.getBoundingClientRect();
@@ -88,7 +81,6 @@ export function Popover({ anchor, className, children, role = 'dialog', label, k
   const common = { className: `popover ${className}`, role, 'aria-label': label, 'data-key-context': keyContext, style, onClick };
   return createPortal(
     <div className="popover-layer">
-      <PopoverBackdrop />
       {as === 'form' ? (
         <form ref={own as RefObject<HTMLFormElement | null>} {...common} onSubmit={onSubmit}>
           {children}

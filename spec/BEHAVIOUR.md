@@ -259,6 +259,8 @@ None in Pager.
 
 ## app-menu
 
+Jornada 03 correction: the shared [nonmodal layer contract](#nonmodal-layers-j8) supersedes the legacy shielding behavior described below.
+
 How Pager behaves, observed by running it from `.cache/pager-run` (Chrome, window 1600×900) and read from its source. Source references are `path:line` inside Pager.
 
 ### Trigger
@@ -874,6 +876,8 @@ As `color-picker.md`: every change inside the session is one undo step when Appl
 
 ## color-picker
 
+Jornada 03 correction: the shared [nonmodal layer contract](#nonmodal-layers-j8) supersedes the legacy shielding behavior described below.
+
 How Pager behaves, observed by running it from `.cache/pager-run` (Chrome, window 1600×900) and read from its source. Source references are `path:line` inside Pager. Test element: a Container with `background-color: #dbeafe`. The picker is `openColorPicker` (`src/features/inspector/properties.js:174-250`); every colour field (Paint → Colour, Text → Colour, gradient stop colour, shadow colour) opens this same component (observed for all four).
 
 ### Trigger
@@ -1270,6 +1274,8 @@ The keys are the primary door.
 2. **Toasts pile up** (one per delete, each with its own Undo). Required: at most one delete toast is visible; a new delete replaces it, and its Undo undoes the most recent delete only.
 
 ## dock-toggles
+
+Jornada 03 correction: activity icons open and focus their panel without toggling it closed or moving it from its current placement. The active icon names Collapse (Ctrl+B); that shortcut and the panel close button still close it.
 
 How Pager behaves, observed by running it from `.cache/pager-run` (Chrome, window 1600×900) and read from its source. Source references are `path:line` inside Pager.
 
@@ -1996,6 +2002,8 @@ None in Pager.
 - **Trigger and Action showed their raw values** (`click`, `toggle-class`) while the card's head said "On click → Toggle class" (the dogfooding pass). Required: the two fields show their values in the editor's words and list the offered ones in words; a typed text is taken as the value it names, typed as the value itself or in its words, in any case.
 
 ## explorer-assets-use
+
+Jornada 03 correction: the shared [nonmodal layer contract](#nonmodal-layers-j8) supersedes the legacy shielding behavior described below.
 
 How Pager behaves, observed by running it from `.cache/pager-run` (Chrome, window 1600×900) and read from its source. Source references are `path:line` inside Pager. Test page: Section > [Heading, Paragraph].
 
@@ -6102,6 +6110,8 @@ corner handle) keep their own end-edge doors, whose diffs are unchanged.
 
 ## reusable-components
 
+Jornada 03 correction: the shared [nonmodal layer contract](#nonmodal-layers-j8) supersedes the legacy shielding behavior described below.
+
 Read from Pager's source (`reference/Pager`, run from `.cache/pager-run`); references are `path:line` inside Pager.
 
 ### Trigger
@@ -8103,3 +8113,11 @@ This is the zoom feature.
 
 1. **The wheel zoom is limited to 40-200 %** (same clamp as the keys). Required: 10-800 % (manifest feature `zoom-keyboard-buttons`).
 2. **The Space pan arm stays active only while the stage has no focused control,** so pressing Space while a panel button has focus scrolls or activates that button instead of panning, without feedback. Required: Space pans whenever the pointer is over the canvas and no text field or contenteditable has focus, nor a control the keyboard focused (reached with Tab or the arrows, not during a pointer press) whose own Space runs (a palette tile inserts its element: the audit's A1.1, elements-lists); a control a click left focused never keeps the Space from the pan; the grab cursor shows while Space is held and disappears when it is released (manifest feature `zoom-wheel-pan`).
+
+<!-- Jornada 03 J8: shared nonmodal layer contract -->
+
+### Nonmodal layers (J8)
+
+Asset, link, colour and component pickers, menus and anchored popovers close on outside pointer press without preventing the target action. Their trigger and nested portal layers count as inside. Picker choices and Escape restore the trigger if focus would otherwise be lost; application menu commands retain their command-specific focus destination; outside closure never steals the target focus. Choosing an asset closes its picker. Colour outside closure cancels its preview before the target action starts; Apply retains one undo step. The command bar remains modal.
+
+Activity icons open and focus their panel; pressing an active icon keeps it open and in its current dock or floating placement. The panel close control and Ctrl+B remain closing actions.

@@ -11,6 +11,7 @@ import type { DispatchResult } from '../../core/store/store.ts';
 import { DoorControl } from '../doors/door.tsx';
 import { doorSlots } from '../doors/placement.ts';
 import { useEditorState, useStore } from '../store.ts';
+import { useOutsideLayer } from './outside-layer.ts';
 import { useT } from '../text.ts';
 
 const NO_FILES: readonly ProjectFile[] = [];
@@ -30,20 +31,20 @@ export function AssetPicker() {
   const selection = useEditorState((s) => s.selection);
   const files = useMemo(() => imageFiles({ files: held } as never), [held]);
   const panel = useRef<HTMLDivElement>(null);
+  const close = () => { if (CLOSE) (store.dispatch as (id: string, args: unknown) => DispatchResult)(CLOSE.command.id, {}); };
+  useOutsideLayer(panel, open !== null, close);
   // the picker takes the focus, so the keymap reads its context and Escape closes it
   useEffect(() => {
     if (open !== null) panel.current?.focus();
   }, [open]);
   if (open === null || CLOSE === null) return null;
   const target = selection[0];
-  const close = () => (store.dispatch as (id: string, args: unknown) => DispatchResult)(CLOSE.command.id, {});
   return (
-    <div className="picker-shield" onClick={close}>
+    <div className="picker-shield">
       <div
         ref={panel}
         className="picker picker--assets"
         role="dialog"
-        aria-modal="true"
         aria-label={t('assetPicker.title')}
         data-region="asset-picker"
         data-key-context={PICKER_CONTEXT}

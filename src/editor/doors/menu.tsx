@@ -3,8 +3,7 @@
 // not built yet is disabled with "not available yet" (DESIGN.md "Overlays"). Opening a menu is not a command, so which
 // menu is open is this component's own state. A menu has no key or pointer listener of its own: its keys are the
 // doors of the "menu" key context, run by the keymap (the arrows, Home and End move the focus, Enter runs the focused
-// item, Escape dismisses), and a press outside lands on the backdrop, the door ui.dismiss#overlay-backdrop drawn
-// under an open menu. A dismissal closes the menus open when it arrives (menus/overlays.ts), and a dismissed menu
+// item, Escape dismisses). Outside presses close through outside-layer without intercepting the target. A dismissal closes the menus open when it arrives (menus/overlays.ts), and a dismissed menu
 // gives the focus back to its button. The context menu (ContextMenu, at the end) is drawn here too, from the doors the
 // manifest places in the context-menu region; its opening is a command (menus/context-menu.ts).
 import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode, type RefObject } from 'react';
@@ -17,14 +16,15 @@ import { openContextMenu } from '../menus/context-menu.ts';
 import { useEditorState, useStore } from '../store.ts';
 import { useT } from '../text.ts';
 import { stateOf } from '../view/style-state.ts';
-import { DoorControl, Icon, useDoor, isDoorBuilt } from './door.tsx';
+import { Icon, useDoor, isDoorBuilt } from './door.tsx';
+import { useOutsideLayer } from '../shell/outside-layer.ts';
 import { floatBelow, pointAnchor } from '../shell/float.ts';
 import { GLYPHS, doorSlots, menuOf, slotsIn, type Anchor } from './placement.ts';
 
 // the orders of the items a line stands before, by menu (layout.json breaks)
 const BREAKS = new Map<string, readonly number[]>(manifest.layout.menus.map((m) => [m.id, m.breaks ?? []] as const));
 
-// the backdrop under an open menu: the door the manifest places in the overlay region
+// The manifest dismissal command also closes a context menu.
 const BACKDROP = doorSlots('overlay')[0];
 
 // an item; its shortcut is the command's key in the context it acts in (keysIn: the canvas's for the context menu)
@@ -69,6 +69,8 @@ function MenuItem({ entry, onDone, keysIn = 'global' }: { readonly entry: DoorEn
 function MenuList({ menu, onDone, focusFirst, anchor }: { readonly menu: MenuId; readonly onDone: () => void; readonly focusFirst: boolean; readonly anchor?: { readonly current: HTMLElement | null } }) {
   const list = useRef<HTMLDivElement>(null);
   const t = useT();
+  // Commands may enter a canvas mode or open another surface; only Escape returns to this menu's trigger.
+  useOutsideLayer(list, anchor !== undefined, onDone, anchor, false);
   const [at, setAt] = useState<{ readonly left: number; readonly top: number } | null>(null);
   useLayoutEffect(() => {
     const button = anchor?.current;
@@ -129,14 +131,9 @@ export interface MenuButtonProps {
   readonly className?: string;
 }
 
-// The one owner of a layer's opening (a menu button and the field's own values menu both stand on it): the trigger
-// toggles it, a dismissal newer than the opening closes it — Escape, or a press on the backdrop it draws — and a
-// dismissed layer gives the focus back to its button (WAI-ARIA menu button pattern) when the focus went down with the
-// layer's items and rests on the page body. A layer drawn without this backdrop is a layer a click outside never
-// closes: the field's values menu was built that way by hand, and a person had to find Escape.
+// The opening is local UI state. Escape uses the dismissal count; outside-layer closes on a real outside press.
 export interface MenuLayer {
   readonly open: boolean;
-  readonly backdrop: ReactNode;
   readonly toggle: () => void;
   readonly close: () => void;
 }
@@ -188,11 +185,13 @@ export function useMenuLayer(button: RefObject<HTMLButtonElement | null>, list?:
   useEffect(() => {
     if (open) list?.current?.querySelector<HTMLElement>('[role^="menuitem"]')?.focus();
   }, [open, list]);
+  const close = grouped ? group.close : () => setOpenedAt(null);
+  const fallback = useRef<HTMLElement>(null);
+  useOutsideLayer(list ?? fallback, open && list !== undefined, close, button);
   return {
     open,
-    backdrop: open && BACKDROP ? <DoorControl key="backdrop" entry={BACKDROP} className="overlay-backdrop" /> : null,
     toggle: grouped ? () => group.toggle(menu) : () => setOpenedAt(open ? null : dismissals),
-    close: grouped ? group.close : () => setOpenedAt(null),
+    close,
   };
 }
 
@@ -219,7 +218,6 @@ export function MenuButton({ menu, anchor, children, indicator = false, classNam
         {anchor.drawnAs === 'icon-button' ? null : (children ?? <span className="door__label">{label}</span>)}
         {indicator ? <Icon name={GLYPHS.dropdown} size="xs" /> : null}
       </button>
-      {layer.backdrop}
       {layer.open ? <MenuList menu={menu} onDone={layer.close} focusFirst anchor={button} /> : null}
     </div>
   );
@@ -245,6 +243,10 @@ function OpenContextMenu() {
   const store = useStore();
   const t = useT();
   const list = useRef<HTMLDivElement>(null);
+  const dismiss = () => {
+    if (BACKDROP) (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(BACKDROP.command.id, BACKDROP.door.args);
+  };
+  useOutsideLayer(list, true, dismiss);
   const items = useMemo(() => CONTEXT_ITEMS.filter((entry) => isDoorBuilt(entry) && store.canRun(entry.command.id, entry.door.args as never)), [store]);
   const start = pressPoint() ?? { x: 0, y: 0 };
   // where the menu is drawn: at the pointer, then moved inside the window once its size is known (a layout measure)
@@ -257,19 +259,11 @@ function OpenContextMenu() {
     setAt(floatBelow(pointAnchor(start.x, start.y), { width, height }, { width: window.innerWidth, height: window.innerHeight }, edge));
   }, [start.x, start.y]);
   useEffect(() => {
-    const before = document.activeElement;
     list.current?.querySelector<HTMLElement>('[role^="menuitem"]')?.focus();
-    return () => {
-      if (before instanceof HTMLElement && before !== document.body && before.isConnected) before.focus();
-    };
   }, []);
   if (items.length === 0) return null;
-  const dismiss = () => {
-    if (BACKDROP) (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(BACKDROP.command.id, BACKDROP.door.args);
-  };
   return (
     <div className="context-menu" data-context-menu>
-      {BACKDROP ? <DoorControl entry={BACKDROP} className="overlay-backdrop" /> : null}
       <div className="menu" role="menu" ref={list} aria-label={t('contextMenu.label')} data-region="context-menu" data-key-context="menu" style={{ left: at.left, top: at.top }}>
         {items.map((entry) => (
           <MenuItem key={entry.ref} entry={entry} onDone={dismiss} keysIn="canvas" />

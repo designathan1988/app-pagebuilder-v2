@@ -98,6 +98,19 @@ test('the link picker chooses a section, a page or an address, and closes with E
   expect(await exportedHtml(page)).toContain('<a href="#cta">A link</a>');
 });
 
+test('one outside click leaves the link picker and edits the chosen ID field', runs(INSERT, TILE, SETTINGS, OPEN_PICKER, ID_FIELD), async ({ page }) => {
+  await runDoor(page, TILE, { args: { entry: 'link' } });
+  await runDoor(page, SETTINGS);
+  await runDoor(page, OPEN_PICKER);
+  const field = control(page, ID_FIELD).locator('input');
+  await field.click();
+  await expect(page.locator('[data-region="link-picker"]')).toHaveCount(0);
+  await expect(field).toBeFocused();
+  await page.keyboard.type('contact');
+  await page.keyboard.press('Enter');
+  await expect.poll(async () => find(await tree(page), 'link')?.attributes.id).toBe('contact');
+});
+
 test('a label points at a control by name or ID, follows the ID, and a delete says what it takes away', runs(INSERT, TILE, SETTINGS, LABEL_FOR, ID_FIELD, 'element.delete#menu-edit', EXPORT), async ({ page }) => {
   await runDoor(page, TILE, { args: { entry: 'input-text' } });
   await runDoor(page, TILE, { args: { entry: 'label' } });

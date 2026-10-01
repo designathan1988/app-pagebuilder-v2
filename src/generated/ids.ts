@@ -2504,6 +2504,7 @@ export type ActionId = (typeof ACTION_IDS)[number];
 // every key of the English catalogue, the source catalogue
 export const MESSAGE_IDS = [
   "activity.insert",
+  "activity.openPanelHint",
   "activity.styles",
   "anchors.bottom",
   "anchors.horizontalCenter",

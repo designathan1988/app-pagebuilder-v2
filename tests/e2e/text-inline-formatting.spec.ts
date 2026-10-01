@@ -3,7 +3,7 @@
 // Pager 2); the text toolbar's Italic and Bold act on the selected text and keep the focus in it, the marks nest and
 // survive a reload; Ctrl+K links the selected word, starts from the address of the link the caret is in, and an empty
 // address removes the link; an address that is not allowed is refused and the link prompt stays open saying why
-// (Problems in Pager 1), and its backdrop gives the typing back to the text; Ctrl+V pastes the clipboard's HTML keeping
+// (Problems in Pager 1), and Escape gives the typing back to the text; Ctrl+V pastes the clipboard's HTML keeping
 // bold, italic and allowed links and dropping scripts (Problems in Pager 3); the inspector's text field keeps the marks
 // of what it keeps; a clipboard the browser does not let the editor read is refused. Every key and click goes through
 // its door; the document, the selection and the history are
@@ -23,7 +23,7 @@ const ITALIC_BUTTON = 'text.toggleItalic#toolbar-text-toolbar-italic';
 const LINK_KEY = 'text.editLink#key-ctrl-k-in-text-editing';
 const LINK_BUTTON = 'text.editLink#toolbar-text-toolbar-link';
 const PASTE_KEY = 'text.paste#key-ctrl-v-in-text-editing';
-const BACKDROP = 'ui.dismiss#overlay-backdrop';
+const DISMISS_PROMPT = 'ui.dismiss#key-escape-in-dialog';
 const UNDO = 'history.undo#toolbar-top-bar';
 const SETTINGS = 'workspace.setActiveTab#inspector-tab-settings';
 const TEXT_FIELD = 'text.set#inspector-text';
@@ -164,7 +164,7 @@ test('Ctrl+K links the selected word, starts from the address of the link the ca
   await expect.poll(() => read(page)).toEqual({ text: INTRO, inline: null, selection: ['n-intro'], undoSteps: 2 });
 });
 
-test('an address that is not allowed is refused: the prompt stays open saying why, nothing is written, and its backdrop gives the typing back to the text', runs(OPEN, SELECT, ENTER_EDIT, LINK_BUTTON, BACKDROP, ENTER_KEEP), async ({ page }) => {
+test('an address that is not allowed is refused: the prompt stays open saying why, nothing is written, and Escape gives the typing back to the text', runs(OPEN, SELECT, ENTER_EDIT, LINK_BUTTON, DISMISS_PROMPT, ENTER_KEEP), async ({ page }) => {
   await editIntro(page);
   await runDoor(page, LINK_BUTTON);
   await expect(field(page)).toBeFocused();
@@ -176,12 +176,26 @@ test('an address that is not allowed is refused: the prompt stays open saying wh
   await expect(page.locator('.link-prompt__hint')).toHaveText(refusal);
   expect(await markup(page)).toBe(INTRO);
   expect(await read(page)).toEqual({ text: INTRO, inline: null, selection: ['n-intro'], undoSteps: 0 });
-  await runDoor(page, BACKDROP);
+  await page.keyboard.press('Escape');
   await expect(field(page)).toHaveCount(0);
   await expect(intro(page)).toBeFocused();
   await page.keyboard.type('!');
   await page.keyboard.press('Enter');
   await expect.poll(() => read(page)).toEqual({ text: `${INTRO}!`, inline: null, selection: ['n-intro'], undoSteps: 1 });
+});
+
+test('a click outside the inline link prompt reaches the chosen search field', runs(OPEN, SELECT, ENTER_EDIT, LINK_BUTTON), async ({ page }) => {
+  await editIntro(page);
+  await runDoor(page, LINK_BUTTON);
+  await expect(field(page)).toBeFocused();
+  const search = page.locator('.sidebar input[placeholder="Search layers"]');
+  await search.click();
+  await expect(field(page)).toHaveCount(0);
+  await expect(search).toBeFocused();
+  await page.keyboard.type('Title');
+  await expect(search).toHaveValue('Title');
+  expect((await read(page)).text).toBe(INTRO);
+  expect((await read(page)).undoSteps).toBe(0);
 });
 
 test('Ctrl+V pastes the clipboard’s HTML keeping bold, italic and allowed links, a heading on its own line, no script and no unsafe link', runs(OPEN, SELECT, ENTER_EDIT, PASTE_KEY, ENTER_KEEP), async ({ page }) => {

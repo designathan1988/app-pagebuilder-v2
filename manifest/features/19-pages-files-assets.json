@@ -3277,7 +3277,8 @@
           "The Image stores a reference to the asset in the document JSON and renders it on the canvas.",
           "Dropping an image file on the canvas uploads it as an asset and inserts an Image that uses it at the drop position, as one undo step.",
           "Renaming an asset keeps every Image that uses it working.",
-          "Deleting an asset in use, or a folder that holds one, asks for confirmation and lists where it is used."
+          "Deleting an asset in use, or a folder that holds one, asks for confirmation and lists where it is used.",
+          "Nonmodal layers close on outside press without consuming it; picker choices or Escape restore the trigger, application menu commands keep their own focus destination, and outside press preserves the chosen target."
         ]
       },
       "scenarios": [

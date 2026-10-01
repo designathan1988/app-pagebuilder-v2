@@ -8372,8 +8372,7 @@
             }
           ],
           "doors": [
-            "ui.dismiss#key-escape-in-menu",
-            "ui.dismiss#overlay-backdrop"
+            "ui.dismiss#key-escape-in-menu"
           ],
           "expect": {
             "document": [],

@@ -263,7 +263,7 @@ export interface CommandArgs {
   "snap.setEnabled": { readonly enabled: "toggle" | "on" | "off" };
   "snap.setSettings": { readonly targets: JsonValue; readonly distance: number };
   "workspace.openDialog": { readonly dialog: "guides-grids" | "snap-settings" };
-  "workspace.setPanelOpen": { readonly panel: "elements" | "layers" | "inspector" | "explorer" | "timeline" | "variables" | "checks" | "workbench" | "shortcuts" | "document" | "canvas-tools"; readonly open: "open" | "close" | "toggle" };
+  "workspace.setPanelOpen": { readonly panel: "elements" | "layers" | "inspector" | "explorer" | "timeline" | "variables" | "checks" | "workbench" | "shortcuts" | "document" | "canvas-tools"; readonly open: "open" | "close" | "toggle"; readonly focus?: boolean };
   "workspace.toggleLeftDock": Record<string, never>;
   "workspace.toggleInspector": Record<string, never>;
   "workspace.collapseDocks": Record<string, never>;

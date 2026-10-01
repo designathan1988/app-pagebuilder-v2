@@ -74,7 +74,7 @@ test('Escape closes the open menu and gives the focus back to the button that op
   expect(await page.evaluate(() => document.activeElement === document.body)).toBe(false);
 });
 
-test('a press outside an open menu lands on its backdrop and closes it; a press on its own background keeps it open', runs('ui.dismiss#overlay-backdrop'), async ({ page }) => {
+test('a press outside an open menu reaches its target and closes it; a press on its own background keeps it open', runs(), async ({ page }) => {
   const file = page.getByRole('menu', { name: 'File' });
   await openMenu(page, 'file');
   await expect(file).toBeVisible();
@@ -87,7 +87,7 @@ test('a press outside an open menu lands on its backdrop and closes it; a press 
   const status = await page.getByRole('status').boundingBox();
   if (status === null) throw new Error('the status bar has no message area');
   const at = { x: status.x + 4, y: status.y + status.height / 2 };
-  expect(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.getAttribute('data-door'), at)).toBe('ui.dismiss#overlay-backdrop');
+  expect(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.getAttribute('data-door'), at)).not.toBe('ui.dismiss#overlay-backdrop');
   await page.mouse.click(at.x, at.y);
   await expect(file).toHaveCount(0);
 

@@ -16,7 +16,6 @@ const OPEN = 'project.open#menu-file';
 const CANVAS_MENU = 'contextMenu.open#canvas-right-click-element-or-page';
 const ROW_MENU = 'contextMenu.open#layers-row-secondary-click';
 const ESCAPE = 'ui.dismiss#key-escape-in-menu';
-const BACKDROP = 'ui.dismiss#overlay-backdrop';
 const SELECT = 'selection.select#canvas-click-element-or-page';
 const ADD = 'selection.add#canvas-click-element-shift';
 const ROW = 'selection.select#layers-row';
@@ -174,7 +173,7 @@ test('the menu opens at the pointer and stays inside the window', runs(OPEN, ROW
   await runDoor(page, ESCAPE);
 });
 
-test('Escape, a click outside and a run item close the menu and give the focus back to the Layers row', runs(OPEN, ROW_MENU, ESCAPE, BACKDROP, MOVE_UP), async ({ page }) => {
+test('Escape, a click outside and a run item close the menu and give the focus back to the Layers row', runs(OPEN, ROW_MENU, ESCAPE, MOVE_UP), async ({ page }) => {
   const row = control(page, ROW, { args: { target: 'n-intro' } });
   const focusedRow = () => row.evaluate((el) => el === document.activeElement);
   const focusedItem = () => page.evaluate(() => document.activeElement?.closest('[data-region="context-menu"]') !== null && document.activeElement?.getAttribute('role') === 'menuitem');
@@ -188,7 +187,7 @@ test('Escape, a click outside and a run item close the menu and give the focus b
 
   await runDoor(page, ROW_MENU, { args: { target: 'n-intro' } });
   await expect(menu(page)).toBeVisible();
-  await runDoor(page, BACKDROP);
+  await control(page, ROW, { args: { target: 'n-intro' } }).click();
   await expect(menu(page)).toHaveCount(0);
   expect(await focusedRow(), 'a click outside gives the focus back to the row').toBe(true);
 

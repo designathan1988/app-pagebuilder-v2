@@ -20,6 +20,21 @@ type Port = { document: () => { components?: { name: string }[] } };
 const componentNames = (page: Page) => page.evaluate(() => ((window as unknown as { __builderTestPort: Port }).__builderTestPort.document().components ?? []).map((c) => c.name));
 const item = (page: Page, ref: string) => page.locator(`[data-door="${ref}"]`);
 
+test('an outside click closes the component prompt and selects the target row without creating anything', runs(OPEN, MENU, CREATE), async ({ page }) => {
+  await openEditor(page);
+  const chooser = page.waitForEvent('filechooser');
+  await runDoor(page, OPEN);
+  await (await chooser).setFiles(FIXTURE);
+  await menuOn(page, 'n-card-a');
+  await control(page, CREATE).click();
+  await expect(control(page, PROMPT).locator('input')).toBeFocused();
+  const row = control(page, 'selection.select#layers-row', { args: { target: 'n-title' } });
+  await row.click();
+  await expect(page.locator('[data-region="component-prompt"]')).toHaveCount(0);
+  await expect(row).toBeFocused();
+  expect(await componentNames(page)).toEqual([]);
+});
+
 async function menuOn(page: Page, target: string): Promise<void> {
   await page.keyboard.press('Escape');
   await runDoor(page, MENU, { args: { target } });

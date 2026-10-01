@@ -219,6 +219,7 @@ export interface DoorControlProps {
   readonly className?: string;
   // the label of what the control stands for (a palette entry), instead of the door's own
   readonly label?: string;
+  readonly title?: string | undefined;
   // false while what the control stands for arrives with a feature not registered as built (a palette entry's)
   readonly ready?: boolean;
   // the key context the control acts in, whose shortcut its title shows (the text toolbar's: the text editing keys)
@@ -240,7 +241,7 @@ export interface DoorControlProps {
 // the key context of a group whose controls rove (interactions.json; the arrows move the focus in keymap.ts)
 const ROVING_CONTEXT = 'roving-group';
 
-export function DoorControl({ entry, args = {}, children, expanded, className, label, ready = true, keysIn = 'global', tabbable = true, current, roving = false, icon: ownIcon, toggle = false }: DoorControlProps) {
+export function DoorControl({ entry, args = {}, children, expanded, className, label, title, ready = true, keysIn = 'global', tabbable = true, current, roving = false, icon: ownIcon, toggle = false }: DoorControlProps) {
   const found = useDoor(entry, args, label, ready, keysIn);
   // a control that stands for a value several selected elements do not share is not current (A3.35)
   const door = current === undefined ? found : { ...found, current };
@@ -259,7 +260,7 @@ export function DoorControl({ entry, args = {}, children, expanded, className, l
     // icon): the values the manifest declares for the door, over the ones the context adds, as the door runs with them
     // (a shortcut of the same command acts on them while the control has the focus)
     'data-args': Object.keys({ ...entry.door.args, ...args }).length > 0 ? JSON.stringify({ ...entry.door.args, ...args }) : undefined,
-    title: door.title,
+    title: title ?? door.title,
     tabIndex: roving && door.current !== true ? -1 : tabbable ? undefined : -1,
     // a control of a roving group names the context its arrows move the focus in (A3.24)
     ...(roving ? { 'data-key-context': ROVING_CONTEXT } : {}),

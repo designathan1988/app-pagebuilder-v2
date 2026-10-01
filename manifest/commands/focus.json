@@ -1160,7 +1160,7 @@
           "kind": "panel-control",
           "drawnAs": "area",
           "pressed": false,
-          "feature": "context-menu",
+          "feature": "command-bar",
           "panel": "overlay",
           "control": "backdrop",
           "modifier": null,

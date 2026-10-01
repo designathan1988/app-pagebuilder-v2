@@ -10093,7 +10093,8 @@
             }
           ],
           "doors": [
-            "ui.dismiss#key-escape-in-command-bar"
+            "ui.dismiss#key-escape-in-command-bar",
+            "ui.dismiss#overlay-backdrop"
           ],
           "expect": {
             "document": [

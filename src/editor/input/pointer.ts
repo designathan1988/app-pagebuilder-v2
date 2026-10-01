@@ -97,6 +97,7 @@ import {
   setPressPoint,
   setPressRegion,
   setPressing,
+  publishOutsidePress,
   type PressRegion,
   setResizing,
   setBanding,
@@ -448,7 +449,15 @@ const CANCEL_PICKER = (manifest.doors.find((d) => d.door.kind === 'panel-control
 let session: Gesture | null = null;
 let sessionDispatch: ((id: CommandId, args: unknown) => DispatchResult) | null = null;
 export function dispatchInSession(id: CommandId, args: unknown): DispatchResult | null {
-  return sessionDispatch === null ? null : sessionDispatch(id, args);
+  const result = sessionDispatch === null ? null : sessionDispatch(id, args);
+  finishPickerSession();
+  return result;
+}
+let pendingPickerEnd: (() => void) | null = null;
+function finishPickerSession(): void {
+  const finish = pendingPickerEnd;
+  pendingPickerEnd = null;
+  finish?.();
 }
 
 // Runs a dispatch of its own once no gesture is open: at once, or, when a press opened one before a field lost the
@@ -1355,6 +1364,7 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     if (pointerPressing() || spacing !== null || guiding !== null || rotating !== null || resizing !== null || panning !== null || pickingColor !== null || sliding !== null) onCancel();
     setPressing(true);
     setPressRegion(pressRegionOf(event.target));
+    publishOutsidePress(event.target);
     // a slider a field draws (A3.30): the pointer moves the thumb freely, and only the release writes
     const commit = event.button === 0 && event.target instanceof HTMLInputElement && event.target.type === 'range' ? (SLIDER_COMMITS.get(event.target) ?? null) : null;
     if (commit !== null && event.target instanceof HTMLInputElement) {
@@ -1853,12 +1863,13 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     session = null;
     open = null;
     const applied = ended && ui.colorPickerClosed.applied;
-    queueMicrotask(() => {
+    pendingPickerEnd = () => {
       // Escape ended the session: the picker closes too, inside it, so that nothing opens a session again
       if (escaped && store.getState().ui.colorPicker !== null) closing.dispatch(CANCEL_PICKER as never, {} as never);
       if (applied) closing.commit();
       else closing.cancel();
-    });
+    };
+    queueMicrotask(finishPickerSession);
   };
   const stopPicker = store.subscribe(followPicker);
   const stopListening = store.subscribe(() => {
@@ -1943,6 +1954,7 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     stopListening();
     stopPicker();
     sessionDispatch = null;
+    finishPickerSession();
     onCancel();
     panDispatch = null;
     // the window's own transient state goes with the owner: a test that unmounts in the middle of a pan or with Space

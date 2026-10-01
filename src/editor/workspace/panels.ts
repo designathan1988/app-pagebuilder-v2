@@ -5,6 +5,7 @@
 import type { CommandArgs } from '../../generated/commands.ts';
 import type { MessageId } from '../../generated/ids.ts';
 import { message, registerHandler, type Message } from '../../core/commands/registry.ts';
+import { asking } from '../focus/focus.ts';
 import { manifest } from '../../manifest/runtime.ts';
 import type { EditorUi } from '../state.ts';
 import { detachPanel, floatingOf, combinedOf, rightDocked, withActiveDockTab, withDock, type DockState } from './layout.ts';
@@ -132,11 +133,12 @@ export const setPanelOpen = registerHandler<'workspace.setPanelOpen', EditorUi>(
   'workspace.setPanelOpen',
   ({ state }, args) => {
     const open = args.open === 'toggle' ? !isPanelOpen(state.ui, args.panel) : args.open === 'open';
-    const ui = withPanel(state.ui, args.panel, open);
+    const shown = open ? showPanel(state.ui, args.panel) : withPanel(state.ui, args.panel, false);
+    const ui = args.focus === true && open ? asking(shown, `panel:${args.panel}`) : shown;
     return { kind: 'change', ui, message: panelMessage(args.panel, open) };
   },
   // a toggle shows whether its panel is open; an open or a close button stands for no state
-  (state, args) => args.open === 'toggle' && typeof args.panel === 'string' && args.panel in PANELS && isPanelOpen(state.ui, args.panel as Panel),
+  (state, args) => args.open !== 'close' && typeof args.panel === 'string' && args.panel in PANELS && isPanelOpen(state.ui, args.panel as Panel),
 );
 
 // a toggle stands for what it shows being shown: View › Toggle left dock wears its check while the sidebar shows (the

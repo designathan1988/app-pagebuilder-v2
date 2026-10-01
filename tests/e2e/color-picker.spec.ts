@@ -58,6 +58,19 @@ test.beforeEach(async ({ page }) => {
   await openProject(page);
 });
 
+test('outside press cancels the preview before selecting another element', runs(OPEN, ROW, SWATCH, VALUE), async ({ page }) => {
+  await pickerWith(page, '#ff0000');
+  const row = control(page, ROW, { args: { target: 'n-title' } });
+  const box = await row.boundingBox();
+  if (!box) throw new Error('The title row is not visible');
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  await expect(page.locator('[data-region="color-picker"]')).toHaveCount(0);
+  await expect(row).toBeFocused();
+  await expect.poll(() => declared(page, 'n-actions')).toBeUndefined();
+  expect(await undoSteps(page)).toBe(0);
+  await expect.poll(() => page.evaluate(() => (window as unknown as { __builderTestPort: { selection(): string[] } }).__builderTestPort.selection())).toEqual(['n-title']);
+});
+
 test('the hue and the area are sliders: an arrow moves one step, Shift ten', runs(OPEN, ROW, SWATCH, VALUE, HUE, AREA, APPLY), async ({ page }) => {
   await pickerWith(page, '#ff0000');
   // from the text field, back through the alpha slider to the hue slider, with the keyboard

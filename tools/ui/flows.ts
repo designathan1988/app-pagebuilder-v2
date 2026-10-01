@@ -51,6 +51,27 @@ const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as cons
 
 export const FLOWS: readonly Flow[] = [
   {
+    name: 'outside-picker',
+    about: 'an outside click types into Alt immediately and active activity icons keep their panel open',
+    steps: [
+      INSERT_PANEL,
+      { door: 'element.insert#elements-tile', labelled: 'Image' },
+      { door: 'workspace.setActiveTab#inspector-tab-settings' },
+      { door: 'assetPicker.open#field-source-choose' },
+      { photo: 'picker-open' },
+      { click: '[data-door="element.setAttribute#inspector-alt"] input' },
+      { text: 'Grãos de café' },
+      { key: 'Enter' },
+      { photo: 'alt-kept-after-one-click' },
+      INSERT_PANEL,
+      INSERT_PANEL,
+      { photo: 'insert-still-open' },
+      { click: '[data-menu="file"]' },
+      { door: 'workspace.setActiveTab#inspector-tab-style' },
+      { photo: 'style-tab-open-after-menu' },
+    ],
+  },
+  {
     name: 'field-history',
     about: 'a confirmed field keeps focus while document undo and redo update it and the canvas',
     steps: [

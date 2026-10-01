@@ -81,7 +81,7 @@ import { setTransformCommand } from '../core/style/transform.ts';
 import { setShadowsCommand } from '../core/style/shadows.ts';
 import { resetAllCommand, resetValueCommand } from '../core/style/reset.ts';
 import { applyColorPicker, cancelColorPicker, openColorPicker, setColorChannel, setColorFormat } from '../editor/inspector/color-picker.ts';
-import { closeAssetPicker, openAssetPicker } from '../editor/shell/asset-picker.ts';
+import { closingAssetPicker, closeAssetPicker, openAssetPicker } from '../editor/shell/asset-picker.ts';
 import { closeLinkPicker, closingPicker, openLinkPicker, setLinkKind } from '../editor/shell/link-picker.ts';
 import { toggleSpacingLink } from '../editor/inspector/spacing.ts';
 import { setTextCommand } from '../core/text/text.ts';
@@ -166,7 +166,7 @@ export const COMMANDS = {
   'components.repeat': repeatCommand,
   'components.fillFromData': fillFromDataCommand,
   'element.setTag': setTagCommand,
-  'element.setAttribute': setAttributeCommand,
+  'element.setAttribute': closingAssetPicker(setAttributeCommand),
   'element.setId': setIdCommand,
   'element.setClasses': setClassesCommand,
   'element.setLink': closingPicker(setLinkCommand),

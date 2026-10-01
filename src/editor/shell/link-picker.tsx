@@ -14,6 +14,7 @@ import { canvasValue } from '../../core/files/values.ts';
 import { DoorControl } from '../doors/door.tsx';
 import { doorSlots } from '../doors/placement.ts';
 import { useEditorState, useStore } from '../store.ts';
+import { useOutsideLayer } from './outside-layer.ts';
 import { useT } from '../text.ts';
 
 const PARTS = doorSlots('link-picker');
@@ -49,6 +50,7 @@ export function LinkPicker() {
   // the page whose anchors are offered: the one the editor has open (finding F31)
   const page = useEditorState((s) => openedPage(s));
   const panel = useRef<HTMLDivElement>(null);
+  useOutsideLayer(panel, open !== null, () => closeLinkPicker(store));
   useEffect(() => {
     if (open !== null) panel.current?.focus();
   }, [open]);
@@ -62,12 +64,11 @@ export function LinkPicker() {
   const kinds = KINDS.map((entry) => ({ entry, kind: String(entry.door.args.kind ?? '') }));
   const pickKind = kind === 'page' || kind === 'anchor';
   return (
-    <div className="picker-shield" onClick={() => closeLinkPicker(store)}>
+    <div className="picker-shield">
       <div
         ref={panel}
         className="picker picker--link"
         role="dialog"
-        aria-modal="true"
         aria-label={t('linkPicker.title')}
         data-region="link-picker"
         data-key-context={PICKER_CONTEXT}
@@ -96,7 +97,7 @@ export function LinkPicker() {
             }}
           >
             <span className="field-row__label">{t('linkPicker.address')}</span>
-            <input className="input" type={INPUT_TYPES[kind] ?? 'text'} aria-label={t('linkPicker.address')} defaultValue={stored.startsWith('#') ? '' : stored} spellCheck={false} autoFocus />
+            <input className="input" type={INPUT_TYPES[kind] ?? 'text'} aria-label={t('linkPicker.address')} defaultValue={stored.startsWith('#') ? '' : stored} spellCheck={false} />
           </form>
         )}
         {kind === 'page' && PAGE_ITEM !== null

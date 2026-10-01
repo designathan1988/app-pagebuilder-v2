@@ -13124,7 +13124,8 @@
           "The picker shows the previous and current colour, the saturation/brightness area, hue and alpha sliders, a text field and per-channel fields for the chosen format.",
           "The canvas previews the colour live while dragging; Apply writes it to the document JSON as one undo step; Cancel restores the previous value.",
           "Invalid channel values are rejected.",
-          "Both fields open the same picker component; the codebase has exactly one colour picker, which every later colour field reuses (evaluator checks the diff)."
+          "Both fields open the same picker component; the codebase has exactly one colour picker, which every later colour field reuses (evaluator checks the diff).",
+          "Nonmodal layers close on outside press without consuming it; picker choices or Escape restore the trigger, application menu commands keep their own focus destination, and outside press preserves the chosen target."
         ]
       },
       "scenarios": [

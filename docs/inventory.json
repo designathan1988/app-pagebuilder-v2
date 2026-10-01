@@ -5,8 +5,8 @@
     "commands": 263,
     "doors": 1027,
     "scenarios": 1357,
-    "modules": 262,
-    "lines": 50925
+    "modules": 263,
+    "lines": 50995
   },
   "features": [
     {
@@ -4171,7 +4171,7 @@
     },
     {
       "path": "src/editor/canvas/text-toolbar.tsx",
-      "lines": 87,
+      "lines": 88,
       "commands": [],
       "features": []
     },
@@ -4230,13 +4230,13 @@
     },
     {
       "path": "src/editor/doors/door.tsx",
-      "lines": 312,
+      "lines": 313,
       "commands": [],
       "features": []
     },
     {
       "path": "src/editor/doors/menu.tsx",
-      "lines": 281,
+      "lines": 275,
       "commands": [],
       "features": []
     },
@@ -4300,7 +4300,7 @@
     },
     {
       "path": "src/editor/focus/focus.ts",
-      "lines": 209,
+      "lines": 217,
       "commands": [
         "focus.next",
         "focus.previous",
@@ -4348,7 +4348,7 @@
     },
     {
       "path": "src/editor/input/pointer.ts",
-      "lines": 1976,
+      "lines": 1988,
       "commands": [],
       "features": []
     },
@@ -4366,7 +4366,7 @@
     },
     {
       "path": "src/editor/input/pointer/views.ts",
-      "lines": 310,
+      "lines": 322,
       "commands": [],
       "features": []
     },
@@ -4641,7 +4641,7 @@
     },
     {
       "path": "src/editor/shell/asset-picker.ts",
-      "lines": 16,
+      "lines": 28,
       "commands": [
         "assetPicker.open",
         "assetPicker.close"
@@ -4652,7 +4652,7 @@
     },
     {
       "path": "src/editor/shell/asset-picker.tsx",
-      "lines": 69,
+      "lines": 70,
       "commands": [],
       "features": []
     },
@@ -4682,7 +4682,7 @@
     },
     {
       "path": "src/editor/shell/color.tsx",
-      "lines": 435,
+      "lines": 421,
       "commands": [],
       "features": []
     },
@@ -4706,7 +4706,7 @@
     },
     {
       "path": "src/editor/shell/component-prompt.tsx",
-      "lines": 71,
+      "lines": 72,
       "commands": [],
       "features": []
     },
@@ -4748,7 +4748,7 @@
     },
     {
       "path": "src/editor/shell/field.tsx",
-      "lines": 1428,
+      "lines": 1427,
       "commands": [],
       "features": []
     },
@@ -4808,7 +4808,13 @@
     },
     {
       "path": "src/editor/shell/link-picker.tsx",
-      "lines": 121,
+      "lines": 122,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/shell/outside-layer.ts",
+      "lines": 42,
       "commands": [],
       "features": []
     },
@@ -4820,7 +4826,7 @@
     },
     {
       "path": "src/editor/shell/popover.tsx",
-      "lines": 105,
+      "lines": 97,
       "commands": [],
       "features": []
     },
@@ -4856,7 +4862,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1073,
+      "lines": 1079,
       "commands": [],
       "features": []
     },
@@ -4892,7 +4898,7 @@
     },
     {
       "path": "src/editor/shell/top-bar.tsx",
-      "lines": 119,
+      "lines": 118,
       "commands": [],
       "features": []
     },
@@ -5099,7 +5105,7 @@
     },
     {
       "path": "src/editor/workspace/panels.ts",
-      "lines": 199,
+      "lines": 201,
       "commands": [
         "workspace.setPanelOpen",
         "workspace.toggleLeftDock",
@@ -5145,7 +5151,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 4612,
+      "lines": 4613,
       "commands": [],
       "features": []
     },

@@ -32,6 +32,11 @@
             "toggle"
           ],
           "optional": false
+        },
+        "focus": {
+          "type": "boolean",
+          "optional": true,
+          "values": []
         }
       },
       "availability": {
@@ -316,7 +321,8 @@
           },
           "args": {
             "panel": "explorer",
-            "open": "toggle"
+            "open": "open",
+            "focus": true
           }
         },
         {
@@ -341,7 +347,8 @@
           },
           "args": {
             "panel": "elements",
-            "open": "toggle"
+            "open": "open",
+            "focus": true
           }
         },
         {
@@ -366,7 +373,8 @@
           },
           "args": {
             "panel": "variables",
-            "open": "toggle"
+            "open": "open",
+            "focus": true
           }
         },
         {

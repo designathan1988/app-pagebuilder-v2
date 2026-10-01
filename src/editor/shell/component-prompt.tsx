@@ -9,6 +9,7 @@ import type { MessageId } from '../../generated/ids.ts';
 import { DoorControl } from '../doors/door.tsx';
 import { doorSlots } from '../doors/placement.ts';
 import { useEditorState, useStore } from '../store.ts';
+import { useOutsideLayer } from './outside-layer.ts';
 import { useT } from '../text.ts';
 
 const PARTS = doorSlots('component-prompt');
@@ -23,6 +24,9 @@ export function ComponentPrompt() {
   const open = useEditorState((s) => s.ui.componentPrompt);
   const document = useEditorState((s) => s.document);
   const field = useRef<HTMLInputElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
+  const close = () => { if (CLOSE) (store.dispatch as (id: string, args: unknown) => unknown)(CLOSE.command.id, {}); };
+  useOutsideLayer(panel, open !== null, close);
   useEffect(() => {
     field.current?.focus();
     field.current?.select();
@@ -30,12 +34,9 @@ export function ComponentPrompt() {
   if (open === null) return null;
   const node = locate(document, open.node);
   if (node === null) return null;
-  const close = () => {
-    if (CLOSE !== null) (store.dispatch as (id: string, args: unknown) => unknown)(CLOSE.command.id, {});
-  };
   return (
-    <div className="picker-shield" onClick={close}>
-      <div className="picker picker--component" role="dialog" aria-modal="true" aria-label={t('components.prompt.title')} data-region="component-prompt" onClick={(event) => event.stopPropagation()}>
+    <div className="picker-shield">
+      <div ref={panel} className="picker picker--component" role="dialog" aria-label={t('components.prompt.title')} data-region="component-prompt" onClick={(event) => event.stopPropagation()}>
         <p className="picker__label">{t('components.prompt.title')}</p>
         {NAME === null ? null : (
           <form

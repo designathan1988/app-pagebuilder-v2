@@ -4,12 +4,13 @@
 // its items are its own focusable controls, in document order, not those of a region nested in it (a submenu).
 // A handler never touches the page: it records the request in the editor state, and the focus owner's installer
 // carries it out on the DOM focus when the state changes.
+import type { Panel } from '../workspace/panels.ts';
 import { registerHandler } from '../../core/commands/registry.ts';
 import type { EditorUi } from '../state.ts';
 import type { EditorStore } from '../store.ts';
 import { chooseCanvasByKeyboard } from '../input/pointer/views.ts';
 
-export type FocusMove = 'next' | 'previous' | 'first' | 'last' | 'activate' | 'parent' | 'nextRegion' | 'previousRegion' | 'canvas' | 'menuBar' | 'nextMenu' | 'previousMenu';
+export type FocusMove = `panel:${Panel}` | 'next' | 'previous' | 'first' | 'last' | 'activate' | 'parent' | 'nextRegion' | 'previousRegion' | 'canvas' | 'menuBar' | 'nextMenu' | 'previousMenu';
 
 export interface FocusState {
   // the last request; its number tells a new request from one already carried out
@@ -150,6 +151,13 @@ function comboboxMove(move: FocusMove, field: Element): boolean {
 }
 
 export function carryOut(move: FocusMove, focused: Element | null): void {
+  if (move.startsWith('panel:')) {
+    requestAnimationFrame(() => {
+      const region = document.querySelector(`[data-panel-area="${move.slice(6)}"], [data-panel-window="${move.slice(6)}"]`);
+      if (region) focusRegion(region);
+    });
+    return;
+  }
   if (move === 'canvas') {
     focusTheCanvas();
     return;

@@ -429,7 +429,7 @@ function AddProperty() {
       </button>
       {open ? (
         // a property chosen closes the list; its field takes the focus (inspector.reveal)
-        <Popover anchor={button} className="add-property__menu" label={door.label} onClick={(event) => (event.target instanceof Element && event.target.closest('[data-door]') ? setOpen(false) : undefined)}>
+        <Popover onDismiss={() => setOpen(false)} anchor={button} className="add-property__menu" label={door.label} onClick={(event) => (event.target instanceof Element && event.target.closest('[data-door]') ? setOpen(false) : undefined)}>
           {/* the filter is a combobox of the menu key context: the arrows move the marked property, Enter chooses it */}
           <input
             ref={filter}

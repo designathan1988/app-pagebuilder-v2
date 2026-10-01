@@ -1,5 +1,6 @@
 {
   "activity.insert": "Inserir",
+  "activity.openPanelHint": "{panel} — Recolher (Ctrl+B)",
   "activity.styles": "Estilos",
   "anchors.bottom": "à base",
   "anchors.horizontalCenter": "no centro horizontal",

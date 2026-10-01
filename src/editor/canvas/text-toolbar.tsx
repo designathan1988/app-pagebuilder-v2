@@ -21,6 +21,7 @@ import { useT } from '../text.ts';
 import { TEXT_EDITING, TEXT_TOOLBAR, editedLinkAddress, openLinkPrompt } from './text-edit.ts';
 
 const DOORS = doorSlots(TEXT_TOOLBAR);
+const DISMISS = doorSlots('overlay')[0];
 // the door of the toolbar whose command takes the address the prompt asks for (its argument href)
 const LINK = DOORS.find((entry) => 'href' in entry.command.args) ?? null;
 const KEYS: KeyContextId = TEXT_EDITING;
@@ -55,7 +56,7 @@ function LinkPrompt({ entry, anchor }: { readonly entry: DoorEntry; readonly anc
   // a popover under the toolbar (popover.tsx): inside the window, over its backdrop; the field takes the focus once it
   // is placed, before the next key arrives, with what it holds selected
   return (
-    <Popover anchor={anchor} as="form" className="link-prompt__panel" label={t('textEdit.linkPrompt.label')} onSubmit={answer}>
+    <Popover onDismiss={() => { if (DISMISS) (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(DISMISS.command.id, DISMISS.door.args); }} anchor={anchor} as="form" className="link-prompt__panel" label={t('textEdit.linkPrompt.label')} onSubmit={answer}>
         <label className="link-prompt__label" htmlFor={`${id}-address`}>
           {t('textEdit.linkPrompt.label')}
         </label>

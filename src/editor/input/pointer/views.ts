@@ -307,3 +307,15 @@ export function setGhostReturn(next: Omit<GhostReturn, 'id'> | null) {
   returningGhost = next === null ? null : { id: ghostReturns, ...next };
   for (const listener of [...returnListeners]) listener();
 }
+// Nonmodal layers observe a press before its target acts; they never cancel or forward the event.
+const outsidePressListeners = new Set<(target: Node) => void>();
+export const outsidePress = {
+  subscribe(listener: (target: Node) => void): () => void {
+    outsidePressListeners.add(listener);
+    return () => { outsidePressListeners.delete(listener); };
+  },
+};
+export function publishOutsidePress(target: EventTarget | null): void {
+  if (!(target instanceof Node)) return;
+  for (const listener of outsidePressListeners) listener(target);
+}

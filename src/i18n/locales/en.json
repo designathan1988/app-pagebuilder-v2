@@ -1,5 +1,6 @@
 {
   "activity.insert": "Insert",
+  "activity.openPanelHint": "{panel} — Collapse (Ctrl+B)",
   "activity.styles": "Styles",
   "anchors.bottom": "bottom",
   "anchors.horizontalCenter": "at the horizontal centre",

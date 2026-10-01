@@ -107,7 +107,7 @@ export function ApplyClass() {
       </button>
       {open ? (
         // the popover: under the chip, inside the window, closed by a choice, the backdrop or Escape (popover.tsx)
-        <Popover anchor={trigger} className="class-popup__panel" label={door.label}>
+        <Popover onDismiss={() => setOpen(false)} anchor={trigger} className="class-popup__panel" label={door.label}>
           {offered === ''
             ? null
             : offered.split(SEPARATOR).map((name) => (
@@ -160,7 +160,7 @@ export function SaveAsClass() {
         {SAVE.door.icon !== null ? <Icon name={SAVE.door.icon} size="sm" /> : null}
       </button>
       {open ? (
-        <Popover anchor={trigger} className="class-popup__panel" label={door.label}>
+        <Popover onDismiss={() => setOpen(false)} anchor={trigger} className="class-popup__panel" label={door.label}>
           <form className="class-popup__form" onSubmit={submit}>
             <input className="input" name="name" data-autofocus spellCheck={false} placeholder={t('inspector.className')} aria-label={t('inspector.className')} data-local="class-name" data-key-context="dialog" />
           </form>

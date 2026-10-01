@@ -57,15 +57,14 @@ test('+ gives its filter the focus; text-shadow and Enter draw the Text shadow f
 
 // The list closes as every menu does (spec inspector-add-property, Problems in Pager 4): Escape in its filter closes it
 // and gives the focus back to "+", so the next press acts at once (a Layers row selects on its first click); a press
-// on the backdrop closes it too, without acting on what lies under it. Neither changes the document.
+// outside selects its target too. Neither changes the document.
 const ESCAPE = 'ui.dismiss#key-escape-in-menu';
-const BACKDROP = 'ui.dismiss#overlay-backdrop';
 const NEXT = 'focus.next#key-arrow-down-in-menu';
 const ACTIVATE = 'focus.activate#key-enter-in-menu';
 const selection = (page: Page) => page.evaluate(() => (window as unknown as Record<string, { selection: () => unknown }>).__builderTestPort?.selection());
 const documentText = (page: Page) => page.evaluate(() => JSON.stringify((window as unknown as Record<string, { document: () => unknown }>).__builderTestPort?.document()));
 
-test('Escape in the filter closes the list and gives "+" the focus; the next press acts at once; the backdrop closes it too', runs(OPEN, ROW, ESSENTIALS, ADD, ESCAPE, BACKDROP), async ({ page }) => {
+test('Escape returns focus to "+"; an outside click closes the list and selects its target', runs(OPEN, ROW, ESSENTIALS, ADD, ESCAPE), async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await openEditor(page);
   const chooser = page.waitForEvent('filechooser');
@@ -88,9 +87,9 @@ test('Escape in the filter closes the list and gives "+" the focus; the next pre
 
   await page.locator(`.add-property > [data-door="${ADD}"]`).click();
   await expect(menu).toHaveCount(1);
-  await control(page, ROW, { args: { target: 'n-intro' } }).click({ force: true });
+  await control(page, ROW, { args: { target: 'n-intro' } }).click();
   await expect(menu).toHaveCount(0);
-  await expect.poll(() => selection(page)).toEqual(['n-title']);
+  await expect.poll(() => selection(page)).toEqual(['n-intro']);
   expect(await documentText(page)).toBe(before);
 });
 

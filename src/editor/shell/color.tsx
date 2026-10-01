@@ -1,5 +1,5 @@
 // The colour picker (DESIGN.md "Component regions": color-picker; spec color-picker), the one every colour field opens
-// (its swatch, the door colorPicker.open): a popover over a shield that takes every click outside it, beside the
+// (its swatch, the door colorPicker.open): a nonmodal popover that cancels on an outside press, beside the
 // inspector, with its parts in the order of the region's doors:
 //  - the previous colour (the one the picker opened with; a click writes it back) beside the current one;
 //  - the area: saturation across, brightness down, pressed and dragged through the pointer owner (pointer.ts), and two
@@ -31,6 +31,7 @@ import { doorSlots } from '../doors/placement.ts';
 import { computedValues } from '../canvas/coordinates.ts';
 import { dispatchInSession } from '../input/pointer.ts';
 import { MODEL_RULES, layeredRules, useEditorState } from '../store.ts';
+import { useOutsideLayer } from './outside-layer.ts';
 import { useT } from '../text.ts';
 import { COLOR_SWATCH, propertyWord, usePageValues } from './field.tsx';
 
@@ -256,22 +257,6 @@ function useAnchor(property: string): RefObject<HTMLDivElement | null> {
   return popover;
 }
 
-// The picker is modal: while it is open the rest of the window is inert (no pointer, no focus, no assistive
-// technology reaches it), as its shield already takes the clicks outside it; the focus goes to the popover.
-function useModal(popover: RefObject<HTMLDivElement | null>): void {
-  useLayoutEffect(() => {
-    const shield = popover.current?.parentElement;
-    const window = shield?.parentElement;
-    if (!shield || !window) return;
-    const others = [...window.children].filter((el): el is HTMLElement => el !== shield && el instanceof HTMLElement && !el.inert);
-    for (const el of others) el.inert = true;
-    popover.current?.focus();
-    return () => {
-      for (const el of others) el.inert = false;
-    };
-  }, [popover]);
-}
-
 function Picker({ property, previous }: { readonly property: string; readonly previous: string }) {
   const t = useT();
   const format = useEditorState((s) => s.ui.colorPicker?.format ?? 'hsb');
@@ -302,7 +287,8 @@ function Picker({ property, previous }: { readonly property: string; readonly pr
     return s.selection.length > 1 ? t('canvas.selectedCount', { count: s.selection.length }) : node.name;
   });
   const popover = useAnchor(property);
-  useModal(popover);
+  useOutsideLayer(popover, true, () => { const cancel = partFor('cancel'); if (cancel) run(cancel, {}); });
+  useLayoutEffect(() => { popover.current?.focus(); }, [popover]);
   // The `setsAlpha` part is the one that makes the alpha itself (its slider): its write keeps what it makes. Every
   // other pick writes the colour opaque when the colour the picker shows is fully transparent (item 6.5).
   const write = (entry: DoorEntry | undefined, colour: Rgba, setsAlpha = false) => {
@@ -324,7 +310,7 @@ function Picker({ property, previous }: { readonly property: string; readonly pr
   const previousValue = openedColour === null ? null : formatColor(openedColour);
   return (
     <div className="picker-shield">
-      <div ref={popover} className="picker" role="dialog" aria-modal="true" tabIndex={-1} aria-label={t('colorPicker.title')} data-region="color-picker">
+      <div ref={popover} className="picker" role="dialog" tabIndex={-1} aria-label={t('colorPicker.title')} data-region="color-picker">
         <div className="picker__header">{named === '' ? t('colorPicker.title') : t('colorPicker.titleOf', { property: propertyWord(t, property), name: named })}</div>
         <div className="picker__swatches">
           {previousPart !== undefined ? (

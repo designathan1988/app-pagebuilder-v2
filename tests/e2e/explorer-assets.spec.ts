@@ -177,7 +177,10 @@ test('the Source field chooses a project file from its picker, and Escape or the
   await page.screenshot({ path: shot });
   await runDoor(page, PICKER_CHOOSE, { args: { value: 'img/photo.png' } });
   await expect.poll(async () => imagesOf((await port(page)).tree)[0]?.attributes.src).toBe('img/photo.png');
-  await expect(picker).toBeVisible();
+  // Choosing completes the interaction and returns focus; Escape still closes a fresh opening.
+  await expect(picker).toHaveCount(0);
+  await expect(control(page, PICKER_OPEN)).toBeFocused();
+  await runDoor(page, PICKER_OPEN);
   // Escape closes it (the picker's own key context), and the close button does too
   await page.keyboard.press('Escape');
   await expect(picker).toHaveCount(0);
@@ -186,4 +189,20 @@ test('the Source field chooses a project file from its picker, and Escape or the
   await runDoor(page, PICKER_CLOSE);
   await expect(picker).toHaveCount(0);
   expect((await port(page)).files.map((f) => f.path)).toEqual(['img/photo.png']);
+});
+
+test('one outside click closes the image picker and types into Alt', runs(INSERT_PANEL, TILE, SETTINGS, PICKER_OPEN), async ({ page }) => {
+  await openEditorOnInsert(page);
+  await runDoor(page, TILE, { args: { entry: 'image' } });
+  await runDoor(page, SETTINGS);
+  await runDoor(page, PICKER_OPEN);
+  const alt = control(page, 'element.setAttribute#inspector-alt').locator('input');
+  const box = await alt.boundingBox();
+  if (!box) throw new Error('Alt is not visible');
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  await expect(alt).toBeFocused();
+  await expect(page.locator('[data-region="asset-picker"]')).toHaveCount(0);
+  await page.keyboard.type('Grãos de café');
+  await page.keyboard.press('Enter');
+  await expect.poll(async () => imagesOf((await port(page)).tree)[0]?.attributes.alt).toBe('Grãos de café');
 });

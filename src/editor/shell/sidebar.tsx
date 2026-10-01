@@ -110,9 +110,15 @@ function ViewTitle({ panel, title }: { readonly panel: Panel; readonly title: st
 }
 
 export function ActivityBar() {
+  const t = useT();
+  const ui = useEditorState((s) => s.ui);
   return (
     <nav className="activity-bar" data-region="activity-bar" data-key-context="toolbar">
-      <Slots region="activity-bar" />
+      <Slots region="activity-bar" render={(slot) => {
+        if (slot.kind !== 'door' || typeof slot.entry.door.args.panel !== 'string') return undefined;
+        const active = isPanelOpen(ui, slot.entry.door.args.panel as Panel);
+        return <DoorControl key={slot.entry.ref} entry={slot.entry} title={active ? t('activity.openPanelHint', { panel: t(slot.entry.door.labelKey as MessageId) }) : undefined} />;
+      }} />
     </nav>
   );
 }

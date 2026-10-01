@@ -290,7 +290,7 @@ function UnitMenu({ entry, property, shown, input, ready, suggestions }: { reado
         <span className="field__unit-value">{current === shown.trim() ? '' : current}</span>
         <Icon name={GLYPHS.dropdown} size="xs" />
       </button>
-      {layer.backdrop}
+
       {open ? (
         <div className="menu field__menu" role="menu" ref={(element) => { list.current = element; unitList.current = element; }} aria-label={door.label} data-key-context="menu">
           {suggestions.values.map((value) => (
@@ -805,7 +805,6 @@ export function TextStyleField({
             >
               <Icon name={GLYPHS.dropdown} size="xs" />
             </button>
-            {valuesLayer.backdrop}
             {valuesLayer.open ? (
               <div className="menu field__menu" role="menu" ref={valuesList} aria-label={door.label} data-key-context="menu">
                 {menuValues.map((value) => (
@@ -964,7 +963,7 @@ export function KeywordButtons({ entry, door, property, values, icons, label }: 
             <span className="field__keyword-value">{mixed ? t('inspector.mixedValue') : current}</span>
             <Icon name={GLYPHS.dropdown} size="xs" />
           </button>
-          {layer.backdrop}
+
           {layer.open && available ? (
             <div className="menu field__menu" role="menu" ref={menuList} aria-label={label} data-key-context="menu">
               {values.map((value) => (
