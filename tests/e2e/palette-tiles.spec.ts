@@ -29,11 +29,14 @@ const documentOf = (page: Page) =>
     return { document: p.document(), history: p.history() };
   });
 
-// the keyboard focus on a tile, with Tab as a person moves it
+// the keyboard focus on a tile, as a person moves it: Tab to the tile's group (its tiles are one Tab stop), then the
+// arrows within it
 async function tabTo(page: Page, entry: string) {
   const tile = control(page, TILE, { args: { entry } });
   const focused = () => tile.evaluate((el) => el === document.activeElement);
-  for (let i = 0; i < 200 && !(await focused()); i += 1) await page.keyboard.press('Tab');
+  const inGroup = () => tile.evaluate((el) => el.parentElement?.contains(document.activeElement) === true);
+  for (let i = 0; i < 200 && !(await inGroup()); i += 1) await page.keyboard.press('Tab');
+  for (let i = 0; i < 200 && (await inGroup()) && !(await focused()); i += 1) await page.keyboard.press('ArrowRight');
   expect(await focused(), `Tab reaches the tile of ${entry}`).toBe(true);
 }
 

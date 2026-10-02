@@ -951,9 +951,10 @@ function Insert() {
       <InsertDestination />
       <div className={`insert insert--${density}`}>
         <input className="search" type="search" placeholder={t('insert.search')} aria-label={t('insert.search')} data-local="search" value={query} onChange={(event) => setQuery(event.target.value)} />
-        {/* the densities fill the panel's width, each drawn by its icon with its name as its tooltip */}
+        {/* the densities fill the panel's width, each drawn by its icon with its name as its tooltip; they are one Tab
+            stop, the density shown, and the arrows move among them (a roving group) */}
         <div className="segmented segmented--wide segmented--icons" role="group">
-          <Slots region="insert" render={(slot) => (slot.kind === 'door' && drawnAs(slot.entry) === 'segment' ? undefined : null)} />
+          <Slots region="insert" render={(slot) => (slot.kind === 'door' && drawnAs(slot.entry) === 'segment' ? <DoorControl key={slot.entry.ref} entry={slot.entry} roving /> : null)} />
         </div>
         {groups.map(({ group: g, entries }) => {
           if (searching && entries.length === 0) return null;
@@ -967,9 +968,11 @@ function Insert() {
               </DoorControl>
               {/* the tiles are the palette's key context: Enter and Space insert the focused tile's entry */}
               {open ? (
+                // a group's tiles are one Tab stop, its first tile; the arrows walk the others (the palette key context;
+                // jornada03 plan, stage 5: the Insert panel was 74 Tab stops)
                 <div className="tiles" data-region="palette-tiles" data-key-context="palette">
-                  {entries.map((e) => (
-                    <DoorControl key={e.id} entry={INSERT_TILE} args={{ entry: e.id }} className="tile" label={t(e.labelKey as MessageId)} ready={isFeatureBuilt(e.feature as FeatureId)}>
+                  {entries.map((e, index) => (
+                    <DoorControl key={e.id} entry={INSERT_TILE} args={{ entry: e.id }} className="tile" label={t(e.labelKey as MessageId)} ready={isFeatureBuilt(e.feature as FeatureId)} tabbable={index === 0}>
                       <Icon name={elementIcon(e.element) ?? GLYPHS.folder} />
                       <span className="tile__label">{t(e.labelKey as MessageId)}</span>
                       {density === 'list' ? <span className="tile__tag">{`<${tagOfElement(e.element) ?? ''}>`}</span> : null}

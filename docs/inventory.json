@@ -6,7 +6,7 @@
     "doors": 1315,
     "scenarios": 1725,
     "modules": 400,
-    "lines": 73548
+    "lines": 73551
   },
   "features": [
     {
@@ -5976,7 +5976,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1156,
+      "lines": 1159,
       "commands": [],
       "features": []
     },

@@ -965,6 +965,13 @@ async function focusControlFor(page: Page, ref: string, args: Record<string, unk
       for (let i = 0; i < 400 && (await inTree()) && !(await atWanted()); i += 1) await page.keyboard.press('ArrowUp');
     }
   }
+  // A tile of the palette: Tab reaches its group (a group's tiles are one Tab stop, its first tile), and the arrows walk
+  // the group to it, as a person does
+  if (!(await focused()) && (await target.evaluate((el) => el.closest('[data-key-context="palette"]') !== null && (el as HTMLElement).tabIndex < 0))) {
+    const inGroup = () => target.evaluate((el) => el.parentElement?.contains(document.activeElement) === true);
+    for (let i = 0; i < 400 && !(await inGroup()); i += 1) await page.keyboard.press('Tab');
+    for (let i = 0; i < 200 && (await inGroup()) && !(await focused()); i += 1) await page.keyboard.press('ArrowRight');
+  }
   for (let i = 0; i < 400 && !(await focused()); i += 1) await page.keyboard.press('Tab');
   expect(await focused(), `${ref}: Tab reaches the control of ${JSON.stringify(args)}`).toBe(true);
 }
