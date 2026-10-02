@@ -1001,6 +1001,10 @@
 /* the unit is the unit menu's trigger (jornada02 A.0): its text, 24 wide, parked at the field's end; a value that holds
    no unit (a keyword) draws the menu's chevron in its place */
 [data-region='inspector-style'] .field__unit-button .field__unit-value:not(:empty) + .icon { display: none; }
+/* while the field is edited its input holds the whole text ("48px"): the trigger shows the menu's chevron instead of
+   repeating the unit (the unit was drawn twice, "48px px") */
+[data-region='inspector-style'] .input-wrap--number:focus-within .field__unit-button .field__unit-value { display: none; }
+[data-region='inspector-style'] .input-wrap--number:focus-within .field__unit-button .field__unit-value:not(:empty) + .icon { display: inline-block; }
 /* the trigger's 24 px take the field's end padding: its unit text stays centred in them, and the value keeps the room
    (a pair's -1.2 beside its ↔ and its px) */
 [data-region='inspector-style'] .input-wrap--number .field__unit {
