@@ -30,10 +30,10 @@ test('a configured mask runs in preview and the downloaded site with accessible 
   await expect(page.locator('[data-region="status-bar"]')).toContainText('Form settings saved for Input.');
   const trial = control(page, 'element.setAttribute#forms-preview-input').locator('input');
   await trial.fill('52998224725');
-  await expect(page.locator('[data-region="forms-settings"] output')).toContainText('529.982.247-25');
-  await expect(page.locator('[data-region="forms-settings"] output')).toContainText('Valid');
+  await expect(page.locator('[data-region="forms-settings"] .forms-preview')).toContainText('529.982.247-25');
+  await expect(page.locator('[data-region="forms-settings"] .forms-preview')).toContainText('Valid');
   await trial.fill('52998224726');
-  await expect(page.locator('[data-region="forms-settings"] output')).toHaveText('529.982.247-26 · Raw: 52998224726 · Incomplete or invalid');
+  await expect(page.locator('[data-region="forms-settings"] .forms-preview')).toHaveText('529.982.247-26 · Raw: 52998224726 · Incomplete or invalid');
   // The shortcut belongs to the global context; leave the configuration text field first.
   await page.locator('[data-region="status-bar"]').click();
   await runDoor(page, PREVIEW);

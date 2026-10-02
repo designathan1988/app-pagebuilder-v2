@@ -5,6 +5,7 @@ import type { NodeId } from '../../generated/commands.ts';
 import type { AttributeId, BreakpointId, ElementType, PropertyId, StateId } from '../../generated/ids.ts';
 import type { IdGenerator } from '../ports/ids.ts';
 import type { InlineRun } from '../text/inline.ts';
+import type { Behaviour, MotionInteraction, MotionTimeline } from '../motion/model.ts';
 import type { Authoring } from './authoring.ts';
 
 export type { NodeId };
@@ -74,6 +75,11 @@ export interface DocNode {
   // the interactions of the element (core/events/interactions.ts, group 18), in the order they were made; absent while
   // it has none. The editing canvas never runs them; the preview and the exported page do.
   readonly interactions?: readonly Interaction[];
+  // the element's motion interactions (core/motion, spec motion-interactions): each a trigger playing a timeline of the
+  // project by name, in the order they were made; absent while it has none
+  readonly motions?: readonly MotionInteraction[];
+  // the element's behaviours that run from the motion script (spec motion-behaviours); absent while it has none
+  readonly behaviours?: readonly Behaviour[];
   // the authoring data of removable modules (core/document/authoring.ts): a tool's record by its namespace, inert for
   // everything else (never rendered, exported or shown); absent while no module keeps anything on the element
   readonly authoring?: Authoring;
@@ -163,6 +169,9 @@ export interface DocumentJson {
   // (core/files/tree.ts folds the stored ones and the ones a path implies into the tree). Absent while the project
   // holds no folder.
   readonly folders?: readonly string[];
+  // The project's motion timelines (core/motion, spec motion-timeline): named, reusable timelines of actions that the
+  // elements' interactions play by name. Absent while the project holds none.
+  readonly motionTimelines?: readonly MotionTimeline[];
 }
 
 // An uploaded file (spec explorer-assets): its bytes as base64 at its path in the project ("img/logo.png"), the MIME

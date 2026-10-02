@@ -2070,7 +2070,9 @@ export function checkManifest(input: ManifestInput): CheckResult {
     // the fixture a scenario starts from: a file, or the empty project a fresh profile gets in its locale
     const fixtureOf = (f: (typeof features)[number], si: number, s: Scenario): unknown => {
       const id = s.setup.fixture;
-      if (id === EMPTY_FIXTURE) return emptyProject({ page: textOf(s.setup.locale, 'pages.defaultHome'), root: textOf(s.setup.locale, rootLabel) }, modelRules.root);
+      // the saved record made unreadable (setup.storage): the editor starts again on the empty project, the recovery
+      // dialog over it, and that is the document the steps start from (tools/runner/scenarios.ts setUp)
+      if (id === EMPTY_FIXTURE || s.setup.storage === 'corrupt-current-record') return emptyProject({ page: textOf(s.setup.locale, 'pages.defaultHome'), root: textOf(s.setup.locale, rootLabel) }, modelRules.root);
       if (!p.fixtures.has(id)) {
         report('fixture', f.file, `${f.path}.scenarios[${si}].setup.fixture`, `no fixture file manifest/features/fixtures/${id}.json (only "${EMPTY_FIXTURE}" needs none)`);
         return null;

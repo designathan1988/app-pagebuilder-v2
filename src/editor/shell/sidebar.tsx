@@ -34,6 +34,8 @@ import { classesOf, usesOfClass } from '../../core/design/classes.ts';
 import { componentsOf } from '../../core/design/components.ts';
 import { LAYERS_PICK } from './interactions.tsx';
 import { pickingTarget } from '../inspector/pick-target.ts';
+import { motionPicking } from '../motion/state.ts';
+import { findTimeline } from '../../core/motion/document.ts';
 
 
 const drawnAs = (entry: DoorEntry): string | null => (entry.door.kind === 'toolbar' || entry.door.kind === 'panel-control' ? entry.door.drawnAs : null);
@@ -455,6 +457,7 @@ function LayersRow({ node, depth, view }: { readonly node: DocNode; readonly dep
             ),
           )}
           <RowPickTarget node={node} />
+          <RowPickMotionTarget node={node} />
         </span>
       </div>
     </>
@@ -481,6 +484,34 @@ function RowPickTarget({ node }: { readonly node: DocNode }) {
     >
       <Icon name="locate-fixed" size="sm" />
       <span className="visually-hidden">{t('interactions.pickTarget')}</span>
+    </button>
+  );
+}
+
+// The row's pick control for a motion action's target (spec motion-timeline: "picked on the canvas or on a Layers
+// row"): drawn on every row while an action's target is being picked, a press gives the row's node through
+// motion.updateAction#layers-row-pick-motion-target. Nothing is drawn while none is being picked.
+const LAYERS_MOTION_PICK = manifest.doors.find((d) => d.door.kind === 'panel-control' && d.door.panel === 'layers' && d.door.control === 'row-pick-motion-target') ?? null;
+function RowPickMotionTarget({ node }: { readonly node: DocNode }) {
+  const t = useT();
+  const store = useStore();
+  const picking = useEditorState((s) => motionPicking(s.ui));
+  // the action's place in its timeline, which the row's control stands for with the timeline
+  const at = useEditorState((s) => (picking === null ? -1 : (findTimeline(s.document, picking.timeline)?.timeline.actions.findIndex((one) => one.id === picking.action) ?? -1)));
+  const entry = LAYERS_MOTION_PICK;
+  if (picking === null || entry === null) return null;
+  const args = { ...entry.door.args, timeline: picking.timeline, action: picking.action, value: { kind: 'element', node: node.id } };
+  return (
+    <button
+      type="button"
+      className="row__button"
+      data-door={entry.ref}
+      data-args={JSON.stringify({ ...entry.door.args, timeline: picking.timeline, at, target: node.id })}
+      title={t('motion.pickTarget')}
+      onClick={() => (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(entry.command.id as CommandId, args)}
+    >
+      <Icon name="locate-fixed" size="sm" />
+      <span className="visually-hidden">{t('motion.pickTarget')}</span>
     </button>
   );
 }

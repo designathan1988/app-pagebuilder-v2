@@ -1,4 +1,5 @@
-.assistant-chat { display:flex;flex-direction:column;min-height:0;gap:var(--space-3); }
+/* the chat never shrinks under what it holds (its footer would spill over what follows): the view scrolls instead */
+.assistant-chat { display:flex;flex-direction:column;flex:1 0 auto;gap:var(--space-3); }
 .assistant-chat footer { display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2); }
 /* the model takes the whole line; the preferences button stands under it, so neither squeezes the other */
 .assistant-chat header { display:flex;flex-direction:column;align-items:stretch;gap:var(--space-2);padding:var(--space-2); }

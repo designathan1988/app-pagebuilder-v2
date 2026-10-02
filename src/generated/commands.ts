@@ -170,6 +170,38 @@ export interface CommandArgs {
   "layout.template": { readonly template: "dashboard" | "landing" | "sidebar" | "article" | "gallery" };
   "layout.reference": { readonly file?: string; readonly opacity?: string };
   "layout.trace": { readonly luminance?: JsonValue };
+  "motion.add": { readonly trigger?: "click" | "double-click" | "pointer-down" | "pointer-up" | "pointer-enter" | "pointer-leave" | "hover" | "pointer-move" | "focus" | "blur" | "focus-within" | "key" | "input" | "change" | "form-submit" | "form-invalid" | "long-press" | "scroll-into-view" | "scroll-out-of-view" | "while-visible" | "page-scroll" | "scroll-direction" | "page-load" | "page-leave" | "visibility" | "resize" | "breakpoint" | "timer" | "interval" | "idle" | "media-play" | "media-pause" | "media-end" | "media-time" | "dropdown-open" | "dropdown-close" | "tab-change" | "slide-change" | "dialog-open" | "dialog-close" | "details-open" | "mobile-menu-open" | "custom"; readonly timeline?: string };
+  "motion.update": { readonly interaction?: number; readonly field?: "trigger" | "timeline" | "control" | "leave" | "scope" | "once" | "delay" | "breakpoints" | "reducedMotion" | "key" | "threshold" | "milliseconds" | "direction" | "axis" | "breakpoint" | "seconds" | "state" | "event" | "scrollStart" | "scrollEnd"; readonly value?: JsonValue };
+  "motion.remove": { readonly interaction?: number };
+  "motion.createTimeline": { readonly name?: string };
+  "motion.renameTimeline": { readonly timeline: string; readonly name: string };
+  "motion.deleteTimeline": { readonly timeline: string };
+  "motion.openTimeline": { readonly timeline: string };
+  "motion.addAction": { readonly timeline: string; readonly kind: "animate" | "class" | "attribute" | "style" | "text" | "display" | "timeline" | "css-animation" | "scroll" | "dialog" | "details" | "tab" | "slide" | "media" | "focus" | "form" | "navigate" | "clipboard" | "event" | "variable" | "theme" | "wait" | "split-text" | "lottie"; readonly placement?: "after" | "with" | "at" };
+  "motion.updateAction": { readonly timeline: string; readonly action?: string; readonly at?: number; readonly field: "kind" | "target" | "targetValue" | "start" | "duration" | "easing" | "repeat" | "yoyo" | "staggerEach" | "staggerFrom"; readonly value?: JsonValue };
+  "motion.setEffectOption": { readonly timeline: string; readonly action?: string; readonly at?: number; readonly option: "operation" | "className" | "name" | "value" | "property" | "transition" | "mode" | "timeline" | "animation" | "time" | "to" | "offset" | "smooth" | "block" | "index" | "address" | "newTab" | "source" | "text" | "detail" | "remember" | "by" | "file" | "loop" | "speed" | "from"; readonly value?: JsonValue };
+  "motion.removeActions": { readonly timeline: string; readonly actions?: JsonValue; readonly at?: number };
+  "motion.moveActions": { readonly timeline: string; readonly actions?: JsonValue; readonly at?: number; readonly delta?: number; readonly distance?: number };
+  "motion.resizeAction": { readonly timeline: string; readonly action?: string; readonly at?: number; readonly edge: "start" | "end"; readonly delta?: number; readonly distance?: number };
+  "motion.select": { readonly actions?: JsonValue; readonly keyframes?: JsonValue; readonly timeline?: string; readonly at?: number; readonly property?: string; readonly keyframeAt?: number; readonly add?: boolean };
+  "motion.setPlayhead": { readonly time?: number; readonly distance?: number };
+  "motion.zoomTimeline": { readonly factor: number; readonly anchor?: number };
+  "motion.toggleSnap": Record<string, never>;
+  "motion.addMarker": { readonly timeline: string; readonly name?: string };
+  "motion.moveMarker": { readonly timeline: string; readonly marker?: string; readonly markerAt?: number; readonly delta?: number; readonly distance?: number };
+  "motion.renameMarker": { readonly timeline: string; readonly marker?: string; readonly markerAt?: number; readonly name: string };
+  "motion.removeMarker": { readonly timeline: string; readonly marker?: string; readonly markerAt?: number };
+  "motion.setKeyframe": { readonly timeline: string; readonly action?: string; readonly at?: number; readonly property: string; readonly value?: string };
+  "motion.editKeyframe": { readonly timeline: string; readonly keyframe?: JsonValue; readonly at?: number; readonly property?: string; readonly keyframeAt?: number; readonly field: "value" | "easing" | "time" | "property"; readonly value?: JsonValue };
+  "motion.moveKeyframes": { readonly timeline: string; readonly keyframes?: JsonValue; readonly at?: number; readonly property?: string; readonly keyframeAt?: number; readonly delta?: number; readonly distance?: number };
+  "motion.deleteKeyframes": { readonly timeline: string; readonly keyframes?: JsonValue; readonly at?: number; readonly property?: string; readonly keyframeAt?: number };
+  "motion.copyKeyframes": Record<string, never>;
+  "motion.pasteKeyframes": { readonly timeline: string; readonly action?: string; readonly at?: number; readonly keyframes: JsonValue };
+  "motion.toggleRecord": Record<string, never>;
+  "motion.preview": { readonly operation: "play" | "pause" | "stop" };
+  "motion.toggleRun": Record<string, never>;
+  "motion.setBehaviour": { readonly behaviour: "sticky" | "scroll-snap" | "smooth-scroll" | "parallax" | "marquee" | "cursor-follow"; readonly amount?: number; readonly axis?: "x" | "y" };
+  "motion.removeBehaviour": { readonly behaviour: "smooth-scroll" | "parallax" | "marquee" | "cursor-follow" };
   "layers.startRename": Record<string, never>;
   "layers.cancelRename": Record<string, never>;
   "element.rename": { readonly target: NodeId; readonly name: string };
@@ -292,7 +324,7 @@ export interface CommandArgs {
   "snap.setSettings": { readonly targets: JsonValue; readonly distance: number };
   "workspace.openDialog": { readonly dialog: "guides-grids" | "snap-settings" };
   "view.setViewportWidth": { readonly width: number };
-  "workspace.setPanelOpen": { readonly panel: "elements" | "layers" | "inspector" | "explorer" | "timeline" | "variables" | "checks" | "workbench" | "shortcuts" | "document" | "canvas-tools" | "assistant" | "layout-composer"; readonly open: "open" | "close" | "toggle"; readonly focus?: boolean };
+  "workspace.setPanelOpen": { readonly panel: "elements" | "layers" | "inspector" | "explorer" | "timeline" | "motion" | "variables" | "checks" | "workbench" | "shortcuts" | "document" | "canvas-tools" | "assistant" | "layout-composer"; readonly open: "open" | "close" | "toggle"; readonly focus?: boolean };
   "workspace.toggleLeftDock": Record<string, never>;
   "workspace.toggleInspector": Record<string, never>;
   "workspace.collapseDocks": Record<string, never>;
@@ -441,7 +473,7 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "props-element-specific": ["style.set"],
   "settings-class-management": ["element.setClasses","element.setCustomAttribute","inspector.setStyleTarget","classes.rename","classes.delete"],
   "settings-audit": ["element.setAttribute","element.setInputType","element.setClasses","element.setCustomAttribute","element.setTag","text.toggleBold","text.toggleItalic","classes.rename","classes.delete"],
-  "forms-masks-validation": ["element.setAttribute"],
+  "forms-masks-validation": ["element.setAttribute","element.setInputType"],
   "templates-layout": ["element.insert"],
   "templates-content": ["element.insert"],
   "templates-sections": ["element.insert"],
@@ -527,4 +559,10 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "canvas-grid-editor": ["grid.enterEdit","grid.exitEdit","grid.addTrack","grid.removeTrack","grid.spanItem","grid.mergeCells","grid.splitCells","style.setGridTracks"],
   "assistant-chat": ["assistant.setModel","assistant.setPreferences","assistant.attachReference","assistant.clearReference","assistant.editKey","assistant.send","assistant.cancel","assistant.connect","assistant.disconnect","assistant.saveKey","assistant.deleteKey","assistant.selectSession","assistant.clearConversation","assistant.update","workspace.setPanelOpen"],
   "layout-composer": ["layout.enter","layout.leave","layout.stroke","layout.select","layout.delete","layout.view","layout.configure","layout.interpret","layout.respond","layout.unrelate","layout.suggest","layout.template","layout.reference","layout.trace","workspace.setPanelOpen"],
+  "motion-interactions": ["motion.add","motion.update","motion.remove"],
+  "motion-timeline": ["motion.createTimeline","motion.renameTimeline","motion.deleteTimeline","motion.openTimeline","motion.addAction","motion.updateAction","motion.setEffectOption","motion.removeActions","motion.moveActions","motion.resizeAction","motion.select","motion.setPlayhead","motion.zoomTimeline","motion.toggleSnap","motion.addMarker","motion.moveMarker","motion.renameMarker","motion.removeMarker","workspace.setPanelOpen"],
+  "motion-keyframes": ["motion.setKeyframe","motion.editKeyframe","motion.moveKeyframes","motion.deleteKeyframes","motion.copyKeyframes","motion.pasteKeyframes","motion.toggleRecord","motion.select"],
+  "motion-preview": ["motion.preview","motion.toggleRun"],
+  "motion-behaviours": ["motion.setBehaviour","motion.removeBehaviour"],
+  "export-motion-js": ["view.enterPreview","project.export"],
 };

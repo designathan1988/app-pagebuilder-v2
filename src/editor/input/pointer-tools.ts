@@ -1,11 +1,16 @@
-// The canvas tools of removable modules (src/modules/*, installed by src/app/modules.ts): a mode in which a module's
-// own surface over the canvas takes the presses (the Layout Composer's drawing stage). The pointer owner (pointer.ts)
-// stays the one owner of the pointer: it asks the installed tools first whether a primary press is theirs, and the tool
-// that takes it gets the press's moves and its release; the editor's gesture is opened at the press, so the keys
-// belong to the drag key context while the press lasts (Escape is drag.cancel), and what the release dispatches
-// through it is one transaction and one undo step. Nothing here knows a module.
+// The pointer tools: a surface of the editor that takes the presses on it for a drag of its own — a removable module's
+// canvas tool (the Layout Composer's drawing stage), a panel's drags (the motion Timeline's bars, keyframes, markers
+// and playhead). The pointer owner (pointer.ts) stays the one owner of the pointer: it asks the installed tools first
+// whether a primary press is theirs, and the tool that takes it gets the press's moves and its release. The editor's
+// gesture is opened at the press, so the keys belong to the drag key context while the press lasts (Escape is
+// drag.cancel), and what runs through it is one transaction and one undo step:
+//  - a move may name a command and its arguments: the gesture is cancelled back to the press and runs it anew, so the
+//    page follows the pointer and Escape puts everything back (a bar dragged along the Timeline);
+//  - the release runs what the press means through the gesture (a stroke read whole), which the pointer owner then
+//    commits.
+// Nothing here knows a tool.
 import type { Gesture } from '../../core/store/store.ts';
-import type { KeyContextId } from '../../generated/ids.ts';
+import type { CommandId, KeyContextId } from '../../generated/ids.ts';
 import type { EditorUi } from '../state.ts';
 import type { EditorState, EditorStore } from '../store.ts';
 
@@ -18,29 +23,37 @@ export interface ToolPoint {
   readonly ctrl: boolean;
 }
 
+// a command a move runs, with its arguments
+export interface ToolDispatch {
+  readonly command: CommandId;
+  readonly args: Readonly<Record<string, unknown>>;
+}
+
 // One press a tool took, until its release or its cancellation.
 export interface ToolSession {
-  // the pointer moved while held: the tool draws what a release here would do (it dispatches nothing)
-  move(at: ToolPoint): void;
+  // the pointer moved while held: the command the drag runs at this point, or null when the tool only draws (a
+  // preview of its own)
+  move(at: ToolPoint): ToolDispatch | null;
   // the release: what the press means is dispatched through the gesture, which the pointer owner commits after
   release(at: ToolPoint, gesture: Gesture): void;
   // the press ended with nothing kept (Escape, a lost pointer)
   cancel(): void;
 }
 
-export interface CanvasTool {
+export interface PointerTool {
   readonly id: string;
   // the press is this tool's (a session), or not (null: the pointer owner handles it as it would without the tool)
   press(at: ToolPoint, target: Element, state: EditorState, store: EditorStore): ToolSession | null;
-  // the key context the canvas's keys are read in while the tool is on (its own Escape and Delete), or null
-  keyContext(ui: EditorUi): KeyContextId | null;
+  // the key context the canvas's keys are read in while the tool is on (its own Escape and Delete), or null; a tool
+  // with no mode of its own has none
+  keyContext?(ui: EditorUi): KeyContextId | null;
 }
 
-const tools: CanvasTool[] = [];
+const tools: PointerTool[] = [];
 
-// Installed once by each module that brings a tool; the function returned takes it away.
-export function registerCanvasTool(tool: CanvasTool): () => void {
-  if (tools.some((t) => t.id === tool.id)) throw new Error(`canvas tool ${tool.id} is installed twice`);
+// Installed once by each tool's owner when the editor starts; the function returned takes it away.
+export function registerPointerTool(tool: PointerTool): () => void {
+  if (tools.some((t) => t.id === tool.id)) throw new Error(`pointer tool ${tool.id} is installed twice`);
   tools.push(tool);
   return () => {
     const at = tools.indexOf(tool);
@@ -63,7 +76,7 @@ export function toolPress(at: ToolPoint, target: EventTarget | null, store: Edit
 // keyContextIn asks it), or null.
 export function toolKeyContext(ui: EditorUi): KeyContextId | null {
   for (const tool of tools) {
-    const context = tool.keyContext(ui);
+    const context = tool.keyContext?.(ui) ?? null;
     if (context !== null) return context;
   }
   return null;

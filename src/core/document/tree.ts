@@ -11,6 +11,7 @@
 // applies them), so a command can compose several and hand them out in one transaction.
 import { locate, walk, type DocNode, type DocumentJson, type NodeId, type Location } from './model.ts';
 import { referenceNamesLeaving, referencesOf } from '../elements/references.ts';
+import { releaseMotionTargets } from '../motion/document.ts';
 import type { Patch, Path } from '../history/transaction.ts';
 
 // The path children of a node take: the parent's own path, then the index among its children.
@@ -62,6 +63,8 @@ export function releaseReferencesPatch(document: DocumentJson, leaving: Readonly
       if (at !== null) patches.push(kept.length === 0 ? { op: 'remove', path: [...at.path, 'interactions'] } : { op: 'replace', path: [...at.path, 'interactions'], value: kept });
     }
   }
+  // a motion action that acts on a picked element that is leaving goes with it (core/motion/document.ts)
+  patches.push(...releaseMotionTargets(document, leaving));
   return patches;
 }
 

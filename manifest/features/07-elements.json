@@ -9532,7 +9532,7 @@
                 {
                   "path": "css/styles.css",
                   "present": [
-                    ".band {\n  padding-top: 56px;\n  padding-right: 40px;\n  padding-bottom: 56px;\n  padding-left: 40px;\n}"
+                    ".band {\n  padding: 56px 40px;\n}"
                   ],
                   "absent": [
                     ".hero {",
@@ -27020,7 +27020,8 @@
       "id": "forms-masks-validation",
       "titleKey": "feature.formsMasksValidation",
       "commands": [
-        "element.setAttribute"
+        "element.setAttribute",
+        "element.setInputType"
       ],
       "dependsOn": [
         "elements-form-inputs-rules",
@@ -32149,6 +32150,111 @@
               "preferences": null,
               "selection": null
             },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "a-number-field-becomes-a-text-field-for-a-mask",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-insert",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.insert#elements-tile",
+              "args": {
+                "entry": "input-number"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setInputType#inspector-input-type-text-for-masks",
+              "args": {
+                "type": "text"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setInputType#inspector-input-type-text-for-masks"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/@children",
+                "value": [
+                  {
+                    "type": "input",
+                    "name": "Input",
+                    "tag": "input",
+                    "attributes": {
+                      "inputType": "text"
+                    },
+                    "classes": [],
+                    "styles": {},
+                    "text": null,
+                    "children": []
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Input"
+            ],
+            "history": {
+              "undoSteps": 2,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.input.typeSet",
+                  "params": {
+                    "name": "Input",
+                    "type": "text"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
             "export": null
           },
           "refusals": []

@@ -32,7 +32,7 @@
 import type { NodeId, PickedFile } from '../../generated/commands.ts';
 import type { ElementType, MessageId } from '../../generated/ids.ts';
 import { message, registerHandler, type HandlerContext, type Message } from '../commands/registry.ts';
-import { allNodes, isEmptyProject, type DocNode, type Page, type ProjectFile, type StoredValue, type Styles } from '../document/model.ts';
+import { allNodes, isEmptyProject, type DocNode, type DocumentJson, type Page, type ProjectFile, type StoredValue, type Styles } from '../document/model.ts';
 import type { InlineRun } from '../text/inline.ts';
 import { attributeValueRefusal, customAttributeRefusal, type ModelRules } from '../document/validate.ts';
 import { validClassName } from '../design/classes.ts';
@@ -1068,7 +1068,9 @@ function pageFrom(file: PickedFile, builder: Builder): Page {
   const settings: [string, string][] = [];
   const lang = (parsed.htmlAttributes.get('lang') ?? '').trim();
   const dir = (parsed.htmlAttributes.get('dir') ?? '').trim().toLowerCase();
-  if (lang !== '') settings.push(['pageLanguage', lang]);
+  // a page's language that is the project's own is no setting of the page (the export writes the project's on every
+  // page: re-importing it keeps the page as it was; spec export-clean)
+  if (lang !== '' && lang !== (builder.context.state.document.language ?? 'en')) settings.push(['pageLanguage', lang]);
   if (['ltr', 'rtl', 'auto'].includes(dir)) settings.push(['pageDirection', dir]);
   for (const node of parsed.head) {
     if (node.tag === 'meta') {
@@ -1215,7 +1217,8 @@ export const importHtmlCommand = registerHandler('project.importHtml', (context,
     if (referenced !== undefined && held.some((one) => one.path === referenced[0])) continue;
     held.push(referenced === undefined ? recordOf(file) : { ...recordOf(file), path: referenced[0] });
   }
-  const parsed = { version: state.document.version, pages, ...(definitions.size ? { classes: [...definitions].map(([name, styles]) => ({ name, styles })) } : {}), ...(held.length ? { files: held } : {}) };
+  // the project's languages are the project's own (spec export-clean): an import keeps them, whatever it replaces
+  const parsed = { version: state.document.version, ...projectLanguages(state.document), pages, ...(definitions.size ? { classes: [...definitions].map(([name, styles]) => ({ name, styles })) } : {}), ...(held.length ? { files: held } : {}) };
   const composed = importDestination(context, parsed, replacing ? 'replace' : destination, (target ?? (state.selection.length === 1 ? state.selection[0] : undefined)) as NodeId | undefined);
   if ('refused' in composed) return { kind: 'refused' as const, message: composed.refused };
   const said = message('status.import.done', {
@@ -1224,6 +1227,12 @@ export const importHtmlCommand = registerHandler('project.importHtml', (context,
     notes: reportNotes(report, words),
   });
   return { kind: 'change' as const, ...composed, message: said };
+});
+
+// The document and code languages of a project, as they stand: what an import or an opened folder keeps.
+export const projectLanguages = (document: DocumentJson): Pick<DocumentJson, 'language' | 'codeLanguage'> => ({
+  ...(document.language === undefined ? {} : { language: document.language }),
+  ...(document.codeLanguage === undefined ? {} : { codeLanguage: document.codeLanguage }),
 });
 
 const rank = (name: string): number => (name === 'index.html' || name.endsWith('/index.html') ? 0 : 1);

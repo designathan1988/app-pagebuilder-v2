@@ -65,7 +65,8 @@ import { drawnProposal, liveDrag } from '../drag/drag-session.ts';
 import { rowDrop, SIDE_DWELL, type DropProposal, type SideOffer } from '../drag/drop.ts';
 import { elementPredicate } from '../../core/style/applies.ts';
 import { MODEL_RULES, type EditorStore } from '../store.ts';
-import { toolPoint, toolPress, type ToolSession } from './canvas-tools.ts';
+import type { EditorUi } from '../state.ts';
+import { toolPoint, toolPress, type ToolSession } from './pointer-tools.ts';
 import { SPLITTERS, splitterSize, type SplitterId } from '../workspace/layout.ts';
 import { typedBand } from '../canvas/band-typing.ts';
 import { SHADOW_EDITS } from '../canvas/handles.ts';
@@ -76,10 +77,11 @@ import { TEXT_TOOLBAR, editArgs, editedNode, isTextElement } from '../canvas/tex
 import { isValueControl } from '../../core/elements/inputs.ts';
 import { offsetFromTrackX, playheadTimeFromTrackX, shownAnimation } from '../timeline/playhead.ts';
 import { pickingTarget } from '../inspector/pick-target.ts';
+import { motionPicking } from '../motion/state.ts';
 // the gesture state machine lives in its own module (pointer/machine.ts); this owner keeps the installer and the state
 import { DRAG_HYSTERESIS, DRAG_THRESHOLD, IDLE, step, type Effect, type Machine, type Press } from './pointer/machine.ts';
 // which door a press runs lives in its own module too (pointer/press.ts): the facts it is judged by, the modifier held
-import { argsFor, clickDoor, editEndDoor, laysGrid, modifierOf, type Button, type PressFacts } from './pointer/press.ts';
+import { NOT_PICKING, argsFor, clickDoor, editEndDoor, laysGrid, modifierOf, type Button, type Picking, type PressFacts } from './pointer/press.ts';
 import { CONTAINERS, isInside, keepsSide, layersDrag, nearestAccepted, proposalAt, ROW_DROP, ROW_SELECT, rowUnder, sideAt } from './drop-proposals.ts';
 // what the pointer publishes for the canvas chrome and the panels (pointer/views.ts); the installer is their only writer
 import {
@@ -599,6 +601,9 @@ function pressAt(event: MouseEvent, isRoot: (node: string) => boolean, under: Ev
 // installer keeps the pointer. A future feature that shows two editors side by side must first make this state
 // per store (the plan's T7); until one exists, no second instance can appear — this guard is the proof.
 let pointerOwner: EditorStore | null = null;
+// what is being picked now: an interaction's target or a motion action's (pointer/press.ts Picking)
+const pickingOf = (ui: EditorUi): Picking => ({ interaction: pickingTarget(ui), motion: motionPicking(ui) });
+
 export function installPointer(store: EditorStore, target: Window = window): () => void {
   if (pointerOwner !== null && pointerOwner !== store) {
     reportError('a second editor tried to take the pointer owner', 'the pointer owner is installed: one editor per document');
@@ -852,7 +857,7 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     open?.cancel();
     open = store.gesture();
     const rect = { x: from.x, y: from.y, width: to.x - from.x, height: to.y - from.y };
-    open.dispatch(marquee.entry.command.id as CommandId, { ...argsFor(marquee.entry, marquee.press, null), rect, mode: marquee.mode, ...(leavesNow() ? { leaves: true } : {}) } as never);
+    open.dispatch(marquee.entry.command.id as CommandId, { ...argsFor(marquee.entry, marquee.press, NOT_PICKING), rect, mode: marquee.mode, ...(leavesNow() ? { leaves: true } : {}) } as never);
     const s = pressedAt.screen;
     setBand({ x: Math.min(s.x, at.x), y: Math.min(s.y, at.y), width: Math.abs(at.x - s.x), height: Math.abs(at.y - s.y) });
   };
@@ -879,7 +884,7 @@ export function installPointer(store: EditorStore, target: Window = window): () 
       cancelsAtOpen = store.getState().ui.drag.cancels;
       // a key only a drag gesture holds (the duplicate's Alt) is no click's: the press selects as a plain one does
       const clickModifier = buttons.modifier !== null && DRAG_ONLY_MODIFIERS.has(buttons.modifier as never) ? null : buttons.modifier;
-      const picking = pickingTarget(store.getState().ui);
+      const picking = pickingOf(store.getState().ui);
       const entry = clickDoor(press, buttons.button, buttons.count, clickModifier, factsOf(press), picking);
       const selected = store.getState().selection;
       const plainPress = press.on === 'node' && !press.root && buttons.button === 'primary' && buttons.count === 1 && clickModifier === null;
@@ -890,7 +895,7 @@ export function installPointer(store: EditorStore, target: Window = window): () 
       const insideSelected = plainPress && !selected.includes(press.node as NodeId) && selected.some((id) => locate(now, id)?.parent != null && isInside(now, press.node as NodeId, id));
       // a press that picks an interaction's target is no press of its own within the gesture: the pick runs once the
       // gesture closes (its command records one transaction per dispatch)
-      const pickingDoor = entry !== null && entry.door.kind === 'canvas-click' && entry.door.target === 'pick-target' ? entry : null;
+      const pickingDoor = entry !== null && entry.door.kind === 'canvas-click' && (entry.door.target === 'pick-target' || entry.door.target === 'pick-motion-target') ? entry : null;
       const deferred = (ofSeveral || insideSelected) && pickingDoor === null;
       deferredClick = entry && deferred ? { entry, args: argsFor(entry, press, picking) as Record<string, unknown> } : null;
       if (pickingDoor !== null) pickAfter = { entry: pickingDoor, args: argsFor(pickingDoor, press, picking) };
@@ -1308,10 +1313,10 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     if (machine.phase !== 'idle' || open !== null || event.button !== 0) return;
     const press = pressAt(event, isRoot);
     if (press === null || press === 'elsewhere') return;
-    const entry = clickDoor(press, 'primary', 2, modifierOf(event), factsOf(press), pickingTarget(store.getState().ui));
+    const entry = clickDoor(press, 'primary', 2, modifierOf(event), factsOf(press), pickingOf(store.getState().ui));
     if (!entry) return;
     const gesture = store.gesture();
-    gesture.dispatch(entry.command.id as CommandId, argsFor(entry, press, pickingTarget(store.getState().ui)) as never);
+    gesture.dispatch(entry.command.id as CommandId, argsFor(entry, press, pickingOf(store.getState().ui)) as never);
     gesture.commit();
   };
   // A press the pointer owner takes first takes the focus from a field of the editor (a Layers row's name being
@@ -1341,9 +1346,9 @@ export function installPointer(store: EditorStore, target: Window = window): () 
   const underPointer = (event: PointerEvent): EventTarget | null => (captured === event.pointerId ? target.document.elementFromPoint(event.clientX, event.clientY) : event.target);
   // the gestures of a handle (a spacing band, a guide, a rotation, a resize), the pan and the colour pick: ended, their
   // open gesture cancelled
-  // a press a module's canvas tool took (canvas-tools.ts): its session, the pointer, the gesture opened at the press and
-  // the cancellations counted then (Escape, drag.cancel, ends it)
-  let tooling: { readonly session: ToolSession; readonly pointer: number; readonly gesture: Gesture; readonly cancels: number } | null = null;
+  // a press a pointer tool took (pointer-tools.ts): its session, the pointer, the gesture open now (opened at the press,
+  // opened anew at each move that runs a command) and the cancellations counted at the press (Escape, drag.cancel)
+  let tooling: { readonly session: ToolSession; readonly pointer: number; gesture: Gesture; readonly cancels: number } | null = null;
   const dropTool = () => {
     if (tooling === null) return;
     const { session, gesture } = tooling;
@@ -1378,7 +1383,8 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     setPressing(true);
     setPressRegion(pressRegionOf(event.target));
     publishOutsidePress(event.target);
-    // a module's canvas tool (the Layout Composer's stage): a primary press on its surface, Space not held (a pan)
+    // a pointer tool (the Layout Composer's stage, the motion Timeline's drags): a primary press on its surface, Space
+    // not held (a pan)
     const tool = event.button === 0 && machine.phase === 'idle' && open === null && !spaceDown ? toolPress(toolPoint(event), event.target, store) : null;
     if (tool !== null) {
       event.preventDefault();
@@ -1526,7 +1532,16 @@ export function installPointer(store: EditorStore, target: Window = window): () 
   };
   const onMove = (event: PointerEvent) => {
     if (tooling !== null) {
-      if (event.pointerId === tooling.pointer) tooling.session.move(toolPoint(event));
+      if (event.pointerId !== tooling.pointer) return;
+      const step = tooling.session.move(toolPoint(event));
+      if (step !== null) {
+        // the drag runs anew from the press: the page follows the pointer, and Escape puts everything back
+        tooling.gesture.cancel();
+        const gesture = store.gesture();
+        open = gesture;
+        tooling.gesture = gesture;
+        gesture.dispatch(step.command as never, step.args as never);
+      }
       return;
     }
     if (pickingColor !== null) {
@@ -1725,7 +1740,7 @@ export function installPointer(store: EditorStore, target: Window = window): () 
       if (event.pointerId === pickingColor.pointer) pickingColor = null;
       return;
     }
-    // a canvas tool's release: what it means runs through the gesture opened at the press, one undo step
+    // a pointer tool's release: what it means runs through the gesture open now, one undo step
     if (tooling !== null) {
       if (event.pointerId !== tooling.pointer) return;
       const { session, gesture } = tooling;
@@ -1912,7 +1927,7 @@ export function installPointer(store: EditorStore, target: Window = window): () 
   const stopPicker = store.subscribe(followPicker);
   const stopListening = store.subscribe(() => {
     if (session !== null) return;
-    // Escape during a canvas tool's press (drag.cancel): nothing it drew is kept
+    // Escape during a pointer tool's press (drag.cancel): nothing it did is kept
     if (tooling !== null && store.getState().ui.drag.cancels !== tooling.cancels) {
       queueMicrotask(dropTool);
       return;

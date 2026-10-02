@@ -41,6 +41,8 @@ import { animationsOf, keyframesCss, playedClassDeclarations, playedClassName, a
 import { addressedNodes, playedAnimations } from '../events/interactions.ts';
 import { interactionsJs, isModalTemplate, isTabsTemplate, pageNeedsScript } from '../events/script.ts';
 import type { SiteScripts } from '../ports/site-scripts.ts';
+import { addressedMotionNodes, treeUsesMotion } from '../motion/document.ts';
+import { motionConfig, siteUsesLottie } from '../motion/export.ts';
 
 export const SITE_ARCHIVE = 'site.zip';
 export const STYLESHEET = 'css/styles.css';
@@ -48,6 +50,9 @@ export const STYLESHEET = 'css/styles.css';
 // <script defer> from every page that uses them
 export const INTERACTIONS_SCRIPT = 'js/interactions.js';
 export const FORMS_SCRIPT = 'js/forms.js';
+// the motion script and the Lottie player, at the paths the pages link them by (spec export-motion-js)
+export const MOTION_SCRIPT = 'js/motion.js';
+export const LOTTIE_SCRIPT = 'js/lottie.min.js';
 const pageUsesForms = (tree: DocNode): boolean => [...walk(tree)].some(node => node.attributes.formField !== undefined || node.attributes.formSubmit !== undefined);
 // the page setting that is the page's title (elements.json), written in the head rather than as an attribute
 const TITLE_SETTING = 'pageTitle';
@@ -220,7 +225,8 @@ export function pageLines(document: DocumentJson, pageIndex: number, rules: Mode
   if (page === undefined) throw new Error(`export: the document has no page ${pageIndex}`);
   // the elements an interaction addresses, and every element that holds an animation: both take a class, so the script
   // (and the animation's own rule) can name them
-  const addressed = new Set<NodeId>(addressedNodes(document));
+  // the elements an interaction or a motion addresses take a class of their own (spec export-events-js, export-motion-js)
+  const addressed = new Set<NodeId>([...addressedNodes(document), ...addressedMotionNodes(document)]);
   for (const page of document.pages) for (const node of walk(page.tree)) if (animationsOf(node).length > 0 || isModalTemplate(node) || isTabsTemplate(node)) addressed.add(node.id as NodeId);
   const classes = generatedClasses(page.tree, shared, addressed);
   const inForm = formNodes(document);
@@ -319,6 +325,9 @@ export function pageLines(document: DocumentJson, pageIndex: number, rules: Mode
     `  <link rel="stylesheet" href="${escapeAttribute(relativePath(from, STYLESHEET))}">`,
     ...(usesInteractions ? [`  <script defer src="${escapeAttribute(relativePath(from, INTERACTIONS_SCRIPT))}"></script>`] : []),
     ...(pageUsesForms(page.tree) ? [`  <script defer src="${escapeAttribute(relativePath(from, FORMS_SCRIPT))}"></script>`] : []),
+    // a page holding motion links the Lottie player when the site uses one, then the motion script
+    ...(treeUsesMotion(page.tree) && siteUsesLottie(document) ? [`  <script defer src="${escapeAttribute(relativePath(from, LOTTIE_SCRIPT))}"></script>`] : []),
+    ...(treeUsesMotion(page.tree) ? [`  <script defer src="${escapeAttribute(relativePath(from, MOTION_SCRIPT))}"></script>`] : []),
     '</head>',
   ].map((text) => ({ text, node: null }));
   const html: CodeLine[] = [...head, ...body, { text: '</html>', node: null }, { text: '', node: null }];
@@ -338,7 +347,7 @@ export function siteFiles(
   rules: ModelRules,
   relative = true,
   scripts?: SiteScripts,
-): { readonly pages: readonly { readonly file: string; readonly html: string }[]; readonly css: string; readonly cssLines: readonly CodeLine[]; readonly interactions: string | null; readonly forms: string | null } {
+): { readonly pages: readonly { readonly file: string; readonly html: string }[]; readonly css: string; readonly cssLines: readonly CodeLine[]; readonly interactions: string | null; readonly forms: string | null; readonly motion: string | null; readonly lottie: string | null } {
   const usesForms = document.pages.some(page => pageUsesForms(page.tree));
   if (usesForms && scripts === undefined) throw new Error('Configured forms require the site script writer');
   const forms = usesForms && scripts !== undefined ? scripts.forms() : null;
@@ -371,7 +380,12 @@ export function siteFiles(
     }
   }
   const interactions = interactionsJs(document, (id) => selectorById.get(id) ?? '.');
-  return { pages: pages.map(({ page, code }) => ({ file: page.file, html: code.html.map((line) => line.text).join('\n') })), css, cssLines, interactions, forms };
+  // the motion script (spec export-motion-js): the site's motion data, every element by the selector above
+  const config = motionConfig(document, { selectorOf: (id) => selectorById.get(id) ?? null, breakpoints: rules.output.breakpoints.map(({ id, width, base }) => ({ id, width, base })), playedClassName });
+  if (config !== null && scripts?.motion === undefined) throw new Error('Motion requires the site script writer');
+  const motion = config === null || scripts?.motion === undefined ? null : scripts.motion(config);
+  const lottie = config !== null && siteUsesLottie(document) && scripts?.lottie !== undefined ? scripts.lottie() : null;
+  return { pages: pages.map(({ page, code }) => ({ file: page.file, html: code.html.map((line) => line.text).join('\n') })), css, cssLines, interactions, forms, motion, lottie };
 }
 
 // A page as the preview shows it (spec preview-mode): the exported page itself, its stylesheet written in its head in
@@ -420,6 +434,11 @@ export function previewPage(document: DocumentJson, rules: ModelRules, pageIndex
   }
   const link = `  <link rel="stylesheet" href="${STYLESHEET}">`;
   if (site.forms !== null) html = html.replace(`  <script defer src="${FORMS_SCRIPT}"></script>`, () => `  <script>document.addEventListener('DOMContentLoaded', function () {\n${site.forms}\n});</script>`);
+  // the Lottie player and the motion script run in the preview from their own text, in their order (the page links
+  // them by paths the preview cannot load)
+  const pageFile = page?.file ?? '';
+  if (site.lottie !== null) html = html.replace(`  <script defer src="${relativePath(pageFile, LOTTIE_SCRIPT)}"></script>`, () => `  <script>\n${site.lottie?.replace(/<\/script/gi, '<\\/script') ?? ''}\n  </script>`);
+  if (site.motion !== null) html = html.replace(`  <script defer src="${relativePath(pageFile, MOTION_SCRIPT)}"></script>`, () => `  <script>document.addEventListener('DOMContentLoaded', function () {\n${site.motion?.replace(/<\/script/gi, '<\\/script') ?? ''}\n});</script>`);
   return html.replace(link, `  <base target="_blank">\n  <style>\n${css}  </style>`);
 }
 
@@ -433,6 +452,8 @@ export const exportProject = registerHandler('project.export', ({ state, rules, 
   // export-events-js)
   const script = site.interactions === null ? [] : [{ path: INTERACTIONS_SCRIPT, bytes: encoder.encode(site.interactions) }];
   if (site.forms !== null) script.push({ path: FORMS_SCRIPT, bytes: encoder.encode(site.forms) });
+  if (site.motion !== null) script.push({ path: MOTION_SCRIPT, bytes: encoder.encode(site.motion) });
+  if (site.lottie !== null) script.push({ path: LOTTIE_SCRIPT, bytes: encoder.encode(site.lottie) });
   const entries = [...site.pages.map(({ file, html }) => ({ path: file, bytes: encoder.encode(html) })), { path: STYLESHEET, bytes: encoder.encode(site.css) }, ...script, ...assets];
   const bytes = zip(entries, FIXED_TIME);
   return { kind: 'change' as const, message: message('status.export.done', { file: SITE_ARCHIVE }), download: { name: SITE_ARCHIVE, type: 'application/zip', bytes } };

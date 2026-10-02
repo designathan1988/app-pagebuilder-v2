@@ -4576,7 +4576,7 @@
                 {
                   "path": "index.html",
                   "present": [
-                    "<h2 class=\"heading\">New heading</h2>",
+                    "<h2 class=\"title\">New heading</h2>",
                     "<link rel=\"stylesheet\" href=\"css/styles.css\">"
                   ],
                   "absent": [
@@ -4592,7 +4592,7 @@
                     "font-display: swap;",
                     "font-family: Body;",
                     "src: url(\"../fonts/Body.woff2\") format(\"woff2\");",
-                    ".heading {",
+                    ".title {",
                     "font-size: 100px;",
                     "font-family: Heading;"
                   ],
@@ -4710,7 +4710,6 @@
                       "name": "Home",
                       "tag": "body",
                       "attributes": {
-                        "pageLanguage": "en",
                         "pageTitle": "Site",
                         "pageScripts": "js/app.js"
                       },
@@ -4784,7 +4783,6 @@
                       "name": "About",
                       "tag": "body",
                       "attributes": {
-                        "pageLanguage": "en",
                         "pageTitle": "About"
                       },
                       "classes": [],
@@ -5195,7 +5193,6 @@
                       "name": "Home",
                       "tag": "body",
                       "attributes": {
-                        "pageLanguage": "en",
                         "pageTitle": "Site",
                         "pageScripts": "js/app.js"
                       },
@@ -5269,7 +5266,6 @@
                       "name": "About",
                       "tag": "body",
                       "attributes": {
-                        "pageLanguage": "en",
                         "pageTitle": "About"
                       },
                       "classes": [],
@@ -5419,7 +5415,7 @@
                 {
                   "path": "about/index.html",
                   "present": [
-                    "<h1 class=\"title title--title-2\">About us</h1>",
+                    "<h1 class=\"title title--title\">About us</h1>",
                     "<link rel=\"stylesheet\" href=\"../css/styles.css\">"
                   ],
                   "absent": [
@@ -5432,7 +5428,7 @@
                     ".title {",
                     "letter-spacing: 2px;",
                     ".card {",
-                    "padding-top: 24px;",
+                    "padding: 24px;",
                     "background-color: #fafafa;"
                   ],
                   "absent": [

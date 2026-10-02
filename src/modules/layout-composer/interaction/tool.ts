@@ -1,4 +1,4 @@
-// The Layout Composer's canvas tool (editor/input/canvas-tools.ts): while a container is composed, a primary press on
+// The Layout Composer's canvas tool (editor/input/pointer-tools.ts): while a container is composed, a primary press on
 // its stage (ui/overlay.tsx, [data-layout-stage]) is the composer's. The press, its moves and its release are read in
 // the container's own px (the stage's screen box over the intent's viewport); the moves only draw the preview
 // (preview.ts); the release dispatches the one door it means through the gesture the pointer owner opened, so it is
@@ -14,7 +14,7 @@ import type { Gesture } from '../../../core/store/store.ts';
 import type { CommandId, KeyContextId, MessageId } from '../../../generated/ids.ts';
 import { manifest, numberConstant } from '../../../manifest/runtime.ts';
 import { textOf } from '../../../editor/text.ts';
-import type { CanvasTool, ToolPoint, ToolSession } from '../../../editor/input/canvas-tools.ts';
+import type { PointerTool, ToolPoint, ToolSession } from '../../../editor/input/pointer-tools.ts';
 import { hitRegions } from '../geometry/geometry.ts';
 import { handleOf, readStroke, type StrokeMode } from '../gestures/recognize.ts';
 import { cycleSelection } from '../gestures/structural.ts';
@@ -51,7 +51,7 @@ const rounded = (p: Point): Point => ({ x: Math.round(p.x), y: Math.round(p.y) }
 // the composer's own key context (interactions.json): Escape leaves it, Delete deletes the selected regions
 const KEY_CONTEXT = 'layout-composer' as KeyContextId;
 
-export const layoutTool: CanvasTool = {
+export const layoutTool: PointerTool = {
   id: 'layout-composer',
   keyContext: (ui) => (composerOf(ui) === null ? null : KEY_CONTEXT),
   press(at, target, state): ToolSession | null {
@@ -77,12 +77,13 @@ export const layoutTool: CanvasTool = {
     const read = (mode: StrokeMode) => readStroke(record.intent, { points, mode, handle, radius }, naming);
     return {
       move(next) {
-        if (!travelled && Math.hypot(next.x - at.x, next.y - at.y) < CLICK_TRAVEL) return;
+        if (!travelled && Math.hypot(next.x - at.x, next.y - at.y) < CLICK_TRAVEL) return null;
         travelled = true;
         points.push(local(next));
         // narrower than the drawing the page lays the regions out its own way: no preview, the command says why
-        if (measured) return;
+        if (measured) return null;
         preview.set({ points: [...points], reading: read(handle === null ? modeOf(next, composer.tool) : 'auto') });
+        return null;
       },
       release(next: ToolPoint, gesture: Gesture) {
         preview.set(null);

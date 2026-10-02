@@ -2098,7 +2098,7 @@
                 {
                   "path": "css/styles.css",
                   "present": [
-                    "padding-top: 56px;"
+                    "padding: 56px 40px;"
                   ],
                   "absent": [
                     "guide"

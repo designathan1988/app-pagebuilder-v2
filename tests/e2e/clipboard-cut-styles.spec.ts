@@ -132,7 +132,8 @@ test('a copy of a styled element carries its CSS rules beside the exported marku
   for (const gone of ['data-node', 'data-chrome', 'style=', '<style>']) expect(held.html, gone).not.toContain(gone);
   // the CSS rules it uses travel beside the markup (Chrome turns a <style> written with the html into inline styles,
   // so the rules have a part of their own)
-  expect(held.css).toMatch(/\.hero\s*\{[^}]*padding-top: 56px/);
+  // (the export writes the box's sides as one shorthand: spec export-clean)
+  expect(held.css).toMatch(/\.hero\s*\{[^}]*padding: 56px 40px/);
   // and the app's own format beside them, so the editor pastes what it copied
   expect(JSON.parse(held.text)).toMatchObject({ format: 'builder/elements', nodes: [{ type: 'section', name: 'Hero' }] });
 });

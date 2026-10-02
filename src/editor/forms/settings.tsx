@@ -90,7 +90,7 @@ export function FieldFormSettings({ config, onChange: commit, ports, maskAllowed
       {field('mask.autocorrect', 'boolean', mask.autocorrect ?? false, (value) => changeMask({ autocorrect: value === 'true' }))}
     </div>}
     {field('mask.submit', 'select', mask.submit ?? 'formatted', (value) => changeMask({ submit: value }), choiceValues(ports, 'forms.mask.submit', ['raw', 'formatted']))}
-    {field('preview.input', 'text', trial, setTrial)}<output aria-live="polite">{preview}</output>
+    {field('preview.input', 'text', trial, setTrial)}{/* a preview, not a status: the status bar is the editor's one status region */}<span className="forms-preview">{preview}</span>
     </>}
     {field('when', 'select', config.when ?? 'blur', (value) => onChange({ ...config, when: value as NonNullable<FieldConfig['when']> }), choiceValues(ports, 'forms.when', ['input', 'blur', 'submit']))}
     {field('rules.required', 'boolean', rules.required ?? false, (value) => changeRules({ required: value === 'true' }))}

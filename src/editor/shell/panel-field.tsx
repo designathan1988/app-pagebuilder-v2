@@ -89,7 +89,8 @@ export function PanelField({
           ref={input}
           className="panel-field__text"
           type="text"
-          value={edited ? draft : display === undefined ? value : display(value)}
+          // an empty value is nothing chosen yet: shown empty, never put into words (the placeholder says what it means)
+          value={edited ? draft : display === undefined || value === '' ? value : display(value)}
           placeholder={placeholder}
           disabled={!ready}
           list={list.length > 0 ? `${id}-list` : undefined}

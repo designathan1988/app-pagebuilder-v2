@@ -13,6 +13,7 @@ import type { Attribute, Coupling, ElementsFile, GeneratedHtml, PropertiesFile, 
 import { contentModelFrom, type ContentModel } from '../elements/content-model.ts';
 import { orphanReferences, setReferenceAttributes } from '../elements/references.ts';
 import { addressAllowed } from '../elements/address.ts';
+import { motionProblems } from '../motion/document.ts';
 import { deepEqual } from '../history/transaction.ts';
 import { authoringProblems } from './authoring.ts';
 import { settingOf } from '../page/grid-settings.ts';
@@ -397,6 +398,9 @@ export function validateDocument(doc: DocumentJson, selection: Selection, rules:
   // a reference that names no element of the document is refused with its reason (the audit's A3.4 and A3.44): a file
   // whose label points at a control that is not there, or whose link opens a section that does not exist, never opens
   // quietly. The references owner says which those are (src/core/elements/references.ts).
+  // the motion data: each timeline, interaction and behaviour read strictly, the timeline names unique, every timeline
+  // played and every element picked held by the document (core/motion/document.ts)
+  for (const problem of motionProblems(doc)) bad(problem.path, problem.message);
   for (const orphan of orphanReferences(doc)) {
     bad('/pages', `${orphan.node.name} holds ${orphan.attribute} "${orphan.value}", which names no element of the document`);
   }

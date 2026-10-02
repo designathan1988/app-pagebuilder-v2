@@ -1405,6 +1405,58 @@
       "unit": "fraction",
       "source": "spec/BEHAVIOUR.md#layout-composer",
       "note": "How strongly a reference image shows under the regions when it is chosen; the panel's opacity field changes it."
+    },
+    {
+      "id": "motion.pixelsPerSecond",
+      "value": 200,
+      "unit": "css-px",
+      "source": "spec/BEHAVIOUR.md#motion-timeline",
+      "note": "How many css px one second of a motion timeline takes when the Timeline opens; a drag's travel is read at it when the pointer owner gives no delta."
+    },
+    {
+      "id": "motion.zoomRange",
+      "value": [
+        20,
+        4000
+      ],
+      "unit": "css-px",
+      "source": "spec/BEHAVIOUR.md#motion-timeline",
+      "note": "The narrowest and widest second the Timeline zooms to, in css px."
+    },
+    {
+      "id": "motion.zoomStep",
+      "value": 1.25,
+      "unit": "factor",
+      "source": "spec/BEHAVIOUR.md#motion-timeline",
+      "note": "What one step of Zoom in multiplies the second's width by (Zoom out divides by it)."
+    },
+    {
+      "id": "motion.snapDistance",
+      "value": 6,
+      "unit": "screen-px",
+      "source": "spec/BEHAVIOUR.md#motion-timeline",
+      "note": "A dragged bar edge, keyframe, marker or playhead snaps to an edge, a keyframe, a marker or the playhead within this many screen pixels."
+    },
+    {
+      "id": "motion.snapGrid",
+      "value": 50,
+      "unit": "ms",
+      "source": "spec/BEHAVIOUR.md#motion-timeline",
+      "note": "Else a dragged time rounds to this step."
+    },
+    {
+      "id": "motion.trackLength",
+      "value": 6000,
+      "unit": "ms",
+      "source": "spec/BEHAVIOUR.md#motion-timeline",
+      "note": "The ruler spans at least this long, at any zoom; the timeline's own length and a second more when it is longer. Its middle is where a press with no travel puts the playhead."
+    },
+    {
+      "id": "motion.rulerSpacing",
+      "value": 72,
+      "unit": "css-px",
+      "source": "spec/BEHAVIOUR.md#motion-timeline",
+      "note": "The least distance between two labels of the ruler; the step of seconds is the smallest that keeps it."
     }
   ],
   "gestures": [
@@ -1791,6 +1843,66 @@
         {
           "key": "Alt",
           "meaning": "cycle-overlapping-regions"
+        }
+      ]
+    },
+    {
+      "id": "motion-select",
+      "source": "spec/BEHAVIOUR.md#motion-timeline",
+      "modifiers": [
+        {
+          "key": "Shift",
+          "meaning": "add-to-selection"
+        }
+      ]
+    },
+    {
+      "id": "motion-bar-drag",
+      "source": "spec/BEHAVIOUR.md#motion-timeline",
+      "modifiers": [
+        {
+          "key": "Alt",
+          "meaning": "no-snap"
+        }
+      ]
+    },
+    {
+      "id": "motion-bar-resize",
+      "source": "spec/BEHAVIOUR.md#motion-timeline",
+      "modifiers": [
+        {
+          "key": "Alt",
+          "meaning": "no-snap"
+        }
+      ]
+    },
+    {
+      "id": "motion-keyframe-drag",
+      "source": "spec/BEHAVIOUR.md#motion-keyframes",
+      "modifiers": [
+        {
+          "key": "Alt",
+          "meaning": "no-snap"
+        }
+      ]
+    },
+    {
+      "id": "motion-marker-drag",
+      "source": "spec/BEHAVIOUR.md#motion-timeline",
+      "modifiers": [
+        {
+          "key": "Alt",
+          "meaning": "no-snap"
+        }
+      ]
+    },
+    {
+      "id": "motion-playhead-drag",
+      "source": "spec/BEHAVIOUR.md#motion-timeline",
+      "modifiers": [
+        {
+          "key": "Alt",
+          "meaning": "no-snap"
         }
       ]
     }

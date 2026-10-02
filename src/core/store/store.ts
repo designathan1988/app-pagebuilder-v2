@@ -8,6 +8,7 @@ import type { CommandArgs } from '../../generated/commands.ts';
 import type { CommandId, ConstantId, MessageId } from '../../generated/ids.ts';
 import type { Command } from '../../manifest/schema.ts';
 import { isBuilt, message, type CommandTable, type HandlerContext, type KeyframeTarget, type Message, type Outcome, type PredicateTable } from '../commands/registry.ts';
+import type { MotionEditorContext } from '../motion/record.ts';
 import type { DocumentJson, Selection } from '../document/model.ts';
 import { validateDocument, type Invalid, type ModelRules } from '../document/validate.ts';
 import { EMPTY_HISTORY, LAST_CHANGE, record, redo, redone, undo, undone, type HistoryState, type Restorable } from '../history/history.ts';
@@ -157,6 +158,9 @@ export interface StoreOptions<Ui> {
   // the keyframe the editor state makes the style target (the timeline's playhead, spec timeline-keyframes); none when
   // absent: a style write goes to the elements' styles
   readonly keyframe?: (state: StoreState<Ui>) => KeyframeTarget | null;
+  // what the motion commands read of the editor's Timeline: the playhead, and what a style write records into
+  // (spec motion-keyframes); none when absent
+  readonly motion?: (state: StoreState<Ui>) => MotionEditorContext | null;
   // the saved versions' documents by revision (the recovery port, src/editor/persistence/autosave.ts)
   readonly version?: (revision: string) => unknown;
   // whether this tab only reads the project (another tab edits it, spec multi-tab-guard): a command that would change
@@ -319,6 +323,7 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
       css: options.css ?? anyCss,
       styleClass: options.styleClass?.(ui) ?? null,
       keyframe: options.keyframe?.(state) ?? null,
+      motion: options.motion?.(state) ?? null,
       confirmed,
       version: (revision) => options.version?.(revision),
     };

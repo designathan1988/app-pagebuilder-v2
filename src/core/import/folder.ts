@@ -13,6 +13,7 @@
 // The command replaces the project (outcome `load`): it asks first over work (outcome `confirm`, the manifest's
 // confirmation) and the selection and the history start empty, as File › Open project does.
 import { message, registerHandler, type HandlerContext, type Message, type MessageParam } from '../commands/registry.ts';
+import { projectLanguages } from './import.ts';
 import { DOCUMENT_VERSION, isEmptyProject, type DocNode, type DocumentJson, type Page, type ProjectFile } from '../document/model.ts';
 import type { ModelRules } from '../document/validate.ts';
 import { folderOf, nameOfPath, pathGenerated, resolveHref, typeOfFile, type UploadedFile } from '../files/files.ts';
@@ -169,7 +170,8 @@ export function importFolder(folder: FolderImport, context: HandlerContext<unkno
     const name = freshName(pageNames, path === 'index.html' ? home : pageNameOf(path, home));
     // the page's own settings, kept on its root as the page's panel keeps them (elements.json isPageSetting)
     const attributes: Record<string, unknown> = {};
-    if (head.lang !== null) attributes.pageLanguage = head.lang;
+    // the project's own language is no setting of the page (spec export-clean)
+    if (head.lang !== null && head.lang !== (context.state.document.language ?? 'en')) attributes.pageLanguage = head.lang;
     if (head.dir === 'ltr' || head.dir === 'rtl') attributes.pageDirection = head.dir;
     if (head.title !== null) attributes.pageTitle = head.title;
     // the scripts the page runs, as the tree's paths (a script whose file the folder does not hold is dropped)
@@ -247,5 +249,6 @@ export const openFolderCommand = registerHandler('project.openFolder', (context,
   const read = importFolder({ name: wanted?.name ?? '', files: wanted?.files ?? [] }, context);
   if ('refused' in read) return { kind: 'refused' as const, message: read.refused };
   if (context.confirmed !== true && !isEmptyProject(context.state.document)) return { kind: 'confirm' as const };
-  return { kind: 'load' as const, document: read.document, message: reportMessage(wanted?.name ?? '', read.report) };
+  // the opened folder becomes the project's content; its languages stay the project's (spec export-clean)
+  return { kind: 'load' as const, document: { ...read.document, ...projectLanguages(context.state.document) }, message: reportMessage(wanted?.name ?? '', read.report) };
 });

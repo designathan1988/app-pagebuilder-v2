@@ -1561,7 +1561,8 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
     // names no argument for it (a row's name, whose double-click renames the selection the first click made) is the
     // part of the row of the step's target: sidebar.tsx writes each part's row node as `target`.
     const clicked = modifiedControl(ref)?.drawn ?? ref;
-    const plain = d.kind === 'panel-control' && d.panel === 'layers' && Object.keys(own).length === 0 && target !== null ? { target: target.id } : withoutGestureArgs(own);
+    // (a Layers row's control is drawn on every row: it stands for the row's node too, whatever else it stands for)
+    const plain = d.kind === 'panel-control' && d.panel === 'layers' && target !== null ? { ...withoutGestureArgs(own), target: target.id } : withoutGestureArgs(own);
     // an area (the colour picker's) stands for part of its step's arguments: the press gives the rest (the colour at the
     // point runDoor presses), which the document diff checks
     // the colour picker's eyedropper stands for its property: the colour is the one the browser's EyeDropper answers,

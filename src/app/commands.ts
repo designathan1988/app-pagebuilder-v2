@@ -23,6 +23,8 @@ import { addKeyframeCommand, createAnimationCommand, deleteAnimationCommand, del
 import { addInteractionCommand, removeInteractionCommand, updateInteractionCommand } from '../core/events/interactions.ts';
 import { makePicked, makePicking } from '../editor/inspector/pick-target.ts';
 import { setPlayheadCommand, showAnimationCommand } from '../editor/timeline/playhead.ts';
+import { addActionCommand, addMarkerCommand, addMotionCommand, createTimelineCommand, deleteKeyframesCommand, deleteTimelineCommand, editKeyframeCommand, moveActionsCommand, moveKeyframesCommand, moveMarkerCommand, pasteKeyframesCommand, removeActionsCommand, removeBehaviourCommand, removeMarkerCommand, removeMotionCommand, renameMarkerCommand, renameTimelineCommand, resizeActionCommand, setBehaviourCommand, setEffectOptionCommand, setKeyframeCommand, updateActionCommand, updateMotionCommand } from '../core/motion/commands.ts';
+import { copyMotionKeyframesCommand, makeMotionPicked, makeMotionPicking, openTimelineCommand, previewMotionCommand, selectMotionCommand, setMotionPlayheadCommand, toggleRecordCommand, toggleRunCommand, toggleSnapCommand, zoomTimelineCommand } from '../editor/motion/state.ts';
 import { pauseCommand, playCommand, stopCommand, toggleLoopCommand } from '../editor/timeline/preview.ts';
 import { copyPane, downloadPane, setPane } from '../editor/code-panel/code-panel.ts';
 import { setEditorView } from '../editor/view/editor-view.ts';
@@ -126,6 +128,8 @@ import { collapseDocks, setPanelOpen, toggleDeveloperTools, toggleInspector, tog
 const HAND = handCommands<EditorUi>();
 // interactions.update, for the editor state that holds the interaction target being picked
 const INTERACTIONS_UPDATE = updateInteractionCommand<EditorUi>({ makePicking, makePicked });
+// motion.updateAction, for the editor state that holds the action whose target is being picked
+const MOTION_UPDATE_ACTION = updateActionCommand<EditorUi>({ makePicking: makeMotionPicking, makePicked: makeMotionPicked });
 // the page the editor shows (pages.switch): the handler the editor's own state binds (core/project/pages.ts)
 const SWITCH_PAGE = switchPageCommand<EditorUi>();
 
@@ -206,6 +210,38 @@ export const COMMANDS = {
   'interactions.add': addInteractionCommand,
   'interactions.update': INTERACTIONS_UPDATE,
   'interactions.remove': removeInteractionCommand,
+  'motion.add': addMotionCommand,
+  'motion.update': updateMotionCommand,
+  'motion.remove': removeMotionCommand,
+  'motion.createTimeline': createTimelineCommand,
+  'motion.renameTimeline': renameTimelineCommand,
+  'motion.deleteTimeline': deleteTimelineCommand,
+  'motion.openTimeline': openTimelineCommand,
+  'motion.addAction': addActionCommand,
+  'motion.updateAction': MOTION_UPDATE_ACTION,
+  'motion.setEffectOption': setEffectOptionCommand,
+  'motion.removeActions': removeActionsCommand,
+  'motion.moveActions': moveActionsCommand,
+  'motion.resizeAction': resizeActionCommand,
+  'motion.select': selectMotionCommand,
+  'motion.setPlayhead': setMotionPlayheadCommand,
+  'motion.zoomTimeline': zoomTimelineCommand,
+  'motion.toggleSnap': toggleSnapCommand,
+  'motion.addMarker': addMarkerCommand,
+  'motion.moveMarker': moveMarkerCommand,
+  'motion.renameMarker': renameMarkerCommand,
+  'motion.removeMarker': removeMarkerCommand,
+  'motion.setKeyframe': setKeyframeCommand,
+  'motion.editKeyframe': editKeyframeCommand,
+  'motion.moveKeyframes': moveKeyframesCommand,
+  'motion.deleteKeyframes': deleteKeyframesCommand,
+  'motion.copyKeyframes': copyMotionKeyframesCommand,
+  'motion.pasteKeyframes': pasteKeyframesCommand,
+  'motion.toggleRecord': toggleRecordCommand,
+  'motion.preview': previewMotionCommand,
+  'motion.toggleRun': toggleRunCommand,
+  'motion.setBehaviour': setBehaviourCommand,
+  'motion.removeBehaviour': removeBehaviourCommand,
   'pages.add': addPageCommand<EditorUi>(),
   'pages.rename': renamePageCommand,
   'pages.duplicate': duplicatePageCommand,

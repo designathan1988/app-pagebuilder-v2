@@ -109,6 +109,10 @@
       "area": "dock"
     },
     {
+      "id": "dock-motion",
+      "area": "dock"
+    },
+    {
       "id": "dock-checks",
       "area": "dock"
     },
@@ -608,6 +612,13 @@
       "place": "dock",
       "in": null,
       "open": true
+    },
+    "motion": {
+      "icon": "sparkles",
+      "labelKey": "panel.motion",
+      "place": "dock",
+      "in": null,
+      "open": false
     },
     "checks": {
       "icon": "check",

@@ -1,7 +1,7 @@
 // The editor side of the installed modules (src/app/modules.ts lists them): the sidebar views they draw, the layers
-// they draw over the canvas and the canvas tools that take presses there (editor/input/canvas-tools.ts).
+// they draw over the canvas and the canvas tools that take presses there (editor/input/pointer-tools.ts).
 import type { ComponentType } from 'react';
-import { registerCanvasTool, type CanvasTool } from '../editor/input/canvas-tools.ts';
+import { registerPointerTool, type PointerTool } from '../editor/input/pointer-tools.ts';
 import type { BodyTable } from '../editor/shell/bodies.ts';
 import { LAYOUT_COMPOSER_VIEW } from '../modules/layout-composer/view.ts';
 
@@ -9,7 +9,7 @@ import { LAYOUT_COMPOSER_VIEW } from '../modules/layout-composer/view.ts';
 interface ModuleView {
   readonly sidebarViews: BodyTable;
   readonly canvasLayers: readonly ComponentType[];
-  readonly canvasTools: readonly CanvasTool[];
+  readonly canvasTools: readonly PointerTool[];
 }
 
 const INSTALLED: readonly ModuleView[] = [LAYOUT_COMPOSER_VIEW];
@@ -19,7 +19,7 @@ export const MODULE_CANVAS_LAYERS: readonly ComponentType[] = INSTALLED.flatMap(
 
 // The canvas tools join the pointer owner once, when the editor starts (main.tsx); the function returned takes them away.
 export function installModuleTools(): () => void {
-  const removals = INSTALLED.flatMap((m) => m.canvasTools.map((tool) => registerCanvasTool(tool)));
+  const removals = INSTALLED.flatMap((m) => m.canvasTools.map((tool) => registerPointerTool(tool)));
   return () => {
     for (const remove of removals) remove();
   };

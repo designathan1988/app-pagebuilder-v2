@@ -17,6 +17,7 @@ import { PanelButton, PanelField } from './panel-field.tsx';
 import { useEditorState, useStore } from '../store.ts';
 import { useT } from '../text.ts';
 import { pickingTarget } from '../inspector/pick-target.ts';
+import { MotionInteractions } from '../motion/ui/interactions.tsx';
 import type { DispatchResult } from '../../core/store/store.ts';
 import type { CommandId, FeatureId } from '../../generated/ids.ts';
 
@@ -173,6 +174,7 @@ export function InteractionsTab() {
       {node === null ? null : interactions.length === 0 ? <p className="interactions__none">{t('interactions.canvasNote')}</p> : null}
       {node === null ? null : interactions.map((interaction, index) => <Card key={index} node={node} interaction={interaction} index={index} />)}
       {node !== null && interactions.length > 0 ? <p className="interactions__note">{t('interactions.canvasNote')}</p> : null}
+      <MotionInteractions node={node} />
     </div>
   );
 }

@@ -468,6 +468,8 @@
 .viewport-width__range {
   margin: 0;
   width: var(--size-tag-field);
+  /* a control's hit area is at least 24 px tall (the accessibility audit), the track drawn in its middle */
+  min-height: var(--space-9);
   accent-color: var(--color-text);
 }
 

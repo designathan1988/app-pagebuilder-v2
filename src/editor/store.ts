@@ -28,6 +28,7 @@ import { revealSelection } from './layers/tree.ts';
 import { pageFollowsSelection } from './project/page-follows.ts';
 import { targetFollowsClassRename, targetOffSelection } from './inspector/style-target.ts';
 import { keyframeTarget } from './timeline/playhead.ts';
+import { motionContext } from './motion/state.ts';
 import { browserStorage, loadPreferences, persistPreferences, type PreferenceStorage } from './preferences/preferences.ts';
 import { browserWorkspace, persistWorkspace, readWorkspace, type WorkspaceStorage } from './workspace/persist.ts';
 import { initialEditorUi, type EditorUi } from './state.ts';
@@ -109,6 +110,8 @@ export function createEditorStore(options: EditorStoreOptions = {}): EditorStore
     styleClass: (ui) => ui.styleTarget ?? null,
     // the keyframe the playhead sits on, whose declarations a style write goes to (timeline/playhead.ts)
     keyframe: keyframeTarget,
+    // the motion Timeline's playhead and recording, which the motion commands read (motion/state.ts)
+    motion: motionContext,
     version: (revision) => options.recovery?.find((v) => String(v.revision) === revision)?.document,
     readOnly: options.ports?.readOnly ?? (() => !isEditing()),
     layer: activeLayer,

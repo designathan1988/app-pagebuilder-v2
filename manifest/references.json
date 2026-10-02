@@ -2029,6 +2029,166 @@
       "kind": "handler",
       "id": "layout.trace",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.add",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.update",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.remove",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.createTimeline",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.renameTimeline",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.deleteTimeline",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.openTimeline",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.addAction",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.updateAction",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.setEffectOption",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.removeActions",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.moveActions",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.resizeAction",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.select",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.setPlayhead",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.zoomTimeline",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.toggleSnap",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.addMarker",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.moveMarker",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.renameMarker",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.removeMarker",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.setKeyframe",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.editKeyframe",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.moveKeyframes",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.deleteKeyframes",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.copyKeyframes",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.pasteKeyframes",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.toggleRecord",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.preview",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.toggleRun",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.setBehaviour",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "motion.removeBehaviour",
+      "status": "registered"
     }
   ]
 }

@@ -7,6 +7,7 @@ import type { FeatureId, MessageId } from '../../generated/ids.ts';
 import { isFeatureBuilt } from '../../app/features.ts';
 import { locate } from '../../core/document/model.ts';
 import { TimelinePanel } from '../timeline/panel.tsx';
+import { MotionTimelinePanel } from '../motion/ui/timeline.tsx';
 import { DoorControl, Icon } from '../doors/door.tsx';
 import { doorSlots } from '../doors/placement.ts';
 import { useEditorState } from '../store.ts';
@@ -101,7 +102,8 @@ function Checks() {
 
 // The body of each dock tab the editor draws; a tab without one says "not available yet" and the doors that only open
 // it are not available yet (bodies.ts).
-export const DOCK_TABS: BodyTable = { timeline: Timeline, document: DocumentJson, checks: Checks, shortcuts: Shortcuts };
+// the Motion tab: the project's motion timelines (spec motion-timeline; src/editor/motion/ui/timeline.tsx)
+export const DOCK_TABS: BodyTable = { timeline: Timeline, motion: MotionTimelinePanel, document: DocumentJson, checks: Checks, shortcuts: Shortcuts };
 
 // the tab's panel, named after its tab
 function DockBody({ tab }: { readonly tab: Panel }) {

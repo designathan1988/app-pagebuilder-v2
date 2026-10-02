@@ -20,7 +20,7 @@ test.beforeEach(async ({ page }) => {
   await expect(page.locator('.workbench')).toBeVisible();
 });
 
-for (const ref of ['workspace.setPanelOpen#menu-view-elements', 'workspace.setPanelOpen#toolbar-activity-bar-insert']) {
+for (const ref of ['workspace.setPanelOpen#menu-view-elements']) {
   test(`${ref} puts Insert in the sidebar, and a second time gives the sidebar's column to the canvas`, runs(ref), async ({ page }) => {
     const start = await box(page, '.workbench');
     const sidebar = await box(page, '.sidebar');
@@ -41,9 +41,25 @@ for (const ref of ['workspace.setPanelOpen#menu-view-elements', 'workspace.setPa
   });
 }
 
+// The activity bar's icons open their view and give it the focus; pressed again they keep it open (the user's
+// real-use audit, J8, QA-LOG 40: pressing the active icon used to hide its panel). View › Insert and View › Explorer
+// still turn their view on and off, below.
+for (const [ref, view] of [['workspace.setPanelOpen#toolbar-activity-bar-insert', 'insert'], ['workspace.setPanelOpen#toolbar-activity-bar-explorer', 'explorer-pages']] as const) {
+  test(`${ref} opens its view in the sidebar, and a second time keeps it open`, runs(ref), async ({ page }) => {
+    const sidebar = await box(page, '.sidebar');
+    await runDoor(page, ref);
+    const shown = await region(page, view);
+    expect(shown.x).toBeCloseTo(sidebar.x, 0);
+    await runDoor(page, ref);
+    await expect(page.locator(`[data-region="${view}"]`)).toHaveCount(1);
+    expect(await box(page, '.sidebar')).toEqual(sidebar);
+    expect((await region(page, view)).x).toBeCloseTo(sidebar.x, 0);
+  });
+}
+
 // View › Explorer and the activity bar's Explorer do the same (the audit's A3.23: View › Explorer belongs to the feature
 // that built the Explorer, layers-tree, and is no longer drawn not available yet)
-for (const ref of ['workspace.setPanelOpen#toolbar-activity-bar-explorer', 'workspace.setPanelOpen#menu-view-explorer']) {
+for (const ref of ['workspace.setPanelOpen#menu-view-explorer']) {
   test(`${ref} gives the Explorer's column to the canvas, and a second time puts the Explorer back`, runs(ref), async ({ page }) => {
     const start = await box(page, '.workbench');
     const sidebar = await box(page, '.sidebar');

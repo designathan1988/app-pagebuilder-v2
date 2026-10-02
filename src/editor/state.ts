@@ -29,6 +29,7 @@ import type { Selection } from '../core/document/model.ts';
 import type { Revealed } from './inspector/sections.ts';
 import type { EditMode } from './canvas/edit-mode.ts';
 import type { TimelineState } from './timeline/playhead.ts';
+import type { MotionUiState } from './motion/state.ts';
 
 export interface EditorUi {
   readonly assistant?: AssistantState;
@@ -106,6 +107,9 @@ export interface EditorUi {
   // which interaction of the selected element is being given a target (inspector/pick-target.ts); absent while nothing
   // is picked
   readonly pickTarget?: number | undefined;
+  // the motion Timeline: the timeline it shows, the playhead, the zoom, the selection, the copied keyframes, recording,
+  // snapping, the preview and run mode (motion/state.ts); absent while nothing moved it
+  readonly motion?: MotionUiState | undefined;
 }
 
 // The workspace the person left (src/editor/workspace/persist.ts): its panels and layout, else the manifest's firsts

@@ -1,0 +1,3687 @@
+{
+  "domain": "motion",
+  "commands": [
+    {
+      "id": "motion.add",
+      "labelKey": "command.motion.add",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-interactions",
+      "args": {
+        "trigger": {
+          "type": "enum",
+          "values": [
+            "click",
+            "double-click",
+            "pointer-down",
+            "pointer-up",
+            "pointer-enter",
+            "pointer-leave",
+            "hover",
+            "pointer-move",
+            "focus",
+            "blur",
+            "focus-within",
+            "key",
+            "input",
+            "change",
+            "form-submit",
+            "form-invalid",
+            "long-press",
+            "scroll-into-view",
+            "scroll-out-of-view",
+            "while-visible",
+            "page-scroll",
+            "scroll-direction",
+            "page-load",
+            "page-leave",
+            "visibility",
+            "resize",
+            "breakpoint",
+            "timer",
+            "interval",
+            "idle",
+            "media-play",
+            "media-pause",
+            "media-end",
+            "media-time",
+            "dropdown-open",
+            "dropdown-close",
+            "tab-change",
+            "slide-change",
+            "dialog-open",
+            "dialog-close",
+            "details-open",
+            "mobile-menu-open",
+            "custom"
+          ],
+          "optional": true
+        },
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "singleSelection",
+        "refusalKey": "status.needsSingleSelection"
+      },
+      "refusals": [
+        "status.motion.notApplicable",
+        "status.motion.notFound",
+        "status.motion.invalid",
+        "status.locked.edit"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "inspector-motion-add",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-add",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.add",
+          "faceLabelKey": "inspector.addMotion",
+          "icon": "plus",
+          "disabledReasonKey": "status.needsSingleSelection",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 21
+          },
+          "adapter": {
+            "selection": "single",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.update",
+      "labelKey": "command.motion.update",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-interactions",
+      "args": {
+        "interaction": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "field": {
+          "type": "enum",
+          "values": [
+            "trigger",
+            "timeline",
+            "control",
+            "leave",
+            "scope",
+            "once",
+            "delay",
+            "breakpoints",
+            "reducedMotion",
+            "key",
+            "threshold",
+            "milliseconds",
+            "direction",
+            "axis",
+            "breakpoint",
+            "seconds",
+            "state",
+            "event",
+            "scrollStart",
+            "scrollEnd"
+          ],
+          "optional": true
+        },
+        "value": {
+          "type": "json",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notApplicable",
+        "status.motion.notFound",
+        "status.motion.invalid",
+        "status.locked.edit"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "inspector-motion-trigger",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-trigger",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.trigger",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 22
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "trigger"
+          }
+        },
+        {
+          "id": "inspector-motion-timeline",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-timeline",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.timeline",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 23
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "timeline"
+          }
+        },
+        {
+          "id": "inspector-motion-control",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-control",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.control",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 24
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "control"
+          }
+        },
+        {
+          "id": "inspector-motion-leave",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-leave",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.leave",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 25
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "leave"
+          }
+        },
+        {
+          "id": "inspector-motion-scope",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-scope",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.scope",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 26
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "scope"
+          }
+        },
+        {
+          "id": "inspector-motion-once",
+          "kind": "panel-control",
+          "drawnAs": "toggle",
+          "pressed": true,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-once",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.once",
+          "faceLabelKey": null,
+          "icon": "tally-1",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 27
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "once"
+          }
+        },
+        {
+          "id": "inspector-motion-delay",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-delay",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.delay",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 28
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "delay"
+          }
+        },
+        {
+          "id": "inspector-motion-breakpoints",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-breakpoints",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.breakpoints",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 29
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "breakpoints"
+          }
+        },
+        {
+          "id": "inspector-motion-reduced-motion",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-reduced-motion",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.reducedMotion",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 30
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "reducedMotion"
+          }
+        },
+        {
+          "id": "inspector-motion-key",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-key",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.key",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 31
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "key"
+          }
+        },
+        {
+          "id": "inspector-motion-threshold",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-threshold",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.threshold",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 32
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "threshold"
+          }
+        },
+        {
+          "id": "inspector-motion-milliseconds",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-milliseconds",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.milliseconds",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 33
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "milliseconds"
+          }
+        },
+        {
+          "id": "inspector-motion-direction",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-direction",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.direction",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 34
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "direction"
+          }
+        },
+        {
+          "id": "inspector-motion-axis",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-axis",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.axis",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 35
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "axis"
+          }
+        },
+        {
+          "id": "inspector-motion-breakpoint",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-breakpoint",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.breakpoint",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 36
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "breakpoint"
+          }
+        },
+        {
+          "id": "inspector-motion-seconds",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-seconds",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.seconds",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 37
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "seconds"
+          }
+        },
+        {
+          "id": "inspector-motion-state",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-state",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.state",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 38
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "state"
+          }
+        },
+        {
+          "id": "inspector-motion-event",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-event",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.event",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 39
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "event"
+          }
+        },
+        {
+          "id": "inspector-motion-scroll-start",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-scroll-start",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.scrollStart",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 40
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "scrollStart"
+          }
+        },
+        {
+          "id": "inspector-motion-scroll-end",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-scroll-end",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.scrollEnd",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 41
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "scrollEnd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "motion.remove",
+      "labelKey": "command.motion.remove",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-interactions",
+      "args": {
+        "interaction": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.locked.edit"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "inspector-motion-remove",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-interactions",
+          "panel": "inspector",
+          "control": "motion-remove",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.remove",
+          "faceLabelKey": null,
+          "icon": "trash",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 42
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.createTimeline",
+      "labelKey": "command.motion.createTimeline",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "name": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.nameInvalid",
+        "status.motion.nameTaken"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-new-timeline",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-new-timeline",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.createTimeline",
+          "faceLabelKey": null,
+          "icon": "plus",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 31
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.renameTimeline",
+      "labelKey": "command.motion.renameTimeline",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "name": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound",
+        "status.motion.nameInvalid",
+        "status.motion.nameTaken"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-timeline-name",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-timeline-name",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.timeline.name",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 32
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.deleteTimeline",
+      "labelKey": "command.motion.deleteTimeline",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound",
+        "status.motion.timelineInUse"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-timeline-delete",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-timeline-delete",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.deleteTimeline",
+          "faceLabelKey": null,
+          "icon": "trash",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 33
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.openTimeline",
+      "labelKey": "command.motion.openTimeline",
+      "owner": "src/editor/motion/state.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-timeline-row",
+          "kind": "panel-control",
+          "drawnAs": "item",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-timeline-row",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.openTimeline",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 34
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.addAction",
+      "labelKey": "command.motion.addAction",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "kind": {
+          "type": "enum",
+          "values": [
+            "animate",
+            "class",
+            "attribute",
+            "style",
+            "text",
+            "display",
+            "timeline",
+            "css-animation",
+            "scroll",
+            "dialog",
+            "details",
+            "tab",
+            "slide",
+            "media",
+            "focus",
+            "form",
+            "navigate",
+            "clipboard",
+            "event",
+            "variable",
+            "theme",
+            "wait",
+            "split-text",
+            "lottie"
+          ],
+          "optional": false
+        },
+        "placement": {
+          "type": "enum",
+          "values": [
+            "after",
+            "with",
+            "at"
+          ],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound",
+        "status.motion.invalid"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-add-action-after",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-add-action-after",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.timeline.addAfter",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 35
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "placement": "after"
+          }
+        },
+        {
+          "id": "timeline-motion-add-action-with",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-add-action-with",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.timeline.addWith",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 36
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "placement": "with"
+          }
+        },
+        {
+          "id": "timeline-motion-add-action-at",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-add-action-at",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.timeline.addAt",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 37
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "placement": "at"
+          }
+        }
+      ]
+    },
+    {
+      "id": "motion.updateAction",
+      "labelKey": "command.motion.updateAction",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "action": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "at": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "field": {
+          "type": "enum",
+          "values": [
+            "kind",
+            "target",
+            "targetValue",
+            "start",
+            "duration",
+            "easing",
+            "repeat",
+            "yoyo",
+            "staggerEach",
+            "staggerFrom"
+          ],
+          "optional": false
+        },
+        "value": {
+          "type": "json",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound",
+        "status.motion.invalid",
+        "status.motion.needsClass",
+        "status.motion.needsComponent"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-action-kind",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-action-kind",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.kind",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 38
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "kind"
+          }
+        },
+        {
+          "id": "timeline-motion-action-target",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-action-target",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.target",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 39
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "target"
+          }
+        },
+        {
+          "id": "timeline-motion-action-target-value",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-action-target-value",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.targetValue",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 40
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "targetValue"
+          }
+        },
+        {
+          "id": "timeline-motion-action-start",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-action-start",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.start",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 41
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "start"
+          }
+        },
+        {
+          "id": "timeline-motion-action-duration",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-action-duration",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.duration",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 42
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "duration"
+          }
+        },
+        {
+          "id": "timeline-motion-action-easing",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-action-easing",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.easing",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 43
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "easing"
+          }
+        },
+        {
+          "id": "timeline-motion-action-repeat",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-action-repeat",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.repeat",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 44
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "repeat"
+          }
+        },
+        {
+          "id": "timeline-motion-action-stagger-each",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-action-stagger-each",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.staggerEach",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 45
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "staggerEach"
+          }
+        },
+        {
+          "id": "timeline-motion-action-stagger-from",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-action-stagger-from",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.staggerFrom",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 46
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "staggerFrom"
+          }
+        },
+        {
+          "id": "timeline-motion-action-yoyo",
+          "kind": "panel-control",
+          "drawnAs": "toggle",
+          "pressed": true,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-action-yoyo",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.yoyo",
+          "faceLabelKey": null,
+          "icon": "arrow-left-right",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 47
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "yoyo"
+          }
+        },
+        {
+          "id": "timeline-motion-action-pick",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": true,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-action-pick",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.pickTarget",
+          "faceLabelKey": null,
+          "icon": "locate-fixed",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 48
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "target",
+            "value": {
+              "pick": true
+            }
+          }
+        },
+        {
+          "id": "canvas-click-pick-motion-target",
+          "kind": "canvas-click",
+          "feature": "motion-timeline",
+          "target": "pick-motion-target",
+          "button": "primary",
+          "count": 1,
+          "modifier": null,
+          "gesture": "pick-target",
+          "labelKey": "motion.pickTarget",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "target"
+          }
+        },
+        {
+          "id": "layers-row-pick-motion-target",
+          "kind": "panel-control",
+          "drawnAs": "item",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "layers",
+          "control": "row-pick-motion-target",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.pickTarget",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "layers-row",
+            "order": 13
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "target"
+          }
+        }
+      ]
+    },
+    {
+      "id": "motion.setEffectOption",
+      "labelKey": "command.motion.setEffectOption",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "action": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "at": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "option": {
+          "type": "enum",
+          "values": [
+            "operation",
+            "className",
+            "name",
+            "value",
+            "property",
+            "transition",
+            "mode",
+            "timeline",
+            "animation",
+            "time",
+            "to",
+            "offset",
+            "smooth",
+            "block",
+            "index",
+            "address",
+            "newTab",
+            "source",
+            "text",
+            "detail",
+            "remember",
+            "by",
+            "file",
+            "loop",
+            "speed",
+            "from"
+          ],
+          "optional": false
+        },
+        "value": {
+          "type": "json",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound",
+        "status.motion.invalid",
+        "status.motion.notAnOption",
+        "status.url.unsafe",
+        "status.url.malformed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-effect-option",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-effect-option",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.setEffectOption",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 49
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.removeActions",
+      "labelKey": "command.motion.removeActions",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "actions": {
+          "type": "json",
+          "values": [],
+          "optional": true
+        },
+        "at": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-actions-delete",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-actions-delete",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.removeActions",
+          "faceLabelKey": null,
+          "icon": "trash",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 50
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.moveActions",
+      "labelKey": "command.motion.moveActions",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "actions": {
+          "type": "json",
+          "values": [],
+          "optional": true
+        },
+        "at": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "delta": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        },
+        "distance": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-gesture",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "panel-drag-motion-bar",
+          "kind": "panel-drag",
+          "feature": "motion-timeline",
+          "source": "motion-bar",
+          "zone": "motion-track",
+          "gesture": "motion-bar-drag",
+          "labelKey": "command.motion.moveActions",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.resizeAction",
+      "labelKey": "command.motion.resizeAction",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "action": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "at": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "edge": {
+          "type": "enum",
+          "values": [
+            "start",
+            "end"
+          ],
+          "optional": false
+        },
+        "delta": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        },
+        "distance": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound",
+        "status.motion.instant"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-gesture",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "panel-drag-motion-bar-start",
+          "kind": "panel-drag",
+          "feature": "motion-timeline",
+          "source": "motion-bar-start",
+          "zone": "motion-track",
+          "gesture": "motion-bar-resize",
+          "labelKey": "command.motion.resizeAction",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "edge": "start"
+          }
+        },
+        {
+          "id": "panel-drag-motion-bar-end",
+          "kind": "panel-drag",
+          "feature": "motion-timeline",
+          "source": "motion-bar-end",
+          "zone": "motion-track",
+          "gesture": "motion-bar-resize",
+          "labelKey": "command.motion.resizeAction",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "edge": "end"
+          }
+        }
+      ]
+    },
+    {
+      "id": "motion.select",
+      "labelKey": "command.motion.select",
+      "owner": "src/editor/motion/state.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "actions": {
+          "type": "json",
+          "values": [],
+          "optional": true
+        },
+        "keyframes": {
+          "type": "json",
+          "values": [],
+          "optional": true
+        },
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "at": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "property": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "keyframeAt": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "add": {
+          "type": "boolean",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-bar",
+          "kind": "panel-control",
+          "drawnAs": "item",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-bar",
+          "modifier": null,
+          "gesture": "motion-select",
+          "labelKey": "command.motion.select",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 51
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "timeline-motion-bar-add",
+          "kind": "panel-control",
+          "drawnAs": "item",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-bar",
+          "modifier": "Shift",
+          "gesture": "motion-select",
+          "labelKey": "command.motion.select",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 52
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "add": true
+          }
+        },
+        {
+          "id": "timeline-motion-keyframe",
+          "kind": "panel-control",
+          "drawnAs": "item",
+          "pressed": false,
+          "feature": "motion-keyframes",
+          "panel": "timeline",
+          "control": "motion-keyframe",
+          "modifier": null,
+          "gesture": "motion-select",
+          "labelKey": "command.motion.select",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 53
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "timeline-motion-keyframe-add",
+          "kind": "panel-control",
+          "drawnAs": "item",
+          "pressed": false,
+          "feature": "motion-keyframes",
+          "panel": "timeline",
+          "control": "motion-keyframe",
+          "modifier": "Shift",
+          "gesture": "motion-select",
+          "labelKey": "command.motion.select",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 54
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "add": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "motion.setPlayhead",
+      "labelKey": "command.motion.setPlayhead",
+      "owner": "src/editor/motion/state.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "time": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        },
+        "distance": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "panel-drag-motion-playhead",
+          "kind": "panel-drag",
+          "feature": "motion-timeline",
+          "source": "motion-playhead",
+          "zone": "motion-track",
+          "gesture": "motion-playhead-drag",
+          "labelKey": "command.motion.setPlayhead",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.zoomTimeline",
+      "labelKey": "command.motion.zoomTimeline",
+      "owner": "src/editor/motion/state.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "factor": {
+          "type": "number",
+          "values": [],
+          "optional": false
+        },
+        "anchor": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-zoom-in",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-zoom-in",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.timeline.zoomIn",
+          "faceLabelKey": null,
+          "icon": "zoom-in",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 55
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "factor": 1.25
+          }
+        },
+        {
+          "id": "timeline-motion-zoom-out",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-zoom-out",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.timeline.zoomOut",
+          "faceLabelKey": null,
+          "icon": "zoom-out",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 56
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "factor": 0.8
+          }
+        }
+      ]
+    },
+    {
+      "id": "motion.toggleSnap",
+      "labelKey": "command.motion.toggleSnap",
+      "owner": "src/editor/motion/state.ts",
+      "introducedBy": "motion-timeline",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-snap",
+          "kind": "panel-control",
+          "drawnAs": "toggle",
+          "pressed": true,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-snap",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.timeline.snap",
+          "faceLabelKey": null,
+          "icon": "magnet",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 57
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.addMarker",
+      "labelKey": "command.motion.addMarker",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "name": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound",
+        "status.motion.invalid"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-add-marker",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-add-marker",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.addMarker",
+          "faceLabelKey": null,
+          "icon": "flag",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 58
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.moveMarker",
+      "labelKey": "command.motion.moveMarker",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "marker": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "markerAt": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "delta": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        },
+        "distance": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-gesture",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "panel-drag-motion-marker",
+          "kind": "panel-drag",
+          "feature": "motion-timeline",
+          "source": "motion-marker",
+          "zone": "motion-track",
+          "gesture": "motion-marker-drag",
+          "labelKey": "command.motion.moveMarker",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.renameMarker",
+      "labelKey": "command.motion.renameMarker",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "marker": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "markerAt": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "name": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound",
+        "status.motion.invalid"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-marker-name",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-marker-name",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.renameMarker",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 59
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.removeMarker",
+      "labelKey": "command.motion.removeMarker",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-timeline",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "marker": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "markerAt": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-marker-remove",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "panel": "timeline",
+          "control": "motion-marker-remove",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.removeMarker",
+          "faceLabelKey": null,
+          "icon": "x",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 60
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.setKeyframe",
+      "labelKey": "command.motion.setKeyframe",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-keyframes",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "action": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "at": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "property": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "value": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound",
+        "status.motion.invalid",
+        "status.motion.notKeyed",
+        "status.motion.recordBeforeAction"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-add-keyframe",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-keyframes",
+          "panel": "timeline",
+          "control": "motion-add-keyframe",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.setKeyframe",
+          "faceLabelKey": null,
+          "icon": "diamond-plus",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 61
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "timeline-motion-add-property",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-keyframes",
+          "panel": "timeline",
+          "control": "motion-add-property",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.timeline.addProperty",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 62
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.editKeyframe",
+      "labelKey": "command.motion.editKeyframe",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-keyframes",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "keyframe": {
+          "type": "json",
+          "values": [],
+          "optional": true
+        },
+        "at": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "property": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "keyframeAt": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "field": {
+          "type": "enum",
+          "values": [
+            "value",
+            "easing",
+            "time",
+            "property"
+          ],
+          "optional": false
+        },
+        "value": {
+          "type": "json",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound",
+        "status.motion.invalid"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-keyframe-value",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-keyframes",
+          "panel": "timeline",
+          "control": "motion-keyframe-value",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.value",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 63
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "value"
+          }
+        },
+        {
+          "id": "timeline-motion-keyframe-easing",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-keyframes",
+          "panel": "timeline",
+          "control": "motion-keyframe-easing",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.easing",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 64
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "easing"
+          }
+        },
+        {
+          "id": "timeline-motion-keyframe-time",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-keyframes",
+          "panel": "timeline",
+          "control": "motion-keyframe-time",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.time",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 65
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "time"
+          }
+        },
+        {
+          "id": "timeline-motion-keyframe-property",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-keyframes",
+          "panel": "timeline",
+          "control": "motion-keyframe-property",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.property",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 66
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "property"
+          }
+        }
+      ]
+    },
+    {
+      "id": "motion.moveKeyframes",
+      "labelKey": "command.motion.moveKeyframes",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-keyframes",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "keyframes": {
+          "type": "json",
+          "values": [],
+          "optional": true
+        },
+        "at": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "property": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "keyframeAt": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "delta": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        },
+        "distance": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-gesture",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "panel-drag-motion-keyframe",
+          "kind": "panel-drag",
+          "feature": "motion-keyframes",
+          "source": "motion-keyframe",
+          "zone": "motion-track",
+          "gesture": "motion-keyframe-drag",
+          "labelKey": "command.motion.moveKeyframes",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.deleteKeyframes",
+      "labelKey": "command.motion.deleteKeyframes",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-keyframes",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "keyframes": {
+          "type": "json",
+          "values": [],
+          "optional": true
+        },
+        "at": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "property": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "keyframeAt": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-keyframes-delete",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-keyframes",
+          "panel": "timeline",
+          "control": "motion-keyframes-delete",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.deleteKeyframes",
+          "faceLabelKey": null,
+          "icon": "trash",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 67
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.copyKeyframes",
+      "labelKey": "command.motion.copyKeyframes",
+      "owner": "src/editor/motion/state.ts",
+      "introducedBy": "motion-keyframes",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.nothingSelected"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-keyframes-copy",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-keyframes",
+          "panel": "timeline",
+          "control": "motion-keyframes-copy",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.copyKeyframes",
+          "faceLabelKey": null,
+          "icon": "copy",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 68
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.pasteKeyframes",
+      "labelKey": "command.motion.pasteKeyframes",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-keyframes",
+      "args": {
+        "timeline": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "action": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "at": {
+          "type": "integer",
+          "values": [],
+          "optional": true
+        },
+        "keyframes": {
+          "type": "json",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.notFound",
+        "status.motion.nothingCopied",
+        "status.motion.recordBeforeAction"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-keyframes-paste",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-keyframes",
+          "panel": "timeline",
+          "control": "motion-keyframes-paste",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.pasteKeyframes",
+          "faceLabelKey": null,
+          "icon": "clipboard-paste",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 69
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.toggleRecord",
+      "labelKey": "command.motion.toggleRecord",
+      "owner": "src/editor/motion/state.ts",
+      "introducedBy": "motion-keyframes",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.noTimeline"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-record",
+          "kind": "panel-control",
+          "drawnAs": "toggle",
+          "pressed": true,
+          "feature": "motion-keyframes",
+          "panel": "timeline",
+          "control": "motion-record",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.timeline.record",
+          "faceLabelKey": null,
+          "icon": "circle-dot",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 70
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.preview",
+      "labelKey": "command.motion.preview",
+      "owner": "src/editor/motion/state.ts",
+      "introducedBy": "motion-preview",
+      "args": {
+        "operation": {
+          "type": "enum",
+          "values": [
+            "play",
+            "pause",
+            "stop"
+          ],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.motion.noTimeline"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "timeline-motion-play",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": true,
+          "feature": "motion-preview",
+          "panel": "timeline",
+          "control": "motion-play",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.timeline.play",
+          "faceLabelKey": null,
+          "icon": "play",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 71
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "operation": "play"
+          }
+        },
+        {
+          "id": "timeline-motion-pause",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-preview",
+          "panel": "timeline",
+          "control": "motion-pause",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.timeline.pause",
+          "faceLabelKey": null,
+          "icon": "pause",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 72
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "operation": "pause"
+          }
+        },
+        {
+          "id": "timeline-motion-stop",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-preview",
+          "panel": "timeline",
+          "control": "motion-stop",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.timeline.stop",
+          "faceLabelKey": null,
+          "icon": "square",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-motion",
+            "order": 73
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "operation": "stop"
+          }
+        }
+      ]
+    },
+    {
+      "id": "motion.toggleRun",
+      "labelKey": "command.motion.toggleRun",
+      "owner": "src/editor/motion/state.ts",
+      "introducedBy": "motion-preview",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "toolbar-canvas-toolbar-run",
+          "kind": "toolbar",
+          "drawnAs": "toggle",
+          "pressed": true,
+          "feature": "motion-preview",
+          "labelKey": "motion.run",
+          "faceLabelKey": null,
+          "icon": "circle-play",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "canvas-toolbar",
+            "order": 20
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "motion.setBehaviour",
+      "labelKey": "command.motion.setBehaviour",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-behaviours",
+      "args": {
+        "behaviour": {
+          "type": "enum",
+          "values": [
+            "sticky",
+            "scroll-snap",
+            "smooth-scroll",
+            "parallax",
+            "marquee",
+            "cursor-follow"
+          ],
+          "optional": false
+        },
+        "amount": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        },
+        "axis": {
+          "type": "enum",
+          "values": [
+            "x",
+            "y"
+          ],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "singleSelection",
+        "refusalKey": "status.needsSingleSelection"
+      },
+      "refusals": [
+        "status.motion.invalid",
+        "status.locked.edit"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "inspector-motion-behaviour-sticky",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "motion-behaviours",
+          "panel": "inspector",
+          "control": "motion-behaviour-sticky",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.behaviour.sticky",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "status.needsSingleSelection",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 43
+          },
+          "adapter": {
+            "selection": "single",
+            "offers": null,
+            "writes": [
+              "position",
+              "top"
+            ],
+            "fields": []
+          },
+          "args": {
+            "behaviour": "sticky"
+          }
+        },
+        {
+          "id": "inspector-motion-behaviour-scroll-snap",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "motion-behaviours",
+          "panel": "inspector",
+          "control": "motion-behaviour-scroll-snap",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.behaviour.scrollSnap",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "status.needsSingleSelection",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 44
+          },
+          "adapter": {
+            "selection": "single",
+            "offers": null,
+            "writes": [
+              "scroll-snap-type",
+              "overflow-x",
+              "overflow-y",
+              "scroll-snap-align"
+            ],
+            "fields": []
+          },
+          "args": {
+            "behaviour": "scroll-snap"
+          }
+        },
+        {
+          "id": "inspector-motion-behaviour-smooth-scroll",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "motion-behaviours",
+          "panel": "inspector",
+          "control": "motion-behaviour-smooth-scroll",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.behaviour.smoothScroll",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "status.needsSingleSelection",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 45
+          },
+          "adapter": {
+            "selection": "single",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "behaviour": "smooth-scroll"
+          }
+        },
+        {
+          "id": "inspector-motion-behaviour-parallax",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "motion-behaviours",
+          "panel": "inspector",
+          "control": "motion-behaviour-parallax",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.behaviour.parallax",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "status.needsSingleSelection",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 46
+          },
+          "adapter": {
+            "selection": "single",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "behaviour": "parallax"
+          }
+        },
+        {
+          "id": "inspector-motion-behaviour-marquee",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "motion-behaviours",
+          "panel": "inspector",
+          "control": "motion-behaviour-marquee",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.behaviour.marquee",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "status.needsSingleSelection",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 47
+          },
+          "adapter": {
+            "selection": "single",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "behaviour": "marquee"
+          }
+        },
+        {
+          "id": "inspector-motion-behaviour-cursor-follow",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "motion-behaviours",
+          "panel": "inspector",
+          "control": "motion-behaviour-cursor-follow",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.behaviour.cursorFollow",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "status.needsSingleSelection",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 48
+          },
+          "adapter": {
+            "selection": "single",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "behaviour": "cursor-follow"
+          }
+        },
+        {
+          "id": "inspector-motion-behaviour-amount",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "motion-behaviours",
+          "panel": "inspector",
+          "control": "motion-behaviour-amount",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.field.amount",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 49
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "inspector-motion-behaviour-axis-x",
+          "kind": "panel-control",
+          "drawnAs": "segment",
+          "pressed": false,
+          "feature": "motion-behaviours",
+          "panel": "inspector",
+          "control": "motion-behaviour-axis",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.axis.x",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 50
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "axis": "x"
+          }
+        },
+        {
+          "id": "inspector-motion-behaviour-axis-y",
+          "kind": "panel-control",
+          "drawnAs": "segment",
+          "pressed": false,
+          "feature": "motion-behaviours",
+          "panel": "inspector",
+          "control": "motion-behaviour-axis",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "motion.axis.y",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 51
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "axis": "y"
+          }
+        }
+      ]
+    },
+    {
+      "id": "motion.removeBehaviour",
+      "labelKey": "command.motion.removeBehaviour",
+      "owner": "src/core/motion/commands.ts",
+      "introducedBy": "motion-behaviours",
+      "args": {
+        "behaviour": {
+          "type": "enum",
+          "values": [
+            "smooth-scroll",
+            "parallax",
+            "marquee",
+            "cursor-follow"
+          ],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.locked.edit"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "inspector-motion-behaviour-remove",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-behaviours",
+          "panel": "inspector",
+          "control": "motion-behaviour-remove",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.motion.removeBehaviour",
+          "faceLabelKey": null,
+          "icon": "trash",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 52
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    }
+  ]
+}

@@ -3066,6 +3066,16 @@
                 "op": "set",
                 "path": "/Page/@children",
                 "value": []
+              },
+              {
+                "op": "set",
+                "path": "/@language",
+                "value": "en"
+              },
+              {
+                "op": "set",
+                "path": "/@codeLanguage",
+                "value": "en"
               }
             ],
             "selection": [],
@@ -3485,6 +3495,14 @@
                     ]
                   }
                 ]
+              },
+              {
+                "op": "remove",
+                "path": "/@language"
+              },
+              {
+                "op": "remove",
+                "path": "/@codeLanguage"
               }
             ],
             "selection": [],
@@ -4032,6 +4050,14 @@
                     "children": []
                   }
                 ]
+              },
+              {
+                "op": "remove",
+                "path": "/@language"
+              },
+              {
+                "op": "remove",
+                "path": "/@codeLanguage"
               }
             ],
             "selection": [],

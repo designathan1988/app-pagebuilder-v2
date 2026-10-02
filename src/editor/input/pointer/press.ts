@@ -33,15 +33,25 @@ export const laysGrid = (id: string): boolean => {
 // "outside-edited-element" anywhere but the element whose text is edited (while one is). The other targets (an
 // interaction's target being picked, a form control) arrive with their features.
 const CLICKS = manifest.doors.filter((d) => d.door.kind === 'canvas-click');
+
+// What is being picked now, if anything: an interaction's target (its index; spec events-actions) or a motion action's
+// target (its timeline and its id; spec motion-timeline). A press on an element then gives that element.
+export interface Picking {
+  readonly interaction: number | null;
+  readonly motion: { readonly timeline: string; readonly action: string } | null;
+}
+export const NOT_PICKING: Picking = { interaction: null, motion: null };
 const OUTSIDE_EDIT = 'outside-edited-element';
-function takes(target: string, press: Press, facts: PressFacts, picking: number | null): boolean {
+function takes(target: string, press: Press, facts: PressFacts, picking: Picking): boolean {
   if (target === 'element-or-page') return press.on === 'node';
   if (target === 'element') return press.on === 'node' && !press.root;
   if (target === 'stage-outside-page') return press.on === 'stage';
   if (target === 'text-element') return press.on === 'node' && !press.root && facts.textual;
   if (target === 'form-control') return press.on === 'node' && !press.root && facts.formControl === true;
   // an interaction's target being picked (spec events-actions): the press lands on the element it names
-  if (target === 'pick-target') return press.on === 'node' && picking !== null;
+  if (target === 'pick-target') return press.on === 'node' && picking.interaction !== null;
+  // a motion action's target being picked (spec motion-timeline)
+  if (target === 'pick-motion-target') return press.on === 'node' && picking.motion !== null;
   if (target === 'grid-container') return press.on === 'node' && !press.root && facts.grid === true;
   // a press on a palette tile or on a field's label is no press on the canvas: it keeps no text
   if (target === OUTSIDE_EDIT) return (press.on === 'node' || press.on === 'stage' || press.on === 'row') && facts.edited !== null && !(press.on === 'node' && press.node === facts.edited);
@@ -51,20 +61,23 @@ function takes(target: string, press: Press, facts: PressFacts, picking: number 
 export type Button = 'primary' | 'secondary';
 const matches = (d: DoorEntry, button: Button, count: number, modifier: string | null) => d.door.kind === 'canvas-click' && d.door.button === button && d.door.count === count && d.door.modifier === modifier;
 // The door a press runs.
-export function clickDoor(press: Press, button: Button, count: number, modifier: string | null, facts: PressFacts = NO_FACTS, picking: number | null = null): DoorEntry | null {
+export function clickDoor(press: Press, button: Button, count: number, modifier: string | null, facts: PressFacts = NO_FACTS, picking: Picking = NOT_PICKING): DoorEntry | null {
   return CLICKS.find((d) => matches(d, button, count, modifier) && d.door.kind === 'canvas-click' && d.door.target !== OUTSIDE_EDIT && takes(d.door.target, press, facts, picking)) ?? null;
 }
 // The door a press outside the edited text runs first, keeping the text (spec text-edit-inline: a click elsewhere
 // keeps it, and selects there): null when no text is edited or the press is on it.
 export function editEndDoor(press: Press, button: Button, count: number, modifier: string | null, facts: PressFacts): DoorEntry | null {
-  return CLICKS.find((d) => matches(d, button, count, modifier) && d.door.kind === 'canvas-click' && d.door.target === OUTSIDE_EDIT && takes(d.door.target, press, facts, null)) ?? null;
+  return CLICKS.find((d) => matches(d, button, count, modifier) && d.door.kind === 'canvas-click' && d.door.target === OUTSIDE_EDIT && takes(d.door.target, press, facts, NOT_PICKING)) ?? null;
 }
 
 // A door's arguments for a press: its own, and the node it acts on when its adapter acts on the gesture's target. The
 // pick of an interaction's target carries the interaction being picked and the node the press landed on.
-export function argsFor(entry: DoorEntry, press: Press, picking: number | null): Record<string, unknown> {
+export function argsFor(entry: DoorEntry, press: Press, picking: Picking): Record<string, unknown> {
   if (entry.door.kind === 'canvas-click' && entry.door.target === 'pick-target' && press.on === 'node') {
-    return picking === null ? { ...entry.door.args } : { ...entry.door.args, interaction: picking, changes: { target: press.node } };
+    return picking.interaction === null ? { ...entry.door.args } : { ...entry.door.args, interaction: picking.interaction, changes: { target: press.node } };
+  }
+  if (entry.door.kind === 'canvas-click' && entry.door.target === 'pick-motion-target' && press.on === 'node') {
+    return picking.motion === null ? { ...entry.door.args } : { ...entry.door.args, timeline: picking.motion.timeline, action: picking.motion.action, value: { kind: 'element', node: press.node } };
   }
   return entry.door.adapter.selection === 'target' && press.on === 'node' ? { ...entry.door.args, target: press.node } : { ...entry.door.args };
 }

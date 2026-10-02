@@ -1921,10 +1921,6 @@
                     "styles": {
                       "desktop": {
                         "base": {
-                          "padding-top": "0px",
-                          "padding-right": "0px",
-                          "padding-bottom": "0px",
-                          "padding-left": "0px",
                           "display": "flex",
                           "flex-direction": "row",
                           "column-gap": "16px",
@@ -1943,10 +1939,6 @@
                         "styles": {
                           "desktop": {
                             "base": {
-                              "padding-top": "0px",
-                              "padding-right": "0px",
-                              "padding-bottom": "0px",
-                              "padding-left": "0px",
                               "display": "flex",
                               "flex-direction": "column",
                               "row-gap": "16px",
@@ -1967,10 +1959,6 @@
                         "styles": {
                           "desktop": {
                             "base": {
-                              "padding-top": "0px",
-                              "padding-right": "0px",
-                              "padding-bottom": "0px",
-                              "padding-left": "0px",
                               "display": "flex",
                               "flex-direction": "column",
                               "row-gap": "16px",

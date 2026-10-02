@@ -29,6 +29,10 @@ test('neutral defaults render in the canvas and export while authored CSS keeps 
     { name: 'styles.css', mimeType: 'text/css', buffer: Buffer.from('.card { color: #2563eb; }') },
   ]);
 
+  // the import asks where the pages go (spec html-import destinations): the imported page replaces the empty project,
+  // so it is the export's index.html, as the export checks below read it
+  await page.locator('[data-door="project.importHtml#destination-replace"]').click();
+  await page.locator('[data-confirmation="confirm"]').click();
   const frame = page.frameLocator('.frame__page');
   await expect(frame.getByText('Title')).toBeVisible();
   await page.keyboard.press('Control+0');

@@ -8210,3 +8210,245 @@ Regions are drawn at the base screen size. At a narrower one (the frame's tabs) 
 The panel lists the rules the layout keeps between regions (painted with the Relate tool: equal sizes, one gap, alignment), each with its own door to remove it (layout.unrelate); the regions keep where they are. It offers suggestions only on strong evidence (layout.suggest): a repeated group becomes a grid, nearly equal gaps become one gap, a wrapper that no longer changes anything goes. A built-in template (dashboard, landing page, sidebar layout, article, gallery) is placed inside the one selected empty region, or over the container while it holds no region, scaled to it and named in the person's language (layout.template). A project image can lie under the composition as a reference at an opacity (layout.reference), and its blocks can be traced into regions over it (layout.trace): the panel reads the image's luminance (at most 160 px wide) and the engine finds the blocks. The widths check says whether the structure holds from the drawn width down to 320 px, or the widest width where a fixed region no longer fits.
 
 The Layout Composer is a removable module: everything it brings lives in src/modules/layout-composer and its manifest files, and joins the application at one registration point (src/app/modules.ts and modules-view.ts). Without it the application still generates, passes its checks and builds (npm run modules:removal layout-composer), and a document it wrote still opens with its authoring data kept, unread. While a stroke is held, a pointer move's work stays within 16 ms (npm run perf:layout).
+
+## motion-interactions
+
+Pager has no motion of its own (see `events-actions`); this is the stage 10 model of the plan, written for Builder.
+
+### Trigger
+
+The inspector's Interactions tab, under the element's legacy interactions: **Interaction** (`motion.add#inspector-motion-add`) adds one to the single selected element. A new interaction starts with the first trigger the element offers (click, which every element offers) and plays a **new timeline of the project named after the element and the trigger** ("Hero click"), holding one animation of the element itself, from 0 s for 0.6 s, eased out, keying nothing yet (as a new CSS animation's keyframes hold nothing).
+
+### Hit zones and thresholds
+
+Each card is the canonical "On click → plays Hero click": Applies to, Trigger, the trigger's own options, Timeline, Plays it, Only once, Delay, Breakpoints, Reduced motion. Every field is a door of `motion.update` fixing its `field`; its text is the command's `value`.
+
+- **Triggers** (the whole catalogue, grouped by category; `src/core/motion/catalog.ts` describes each, `manifest/commands/motion.json` offers the same ids):
+  - Element: click, double click, press, release, pointer enter, pointer leave, hover (enter and leave), pointer move over the element (continuous, along x or y), focus, blur, focus within (enter and leave), a key (with its key filter, `KeyboardEvent.key`), input, change, form submit, invalid form, long press (its time).
+  - Scrolling: entering the screen (its visible part, 0 to 1; leaving it is its second half), leaving the screen, while crossing the screen (continuous), page scroll (continuous), scroll direction (the direction that plays; the other one is its second half).
+  - Page: load, before leaving (a link to another page of the site waits for the timeline, at most 1.5 s), tab visibility, resize, entering a breakpoint, after a time, every interval, idle.
+  - Media (a video or an audio element): play, pause, end, a media time.
+  - Components, by the state the markup carries (no component owner exists for a dropdown, a carousel or a mobile menu): a dropdown opens or closes (`aria-expanded` of a control with `aria-haspopup`, or a popover's toggle), a tab changes (`aria-selected` of a `role="tab"`), a slide changes (`aria-current` of an `aria-roledescription="slide"`, the slide action's `builder:slide-change`, or a scroll-snap container settling on another child), a dialog opens or closes (its `open` attribute), details open, the mobile menu opens (`aria-expanded="true"` on a control whose `aria-controls` names a `nav` or an element holding one), a custom event (its name).
+- A trigger that cannot apply is not offered and is refused (`status.motion.notApplicable`): input and change on a form or a field, submit and invalid on a form, media triggers on a video or an audio, dialog triggers on a dialog, details open on a details.
+- **Plays it**: play, play from the start, play backwards, play then backwards (toggle), pause, stop and reset. A continuous trigger follows its progress (scrub) and nothing else; only it does.
+- **On leaving** (a paired trigger only): nothing, play backwards (the default), pause, reset at once.
+- **Applies to**: empty is this element; a class of the element makes it apply to every element of the page holding that class, each playing the timeline with itself as the source of its relative targets.
+- **Delay** in seconds before the timeline starts; **Breakpoints** where it applies (empty: every one); **Reduced motion**: respect it (the default: the timeline jumps to its end, or its start, every instant action crossed, nothing moving; a scrub shows the start or the end) or play as made (an essential effect).
+- **Scroll range** (while crossing the screen, page scroll): the part of the scroll, in percent, the timeline plays across.
+
+### Visual feedback
+
+The card's head reads the trigger in words and the timeline it plays; the status bar names the trigger and the element after every change.
+
+### Result in the document
+
+`DocNode.motions`: each interaction's id, trigger (its kind and the options it reads), the timeline's name, its control and its options; absent while the element has none. The timeline is in `DocumentJson.motionTimelines`, reusable by name: another interaction, on any element of any page, plays it by choosing its name. Renaming a timeline renames every interaction and every action that names it. Removing an interaction leaves its timeline in the project.
+
+### Undo and redo
+
+Each add, change and remove is one undo step; a change that changes nothing records none.
+
+### Nested elements
+
+Relative targets (children, siblings, parent, next, previous, descendants and the nearest ancestor with a class) are read from the element whose trigger fired.
+
+### Zoom other than 100 %
+
+Not applicable: the card is in the inspector.
+
+### Keyboard equivalent
+
+Every card control is a field or a button of the inspector, reached with Tab.
+
+### Problems in Pager
+
+1. **Only five triggers and six actions, one action per trigger.** Required: the whole catalogue above, a trigger playing a timeline of actions.
+2. **An interaction could not be reused.** Required: timelines are the project's, played by name.
+
+## motion-timeline
+
+### Trigger
+
+The Timeline panel shows the project's timelines on the left (each with how many interactions and actions play it, a row to show it, a delete button, New timeline, the name field of the one shown) and the timeline shown on the right.
+
+### Hit zones and thresholds
+
+- **Axis**: seconds. The ruler spans `motion.trackLength` (6 s) at least, the timeline's own length and a second more when it is longer, at `motion.pixelsPerSecond` (200 css px per second) at first; Zoom in and Zoom out multiply it by `motion.zoomStep`, within `motion.zoomRange`, about the playhead. The labels are the smallest step of seconds that keeps them `motion.rulerSpacing` apart, with four or five minor ticks between two.
+- **Playhead**: a press on the ruler puts it under the pointer (its middle, with no travel, is 3 s), a drag scrubs it; its readout says "0.48 s / 1.20 s" (the playhead and the timeline's length, two decimals).
+- **Lanes** (the canonical layout): one lane per target, holding its actions as bars, then one lane per property its animations key, holding their keyframes as diamonds; a markers lane above.
+- **Actions**: added after everything (sequence), with the last one (parallel) or at the playhead, each of the whole catalogue: animate (any property, custom property or transform part: translate x/y/z, scale x/y, rotate x/y/z, skew x/y), add/remove/toggle a class, set an attribute (never one that runs code or loads anything), set a style, set the text, show/hide/toggle with a transition (fade, slide up, slide down, scale; by the hidden attribute or by visibility), control another timeline (play, pause, restart, reverse, go to a time, toggle), control a CSS animation of the element, scroll to (the target, the top, the bottom; an offset; smoothly; aligned), open/close a dialog (modal or not), open/close details, select a tab, change the slide (next, previous, go to), media (play, pause, toggle, restart, mute, unmute, toggle sound), focus or blur, submit or clear a form, go to an address (a URL, a page of the site, back, forward; in a new tab), copy to the clipboard (a text or the target's text), send a custom event (its name and detail), change a CSS variable (tweened when it lasts, the variable registered by the value's type), switch the theme (toggle, light, dark, the system's; remembered between visits: `color-scheme` and `theme-light`/`theme-dark` on the root), wait, split text (letters, words, lines; staggered), and a Lottie animation (play, pause, stop, go to a frame, a segment; loop; speed).
+- **Targets**: this element, an element picked on the canvas or a Layers row (never typed), every element with a class, its children, its siblings, its parent, the next, the previous, its descendants with a class, its nearest ancestor with a class, every instance of a component.
+- **Options** of an action: start and duration in seconds, easing (a CSS easing: keyword, `cubic-bezier()`, `steps()`, `linear()`; or `spring(mass, stiffness, damping)`), repeat (a count or forever), back and forth, stagger (seconds between targets, from the start, the centre, the end or in a seeded random order).
+- **Bars**: a press selects a bar (Shift adds it to the selection or takes it out); a drag moves the selected bars together by one delta (none before 0); dragging a bar's start or end edge changes when it starts or ends, the other edge staying, its keyframes scaled with it (never shorter than 10 ms; an instant action has no edges).
+- **Snapping**: a dragged edge, keyframe, marker or playhead snaps to the start, the playhead, the other bars' edges, the other keyframes and the markers within `motion.snapDistance` screen px, else to `motion.snapGrid` (50 ms); Alt held, or Snap turned off, moves it freely.
+- **Markers**: added at the playhead ("Marker 1"), dragged, renamed, removed.
+
+### Visual feedback
+
+The selected bars and keyframes are highlighted; an instant action's bar is a tick; an infinite one shows one cycle and says it loops. Picking a target says "Picking on the canvas…" until the press.
+
+### Result in the document
+
+`DocumentJson.motionTimelines[]`: `{ id, name, actions, markers }`; an action `{ id, target, start, duration, effect, easing?, repeat?, yoyo?, stagger? }`, times in whole ms; an effect `{ kind, … }` with its options; a marker `{ id, name, time }`. A timeline's name is unique, letters or digits first, at most 64 characters. When an element an action picked leaves the document, the action leaves its timeline (`core/document/tree.ts` releaseReferencesPatch).
+
+### Undo and redo
+
+Each command is one undo step; a drag is one step for the whole gesture, and Escape puts everything back. Showing a timeline, the playhead, the zoom, the selection and snapping are the editor's state: no undo step.
+
+### Nested elements
+
+A target lane is per target as the action names it (one lane for "its children", whichever element plays the timeline).
+
+### Zoom other than 100 %
+
+The Timeline's zoom is its own; the canvas's zoom does not change it.
+
+### Keyboard equivalent
+
+Every field and button is reached with Tab; a bar and a keyframe are buttons (Enter selects, Shift+Enter adds to the selection).
+
+### Problems in Pager
+
+1. **The timeline showed one animation of one element in percent.** Required: a real seconds-based, multi-track timeline of actions per target and per property.
+
+## motion-keyframes
+
+### Trigger
+
+The selected action's fields offer "Animate a property" (a property, a custom property or a transform part, keyed at the playhead with the value it holds there: its nearest keyframe before, else its initial value); a property lane's diamond-plus adds a keyframe at the playhead to the action under the playhead.
+
+### Hit zones and thresholds
+
+- A keyframe's fields (one keyframe selected): its value, the easing of the segment that starts at it (per-segment easing), its time (seconds of the timeline), and the property its track animates.
+- A drag moves the selected keyframes together, none leaving its action nor passing a keyframe of its track that stays.
+- Copy takes the selected keyframes with their spacing; Paste puts them at the playhead into the selected action (or the selected keyframes' action), a keyframe at the same time of the same property replaced, the action growing to hold the last one.
+- Record: while it is on, a value set in the inspector for the selected element becomes a keyframe of the timeline shown at the playhead — on the selected action when it animates, else on an animation of the element under the playhead, else on a new animation from 0 to the playhead. A playhead before that action's start is refused (`status.motion.recordBeforeAction`).
+
+### Visual feedback
+
+A keyframe with its own easing is drawn filled; the Record button is pressed and the panel says "Recording: inspector changes become keyframes at the playhead".
+
+### Result in the document
+
+`effect.tracks[] = { id, property, keyframes: [{ id, time, value, easing? }] }`, time from the action's start, in time order, one per time. Deleting a track's last keyframe removes the track.
+
+### Undo and redo
+
+Each change is one step; a recorded value is one step, as the style write it replaces.
+
+### Nested elements
+
+Not applicable.
+
+### Zoom other than 100 %
+
+Not applicable.
+
+### Keyboard equivalent
+
+The keyframe fields and buttons are reached with Tab.
+
+### Problems in Pager
+
+1. **Keyframes were percents of one CSS animation.** Required: keyframes timed in seconds per property track, per-segment easing, copy and paste, record mode.
+
+## motion-preview
+
+### Trigger
+
+Play, Pause and Stop of the Timeline preview the timeline shown on the canvas: Play walks the playhead from where it is to the end, Pause holds it, Stop puts it at 0 and the elements back to their own styles. Moving the playhead draws the timeline there. **Run interactions** (the canvas toolbar) makes the canvas run the interactions as the page does, until it is turned off.
+
+### Hit zones and thresholds
+
+The preview draws the timeline on every element whose interaction plays it, else on the selected element. In run mode, presses on the canvas reach the page (the pointer owner lets them through) and the editing gestures wait until it is turned off; navigation and form submission never leave the editor.
+
+### Visual feedback
+
+The canvas shows the elements at the playhead; the status bar says what runs.
+
+### Result in the document
+
+None: previewing and running change no document.
+
+### Undo and redo
+
+No undo step.
+
+### Nested elements
+
+Not applicable.
+
+### Zoom other than 100 %
+
+The runtime runs inside the canvas's frame, at the breakpoint shown; the canvas zoom changes nothing of it.
+
+### Keyboard equivalent
+
+The buttons are reached with Tab.
+
+### Problems in Pager
+
+1. **Interactions ran only in the preview.** Required: run them in the editor too.
+
+## motion-behaviours
+
+### Trigger
+
+The Interactions tab lists the behaviours: sticky while scrolling, scroll snap, smooth scrolling, parallax, looping marquee, follow the cursor.
+
+### Hit zones and thresholds
+
+- **Sticky** and **scroll snap** are plain CSS, written through the style owner (`core/style/set.ts`): sticky writes `position: sticky` and `top` (the amount, px); scroll snap writes the container's `scroll-snap-type` (`x mandatory` or `y mandatory`) and its overflow along that axis, and `scroll-snap-align: start` on each child. They show in the Style tab and are removed there.
+- **Smooth scrolling** (the page's body: the whole page), **parallax** (speed -1 to 1, along x or y), **marquee** (px per second, along x or y, either way) and **follow the cursor** (smoothing 0 to 0.95) run from the motion script.
+- Less motion asked: smooth scrolling and parallax stay off, the marquee stands still, the follower follows without lagging.
+- The marquee pauses while the pointer is over it or the focus is inside it (WCAG 2.2.2); its copy is hidden from assistive technology and from the keyboard.
+
+### Visual feedback
+
+The behaviours the element has are listed with their amount, their axis and a remove button.
+
+### Result in the document
+
+`DocNode.behaviours[] = { kind, amount, axis?, reverse? }`, one per kind, absent while there is none.
+
+### Undo and redo
+
+One step each.
+
+### Nested elements
+
+Scroll snap writes the children's alignment in the same step.
+
+### Zoom other than 100 %
+
+Not applicable.
+
+### Keyboard equivalent
+
+Buttons and fields reached with Tab.
+
+### Problems in Pager
+
+1. **No behaviours.** Required: the six above.
+
+## motion-runtime
+
+What runs on the page (the export, the preview, the canvas's run mode): `src/editor/motion/runtime/`, plain JavaScript written into the page as the functions' own source.
+
+- Every interaction is bound at start, on every element its selector finds; every timeline it plays is made then, paused at 0, so each animation's first keyframe holds from the start (an element that fades in on scroll is transparent before).
+- **Playing a timeline**: native Web Animations, one animation per property track per target, delayed to its action's start plus its stagger and padded by an end delay to the timeline's end, so all of them share one clock; instant actions are crossed as the clock passes them and undone when it goes back. Scrubbing runs only the actions that can be undone (classes, attributes, styles, text, display, variables, dialogs, details, the theme), never one with an effect outside the page.
+- **Scroll progress**: `ScrollTimeline` (page scroll) and `ViewTimeline` (while crossing the screen), the range as `rangeStart`/`rangeEnd` ("cover 20%"), where the browser has them and the interaction has no breakpoints; else a scroll listener, once per frame.
+- **Transform parts** animate registered custom properties (`--bm-translate-x`…) composed after the element's own transform.
+- **Split text** cuts each text node where it is (a bold word stays bold), hides the pieces from assistive technology beside a hidden copy of the text, and puts the very same text nodes back when it stops.
+- **Lottie**: lottie-web 5.13.0, its light build (SVG renderer, no expression evaluation), loaded only by a page whose timelines use it; the animation data is written into the motion data, so it plays from file://.
+- A name that names nothing (a class, a component, a breakpoint, a file, a CSS animation another owner removed) acts on nothing. A media element the browser refuses to play, a refused clipboard, a missing Lottie player are said (the page's console; the editor's incident feed).
+
+## export-motion-js
+
+### Trigger
+
+File › Export (and the preview) of a project whose pages hold an interaction or a behaviour.
+
+### Result in the document
+
+The archive holds `js/motion.js`: the runtime and the site's motion data (every interaction with the selector of its element — the class the export gave it, or the person's id — and the timelines they play, with the ones those control); `js/lottie.min.js` only when a timeline plays a Lottie animation. Each page holding motion links them (`<script defer src="js/lottie.min.js">` first, then `<script defer src="js/motion.js">`); a page without motion links neither. No editor id and no data attribute address an element.

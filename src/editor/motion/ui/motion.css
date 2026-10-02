@@ -1,0 +1,352 @@
+/* The motion surfaces (spec motion-interactions, motion-timeline): the Interactions tab's motion cards and behaviours,
+   and the Timeline's seconds axis, lanes, bars, keyframes, markers and playhead. Every value comes from the tokens. */
+
+.motion-interactions {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--color-border);
+}
+
+.motion-interactions__head,
+.motion-behaviours__add,
+.motion-behaviours__axis {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+}
+
+.motion-interactions__none,
+.motion-interactions__note,
+.motion-card__note,
+.motion-timeline__none,
+.motion-timeline__uses {
+  margin: 0;
+  padding: var(--space-2) var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+}
+
+.motion-card {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.motion-card__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+}
+
+.motion-card__summary {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--size-target-min);
+  padding: 0;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.motion-card__trigger {
+  font-weight: var(--weight-semibold);
+}
+
+.motion-card__plays {
+  color: var(--color-text-muted);
+}
+
+.motion-card__fields {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--space-4) var(--space-3);
+}
+
+.motion-behaviours__title,
+.motion-timeline__title {
+  margin: 0;
+  padding: var(--space-3) var(--space-4) var(--space-1);
+  color: var(--color-text-subtle);
+  font-size: var(--fs-overline);
+  font-weight: var(--fw-overline);
+  letter-spacing: var(--ls-overline);
+  line-height: var(--lh-overline);
+  text-transform: uppercase;
+}
+
+.motion-behaviours__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.motion-behaviours__name {
+  flex: 1;
+}
+
+/* the Timeline */
+
+.motion-timeline {
+  display: flex;
+  min-height: 0;
+  height: 100%;
+}
+
+.motion-timeline__side {
+  display: flex;
+  flex-direction: column;
+  width: var(--size-sidebar);
+  min-width: var(--size-sidebar);
+  overflow: auto;
+  border-right: 1px solid var(--color-border);
+}
+
+.motion-timeline__rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.motion-timeline__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+}
+
+/* the main column scrolls as one: the lanes keep their own height, and the fields of the selection follow them, so a
+   short dock never squeezes the lanes under the fields */
+.motion-timeline__main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.motion-timeline__toolbar,
+.motion-timeline__add {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.motion-timeline__readout {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-code);
+  font-variant-numeric: tabular-nums;
+}
+
+.motion-timeline__recording {
+  color: var(--color-danger);
+  font-size: var(--fs-caption);
+}
+
+.motion-timeline__scroller {
+  flex: none;
+  overflow-x: auto;
+}
+
+.motion-timeline__selection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.motion-fields {
+  display: flex;
+  flex-direction: column;
+  min-width: var(--size-inspector);
+}
+
+.motion-track {
+  position: relative;
+  margin-left: var(--size-label-column);
+}
+
+.motion-ruler {
+  position: relative;
+  height: var(--size-row);
+  cursor: pointer;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.motion-ruler__tick {
+  position: absolute;
+  bottom: 0;
+  width: var(--size-snap-line);
+  height: var(--space-2);
+  background: var(--color-border);
+}
+
+.motion-ruler__tick.is-major {
+  height: var(--space-4);
+  background: var(--color-border-strong);
+}
+
+.motion-ruler__label {
+  position: absolute;
+  bottom: var(--space-4);
+  left: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--fs-micro);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.motion-lane {
+  position: relative;
+  display: flex;
+  height: var(--size-row);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.motion-lane__label {
+  position: absolute;
+  right: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  width: var(--size-label-column);
+  height: 100%;
+  padding: 0 var(--space-2);
+  overflow: hidden;
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.motion-lane--target .motion-lane__label {
+  color: var(--color-text);
+  font-weight: var(--weight-semibold);
+}
+
+.motion-lane__body {
+  position: relative;
+  flex: 1;
+}
+
+.motion-bar {
+  position: absolute;
+  top: var(--space-1);
+  bottom: var(--space-1);
+  display: flex;
+  min-width: var(--space-2);
+  padding: 0;
+  overflow: hidden;
+  color: var(--color-on-accent);
+  font: inherit;
+  font-size: var(--fs-caption);
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  cursor: grab;
+}
+
+.motion-bar.is-instant {
+  min-width: var(--space-1);
+  background: var(--color-text-muted);
+  border-color: var(--color-text-muted);
+}
+
+.motion-bar.is-infinite {
+  border-style: dashed;
+}
+
+.motion-bar.is-selected {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 1px;
+}
+
+.motion-bar__body {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+  padding: 0 var(--space-1);
+}
+
+.motion-bar__label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.motion-bar__start,
+.motion-bar__end {
+  width: var(--space-2);
+  cursor: ew-resize;
+  background: var(--color-accent-hover);
+}
+
+.motion-keyframe {
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-control);
+  height: 100%;
+  margin-left: calc(var(--size-control) / -2);
+  padding: 0;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: 0;
+  cursor: grab;
+}
+
+.motion-keyframe.has-easing,
+.motion-keyframe.is-selected {
+  color: var(--color-accent);
+}
+
+.motion-keyframe.is-selected {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+  border-radius: var(--radius-xs);
+}
+
+.motion-keyframe__handle {
+  display: flex;
+}
+
+.motion-marker {
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: 100%;
+  color: var(--color-warning);
+  font-size: var(--fs-micro);
+  white-space: nowrap;
+  cursor: grab;
+}
+
+.motion-playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--size-snap-line);
+  pointer-events: none;
+  background: var(--color-canvas-selection);
+}
+
+/* the Timeline tab holds the motion timeline above the CSS animations of the selected element */

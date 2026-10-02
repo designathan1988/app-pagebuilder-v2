@@ -28,6 +28,7 @@ import type { ModelRules } from '../document/validate.ts';
 import type { Patch } from '../history/transaction.ts';
 import { firstLockRefusal } from '../nodes/flags.ts';
 import { coupledScene } from './couplings.ts';
+import { recordStyleWrite } from '../motion/record.ts';
 import { deepEqual } from '../history/transaction.ts';
 import { clearedRecipes } from './recipes.ts';
 import { DEFAULT_UNIT, codecOf, type Codec, type Value, type ValueFacts } from './codecs.ts';
@@ -296,6 +297,10 @@ export function writeStyle<Ui>(context: HandlerContext<Ui>, property: string, cs
   if (primary === undefined) return { kind: 'change' };
   const locked = firstLockRefusal(state.document, nodes.map((found) => found.node.id as NodeId), 'status.locked.edit');
   if (locked !== null) return { kind: 'refused', message: locked };
+  // While the motion Timeline records (spec motion-keyframes), the value becomes a keyframe of the timeline it shows,
+  // at its playhead, for the primary selected element: the same read, the same one undo step, another holder.
+  const recorded = recordStyleWrite(context, primary.node, property, css, longhands ?? { [property]: css });
+  if (recorded !== null) return recorded;
   // While the timeline's playhead sits on a keyframe of the primary selected element, the value goes into that
   // keyframe's declarations (spec timeline-keyframes): the same read, the same one undo step, another holder. The
   // couplings and recipes act on an element's styles, not on a keyframe's, so a keyframe holds the declarations the

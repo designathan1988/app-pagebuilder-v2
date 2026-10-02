@@ -4376,6 +4376,34 @@
             "fields": []
           },
           "args": {}
+        },
+        {
+          "id": "inspector-input-type-text-for-masks",
+          "kind": "inspector-field",
+          "drawnAs": "button",
+          "feature": "forms-masks-validation",
+          "property": null,
+          "composite": null,
+          "recipe": null,
+          "attribute": "inputType",
+          "control": "forms-text-for-masks",
+          "labelKey": "forms.useTextInput",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-settings",
+            "order": 2077
+          },
+          "adapter": {
+            "selection": "single",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "type": "text"
+          }
         }
       ]
     },

@@ -14,6 +14,7 @@ import type { ClipboardWrite } from '../ports/clipboard.ts';
 import type { CssSupport } from '../ports/css.ts';
 import type { DownloadFile } from '../ports/download.ts';
 import type { IdGenerator } from '../ports/ids.ts';
+import type { MotionEditorContext } from '../motion/record.ts';
 import type { Layout } from '../ports/layout.ts';
 import type { StoreState } from '../store/store.ts';
 
@@ -86,6 +87,10 @@ export interface HandlerContext<Ui> {
   // instead of the element's styles while the editor holds one (src/editor/timeline/playhead.ts keyframeTarget, the
   // store's own option). Null or absent: the element's styles, as usual.
   readonly keyframe?: KeyframeTarget | null;
+  // What the editor's Timeline tells the motion commands (spec motion-keyframes): where its playhead sits, and what a
+  // style write records into while it records (src/editor/motion/state.ts motionContext, the store's own option).
+  // Null or absent: no editor, the playhead at 0 and nothing recorded.
+  readonly motion?: MotionEditorContext | null;
   // whether the person confirmed this run, answering the confirmation the command asked (outcome `confirm`); absent
   // (a context built outside the store, a unit test's) is not confirmed
   readonly confirmed?: boolean;

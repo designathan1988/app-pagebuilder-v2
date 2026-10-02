@@ -1258,7 +1258,8 @@
       "appliesTo": "scrollContainer",
       "essential": false,
       "doors": [
-        "style.set#inspector-scroll-snap-type"
+        "style.set#inspector-scroll-snap-type",
+        "motion.setBehaviour#inspector-motion-behaviour-scroll-snap"
       ],
       "subsets": [
         {
@@ -1288,7 +1289,8 @@
       "appliesTo": "snapChild",
       "essential": false,
       "doors": [
-        "style.set#inspector-scroll-snap-align"
+        "style.set#inspector-scroll-snap-align",
+        "motion.setBehaviour#inspector-motion-behaviour-scroll-snap"
       ],
       "subsets": []
     },
@@ -1790,7 +1792,8 @@
       "doors": [
         "style.set#inspector-overflow",
         "style.set#inspector-overflow-x",
-        "style.set#inspector-line-clamp"
+        "style.set#inspector-line-clamp",
+        "motion.setBehaviour#inspector-motion-behaviour-scroll-snap"
       ],
       "subsets": []
     },
@@ -1808,7 +1811,8 @@
       "doors": [
         "style.set#inspector-overflow",
         "style.set#inspector-overflow-y",
-        "style.set#inspector-line-clamp"
+        "style.set#inspector-line-clamp",
+        "motion.setBehaviour#inspector-motion-behaviour-scroll-snap"
       ],
       "subsets": []
     },
@@ -1873,7 +1877,8 @@
       "appliesTo": "always",
       "essential": true,
       "doors": [
-        "position.setMode#inspector-position"
+        "position.setMode#inspector-position",
+        "motion.setBehaviour#inspector-motion-behaviour-sticky"
       ],
       "subsets": []
     },
@@ -1898,7 +1903,8 @@
         "geometry.resize#handle-resize-n",
         "geometry.resize#handle-resize-edge-n",
         "geometry.resize#handle-resize-ne",
-        "geometry.resize#handle-resize-nw"
+        "geometry.resize#handle-resize-nw",
+        "motion.setBehaviour#inspector-motion-behaviour-sticky"
       ],
       "subsets": []
     },

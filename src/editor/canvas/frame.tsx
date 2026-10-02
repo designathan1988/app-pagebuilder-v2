@@ -6,7 +6,8 @@
 // is not aria-hidden, as it holds the focus. The frame is scaled with the standard CSS zoom (Chrome 128+), so
 // the page lays out at its breakpoint's width and the stage shows it at the canvas zoom.
 import { MODULE_CANVAS_LAYERS } from '../../app/modules-view.ts';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCanvasMotion } from '../motion/use-canvas-motion.ts';
 import { PageRenderer, renderModelFromManifest } from '../../core/render/render.ts';
 import { applyInlineChange, plainText, type TextRange } from '../../core/text/inline.ts';
 import { canvasValue } from '../../core/files/values.ts';
@@ -43,6 +44,10 @@ export function CanvasFrame({ width, screen, zoom }: { readonly width: number; r
   const editing = useEditorState((s) => s.ui.textEdit.node !== null);
   // the page the editor shows (pages.switch): the renderer is built for it and rebuilt when it changes
   const page = useEditorState((s) => openedPage(s));
+  // the page's motion (spec motion-preview): run mode and the Timeline's preview, inside this frame's page; called
+  // before the renderer's effect so its listener lets go of the page before every render
+  const frameWindow = useCallback(() => iframe.current?.contentWindow ?? null, []);
+  useCanvasMotion(frameWindow, page);
 
   useEffect(() => {
     const element = view.current;

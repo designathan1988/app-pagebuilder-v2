@@ -15,6 +15,7 @@
             "inspector",
             "explorer",
             "timeline",
+            "motion",
             "variables",
             "checks",
             "workbench",
@@ -173,6 +174,31 @@
           },
           "args": {
             "panel": "timeline",
+            "open": "toggle"
+          }
+        },
+        {
+          "id": "menu-view-motion",
+          "kind": "menu",
+          "feature": "motion-timeline",
+          "menu": "view",
+          "checked": "checkbox",
+          "labelKey": "panel.motion",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "menu:view",
+            "order": 19
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "panel": "motion",
             "open": "toggle"
           }
         },
@@ -530,6 +556,31 @@
           },
           "args": {
             "panel": "timeline",
+            "open": "toggle"
+          }
+        },
+        {
+          "id": "status-bar-motion",
+          "kind": "toolbar",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "motion-timeline",
+          "labelKey": "panel.motion",
+          "faceLabelKey": null,
+          "icon": "sparkles",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "status-bar",
+            "order": 92
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "panel": "motion",
             "open": "toggle"
           }
         },

@@ -1,0 +1,250 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "id": "p-home",
+      "name": "Home",
+      "file": "index.html",
+      "tree": {
+        "id": "n-page",
+        "type": "page",
+        "name": "Page",
+        "tag": "body",
+        "attributes": {},
+        "classes": [],
+        "styles": {},
+        "text": null,
+        "children": [
+          {
+            "id": "n-hero",
+            "type": "section",
+            "name": "Hero",
+            "tag": "section",
+            "attributes": {},
+            "classes": [],
+            "styles": {
+              "desktop": {
+                "base": {
+                  "padding-top": "56px",
+                  "padding-bottom": "56px"
+                }
+              }
+            },
+            "text": null,
+            "children": [
+              {
+                "id": "n-title",
+                "type": "heading",
+                "name": "Title",
+                "tag": "h1",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": "Welcome to Aurora",
+                "children": []
+              },
+              {
+                "id": "n-intro",
+                "type": "paragraph",
+                "name": "Intro",
+                "tag": "p",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": "Fresh coffee, roasted every week.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "n-cards",
+            "type": "div",
+            "name": "Cards",
+            "tag": "div",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": [
+              {
+                "id": "n-card-a",
+                "type": "article",
+                "name": "CardA",
+                "tag": "article",
+                "attributes": {},
+                "classes": [
+                  "card"
+                ],
+                "styles": {},
+                "text": null,
+                "children": [
+                  {
+                    "id": "n-card-a-title",
+                    "type": "heading",
+                    "name": "CardATitle",
+                    "tag": "h3",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Monthly",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "n-card-b",
+                "type": "article",
+                "name": "CardB",
+                "tag": "article",
+                "attributes": {},
+                "classes": [
+                  "card"
+                ],
+                "styles": {},
+                "text": null,
+                "children": [
+                  {
+                    "id": "n-card-b-title",
+                    "type": "heading",
+                    "name": "CardBTitle",
+                    "tag": "h3",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Weekly",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "n-signup",
+            "type": "form",
+            "name": "Signup",
+            "tag": "form",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": [
+              {
+                "id": "n-email",
+                "type": "input",
+                "name": "Email",
+                "tag": "input",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": null,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "n-clip",
+            "type": "video",
+            "name": "Clip",
+            "tag": "video",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": []
+          },
+          {
+            "id": "n-modal",
+            "type": "dialog",
+            "name": "Modal",
+            "tag": "dialog",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": [
+              {
+                "id": "n-modal-title",
+                "type": "heading",
+                "name": "ModalTitle",
+                "tag": "h2",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": "Hello",
+                "children": []
+              },
+              {
+                "id": "n-modal-close",
+                "type": "button",
+                "name": "ModalClose",
+                "tag": "button",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": "Close",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "n-faq",
+            "type": "details",
+            "name": "Faq",
+            "tag": "details",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": [
+              {
+                "id": "n-faq-question",
+                "type": "summary",
+                "name": "FaqQuestion",
+                "tag": "summary",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": null,
+                "children": []
+              },
+              {
+                "id": "n-faq-answer",
+                "type": "paragraph",
+                "name": "FaqAnswer",
+                "tag": "p",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": "Every week.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "n-footer",
+            "type": "footer",
+            "name": "Footer",
+            "tag": "footer",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": [
+              {
+                "id": "n-note",
+                "type": "paragraph",
+                "name": "Note",
+                "tag": "p",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": "Aurora Coffee",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

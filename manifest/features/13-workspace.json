@@ -6956,6 +6956,16 @@
                 "op": "set",
                 "path": "/Page/@children",
                 "value": []
+              },
+              {
+                "op": "set",
+                "path": "/@language",
+                "value": "en"
+              },
+              {
+                "op": "set",
+                "path": "/@codeLanguage",
+                "value": "en"
               }
             ],
             "selection": [],

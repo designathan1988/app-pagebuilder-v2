@@ -120,12 +120,13 @@ test('the menu shows only the built commands that apply, in the manifest order, 
   await check(MOVE_UP, MOVE_DOWN);
   await clickNode(page, 'n-actions', 'right');
   await check(MOVE_DOWN, MOVE_UP);
-  // the page root: the commands that apply to it are the pastes (a paste lands inside it), the style clipboard and
-  // Organize; nothing that moves, copies, renames or removes an element is offered for the root; the root is selected
+  // the page root: the commands that apply to it are the pastes (a paste lands inside it), the style clipboard,
+  // Organize and Compose layout (spec layout-composer: the page's root is a container it composes); nothing that moves,
+  // copies, renames or removes an element is offered for the root; the root is selected
   await runDoor(page, ROW_MENU, { args: { target: 'n-page' } });
   expect((await read(page)).selection).toEqual(['n-page']);
   await expect(menu(page)).toBeVisible();
-  expect(await shown(page)).toEqual(ITEMS.filter((i) => ['clipboard.paste', 'clipboard.copyStyle', 'clipboard.pasteStyle', 'element.organize'].includes(i.command)).map((i) => i.ref));
+  expect(await shown(page)).toEqual(ITEMS.filter((i) => ['clipboard.paste', 'clipboard.copyStyle', 'clipboard.pasteStyle', 'element.organize', 'layout.enter'].includes(i.command)).map((i) => i.ref));
 });
 
 test('a secondary click inside the selection keeps it, and Delete removes every selected root in one undo step', runs(OPEN, SELECT, ADD, CANVAS_MENU, DELETE), async ({ page }) => {

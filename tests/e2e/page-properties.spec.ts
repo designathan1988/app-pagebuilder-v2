@@ -12,6 +12,9 @@ import type { FeatureId } from '../../src/generated/ids.ts';
 import { DOORS, control, openMenu, runDoor, runs } from './door.ts';
 import { unzip } from '../../tools/runner/unzip.ts';
 
+// the language Aurora's project is written in: what a page without a language of its own says (spec export-clean)
+const PROJECT_LANGUAGE = 'en';
+
 const FIXTURE = 'manifest/features/fixtures/aurora.json';
 const OPEN = 'project.open#menu-file';
 const SELECT = 'selection.select#canvas-click-element-or-page';
@@ -182,18 +185,19 @@ test("emptying a field and keeping it removes the setting from the page root and
   await page.keyboard.press('Enter');
   await expect.poll(async () => 'pageLanguage' in (await root(page)).attributes).toBe(false);
   await expect(status(page)).toHaveText(words('status.page.settingRemoved', { setting: labelOf('pageLanguage') }));
-  await expect.poll(async () => (await framePage(page)).lang).toBeNull();
+  // the page's own language gone, the canvas's <html> says the project's (the effective language: spec export-clean)
+  await expect.poll(async () => (await framePage(page)).lang).toBe(PROJECT_LANGUAGE);
   expect((await port(page)).undoSteps).toBe(2);
   await runDoor(page, UNDO);
   await expect.poll(async () => (await framePage(page)).lang).toBe('pt-BR');
   expect(await settingOf(page, 'pageLanguage')).toBe('pt-BR');
   await runDoor(page, REDO);
-  await expect.poll(async () => (await framePage(page)).lang).toBeNull();
+  await expect.poll(async () => (await framePage(page)).lang).toBe(PROJECT_LANGUAGE);
   await page.reload();
   await expect(page.locator('.workbench')).toBeVisible();
   await expect(drawn(page, 'n-intro')).toHaveCount(1);
   expect('pageLanguage' in (await root(page)).attributes).toBe(false);
-  expect((await framePage(page)).lang).toBeNull();
+  expect((await framePage(page)).lang).toBe(PROJECT_LANGUAGE);
 });
 
 test("leaving a field keeps what was typed, with Tab or a click on the canvas, and the canvas's <html> takes the direction and the language", runs(OPEN, PAGE_PROPERTIES, DIRECTION, LANGUAGE, SELECT), async ({ page }) => {

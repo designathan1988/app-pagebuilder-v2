@@ -21,7 +21,8 @@ import { FieldFormSettings, FormSubmissionSettings, type FormsSettingsPorts } fr
 const entries = doorSlots('inspector-settings').filter(entry => entry.door.kind === 'inspector-field' && entry.door.control.startsWith('forms-'));
 type FieldControl = Parameters<FormsSettingsPorts['field']>[0];
 const entryFor = (key: string) => entries.find(entry => entry.door.labelKey === key);
-const inputTypeDoor = doorSlots('inspector-settings').find(entry => entry.door.kind === 'inspector-field' && entry.door.attribute === 'inputType');
+// the one-click switch of a field that cannot take a mask to a text field: its own door (manifest elements.json)
+const textForMasksDoor = doorSlots('inspector-settings').find(entry => entry.door.kind === 'inspector-field' && entry.door.control === 'forms-text-for-masks');
 
 function ConfigurationField({ control, entry }: { readonly control: FieldControl; readonly entry: DoorEntry }): ReactNode {
   const t = useT();
@@ -115,7 +116,7 @@ export function FormsInspector({ node }: { readonly node: DocNode }): ReactNode 
   };
   return <section className="settings-section" data-region="forms-settings" aria-label={t(form ? 'forms.submission.title' : 'forms.title')}>
     <div className="settings-section__header"><h3>{t(form ? 'forms.submission.title' : 'forms.title')}</h3></div>
-    {!form && node.tag === 'input' && !acceptsTextMask(node) && inputTypeDoor && <DoorControl entry={inputTypeDoor} args={{ type: 'text' }} label={t('forms.useTextInput')} />}
+    {!form && node.tag === 'input' && !acceptsTextMask(node) && textForMasksDoor && <DoorControl entry={textForMasksDoor} />}
     {form
       ? <FormSubmissionSettings key={node.id} config={readFormConfig(node.attributes.formSubmit) ?? { destination: 'native' }} onChange={write} ports={ports} />
       : <FieldFormSettings key={node.id} config={readFieldConfig(node.attributes.formField) ?? {}} onChange={write} ports={ports} maskAllowed={acceptsTextMask(node)} />}

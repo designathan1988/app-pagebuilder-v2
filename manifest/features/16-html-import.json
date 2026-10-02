@@ -788,9 +788,7 @@
                       "type": "page",
                       "name": "Page",
                       "tag": "body",
-                      "attributes": {
-                        "pageLanguage": "en"
-                      },
+                      "attributes": {},
                       "classes": [],
                       "styles": {},
                       "text": null,
@@ -898,9 +896,7 @@
                       "type": "page",
                       "name": "Page",
                       "tag": "body",
-                      "attributes": {
-                        "pageLanguage": "en"
-                      },
+                      "attributes": {},
                       "classes": [],
                       "styles": {},
                       "text": null,
@@ -1131,9 +1127,7 @@
                       "type": "page",
                       "name": "Page",
                       "tag": "body",
-                      "attributes": {
-                        "pageLanguage": "en"
-                      },
+                      "attributes": {},
                       "classes": [],
                       "styles": {},
                       "text": null,
@@ -1269,7 +1263,6 @@
                       "name": "Page",
                       "tag": "body",
                       "attributes": {
-                        "pageLanguage": "en",
                         "pageScripts": "js/messy-1.js app.js"
                       },
                       "classes": [],
@@ -1458,7 +1451,6 @@
                       "name": "Page",
                       "tag": "body",
                       "attributes": {
-                        "pageLanguage": "en",
                         "pageScripts": "js/messy-1.js app.js"
                       },
                       "classes": [],
@@ -1685,9 +1677,7 @@
                       "type": "page",
                       "name": "Page",
                       "tag": "body",
-                      "attributes": {
-                        "pageLanguage": "en"
-                      },
+                      "attributes": {},
                       "classes": [],
                       "styles": {},
                       "text": null,
@@ -1843,9 +1833,7 @@
                       "type": "page",
                       "name": "Page",
                       "tag": "body",
-                      "attributes": {
-                        "pageLanguage": "en"
-                      },
+                      "attributes": {},
                       "classes": [],
                       "styles": {},
                       "text": null,
@@ -1997,9 +1985,7 @@
                       "type": "page",
                       "name": "Page",
                       "tag": "body",
-                      "attributes": {
-                        "pageLanguage": "en"
-                      },
+                      "attributes": {},
                       "classes": [],
                       "styles": {},
                       "text": null,
@@ -2159,9 +2145,7 @@
                       "type": "page",
                       "name": "Page",
                       "tag": "body",
-                      "attributes": {
-                        "pageLanguage": "en"
-                      },
+                      "attributes": {},
                       "classes": [],
                       "styles": {},
                       "text": null,
@@ -2329,9 +2313,7 @@
                       "type": "page",
                       "name": "Page",
                       "tag": "body",
-                      "attributes": {
-                        "pageLanguage": "en"
-                      },
+                      "attributes": {},
                       "classes": [],
                       "styles": {},
                       "text": null,
@@ -2696,7 +2678,7 @@
                 {
                   "path": "css/styles.css",
                   "present": [
-                    "padding-top: 56px;",
+                    "padding: 56px 40px;",
                     "@media (max-width: 1180px)",
                     "@media (max-width: 390px)",
                     ".hero__intro:hover",

@@ -17,6 +17,8 @@ export default defineConfig(
   globalIgnores(['dist', 'reference', '.cache', '.playwright-mcp', '.claude', 'node_modules', 'test-results', 'playwright-report', 'tests/support/folders']),
   // The audit journeys (jornada*/) hold the auditors' capture scripts and evidence, not project code.
   globalIgnores(['jornada01', 'jornada02', 'jornada03']),
+  // Third-party code shipped as it was published (the Lottie player, minified, with its licence): never edited here.
+  globalIgnores(['src/**/vendor/**']),
   // worktrees; none is project code. The fixtures are the scenarios' own input (a page HTML, its stylesheet, its
   // script…), data and not source: they are never edited to suit a test.
   globalIgnores(['dist', 'reference', '.cache', '.playwright-mcp', '.claude', 'node_modules', 'test-results', 'playwright-report', 'manifest/features/fixtures']),
@@ -53,7 +55,8 @@ export default defineConfig(
     // Pointer, mouse and drag input belongs to the pointer owner (ARCHITECTURE.md, Pointer input): the pointer
     // machine and the OS file drop it owns (input/file-drop.ts, split out of it).
     files: ['src/**/*.{ts,tsx}'],
-    ignores: ['src/editor/input/pointer.ts', 'src/editor/input/file-drop.ts'],
+    // the motion runtime is the page's own script (spec motion-runtime): its triggers listen to the page's pointer
+    ignores: ['src/editor/input/pointer.ts', 'src/editor/input/file-drop.ts', 'src/editor/motion/runtime/**'],
     plugins: { builder },
     rules: { 'builder/pointer-owner': 'error' },
   },
@@ -68,7 +71,8 @@ export default defineConfig(
   {
     // Keys belong to the keymap, which runs the manifest's shortcut doors (ARCHITECTURE.md, Keymap).
     files: ['src/**/*.{ts,tsx}'],
-    ignores: ['src/editor/input/keymap.ts'],
+    // the motion runtime is the page's own script (spec motion-runtime): its key trigger listens to the page's keys
+    ignores: ['src/editor/input/keymap.ts', 'src/editor/motion/runtime/**'],
     plugins: { builder },
     rules: { 'builder/keyboard-owner': 'error' },
   },
@@ -76,7 +80,8 @@ export default defineConfig(
     // Commands, doors and edited properties come from the manifest's data; the generated lists, the manifest's own
     // reader and checker, the command table and the tests name them.
     files: ['src/**/*.{ts,tsx}'],
-    ignores: ['src/generated/**', 'src/manifest/**', 'src/app/commands.ts', 'src/app/commands.typecheck.ts', 'src/**/*.test.ts', 'src/**/*.test.tsx'],
+    // (the motion runtime is the page's own script: the CSS properties it writes are the page's, not the editor's)
+    ignores: ['src/generated/**', 'src/manifest/**', 'src/app/commands.ts', 'src/app/commands.typecheck.ts', 'src/**/*.test.ts', 'src/**/*.test.tsx', 'src/editor/motion/runtime/**'],
     plugins: { builder },
     rules: { 'builder/no-manifest-id': 'error' },
   },

@@ -10,6 +10,7 @@
 // array gives their order. A new node appears through the value of its parent or of its parent's @children.
 import { createEmptyDocument, type DocumentJson } from '../core/document/model.ts';
 import { sequentialIds } from '../core/ports/ids.ts';
+import { motionStandIns } from '../core/motion/document.ts';
 import type { ElementType } from '../generated/ids.ts';
 
 export interface DocumentPath {
@@ -20,10 +21,10 @@ export interface DocumentPath {
 
 // the fields of a node a path may name; id is generated, so never named. locked, hidden (true, absent when off) and
 // inline (the runs of inline marks) arrive with the lock, hide and inline formatting features of group 02.
-export const NODE_FIELDS = ['type', 'name', 'tag', 'attributes', 'classes', 'styles', 'text', 'children', 'locked', 'hidden', 'inline', 'customAttributes', 'component', 'componentPart', 'guides', 'grid', 'layerColors', 'animations', 'interactions', 'authoring'] as const;
+export const NODE_FIELDS = ['type', 'name', 'tag', 'attributes', 'classes', 'styles', 'text', 'children', 'locked', 'hidden', 'inline', 'customAttributes', 'component', 'componentPart', 'guides', 'grid', 'layerColors', 'animations', 'interactions', 'motions', 'behaviours', 'authoring'] as const;
 // the fields of the project itself a diff names with no node path ("/@swatches"): the saved colours and the design
-// tokens (model.ts)
-export const DOCUMENT_FIELDS = ['pages', 'swatches', 'tokens', 'classes', 'components', 'files', 'folders'] as const;
+// tokens, and the project's document and code languages (model.ts)
+export const DOCUMENT_FIELDS = ['pages', 'swatches', 'tokens', 'classes', 'components', 'files', 'folders', 'motionTimelines', 'language', 'codeLanguage'] as const;
 
 // The id a fixture file names: manifest/features/fixtures/<id>.json. "empty" has no file.
 export const EMPTY_FIXTURE = 'empty';
@@ -209,6 +210,11 @@ export function withStandInIds(document: unknown): unknown {
     for (const child of childrenOf(node)) cite(child);
   };
   for (const page of Array.isArray(doc.pages) ? doc.pages : []) if (isObject(page)) cite(page.tree ?? null);
+  // the motion data's own ids and picked elements (core/motion/document.ts): a scenario names neither
+  motionStandIns(doc, () => `~new-${String(++next)}`, (path) => {
+    const found = resolveNode(doc, path.split('/').filter((each) => each !== ''));
+    return typeof found === 'string' ? null : String(found.node.id);
+  });
   return doc;
 }
 

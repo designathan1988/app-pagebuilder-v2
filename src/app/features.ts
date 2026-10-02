@@ -203,6 +203,13 @@ export const FEATURES = {
   'export-keyframes': registerFeature('export-keyframes'),
   'events-actions': registerFeature('events-actions'),
   'export-events-js': registerFeature('export-events-js'),
+  // 23 motion (plan stage 10)
+  'motion-interactions': registerFeature('motion-interactions'),
+  'motion-timeline': registerFeature('motion-timeline'),
+  'motion-keyframes': registerFeature('motion-keyframes'),
+  'motion-preview': registerFeature('motion-preview'),
+  'motion-behaviours': registerFeature('motion-behaviours'),
+  'export-motion-js': registerFeature('export-motion-js'),
   // 19 pages, files, assets
   'explorer-pages': registerFeature('explorer-pages'),
   'explorer-file-system': registerFeature('explorer-file-system'),
