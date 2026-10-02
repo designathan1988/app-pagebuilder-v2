@@ -329,6 +329,30 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
     return { padding: sides.map((side) => px(side)).join(' ') };
   };
 
+  // The container's own room around what it holds. Room past the end of the drawing (the right side, the bottom) that
+  // is wider than a spacing and more than twice the room at the start is space the drawing leaves empty, not padding:
+  // the drawing keeps its width as a most (the room on that side grows with the page past it, never less than the room
+  // at the start), centred when the room on both sides is alike and wide, against the right edge when only the left is
+  // wide; the room below the last region is the room above the first. The container itself keeps the whole width (it
+  // is the drawing's frame), so a narrow drawing does not become 1000 px of padding, nor a narrower container.
+  const UNUSED = 160;
+  const rootRoom = (holder: Box, held: readonly Region[]): Declarations => {
+    if (held.length === 0) return {};
+    const outer = bounds(held.map((r) => r.box));
+    const [top, right, bottom, left] = [outer.y - holder.y, end(holder, 'x') - end(outer, 'x'), end(holder, 'y') - end(outer, 'y'), outer.x - holder.x].map((side) => Math.max(0, side)) as [number, number, number, number];
+    const unused = (side: number, start: number) => side > UNUSED && side > start * 2;
+    const below = unused(bottom, top) ? top : bottom;
+    const rest = (least: number, taken: number) => `max(${px(least)}, calc(100% - ${px(taken)}))`;
+    const vertical = { paddingTop: px(top), paddingBottom: px(below) };
+    if (left > UNUSED && right > UNUSED && alike([left, right])) {
+      const half = `max(0px, calc((100% - ${px(outer.width)}) / 2))`;
+      return { ...vertical, paddingRight: half, paddingLeft: half };
+    }
+    if (unused(right, left)) return { ...vertical, paddingRight: rest(left, outer.width + left), paddingLeft: px(left) };
+    if (unused(left, right)) return { ...vertical, paddingRight: px(right), paddingLeft: rest(right, outer.width + right) };
+    return inset({ ...holder, height: outer.y + outer.height + below - holder.y }, held, false);
+  };
+
   const leaf = (r: Region): CompiledNode => {
     const inner = childrenOf(graph, r.id);
     const laid = inner.length > 0 ? group(inner, preferenceKey(r.id)) : null;
@@ -568,7 +592,7 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
 
   const roots = childrenOf(graph, null);
   const laid: Laid = roots.length === 0 ? { role: 'root', styles: {}, responsive: {}, children: [] } : group(roots, preferenceKey(null));
-  const root = materialize({ key: ROOT_NODE, region: null, content: false, role: 'root', tag: null, name: null, styles: { ...inset(graph.viewport, roots, false), ...laid.styles }, responsive: laid.responsive, children: laid.children, provenance: [] }, true);
+  const root = materialize({ key: ROOT_NODE, region: null, content: false, role: 'root', tag: null, name: null, styles: { ...rootRoom(graph.viewport, roots), ...laid.styles }, responsive: laid.responsive, children: laid.children, provenance: [] }, true);
   const breakpoints = [...graph.responsive.map((r) => ({ id: r.id, maxWidth: r.maxWidth })), ...(graph.morphs ?? []).flatMap((m) => m.points.slice(1, -1).map((p) => ({ id: morphSegmentId(m, p.width), maxWidth: p.width })))];
   const display = laid.styles.display;
   return { root, intent: graph, cost: cost(root, options.previous), strategy: display === 'flex' ? 'flex' : display === 'grid' ? 'grid' : 'flow', fingerprint: JSON.stringify(root), breakpoints };

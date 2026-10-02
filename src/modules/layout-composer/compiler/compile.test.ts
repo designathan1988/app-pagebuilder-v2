@@ -128,3 +128,22 @@ describe('the layout compiler', () => {
     expect(() => compile(graph, PORTS)).toThrow();
   });
 });
+
+describe('the room the drawing leaves empty around the page', () => {
+  it('is no padding: the drawing keeps its width as a most, left, centred or right, and the room below is the room above', () => {
+    const left = compile(drawn(1440, 900, [{ x: 40, y: 40, width: 360, height: 200 }]), PORTS).root;
+    expect(css(left, 'paddingRight')).toBe('max(40px, calc(100% - 400px))');
+    expect(css(left, 'paddingLeft')).toBe('40px');
+    expect(css(left, 'paddingBottom')).toBe('40px');
+    const centred = compile(drawn(1440, 900, [{ x: 340, y: 40, width: 760, height: 820 }]), PORTS).root;
+    expect(css(centred, 'paddingLeft')).toBe('max(0px, calc((100% - 760px) / 2))');
+    expect(css(centred, 'paddingRight')).toBe('max(0px, calc((100% - 760px) / 2))');
+    const right = compile(drawn(1440, 900, [{ x: 1000, y: 40, width: 400, height: 820 }]), PORTS).root;
+    expect(css(right, 'paddingLeft')).toBe('max(40px, calc(100% - 440px))');
+    // the container is never narrowed: it is the drawing's frame
+    for (const root of [left, centred, right]) expect(css(root, 'maxWidth')).toBeUndefined();
+    // a drawing that fills the width keeps its padding as drawn
+    const full = compile(drawn(1440, 900, [{ x: 40, y: 40, width: 1360, height: 820 }]), PORTS).root;
+    expect(css(full, 'padding')).toBe('40px');
+  });
+});

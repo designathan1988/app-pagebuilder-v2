@@ -293,7 +293,10 @@ function readBack(context: Context, container: DocNode, intent: LayoutIntent): {
     return own.children.length === 0 ? own : { ...own, children: own.children.map(replace) };
   };
   const next = released.size === 0 ? container : replace(container);
-  return { intent: graph, container: next, changed: graph !== intent || released.size > 0 };
+  // changed only when a region was read back other than the intent holds it (gone, moved, re-parented) or a size taken
+  // back: a container entered as the page holds it is not written again, whatever compiler wrote it
+  const read = graph.regions.length !== intent.regions.length || graph.regions.some((r, i) => r !== intent.regions[i]);
+  return { intent: read ? graph : intent, container: next, changed: read || released.size > 0 };
 }
 
 // An operation of the gesture algebra on the composed intent, refused with the engine's own problem when it cannot be.
@@ -526,7 +529,10 @@ export const placeLayout = registerHandler<'layout.place', EditorUi>('layout.pla
     const held = owner === null ? null : recordOf(owner.container);
     if (owner === null || at === null || held === null || tree === undefined) return refusedWith([{ code: 'not-a-region', params: {} }]);
     if (typeof dx !== 'number' || typeof dy !== 'number' || !PLACE_EDGES.includes(edges as PlaceEdges)) throw new Error('layout.place: a door hands a travel and the edges it moves');
-    const record: ContainerRecord = { ...held, intent: namesFromElements(owner.container, held.intent) };
+    // what the page holds now first (a region whose element the Select tool deleted is gone from the layout too)
+    const back = readBack(context, owner.container, namesFromElements(owner.container, held.intent));
+    if (findRegion(back.intent, owner.region) === undefined) return refusedWith([{ code: 'not-a-region', params: {} }]);
+    const record: ContainerRecord = { ...held, intent: back.intent };
     // the travel in the page's px, in the container's own px (the drawing may be narrower or wider than the page)
     const measured = context.layout.box(owner.container.id);
     const scale = measured === null || !(measured.width > 0) ? 1 : record.intent.viewport.width / measured.width;
@@ -535,7 +541,7 @@ export const placeLayout = registerHandler<'layout.place', EditorUi>('layout.pla
     if (!reading.result.ok) return refusedWith(reading.result.problems);
     const graph = inferMeaning(reading.result.graph, { name: (key) => context.words(`layout.template.part.${key}` as MessageId), numbered: (n) => context.words('layout.label.region' as MessageId, { n }), generic: numberedWith(context.words) }, tree.id === owner.container.id);
     // a width or a height the Select tool wrote on a region before would hold it where it was: the layout owns its size
-    const next = structured(context, releasedSizes(context, owner.container), record, graph, false);
+    const next = structured(context, releasedSizes(context, back.container), record, graph, false);
     const placed = findRegion(graph, owner.region);
     const said = reading.mode === 'edge' && placed !== undefined ? message('layout.status.resized', { sizes: context.words('layout.status.size' as MessageId, { name: placed.name, width: Math.round(placed.box.width), height: Math.round(placed.box.height) }) }) : gestureSaid(reading.mode, record.intent, graph, reading.result.affected);
     return { kind: 'change', patches: [{ op: 'replace', path: [...at.path], value: next }], message: said };

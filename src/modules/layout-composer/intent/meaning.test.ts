@@ -31,6 +31,9 @@ describe('what a page layout plainly means', () => {
   it('reads cards in any layout, and the plain region holding only them as a section', () => {
     const cards = drawn(1200, 600, [{ x: 0, y: 0, width: 1200, height: 600 }, ...[0, 1, 2, 3].map((i) => ({ x: 24 + i * 294, y: 24, width: 270, height: 300 }))], (r, i) => (i === 0 ? r : { ...r, parent: 'r1' }));
     expect(meanings(inferMeaning(cards, WORDS, false))).toEqual(['section Region 1', 'article [item] 1', 'article [item] 2', 'article [item] 3', 'article [item] 4']);
+    // one card narrowed by a handle is still a card among its row
+    const narrowed = { ...cards, regions: cards.regions.map((r) => (r.id === 'r2' ? { ...r, box: { ...r.box, width: 150 } } : r)) };
+    expect(meanings(inferMeaning(narrowed, WORDS, false))).toEqual(['section Region 1', 'article [item] 1', 'article [item] 2', 'article [item] 3', 'article [item] 4']);
     // a card the repeat handle copied ("[item] 1 2") is numbered with the others
     const copied = { ...cards, regions: cards.regions.map((r) => (r.id === 'r5' ? { ...r, name: '[item] 1 2', semantic: 'article' as const } : r)) };
     expect(meanings(inferMeaning(copied, WORDS, false)).at(-1)).toBe('article [item] 4');

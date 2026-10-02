@@ -6,7 +6,7 @@
     "doors": 1335,
     "scenarios": 1749,
     "modules": 409,
-    "lines": 76110
+    "lines": 76150
   },
   "features": [
     {
@@ -6547,7 +6547,7 @@
     },
     {
       "path": "src/modules/layout-composer/compiler/compile.ts",
-      "lines": 581,
+      "lines": 605,
       "commands": [],
       "features": []
     },
@@ -6583,7 +6583,7 @@
     },
     {
       "path": "src/modules/layout-composer/gestures/recognize.ts",
-      "lines": 629,
+      "lines": 630,
       "commands": [],
       "features": []
     },
@@ -6601,7 +6601,7 @@
     },
     {
       "path": "src/modules/layout-composer/host/handlers.ts",
-      "lines": 864,
+      "lines": 870,
       "commands": [
         "layout.enter",
         "layout.leave",
@@ -6655,7 +6655,7 @@
     },
     {
       "path": "src/modules/layout-composer/intent/meaning.ts",
-      "lines": 137,
+      "lines": 146,
       "commands": [],
       "features": []
     },

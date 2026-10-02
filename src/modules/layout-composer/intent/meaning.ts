@@ -25,6 +25,8 @@ const BAND = 0.3;
 const ASIDE = 0.35;
 // the fewest alike regions that read as a list of cards
 const CARDS = 3;
+// the rows a row of items lines up on: their tops this close
+const ROW = 8;
 
 // the meanings it reads, each with the template part that names it in the person's language
 type Meant = 'header' | 'footer' | 'aside' | 'main' | 'article' | 'section';
@@ -98,7 +100,14 @@ export function inferMeaning(graph: LayoutIntent, words: MeaningWords, page: boo
   const meant = page ? pageMeanings(childrenOf(graph, null)) : new Map<string, Meant>();
   // cards: a row or a grid of alike regions, numbered in reading order; their holder a section when it holds only them
   const items = new Map<string, number>();
-  for (const p of patterns(graph)) {
+  // a row or a grid of alike regions, then a row of regions as tall as one another whatever their widths: one card a
+  // handle narrowed is still a card among its row (the tablet's two columns read rows the same way)
+  const rows = [null, ...graph.regions.map((r) => r.id)].flatMap((parent) => {
+    const held = childrenOf(graph, parent);
+    const row = held.map((a) => held.filter((b) => Math.abs(b.box.y - a.box.y) <= ROW && Math.abs(b.box.height - a.box.height) <= Math.max(a.box.height, b.box.height) * 0.25)).sort((x, y) => y.length - x.length)[0] ?? [];
+    return row.length >= CARDS ? [{ kind: 'repeated-row' as const, parent, regions: row.sort((x, y) => x.box.x - y.box.x).map((r) => r.id) }] : [];
+  });
+  for (const p of [...patterns(graph), ...rows]) {
     if ((p.kind !== 'repeated-row' && p.kind !== 'grid') || p.regions.length < CARDS) continue;
     const held = p.regions.map((id) => findRegion(graph, id) as Region);
     if (held.some((r) => meant.has(r.id) || items.has(r.id))) continue;

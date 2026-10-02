@@ -215,6 +215,15 @@ describe('the Select tool places a region the Layout tool drew', () => {
     expect(moved).toMatchObject({ status: 'done' });
     expect(recordOf(root())?.intent.regions[0]?.box).toMatchObject({ x: 40, y: 140 });
     expect(store.getState().history.past.length).toBe(steps + 2);
+
+    // a region whose element the Select tool deleted stays gone when another is placed
+    const right = root().children.find((c) => c.id !== left.id) as DocNode;
+    store.dispatch('selection.select', { target: right.id } as never);
+    expect(store.dispatch('element.delete', {} as never).status).toBe('done');
+    store.dispatch('selection.select', { target: left.id } as never);
+    expect(store.dispatch('layout.place', { edges: 'move', dx: 0, dy: -50 } as never)).toMatchObject({ status: 'done' });
+    expect(recordOf(root())?.intent.regions.map((r) => r.id)).toEqual(['r1']);
+    expect(root().children).toHaveLength(1);
     // an element that is no region is refused, and nothing changes
     store.dispatch('selection.select', { target: root().id } as never);
     expect(store.dispatch('layout.place', { edges: 'move', dx: 10, dy: 10 } as never).status).toBe('refused');

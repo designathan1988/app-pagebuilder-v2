@@ -133,8 +133,9 @@ function nearest(lines: readonly number[], at: number, radius: number): number |
 }
 
 // An edge that comes near the facing edge of a region beside it (the two overlap across the axis) touches it: within
-// twice the radius, contact wins over every other line, so regions drawn or moved next to one another join, with no
-// sliver left between them. The edge a start edge meets is another region's end, and the reverse.
+// the radius, contact wins over every other line, so regions drawn or moved next to one another join, with no sliver
+// left between them; a gap drawn wider than the radius (cards kept apart) stays. The edge a start edge meets is another
+// region's end, and the reverse.
 function contact(graph: LayoutIntent, axis: Axis, box: Box, start: boolean, radius: number, excluded: ReadonlySet<string>): number | null {
   const across: Axis = axis === 'x' ? 'y' : 'x';
   const at = start ? box[axis] : end(box, axis);
@@ -144,7 +145,7 @@ function contact(graph: LayoutIntent, axis: Axis, box: Box, start: boolean, radi
     const overlap = Math.min(end(r.box, across), end(box, across)) - Math.max(r.box[across], box[across]);
     if (overlap <= 0) continue;
     const line = start ? end(r.box, axis) : r.box[axis];
-    if (Math.abs(line - at) <= radius * 2 && (best === null || Math.abs(line - at) < Math.abs(best - at))) best = line;
+    if (Math.abs(line - at) <= radius && (best === null || Math.abs(line - at) < Math.abs(best - at))) best = line;
   }
   return best;
 }

@@ -163,15 +163,18 @@ describe('strokes that snap, select and cut', () => {
 
   it('snaps an edge drawn or moved near a region beside it to touch it, with no sliver between them', () => {
     const graph = drawn(1440, 900, [{ x: 40, y: 40, width: 600, height: 400 }]);
-    // drawn 10 px away from the region's right edge (the radius is 8): it touches
-    const near = readStroke(graph, stroke([{ x: 650, y: 40 }, { x: 1100, y: 440 }]), DEFAULT_NAMING);
+    // drawn 6 px away from the region's right edge (the radius is 8): it touches
+    const near = readStroke(graph, stroke([{ x: 1100, y: 40 }, { x: 646, y: 440 }]), DEFAULT_NAMING);
     expect(near.mode).toBe('draw');
     expect(near.area?.x).toBe(640);
-    // moved to 12 px from it: it touches
+    // moved to 7 px from it: it touches
     const two = drawn(1440, 900, [{ x: 40, y: 40, width: 600, height: 400 }, { x: 800, y: 40, width: 400, height: 400 }]);
-    const moved = readStroke(two, stroke([{ x: 1000, y: 200 }, { x: 852, y: 200 }], { mode: 'move' }), DEFAULT_NAMING);
+    const moved = readStroke(two, stroke([{ x: 1000, y: 200 }, { x: 847, y: 200 }], { mode: 'move' }), DEFAULT_NAMING);
     expect(moved.mode).toBe('move');
     expect(moved.result?.ok === true ? moved.result.graph.regions[1]?.box.x : null).toBe(640);
+    // a card drawn 24 px from another (a gap wider than the radius) keeps its gap
+    const apart = readStroke(graph, stroke([{ x: 1100, y: 40 }, { x: 664, y: 440 }]), DEFAULT_NAMING);
+    expect(apart.area?.x).toBe(664);
   });
 
   it('never reads a drag with no key held as a cut; with S held a rough line splits along its main direction', () => {
