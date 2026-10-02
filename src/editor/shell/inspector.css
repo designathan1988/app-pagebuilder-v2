@@ -1094,6 +1094,13 @@
   overflow-y: auto;
 }
 
+/* drawn on the body, placed under its field by field.tsx FieldMenu (J15: never cut by the panel's edge) */
+.field__menu--floating {
+  position: fixed;
+  right: auto;
+  min-width: var(--size-menu-min);
+}
+
 /* A project font's item of the font menu draws in its own face (the manifest's custom-fonts): the family comes from
    the item itself, the fallback from the interface's own font (the tokens) */
 .field__menu {

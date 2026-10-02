@@ -17,7 +17,8 @@
 //  - The unit menu lists the units and keywords the property offers (the generated lists, All properties) and runs
 //    field.setUnit with the one chosen; like any menu it closes on a dismissal (Escape, its backdrop).
 // A field whose door is not available (its feature not registered yet, or nothing selected) draws every part disabled.
-import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent, type RefObject } from 'react';
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent, type ReactNode, type RefObject } from 'react';
+import { createPortal } from 'react-dom';
 import type { DispatchResult } from '../../core/store/store.ts';
 import { locate, type DocNode, type NodeId } from '../../core/document/model.ts';
 import { DEFAULT_UNIT, codecOf } from '../../core/style/codecs.ts';
@@ -53,6 +54,7 @@ import { usePrimarySize } from '../view/selection-size.ts';
 import { restoreFieldDraft } from '../persistence/drafts.ts';
 import { DRAFT_KEPT, markFieldKept, recordFieldInput } from '../input/drafts.ts';
 import { wordOfKeyword } from '../../core/style/keyword-words.ts';
+import { floatBelow, type Placed } from './float.ts';
 
 // the key context a number field's input names (interactions.json)
 const NUMBER_FIELD_CONTEXT: KeyContextId = 'number-field';
@@ -78,6 +80,31 @@ const PART_CONTROLS = new Set(['unit-menu', 'property-reset']);
 const PARTS = doorSlots('field').filter((p) => p.door.kind === 'panel-control' && PART_CONTROLS.has(p.door.control));
 // the label's scrub: the panel drag pressed on a field's label
 const SCRUB = manifest.doors.find((d) => d.door.kind === 'panel-drag' && d.door.source === 'field-label') ?? null;
+// the codec of a list of font families (properties.json: the font menu's property)
+const FAMILY_CODEC = 'font-family-list';
+
+// A field's values menu (the audit's J15: drawn inside the inspector, a long font list was cut by the panel's edge):
+// a layer on the body, under the field's value cell (float.ts, as every floating layer), inside the window.
+function FieldMenu({ anchor, list, label, children }: { readonly anchor: RefObject<HTMLElement | null>; readonly list: RefObject<HTMLDivElement | null>; readonly label: string; readonly children: ReactNode }) {
+  const [at, setAt] = useState<Placed | null>(null);
+  useLayoutEffect(() => {
+    const from = anchor.current?.getBoundingClientRect();
+    const panel = list.current;
+    if (from === undefined || panel === null) return;
+    const style = getComputedStyle(panel);
+    const edge = parseFloat(style.getPropertyValue('--space-4')) || 0;
+    const { width, height } = panel.getBoundingClientRect();
+    setAt(floatBelow(from, { width, height }, { width: window.innerWidth, height: window.innerHeight }, edge));
+  }, [anchor, list]);
+  const style: CSSProperties = at === null ? { visibility: 'hidden', left: 0, top: 0 } : { left: at.left, top: at.top };
+  return createPortal(
+    <div className="menu field__menu field__menu--floating" role="menu" ref={list} aria-label={label} data-key-context="menu" style={style}>
+      {children}
+    </div>,
+    document.body,
+  );
+}
+
 // The wheel over a field that holds the focus (the plan's stage 3, "setas e arrasto"): each notch runs the field's own
 // ArrowUp or ArrowDown door (field.step), Shift ×10 and Alt ×0.1 as with the keys; a field without the focus lets the
 // panel scroll. The doors are the number field's step keys (interactions.json number-field context).
@@ -721,6 +748,8 @@ export function TextStyleField({
   const families = useProjectFontFamilies();
   const projectFonts = useMemo(() => (fontMenu ? families : []), [fontMenu, families]);
   const suggestions = useMemo(() => [...projectFonts, ...new Set([...tokenSuggestions, ...(keywords ?? []), ...presetsOf(entry)])], [projectFonts, tokenSuggestions, keywords, entry]);
+  // a font menu draws every family in its own face (the plan's stage 3: each family previewed in itself)
+  const faces = codecOf(MODEL_RULES.propertyFacts.get(property)?.codec ?? '')?.id === FAMILY_CODEC;
   // the values menu: the door's essentials first (the only ones in Essentials only), the rest behind More values
   const essentials = essentialsOf(entry);
   const essentialsMode = useEditorState((s) => inspectorMode(s.ui) === 'essentials');
@@ -863,7 +892,7 @@ export function TextStyleField({
               <Icon name={GLYPHS.dropdown} size="xs" />
             </button>
             {valuesLayer.open ? (
-              <div className="menu field__menu" role="menu" ref={valuesList} aria-label={door.label} data-key-context="menu">
+              <FieldMenu anchor={valueScope} list={valuesList} label={door.label}>
                 {menuValues.map((value) => (
                   <button
                     key={value}
@@ -882,8 +911,9 @@ export function TextStyleField({
                     }}
                   >
                     <span className="menu__icon">{value === checkedValue ? <Icon name={GLYPHS.checked} size="sm" /> : null}</span>
-                    {/* a project font's item is drawn in its own face (the manifest's custom-fonts) */}
-                    <span className={projectFonts.includes(value) ? 'menu__label menu__label--face' : 'menu__label'} style={projectFonts.includes(value) ? ({ '--font-face': cssFamily(value) } as CSSProperties) : undefined}>
+                    {/* a font's item is drawn in its own face: a project font (the manifest's custom-fonts) by its
+                        family, a stack of the font menu as it is written */}
+                    <span className={faces ? 'menu__label menu__label--face' : 'menu__label'} style={faces ? ({ '--font-face': projectFonts.includes(value) ? cssFamily(value) : value } as CSSProperties) : undefined}>
                       {valueLabel(property, value)}
                     </span>
                   </button>
@@ -894,7 +924,7 @@ export function TextStyleField({
                     <span className="menu__label">{t(moreValues ? 'field.values.fewer' : 'field.values.more')}</span>
                   </button>
                 ) : null}
-              </div>
+              </FieldMenu>
             ) : null}
           </span>
         ) : null}

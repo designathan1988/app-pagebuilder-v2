@@ -6,7 +6,7 @@
     "doors": 1305,
     "scenarios": 1706,
     "modules": 394,
-    "lines": 72542
+    "lines": 72572
   },
   "features": [
     {
@@ -5734,7 +5734,7 @@
     },
     {
       "path": "src/editor/shell/field.tsx",
-      "lines": 1494,
+      "lines": 1524,
       "commands": [],
       "features": []
     },

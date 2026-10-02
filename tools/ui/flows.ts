@@ -193,6 +193,17 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'font-menu',
+    about: 'stage 3 / J15: the font menu on the body, never cut by the inspector, each family drawn in its own face',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/responsive-title.json'] } },
+      { door: 'selection.select#layers-row', labelled: 'Title' },
+      { click: '[data-door="style.set#inspector-font-family"] .field__values, [data-door="style.set#inspector-font-family"] button[aria-haspopup]' },
+      { photo: 'font-menu-open' },
+    ],
+  },
+  {
     name: 'data-c3',
     about: 'jornada03 C3/H13: the header shared with every page, its menu changed once',
     steps: [
