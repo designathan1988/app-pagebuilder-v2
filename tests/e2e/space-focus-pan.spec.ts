@@ -49,7 +49,10 @@ test('a tile the keyboard reached takes Space with the pointer over the canvas a
   await page.mouse.move(at.x, at.y);
   const before = await paragraphs(page);
   const focused = () => paragraphTile(page).evaluate((el) => el === document.activeElement);
-  for (let i = 0; i < 400 && !(await focused()); i += 1) await page.keyboard.press('Tab');
+  // Tab to the tile's group (its tiles are one Tab stop: spec palette), then the arrows within it
+  const inGroup = () => paragraphTile(page).evaluate((el) => el.parentElement?.contains(document.activeElement) === true);
+  for (let i = 0; i < 400 && !(await inGroup()); i += 1) await page.keyboard.press('Tab');
+  for (let i = 0; i < 200 && (await inGroup()) && !(await focused()); i += 1) await page.keyboard.press('ArrowRight');
   expect(await focused()).toBe(true);
   await page.keyboard.press('Space');
   await expect.poll(() => paragraphs(page)).toBe(before + 1);

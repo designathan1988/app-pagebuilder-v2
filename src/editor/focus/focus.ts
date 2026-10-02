@@ -174,7 +174,10 @@ export function carryOut(move: FocusMove, focused: Element | null): void {
     // the panel just opened is drawn on the next frame, and its rows (the Layers tree's) on the one after
     requestAnimationFrame(() =>
       requestAnimationFrame(() => {
-        const region = document.querySelector(`[data-panel-area="${move.slice(6)}"], [data-panel-window="${move.slice(6)}"]`);
+        // a panel's own area, its floating window, or the place a panel that takes no other panel is entered by
+        // (data-panel-focus: the inspector, a dock tab; data-panel-area would make it a place a dragged panel combines
+        // with, panel-drag.ts)
+        const region = document.querySelector(`[data-panel-area="${move.slice(6)}"], [data-panel-window="${move.slice(6)}"], [data-panel-focus="${move.slice(6)}"]`);
         if (region) focusRegion(region);
       }),
     );

@@ -89,6 +89,12 @@
   border-left: 1px solid color-mix(in srgb, var(--color-on-status-bar) 35%, transparent);
 }
 
+/* the save state keeps one width while it says Saving…, Saved or Not saved (Salvando…, Salvo, Não salvo): its words
+   changing on every autosave moved every item before it (status-bar-messages.spec: nothing moves the fixed items) */
+.status-bar__save {
+  min-width: calc(var(--space-10) * 2 + var(--space-7));
+}
+
 .status-bar .door,
 .status-bar .menu-button {
   height: var(--size-status-bar);

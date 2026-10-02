@@ -821,11 +821,17 @@ export function TextStyleField({
       if (inside(next) && !(next === valuesButton.current && !pointerPressing())) return;
       finish();
     };
+    // the values menu floats on the body (FieldMenu), outside the field's scope: the focus leaving one of its items is
+    // heard too, so Tab and Shift+Tab out of the open list keep the draft and close it
+    const leaveAnywhere = (event: FocusEvent) => {
+      const from = event.target;
+      if (from instanceof Node && (scope?.contains(from) === true || valuesList.current?.contains(from) === true)) leave(event);
+    };
     element.addEventListener('input', onInput);
-    scope?.addEventListener('focusout', leave);
+    document.addEventListener('focusout', leaveAnywhere, true);
     return () => {
       element.removeEventListener('input', onInput);
-      scope?.removeEventListener('focusout', leave);
+      document.removeEventListener('focusout', leaveAnywhere, true);
       keepPending.current = () => {};
       // the field goes: the inspector keeps a text not kept yet; a quick panel field drops it (its dismissal cancels)
       if (keepOnLeave) keep();

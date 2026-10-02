@@ -7,6 +7,7 @@ import path from 'node:path';
 import { expect, test } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
 import { isFeatureBuilt } from '../../src/app/features.ts';
+import { chordCap } from '../../src/editor/input/key-caps.ts';
 import type { FeatureId } from '../../src/generated/ids.ts';
 import { runDoor, runs } from './door.ts';
 
@@ -29,8 +30,9 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('Help › Keyboard shortcuts opens the panel as a dock tab, listing every binding of the keymap by context', runs(HELP, TAB), async ({ page }) => {
-  // the workbench is closed at the start: the panel opens the dock with its first tab
-  await expect(page.locator('.dock')).toHaveCount(0);
+  // the workbench is closed at the start (its strip alone: spec workspace, a closed dock keeps its strip): the panel
+  // opens the dock with its first tab
+  await expect(page.locator('.dock [role="tabpanel"]')).toHaveCount(0);
   await runDoor(page, HELP);
   await expect(page.locator('.dock [role="tab"][aria-selected="true"]')).toHaveText('Keyboard shortcuts');
   const panel = page.locator('[data-region="shortcuts"]');
@@ -46,7 +48,8 @@ test('Help › Keyboard shortcuts opens the panel as a dock tab, listing every b
     // a label with a placeholder is listed with the word the panel fills in for it
     const expected = label.replace('{element}', EN['palette.tile'] ?? '');
     expect(row?.text, binding.ref).toContain(expected === '' ? binding.labelKey : expected);
-    expect(row?.text, binding.ref).toContain(binding.chord);
+    // the keys as their caps show them (Alt+↑ for Alt+ArrowUp: keymap.ts chordCap)
+    expect(row?.text, binding.ref).toContain(chordCap(binding.chord));
   }
   // the groups are the contexts of interactions.json, in its order, each with the count of its bindings
   const contexts = (JSON.parse(fs.readFileSync('manifest/interactions.json', 'utf8')) as { keyContexts: { id: string; labelKey: string }[] }).keyContexts;

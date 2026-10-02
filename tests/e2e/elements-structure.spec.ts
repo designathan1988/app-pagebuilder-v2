@@ -109,12 +109,15 @@ async function insertInPage(page: Page, entry: string) {
   if ((await port(page)).selection.length > 0) await runDoor(page, CLEAR);
   await runDoor(page, TILE, { args: { entry } });
 }
-// the focus moved with Tab to a tile, as a person reaches it with the keyboard (Shift+Tab when the focus is after it)
+// the focus moved to a tile as a person reaches it with the keyboard: Tab (Shift+Tab when the focus is after it) to
+// the tile's group, whose tiles are one Tab stop (spec palette, the Insert panel), then the arrows within it
 async function tabToTile(page: Page, entry: string) {
   const tile = control(page, TILE, { args: { entry } });
   const focused = () => tile.evaluate((el) => el === document.activeElement);
+  const inGroup = () => tile.evaluate((el) => el.parentElement?.contains(document.activeElement) === true);
   const after = await tile.evaluate((el) => document.activeElement !== null && document.activeElement !== document.body && (el.compareDocumentPosition(document.activeElement) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0);
-  for (let i = 0; i < 400 && !(await focused()); i += 1) await page.keyboard.press(after ? 'Shift+Tab' : 'Tab');
+  for (let i = 0; i < 400 && !(await inGroup()); i += 1) await page.keyboard.press(after ? 'Shift+Tab' : 'Tab');
+  for (let i = 0; i < 200 && (await inGroup()) && !(await focused()); i += 1) await page.keyboard.press('ArrowRight');
   expect(await focused(), `Tab reaches the ${entry} tile`).toBe(true);
 }
 // the address the canvas's frame shows: its page never follows a link

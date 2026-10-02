@@ -144,8 +144,10 @@ test('the dock strip closes the tab it shows and shows the next one; closing the
   expect(await tabs()).toEqual([]);
   await expect(page.locator('.dock [role="tabpanel"]')).toHaveCount(0);
   expect(await box(page, '.centre')).toEqual(canvas);
-  // folded, the dock draws no strip at all (the audit's A3.18)
-  await expect(toggle).toHaveCount(0);
+  // closed, the dock keeps its strip and its show/hide says the workbench is hidden (spec workspace: a closed dock
+  // keeps its 28 px strip, as the canonical design draws it)
+  await expect(page.locator('[data-region="dock-strip"]')).toHaveCount(1);
+  await expect(toggle).toHaveAttribute('aria-pressed', 'false');
 });
 
 test('the dock strip folds the workbench away and View › Workbench shows it again', runs('workspace.setWorkbenchState#toolbar-workbench-strip-toggle'), async ({ page }) => {
@@ -158,8 +160,9 @@ test('the dock strip folds the workbench away and View › Workbench shows it ag
 
   await runDoor(page, 'workspace.setWorkbenchState#toolbar-workbench-strip-toggle');
   expect(await box(page, '.centre')).toEqual(canvas);
-  // folded, the strip is gone whole
-  await expect(page.locator('[data-region="dock-strip"]')).toHaveCount(0);
+  // folded, the strip alone stays (spec workspace: a closed dock keeps its strip), at the bottom of the centre column
+  await expect(page.locator('[data-region="dock-strip"]')).toHaveCount(1);
+  expect((await region(page, 'dock-strip')).y).toBeGreaterThanOrEqual(canvas.y + canvas.height - 1);
   await runDoor(page, 'workspace.setPanelOpen#menu-view-workbench');
   expect(await region(page, 'dock-strip')).toEqual(strip);
 });

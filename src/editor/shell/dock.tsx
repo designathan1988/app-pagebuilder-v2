@@ -125,7 +125,7 @@ function DockBody({ tab }: { readonly tab: Panel }) {
   const t = useT();
   const Body = DOCK_TABS[tab];
   return (
-    <div className={`dock-body${Body ? '' : ' dock-body--empty'}`} role="tabpanel" aria-label={t(panelName(tab))} data-panel-area={tab}>
+    <div className={`dock-body${Body ? '' : ' dock-body--empty'}`} role="tabpanel" aria-label={t(panelName(tab))} data-panel-focus={tab}>
       {Body ? <Body /> : t('common.notAvailableYet')}
     </div>
   );

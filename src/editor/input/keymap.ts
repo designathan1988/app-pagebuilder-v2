@@ -99,13 +99,8 @@ export function chordHint(command: CommandId, context: KeyContextId = 'global'):
   return null;
 }
 
-// A chord as a key cap shows it (the canonical menus and palette: Alt+↑, ↑↓ choose, Esc): the arrow keys as arrows and
-// Escape as Esc; every other key keeps the name the manifest gives it. The chord itself, as the keymap matches it and a
-// tooltip says it, is unchanged.
-const CAPS: Readonly<Record<string, string>> = { ArrowUp: '↑', ArrowDown: '↓', ArrowLeft: '←', ArrowRight: '→', Escape: 'Esc' };
-export function chordCap(chord: string): string {
-  return chord.replace(/Arrow(Up|Down|Left|Right)|Escape/g, (key) => CAPS[key] ?? key);
-}
+// a chord as its key cap shows it (key-caps.ts)
+export { chordCap } from './key-caps.ts';
 
 // An HTML element of any window: the editor's, or the canvas frame's, whose elements are not instances of the
 // editor's HTMLElement.
