@@ -1,3 +1,4 @@
+import { variantBase } from './components.ts';
 import { describe, expect, it } from 'vitest';
 import type { NodeId } from '../../generated/commands.ts';
 import { manifest } from '../../manifest/runtime.ts';
@@ -109,5 +110,13 @@ describe('a style write on an element of an instance', () => {
     expect(colour(styled.pages[0]?.tree.children[1]?.children[0])).toBe('#ff0000');
     // an element of no instance keeps writing to itself alone
     expect(componentHolders(two, 'Page' as NodeId)).toBeNull();
+  });
+});
+
+describe('component variants (spec component-variants)', () => {
+  it('names a variant class after its component as a BEM modifier', () => {
+    expect(variantBase('Plan')).toBe('plan');
+    expect(variantBase('Price Card 2')).toBe('price-card-2');
+    expect(variantBase('2 columns')).toBe('c-2-columns');
   });
 });

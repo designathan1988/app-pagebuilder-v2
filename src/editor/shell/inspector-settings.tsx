@@ -21,6 +21,7 @@ import { ID_REF, KeptTextField, TextField, keepAfterGesture, keptTextOf } from '
 import './settings.css';
 import { FormsInspector } from '../forms/inspector.tsx';
 import { PanelField } from './panel-field.tsx';
+import { instanceRootOf, variantBase, variantsOf } from '../../core/design/components.ts';
 
 const SETTINGS_FIELDS = doorSlots('inspector-settings').filter((d) => d.door.kind === 'inspector-field' && d.door.attribute !== null && !d.door.control.startsWith('forms-'));
 // the toggles of a table's parts (caption, head, foot; core/elements/parts.ts), drawn while the selection is in a table
@@ -299,6 +300,8 @@ function AttributeField({ entry, label, toggle }: { readonly entry: DoorEntry; r
 // the project's language fields (core/project/language.ts), drawn under the page root's own settings
 const PROJECT_LANGUAGE = doorSlots('inspector-settings').find((d) => d.door.kind === 'panel-control' && d.door.control === 'project-language');
 const CODE_LANGUAGE = doorSlots('inspector-settings').find((d) => d.door.kind === 'panel-control' && d.door.control === 'code-language');
+// an instance's variant (spec component-variants), drawn with an element of an instance selected
+const COMPONENT_VARIANT = doorSlots('inspector-settings').find((d) => d.door.kind === 'panel-control' && d.door.control === 'component-variant');
 // the language tags the fields offer (a person may type any other)
 const COMMON_LANGUAGES: readonly string[] = 'en pt-BR pt-PT es fr de it nl ja zh ko ar'.split(' ');
 // the language the code is named in when the project names none (core/export/names.ts)
@@ -319,6 +322,27 @@ function ProjectSettings({ node }: { readonly node: DocNode }) {
       </div>
       <PanelField entry={PROJECT_LANGUAGE} value={language} label={t('command.project.setLanguage')} offered={COMMON_LANGUAGES} />
       <PanelField entry={CODE_LANGUAGE} value={code} label={t('command.project.setCodeLanguage')} offered={COMMON_LANGUAGES} />
+    </section>
+  );
+}
+
+// The component of the instance the selected element lies in, and its Variant: the variant its root lists, the
+// variants the project's classes give the component offered (spec component-variants)
+function ComponentSettings({ node }: { readonly node: DocNode }) {
+  const t = useT();
+  const root = useEditorState((s) => instanceRootOf(s.document, node.id as Parameters<typeof instanceRootOf>[1]));
+  // (read from the document, not as a selector: a selector returning a new list each time redraws without end)
+  const document = useEditorState((s) => s.document);
+  const offered = root?.component === undefined ? [] : variantsOf(document, root.component);
+  if (root === null || root.component === undefined || COMPONENT_VARIANT === undefined) return null;
+  const prefix = `${variantBase(root.component)}--`;
+  const current = root.classes.find((one) => one.startsWith(prefix))?.slice(prefix.length) ?? '';
+  return (
+    <section className="settings-section" data-settings-section="component" aria-label={t('settings.component', { name: root.component })}>
+      <div className="settings-section__header">
+        <h3>{t('settings.component', { name: root.component })}</h3>
+      </div>
+      <PanelField entry={COMPONENT_VARIANT} value={current} label={t('command.components.setVariant')} offered={offered} />
     </section>
   );
 }
@@ -382,6 +406,7 @@ export function SettingsTab() {
           );
         })}
         {node !== null ? <FormsInspector node={node} /> : null}
+        {node !== null ? <ComponentSettings node={node} /> : null}
         {node !== null ? <ProjectSettings node={node} /> : null}
       </div>
     </div>

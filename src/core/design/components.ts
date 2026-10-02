@@ -411,3 +411,41 @@ export const insideInstance = registerPredicate('insideInstance', (state) => {
   const [only, ...others] = state.selection;
   return only !== undefined && others.length === 0 && instanceRootOf(state.document, only) !== null;
 });
+
+// Variants (the plan's stage 7, "variantes"; journey D2): a component's variant is a class named after it with the
+// variant as a BEM modifier (component Plan, variant gold: .plan--gold), holding the styles in which the variant
+// differs; an instance chooses one by listing its class on its root. The one owner of:
+//  - variantBase / variantsOf: the modifier's base for a component, and the variants the project's classes give it;
+//  - components.setVariant: the selected instance (its root) lists the variant's class and no other variant of its
+//    component — a variant the project lacks is made, empty, to be styled with the class as the target; an empty
+//    variant takes every variant off; one undo step.
+export function variantBase(component: string): string {
+  const slug = component.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  return /^[a-z]/.test(slug) ? slug : `c-${slug}`;
+}
+export function variantsOf(document: DocumentJson, component: string): readonly string[] {
+  const prefix = `${variantBase(component)}--`;
+  return (document.classes ?? []).filter((one) => one.name.startsWith(prefix)).map((one) => one.name.slice(prefix.length));
+}
+
+export const setVariantCommand = registerHandler('components.setVariant', ({ state }, { variant }): Outcome<never> => {
+  const primary = state.selection[0];
+  const root = primary === undefined ? null : instanceRootOf(state.document, primary);
+  if (root === null || root.component === undefined) return { kind: 'refused', message: message('status.components.notInstance') };
+  const found = locate(state.document, root.id as NodeId);
+  if (found === null) return { kind: 'change' };
+  const typed = variant.trim().toLowerCase();
+  if (typed !== '' && !/^[a-z][a-z0-9-]*$/.test(typed)) return { kind: 'refused', message: message('status.components.badVariant', { variant: variant.trim() }) };
+  const locked = lockRefusal(state.document, root.id as NodeId, 'status.locked.edit');
+  if (locked !== null) return { kind: 'refused', message: locked };
+  const prefix = `${variantBase(root.component)}--`;
+  const className = `${prefix}${typed}`;
+  const classes = [...root.classes.filter((one) => !one.startsWith(prefix)), ...(typed === '' ? [] : [className])];
+  const patches: Patch[] = [];
+  const held = state.document.classes ?? [];
+  if (typed !== '' && !held.some((one) => one.name === className)) {
+    patches.push(state.document.classes === undefined ? { op: 'add', path: ['classes'], value: [{ name: className, styles: {} }] } : { op: 'add', path: ['classes', held.length], value: { name: className, styles: {} } });
+  }
+  if (!deepEqual(classes, root.classes)) patches.push({ op: 'replace', path: [...found.path, 'classes'], value: classes });
+  return { kind: 'change', patches, message: typed === '' ? message('status.components.variantCleared', { name: root.name }) : message('status.components.variantSet', { name: root.name, variant: typed }) };
+});

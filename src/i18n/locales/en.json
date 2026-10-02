@@ -3381,5 +3381,11 @@
   "feature.styleSuggestions": "Repeated styles offered as one class",
   "command.components.updateFromInstance": "Update the component from this instance",
   "status.components.updated": "Component {name} updated from this instance; {count} other instances follow it.",
-  "feature.componentMasterEdit": "An instance edited in place updates its component and every instance"
+  "feature.componentMasterEdit": "An instance edited in place updates its component and every instance",
+  "command.components.setVariant": "Variant",
+  "settings.component": "Component {name}",
+  "status.components.badVariant": "{variant} is no variant name: a letter, then letters, digits and dashes.",
+  "status.components.variantSet": "{name} shows the variant {variant}.",
+  "status.components.variantCleared": "{name} shows its component as it is.",
+  "feature.componentVariants": "Variants of a component, chosen per instance"
 }

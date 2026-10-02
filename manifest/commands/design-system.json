@@ -1614,6 +1614,63 @@
           "args": {}
         }
       ]
+    },
+    {
+      "id": "components.setVariant",
+      "labelKey": "command.components.setVariant",
+      "owner": "src/core/design/components.ts",
+      "introducedBy": "component-variants",
+      "args": {
+        "variant": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "insideInstance",
+        "refusalKey": "status.components.notInstance"
+      },
+      "refusals": [
+        "status.components.badVariant",
+        "status.locked.edit"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "inspector-component-variant",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "component-variants",
+          "panel": "inspector",
+          "control": "component-variant",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.components.setVariant",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-settings",
+            "order": 2080
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
     }
   ]
 }

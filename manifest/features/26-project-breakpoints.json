@@ -3453,6 +3453,274 @@
           }
         }
       ]
+    },
+    {
+      "id": "component-variants",
+      "titleKey": "feature.componentVariants",
+      "commands": [
+        "components.setVariant"
+      ],
+      "dependsOn": [
+        "reusable-components"
+      ],
+      "spec": "spec/BEHAVIOUR.md#component-variants",
+      "intent": {
+        "title": "Variants of a component, chosen per instance",
+        "steps": [
+          "Select an instance; in Settings, type or choose its Variant."
+        ],
+        "expected": [
+          "The instance lists the variant's class (.plan--gold) and looks as the variant does; a new name makes the variant."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "an-instance-shows-a-variant",
+          "setup": {
+            "fixture": "catalog-variants",
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "components.setVariant#inspector-component-variant",
+              "args": {
+                "variant": "gold"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "components.setVariant#inspector-component-variant"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Plans/Plan 2/@classes",
+                "value": [
+                  "plan--gold"
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Plans/Plan 2",
+                  "property": "background-color",
+                  "value": "rgb(253, 230, 138)"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.components.variantSet",
+                  "params": {
+                    "name": "Plan 2",
+                    "variant": "gold"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-new-variant-is-made-by-its-name",
+          "setup": {
+            "fixture": "catalog",
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "components.setVariant#inspector-component-variant",
+              "args": {
+                "variant": "featured"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "components.setVariant#inspector-component-variant"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@classes",
+                "value": [
+                  {
+                    "name": "plan--featured",
+                    "styles": {}
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Plans/Plan 2/@classes",
+                "value": [
+                  "plan--featured"
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.components.variantSet",
+                  "params": {
+                    "name": "Plan 2",
+                    "variant": "featured"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-variant-name-that-is-no-name-is-refused",
+          "setup": {
+            "fixture": "catalog-variants",
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "components.setVariant#inspector-component-variant",
+              "args": {
+                "variant": "2 gold"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "components.setVariant#inspector-component-variant"
+          ],
+          "refusals": [
+            {
+              "key": "status.components.badVariant",
+              "document": "unchanged"
+            }
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Plans/Plan 2",
+                  "property": "background-color",
+                  "value": "rgba(0, 0, 0, 0)"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.components.badVariant",
+                  "params": {
+                    "variant": "2 gold"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        }
+      ]
     }
   ]
 }

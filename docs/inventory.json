@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 212,
-    "built": 211,
-    "commands": 366,
-    "doors": 1321,
-    "scenarios": 1733,
+    "features": 213,
+    "built": 212,
+    "commands": 367,
+    "doors": 1322,
+    "scenarios": 1736,
     "modules": 402,
-    "lines": 74117
+    "lines": 74193
   },
   "features": [
     {
@@ -3237,12 +3237,24 @@
       "modules": [
         "src/core/design/components.ts"
       ]
+    },
+    {
+      "id": "component-variants",
+      "built": true,
+      "commands": [
+        "components.setVariant"
+      ],
+      "doors": 1,
+      "scenarios": 3,
+      "modules": [
+        "src/core/design/components.ts"
+      ]
     }
   ],
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 505,
+      "lines": 506,
       "commands": [],
       "features": []
     },
@@ -3254,7 +3266,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 253,
+      "lines": 254,
       "commands": [],
       "features": []
     },
@@ -3452,18 +3464,20 @@
     },
     {
       "path": "src/core/design/components.ts",
-      "lines": 414,
+      "lines": 452,
       "commands": [
         "components.create",
         "components.insertInstance",
         "components.repeat",
         "components.fillFromData",
         "components.detach",
-        "components.updateFromInstance"
+        "components.updateFromInstance",
+        "components.setVariant"
       ],
       "features": [
         "command-bar",
         "component-master-edit",
+        "component-variants",
         "repeat-element",
         "reusable-components"
       ]
@@ -5962,7 +5976,7 @@
     },
     {
       "path": "src/editor/shell/inspector-settings.tsx",
-      "lines": 390,
+      "lines": 415,
       "commands": [],
       "features": []
     },
@@ -6381,13 +6395,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 626,
+      "lines": 628,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6358,
+      "lines": 6367,
       "commands": [],
       "features": []
     },

@@ -2404,6 +2404,11 @@
       "kind": "predicate",
       "id": "insideInstance",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "components.setVariant",
+      "status": "registered"
     }
   ]
 }

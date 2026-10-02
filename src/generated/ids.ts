@@ -91,6 +91,7 @@ export const COMMAND_IDS = [
   "classes.applyToSimilar",
   "design.applySuggestion",
   "components.updateFromInstance",
+  "components.setVariant",
   "element.setTag",
   "element.setAttribute",
   "assetPicker.open",
@@ -507,6 +508,7 @@ export const DOOR_IDS = [
   "classes.applyToSimilar#inspector-class-apply-similar",
   "design.applySuggestion#styles-suggestion-apply",
   "components.updateFromInstance#context-menu",
+  "components.setVariant#inspector-component-variant",
   "element.setTag#inspector-tag",
   "element.setTag#quick-panel-tag",
   "element.setAttribute#inspector-title",
@@ -2438,6 +2440,7 @@ export const FEATURE_IDS = [
   "class-moves",
   "style-suggestions",
   "component-master-edit",
+  "component-variants",
 ] as const;
 export type FeatureId = (typeof FEATURE_IDS)[number];
 
@@ -6353,5 +6356,11 @@ export const MESSAGE_IDS = [
   "command.components.updateFromInstance",
   "status.components.updated",
   "feature.componentMasterEdit",
+  "command.components.setVariant",
+  "settings.component",
+  "status.components.badVariant",
+  "status.components.variantSet",
+  "status.components.variantCleared",
+  "feature.componentVariants",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

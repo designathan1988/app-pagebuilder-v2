@@ -17,7 +17,7 @@ import { createToken, deleteToken, renameToken, updateToken } from '../core/desi
 import { colourToVariableCommand, replaceColourCommand } from '../core/design/site-colours.ts';
 import { applySuggestionCommand } from '../core/design/suggest.ts';
 import { applyToSimilarCommand, moveIntoClassCommand, applyClassCommand, createClassCommand, deleteClassCommand, detachClassCommand, renameClassCommand } from '../core/design/classes.ts';
-import { insideInstance, updateFromInstanceCommand, createComponentCommand, detachInstanceCommand, fillFromDataCommand, repeatCommand, insertInstanceCommand, instanceSelected } from '../core/design/components.ts';
+import { setVariantCommand, insideInstance, updateFromInstanceCommand, createComponentCommand, detachInstanceCommand, fillFromDataCommand, repeatCommand, insertInstanceCommand, instanceSelected } from '../core/design/components.ts';
 import { closeComponentPrompt, openComponentPrompt } from '../editor/shell/component-prompt.ts';
 import { addGridTrack, enterGridEdit, exitGridEdit, mergeGridCells, removeGridTrack, spanGridItem, splitGridCells } from '../editor/canvas/grid-edit.ts';
 import { setStyleTarget } from '../editor/inspector/style-target.ts';
@@ -209,6 +209,7 @@ export const COMMANDS = {
   'tokens.update': updateToken,
   'design.replaceColour': replaceColourCommand,
   'components.updateFromInstance': updateFromInstanceCommand,
+  'components.setVariant': setVariantCommand,
   'design.applySuggestion': applySuggestionCommand,
   'classes.moveInto': moveIntoClassCommand,
   'classes.applyToSimilar': applyToSimilarCommand,

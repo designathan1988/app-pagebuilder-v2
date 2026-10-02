@@ -3381,5 +3381,11 @@
   "feature.styleSuggestions": "Estilos repetidos oferecidos como uma classe",
   "command.components.updateFromInstance": "Atualizar o componente a partir desta instância",
   "status.components.updated": "Componente {name} atualizado a partir desta instância; {count} outras instâncias acompanham.",
-  "feature.componentMasterEdit": "Uma instância editada no lugar atualiza o componente e todas as instâncias"
+  "feature.componentMasterEdit": "Uma instância editada no lugar atualiza o componente e todas as instâncias",
+  "command.components.setVariant": "Variante",
+  "settings.component": "Componente {name}",
+  "status.components.badVariant": "{variant} não é um nome de variante: uma letra, depois letras, dígitos e hífens.",
+  "status.components.variantSet": "{name} mostra a variante {variant}.",
+  "status.components.variantCleared": "{name} mostra o componente como ele é.",
+  "feature.componentVariants": "Variantes de um componente, escolhidas por instância"
 }

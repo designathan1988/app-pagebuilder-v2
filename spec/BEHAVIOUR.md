@@ -8865,3 +8865,19 @@ element (`status.locked.edit`).
 ### Refusals
 
 Nothing of an instance selected (`status.components.notInstance`): the command is not offered.
+
+## component-variants
+
+### Our rule
+
+- A component's variant is a class named after the component with the variant as a BEM modifier (component Plan,
+  variant gold: `.plan--gold`), holding the styles in which the variant differs (the plan's stage 7; journey D2).
+- With an element of an instance selected, Settings shows a **Component Plan** section with **Variant**
+  (`components.setVariant`), offering the variants the project's classes give the component: the instance's root lists
+  the chosen variant's class and no other variant of its component; a name the project lacks makes the variant (an
+  empty class, styled with it as the target); an empty field takes every variant off. One undo step.
+
+### Refusals
+
+A name that is no variant name (`status.components.badVariant`: a letter, then letters, digits and dashes), a locked
+instance (`status.locked.edit`).

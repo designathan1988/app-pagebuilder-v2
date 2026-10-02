@@ -125,6 +125,7 @@ export interface CommandArgs {
   "classes.applyToSimilar": { readonly className: string };
   "design.applySuggestion": { readonly type: string; readonly name: string };
   "components.updateFromInstance": Record<string, never>;
+  "components.setVariant": { readonly variant: string };
   "element.setTag": { readonly tag: string };
   "element.setAttribute": { readonly attribute: AttributeId; readonly value: JsonValue; readonly target?: NodeId };
   "assetPicker.open": { readonly attribute: string };
@@ -622,4 +623,5 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "class-moves": ["classes.moveInto","classes.applyToSimilar"],
   "style-suggestions": ["design.applySuggestion"],
   "component-master-edit": ["components.updateFromInstance"],
+  "component-variants": ["components.setVariant"],
 };
