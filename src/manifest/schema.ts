@@ -256,6 +256,14 @@ const subsetSchema = z.strictObject({
   reason: z.string().min(1),
 });
 
+// A value offered ready-made (the plan's stage 3, "valores com prévia"): its name in the catalogues and the CSS text
+// it writes, drawn as a thumbnail of that value (src/editor/shell/value-presets.tsx).
+const presetSchema = z.strictObject({
+  id: kebabId,
+  labelKey: i18nKey,
+  value: z.string().min(1),
+});
+
 export const propertySchema = z.strictObject({
   // the CSS property name: a longhand, or the coarser property browsers implement when an engine
   // lacks one of its longhands (css-compat.json)
@@ -277,6 +285,8 @@ export const propertySchema = z.strictObject({
   // every door that writes this property
   doors: z.array(doorRef),
   subsets: z.array(subsetSchema),
+  // values offered ready-made, each drawn as a thumbnail of itself
+  presets: z.array(presetSchema).optional(),
 });
 
 // A shorthand whose longhands every browser implements exists only as a composite control: its door
@@ -299,6 +309,8 @@ export const compositeSchema = z.strictObject({
   omits: z.strictObject({ longhands: z.array(cssName).min(1), reason: z.string().min(1) }).nullable(),
   doors: z.array(doorRef),
   subsets: z.array(subsetSchema),
+  // values offered ready-made, each drawn as a thumbnail of itself
+  presets: z.array(presetSchema).optional(),
 });
 
 // A structured value type: the document stores typed fields, never CSS text, and the codec is the only

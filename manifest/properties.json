@@ -3498,7 +3498,29 @@
         "style.set#inspector-opacity",
         "style.set#quick-panel-opacity"
       ],
-      "subsets": []
+      "subsets": [],
+      "presets": [
+        {
+          "id": "faint",
+          "labelKey": "preset.opacity.faint",
+          "value": "0.25"
+        },
+        {
+          "id": "half",
+          "labelKey": "preset.opacity.half",
+          "value": "0.5"
+        },
+        {
+          "id": "most",
+          "labelKey": "preset.opacity.most",
+          "value": "0.75"
+        },
+        {
+          "id": "full",
+          "labelKey": "preset.opacity.full",
+          "value": "1"
+        }
+      ]
     },
     {
       "id": "visibility",
@@ -3640,7 +3662,29 @@
         "style.setShadows#key-arrow-down-in-shadow-pad",
         "style.setShadows#panel-drag-box-shadow-row"
       ],
-      "subsets": []
+      "subsets": [],
+      "presets": [
+        {
+          "id": "soft",
+          "labelKey": "preset.boxShadow.soft",
+          "value": "0 1px 3px 0 rgba(15, 23, 42, 0.12), 0 1px 2px 0 rgba(15, 23, 42, 0.08)"
+        },
+        {
+          "id": "medium",
+          "labelKey": "preset.boxShadow.medium",
+          "value": "0 4px 12px 0 rgba(15, 23, 42, 0.16)"
+        },
+        {
+          "id": "strong",
+          "labelKey": "preset.boxShadow.strong",
+          "value": "0 12px 32px 0 rgba(15, 23, 42, 0.28)"
+        },
+        {
+          "id": "inner",
+          "labelKey": "preset.boxShadow.inner",
+          "value": "inset 0 2px 4px 0 rgba(15, 23, 42, 0.18)"
+        }
+      ]
     },
     {
       "id": "text-shadow",
@@ -4459,7 +4503,34 @@
         "style.setRadius#handle-radius-corner"
       ],
       "subsets": [],
-      "essential": true
+      "essential": true,
+      "presets": [
+        {
+          "id": "square",
+          "labelKey": "preset.borderRadius.square",
+          "value": "0px"
+        },
+        {
+          "id": "small",
+          "labelKey": "preset.borderRadius.small",
+          "value": "4px"
+        },
+        {
+          "id": "medium",
+          "labelKey": "preset.borderRadius.medium",
+          "value": "8px"
+        },
+        {
+          "id": "large",
+          "labelKey": "preset.borderRadius.large",
+          "value": "16px"
+        },
+        {
+          "id": "pill",
+          "labelKey": "preset.borderRadius.pill",
+          "value": "9999px"
+        }
+      ]
     },
     {
       "id": "outline",

@@ -1011,6 +1011,8 @@ export function checkManifest(input: ManifestInput): CheckResult {
   p.properties.breakpoints.forEach((b, i) => noteKey(b.labelKey, `properties.json breakpoints[${i}].labelKey`));
   p.properties.states.forEach((s, i) => noteKey(s.labelKey, `properties.json states[${i}].labelKey`));
   p.properties.properties.forEach((prop, i) => noteKey(prop.labelKey, `properties.json properties[${i}].labelKey`));
+  p.properties.properties.forEach((prop, i) => (prop.presets ?? []).forEach((preset, pi) => noteKey(preset.labelKey, `properties.json properties[${i}].presets[${pi}].labelKey`)));
+  p.properties.composites.forEach((c, i) => (c.presets ?? []).forEach((preset, pi) => noteKey(preset.labelKey, `properties.json composites[${i}].presets[${pi}].labelKey`)));
   p.properties.rows.forEach((row, i) => row.fields.forEach((f, fi) => { if (f.prefixKey !== null) noteKey(f.prefixKey, `properties.json rows[${i}].fields[${fi}].prefixKey`); }));
   p.properties.conceptRows.forEach((row, i) => { if (row.labelKey !== null) noteKey(row.labelKey, `properties.json conceptRows[${i}].labelKey`); });
   p.properties.composites.forEach((c, i) => noteKey(c.labelKey, `properties.json composites[${i}].labelKey`));

@@ -5428,6 +5428,32 @@
           },
           "attribute": null,
           "group": "paint"
+        },
+        {
+          "id": "inspector-value-preset",
+          "kind": "panel-control",
+          "drawnAs": "item",
+          "pressed": false,
+          "feature": "value-presets",
+          "panel": "inspector",
+          "control": "value-preset",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.valuePreset",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "field",
+            "order": 9
+          },
+          "adapter": {
+            "selection": "all",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
         }
       ]
     },
@@ -8602,6 +8628,32 @@
           "args": {
             "property": "text-shadow"
           }
+        },
+        {
+          "id": "inspector-shadow-preset",
+          "kind": "panel-control",
+          "drawnAs": "item",
+          "pressed": false,
+          "feature": "value-presets",
+          "panel": "inspector",
+          "control": "value-preset",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.valuePreset",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "field",
+            "order": 10
+          },
+          "adapter": {
+            "selection": "all",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
         }
       ]
     },

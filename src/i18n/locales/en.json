@@ -3260,5 +3260,22 @@
   "colorPicker.variables": "Variables",
   "colorPicker.contrast": "Contrast {ratio}:1 with the background",
   "colorPicker.contrastPasses": "passes AA",
-  "colorPicker.contrastFails": "below AA (4.5:1)"
+  "colorPicker.contrastFails": "below AA (4.5:1)",
+  "preset.use": "Use {name}: {value}",
+  "preset.list": "Ready-made values of {property}",
+  "command.valuePreset": "Use a ready-made value",
+  "feature.valuePresets": "Ready-made values with a preview",
+  "preset.opacity.faint": "Faint",
+  "preset.opacity.half": "Half",
+  "preset.opacity.most": "Mostly",
+  "preset.opacity.full": "Full",
+  "preset.boxShadow.soft": "Soft",
+  "preset.boxShadow.medium": "Medium",
+  "preset.boxShadow.strong": "Strong",
+  "preset.boxShadow.inner": "Inner",
+  "preset.borderRadius.square": "Square",
+  "preset.borderRadius.small": "Small",
+  "preset.borderRadius.medium": "Medium",
+  "preset.borderRadius.large": "Large",
+  "preset.borderRadius.pill": "Pill"
 }

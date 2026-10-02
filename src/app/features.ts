@@ -236,6 +236,7 @@ export const FEATURES = {
   'shared-regions': registerFeature('shared-regions'),
   'project-breakpoints': registerFeature('project-breakpoints'),
   'side-by-side-view': registerFeature('side-by-side-view'),
+  'value-presets': registerFeature('value-presets'),
 } as const satisfies FeatureTable;
 
 // Whether a feature is registered as built.

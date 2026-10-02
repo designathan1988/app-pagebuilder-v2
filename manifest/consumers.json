@@ -2203,6 +2203,38 @@
     {
       "field": "properties:rows[].fields[].measurement",
       "reader": "src/editor/inspector/rows.ts"
+    },
+    {
+      "field": "properties:properties[].presets",
+      "reader": "src/editor/shell/value-presets.tsx"
+    },
+    {
+      "field": "properties:properties[].presets[].id",
+      "reader": "src/editor/shell/value-presets.tsx"
+    },
+    {
+      "field": "properties:properties[].presets[].labelKey",
+      "reader": "src/editor/shell/value-presets.tsx"
+    },
+    {
+      "field": "properties:properties[].presets[].value",
+      "reader": "src/editor/shell/value-presets.tsx"
+    },
+    {
+      "field": "properties:composites[].presets",
+      "reader": "src/editor/shell/value-presets.tsx"
+    },
+    {
+      "field": "properties:composites[].presets[].id",
+      "reader": "src/editor/shell/value-presets.tsx"
+    },
+    {
+      "field": "properties:composites[].presets[].labelKey",
+      "reader": "src/editor/shell/value-presets.tsx"
+    },
+    {
+      "field": "properties:composites[].presets[].value",
+      "reader": "src/editor/shell/value-presets.tsx"
     }
   ]
 }

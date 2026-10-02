@@ -41024,6 +41024,249 @@
           ]
         }
       ]
+    },
+    {
+      "id": "value-presets",
+      "titleKey": "feature.valuePresets",
+      "commands": [
+        "style.set",
+        "style.setShadows"
+      ],
+      "dependsOn": [
+        "shadow-editor"
+      ],
+      "spec": "spec/BEHAVIOUR.md#value-presets",
+      "intent": {
+        "title": "Ready-made values with a preview",
+        "steps": [
+          "Select an element.",
+          "Click the thumbnail of a shadow, a radius or an opacity under its field."
+        ],
+        "expected": [
+          "The value the thumbnail wears is written, one undo step, on every selected element."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "a-shadow-is-chosen-by-its-thumbnail",
+          "setup": {
+            "fixture": "responsive-title",
+            "selection": [
+              "/Page/Title"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "style.setShadows#inspector-shadow-preset",
+              "args": {
+                "property": "box-shadow",
+                "edit": {
+                  "css": "0 4px 12px 0 rgba(15, 23, 42, 0.16)"
+                }
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "style.setShadows#inspector-shadow-preset"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/desktop/base/box-shadow",
+                "value": [
+                  {
+                    "color": "rgba(15, 23, 42, 0.16)",
+                    "offsetX": "0px",
+                    "offsetY": "4px",
+                    "blur": "12px",
+                    "spread": "0px",
+                    "inset": false,
+                    "hidden": false
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Title"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Title",
+                  "property": "box-shadow",
+                  "value": "rgba(15, 23, 42, 0.16) 0px 4px 12px 0px"
+                }
+              ],
+              "geometry": [],
+              "feedback": []
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-radius-is-chosen-by-its-thumbnail",
+          "setup": {
+            "fixture": "responsive-title",
+            "selection": [
+              "/Page/Title"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "style.set#inspector-value-preset",
+              "args": {
+                "property": "border-radius",
+                "value": "8px"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "style.set#inspector-value-preset"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/desktop/base/border-top-left-radius",
+                "value": "8px"
+              },
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/desktop/base/border-top-right-radius",
+                "value": "8px"
+              },
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/desktop/base/border-bottom-right-radius",
+                "value": "8px"
+              },
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/desktop/base/border-bottom-left-radius",
+                "value": "8px"
+              }
+            ],
+            "selection": [
+              "/Page/Title"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Title",
+                  "property": "border-top-left-radius",
+                  "value": "8px"
+                }
+              ],
+              "geometry": [],
+              "feedback": []
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "an-opacity-is-chosen-by-its-thumbnail",
+          "setup": {
+            "fixture": "responsive-title",
+            "selection": [
+              "/Page/Title"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "style.set#inspector-value-preset",
+              "args": {
+                "property": "opacity",
+                "value": "0.5"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "style.set#inspector-value-preset"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/desktop/base/opacity",
+                "value": "0.5"
+              }
+            ],
+            "selection": [
+              "/Page/Title"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Title",
+                  "property": "opacity",
+                  "value": "0.5"
+                }
+              ],
+              "geometry": [],
+              "feedback": []
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        }
+      ]
     }
   ]
 }

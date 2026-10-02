@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 204,
-    "built": 203,
+    "features": 205,
+    "built": 204,
     "commands": 356,
-    "doors": 1305,
-    "scenarios": 1706,
-    "modules": 394,
-    "lines": 72572
+    "doors": 1307,
+    "scenarios": 1709,
+    "modules": 395,
+    "lines": 72699
   },
   "features": [
     {
@@ -652,7 +652,7 @@
         "field.setUnit",
         "field.cancel"
       ],
-      "doors": 182,
+      "doors": 183,
       "scenarios": 19,
       "modules": [
         "src/core/style/set.ts",
@@ -665,7 +665,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 171,
+      "doors": 172,
       "scenarios": 11,
       "modules": [
         "src/core/style/set.ts"
@@ -678,7 +678,7 @@
         "style.set",
         "style.setAlignment"
       ],
-      "doors": 172,
+      "doors": 173,
       "scenarios": 20,
       "modules": [
         "src/core/style/alignment.ts",
@@ -693,7 +693,7 @@
         "style.setGridTracks",
         "style.setGridItem"
       ],
-      "doors": 182,
+      "doors": 183,
       "scenarios": 21,
       "modules": [
         "src/core/style/grid-item.ts",
@@ -707,7 +707,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 171,
+      "doors": 172,
       "scenarios": 10,
       "modules": [
         "src/core/style/set.ts"
@@ -736,7 +736,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 171,
+      "doors": 172,
       "scenarios": 13,
       "modules": [
         "src/core/style/set.ts"
@@ -749,7 +749,7 @@
         "style.set",
         "position.setMode"
       ],
-      "doors": 173,
+      "doors": 174,
       "scenarios": 15,
       "modules": [
         "src/core/geometry/position.ts",
@@ -768,7 +768,7 @@
         "colorPicker.cancel",
         "drag.cancel"
       ],
-      "doors": 182,
+      "doors": 183,
       "scenarios": 22,
       "modules": [
         "src/core/style/set.ts",
@@ -797,7 +797,7 @@
         "colors.removeSwatch",
         "style.set"
       ],
-      "doors": 173,
+      "doors": 174,
       "scenarios": 5,
       "modules": [
         "src/core/design/colors.ts",
@@ -810,7 +810,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 171,
+      "doors": 172,
       "scenarios": 23,
       "modules": [
         "src/core/style/set.ts"
@@ -822,7 +822,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 171,
+      "doors": 172,
       "scenarios": 15,
       "modules": [
         "src/core/style/set.ts"
@@ -835,7 +835,7 @@
         "style.set",
         "style.setBackgroundImage"
       ],
-      "doors": 190,
+      "doors": 191,
       "scenarios": 16,
       "modules": [
         "src/core/style/background-image.ts",
@@ -863,7 +863,7 @@
         "style.setRadius",
         "field.cancel"
       ],
-      "doors": 199,
+      "doors": 200,
       "scenarios": 27,
       "modules": [
         "src/core/style/border.ts",
@@ -877,7 +877,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 171,
+      "doors": 172,
       "scenarios": 9,
       "modules": [
         "src/core/style/set.ts"
@@ -889,7 +889,7 @@
       "commands": [
         "style.setShadows"
       ],
-      "doors": 30,
+      "doors": 31,
       "scenarios": 35,
       "modules": [
         "src/core/style/shadows.ts"
@@ -902,7 +902,7 @@
         "style.set",
         "style.setFilter"
       ],
-      "doors": 182,
+      "doors": 183,
       "scenarios": 16,
       "modules": [
         "src/core/style/filter.ts",
@@ -916,7 +916,7 @@
         "style.set",
         "style.setTransform"
       ],
-      "doors": 176,
+      "doors": 177,
       "scenarios": 15,
       "modules": [
         "src/core/style/set.ts",
@@ -929,7 +929,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 171,
+      "doors": 172,
       "scenarios": 6,
       "modules": [
         "src/core/style/set.ts"
@@ -941,7 +941,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 171,
+      "doors": 172,
       "scenarios": 20,
       "modules": [
         "src/core/style/set.ts"
@@ -1038,7 +1038,7 @@
         "style.setTransform",
         "quickPanel.setOpen"
       ],
-      "doors": 234,
+      "doors": 235,
       "scenarios": 36,
       "modules": [
         "src/core/elements/tag.ts",
@@ -1057,10 +1057,24 @@
       "commands": [
         "style.set"
       ],
-      "doors": 171,
+      "doors": 172,
       "scenarios": 3,
       "modules": [
         "src/core/style/set.ts"
+      ]
+    },
+    {
+      "id": "value-presets",
+      "built": true,
+      "commands": [
+        "style.set",
+        "style.setShadows"
+      ],
+      "doors": 203,
+      "scenarios": 3,
+      "modules": [
+        "src/core/style/set.ts",
+        "src/core/style/shadows.ts"
       ]
     },
     {
@@ -1098,7 +1112,7 @@
         "style.setRadius",
         "handle.step"
       ],
-      "doors": 200,
+      "doors": 201,
       "scenarios": 11,
       "modules": [
         "src/core/style/border.ts",
@@ -1112,7 +1126,7 @@
       "commands": [
         "style.setShadows"
       ],
-      "doors": 30,
+      "doors": 31,
       "scenarios": 4,
       "modules": [
         "src/core/style/shadows.ts"
@@ -1431,7 +1445,7 @@
         "element.setSvgMarkup",
         "parts.add"
       ],
-      "doors": 197,
+      "doors": 198,
       "scenarios": 14,
       "modules": [
         "src/core/elements/parts.ts",
@@ -1473,7 +1487,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 171,
+      "doors": 172,
       "scenarios": 10,
       "modules": [
         "src/core/style/set.ts"
@@ -1712,7 +1726,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 171,
+      "doors": 172,
       "scenarios": 3,
       "modules": [
         "src/core/style/set.ts"
@@ -1943,7 +1957,7 @@
         "style.reset",
         "view.setBreakpoint"
       ],
-      "doors": 183,
+      "doors": 184,
       "scenarios": 5,
       "modules": [
         "src/core/style/reset.ts",
@@ -1959,7 +1973,7 @@
         "view.setBreakpoint",
         "view.setStyleState"
       ],
-      "doors": 197,
+      "doors": 198,
       "scenarios": 16,
       "modules": [
         "src/core/style/set.ts",
@@ -2124,7 +2138,7 @@
         "position.setMode",
         "inspector.reveal"
       ],
-      "doors": 285,
+      "doors": 287,
       "scenarios": 10,
       "modules": [
         "src/core/geometry/position.ts",
@@ -2731,7 +2745,7 @@
         "project.export",
         "files.upload"
       ],
-      "doors": 177,
+      "doors": 178,
       "scenarios": 1,
       "modules": [
         "src/core/export/export.ts",
@@ -3096,7 +3110,7 @@
         "style.set",
         "project.export"
       ],
-      "doors": 196,
+      "doors": 197,
       "scenarios": 15,
       "modules": [
         "src/core/export/export.ts",
@@ -3136,7 +3150,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 245,
+      "lines": 246,
       "commands": [],
       "features": []
     },
@@ -4528,7 +4542,8 @@
         "quick-panel",
         "radius-border-gap-handles",
         "rotation-handle",
-        "state-styles"
+        "state-styles",
+        "value-presets"
       ]
     },
     {
@@ -4540,7 +4555,8 @@
       "features": [
         "command-bar-set-property",
         "shadow-editor",
-        "shadow-handles"
+        "shadow-handles",
+        "value-presets"
       ]
     },
     {
@@ -5764,7 +5780,7 @@
     },
     {
       "path": "src/editor/shell/inspector-controls.tsx",
-      "lines": 597,
+      "lines": 615,
       "commands": [],
       "features": []
     },
@@ -5897,6 +5913,12 @@
     {
       "path": "src/editor/shell/top-bar.tsx",
       "lines": 118,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/shell/value-presets.tsx",
+      "lines": 73,
       "commands": [],
       "features": []
     },
@@ -6181,13 +6203,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 608,
+      "lines": 609,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6200,
+      "lines": 6220,
       "commands": [],
       "features": []
     },
@@ -6211,7 +6233,7 @@
     },
     {
       "path": "src/manifest/check.ts",
-      "lines": 2329,
+      "lines": 2331,
       "commands": [],
       "features": []
     },
@@ -6247,7 +6269,7 @@
     },
     {
       "path": "src/manifest/schema.ts",
-      "lines": 1304,
+      "lines": 1316,
       "commands": [],
       "features": []
     },

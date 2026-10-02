@@ -8643,3 +8643,19 @@ each page's copy as ordinary markup (one CSS class per element, as for any compo
 ### Refusals
 
 None.
+
+## value-presets
+
+### Our rule
+
+- A property or composite of properties.json may offer ready-made values (`presets`: a name in the catalogues and
+  the CSS text it writes): today Shadow (Soft, Medium, Strong, Inner), Radius (Square, Small, Medium, Large, Pill)
+  and Opacity (Faint, Half, Mostly, Full).
+- They are drawn under the property's first field as thumbnails of themselves — a square wearing the shadow, the
+  radius or the opacity — each named, its value in its tooltip.
+- A click writes the value on every selected element, one undo step, as typing it would: `style.set`, or a shadow's
+  own command with the value as its CSS text (`style.setShadows`, as the shadow editor's CSS row does).
+
+### Refusals
+
+What the field itself refuses (a locked element, nothing selected): the thumbnails are drawn unavailable.

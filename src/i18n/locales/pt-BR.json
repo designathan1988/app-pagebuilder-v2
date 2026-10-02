@@ -3260,5 +3260,22 @@
   "colorPicker.variables": "Variáveis",
   "colorPicker.contrast": "Contraste {ratio}:1 com o fundo",
   "colorPicker.contrastPasses": "passa no AA",
-  "colorPicker.contrastFails": "abaixo do AA (4,5:1)"
+  "colorPicker.contrastFails": "abaixo do AA (4,5:1)",
+  "preset.use": "Usar {name}: {value}",
+  "preset.list": "Valores prontos de {property}",
+  "command.valuePreset": "Usar um valor pronto",
+  "feature.valuePresets": "Valores prontos com prévia",
+  "preset.opacity.faint": "Tênue",
+  "preset.opacity.half": "Metade",
+  "preset.opacity.most": "Quase toda",
+  "preset.opacity.full": "Total",
+  "preset.boxShadow.soft": "Suave",
+  "preset.boxShadow.medium": "Média",
+  "preset.boxShadow.strong": "Forte",
+  "preset.boxShadow.inner": "Interna",
+  "preset.borderRadius.square": "Reto",
+  "preset.borderRadius.small": "Pequeno",
+  "preset.borderRadius.medium": "Médio",
+  "preset.borderRadius.large": "Grande",
+  "preset.borderRadius.pill": "Pílula"
 }

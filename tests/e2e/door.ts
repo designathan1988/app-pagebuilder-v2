@@ -69,8 +69,14 @@ const PLACE = styleSections(PROPERTIES);
 // concept-rows.ts): its own item, or the pair row its field stands in. null for a door drawn in no row's details.
 const ROW_TOGGLE = 'inspector.toggleRow#inspector-row-disclosure';
 const PAIR_OF = new Map(PROPERTIES.rows.flatMap((r) => r.fields.map((f) => [f.target, `pair:${r.id}`] as const)));
-export const rowOfDoor = (ref: string): string | null => {
+export const rowOfDoor = (ref: string, args: Readonly<Record<string, unknown>> = {}): string | null => {
   const d = DOORS.get(ref) as (Door & { property?: string | null; composite?: string | null }) | undefined;
+  // a part of a field standing for a property (a ready-made value's thumbnail) is drawn in the row of that property's
+  // first field
+  if (d !== undefined && typeof d.placement === 'object' && d.placement.region === 'field' && typeof args.property === 'string') {
+    const first = [...PROPERTIES.properties, ...PROPERTIES.composites].find((target) => target.id === args.property)?.doors[0];
+    return first === undefined ? null : (PROPERTIES.conceptRows.find((row) => row.details.includes(first))?.id ?? null);
+  }
   const target = d === undefined ? null : (d.property ?? d.composite ?? null);
   const pair = target === null ? undefined : PAIR_OF.get(target);
   return PROPERTIES.conceptRows.find((row) => row.details.includes(ref) || (pair !== undefined && row.details.includes(pair)))?.id ?? null;
@@ -79,6 +85,10 @@ export const sectionOfDoor = (ref: string, args: Readonly<Record<string, unknown
   // a row's disclosure is drawn in the section of the row it stands for
   if (ref === ROW_TOGGLE && typeof args.row === 'string') return PROPERTIES.conceptRows.find((row) => row.id === args.row)?.section ?? null;
   const d = DOORS.get(ref);
+  // a part of a field (a ready-made value's thumbnail) standing for a property is drawn in that property's section
+  if (d !== undefined && typeof d.placement === 'object' && d.placement.region === 'field' && typeof args.property === 'string') {
+    return [...PROPERTIES.properties, ...PROPERTIES.composites].find((target) => target.id === args.property)?.section ?? null;
+  }
   if (d === undefined || typeof d.placement !== 'object' || d.placement.region !== 'inspector-style') return null;
   return PLACE(ref, d as StyleDoor) ?? null;
 };
@@ -95,7 +105,7 @@ export async function openStyleControl(page: Page, ref: string, args: Readonly<R
       opened = true;
     }
   }
-  const row = rowOfDoor(ref);
+  const row = rowOfDoor(ref, args);
   if (row !== null) {
     const toggle = control(page, ROW_TOGGLE, { args: { row } }).first();
     if ((await toggle.count()) > 0 && (await toggle.getAttribute('aria-expanded')) === 'false') {

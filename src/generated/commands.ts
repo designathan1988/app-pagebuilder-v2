@@ -475,6 +475,7 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "semantic-tag-switch": ["element.setTag"],
   "quick-panel": ["contextMenu.open","style.set","style.setBorder","style.setBackgroundImage","style.setFilter","element.setTag","quickPanel.setOffset","style.setTransform","quickPanel.setOpen"],
   "multi-select-edit": ["style.set"],
+  "value-presets": ["style.set","style.setShadows"],
   "resize-handles": ["geometry.resize"],
   "spacing-handles": ["style.setSpacing","canvas.setEditMode"],
   "radius-border-gap-handles": ["style.set","style.setBorder","style.setRadius","handle.step"],

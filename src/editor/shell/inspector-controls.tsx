@@ -24,6 +24,7 @@ import { functionArgument, functionOfControl, translateAxis, translateWith } fro
 import { GradientControl, isGradientControl } from './gradient.tsx';
 import { ShadowControl, isShadowControl } from './shadow.tsx';
 import { compactFieldValue, useFieldAppearance } from './field-face.tsx';
+import { valuePresetsOf, ValuePresets } from './value-presets.tsx';
 export interface Target {
   readonly id: string;
   readonly section: string;
@@ -122,7 +123,24 @@ export function fieldLabelKey(entry: DoorEntry): MessageId {
   return (named?.labelKey ?? entry.door.labelKey) as MessageId;
 }
 
-export function Field({ entry, bare = false, labelled = false, prefix = null, rowLabel = null, measurement }: { readonly entry: DoorEntry; readonly bare?: boolean; readonly labelled?: boolean; readonly prefix?: string | null; readonly rowLabel?: MessageId | null; readonly measurement?: 'width' | 'height' | undefined }) {
+type FieldProps = { readonly entry: DoorEntry; readonly bare?: boolean; readonly labelled?: boolean; readonly prefix?: string | null; readonly rowLabel?: MessageId | null; readonly measurement?: 'width' | 'height' | undefined };
+
+// A property's field, and, under the first field of a property or composite that offers ready-made values, their
+// thumbnails (value-presets.tsx)
+export function Field(props: FieldProps) {
+  const t = useT();
+  const target = targetOf(props.entry);
+  const presented = target !== null && 'doors' in target && Array.isArray(target.doors) && target.doors[0] === props.entry.ref && valuePresetsOf(target.id).length > 0;
+  if (!presented) return <FieldControl {...props} />;
+  return (
+    <>
+      <FieldControl {...props} />
+      <ValuePresets target={target.id} label={t(target.labelKey as MessageId)} />
+    </>
+  );
+}
+
+function FieldControl({ entry, bare = false, labelled = false, prefix = null, rowLabel = null, measurement }: FieldProps) {
   const t = useT();
   const target = targetOf(entry);
   // labelled as fieldLabelKey says, or by the row's own label when it has one (a pair row of the gap reads "Gap"). A
