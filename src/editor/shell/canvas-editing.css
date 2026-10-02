@@ -83,51 +83,48 @@
   display: flex;
   flex-direction: column;
   gap: 0;
-  /* the canonical quick panel's width (design/final canvas.css .qp-panel: 196 px) */
+  /* the canonical quick panel (design/final canvas.css .qp-panel): 196 px, its padding, its large radius and shadow */
   width: calc(var(--size-inspector) * 0.68);
   max-height: 75vh;
-  padding: 0;
+  padding: var(--space-3) var(--space-4) var(--space-4);
   overflow: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-3);
+  color: var(--color-text);
 }
 
+/* the head is one line (the canonical .qp-head): the element's name in bold, its tag in the code face, then the
+   actions and the close button; what the writes land in (A3.8) takes a caption line under it when there is one */
 .quick-panel__bar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-1);
-  min-height: var(--space-10);
-  padding: var(--space-1) var(--space-2);
-  border-bottom: 1px solid var(--color-border);
+  gap: 0 var(--space-1);
+  min-height: var(--size-target-min);
+  margin-bottom: var(--space-1);
+  padding: 0;
 }
 
-/* in the canonical 196 px panel the bar is two lines: the grip, the element's name and the close button, then the
-   context, the tag and the actions (the name had a few pixels left beside them all on one line) */
-.quick-panel__grip {
-  order: 1;
-}
-
-.quick-panel__name {
-  order: 2;
-}
-
-.quick-panel__close {
-  order: 3;
-}
-
-.quick-panel__context,
-.quick-panel__tag,
-.quick-panel__actions {
-  order: 4;
-}
+.quick-panel__grip { order: 0; }
+.quick-panel__name { order: 1; }
+.quick-panel__tag { order: 2; }
+.quick-panel__actions { order: 3; }
+.quick-panel__close { order: 4; }
+.quick-panel__context { order: 5; }
 
 .quick-panel__name {
-  flex: 1 1 calc(100% - var(--space-9) * 2 - var(--space-1) * 2);
+  flex: 1 1 0;
   min-width: 0;
   overflow: hidden;
-  font-size: var(--fs-caption);
-  line-height: var(--lh-caption);
+  font-weight: var(--weight-semibold);
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* the context: a whole line of its own under the head */
+.quick-panel .quick-panel__context {
+  flex: 1 0 100%;
+  max-width: none;
 }
 
 .quick-panel__tag .field-row {
@@ -135,26 +132,66 @@
   min-height: 0;
 }
 
-.quick-panel__tag .field-row__label {
+.quick-panel__tag .field-row__label,
+.quick-panel__tag .field__end {
   display: none;
 }
 
+/* the tag reads as the canonical head's plain code text; it is still the field that changes it (its box shows on
+   hover and while it is edited) */
 .quick-panel__tag .input {
-  /* As wide as the longest tag a person types (blockquote), centred: a box of the bar's own height alone (32 px) left
-     the input a content box too narrow for Chrome, which takes the focus and refuses every character typed into it */
-  width: var(--size-tag-field);
-  min-width: var(--size-tag-field);
-  height: var(--size-control);
+  /* At rest as wide as the tag it holds, edited as wide as the longest tag a person types (blockquote): a box narrower
+     than its text left Chrome refusing every character typed into it, and field-sizing keeps it as wide as its text. */
+  field-sizing: content;
+  width: auto;
+  min-width: var(--space-6);
+  max-width: var(--size-tag-field);
+  height: var(--size-target-min);
   padding: 0 var(--space-1);
+  border-color: transparent;
+  background: none;
+  color: var(--color-text-subtle);
+  font-size: var(--fs-caption);
   text-align: center;
 }
 
+/* the tag's list of equivalent tags opens as the person types; its arrow takes no room in the head */
+.quick-panel__tag .input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+/* the settings field's value grows its input to the line; in the head the tag keeps its own width */
+.quick-panel__tag .settings-field__value > .input:first-child {
+  flex: none;
+}
+
+.quick-panel__tag .input:hover:not(:disabled) {
+  border-color: var(--color-border-strong);
+}
+
+.quick-panel__tag .input:focus:not(:disabled) {
+  min-width: var(--size-tag-field);
+  border-color: var(--color-focus);
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+}
+
+/* a quick field shows its focus on its own box (the wrap's border); the input inside draws no second ring */
+.quick-panel .input-wrap .input:focus-visible {
+  outline: none;
+}
+
+/* the grip stands in the panel's left padding, beside the head, out of the head's line */
 .quick-panel__grip {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-0);
   display: grid;
   place-items: center;
-  width: var(--space-9);
-  height: var(--space-9);
-  color: var(--color-text-muted);
+  width: var(--space-3);
+  height: var(--size-target-min);
+  overflow: hidden;
+  color: var(--color-text-subtle);
   cursor: grab;
 }
 
@@ -166,13 +203,13 @@
 .quick-panel__close {
   display: grid;
   place-items: center;
-  width: var(--space-9);
-  height: var(--space-9);
+  width: var(--size-target-min);
+  height: var(--size-target-min);
   padding: 0;
   border: 0;
   border-radius: var(--radius-sm);
   background: none;
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
   cursor: pointer;
 }
 
@@ -181,23 +218,39 @@
   flex-direction: column;
 }
 
+/* a group under a separator, its name a muted caption in sentence case (the canonical .qp-grp) */
 .quick-panel__group {
-  padding: var(--space-2) var(--space-4) var(--space-3);
-  border-bottom: 1px solid var(--color-border);
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
 }
 
 .quick-panel__group h3 {
-  margin: 0 0 var(--space-2);
-  color: var(--color-text-muted);
-  font: var(--fw-overline) var(--fs-micro) / var(--lh-overline) var(--font-ui);
-  letter-spacing: var(--ls-overline);
-  text-transform: uppercase;
+  margin: 0 0 var(--space-1);
+  color: var(--color-text-subtle);
+  font: var(--fw-caption) var(--fs-caption) / var(--lh-caption) var(--font-ui);
+}
+
+/* the size row stands right under the head, with no name shown and no separator (the canonical first .qp-row) */
+.quick-panel__group[data-quick-group='inspector.section.size'] {
+  margin-top: var(--space-1);
+  padding-top: 0;
+  border-top: 0;
+}
+
+.quick-panel__group[data-quick-group='inspector.section.size'] h3 {
+  position: absolute;
+  width: var(--space-1);
+  height: var(--space-1);
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .quick-panel__group-fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-1) var(--space-2);
+  gap: var(--space-2);
 }
 
 .quick-panel__group[data-quick-group='inspector.tab.settings'] .quick-panel__group-fields {
@@ -209,7 +262,77 @@
   /* the value, then its Reset beside it when it has one (it fell under the value, a line of its own) */
   grid-template-columns: minmax(0, 1fr) auto;
   min-width: 0;
+  min-height: 0;
   gap: 0;
+}
+
+/* a quick field is the canonical .qp-f: no border, a soft fill, its key muted before the value, its unit after it at
+   the right, in the colour of where its value comes from */
+.quick-panel .quick-panel__group-fields .input-wrap {
+  height: var(--size-target-min);
+  padding: 0 var(--space-3);
+  gap: var(--space-2);
+  border-color: transparent;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.quick-panel .quick-panel__group-fields .input-wrap:hover {
+  border-color: var(--color-border-strong);
+}
+
+.quick-panel .quick-panel__group-fields .input-wrap:focus-within {
+  border-color: var(--color-focus);
+}
+
+.quick-panel .quick-panel__group-fields .input {
+  color: inherit;
+  font: inherit;
+}
+
+.quick-panel .input-wrap[data-origin='here'] {
+  color: var(--color-origin-here);
+  background: var(--color-origin-here-soft);
+  font-weight: var(--weight-semibold);
+}
+
+.quick-panel .input-wrap[data-origin='breakpoint'] {
+  color: var(--color-origin-breakpoint);
+  background: var(--color-origin-breakpoint-soft);
+}
+
+.quick-panel .input-wrap[data-origin='state'] {
+  color: var(--color-origin-state);
+  background: var(--color-origin-state-soft);
+}
+
+.quick-panel .input-wrap[data-origin='inherited'],
+.quick-panel .input-wrap[data-origin='class'] {
+  color: var(--color-origin-inherited);
+  background: var(--color-origin-inherited-soft);
+}
+
+.quick-panel .input-wrap[data-origin='mixed'] {
+  font-style: italic;
+}
+
+/* the swatch of a colour field: 12 px (the canonical .sw), before the value */
+.quick-panel .field__swatch {
+  flex: none;
+  width: var(--space-6);
+  min-width: var(--space-6);
+  height: var(--space-6);
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.quick-panel .field__swatch .field__sample {
+  width: var(--space-6);
+  height: var(--space-6);
+  border-radius: var(--radius-xs);
 }
 
 .quick-panel__group-fields .field-row__label {
@@ -228,13 +351,15 @@
   width: auto;
   height: auto;
   clip-path: none;
-  font-size: var(--fs-micro);
-  line-height: var(--lh-micro);
+  color: var(--color-text-subtle);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
 }
 
 .quick-panel__group[data-quick-group='inspector.tab.settings'] .field-row {
   grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--space-1);
+  gap: var(--space-2);
+  align-items: center;
 }
 
 .quick-panel__group-fields .field-row--wide {
@@ -242,8 +367,8 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
-/* Justify's values are long (space-between, space-evenly), and so are Padding's (56px 40px): each takes the whole line (the dogfooding pass: in half
-   a line it showed the value's last letter) */
+/* Justify's values are long (space-between, space-evenly), and so are Padding's (56px 40px): each takes the whole
+   line (the dogfooding pass: in half a line it showed the value's last letter) */
 .quick-panel__group-fields [data-door='style.set#quick-panel-justify-content'],
 .quick-panel__group-fields [data-door='style.set#quick-panel-padding'] {
   grid-column: 1 / -1;
@@ -264,13 +389,23 @@
   flex: none;
   flex-wrap: nowrap;
   align-items: center;
-  gap: var(--space-1);
+  gap: var(--space-0);
   min-width: 0;
 }
 
+/* the head's buttons are the canonical .qp-head buttons: bare, muted, as small as a target may be */
 .quick-panel__actions .door {
-  height: var(--space-9);
-  padding: 0 var(--space-2);
+  justify-content: center;
+  min-width: var(--size-target-min);
+  height: var(--size-target-min);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-subtle);
+}
+
+.quick-panel__actions .door:hover {
+  color: var(--color-text);
 }
 
 /* a button of the bar that shows an icon keeps its words for assistive technology only */
