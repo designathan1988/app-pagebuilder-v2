@@ -32,7 +32,10 @@ export function useValueLabel(): (property: string, value: string) => string {
   return useCallback(
     (property, value) => {
       const key = `value.${property}.${value}`;
-      return hasText(locale, key) ? textOf(locale, key as MessageId) : value;
+      if (hasText(locale, key)) return textOf(locale, key as MessageId);
+      // a keyword the person's language names (keyword-words.ts: "automático")
+      const word = `keyword.${value}`;
+      return hasText(locale, word) ? textOf(locale, word as MessageId) : value;
     },
     [locale],
   );

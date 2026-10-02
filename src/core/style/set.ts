@@ -32,6 +32,7 @@ import { recordStyleWrite } from '../motion/record.ts';
 import { deepEqual } from '../history/transaction.ts';
 import { clearedRecipes } from './recipes.ts';
 import { DEFAULT_UNIT, codecOf, type Codec, type Value, type ValueFacts } from './codecs.ts';
+import { keywordOfWord } from './keyword-words.ts';
 
 type Layers = Record<string, Record<string, Record<string, StoredValue>> | undefined>;
 // the path of a page's element: pages, its page, tree, then children and an index down to it
@@ -250,7 +251,9 @@ export function readValue<Ui>(context: HandlerContext<Ui>, property: string, tex
   const codec = codecFor(property, rules);
   if (codec === null) return null;
   const { units, keywords, axes } = factsOf(property, rules);
-  const value = codec.read(text, { units, keywords, defaultUnit: DEFAULT_UNIT, ...(axes === undefined ? {} : { axes }) });
+  // a keyword typed in the person's language ("automático") is that keyword (keyword-words.ts)
+  const typed = keywordOfWord(text, keywords, context.words) ?? text;
+  const value = codec.read(typed, { units, keywords, defaultUnit: DEFAULT_UNIT, ...(axes === undefined ? {} : { axes }) });
   if (value === null) return null;
   const written = codec.write(value);
   // a recipe is stored by its id and written out as its declarations (output.ts): the browser must take every one of

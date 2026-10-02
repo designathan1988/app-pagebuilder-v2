@@ -115,6 +115,78 @@ export function workOut(text: string): number | null {
   return result !== null && at === tokens.length && Number.isFinite(result) ? result : null;
 }
 
+// Arithmetic on lengths (the plan's stage 3, "contas"): numbers with the units the property offers, + - * / and
+// parentheses. One unit throughout (a plain number beside it takes it) is worked out: "16px*2" is 32px, "10px + 4" is
+// 14px. Lengths of different units added or taken away are the browser's to work out: written as calc(), spaced as
+// CSS writes it ("100% - 20px" is calc(100% - 20px)). Two lengths multiplied, a division by a length or by zero, or
+// a unit the property does not offer: null.
+const LENGTH_TERM = /(\d+(?:\.\d*)?|\.\d+)([a-z%]*)|[+\-*/()]/gi;
+export function workOutLengths(text: string, units: readonly string[]): Value | null {
+  const tokens = [...text.matchAll(LENGTH_TERM)].map((m) => ({ text: m[0], number: m[1] === undefined ? null : Number(m[1]), unit: (m[2] ?? '').toLowerCase() || null }));
+  if (tokens.map((t) => t.text).join('') !== text.replace(/\s+/g, '')) return null;
+  if (tokens.some((t) => t.unit !== null && !units.includes(t.unit))) return null;
+  type Quantity = { readonly n: number; readonly unit: string | null } | 'mixed';
+  let at = 0;
+  const peek = () => tokens[at]?.text;
+  const factor = (): Quantity | null => {
+    const token = tokens[at++];
+    if (token === undefined) return null;
+    if (token.text === '+' || token.text === '-') {
+      const inner = factor();
+      return inner === null || inner === 'mixed' ? inner : { n: token.text === '-' ? -inner.n : inner.n, unit: inner.unit };
+    }
+    if (token.text === '(') {
+      const inner = sum();
+      return tokens[at++]?.text === ')' ? inner : null;
+    }
+    return token.number === null ? null : { n: token.number, unit: token.unit };
+  };
+  const product = (): Quantity | null => {
+    let left = factor();
+    while (left !== null && (peek() === '*' || peek() === '/')) {
+      const op = tokens[at++]?.text;
+      const right = factor();
+      if (right === null) return null;
+      if (left === 'mixed' || right === 'mixed') {
+        if (right !== 'mixed' && right.unit !== null) return null;
+        left = 'mixed';
+        continue;
+      }
+      if (op === '*') {
+        if (left.unit !== null && right.unit !== null) return null;
+        left = { n: left.n * right.n, unit: left.unit ?? right.unit };
+      } else {
+        if (right.unit !== null || right.n === 0) return null;
+        left = { n: left.n / right.n, unit: left.unit };
+      }
+    }
+    return left;
+  };
+  const sum = (): Quantity | null => {
+    let left = product();
+    while (left !== null && (peek() === '+' || peek() === '-')) {
+      const op = tokens[at++]?.text;
+      const right = product();
+      if (right === null) return null;
+      if (left === 'mixed' || right === 'mixed' || (left.unit !== null && right.unit !== null && left.unit !== right.unit)) {
+        left = 'mixed';
+        continue;
+      }
+      left = { n: op === '+' ? left.n + right.n : left.n - right.n, unit: left.unit ?? right.unit };
+    }
+    return left;
+  };
+  const result = sum();
+  if (result === null || at !== tokens.length) return null;
+  if (result === 'mixed') {
+    const spaced = tokens
+      .map((t, i) => (/^[+-]$/.test(t.text) && i > 0 && !/^[(+\-*/]$/.test(tokens[i - 1]?.text ?? '') ? ` ${t.text} ` : /^[*/]$/.test(t.text) ? ` ${t.text} ` : t.text))
+      .join('');
+    return { kind: 'expression', text: `calc(${spaced})` };
+  }
+  return result.unit === null || !Number.isFinite(result.n) ? null : { kind: 'length', number: result.n, unit: result.unit };
+}
+
 // Parentheses that open and close in order.
 function balanced(text: string): boolean {
   let depth = 0;
@@ -142,7 +214,7 @@ export const lengthPercentage = registerCodec('length-percentage', {
       return worked === null ? null : { kind: 'length', number: worked, unit: facts.defaultUnit };
     }
     if (EXPRESSION.test(typed) && balanced(typed)) return { kind: 'expression', text: typed };
-    return null;
+    return workOutLengths(typed, facts.units);
   },
   write(value) {
     if (value.kind === 'length') return `${writeNumber(value.number)}${value.unit}`;

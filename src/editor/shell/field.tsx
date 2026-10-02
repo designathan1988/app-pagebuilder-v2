@@ -52,6 +52,7 @@ import { compactFieldValue, FieldOriginBadge, FieldValueSlot, useFieldAppearance
 import { usePrimarySize } from '../view/selection-size.ts';
 import { restoreFieldDraft } from '../persistence/drafts.ts';
 import { DRAFT_KEPT, markFieldKept, recordFieldInput } from '../input/drafts.ts';
+import { wordOfKeyword } from '../../core/style/keyword-words.ts';
 
 // the key context a number field's input names (interactions.json)
 const NUMBER_FIELD_CONTEXT: KeyContextId = 'number-field';
@@ -77,6 +78,28 @@ const PART_CONTROLS = new Set(['unit-menu', 'property-reset']);
 const PARTS = doorSlots('field').filter((p) => p.door.kind === 'panel-control' && PART_CONTROLS.has(p.door.control));
 // the label's scrub: the panel drag pressed on a field's label
 const SCRUB = manifest.doors.find((d) => d.door.kind === 'panel-drag' && d.door.source === 'field-label') ?? null;
+// The wheel over a field that holds the focus (the plan's stage 3, "setas e arrasto"): each notch runs the field's own
+// ArrowUp or ArrowDown door (field.step), Shift ×10 and Alt ×0.1 as with the keys; a field without the focus lets the
+// panel scroll. The doors are the number field's step keys (interactions.json number-field context).
+const WHEEL_STEPS = manifest.doors.filter((d) => d.door.kind === 'shortcut' && typeof d.door.args.direction === 'string' && d.door.context === NUMBER_FIELD_CONTEXT && d.door.args.size === 'step');
+function useWheelSteps(input: RefObject<HTMLInputElement | null>, property: string, store: EditorStore): void {
+  useEffect(() => {
+    const element = input.current;
+    if (element === null) return;
+    const onWheel = (event: WheelEvent) => {
+      if (document.activeElement !== element || event.deltaY === 0) return;
+      const direction = event.deltaY < 0 ? 'up' : 'down';
+      const door = WHEEL_STEPS.find((d) => d.door.args.direction === direction);
+      if (door === undefined) return;
+      event.preventDefault();
+      const modifier = event.shiftKey ? 'Shift' : event.altKey ? 'Alt' : undefined;
+      (store.dispatch as Dispatch)(door.command.id as CommandId, { ...door.door.args, property, value: element.value, ...(modifier === undefined ? {} : { modifier }) });
+    };
+    // not passive: the wheel steps the value instead of scrolling the panel
+    element.addEventListener('wheel', onWheel, { passive: false });
+    return () => element.removeEventListener('wheel', onWheel);
+  }, [input, property, store]);
+}
 
 // The values the page computes for a node (coordinates.ts computedValues). The page changes after the store does (the
 // renderer applies each change) and loads after the inspector is drawn, so the values are read at every frame while
@@ -467,11 +490,13 @@ export function NumberField({ entry, door, property, label, bare = false, labell
   useEffect(() => {
     const element = input.current;
     if (element === null) return;
-    element.value = shown;
+    // a keyword is shown in the person's language ("automático"), and read back as its keyword (keyword-words.ts)
+    const face = wordOfKeyword(shown, t);
+    element.value = face;
     draft.current.typed = false;
-    markFieldKept(element, shown);
+    markFieldKept(element, face);
     return restoreFieldDraft(element, () => { draft.current.typed = recordFieldInput(element, new Event('input')); });
-  }, [shown, said]);
+  }, [shown, said, t]);
   useEffect(() => {
     const element = input.current;
     const typing = draft.current;
@@ -500,13 +525,14 @@ export function NumberField({ entry, door, property, label, bare = false, labell
     };
   }, [store, command, property]);
   useRevealed(property, input);
+  useWheelSteps(input, property, store);
   const scrub = SCRUB === null ? null : <ScrubLabel entry={SCRUB} property={property} shown={base} label={label} ready={available} origin={appearance.kind} />;
   const refused = useFieldRefusal(command, property);
   const state = `${available ? '' : ' is-unavailable'}${stored !== undefined ? ' is-set' : ''}${refused.text !== null ? ' is-invalid' : ''}`;
   const cell = (
     <span className="input-wrap input-wrap--number" data-face="" data-origin={appearance.kind}>
       {prefix !== null ? <span className="field__prefix">{prefix}</span> : null}
-      <FieldValueSlot value={mixed ? t('inspector.mixedValue') : compactFieldValue(base, true).value}>
+      <FieldValueSlot value={mixed ? t('inspector.mixedValue') : wordOfKeyword(compactFieldValue(base, true).value, t)}>
         <input ref={input} className="input" role="spinbutton" disabled={!available} aria-label={label} inputMode="decimal" spellCheck={false} data-key-context={NUMBER_FIELD_CONTEXT} placeholder={mixed ? t('inspector.mixedValue') : effective || undefined} aria-invalid={refused.text !== null ? true : undefined} onInput={refused.dismiss} />
       </FieldValueSlot>
         {PARTS.filter((part) => part.door.kind === 'panel-control' && part.door.control === 'unit-menu').map((part) => (
@@ -706,11 +732,13 @@ export function TextStyleField({
   useEffect(() => {
     const element = input.current;
     if (element === null) return;
-    element.value = shown;
+    // a keyword is shown in the person's language, and read back as its keyword (keyword-words.ts)
+    const face = wordOfKeyword(shown, t);
+    element.value = face;
     draft.current.typed = false;
-    markFieldKept(element, shown);
+    markFieldKept(element, face);
     return restoreFieldDraft(element, () => { draft.current.typed = recordFieldInput(element, new Event('input')); });
-  }, [shown, said]);
+  }, [shown, said, t]);
   useEffect(() => {
     const element = sliderInput.current;
     if (element === null) return;
@@ -791,7 +819,7 @@ export function TextStyleField({
   const state = `${available ? '' : ' is-unavailable'}${set ? ' is-set' : ''}${refused.text !== null ? ' is-invalid' : ''}`;
   const visible = mixed ? t('inspector.mixedValue') : shown || placeholder || '';
   const percent = sliderRange?.min === 0 && sliderRange.max === 1 && visible.trim() !== '' && Number.isFinite(Number(visible));
-  const face = percent ? { value: String(Math.round(Number(visible) * 100)), unit: '%' } : compactFieldValue(visible, sliderRange !== undefined, colour);
+  const face = percent ? { value: String(Math.round(Number(visible) * 100)), unit: '%' } : compactFieldValue(wordOfKeyword(visible, t), sliderRange !== undefined, colour);
   const cell = (
     <span ref={valueScope} className="input-wrap" data-face="" data-origin={appearance.kind}>
         {prefix !== null ? <span className="field__prefix">{prefix}</span> : null}

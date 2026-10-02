@@ -5,8 +5,8 @@
     "commands": 356,
     "doors": 1304,
     "scenarios": 1705,
-    "modules": 393,
-    "lines": 72314
+    "modules": 394,
+    "lines": 72471
   },
   "features": [
     {
@@ -4367,7 +4367,7 @@
     },
     {
       "path": "src/core/style/codecs.ts",
-      "lines": 812,
+      "lines": 884,
       "commands": [],
       "features": []
     },
@@ -4459,6 +4459,12 @@
       ]
     },
     {
+      "path": "src/core/style/keyword-words.ts",
+      "lines": 29,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/core/style/organize.ts",
       "lines": 113,
       "commands": [
@@ -4489,7 +4495,7 @@
     },
     {
       "path": "src/core/style/set.ts",
-      "lines": 386,
+      "lines": 389,
       "commands": [
         "style.set"
       ],
@@ -5728,7 +5734,7 @@
     },
     {
       "path": "src/editor/shell/field.tsx",
-      "lines": 1466,
+      "lines": 1494,
       "commands": [],
       "features": []
     },
@@ -5920,7 +5926,7 @@
     },
     {
       "path": "src/editor/text.ts",
-      "lines": 49,
+      "lines": 52,
       "commands": [],
       "features": []
     },
@@ -6181,7 +6187,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6172,
+      "lines": 6194,
       "commands": [],
       "features": []
     },

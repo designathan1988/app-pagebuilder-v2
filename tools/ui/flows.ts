@@ -159,6 +159,26 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'smart-fields',
+    about: 'stage 3: lengths of two units written as calc(), the wheel stepping a focused field, keywords typed and shown in Portuguese',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/responsive-title.json'] } },
+      { door: 'selection.select#layers-row', labelled: 'Title' },
+      { type: { at: '[data-door="style.set#inspector-width"] input', text: '100% - 20px' } },
+      { photo: 'width-calc' },
+      { click: '[data-door="style.set#inspector-font-size"] input' },
+      { wheel: { at: '[data-door="style.set#inspector-font-size"] input', dy: -100 } },
+      { wheel: { at: '[data-door="style.set#inspector-font-size"] input', dy: -100 } },
+      { photo: 'font-size-wheeled' },
+      { click: '[data-menu="view"]' },
+      { click: 'button.menu__item:has-text("Language")' },
+      { door: 'preferences.setLanguage#menu-language-pt-br' },
+      { type: { at: '[data-door="style.set#inspector-width"] input', text: 'automático' } },
+      { photo: 'width-automatico' },
+    ],
+  },
+  {
     name: 'data-c3',
     about: 'jornada03 C3/H13: the header shared with every page, its menu changed once',
     steps: [
