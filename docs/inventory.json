@@ -4,9 +4,9 @@
     "built": 208,
     "commands": 362,
     "doors": 1317,
-    "scenarios": 1728,
+    "scenarios": 1729,
     "modules": 401,
-    "lines": 73808
+    "lines": 73820
   },
   "features": [
     {
@@ -37,7 +37,7 @@
         "workspace.setPanelOpen"
       ],
       "doors": 30,
-      "scenarios": 6,
+      "scenarios": 7,
       "modules": [
         "src/core/structure/insert.ts",
         "src/editor/workspace/panels.ts"
@@ -4346,7 +4346,7 @@
     },
     {
       "path": "src/core/structure/insert.ts",
-      "lines": 225,
+      "lines": 237,
       "commands": [
         "element.createNaturalChild",
         "element.insert"

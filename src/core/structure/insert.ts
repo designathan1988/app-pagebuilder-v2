@@ -204,6 +204,17 @@ export function paletteNode(make: NodeMaker, entry: string): DocNode {
   return item.inputType === null ? made : { ...made, attributes: { ...made.attributes, inputType: item.inputType } };
 }
 
+// A new element takes the classes every sibling of its kind already shares (the plan's stage 7, "novo elemento herda o
+// visual dos irmãos"; journey C3: a new link in a menu of styled links came out plain): the classes common to all the
+// receiver's children of the same type, when there is at least one such child and they share any.
+function withSiblingClasses(node: DocNode, siblings: readonly DocNode[]): DocNode {
+  const kin = siblings.filter((one) => one.type === node.type);
+  if (kin.length === 0 || node.classes.length > 0) return node;
+  const [first, ...rest] = kin as [DocNode, ...DocNode[]];
+  const shared = first.classes.filter((name) => rest.every((one) => one.classes.includes(name)));
+  return shared.length === 0 ? node : { ...node, classes: shared };
+}
+
 export const insertCommand = registerHandler('element.insert', ({ state, ids, rules, words }, { entry, parent, index }): Outcome<never> => {
   const node = paletteNode(nodeMaker(state.document, rules, ids, words), entry);
   const at = placement(state, state.selection, rules, parent, index, node);
@@ -215,9 +226,10 @@ export const insertCommand = registerHandler('element.insert', ({ state, ids, ru
   // the one rule of where elements may go (content-model.ts placementRefusal): the same for every door that inserts
   const refused = placementRefusal(state.document, rules, receiver.id, [node]);
   if (refused !== null) return { kind: 'refused', message: refused };
+  const placed = withSiblingClasses(node, receiver.children);
   return {
     kind: 'change',
-    patches: [{ op: 'add', path: [...at.parent.path, 'children', at.index], value: node }],
+    patches: [{ op: 'add', path: [...at.parent.path, 'children', at.index], value: placed }],
     selection: [node.id],
     message: message('status.placed', { element: node.name, parent: receiver.name, position: at.index + 1, count: receiver.children.length + 1 }),
   };
