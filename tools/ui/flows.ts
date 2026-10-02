@@ -54,6 +54,22 @@ const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as cons
 
 export const FLOWS: readonly Flow[] = [
   {
+    name: 'viewport-width',
+    about: 'continuous widths follow the responsive cascade and return to a reference tab',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/aurora.json'] } },
+      { photo: 'reference-width' },
+      { type: { at: '[data-door="view.setViewportWidth#viewport-width"] input[inputmode="numeric"]', text: '1024' } },
+      { expect: { message: 'Viewport: 1024 px; editing Laptop styles.' } },
+      { photo: 'intermediate-laptop' },
+      { type: { at: '[data-door="view.setViewportWidth#viewport-width"] input[inputmode="numeric"]', text: '600' } },
+      { photo: 'intermediate-tablet' },
+      { door: 'view.setBreakpoint#toolbar-breakpoint-tabs-desktop' },
+      { photo: 'reference-restored' },
+    ],
+  },
+  {
     name: 'large-page',
     about: 'the unchanged 641-node study page opens and draws every element',
     steps: [

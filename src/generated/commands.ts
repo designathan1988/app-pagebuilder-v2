@@ -263,6 +263,7 @@ export interface CommandArgs {
   "snap.setEnabled": { readonly enabled: "toggle" | "on" | "off" };
   "snap.setSettings": { readonly targets: JsonValue; readonly distance: number };
   "workspace.openDialog": { readonly dialog: "guides-grids" | "snap-settings" };
+  "view.setViewportWidth": { readonly width: number };
   "workspace.setPanelOpen": { readonly panel: "elements" | "layers" | "inspector" | "explorer" | "timeline" | "variables" | "checks" | "workbench" | "shortcuts" | "document" | "canvas-tools"; readonly open: "open" | "close" | "toggle"; readonly focus?: boolean };
   "workspace.toggleLeftDock": Record<string, never>;
   "workspace.toggleInspector": Record<string, never>;
@@ -440,7 +441,7 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "snap-while-moving": ["geometry.resize","position.move","guides.create","snap.setEnabled"],
   "smart-guides": ["position.move","view.toggleSmartGuides","view.toggleEqualSpacing"],
   "hover-measure": [],
-  "breakpoints-switch": ["view.setBreakpoint","grid.toggleFolds","page.setSetting"],
+  "breakpoints-switch": ["view.setBreakpoint","grid.toggleFolds","page.setSetting","view.setViewportWidth"],
   "breakpoint-overrides": ["style.set","style.reset","view.setBreakpoint"],
   "state-styles": ["style.set","view.setBreakpoint","view.setStyleState"],
   "preview-mode": ["view.setBreakpoint","view.enterPreview","view.exitPreview","project.export"],

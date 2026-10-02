@@ -45,6 +45,8 @@ export interface EditorUi {
   readonly hand: HandState | null;
   // the page's horizontal place on the stage while it is wider than the stage (spec zoom-keyboard-buttons)
   readonly camera: CameraState;
+  // A temporary responsive preview width; choosing a breakpoint returns to its reference width.
+  readonly viewportWidth?: number;
   // the colour picker open on a property, and how its last session ended (inspector/color-picker.ts)
   readonly colorPicker: ColorPickerState | null;
   readonly colorPickerClosed: ColorPickerClosed;

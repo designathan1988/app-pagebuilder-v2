@@ -6,7 +6,7 @@
 import { useEffect, useMemo } from 'react';
 import { previewPage } from '../../core/export/export.ts';
 import { openedPage } from '../../core/project/pages.ts';
-import { activeBreakpoint } from '../view/breakpoints.ts';
+import { viewportWidth } from '../view/breakpoints.ts';
 import { MODEL_RULES, useEditorState } from '../store.ts';
 import { useT } from '../text.ts';
 import { Slots } from './slots.tsx';
@@ -22,7 +22,7 @@ export function PreviewBar() {
 export function PreviewPage() {
   const t = useT();
   const document = useEditorState((s) => s.document);
-  const width = useEditorState((s) => activeBreakpoint(s.ui).width);
+  const width = useEditorState((s) => viewportWidth(s.ui));
   // the page the editor has open, never the project's first: previewing a second page must show that page (the
   // interface audit F03), and the memo re-runs when the open page changes
   const page = useEditorState((s) => openedPage(s));

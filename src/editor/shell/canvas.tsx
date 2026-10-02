@@ -3,18 +3,18 @@
 // page's iframe (src/editor/canvas/frame.tsx) at the camera's zoom (src/editor/view/camera.ts): the chosen one, or in
 // Fit mode the one that fits the frame to the stage; the frame is placed at the camera's pan.
 import { useContext, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
-import type { MessageId } from '../../generated/ids.ts';
+import type { CommandId, MessageId } from '../../generated/ids.ts';
 import { manifest, type DoorEntry } from '../../manifest/runtime.ts';
 import { CanvasFrame } from '../canvas/frame.tsx';
 import { editMode, NO_MODE } from '../canvas/edit-mode.ts';
 import { Rulers } from '../canvas/rulers.tsx';
-import { DoorControl, Icon } from '../doors/door.tsx';
+import { DoorControl, Icon, useDoor } from '../doors/door.tsx';
 import { MenuButton } from '../doors/menu.tsx';
 import { doorSlots, slotsIn } from '../doors/placement.ts';
 import { codeTabs } from '../explorer/file-tabs.ts';
-import { useEditorState } from '../store.ts';
+import { useEditorState, useStore } from '../store.ts';
 import { FIT_MARGIN, fitZoom, panOf, registerStage } from '../view/camera.ts';
-import { activeBreakpoint } from '../view/breakpoints.ts';
+import { activeBreakpoint, viewportWidth } from '../view/breakpoints.ts';
 import { activeState } from '../view/style-state.ts';
 import { editorView } from '../view/editor-view.ts';
 import { CodePane } from './code-pane.tsx';
@@ -134,6 +134,24 @@ function CanvasToolbar() {
   );
 }
 
+function ViewportWidth({ entry }: { readonly entry: DoorEntry }) {
+  const store = useStore();
+  const width = useEditorState((s) => viewportWidth(s.ui));
+  const door = useDoor(entry);
+  const [draft, setDraft] = useState<string | null>(null);
+  const keep = () => {
+    if (draft === null) return;
+    store.dispatch(entry.command.id as CommandId, { width: draft.trim() === '' ? NaN : Number(draft) });
+    setDraft(null);
+  };
+  return (
+    <form className="viewport-width" data-door={entry.ref} title={door.title} onSubmit={(event) => { event.preventDefault(); keep(); }}>
+      <input className="input viewport-width__value" aria-label={door.label} inputMode="numeric" disabled={!door.available} value={draft ?? String(width)} onChange={(event) => setDraft(event.currentTarget.value)} onBlur={keep} />
+      <input className="viewport-width__range" type="range" aria-label={door.label} min={320} max={7680} step={1} value={width} disabled={!door.available} onChange={(event) => store.dispatch(entry.command.id as CommandId, { width: Number(event.currentTarget.value) })} />
+    </form>
+  );
+}
+
 function BreakpointTabs() {
   const t = useT();
   const byId = new Map(BREAKPOINTS.map((b) => [b.id, b]));
@@ -143,6 +161,7 @@ function BreakpointTabs() {
         region="canvas-breakpoints"
         render={(slot) => {
           if (slot.kind !== 'door') return undefined;
+          if (slot.entry.door.kind === 'panel-control' && slot.entry.door.control === 'viewport-width') return <ViewportWidth key={slot.entry.ref} entry={slot.entry} />;
           const breakpoint = byId.get(String(slot.entry.door.args.breakpoint));
           if (!breakpoint) return undefined;
           return (
@@ -200,7 +219,7 @@ export function CanvasColumn() {
   // sides; the stage's width is reported to the camera, whose handlers pivot and fit on it
   const chosen = useEditorState((s) => s.ui.preferences.zoom);
   // the page's width: the active breakpoint's (view/breakpoints.ts)
-  const pageWidth = useEditorState((s) => activeBreakpoint(s.ui).width);
+  const pageWidth = useEditorState((s) => viewportWidth(s.ui));
   // the breakpoint's screen height: what vh measures in the page and where the fold lines fall (item 2.3)
   const pageHeight = useEditorState((s) => activeBreakpoint(s.ui).height);
   const zoom = chosen !== undefined ? chosen / 100 : fitZoom(size.width, pageWidth);

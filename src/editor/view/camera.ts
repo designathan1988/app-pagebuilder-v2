@@ -7,7 +7,7 @@
 // across, the camera's pan; down, a scroll of the page the frame carries out (the page's scroll is the frame's).
 // The pivot and Fit need the stage's place and size, a measure of the layout read from the stage element the canvas
 // registers (registerStage), when a command runs; the handlers never read the page.
-import { activeBreakpoint, BASE_BREAKPOINT } from './breakpoints.ts';
+import { viewportWidth, BASE_BREAKPOINT } from './breakpoints.ts';
 import { message, registerHandler, type Outcome } from '../../core/commands/registry.ts';
 import type { StoreState } from '../../core/store/store.ts';
 import { numberConstant } from '../../manifest/runtime.ts';
@@ -57,12 +57,12 @@ function measure(): Stage {
 export const fitZoom = (width: number, page: number = BASE_BREAKPOINT.width): number => (width > 0 && page > 0 ? Math.min(1, ZOOM_MAX / 100, Math.max(ZOOM_MIN / 100, (width - 2 * FIT_MARGIN) / page)) : 1);
 
 // the zoom the canvas shows, as a factor: the chosen one, or the one that fits the stage
-export const zoomOf = (ui: EditorUi, width: number = measure().width): number => (ui.preferences.zoom !== undefined ? ui.preferences.zoom / 100 : fitZoom(width, activeBreakpoint(ui).width));
+export const zoomOf = (ui: EditorUi, width: number = measure().width): number => (ui.preferences.zoom !== undefined ? ui.preferences.zoom / 100 : fitZoom(width, viewportWidth(ui)));
 
 // The frame's offset from the fit margin at a zoom: a page narrower than the stage is centred in it; a wider one keeps
 // the camera's offset, held so that neither edge of the page leaves a gap on the stage.
 export function panOf(ui: EditorUi, zoom: number, width: number = measure().width): number {
-  const room = width - 2 * FIT_MARGIN - activeBreakpoint(ui).width * zoom;
+  const room = width - 2 * FIT_MARGIN - viewportWidth(ui) * zoom;
   if (room >= 0) return room / 2;
   return Math.min(0, Math.max(room, ui.camera.panX));
 }
@@ -107,7 +107,7 @@ export const zoomFit = registerHandler<'view.zoomFit', EditorUi>(
   ({ state }) => {
     const { zoom: _chosen, ...rest } = state.ui.preferences;
     void _chosen;
-    return { kind: 'change', ui: { ...state.ui, preferences: rest, camera: { ...state.ui.camera, panX: 0, pivot: null } }, message: message('status.zoom.fitted', { zoom: Math.round(fitZoom(measure().width, activeBreakpoint(state.ui).width) * 100) }) };
+    return { kind: 'change', ui: { ...state.ui, preferences: rest, camera: { ...state.ui.camera, panX: 0, pivot: null } }, message: message('status.zoom.fitted', { zoom: Math.round(fitZoom(measure().width, viewportWidth(state.ui)) * 100) }) };
   },
   (state) => state.ui.preferences.zoom === undefined,
 );

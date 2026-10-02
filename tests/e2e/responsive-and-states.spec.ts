@@ -15,6 +15,7 @@ const ROW = 'selection.select#layers-row';
 const TABLET = 'view.setBreakpoint#toolbar-breakpoint-tabs-tablet';
 const FONT = 'style.set#inspector-font-size';
 const COLOR = 'style.set#inspector-color';
+const WIDTH = 'view.setViewportWidth#viewport-width';
 const HOVER = 'view.setStyleState#menu-style-state-hover';
 const EXPORT = 'project.export#toolbar-top-bar-export';
 
@@ -32,6 +33,26 @@ async function typeInto(page: Page, ref: string, text: string): Promise<void> {
   await page.keyboard.press('Control+A');
   await page.keyboard.type(`${text}\n`);
 }
+
+test('continuous width updates the frame, cascade and preview without adding document history', runs(OPEN, WIDTH, TABLET), async ({ page }) => {
+  await openAurora(page);
+  for (const [width, breakpoint] of [[1024, 'laptop'], [600, 'tablet'], [320, 'phone']] as const) {
+    await typeInto(page, WIDTH, String(width));
+    await expect.poll(() => pageWidth(page)).toBe(width);
+    await expect(page.locator(`[data-door="view.setBreakpoint#toolbar-breakpoint-tabs-${breakpoint}"]`)).toHaveAttribute('aria-selected', 'true');
+  }
+  const slider = control(page, WIDTH).locator('input[type="range"]');
+  await slider.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect.poll(() => pageWidth(page)).toBe(321);
+  await runDoor(page, 'view.enterPreview#toolbar-top-bar-preview');
+  await expect(page.locator('.preview__page')).toHaveCSS('width', '321px');
+  await page.keyboard.press('Escape');
+  await runDoor(page, TABLET);
+  await expect.poll(() => pageWidth(page)).toBe(834);
+  await typeInto(page, WIDTH, '0');
+  await expect.poll(() => pageWidth(page)).toBe(834);
+});
 
 test('the breakpoint shown is kept after a reload, and a field says where its value comes from', runs(OPEN, ROW, TABLET, FONT), async ({ page }) => {
   await openAurora(page);

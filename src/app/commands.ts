@@ -95,7 +95,7 @@ import { pan, zoomAt, zoomFit, zoomIn, zoomOut, zoomReset, zoomToLevel } from '.
 import { resizeCommand } from '../core/geometry/resize.ts';
 import { toggleEqualSpacing, toggleGuidesVisible, toggleOutlines, toggleRulers, toggleSmartGuides, toggleZones } from '../editor/view/overlays.ts';
 import { openDialog } from '../editor/workspace/dialogs.ts';
-import { setBreakpoint } from '../editor/view/breakpoints.ts';
+import { setBreakpoint, setViewportWidth } from '../editor/view/breakpoints.ts';
 import { setStyleState } from '../editor/view/style-state.ts';
 import { enterPreview, exitPreview } from '../editor/view/preview.ts';
 import { newBlankPage } from '../core/project/project.ts';
@@ -337,6 +337,7 @@ export const COMMANDS = {
   'view.zoomAt': zoomAt,
   'view.pan': pan,
   'view.setBreakpoint': setBreakpoint,
+  'view.setViewportWidth': setViewportWidth,
   'view.setEditorView': setEditorView,
   'view.setStyleState': setStyleState,
   'view.enterPreview': enterPreview,

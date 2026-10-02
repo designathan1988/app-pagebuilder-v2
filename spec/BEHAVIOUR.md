@@ -513,6 +513,15 @@ Each write and each reset is one undo step, as at Desktop.
 
 ## breakpoints-switch
 
+### Continuous responsive preview
+
+The viewport width field accepts 320–7680 CSS pixels, rounded to the nearest integer. Its range control changes
+the same store-owned width continuously. The current cascade is the narrowest non-base breakpoint whose maximum
+width includes the viewport, or the base above all media queries. The frame, Fit zoom, camera and preview use the
+temporary width; fields edit the matching cascade. No document change or undo entry is created. Choosing a breakpoint
+tab clears the temporary width. Reload restores the selected breakpoint at its reference width. Invalid or non-finite
+widths are refused without changing the viewport. Project-defined breakpoints are a subsequent stage 2 delivery.
+
 Read from Pager's source (`reference/Pager`); references are `path:line` inside Pager.
 
 ### Trigger

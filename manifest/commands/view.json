@@ -2915,6 +2915,58 @@
           }
         }
       ]
+    },
+    {
+      "id": "view.setViewportWidth",
+      "labelKey": "command.setViewportWidth",
+      "owner": "src/editor/view/breakpoints.ts",
+      "introducedBy": "breakpoints-switch",
+      "args": {
+        "width": {
+          "type": "number",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.viewport.invalid"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "viewport-width",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "panel": "canvas-tools",
+          "control": "viewport-width",
+          "modifier": null,
+          "gesture": null,
+          "feature": "breakpoints-switch",
+          "labelKey": "command.setViewportWidth",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "canvas-breakpoints",
+            "order": 10
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
     }
   ]
 }

@@ -452,6 +452,25 @@
   color: var(--color-text-muted);
 }
 
+.viewport-width {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: var(--size-row);
+}
+
+.viewport-width__value {
+  min-width: 0;
+  width: var(--size-tag-field);
+  font: var(--fw-code) var(--fs-code) / var(--lh-code) var(--font-mono);
+}
+
+.viewport-width__range {
+  margin: 0;
+  width: var(--size-tag-field);
+  accent-color: var(--color-text);
+}
+
 .frame-tab.is-current {
   background: var(--color-surface);
   border-color: var(--color-border-strong);
@@ -1208,4 +1227,3 @@
   border-color: var(--color-danger);
   color: var(--color-danger);
 }
-

@@ -2,11 +2,11 @@
   "totals": {
     "features": 188,
     "built": 187,
-    "commands": 263,
-    "doors": 1031,
-    "scenarios": 1361,
+    "commands": 264,
+    "doors": 1032,
+    "scenarios": 1362,
     "modules": 267,
-    "lines": 51451
+    "lines": 51493
   },
   "features": [
     {
@@ -1908,10 +1908,11 @@
       "commands": [
         "view.setBreakpoint",
         "grid.toggleFolds",
-        "page.setSetting"
+        "page.setSetting",
+        "view.setViewportWidth"
       ],
-      "doors": 18,
-      "scenarios": 10,
+      "doors": 19,
+      "scenarios": 11,
       "modules": [
         "src/core/page/grid.ts",
         "src/core/page/settings.ts",
@@ -2807,7 +2808,7 @@
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 398,
+      "lines": 399,
       "commands": [],
       "features": []
     },
@@ -4682,7 +4683,7 @@
     },
     {
       "path": "src/editor/shell/canvas.tsx",
-      "lines": 255,
+      "lines": 274,
       "commands": [],
       "features": []
     },
@@ -4934,7 +4935,7 @@
     },
     {
       "path": "src/editor/state.ts",
-      "lines": 124,
+      "lines": 126,
       "commands": [],
       "features": []
     },
@@ -4989,8 +4990,9 @@
     },
     {
       "path": "src/editor/view/breakpoints.ts",
-      "lines": 39,
+      "lines": 53,
       "commands": [
+        "view.setViewportWidth",
         "view.setBreakpoint"
       ],
       "features": [
@@ -5169,13 +5171,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 499,
+      "lines": 500,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 4648,
+      "lines": 4653,
       "commands": [],
       "features": []
     },
