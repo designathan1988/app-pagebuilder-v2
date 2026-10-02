@@ -459,3 +459,41 @@
   font: var(--fw-caption) var(--fs-caption) / var(--lh-caption) var(--font-ui);
 }
 .quick-panel .input-wrap:focus-within .field__suffix { display: none; }
+
+/* The image picker's thumbnails (asset-picker.tsx, M4): each image drawn as itself, its name and size under it */
+.picker__thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  max-height: calc(var(--size-row) * 12);
+  overflow-y: auto;
+}
+
+.picker__thumb.door {
+  display: grid;
+  justify-items: stretch;
+  gap: var(--space-1);
+  height: auto;
+  padding: var(--space-2);
+  text-align: left;
+}
+
+.picker__thumb-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-sunken);
+}
+
+.picker__thumb-name,
+.picker__thumb-size {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.picker__thumb-size {
+  color: var(--color-text-muted);
+}
+

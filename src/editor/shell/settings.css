@@ -18,7 +18,14 @@
   min-width: 0;
 }
 
+/* a choose button shows its icon; its name is its tooltip */
+.settings-field__picker .door__label {
+  display: none;
+}
+
 .settings-field__picker {
+  display: inline-grid;
+  place-items: center;
   width: var(--size-control);
   min-width: var(--size-control);
   height: var(--size-control);

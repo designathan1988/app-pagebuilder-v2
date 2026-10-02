@@ -1361,6 +1361,9 @@ const filePickerOf = (node: DocNode): string | null => MODEL_RULES.elements.get(
 const HREF_ATTRIBUTE = ATTRIBUTES.get('href')?.id ?? 'href';
 // the choose button of a field that names a file (layout.json region "field", control "source-choose")
 const SOURCE_CHOOSE = doorSlots('field').find((p) => p.door.kind === 'panel-control' && p.door.control === 'source-choose') ?? null;
+// the icons the choose buttons are drawn as: a file of the project, a page or address
+const PICK_FILE_ICON = 'image';
+const PICK_LINK_ICON = 'link';
 // the choose button of a link's address (element.setLink#inspector-href draws it too; the picker is its view)
 const HREF_CHOOSE = doorSlots('field').find((p) => p.door.kind === 'panel-control' && p.door.control === 'href-choose') ?? null;
 // the value type of an attribute that is the element's own markup (an embed's), edited as several lines
@@ -1516,8 +1519,10 @@ export function KeptTextField({ entry, node, kept, label, attribute, keepOnLeave
           {pickerType !== null ? (
             <input className="settings-field__picker" type={pickerType} aria-label={t('settings.valuePicker', { attribute: label })} disabled={!door.available} value={pickerValue} onChange={(event) => choose(event.currentTarget.value)} />
           ) : null}
-          {picksFiles && SOURCE_CHOOSE !== null ? <DoorControl entry={SOURCE_CHOOSE} args={{ attribute }} className="settings-field__picker" /> : null}
-          {attribute !== undefined && attribute === HREF_ATTRIBUTE && HREF_CHOOSE !== null ? <DoorControl entry={HREF_CHOOSE} args={{ target: node.id }} className="settings-field__picker" /> : null}
+          {/* the choose buttons are drawn as their icon in the field's 24 px cell, their names their tooltips (J28: the
+              text ran over the path the field holds) */}
+          {picksFiles && SOURCE_CHOOSE !== null ? <DoorControl entry={SOURCE_CHOOSE} args={{ attribute }} className="settings-field__picker" icon={PICK_FILE_ICON} /> : null}
+          {attribute !== undefined && attribute === HREF_ATTRIBUTE && HREF_CHOOSE !== null ? <DoorControl entry={HREF_CHOOSE} args={{ target: node.id }} className="settings-field__picker" icon={PICK_LINK_ICON} /> : null}
         </span>
       )}
       <button type="submit" hidden aria-hidden="true" tabIndex={-1} disabled={!door.available} />

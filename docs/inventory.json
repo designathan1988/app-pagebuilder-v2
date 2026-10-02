@@ -6,7 +6,7 @@
     "doors": 1314,
     "scenarios": 1723,
     "modules": 400,
-    "lines": 73406
+    "lines": 73427
   },
   "features": [
     {
@@ -5730,7 +5730,7 @@
     },
     {
       "path": "src/editor/shell/asset-picker.tsx",
-      "lines": 70,
+      "lines": 85,
       "commands": [],
       "features": []
     },
@@ -5850,7 +5850,7 @@
     },
     {
       "path": "src/editor/shell/field.tsx",
-      "lines": 1537,
+      "lines": 1542,
       "commands": [],
       "features": []
     },
@@ -6311,7 +6311,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6308,
+      "lines": 6309,
       "commands": [],
       "features": []
     },

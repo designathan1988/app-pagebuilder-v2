@@ -5,7 +5,9 @@
 // one undo step, and the close button, a click on the shield or Escape (keymap.ts, the context's key-escape door)
 // leaves it. The picker's state is editor state (ui.assetPicker: the attribute it writes, or null); nothing of it is
 // document state.
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { canvasValue } from '../../core/files/values.ts';
+import { fold } from '../../core/text/fold.ts';
 import { imageFiles, sizeLabel, type ProjectFile } from '../../core/files/files.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
 import { DoorControl } from '../doors/door.tsx';
@@ -30,6 +32,12 @@ export function AssetPicker() {
   const held = useEditorState((s) => s.document.files ?? NO_FILES);
   const selection = useEditorState((s) => s.selection);
   const files = useMemo(() => imageFiles({ files: held } as never), [held]);
+  const documentNow = useEditorState((s) => s.document);
+  const [query, setQuery] = useState('');
+  const shown = useMemo(() => {
+    const wanted = fold(query);
+    return wanted === '' ? files : files.filter((file) => fold(file.path).includes(wanted));
+  }, [files, query]);
   const panel = useRef<HTMLDivElement>(null);
   const close = () => { if (CLOSE) (store.dispatch as (id: string, args: unknown) => DispatchResult)(CLOSE.command.id, {}); };
   useOutsideLayer(panel, open !== null, close);
@@ -53,11 +61,18 @@ export function AssetPicker() {
       >
         <p className="picker__label">{t('assetPicker.title')}</p>
         {files.length === 0 ? <p className="picker__warning" role="note">{t('assetPicker.empty')}</p> : null}
-        <div className="picker__row" role="group" aria-label={t('assetPicker.title')} data-region="asset-picker-files">
+        {/* a search over the project's images by their path, the picker's own view (not a command; M4) */}
+        {files.length > 1 ? <input className="search" type="search" placeholder={t('assetPicker.search')} aria-label={t('assetPicker.search')} data-local="asset-search" value={query} onChange={(event) => setQuery(event.target.value)} /> : null}
+        <div className="picker__thumbs" role="group" aria-label={t('assetPicker.title')} data-region="asset-picker-files">
           {CHOOSE === null || target === undefined
             ? null
-            : files.map((file) => (
-                <DoorControl key={file.path} entry={CHOOSE} args={{ target, [open.attribute]: file.path, value: file.path }} label={`${file.path} · ${sizeLabel(file)}`} current={false} />
+            : shown.map((file) => (
+                // each image is drawn as itself, its name and size under it (M4: a list of paths told nothing)
+                <DoorControl key={file.path} entry={CHOOSE} args={{ target, [open.attribute]: file.path, value: file.path }} label={`${file.path} · ${sizeLabel(file)}`} current={false} className="picker__thumb">
+                  <img className="picker__thumb-image" src={canvasValue(documentNow, open.attribute, file.path) ?? ''} alt="" />
+                  <span className="picker__thumb-name">{file.path.split('/').at(-1)}</span>
+                  <span className="picker__thumb-size">{sizeLabel(file)}</span>
+                </DoorControl>
               ))}
         </div>
         <div className="picker__actions">
