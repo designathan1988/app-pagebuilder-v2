@@ -116,6 +116,11 @@
   stroke-dasharray: 6 4;
 }
 
+.layout-composer__guide {
+  stroke: var(--color-canvas-snap);
+  stroke-width: var(--size-snap-line);
+}
+
 .layout-composer__relation line {
   stroke: var(--color-canvas-gap);
   stroke-width: 1.5;

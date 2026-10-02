@@ -53,12 +53,19 @@ describe('Layout Composer rules, suggestions and templates', () => {
     expect(store.dispatch('layout.unrelate', { constraint: 'c9' } as never).status).toBe('refused');
   });
 
-  it('applies a suggestion the layout offers', () => {
+  it('applies a suggestion the layout offers, and offers none that would change nothing', () => {
     const { store, root } = composing();
+    // four alike cards already compile to a grid: "arrange them as a grid" would change nothing, so it is not offered
     for (let i = 0; i < 4; i += 1) stroke(store, [{ x: i * 250, y: 0 }, { x: i * 250 + 200, y: 200 }]);
-    expect(store.dispatch('layout.suggest', { suggestion: 'repeat:$root' } as never).status).toBe('done');
-    expect(intent(root)?.preferences?.$root).toBe('grid');
     expect(store.dispatch('layout.suggest', { suggestion: 'repeat:$root' } as never).status).toBe('refused');
+    expect(intent(root)?.preferences?.$root).toBeUndefined();
+    // a region drawn exactly over another one's box inside it leaves a wrapper that changes nothing: it goes
+    stroke(store, [{ x: 0, y: 300 }, { x: 600, y: 700 }]);
+    stroke(store, [{ x: 0, y: 300 }, { x: 600, y: 700 }], 'draw');
+    const wrapper = intent(root)?.regions.find((r) => r.box.y === 300 && r.parent === null)?.id ?? '';
+    expect(store.dispatch('layout.suggest', { suggestion: `remove-wrapper:${wrapper}` } as never).status).toBe('done');
+    expect(intent(root)?.regions.filter((r) => r.box.y === 300)).toHaveLength(1);
+    expect(store.dispatch('layout.suggest', { suggestion: `remove-wrapper:${wrapper}` } as never).status).toBe('refused');
   });
 
   it('places a template over the empty container, scaled to it, in the person\'s words', () => {

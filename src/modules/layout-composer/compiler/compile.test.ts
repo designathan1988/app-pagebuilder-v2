@@ -67,7 +67,9 @@ describe('the layout compiler', () => {
     const { root, strategy } = compile(graph, PORTS);
     expect(strategy).toBe('grid');
     expect(root.children).toHaveLength(5);
-    expect(css(root, 'gridTemplateAreas')).toBe('"r1 r1 r2" "r4 r5 r2" "r4 r3 r3"');
+    // the areas are named in reading order, row by row and left to right, and the elements stand in that order
+    expect(css(root, 'gridTemplateAreas')).toBe('"r1 r1 r2" "r3 r4 r2" "r3 r5 r5"');
+    expect(root.children.map((c) => c.region)).toEqual(['r1', 'r2', 'r4', 'r5', 'r3']);
     expect(root.children.every((c) => c.children.length === 0)).toBe(true);
   });
 
@@ -79,7 +81,8 @@ describe('the layout compiler', () => {
     const { root } = compile(graph, PORTS);
     // the track list as its owner writes it (src/core/style/tracks.ts)
     expect(css(root, 'gridTemplateColumns')).toBe('repeat(3, minmax(0, 1fr))');
-    expect(root.styles[property('gap')]).toBe('24px 24px');
+    // the same gap between the rows and between the columns is one value
+    expect(root.styles[property('gap')]).toBe('24px');
   });
 
   it('reflows the top level at a responsive rule and hides, orders and sizes regions there', () => {

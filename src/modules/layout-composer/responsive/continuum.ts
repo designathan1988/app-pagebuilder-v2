@@ -4,8 +4,9 @@ import { ORDER } from '../geometry/keys.ts';
 // viewport width, src/editor/view/breakpoints.ts) and edits the layout there; the edit is stored as an override of the
 // rule for the project breakpoint that holds that width, never as another document. A value may also change
 // continuously between widths (a morph), which the compiler writes as native clamp() curves.
-import type { LayoutIntent, Morph, MorphProperty, ResponsiveRule, Sizing } from '../intent/model.ts';
-import { findRegion, preferenceKey } from '../intent/model.ts';
+import type { LayoutIntent, Morph, MorphProperty, Region, ResponsiveRule, Sizing } from '../intent/model.ts';
+import { ROOT_KEY, childrenOf, findRegion, preferenceKey } from '../intent/model.ts';
+import { patterns } from '../intent/analysis.ts';
 import { nextMorphId, nextRuleId } from '../intent/ids.ts';
 import { refuse } from '../intent/problems.ts';
 import type { Operation } from '../gestures/operations.ts';
@@ -116,17 +117,26 @@ export function responsiveEdit(graph: LayoutIntent, maxWidth: number, edit: Resp
     void _groups;
     return Object.keys(groups).length === 0 ? rest : { ...rest, groups };
   };
+  // a group the person reflows here is no longer kept as drawn here, and the other way round
+  const keeping = (rule: ResponsiveRule, parent: string | null, keep: boolean): ResponsiveRule => {
+    const key = preferenceKey(parent);
+    const kept = (rule.kept ?? []).filter((one) => one !== key);
+    const { kept: _kept, ...rest } = rule;
+    void _kept;
+    const next = keep ? [...kept, key] : kept;
+    return next.length === 0 ? rest : { ...rest, kept: next };
+  };
   let rule: ResponsiveRule;
   switch (edit.kind) {
     case 'stack':
-      rule = group(edit.parent, { columns: 1 });
+      rule = keeping(group(edit.parent, { columns: 1 }), edit.parent, false);
       break;
     case 'columns':
       if (!Number.isInteger(edit.columns) || edit.columns < 1) refuse('responsive-rule', { rule: held.id });
-      rule = group(edit.parent, { columns: edit.columns });
+      rule = keeping(group(edit.parent, { columns: edit.columns }), edit.parent, false);
       break;
     case 'unstack':
-      rule = group(edit.parent, null);
+      rule = keeping(group(edit.parent, null), edit.parent, true);
       break;
     case 'gap':
       if (!(edit.gap >= 0)) refuse('responsive-rule', { rule: held.id });
@@ -148,6 +158,58 @@ export function responsiveEdit(graph: LayoutIntent, maxWidth: number, edit: Resp
     }
   }
   return { kind: 'responsive', rule };
+}
+
+// The behaviour a layout has on its own at narrower screens (spec "Responsive inference": [A][B][C] side by side on a
+// desktop are [A] [B] [C] one under the other on a phone), wherever the person chose nothing else there. At the tablet
+// breakpoint (the widest project breakpoint no wider than ADAPT_WIDEST) a group laid side by side stacks; a row or a
+// grid of three alike items or more flows in two columns there instead, and stacks at the phone breakpoint (the
+// narrowest). A group the person reflowed or kept as drawn at a width (or a wider one) keeps that choice there.
+export const ADAPT_WIDEST = 1024;
+
+export interface Adaptation {
+  readonly tablet: number | null;
+  readonly phone: number | null;
+}
+
+export function adaptationFor(breakpoints: readonly ProjectBreakpoint[]): Adaptation {
+  const narrower = breakpoints.filter((b) => !b.base).sort((a, b) => b.maxWidth - a.maxWidth);
+  const tablet = narrower.find((b) => b.maxWidth <= ADAPT_WIDEST) ?? null;
+  const phone = tablet === null ? null : (narrower.filter((b) => b.maxWidth < tablet.maxWidth).at(-1) ?? null);
+  return { tablet: tablet?.maxWidth ?? null, phone: phone?.maxWidth ?? null };
+}
+
+// Whether a group's regions stand side by side somewhere (two of them share some height): a column of regions one
+// under the other needs no reflow.
+function sideBySide(held: readonly Region[]): boolean {
+  return held.some((a, i) => held.some((b, j) => j > i && Math.min(a.box.y + a.box.height, b.box.y + b.box.height) - Math.max(a.box.y, b.box.y) > 4));
+}
+
+const columnsOf = (rule: ResponsiveRule, key: string): number | undefined => (key === ROOT_KEY ? rule.columns : rule.groups?.[key]?.columns);
+
+// The intent with the automatic behaviour added to its rules: what the compiler writes and the widths check measures.
+// The intent the container keeps holds only what the person chose.
+export function withAdaptation(graph: LayoutIntent, adaptation: Adaptation): LayoutIntent {
+  if (adaptation.tablet === null) return graph;
+  const found = patterns(graph);
+  let rules = [...graph.responsive];
+  const chosen = (key: string, width: number) => graph.responsive.some((r) => r.maxWidth >= width - 0.5 && (columnsOf(r, key) !== undefined || r.kept?.includes(key) === true));
+  const add = (width: number, key: string, columns: number) => {
+    const at = rules.findIndex((r) => Math.abs(r.maxWidth - width) < 0.5);
+    const held: ResponsiveRule = at >= 0 ? (rules[at] as ResponsiveRule) : { id: `auto-${width}`, maxWidth: width, hidden: [] };
+    const rule: ResponsiveRule = key === ROOT_KEY ? (held.columns === undefined ? { ...held, columns } : held) : held.groups?.[key] !== undefined ? held : { ...held, groups: { ...held.groups, [key]: { columns } } };
+    rules = at >= 0 ? rules.map((r, i) => (i === at ? rule : r)) : [...rules, rule];
+  };
+  const parents: (string | null)[] = [null, ...graph.regions.filter((r) => childrenOf(graph, r.id).length >= 2).map((r) => r.id)];
+  for (const parent of parents) {
+    const held = childrenOf(graph, parent);
+    if (held.length < 2 || !sideBySide(held)) continue;
+    const key = preferenceKey(parent);
+    const alike = held.length >= 3 && found.some((p) => p.parent === parent && p.regions.length === held.length && (p.kind === 'repeated-row' || p.kind === 'grid'));
+    if (!chosen(key, adaptation.tablet)) add(adaptation.tablet, key, alike ? 2 : 1);
+    if (alike && adaptation.phone !== null && !chosen(key, adaptation.phone)) add(adaptation.phone, key, 1);
+  }
+  return rules.length === graph.responsive.length && rules.every((r, i) => r === graph.responsive[i]) ? graph : { ...graph, responsive: rules };
 }
 
 // A value that changes continuously with the width (spec "Responsive Morphing"): its value at the authoring width and

@@ -225,7 +225,7 @@ export interface StressCase {
 }
 
 export interface StressIssue {
-  readonly kind: 'content-pressure' | 'fixed-overflow' | 'height-pressure';
+  readonly kind: 'content-pressure' | 'fixed-overflow' | 'height-pressure' | 'squeezed';
   readonly region: string;
   readonly viewport: number;
   readonly required: number;
@@ -242,29 +242,61 @@ function hiddenAt(graph: LayoutIntent, rule: ResponsiveRule | null, r: Region): 
   return false;
 }
 
+// The narrowest a region drawn wider than it may become before the page no longer reads (a column of text, a card):
+// narrower than this at some width, the structure breaks there.
+export const READABLE_WIDTH = 160;
+
+// The columns a group flows in at a width, as the page's media queries cascade: the narrowest rule that still holds
+// the width and says it; none keeps the drawn arrangement.
+function columnsAt(graph: LayoutIntent, parent: string | null, width: number): number | undefined {
+  const key = preferenceKey(parent);
+  for (const rule of [...graph.responsive].filter((r) => width <= r.maxWidth).sort((a, b) => a.maxWidth - b.maxWidth)) {
+    const columns = parent === null ? rule.columns : rule.groups?.[key]?.columns;
+    if (columns !== undefined) return columns;
+    if (rule.kept?.includes(key) === true) return undefined;
+  }
+  return undefined;
+}
+
 // Where the structure breaks under real content (spec "Layout Stress Testing"): content wider than the room a region
-// has, a fixed region wider than its parent, fixed heights shorter than their content. The minima come from the canvas
-// (the editor measures the page at each width); a case without measured room estimates it from the intent, as such.
+// has, a fixed region wider than its parent, a region squeezed narrower than it reads, fixed heights shorter than their
+// content. The graph is the one the page lays out (with its automatic reflow); the minima come from the canvas (the
+// editor measures the page at each width); a case without measured room estimates it from the intent, as such: a
+// group reflowed in columns shares its parent's width among them, else each region keeps its drawn share of it.
 export function stress(graph: LayoutIntent, cases: readonly StressCase[]): StressIssue[] {
   const issues: StressIssue[] = [];
   for (const scenario of cases) {
     const rule = ruleAt(graph, scenario.width);
-    const roots = childrenOf(graph, null).filter((r) => !hiddenAt(graph, rule, r));
-    const columns = rule?.columns ?? Math.max(1, wholePattern(graph, null, childrenOf(graph, null).length)?.columns ?? roots.length);
-    const gap = rule?.gap ?? 0;
-    const share = (scenario.width - gap * (columns - 1)) / columns;
+    const room = new Map<string, number>();
+    const widthOf = (parent: string | null): number => {
+      if (parent === null) return scenario.width;
+      const known = room.get(parent);
+      if (known !== undefined) return known;
+      const region = findRegion(graph, parent);
+      return region === undefined ? scenario.width : estimate(region);
+    };
+    const estimate = (r: Region): number => {
+      const measured = scenario.available?.[r.id]?.width;
+      if (measured !== undefined) return measured;
+      const outer = widthOf(r.parent);
+      const parentRegion = r.parent === null ? undefined : findRegion(graph, r.parent);
+      const drawnOuter = parentRegion?.box.width ?? graph.viewport.width;
+      const columns = columnsAt(graph, r.parent, scenario.width);
+      const held = childrenOf(graph, r.parent).filter((one) => !hiddenAt(graph, rule, one)).length;
+      const share = columns === undefined ? (r.box.width / Math.max(drawnOuter, precision)) * outer : outer / Math.max(1, Math.min(columns, held));
+      const available = r.width.mode === 'fixed' && columns === undefined ? r.box.width : Math.min(share, outer);
+      room.set(r.id, available);
+      return available;
+    };
     for (const r of graph.regions) {
       if (hiddenAt(graph, rule, r)) continue;
-      const measured = scenario.available?.[r.id];
-      const parentRegion = r.parent === null ? undefined : findRegion(graph, r.parent);
-      const parentWidth = parentRegion === undefined ? scenario.width : (scenario.available?.[parentRegion.id]?.width ?? parentRegion.box.width);
-      const estimated = r.parent === null ? share : (r.box.width / Math.max(parentRegion?.box.width ?? graph.viewport.width, precision)) * parentWidth;
-      const available = measured?.width ?? (r.width.mode === 'fixed' ? r.box.width : estimated);
+      const available = estimate(r);
+      const outer = widthOf(r.parent);
       const pressure = scenario.content[r.id];
       if (pressure !== undefined && pressure.minWidth * scenario.scale > available + precision) issues.push({ kind: 'content-pressure', region: r.id, viewport: scenario.width, required: pressure.minWidth * scenario.scale, available, suggestion: 'stack' });
-      const room = r.parent === null ? share : parentWidth;
-      if (r.width.mode === 'fixed' && r.box.width > room + precision) issues.push({ kind: 'fixed-overflow', region: r.id, viewport: scenario.width, required: r.box.width, available: room, suggestion: 'fluid' });
-      const height = measured?.height ?? r.box.height;
+      if (r.width.mode === 'fixed' && r.box.width > outer + precision) issues.push({ kind: 'fixed-overflow', region: r.id, viewport: scenario.width, required: r.box.width, available: outer, suggestion: 'fluid' });
+      else if (r.kind !== 'content' && r.box.width >= READABLE_WIDTH && available < READABLE_WIDTH - precision) issues.push({ kind: 'squeezed', region: r.id, viewport: scenario.width, required: READABLE_WIDTH, available, suggestion: 'stack' });
+      const height = scenario.available?.[r.id]?.height ?? r.box.height;
       if (r.height.mode === 'fixed' && pressure !== undefined && pressure.minHeight * scenario.scale > height + precision) issues.push({ kind: 'height-pressure', region: r.id, viewport: scenario.width, required: pressure.minHeight * scenario.scale, available: height, suggestion: 'hug' });
     }
   }
@@ -294,9 +326,14 @@ export interface Suggestion {
 // Structural suggestions, only on strong geometric evidence (spec "Structural Suggestions"): a repeated group to
 // convert, gaps that differ by less than 2px, a wrapper that no longer affects the layout.
 export function suggestions(graph: LayoutIntent): Suggestion[] {
-  const result: Suggestion[] = patterns(graph)
-    .filter((p) => p.confidence >= 0.9 && p.count >= 3 && graph.preferences?.[preferenceKey(p.parent)] === undefined)
-    .map((p) => ({ id: `repeat:${preferenceKey(p.parent)}`, kind: 'repeat' as const, parent: p.parent, regions: p.regions, evidence: [p.count, p.gap, p.confidence] }));
+  // one repeat suggestion per group: the pattern that covers the most of it (a grid over its rows)
+  const repeats = new Map<string, Suggestion>();
+  for (const p of patterns(graph)) {
+    if (p.confidence < 0.9 || p.count < 3 || graph.preferences?.[preferenceKey(p.parent)] !== undefined) continue;
+    const id = `repeat:${preferenceKey(p.parent)}`;
+    if ((repeats.get(id)?.regions.length ?? 0) < p.regions.length) repeats.set(id, { id, kind: 'repeat', parent: p.parent, regions: p.regions, evidence: [p.count, p.gap, p.confidence] });
+  }
+  const result: Suggestion[] = [...repeats.values()];
   for (const parent of new Set(graph.regions.map((r) => r.parent)))
     for (const axis of ['x', 'y'] as const) {
       const siblings = childrenOf(graph, parent).sort((a, b) => a.box[axis] - b.box[axis]);

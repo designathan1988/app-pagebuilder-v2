@@ -62,13 +62,26 @@ export interface CompilerPorts {
 export interface CompileOptions {
   // the keys of the nodes the page holds now: a structure that keeps them costs less
   readonly previous?: ReadonlySet<string>;
+  // the regions that hold content of their own now (elements the person put inside): their content sets their height,
+  // so the height they were drawn at is no longer written
+  readonly filled?: ReadonlySet<string>;
 }
 
 export const ROOT_NODE = '$root';
 export const groupKey = (ids: readonly string[]): string => `group:${[...ids].sort().join('+')}`;
 
 const number = (n: number): string => String(Math.round(n * 10000) / 10000);
-const px = (n: number): string => `${number(n)}px`;
+// lengths are written in whole pixels: a drawing is made with a pointer, and its fractions mean nothing on the page
+const px = (n: number): string => `${Math.round(n)}px`;
+
+// Parallel edges closer than this are one line of the structure (spec "Snap": a drawing made by hand is a few pixels
+// off where the person meant one line). It never joins the end of one region to the start of the next: the room
+// between them is a gap, however small.
+export const ALIGN = 8;
+
+// Gaps meant alike: they differ by at most 4 px, or by a quarter of the smallest of them.
+export const alike = (gaps: readonly number[]): boolean => gaps.length > 0 && Math.max(...gaps) - Math.min(...gaps) <= Math.max(4, Math.min(...gaps) / 4);
+const mean = (values: readonly number[]): number => values.reduce((sum, v) => sum + v, 0) / values.length;
 
 // The share of each sibling that takes a share of its line: their drawn lengths over the smallest of them, so three
 // equal columns grow 1 1 1 and a 300/900 split grows 1 3. A sibling of a fixed or hugging length takes no share and
@@ -76,7 +89,7 @@ const px = (n: number): string => `${number(n)}px`;
 function shares(lengths: readonly (number | null)[]): number[] {
   const fluid = lengths.filter((l): l is number => l !== null && l > precision);
   const smallest = fluid.length === 0 ? 1 : Math.min(...fluid);
-  return lengths.map((l) => (l === null ? 0 : Math.round((l / smallest) * 10000) / 10000));
+  return lengths.map((l) => (l === null ? 0 : Math.round((l / smallest) * 100) / 100));
 }
 
 const takesShare = (d: Dimension): boolean => d.mode === 'fluid' || d.mode === 'proportional';
@@ -87,7 +100,7 @@ function partitions(regions: readonly Region[], axis: Axis): Region[][] {
   const groups: Region[][] = [];
   let stop = -Infinity;
   for (const r of sorted) {
-    if (r.box[axis] >= stop - precision) {
+    if (r.box[axis] >= stop - ALIGN) {
       groups.push([r]);
       stop = end(r.box, axis);
     } else {
@@ -106,7 +119,7 @@ function slicing(regions: readonly Region[], axis: Axis): Region[][] | null {
   const across: Axis = axis === 'x' ? 'y' : 'x';
   const fills = groups.every((g) => {
     const b = bounds(g.map((r) => r.box));
-    return Math.abs(b[across] - outer[across]) <= precision && Math.abs(length(b, across) - length(outer, across)) <= precision;
+    return Math.abs(b[across] - outer[across]) <= ALIGN && Math.abs(end(b, across) - end(outer, across)) <= ALIGN;
   });
   return fills ? groups : null;
 }
@@ -175,8 +188,8 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
     const ids = new Set(held.map((r) => r.id));
     const declared = graph.constraints.find((c) => c.kind === 'gap' && c.axis === axis && c.regions.length === ids.size && c.regions.every((id) => ids.has(id)));
     if (declared !== undefined && declared.kind === 'gap') return value(declared.value);
-    const first = drawn[0] ?? 0;
-    return drawn.every((g) => Math.abs(g - first) < precision) ? px(first) : null;
+    if (drawn.length === 0) return px(0);
+    return alike(drawn) ? px(mean(drawn)) : null;
   };
 
   // the rule-by-rule declarations of a region itself: hidden, its place in the order, a size of its own
@@ -208,7 +221,8 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
     const css: Declarations = {};
     if (r.kind !== 'content') {
       if (r.height.mode === 'fixed') css[HEIGHT] = px(r.box.height);
-      else if (r.height.mode !== 'hug') css.minHeight = px(r.height.min ?? r.box.height);
+      // the drawn height holds an empty region open; once it holds content, the content sets it
+      else if (r.height.mode !== 'hug' && options.filled?.has(r.id) !== true) css.minHeight = px(r.height.min ?? r.box.height);
     }
     if (r.height.min !== undefined && r.height.mode !== 'fixed') css.minHeight = px(r.height.min);
     if (r.height.max !== undefined) css.maxHeight = px(r.height.max);
@@ -240,7 +254,7 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
   };
 
   // the declarations a group's container takes when one of the rules reflows it
-  const reflow = (key: string, count: number, flexAxis: Axis | null): Record<string, Declarations> => {
+  const reflow = (key: string, count: number): Record<string, Declarations> => {
     const result: Record<string, Declarations> = {};
     for (const rule of graph.responsive) {
       const change = key === preferenceKey(null) ? (rule.columns === undefined ? null : { columns: rule.columns, gap: rule.gap }) : (rule.groups?.[key] ?? null);
@@ -256,20 +270,25 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
         css.gridTemplateRows = 'none';
         css.gridTemplateAreas = 'none';
       }
+      // a reflowed group keeps the gap it was drawn with unless the rule names one
       if (gap !== undefined) css.gap = px(gap);
-      else if (change !== null && flexAxis !== null) css.gap = '0px';
       result[rule.id] = css;
     }
     return result;
   };
 
+  // what a reflowed child's place in the drawing becomes
+  const RELEASED: Readonly<Declarations> = { flexGrow: '0', flexShrink: '1', flexBasis: 'auto', [WIDTH]: 'auto', gridArea: 'auto', marginLeft: '0px', marginTop: '0px' };
   // a reflowed group's children drop their place in the drawing: no grid area, no share of a row
   const releaseChildren = (children: CompiledNode[], key: string): CompiledNode[] => {
     const rules = graph.responsive.filter((rule) => (key === preferenceKey(null) ? rule.columns !== undefined : rule.groups?.[key] !== undefined));
     if (rules.length === 0) return children;
     return children.map((child) => {
       const responsive: Record<string, Css> = { ...child.responsive };
-      for (const rule of rules) responsive[rule.id] = { flexGrow: '0', flexShrink: '1', flexBasis: 'auto', [WIDTH]: 'auto', gridArea: 'auto', ...responsive[rule.id] };
+      // only what the child declares about its place is taken back: its area, its share of a row, a margin of its own
+      const released: Declarations = {};
+      for (const [role, value] of Object.entries(RELEASED)) if (child.styles[role] !== undefined) released[role] = value;
+      for (const rule of rules) responsive[rule.id] = { ...released, ...responsive[rule.id] };
       return { ...child, responsive };
     });
   };
@@ -295,7 +314,10 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
     if (declared || held.length === 0) return {};
     const outer = bounds(held.map((r) => r.box));
     const sides = [outer.y - holder.y, end(holder, 'x') - end(outer, 'x'), end(holder, 'y') - end(outer, 'y'), outer.x - holder.x].map((side) => Math.max(0, side));
-    return sides.every((side) => side < precision) ? {} : { padding: sides.map((side) => px(side)).join(' ') };
+    if (sides.every((side) => side < 1)) return {};
+    // sides drawn about alike are one padding
+    if (alike(sides)) return { padding: px(mean(sides)) };
+    return { padding: sides.map((side) => px(side)).join(' ') };
   };
 
   const leaf = (r: Region): CompiledNode => {
@@ -338,44 +360,82 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
     return {
       role: axis === 'x' ? 'row' : 'column',
       styles: { display: 'flex', flexDirection: axis === 'x' ? 'row' : 'column', ...(gap === null ? {} : { gap }) },
-      responsive: reflow(key, children.length, axis),
+      responsive: reflow(key, children.length),
       children: releaseChildren(children, key),
     };
   };
 
-  // The tracks of a grid along an axis: one between every two consecutive region edges. When the empty tracks only
-  // ever separate occupied ones (occupied, empty, occupied, ...) and are all the same size, they are the grid's gap
+  // The lines of a grid along an axis: the regions' starts within ALIGN of each other are one line (their mean), their
+  // ends too; a start and an end make one line only where the regions touch.
+  const clustered = (stops: readonly number[]): number[] => {
+    const clusters: number[][] = [];
+    for (const stop of [...stops].sort((a, b) => a - b)) {
+      const last = clusters[clusters.length - 1];
+      if (last !== undefined && stop - (last[0] as number) <= ALIGN) last.push(stop);
+      else clusters.push([stop]);
+    }
+    return clusters.map(mean);
+  };
+  const linesAlong = (held: readonly Region[], axis: Axis): number[] => {
+    const lines: number[] = [];
+    for (const line of [...clustered(held.map((r) => r.box[axis])), ...clustered(held.map((r) => end(r.box, axis)))].sort((a, b) => a - b)) {
+      if (lines.length > 0 && line - (lines[lines.length - 1] as number) < 1) continue;
+      lines.push(line);
+    }
+    return lines;
+  };
+  // the line an edge stands on: the nearest one
+  const lineAt = (lines: readonly number[], at: number): number => lines.reduce((best, line, i) => (Math.abs(line - at) < Math.abs((lines[best] as number) - at) ? i : best), 0);
+
+  // The tracks of a grid along an axis: one between every two consecutive lines. When the empty tracks only ever
+  // separate occupied ones (occupied, empty, occupied, ...) and are all about the same size, they are the grid's gap
   // rather than tracks of their own.
-  const tracksAlong = (held: readonly Region[], axis: Axis): { tracks: { from: number; to: number }[]; gap: number | null } => {
-    const stops = [...new Set(held.flatMap((r) => [r.box[axis], end(r.box, axis)]))].sort((a, b) => a - b);
-    const tracks = stops.slice(1).map((to, i) => ({ from: stops[i] as number, to }));
-    const occupied = tracks.map((t) => held.some((r) => r.box[axis] <= t.from + precision && end(r.box, axis) >= t.to - precision));
+  interface Tracks {
+    readonly lines: readonly number[];
+    // each track's first line
+    readonly tracks: readonly { readonly from: number; readonly to: number; readonly first: number }[];
+    readonly gap: number | null;
+  }
+  const tracksAlong = (held: readonly Region[], axis: Axis): Tracks => {
+    const lines = linesAlong(held, axis);
+    const tracks = lines.slice(1).map((to, i) => ({ from: lines[i] as number, to, first: i }));
+    // a track is some region's own when a region starts or ends on its lines; one that regions only span across (a
+    // header over the room between a sidebar and the content) is room between tracks
+    const occupied = tracks.map((t) => held.some((r) => lineAt(lines, r.box[axis]) === t.first || lineAt(lines, end(r.box, axis)) === t.first + 1));
     const alternating = occupied.length >= 3 && occupied.every((o, i) => o === (i % 2 === 0));
     const gaps = tracks.filter((_, i) => occupied[i] === false).map((t) => t.to - t.from);
-    const first = gaps[0];
-    if (!alternating || first === undefined || gaps.some((g) => Math.abs(g - first) > precision)) return { tracks, gap: null };
-    return { tracks: tracks.filter((_, i) => occupied[i] === true), gap: first };
+    if (!alternating || !alike(gaps)) return { lines, tracks, gap: null };
+    return { lines, tracks: tracks.filter((_, i) => occupied[i] === true), gap: mean(gaps) };
   };
 
   const grid = (held: readonly Region[], key: string): Laid => {
     const columns = tracksAlong(held, 'x');
     const rows = tracksAlong(held, 'y');
-    const lineOf = (tracks: readonly { from: number; to: number }[], at: number, starting: boolean): number => (starting ? tracks.findIndex((t) => Math.abs(t.from - at) <= precision) : tracks.findIndex((t) => Math.abs(t.to - at) <= precision) + 1);
+    // the track an edge starts or ends on, among the tracks kept (a gap is not a track of its own)
+    const trackOf = (along: Tracks, at: number, starting: boolean): number => {
+      const line = lineAt(along.lines, at);
+      if (starting) {
+        const index = along.tracks.findIndex((t) => t.first >= line);
+        return index < 0 ? along.tracks.length - 1 : index;
+      }
+      const index = along.tracks.findIndex((t) => t.first + 1 >= line);
+      return index < 0 ? along.tracks.length : index + 1;
+    };
+    const placeOf = (r: Region) => ({ x1: trackOf(columns, r.box.x, true), x2: trackOf(columns, end(r.box, 'x'), false), y1: trackOf(rows, r.box.y, true), y2: trackOf(rows, end(r.box, 'y'), false) });
+    // the regions in reading order, row by row and then left to right: the page, a screen reader and a stacked phone
+    // read them as they were drawn, whatever order they were drawn in
+    const ordered = held.map((r) => ({ r, at: placeOf(r) })).sort((a, b) => a.at.y1 - b.at.y1 || a.at.x1 - b.at.x1);
     const overlapping = held.some((r) => r.overlap === true || r.polygon !== undefined);
     const areas = rows.tracks.map(() => columns.tracks.map(() => '.'));
     const named = (i: number) => `r${i + 1}`;
-    const children = held.map((r, i) => {
-      const x1 = lineOf(columns.tracks, r.box.x, true);
-      const x2 = lineOf(columns.tracks, end(r.box, 'x'), false);
-      const y1 = lineOf(rows.tracks, r.box.y, true);
-      const y2 = lineOf(rows.tracks, end(r.box, 'y'), false);
-      for (let y = y1; y < y2; y += 1) for (let x = x1; x < x2; x += 1) (areas[y] as string[])[x] = named(i);
+    const children = ordered.map(({ r, at }, i) => {
+      for (let y = at.y1; y < at.y2; y += 1) for (let x = at.x1; x < at.x2; x += 1) (areas[y] as string[])[x] = named(i);
       const node = leaf(r);
-      return { ...node, styles: { ...node.styles, gridArea: overlapping ? `${y1 + 1} / ${x1 + 1} / ${y2 + 1} / ${x2 + 1}` : named(i) } };
+      return { ...node, styles: { ...node.styles, gridArea: overlapping ? `${at.y1 + 1} / ${at.x1 + 1} / ${at.y2 + 1} / ${at.x2 + 1}` : named(i) } };
     });
     // a column track: fixed where a fixed region spans exactly it, sized by content where hugging ones do, else a share
     // of the free space (with the minimum a region spanning exactly it asks for)
-    const exactly = (t: { from: number; to: number }, axis: Axis) => held.filter((r) => Math.abs(r.box[axis] - t.from) <= precision && Math.abs(end(r.box, axis) - t.to) <= precision);
+    const exactly = (t: { from: number; to: number }, axis: Axis) => held.filter((r) => Math.abs(r.box[axis] - t.from) <= ALIGN && Math.abs(end(r.box, axis) - t.to) <= ALIGN);
     const fixedTrack = (t: { from: number; to: number }) => exactly(t, 'x').some((r) => r.width.mode === 'fixed');
     const huggingTrack = (t: { from: number; to: number }) => exactly(t, 'x').length > 0 && exactly(t, 'x').every((r) => r.width.mode === 'hug');
     const share = shares(columns.tracks.map((t) => (fixedTrack(t) || huggingTrack(t) ? null : t.to - t.from)));
@@ -386,12 +446,21 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
       const min = exact.map((r) => r.width.min).find((m) => m !== undefined);
       return `minmax(${min === undefined ? '0' : px(min)}, ${number(share[i] as number)}fr)`;
     });
-    // a row track is at least as tall as it was drawn and grows with its content, unless a fixed region fixes it
-    const rowSizes = rows.tracks.map((t) => (exactly(t, 'y').some((r) => r.height.mode === 'fixed') ? px(t.to - t.from) : `minmax(${px(t.to - t.from)}, auto)`));
+    // a row track is at least as tall as it was drawn and grows with its content, unless a fixed region fixes it; a row
+    // whose regions all hold content (or hug it) is as tall as that content
+    const rowSizes = rows.tracks.map((t) => {
+      const spanning = exactly(t, 'y');
+      if (spanning.some((r) => r.height.mode === 'fixed')) return px(t.to - t.from);
+      if (spanning.length > 0 && spanning.every((r) => r.kind === 'content' || r.height.mode === 'hug' || options.filled?.has(r.id) === true)) return 'auto';
+      return `minmax(${px(t.to - t.from)}, auto)`;
+    });
     const styles: Declarations = { display: 'grid', gridTemplateColumns: ports.tracks(columnSizes), gridTemplateRows: ports.tracks(rowSizes) };
     if (!overlapping) styles.gridTemplateAreas = areas.map((row) => `"${row.join(' ')}"`).join(' ');
-    if (columns.gap !== null || rows.gap !== null) styles.gap = `${px(rows.gap ?? 0)} ${px(columns.gap ?? 0)}`;
-    return { role: 'grid', styles, responsive: reflow(key, children.length, null), children: releaseChildren(children, key) };
+    // one gap when the rows and the columns keep about the same one, or when only one of them has a gap (a single row
+    // of cards keeps its gap when it stacks)
+    const gaps = [rows.gap, columns.gap].filter((g): g is number => g !== null);
+    if (gaps.length > 0) styles.gap = alike(gaps) ? px(mean(gaps)) : `${px(rows.gap ?? 0)} ${px(columns.gap ?? 0)}`;
+    return { role: 'grid', styles, responsive: reflow(key, children.length), children: releaseChildren(children, key) };
   };
 
   // independent columns of different heights: a grid of equal columns, each a column of its own
@@ -406,13 +475,13 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
       const laid = flex(sorted, 'y', sorted.map((r) => [r]), groupKey(sorted.map((r) => r.id)));
       return { key: groupKey(sorted.map((r) => r.id)), region: null, content: false, role: 'masonry' as const, tag: 'div', name: null, styles: { minWidth: '0', ...laid.styles }, responsive: laid.responsive, children: laid.children, provenance: sorted.flatMap((r) => r.provenance) };
     });
-    return { role: 'grid', styles: { display: 'grid', gridTemplateColumns: ports.tracks(columns.map(() => 'minmax(0, 1fr)')), gap: px(gap), alignItems: 'start' }, responsive: reflow(key, children.length, null), children: releaseChildren(children, key) };
+    return { role: 'grid', styles: { display: 'grid', gridTemplateColumns: ports.tracks(columns.map(() => 'minmax(0, 1fr)')), gap: px(gap), alignItems: 'start' }, responsive: reflow(key, children.length), children: releaseChildren(children, key) };
   };
 
   function group(held: readonly Region[], key: string): Laid {
     if (held.length === 1) {
       const only = leaf(held[0] as Region);
-      return { role: 'column', styles: {}, responsive: reflow(key, 1, 'y'), children: [only] };
+      return { role: 'column', styles: {}, responsive: reflow(key, 1), children: [only] };
     }
     const parent = (held[0] as Region).parent;
     const preference = graph.preferences?.[preferenceKey(parent)] ?? 'auto';

@@ -98,6 +98,8 @@ export interface ResponsiveRule {
   readonly sizes?: Readonly<Record<string, { readonly width?: number; readonly mode?: Sizing }>>;
   // the columns of a nested group, by its preference key (preferenceKey below)
   readonly groups?: Readonly<Record<string, { readonly columns: number; readonly gap?: number }>>;
+  // the groups the person keeps as drawn here (by preference key): no automatic reflow applies to them at this width
+  readonly kept?: readonly string[];
 }
 
 export type MorphProperty = 'gap' | 'padding' | 'width' | 'height';

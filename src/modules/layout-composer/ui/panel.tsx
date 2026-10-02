@@ -12,16 +12,17 @@ import { DoorControl, Icon, useDoor } from '../../../editor/doors/door.tsx';
 import { markFieldKept, recordFieldInput } from '../../../editor/input/drafts.ts';
 import { useEditorState, useStore } from '../../../editor/store.ts';
 import { useT } from '../../../editor/text.ts';
-import { activeBreakpoint } from '../../../editor/view/breakpoints.ts';
+import { BASE_BREAKPOINT, activeBreakpoint } from '../../../editor/view/breakpoints.ts';
 import { breakpointName, breakpointsOf } from '../../../core/document/breakpoints.ts';
 import { imageFiles } from '../../../core/files/files.ts';
 import type { DocumentJson, ProjectFile } from '../../../core/document/model.ts';
 import { STROKE_MODES } from '../gestures/recognize.ts';
-import { predict, stress, stressWidths, suggestions, type Suggestion } from '../intent/analysis.ts';
+import { predict, stress, stressWidths, type Suggestion } from '../intent/analysis.ts';
 import { BUILT_IN_TEMPLATES } from '../intent/templates.ts';
 import { luminanceOf } from '../interaction/luminance.ts';
 import { ALIGNMENTS, DISTRIBUTIONS, SEMANTICS, SIZINGS, childrenOf, findRegion, preferenceKey, type LayoutIntent, type Region } from '../intent/model.ts';
 import { recordOf } from '../host/record.ts';
+import { laidOut, usefulSuggestions } from '../host/handlers.ts';
 import { composerOf } from '../host/state.ts';
 import { LENSES, describeConstraint } from './scene.ts';
 import './composer.css';
@@ -127,7 +128,9 @@ function Segments({ entry, values, current, words, arg = 'value' }: { readonly e
   );
 }
 
-function RegionSection({ regions }: { readonly regions: readonly Region[] }) {
+// The selected regions' properties. Sizes, spacing and alignment belong to the width the layout is drawn at: at a
+// narrower one the section says so instead of offering them (layout.configure refuses them there).
+function RegionSection({ regions, base }: { readonly regions: readonly Region[]; readonly base: boolean }) {
   const t = useT();
   const first = regions[0] as Region;
   const same = <T,>(read: (r: Region) => T): T | null => (regions.every((r) => read(r) === read(first)) ? read(first) : null);
@@ -136,12 +139,23 @@ function RegionSection({ regions }: { readonly regions: readonly Region[] }) {
       <span className="layout-panel__heading">{t('layout.panel.region')}</span>
       {NAME === undefined || regions.length !== 1 ? null : <DoorField entry={NAME} value={first.name} />}
       {SEMANTIC === undefined || regions.some((r) => r.kind === 'content') ? null : <Segments entry={SEMANTIC} values={SEMANTICS} current={same((r) => r.semantic)} words={(v) => t(`layout.word.${v}` as MessageId)} />}
+      {base ? <BaseProperties regions={regions} /> : <p className="layout-panel__text">{t('layout.respond.configureAtBase', { breakpoint: breakpointName(BASE_BREAKPOINT, t) })}</p>}
+    </section>
+  );
+}
+
+function BaseProperties({ regions }: { readonly regions: readonly Region[] }) {
+  const t = useT();
+  const first = regions[0] as Region;
+  const same = <T,>(read: (r: Region) => T): T | null => (regions.every((r) => read(r) === read(first)) ? read(first) : null);
+  return (
+    <>
       {WIDTH === undefined ? null : <Segments entry={WIDTH} values={SIZINGS} current={same((r) => r.width.mode)} words={(v) => t(`layout.word.${v}` as MessageId)} />}
       {HEIGHT === undefined ? null : <Segments entry={HEIGHT} values={SIZINGS} current={same((r) => r.height.mode)} words={(v) => t(`layout.word.${v}` as MessageId)} />}
       {PADDING === undefined || regions.some((r) => r.kind === 'content') ? null : <DoorField entry={PADDING} value={String(same((r) => r.layout?.padding ?? null) ?? '')} type="number" />}
       {ALIGNMENT === undefined ? null : <Segments entry={ALIGNMENT} values={ALIGNMENTS} current={same((r) => r.layout?.alignment ?? null)} words={(v) => t(`layout.alignment.${v}` as MessageId)} />}
       {DISTRIBUTION === undefined ? null : <Segments entry={DISTRIBUTION} values={DISTRIBUTIONS} current={same((r) => r.layout?.distribution ?? null)} words={(v) => t(`layout.distribution.${v}` as MessageId)} />}
-    </section>
+    </>
   );
 }
 
@@ -171,11 +185,12 @@ export function LayoutPanel(): ReactNode {
   const groupName = group === null ? container.name : (findRegion(record.intent, group)?.name ?? container.name);
   const prediction = predict(record.intent, group);
   const strategy = record.intent.preferences?.[preferenceKey(group)] ?? 'auto';
-  const offered = suggestions(record.intent);
+  const offered = usefulSuggestions(record.intent);
   const reference = record.intent.reference;
-  // the widths check (spec "Layout Stress Testing"): the widest width at which a fixed region no longer fits
+  // the widths check (spec "Layout Stress Testing"): the widest width at which a region no longer fits or no longer
+  // reads, measured on the layout as the page lays it out (with its automatic reflow)
   const widths = stressWidths(record.intent.viewport.width, table.map((b) => b.width), NARROWEST);
-  const issues = stress(record.intent, widths.map((width) => ({ width, scale: 1, content: {} })));
+  const issues = stress(laidOut(record.intent), widths.map((width) => ({ width, scale: 1, content: {} })));
   const breaking = issues.length === 0 ? null : issues.reduce((a, b) => (b.viewport > a.viewport ? b : a));
   return (
     <section className="view layout-panel" data-region="layout-composer-panel" aria-label={t('panel.layoutComposer')}>
@@ -188,7 +203,7 @@ export function LayoutPanel(): ReactNode {
       <p className="layout-panel__text" data-layout-selection={composer.selection.join(' ')}>
         {names.length === 0 ? t('layout.panel.noSelection') : t('layout.panel.selection', { names: names.join(', ') })}
       </p>
-      {regions.length === 0 ? null : <RegionSection regions={regions} />}
+      {regions.length === 0 ? null : <RegionSection regions={regions} base={breakpoint.base} />}
       {STRATEGY === undefined ? null : (
         <section className="layout-panel__section" aria-label={t('layout.panel.arrangement', { name: groupName })}>
           <span className="layout-panel__heading">{t('layout.panel.arrangement', { name: groupName })}</span>
@@ -202,6 +217,7 @@ export function LayoutPanel(): ReactNode {
         ) : (
           <>
             <p className="layout-panel__text">{t('layout.respond.at', { breakpoint: breakpointName(breakpoint, t), width: breakpoint.width })}</p>
+            <p className="layout-panel__text">{t('layout.respond.auto')}</p>
             <div className="layout-panel__actions">
               {RESPONDS.map((entry) => (
                 <DoorControl key={entry.ref} entry={entry} />
@@ -266,7 +282,7 @@ export function LayoutPanel(): ReactNode {
         <p className="layout-panel__text" data-layout-widths={breaking === null ? 'holds' : 'breaks'}>
           {breaking === null
             ? t('layout.panel.holds', { widest: Math.round(record.intent.viewport.width), narrowest: NARROWEST })
-            : t('layout.panel.breaks', { width: breaking.viewport, region: findRegion(record.intent, breaking.region)?.name ?? breaking.region, required: Math.round(breaking.required), available: Math.round(breaking.available) })}
+            : t(breaking.kind === 'squeezed' ? 'layout.panel.squeezed' : 'layout.panel.breaks', { width: breaking.viewport, region: findRegion(record.intent, breaking.region)?.name ?? breaking.region, required: Math.round(breaking.required), available: Math.round(breaking.available) })}
         </p>
       </section>
       <p className="layout-panel__text">{t('layout.panel.help')}</p>

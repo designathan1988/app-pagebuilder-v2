@@ -162,6 +162,14 @@ export function LayoutOverlay() {
           <svg className="layout-composer__stroke" width={box.width} height={box.height} aria-hidden="true">
             <polyline points={held.points.map((p) => `${p.x * scale},${p.y * scale}`).join(' ')} />
             {reading?.cuts.map((piece, i) => <line key={i} className="layout-composer__cut" x1={piece.from.x * scale} y1={piece.from.y * scale} x2={piece.to.x * scale} y2={piece.to.y * scale} />)}
+            {/* the lines the stroke snapped to, across the whole container, before the release fixes them */}
+            {reading?.guides.map((guide, i) =>
+              guide.axis === 'x' ? (
+                <line key={`g${String(i)}`} className="layout-composer__guide" data-layout-guide="x" x1={guide.at * scale} y1={0} x2={guide.at * scale} y2={drawn.viewport.height * scale} />
+              ) : (
+                <line key={`g${String(i)}`} className="layout-composer__guide" data-layout-guide="y" x1={0} y1={guide.at * scale} x2={box.width} y2={guide.at * scale} />
+              ),
+            )}
           </svg>
         )}
         {drawn.relations.map((relation, i) => (

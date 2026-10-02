@@ -9,9 +9,13 @@ import { ORDER, STROKE } from '../geometry/keys.ts';
 //  - pressed on a shared boundary: the boundary moves, and every region along its line follows;
 //  - pressed inside a region, away from its edges: the region moves; dropped wholly inside another region it is
 //    nested there, dropped out of its parent it is detached;
-//  - pressed outside the regions or on an edge, crossing a region from side to side: a cut (a stroke that turns and
-//    crosses again is several cuts);
+//  - pressed outside every region, over a box that holds whole regions: those regions are selected (a marquee);
+//  - pressed outside the regions or on an edge, crossing a region from side to side in a nearly straight line: a cut
+//    (a stroke that turns and crosses again is several cuts);
 //  - pressed in empty space: a new region over the dragged box.
+// A box drawn or moved snaps its edges to the lines near them (spec "Snap"): the container's edges, the other regions'
+// edges and centres, and the spacing the layout already repeats; a cut snaps to them too. The lines it snapped to are
+// the guides the canvas draws before the release.
 // A tool or a key held asks for one reading (spec "Keyboard modifiers": Shift merges what the stroke sweeps, Alt
 // subtracts the dragged box, Ctrl cuts); the select tool draws a marquee, the relate tool paints constraints, a closed
 // stroke with the group tool encircles regions to group them.
@@ -82,6 +86,96 @@ export interface StrokeReading {
   readonly prediction: Prediction | null;
   readonly candidates: readonly Interpretation[];
   readonly cursor: Cursor;
+  // the lines the stroke snapped to, for the canvas to draw
+  readonly guides: readonly Guide[];
+}
+
+// A line a box snapped to: x = at is a vertical line, y = at a horizontal one.
+export interface Guide {
+  readonly axis: Axis;
+  readonly at: number;
+}
+
+// The lines an edge can snap to along an axis: the container's edges, every region's edges and centre (but the ones
+// excluded: the region moved and what it holds), and the spacing the siblings already keep, laid again after and
+// before every region.
+function snapLines(graph: LayoutIntent, axis: Axis, excluded: ReadonlySet<string>): number[] {
+  const across: Axis = axis === 'x' ? 'y' : 'x';
+  const others = graph.regions.filter((r) => !excluded.has(r.id));
+  const lines = [graph.viewport[axis], end(graph.viewport, axis)];
+  for (const r of others) lines.push(r.box[axis], end(r.box, axis), centre(r.box)[axis]);
+  const gaps = new Set<number>();
+  for (const a of others)
+    for (const b of others) {
+      const gap = b.box[axis] - end(a.box, axis);
+      const facing = a.parent === b.parent && Math.min(end(a.box, across), end(b.box, across)) - Math.max(a.box[across], b.box[across]) > 0;
+      if (facing && gap > 0 && gap <= SPACING) gaps.add(Math.round(gap));
+    }
+  for (const r of others) for (const gap of gaps) lines.push(end(r.box, axis) + gap, r.box[axis] - gap);
+  return lines;
+}
+
+// the widest spacing taken as a spacing the layout repeats
+const SPACING = 160;
+
+// The nearest line within the radius, or none.
+function nearest(lines: readonly number[], at: number, radius: number): number | null {
+  let best: number | null = null;
+  for (const line of lines) if (Math.abs(line - at) <= radius && (best === null || Math.abs(line - at) < Math.abs(best - at))) best = line;
+  return best;
+}
+
+// A box drawn: each edge snaps on its own.
+export function snapDrawn(graph: LayoutIntent, box: Box, radius: number): { readonly box: Box; readonly guides: Guide[] } {
+  const guides: Guide[] = [];
+  const edges = (axis: Axis): [number, number] => {
+    const lines = snapLines(graph, axis, new Set());
+    const from = nearest(lines, box[axis], radius);
+    const to = nearest(lines, end(box, axis), radius);
+    if (from !== null) guides.push({ axis, at: from });
+    if (to !== null && to !== from) guides.push({ axis, at: to });
+    const a = from ?? box[axis];
+    const b = to ?? end(box, axis);
+    return b - a > radius ? [a, b] : [box[axis], end(box, axis)];
+  };
+  const [x1, x2] = edges('x');
+  const [y1, y2] = edges('y');
+  return { box: { x: Math.round(x1), y: Math.round(y1), width: Math.round(x2 - x1), height: Math.round(y2 - y1) }, guides };
+}
+
+// A box moved: it shifts by the smallest pull that puts one of its edges or its centre on a line.
+export function snapMoved(graph: LayoutIntent, box: Box, radius: number, excluded: ReadonlySet<string>): { readonly dx: number; readonly dy: number; readonly guides: Guide[] } {
+  const guides: Guide[] = [];
+  const pull = (axis: Axis): number => {
+    const lines = snapLines(graph, axis, excluded);
+    let best: { shift: number; at: number } | null = null;
+    for (const at of [box[axis], centre(box)[axis], end(box, axis)]) {
+      const line = nearest(lines, at, radius);
+      if (line !== null && (best === null || Math.abs(line - at) < Math.abs(best.shift))) best = { shift: line - at, at: line };
+    }
+    if (best === null) return 0;
+    guides.push({ axis, at: best.at });
+    return best.shift;
+  };
+  return { dx: pull('x'), dy: pull('y'), guides };
+}
+
+// A straight piece close enough to a vertical or a horizontal line to be read as a cut: a drag across regions at a
+// slant is a box, not a cut.
+const straight = (piece: Piece): boolean => {
+  const dx = Math.abs(piece.to.x - piece.from.x);
+  const dy = Math.abs(piece.to.y - piece.from.y);
+  return Math.min(dx, dy) <= Math.max(dx, dy) * 0.25;
+};
+
+// A cut snaps along its line to the lines near it (another region's edge, the crossed region's centre).
+function snapCut(graph: LayoutIntent, piece: Piece, radius: number): { readonly piece: Piece; readonly guide: Guide | null } {
+  const axis: Axis = Math.abs(piece.to.x - piece.from.x) < Math.abs(piece.to.y - piece.from.y) ? 'x' : 'y';
+  const at = (piece.from[axis] + piece.to[axis]) / 2;
+  const line = nearest(snapLines(graph, axis, new Set()), at, radius);
+  if (line === null) return { piece, guide: null };
+  const moved = (p: Point): Point => ({ ...p, [axis]: line });
+  return { piece: { ...piece, from: moved(piece.from), to: moved(piece.to) }, guide: { axis, at: line } };
 }
 
 const nothing = (mode: StrokeReading['mode'], points: readonly Point[], problems: readonly LayoutProblem[] = []): StrokeReading => ({
@@ -98,6 +192,7 @@ const nothing = (mode: StrokeReading['mode'], points: readonly Point[], problems
   prediction: null,
   candidates: [],
   cursor: problems.length > 0 ? 'not-allowed' : 'default',
+  guides: [],
 });
 
 function measure(points: readonly Point[]): StrokeReading['measurements'] {
@@ -153,6 +248,7 @@ function read(graph: LayoutIntent, stroke: Stroke, mode: StrokeReading['mode'], 
     parent: null,
     cuts: [],
     area: null,
+    guides: [],
     ...extra,
     prediction: result.ok ? predict(result.graph, parent) : null,
     candidates: result.ok ? interpretations(result.graph, parent).slice(0, 3) : [],
@@ -251,22 +347,30 @@ export function readStroke(graph: LayoutIntent, stroke: Stroke, naming: Naming):
     if (boundary !== undefined) return readHandle(graph, stroke, { kind: 'boundary', id: boundary.id }, naming);
     const target = hitRegions(graph.regions, first)[0];
     const interior = target !== undefined && distanceToEdge(first, target.box) > stroke.radius * 2;
-    const crossing = pieces(points, tolerance).some((piece) => crossedBy(graph, piece).length > 0);
-    mode = interior ? 'move' : crossing ? 'cut' : 'draw';
+    // a box from outside every region that holds whole regions selects them (a marquee)
+    const marquee = target === undefined && box.width > stroke.radius && box.height > stroke.radius && graph.regions.some((r) => contains(box, r.box));
+    const crossing = pieces(points, tolerance).some((piece) => straight(piece) && crossedBy(graph, piece).length > 0);
+    mode = interior ? 'move' : marquee ? 'select' : crossing ? 'cut' : 'draw';
   }
   switch (mode) {
     case 'draw': {
       if (box.width < stroke.radius || box.height < stroke.radius) return nothing('draw', points);
-      const parent = holder(graph, box, new Set());
+      const snapped = snapDrawn(graph, box, stroke.radius);
+      const parent = holder(graph, snapped.box, new Set());
       const id = nextRegionId(graph);
-      const made = { ...newRegion(id, box, naming.named(null, Number(id.slice(1)))), parent: parent?.id ?? null };
-      return read(graph, stroke, 'draw', { kind: 'draw', region: made }, naming, { area: box, parent: parent?.id ?? null }, 'crosshair');
+      const made = { ...newRegion(id, snapped.box, naming.named(null, Number(id.slice(1)))), parent: parent?.id ?? null };
+      return read(graph, stroke, 'draw', { kind: 'draw', region: made }, naming, { area: snapped.box, parent: parent?.id ?? null, guides: snapped.guides }, 'crosshair');
     }
     case 'cut': {
-      const cuts = pieces(points, tolerance).filter((piece) => crossedBy(graph, piece).length > 0);
+      const snappedCuts = pieces(points, tolerance)
+        .filter((piece) => crossedBy(graph, piece).length > 0)
+        .map((piece) => snapCut(graph, piece, stroke.radius))
+        .filter((one) => crossedBy(graph, one.piece).length > 0);
+      const cuts = snappedCuts.map((one) => one.piece);
+      const guides = snappedCuts.flatMap((one) => (one.guide === null ? [] : [one.guide]));
       if (cuts.length === 0) return nothing('cut', points, travelled(points) > stroke.radius ? [problem('cut-nothing')] : []);
       const operation: Operation = cuts.length === 1 ? { kind: 'cut', from: (cuts[0] as Piece).from, to: (cuts[0] as Piece).to } : { kind: 'compose', operations: cuts.map((piece) => ({ kind: 'cut' as const, from: piece.from, to: piece.to })) };
-      return read(graph, stroke, 'cut', operation, naming, { cuts, visited: [...new Set(cuts.flatMap((piece) => crossedBy(graph, piece).map((r) => r.id)))] }, runsAlong(cuts[0] as Piece) === 'x' ? 'row-resize' : 'col-resize');
+      return read(graph, stroke, 'cut', operation, naming, { cuts, guides, visited: [...new Set(cuts.flatMap((piece) => crossedBy(graph, piece).map((r) => r.id)))] }, runsAlong(cuts[0] as Piece) === 'x' ? 'row-resize' : 'col-resize');
     }
     case 'merge': {
       const visited = swept(graph, points);
@@ -285,18 +389,20 @@ export function readStroke(graph: LayoutIntent, stroke: Stroke, naming: Naming):
     case 'nest': {
       const target = hitRegions(graph.regions, first)[0];
       if (target === undefined) return nothing(mode, points);
-      const dx = last.x - first.x;
-      const dy = last.y - first.y;
-      if (Math.hypot(dx, dy) < precision) return { ...nothing(mode, points), visited: [target.id] };
+      if (Math.hypot(last.x - first.x, last.y - first.y) < precision) return { ...nothing(mode, points), visited: [target.id] };
+      const moving = descendants(graph, [target.id]);
+      const pulled = snapMoved(graph, { ...target.box, x: target.box.x + last.x - first.x, y: target.box.y + last.y - first.y }, stroke.radius, moving);
+      const dx = Math.round(last.x - first.x + pulled.dx);
+      const dy = Math.round(last.y - first.y + pulled.dy);
       const movedBox = { ...target.box, x: target.box.x + dx, y: target.box.y + dy };
       // where it lands: the deepest region holding the moved box, never itself or what it holds
-      const landing = holder(graph, movedBox, descendants(graph, [target.id]));
+      const landing = holder(graph, movedBox, moving);
       const parent = landing?.id ?? null;
       if (mode === 'nest' && (parent === null || parent === target.parent)) return { ...nothing('nest', points, [problem('missing-parent', { region: target.name })]), visited: [target.id] };
       const operations: Operation[] = [{ kind: 'move', ids: [target.id], dx, dy }];
       if (parent !== target.parent) operations.push(parent === null ? { kind: 'extract', ids: [target.id] } : { kind: 'nest', ids: [target.id], parent });
       const operation: Operation = operations.length === 1 ? (operations[0] as Operation) : { kind: 'compose', operations };
-      return read(graph, stroke, parent !== target.parent ? 'nest' : 'move', operation, naming, { visited: [target.id], parent, area: movedBox }, 'move');
+      return read(graph, stroke, parent !== target.parent ? 'nest' : 'move', operation, naming, { visited: [target.id], parent, area: movedBox, guides: pulled.guides }, 'move');
     }
     case 'select': {
       const inside = graph.regions.filter((r) => contains(box, r.box));
