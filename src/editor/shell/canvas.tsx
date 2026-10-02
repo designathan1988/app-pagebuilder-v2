@@ -45,7 +45,8 @@ function FileTabs() {
   const fileClose = doorSlots('file-tabs').find((d) => d.door.kind === 'panel-control' && d.door.control === 'close');
   // the region's first item is a page's tab (DESIGN.md "Regions": 1 page tab), its close button drawn inside it
   const tab = doorSlots('file-tabs').find((d) => drawnAs(d) === 'item');
-  if (!tab || (pages.length < 2 && code.length === 0)) return null;
+  // drawn with one page too (the canonical frame: the page's tab always stands over the canvas)
+  if (!tab) return null;
   return (
     <div className="file-tabs" data-region="file-tabs" role="tablist" data-key-context="tab-strip">
       {pages.map((one) => (

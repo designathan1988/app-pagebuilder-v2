@@ -26,9 +26,11 @@ describe('the keymap', () => {
     expect(bindingFor('global', 'Ctrl+\\')?.command.id).toBe('workspace.collapseDocks');
   });
 
-  it('lets a context inherit only what interactions.json says: a field and text editing keep their own keys', () => {
+  it('lets a context inherit only what interactions.json says: a field keeps its own keys but the workspace ones, text editing its own', () => {
     expect(bindingFor('canvas', 'Ctrl+B')?.command.id).toBe('workspace.toggleLeftDock');
-    expect(bindingFor('field', 'Ctrl+B')).toBeNull();
+    // the workspace's keys act from a plain text field too (the user's decision of 2026-10-02); its other keys are its own
+    expect(bindingFor('field', 'Ctrl+B')?.command.id).toBe('workspace.toggleLeftDock');
+    expect(bindingFor('field', 'Ctrl+Z')).toBeNull();
     // while editing text Ctrl+B is Bold, never the sidebar
     expect(bindingFor('text-editing', 'Ctrl+B')?.command.id).toBe('text.toggleBold');
     expect(bindingFor('text-editing', 'Ctrl+K')?.command.id).toBe('text.editLink');

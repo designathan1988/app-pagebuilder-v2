@@ -726,6 +726,26 @@
           "args": {}
         },
         {
+          "id": "key-ctrl-b-in-field",
+          "kind": "shortcut",
+          "feature": "dock-toggles",
+          "chord": "Ctrl+B",
+          "context": "field",
+          "gesture": null,
+          "labelKey": "command.toggleLeftDock",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
           "id": "menu-view",
           "kind": "menu",
           "feature": "dock-toggles",
@@ -786,6 +806,26 @@
           "args": {}
         },
         {
+          "id": "key-ctrl-alt-b-in-field",
+          "kind": "shortcut",
+          "feature": "dock-toggles",
+          "chord": "Ctrl+Alt+B",
+          "context": "field",
+          "gesture": null,
+          "labelKey": "command.toggleInspector",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
           "id": "menu-view",
           "kind": "menu",
           "feature": "dock-toggles",
@@ -831,6 +871,26 @@
           "feature": "dock-toggles",
           "chord": "Ctrl+\\",
           "context": "global",
+          "gesture": null,
+          "labelKey": "command.collapseDocks",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "key-ctrl-backslash-in-field",
+          "kind": "shortcut",
+          "feature": "dock-toggles",
+          "chord": "Ctrl+\\",
+          "context": "field",
           "gesture": null,
           "labelKey": "command.collapseDocks",
           "faceLabelKey": null,

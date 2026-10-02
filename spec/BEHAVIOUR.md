@@ -1302,7 +1302,7 @@ The keys are the primary door.
 
 ## dock-toggles
 
-Jornada 03 correction: activity icons open and focus their panel without toggling it closed or moving it from its current placement. The active icon names Collapse (Ctrl+B); that shortcut and the panel close button still close it.
+Jornada 03 correction: activity icons open and focus their panel without toggling it closed or moving it from its current placement. The active icon names Collapse (Ctrl+B); that shortcut and the panel close button still close it. Ctrl+B, Ctrl+Alt+B and Ctrl+\ act the same with the focus in a plain text field (the Insert panel's search an icon puts the focus in, the Layers search, a number field): a field keeps its other keys, and the text edited in place keeps Ctrl+B as Bold (the user's decision of 2026-10-02).
 
 How Pager behaves, observed by running it from `.cache/pager-run` (Chrome, window 1600×900) and read from its source. Source references are `path:line` inside Pager.
 

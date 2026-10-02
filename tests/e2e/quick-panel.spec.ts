@@ -48,17 +48,18 @@ test('the panel dragged by its grip keeps its offset from the element after a re
   await control(page, ROW, { args: { target: 'n-intro' } }).click();
   await openPanel(page);
   const before = await offset(page, 'n-intro');
-  // the grip moved 120 px right and 60 px up, inside the stage (the panel stands below the Intro, held at the stage's
-  // bottom left: spec quick-panel, Problems in Pager 9)
+  // the grip moved 120 px right and 40 px up, inside the stage (the panel stands below the Intro, held at the stage's
+  // bottom left: spec quick-panel, Problems in Pager 9; 40 px leaves it inside the stage under the file tabs, which
+  // the canonical frame always draws: the user's decision of 2026-10-02)
   const grip = await control(page, GRIP).boundingBox();
   if (grip === null) throw new Error('the grip is not drawn');
   const from = { x: Math.round(grip.x + grip.width / 2), y: Math.round(grip.y + grip.height / 2) };
   await page.mouse.move(from.x, from.y);
   await page.mouse.down();
-  await page.mouse.move(from.x + 120, from.y - 60, { steps: 10 });
+  await page.mouse.move(from.x + 120, from.y - 40, { steps: 10 });
   await page.mouse.up();
   const dragged = await offset(page, 'n-intro');
-  expect(dragged).toEqual({ x: before.x + 120, y: before.y - 60 });
+  expect(dragged).toEqual({ x: before.x + 120, y: before.y - 40 });
   await page.reload();
   await expect(page.locator('.workbench')).toBeVisible();
   await expect.poll(() => page.evaluate(() => (window as unknown as { __builderTestPort: { selection: () => string[] } }).__builderTestPort.selection())).toEqual(['n-intro']);
