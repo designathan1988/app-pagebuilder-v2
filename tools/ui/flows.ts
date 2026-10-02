@@ -880,6 +880,18 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'quick-panel-heading',
+    about: 'stage 5: the quick panel of a heading, against the canonical anatomy (design/final)',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/aurora.json'] } },
+      { door: 'selection.select#layers-row', labelled: 'Title' },
+      { key: 'Control+Shift+Q' },
+      { wait: 300 },
+      { photo: 'heading-quick-panel' },
+    ],
+  },
+  {
     name: 'quick-panel',
     about: 'the quick panel opens over the selection with its fields',
     steps: [

@@ -6306,5 +6306,6 @@ export const MESSAGE_IDS = [
   "layers.instanceOf",
   "assetPicker.search",
   "panel.dockBack",
+  "quickPanel.key.image",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

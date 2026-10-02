@@ -7636,7 +7636,7 @@
           "feature": "quick-panel",
           "control": "fill-gradient",
           "labelKey": "property.backgroundImage",
-          "faceLabelKey": null,
+          "faceLabelKey": "quickPanel.key.image",
           "icon": null,
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {

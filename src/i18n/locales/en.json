@@ -3351,5 +3351,6 @@
   "canvas.badge.editingBreakpoint": "{breakpoint} · {width} px — edits apply to this screen and narrower ones",
   "layers.instanceOf": "An instance of the component {component}",
   "assetPicker.search": "Find an image",
-  "panel.dockBack": "Put back in its place"
+  "panel.dockBack": "Put back in its place",
+  "quickPanel.key.image": "Image"
 }

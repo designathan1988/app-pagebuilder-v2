@@ -61,8 +61,9 @@ const CHIP = { width: 24, height: 24 };
 // quick-panel door names (its `group`; the audit's U-044: they were ranges of placement orders here). The manifest
 // supplies each field and its order within its group.
 const QUICK_GROUPS = manifest.layout.quickPanelGroups;
-// the groups laid out in one column (their fields' values are long: a colour, an image, a border, the attributes)
-const ONE_COLUMN: ReadonlySet<string> = new Set(['paint', 'settings']);
+// the groups laid out in one column (their fields are the element's attributes, with their labels beside them); Paint
+// is two to a line as in the canonical panel (design/final), a long value whole in its tooltip and while it is edited
+const ONE_COLUMN: ReadonlySet<string> = new Set(['settings']);
 const inQuickGroup = (entry: DoorEntry, group: (typeof QUICK_GROUPS)[number]): boolean => entry.door.kind === 'quick-panel' && entry.door.group === group.id;
 
 // What an Effects field typed means for style.setFilter's functions: none for nothing, every function typed set and

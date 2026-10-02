@@ -77,10 +77,14 @@
 }
 
 .quick-panel {
+  /* the open panel stands over the selection's handles and anchor tabs (6, 7): a handle drawn through it read as a
+     stray square on its bar; the chip stays under them (item 4.2) */
+  z-index: 8;
   display: flex;
   flex-direction: column;
   gap: 0;
-  width: calc(var(--size-inspector) * 0.75);
+  /* the canonical quick panel's width (design/final canvas.css .qp-panel: 196 px) */
+  width: calc(var(--size-inspector) * 0.68);
   max-height: 75vh;
   padding: 0;
   overflow: auto;
@@ -88,15 +92,36 @@
 
 .quick-panel__bar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-1);
   min-height: var(--space-10);
-  padding: 0 var(--space-2);
+  padding: var(--space-1) var(--space-2);
   border-bottom: 1px solid var(--color-border);
 }
 
+/* in the canonical 196 px panel the bar is two lines: the grip, the element's name and the close button, then the
+   context, the tag and the actions (the name had a few pixels left beside them all on one line) */
+.quick-panel__grip {
+  order: 1;
+}
+
 .quick-panel__name {
-  flex: 1;
+  order: 2;
+}
+
+.quick-panel__close {
+  order: 3;
+}
+
+.quick-panel__context,
+.quick-panel__tag,
+.quick-panel__actions {
+  order: 4;
+}
+
+.quick-panel__name {
+  flex: 1 1 calc(100% - var(--space-9) * 2 - var(--space-1) * 2);
   min-width: 0;
   overflow: hidden;
   font-size: var(--fs-caption);
@@ -175,14 +200,14 @@
   gap: var(--space-1) var(--space-2);
 }
 
-.quick-panel__group[data-quick-group='inspector.section.paint'] .quick-panel__group-fields,
 .quick-panel__group[data-quick-group='inspector.tab.settings'] .quick-panel__group-fields {
   grid-template-columns: minmax(0, 1fr);
 }
 
 .quick-panel__group-fields .field-row {
   position: relative;
-  grid-template-columns: minmax(0, 1fr);
+  /* the value, then its Reset beside it when it has one (it fell under the value, a line of its own) */
+  grid-template-columns: minmax(0, 1fr) auto;
   min-width: 0;
   gap: 0;
 }
@@ -217,9 +242,10 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
-/* Justify's values are long (space-between, space-evenly): its field takes the whole line (the dogfooding pass: in half
+/* Justify's values are long (space-between, space-evenly), and so are Padding's (56px 40px): each takes the whole line (the dogfooding pass: in half
    a line it showed the value's last letter) */
-.quick-panel__group-fields [data-door='style.set#quick-panel-justify-content'] {
+.quick-panel__group-fields [data-door='style.set#quick-panel-justify-content'],
+.quick-panel__group-fields [data-door='style.set#quick-panel-padding'] {
   grid-column: 1 / -1;
 }
 
@@ -497,3 +523,11 @@
   color: var(--color-text-muted);
 }
 
+
+/* the element's text in the quick panel: two lines tall (it can be pulled taller), in the interface's face as in the
+   inspector, so the canonical panel stays short enough to stand beside the element */
+.quick-panel .input--area {
+  height: calc(var(--size-control) * 2);
+  min-height: calc(var(--size-control) * 2);
+  font-family: var(--font-ui);
+}
