@@ -5,8 +5,8 @@
     "commands": 278,
     "doors": 1128,
     "scenarios": 1455,
-    "modules": 295,
-    "lines": 54012
+    "modules": 317,
+    "lines": 57994
   },
   "features": [
     {
@@ -5470,6 +5470,138 @@
     {
       "path": "src/manifest/style-places.ts",
       "lines": 52,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/adapters/properties.ts",
+      "lines": 7,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/adapters/recover.ts",
+      "lines": 183,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/adapters/reference.ts",
+      "lines": 115,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/compiler/compile.ts",
+      "lines": 474,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/constraints/solve.ts",
+      "lines": 167,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/geometry/geometry.ts",
+      "lines": 121,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/geometry/keys.ts",
+      "lines": 17,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/geometry/polygons.ts",
+      "lines": 195,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/gestures/operations.ts",
+      "lines": 514,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/gestures/recognize.ts",
+      "lines": 355,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/gestures/sequences.ts",
+      "lines": 62,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/gestures/structural.ts",
+      "lines": 191,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/intent/analysis.ts",
+      "lines": 349,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/intent/ids.ts",
+      "lines": 27,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/intent/model.ts",
+      "lines": 199,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/intent/problems.ts",
+      "lines": 82,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/intent/templates.ts",
+      "lines": 203,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/intent/variables.ts",
+      "lines": 71,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/responsive/continuum.ts",
+      "lines": 162,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/testing/ports.ts",
+      "lines": 27,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/topology/topology.ts",
+      "lines": 234,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/ui/scene.ts",
+      "lines": 227,
       "commands": [],
       "features": []
     }
