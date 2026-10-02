@@ -37,18 +37,18 @@
       },
       "entryPoints": [
         {
-          "id": "toolbar-breakpoint-add-here",
-          "kind": "toolbar",
-          "drawnAs": "icon-button",
-          "pressed": false,
+          "id": "menu-view-add-breakpoint-here",
+          "kind": "menu",
           "feature": "project-breakpoints",
+          "menu": "view",
+          "checked": null,
           "labelKey": "command.breakpoints.add",
           "faceLabelKey": null,
-          "icon": "plus",
+          "icon": null,
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
-            "region": "canvas-breakpoints",
-            "order": 6
+            "region": "menu:view",
+            "order": 22
           },
           "adapter": {
             "selection": "none",

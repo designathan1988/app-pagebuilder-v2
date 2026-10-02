@@ -822,6 +822,17 @@
           },
           "steps": [
             {
+              "door": "workspace.openDialog#menu-view-breakpoints",
+              "args": {
+                "dialog": "breakpoints"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "view.setViewportWidth#viewport-width",
               "args": {
                 "width": 1024

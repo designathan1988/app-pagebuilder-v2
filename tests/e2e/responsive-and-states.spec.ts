@@ -16,6 +16,9 @@ const TABLET = 'view.setBreakpoint#toolbar-breakpoint-tabs-tablet';
 const FONT = 'style.set#inspector-font-size';
 const COLOR = 'style.set#inspector-color';
 const WIDTH = 'view.setViewportWidth#viewport-width';
+// the width field stands in the Breakpoints dialog (the canonical frame's row holds only the breakpoints' tabs)
+const BREAKPOINTS = 'workspace.openDialog#menu-view-breakpoints';
+const CLOSE = 'ui.dismiss#dialog-close';
 const HOVER = 'view.setStyleState#menu-style-state-hover';
 const EXPORT = 'project.export#toolbar-top-bar-export';
 
@@ -34,8 +37,9 @@ async function typeInto(page: Page, ref: string, text: string): Promise<void> {
   await page.keyboard.type(`${text}\n`);
 }
 
-test('continuous width updates the frame, cascade and preview without adding document history', runs(OPEN, WIDTH, TABLET), async ({ page }) => {
+test('continuous width updates the frame, cascade and preview without adding document history', runs(OPEN, BREAKPOINTS, WIDTH, CLOSE, TABLET), async ({ page }) => {
   await openAurora(page);
+  await runDoor(page, BREAKPOINTS);
   for (const [width, breakpoint] of [[1024, 'laptop'], [600, 'tablet'], [320, 'phone']] as const) {
     await typeInto(page, WIDTH, String(width));
     await expect.poll(() => pageWidth(page)).toBe(width);
@@ -45,11 +49,13 @@ test('continuous width updates the frame, cascade and preview without adding doc
   await slider.focus();
   await page.keyboard.press('ArrowRight');
   await expect.poll(() => pageWidth(page)).toBe(321);
+  await runDoor(page, CLOSE);
   await runDoor(page, 'view.enterPreview#toolbar-top-bar-preview');
   await expect(page.locator('.preview__page')).toHaveCSS('width', '321px');
   await page.keyboard.press('Escape');
   await runDoor(page, TABLET);
   await expect.poll(() => pageWidth(page)).toBe(834);
+  await runDoor(page, BREAKPOINTS);
   await typeInto(page, WIDTH, '0');
   await expect.poll(() => pageWidth(page)).toBe(834);
 });

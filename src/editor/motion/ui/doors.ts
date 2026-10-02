@@ -64,7 +64,7 @@ export const MOTION_DOORS = {
   keyframesPaste: 'timeline-motion-keyframes-paste',
   record: 'timeline-motion-record',
   preview: (operation: 'play' | 'pause' | 'stop') => `timeline-motion-${operation}`,
-  run: 'toolbar-canvas-toolbar-run',
+  run: 'menu-view-run-interactions',
   behaviour: (kind: string) => `inspector-motion-behaviour-${kind}`,
   behaviourAmount: 'inspector-motion-behaviour-amount',
   behaviourAxis: (axis: 'x' | 'y') => `inspector-motion-behaviour-axis-${axis}`,

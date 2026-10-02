@@ -1304,3 +1304,13 @@
   border-color: var(--color-danger);
   color: var(--color-danger);
 }
+
+/* the width the canvas shows, in the Breakpoints dialog (viewport-width.tsx): its name, then the field and its range */
+.breakpoints-dialog__shown {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  color: var(--color-text-muted);
+  font: var(--fw-caption) var(--fs-caption) / var(--lh-caption) var(--font-ui);
+}

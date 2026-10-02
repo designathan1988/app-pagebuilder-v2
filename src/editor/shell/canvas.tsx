@@ -3,16 +3,16 @@
 // page's iframe (src/editor/canvas/frame.tsx) at the camera's zoom (src/editor/view/camera.ts): the chosen one, or in
 // Fit mode the one that fits the frame to the stage; the frame is placed at the camera's pan.
 import { useContext, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
-import type { CommandId, MessageId } from '../../generated/ids.ts';
+import type { MessageId } from '../../generated/ids.ts';
 import { manifest, type DoorEntry } from '../../manifest/runtime.ts';
 import { CanvasFrame } from '../canvas/frame.tsx';
 import { editMode, NO_MODE } from '../canvas/edit-mode.ts';
 import { Rulers } from '../canvas/rulers.tsx';
-import { DoorControl, Icon, useDoor } from '../doors/door.tsx';
+import { DoorControl, Icon } from '../doors/door.tsx';
 import { MenuButton } from '../doors/menu.tsx';
 import { GLYPHS, doorSlots, slotsIn } from '../doors/placement.ts';
 import { codeTabs } from '../explorer/file-tabs.ts';
-import { useEditorState, useStore } from '../store.ts';
+import { useEditorState } from '../store.ts';
 import { FIT_MARGIN, fitZoom, panOf, registerStage } from '../view/camera.ts';
 import { activeBreakpoint, viewportWidth } from '../view/breakpoints.ts';
 import { activeState } from '../view/style-state.ts';
@@ -146,24 +146,6 @@ function CanvasToolbar() {
   );
 }
 
-function ViewportWidth({ entry }: { readonly entry: DoorEntry }) {
-  const store = useStore();
-  const width = useEditorState((s) => viewportWidth(s));
-  const door = useDoor(entry);
-  const [draft, setDraft] = useState<string | null>(null);
-  const keep = () => {
-    if (draft === null) return;
-    store.dispatch(entry.command.id as CommandId, { width: draft.trim() === '' ? NaN : Number(draft) });
-    setDraft(null);
-  };
-  return (
-    <form className="viewport-width" data-door={entry.ref} title={door.title} onSubmit={(event) => { event.preventDefault(); keep(); }}>
-      <input className="input viewport-width__value" aria-label={door.label} inputMode="numeric" disabled={!door.available} value={draft ?? String(width)} onChange={(event) => setDraft(event.currentTarget.value)} onBlur={keep} />
-      <input className="viewport-width__range" type="range" aria-label={door.label} min={320} max={7680} step={1} value={width} disabled={!door.available} onChange={(event) => store.dispatch(entry.command.id as CommandId, { width: Number(event.currentTarget.value) })} />
-    </form>
-  );
-}
-
 // the frame's edge: dragged, the screen the canvas shows follows the pointer (view/frame-edge.ts)
 const FRAME_EDGE = manifest.doors.find((d) => d.door.kind === 'panel-drag' && d.door.source === 'frame-edge');
 
@@ -183,7 +165,6 @@ function BreakpointTabs() {
         region="canvas-breakpoints"
         render={(slot) => {
           if (slot.kind !== 'door') return undefined;
-          if (slot.entry.door.kind === 'panel-control' && slot.entry.door.control === 'viewport-width') return <ViewportWidth key={slot.entry.ref} entry={slot.entry} />;
           return breakpointTabSlot('canvas-breakpoints', slot, (entry, breakpoint, args) => (
             <DoorControl key={`${entry.ref}:${breakpoint.id}`} entry={entry} args={args} className="frame-tab">
               <span className="door__label">{breakpointName(breakpoint, t)}</span>

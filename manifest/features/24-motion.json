@@ -18740,7 +18740,7 @@
               "type": null
             },
             {
-              "door": "motion.toggleRun#toolbar-canvas-toolbar-run",
+              "door": "motion.toggleRun#menu-view-run-interactions",
               "args": {},
               "target": null,
               "drop": null,
@@ -18750,7 +18750,7 @@
             }
           ],
           "doors": [
-            "motion.toggleRun#toolbar-canvas-toolbar-run"
+            "motion.toggleRun#menu-view-run-interactions"
           ],
           "expect": {
             "document": [

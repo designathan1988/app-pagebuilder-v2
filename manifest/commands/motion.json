@@ -3290,18 +3290,18 @@
       },
       "entryPoints": [
         {
-          "id": "toolbar-canvas-toolbar-run",
-          "kind": "toolbar",
-          "drawnAs": "toggle",
-          "pressed": true,
+          "id": "menu-view-run-interactions",
+          "kind": "menu",
           "feature": "motion-preview",
+          "menu": "view",
+          "checked": "checkbox",
           "labelKey": "motion.run",
           "faceLabelKey": null,
-          "icon": "circle-play",
+          "icon": null,
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
-            "region": "canvas-toolbar",
-            "order": 22
+            "region": "menu:view",
+            "order": 23
           },
           "adapter": {
             "selection": "none",

@@ -3,10 +3,10 @@
     "features": 214,
     "built": 213,
     "commands": 368,
-    "doors": 1329,
+    "doors": 1327,
     "scenarios": 1741,
-    "modules": 406,
-    "lines": 75343
+    "modules": 407,
+    "lines": 75359
   },
   "features": [
     {
@@ -1818,7 +1818,7 @@
         "workspace.openDialog",
         "grid.toggleFolds"
       ],
-      "doors": 31,
+      "doors": 30,
       "scenarios": 11,
       "modules": [
         "src/core/page/grid.ts",
@@ -1887,7 +1887,7 @@
         "snap.setSettings",
         "workspace.openDialog"
       ],
-      "doors": 10,
+      "doors": 9,
       "scenarios": 9,
       "modules": [
         "src/editor/view/snap.ts",
@@ -3116,7 +3116,7 @@
         "style.set",
         "project.export"
       ],
-      "doors": 199,
+      "doors": 198,
       "scenarios": 15,
       "modules": [
         "src/core/export/export.ts",
@@ -3133,7 +3133,7 @@
         "view.toggleSideBySide",
         "view.setBreakpoint"
       ],
-      "doors": 13,
+      "doors": 12,
       "scenarios": 2,
       "modules": [
         "src/editor/view/breakpoints.ts",
@@ -3165,7 +3165,7 @@
         "workspace.openDialog",
         "contextMenu.open"
       ],
-      "doors": 10,
+      "doors": 9,
       "scenarios": 3,
       "modules": [
         "src/core/nodes/rename-many.ts",
@@ -3258,7 +3258,7 @@
         "project.captureUrl",
         "workspace.openDialog"
       ],
-      "doors": 7,
+      "doors": 6,
       "scenarios": 3,
       "modules": [
         "src/editor/import/capture.ts",
@@ -5869,13 +5869,13 @@
     },
     {
       "path": "src/editor/shell/breakpoints-dialog.tsx",
-      "lines": 207,
+      "lines": 216,
       "commands": [],
       "features": []
     },
     {
       "path": "src/editor/shell/canvas.tsx",
-      "lines": 312,
+      "lines": 293,
       "commands": [],
       "features": []
     },
@@ -6146,6 +6146,12 @@
     {
       "path": "src/editor/shell/variables.tsx",
       "lines": 244,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/shell/viewport-width.tsx",
+      "lines": 28,
       "commands": [],
       "features": []
     },
@@ -6443,7 +6449,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6394,
+      "lines": 6392,
       "commands": [],
       "features": []
     },

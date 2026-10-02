@@ -1,6 +1,6 @@
 // The Breakpoints dialog (DESIGN.md "Regions": breakpoints-dialog; spec project-breakpoints), open while the editor
-// state says so (ui.dialog; View ▸ Breakpoints… and the sliders after the frame's tabs): one row per breakpoint of
-// the project's table, widest first, with its name and the widest screen it holds. Enter or leaving a field keeps
+// state says so (ui.dialog; View ▸ Breakpoints…): one row per breakpoint of the project's table, widest first, with
+// its name and the widest screen it holds, then the width of the screen the canvas shows (viewport-width.tsx). Enter or leaving a field keeps
 // what was typed (breakpoints.rename, breakpoints.setWidth: one undo step each); the trash removes the breakpoint
 // (breakpoints.remove; the base has none); Add makes one at the width the canvas shows (breakpoints.add). A refused
 // value goes back to what the table holds, and the status bar says why.
@@ -16,11 +16,14 @@ import { useEditorState, useStore } from '../store.ts';
 import { useT } from '../text.ts';
 import { viewportWidth } from '../view/breakpoints.ts';
 import { DIALOG_KEYS, ModalDialog } from './dialog.tsx';
+import { ViewportWidth } from './viewport-width.tsx';
 import { Popover, usePopover } from './popover.tsx';
 
 const REGION = 'breakpoints-dialog';
 const DIALOG = 'breakpoints';
-const DOORS = doorSlots(REGION);
+// the width of the screen the canvas shows, a control of its own (view.setViewportWidth); the table's doors are the others
+const SHOWN = doorSlots(REGION).find((d) => d.door.kind === 'panel-control' && d.door.control === 'viewport-width');
+const DOORS = doorSlots(REGION).filter((d) => d !== SHOWN);
 // the fields: the argument each keeps besides the breakpoint, a text (the name) or a number (the width)
 const keptArg = (entry: DoorEntry): string => Object.keys(entry.command.args).find((name) => entry.command.args[name]?.type !== 'breakpoint') ?? '';
 const isNumber = (entry: DoorEntry): boolean => entry.command.args[keptArg(entry)]?.type === 'number';
@@ -56,6 +59,12 @@ function OpenBreakpoints() {
             <BreakpointRow key={breakpoint.id} breakpoint={breakpoint} />
           ))}
         </div>
+        {SHOWN === undefined ? null : (
+          <label className="breakpoints-dialog__shown">
+            <span>{t('command.setViewportWidth')}</span>
+            <ViewportWidth entry={SHOWN} />
+          </label>
+        )}
         <footer className="dialog__footer">
           {ADD === undefined ? null : (
             <DoorControl entry={ADD} ready={built(ADD)} title={t('command.breakpoints.add')}>

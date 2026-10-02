@@ -3058,30 +3058,6 @@
           }
         },
         {
-          "id": "toolbar-breakpoints-manage",
-          "kind": "toolbar",
-          "drawnAs": "icon-button",
-          "pressed": false,
-          "feature": "project-breakpoints",
-          "labelKey": "breakpoints.manage",
-          "faceLabelKey": null,
-          "icon": "sliders-horizontal",
-          "disabledReasonKey": "common.notAvailableYet",
-          "placement": {
-            "region": "canvas-breakpoints",
-            "order": 7
-          },
-          "adapter": {
-            "selection": "none",
-            "offers": null,
-            "writes": [],
-            "fields": []
-          },
-          "args": {
-            "dialog": "breakpoints"
-          }
-        },
-        {
           "id": "context-menu-batch-rename",
           "kind": "context-menu",
           "feature": "batch-rename",
@@ -3168,8 +3144,8 @@
           "icon": null,
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
-            "region": "canvas-breakpoints",
-            "order": 10
+            "region": "breakpoints-dialog",
+            "order": 20
           },
           "adapter": {
             "selection": "none",
@@ -3246,28 +3222,6 @@
         "undoable": false
       },
       "entryPoints": [
-        {
-          "id": "toolbar-breakpoints-side-by-side",
-          "kind": "toolbar",
-          "drawnAs": "icon-button",
-          "pressed": true,
-          "feature": "side-by-side-view",
-          "labelKey": "command.toggleSideBySide",
-          "faceLabelKey": null,
-          "icon": "columns-3",
-          "disabledReasonKey": "common.notAvailableYet",
-          "placement": {
-            "region": "canvas-breakpoints",
-            "order": 8
-          },
-          "adapter": {
-            "selection": "none",
-            "offers": null,
-            "writes": [],
-            "fields": []
-          },
-          "args": {}
-        },
         {
           "id": "menu-view-side-by-side",
           "kind": "menu",

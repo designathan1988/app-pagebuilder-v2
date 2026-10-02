@@ -520,7 +520,7 @@ Each write and each reset is one undo step, as at Desktop.
 
 ### Continuous responsive preview
 
-The viewport width field accepts 320–7680 CSS pixels, rounded to the nearest integer. Its range control changes
+The viewport width field (in the Breakpoints dialog, View ▸ Breakpoints…: the frame's row holds only the breakpoints' tabs, as the canonical frame does) accepts 320–7680 CSS pixels, rounded to the nearest integer. Its range control changes
 the same store-owned width continuously. The current cascade is the narrowest non-base breakpoint whose maximum
 width includes the viewport, or the base above all media queries. The frame, Fit zoom, camera and preview use the
 temporary width; fields edit the matching cascade. No document change or undo entry is created. Choosing a breakpoint
@@ -8445,7 +8445,7 @@ The keyframe fields and buttons are reached with Tab.
 
 ### Trigger
 
-Play, Pause and Stop of the Timeline preview the timeline shown on the canvas: Play walks the playhead from where it is to the end, Pause holds it, Stop puts it at 0 and the elements back to their own styles. Moving the playhead draws the timeline there. **Run interactions** (the canvas toolbar) makes the canvas run the interactions as the page does, until it is turned off.
+Play, Pause and Stop of the Timeline preview the timeline shown on the canvas: Play walks the playhead from where it is to the end, Pause holds it, Stop puts it at 0 and the elements back to their own styles. Moving the playhead draws the timeline there. **Run interactions** (View ▸ Run interactions, a checked item while it runs) makes the canvas run the interactions as the page does, until it is turned off.
 
 ### Hit zones and thresholds
 
@@ -8678,11 +8678,11 @@ each page's copy as ordinary markup (one CSS class per element, as for any compo
 - A breakpoint is an id (stable: the styles are stored under it), a name (a default's follows the person's language
   until it is renamed), the widest screen it holds (a `max-width` media query), and the screen height the canvas shows
   it at (the nearest breakpoint's when it is made). The base holds every width above the others.
-- **Create a breakpoint here** (`breakpoints.add`, the + after the frame's tabs and the Breakpoints dialog's Add):
+- **Create a breakpoint here** (`breakpoints.add`, View ▸ Add a breakpoint here and the Breakpoints dialog's Add):
   a breakpoint at the width the canvas shows, named "Screen 900" (a fresh name when it is taken). It is shown at once,
   gets its own tab (the tabs follow the table's order, widest first, in the frame's bar and in the preview bar) and
   its own media query in the export.
-- **Breakpoints dialog** (View ▸ Breakpoints…, and the sliders button after the tabs): one row per breakpoint with
+- **Breakpoints dialog** (View ▸ Breakpoints…): one row per breakpoint with
   its name and its width; Enter or leaving a field keeps it (`breakpoints.rename`, `breakpoints.setWidth`); the
   trash asks where the breakpoint's styles go and removes it (`breakpoints.remove`): into the next narrower breakpoint
   (which keeps its own look: it inherited them), into the next wider one, or nowhere. The base has no trash.
