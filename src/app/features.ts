@@ -242,6 +242,7 @@ export const FEATURES = {
   'command-bar-find': registerFeature('command-bar-find'),
   'site-colours': registerFeature('site-colours'),
   'class-moves': registerFeature('class-moves'),
+  'style-suggestions': registerFeature('style-suggestions'),
 } as const satisfies FeatureTable;
 
 // Whether a feature is registered as built.

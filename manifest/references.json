@@ -2389,6 +2389,11 @@
       "kind": "handler",
       "id": "classes.applyToSimilar",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "design.applySuggestion",
+      "status": "registered"
     }
   ]
 }

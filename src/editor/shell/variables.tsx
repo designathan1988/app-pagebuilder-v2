@@ -8,6 +8,7 @@ import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 
 import { isFeatureBuilt } from '../../app/features.ts';
 import { tokensOf, type Token } from '../../core/design/tokens.ts';
 import { siteColoursOf } from '../../core/design/site-colours.ts';
+import { suggestedName, suggestionsOf } from '../../core/design/suggest.ts';
 import { pluralForm } from '../../i18n/index.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
 import type { CommandId, FeatureId, MessageId } from '../../generated/ids.ts';
@@ -29,6 +30,8 @@ const DELETE = DOORS.find((d) => Object.keys(d.command.args).join() === 'token')
 // colour and a name)
 const REPLACE_COLOUR = DOORS.find((d) => 'colour' in d.command.args && 'value' in d.command.args);
 const COLOUR_VARIABLE = DOORS.find((d) => 'colour' in d.command.args && 'name' in d.command.args);
+// a suggestion's button (spec style-suggestions): the type it stands for and the class's name
+const SUGGESTION = DOORS.find((d) => 'type' in d.command.args && 'name' in d.command.args);
 // tokens.create's kinds, in their manifest order (a colour, a length, a font size), and a first value for each, the
 // value a new variable of the kind starts with, and the words of each kind's group
 const KINDS: readonly string[] = ADD?.command.args.kind?.values ?? [];
@@ -208,6 +211,33 @@ export function SiteColours() {
           {COLOUR_VARIABLE !== undefined ? <DoorControl entry={COLOUR_VARIABLE} args={{ colour, name }} ready={isFeatureBuilt(COLOUR_VARIABLE.door.feature as FeatureId)} /> : null}
         </div>
       ))}
+    </div>
+  );
+}
+
+// Suggestions (spec style-suggestions): each type of element whose elements all repeat some declarations, with the
+// button that makes one class of them
+export function Suggestions() {
+  const t = useT();
+  const document = useEditorState((s) => s.document);
+  const suggestions = suggestionsOf(document);
+  if (suggestions.length === 0 || SUGGESTION === undefined) return null;
+  return (
+    <div className="variables suggestions">
+      <div className="section-title">
+        <span className="section-title__text">{t('styles.suggestions')}</span>
+      </div>
+      {suggestions.map(({ type, nodes, declarations }) => {
+        const name = suggestedName(document, type);
+        return (
+          <div key={type} className="suggestions__row">
+            <span className="suggestions__text">
+              {t('styles.suggestion', { count: nodes.length, element: t(`element.${type}.label` as MessageId), properties: Object.keys(declarations).join(', ') })}
+            </span>
+            <DoorControl entry={SUGGESTION} args={{ type, name }} label={t(SUGGESTION.door.labelKey as MessageId, { name })} ready={isFeatureBuilt(SUGGESTION.door.feature as FeatureId)} />
+          </div>
+        );
+      })}
     </div>
   );
 }

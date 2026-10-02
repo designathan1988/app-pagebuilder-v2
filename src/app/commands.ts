@@ -15,6 +15,7 @@ import { setSvgMarkupCommand } from '../core/elements/svg.ts';
 import { removeSwatchCommand, saveSwatchCommand } from '../core/design/colors.ts';
 import { createToken, deleteToken, renameToken, updateToken } from '../core/design/tokens.ts';
 import { colourToVariableCommand, replaceColourCommand } from '../core/design/site-colours.ts';
+import { applySuggestionCommand } from '../core/design/suggest.ts';
 import { applyToSimilarCommand, moveIntoClassCommand, applyClassCommand, createClassCommand, deleteClassCommand, detachClassCommand, renameClassCommand } from '../core/design/classes.ts';
 import { createComponentCommand, detachInstanceCommand, fillFromDataCommand, repeatCommand, insertInstanceCommand, instanceSelected } from '../core/design/components.ts';
 import { closeComponentPrompt, openComponentPrompt } from '../editor/shell/component-prompt.ts';
@@ -207,6 +208,7 @@ export const COMMANDS = {
   'tokens.create': createToken,
   'tokens.update': updateToken,
   'design.replaceColour': replaceColourCommand,
+  'design.applySuggestion': applySuggestionCommand,
   'classes.moveInto': moveIntoClassCommand,
   'classes.applyToSimilar': applyToSimilarCommand,
   'design.colourToVariable': colourToVariableCommand,

@@ -31,7 +31,7 @@ import { useLocale, useT } from '../text.ts';
 import { hasText, translate, type Locale } from '../../i18n/index.ts';
 import type { BodyTable } from './bodies.ts';
 import { Slots } from './slots.tsx';
-import { SiteColours, Variables } from './variables.tsx';
+import { SiteColours, Suggestions, Variables } from './variables.tsx';
 import { classesOf, usesOfClass } from '../../core/design/classes.ts';
 import { componentsOf } from '../../core/design/components.ts';
 import { LAYERS_PICK } from './interactions.tsx';
@@ -1032,6 +1032,7 @@ function Styles() {
       <StyleClasses />
       <Variables />
       <SiteColours />
+      <Suggestions />
     </section>
   );
 }

@@ -3043,6 +3043,141 @@
           }
         }
       ]
+    },
+    {
+      "id": "style-suggestions",
+      "titleKey": "feature.styleSuggestions",
+      "commands": [
+        "design.applySuggestion"
+      ],
+      "dependsOn": [],
+      "spec": "spec/BEHAVIOUR.md#style-suggestions",
+      "intent": {
+        "title": "Repeated styles offered as one class",
+        "steps": [
+          "Open Styles: under Suggestions, press Make class .section beside 2 × Section share padding."
+        ],
+        "expected": [
+          "A class holds the shared declarations, every section lists it and keeps none of them of its own, one undo step."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "the-sections-shared-padding-becomes-one-class",
+          "setup": {
+            "fixture": "repeated-sections",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-styles",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "design.applySuggestion#styles-suggestion-apply",
+              "args": {
+                "type": "section",
+                "name": "section"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "design.applySuggestion#styles-suggestion-apply"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@classes",
+                "value": [
+                  {
+                    "name": "section",
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "padding-top": "56px",
+                          "padding-right": "40px",
+                          "padding-bottom": "56px",
+                          "padding-left": "40px"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Hero/@styles",
+                "value": {}
+              },
+              {
+                "op": "set",
+                "path": "/Page/Hero/@classes",
+                "value": [
+                  "section"
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Plans/@styles",
+                "value": {}
+              },
+              {
+                "op": "set",
+                "path": "/Page/Plans/@classes",
+                "value": [
+                  "section"
+                ]
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Plans",
+                  "property": "padding-top",
+                  "value": "56px"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.suggest.applied",
+                  "params": {
+                    "name": "section",
+                    "count": "2"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        }
+      ]
     }
   ]
 }

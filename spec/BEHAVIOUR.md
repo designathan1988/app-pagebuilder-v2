@@ -8831,3 +8831,20 @@ A class the project does not have (`status.classes.unknown`), an element with no
 (`status.classes.nothingToMove`), no element of the type left without the class (`status.classes.noSimilar`), a locked
 element (`status.locked.edit`). The buttons are drawn only while their command can run, so a refusal is met through the
 command bar or a script, never a button that does nothing (src/core/design/classes.test.ts).
+
+## style-suggestions
+
+### Our rule
+
+- Styles lists **Suggestions** (the plan's stage 7; journey M3, the same padding typed on every section): for each type
+  of element with at least two elements on the project's pages, the declarations of the base breakpoint and state that
+  every one of them holds with the same value, as "2 × Section share padding-top, padding-right…", the most elements
+  first.
+- **Make class .section** (`design.applySuggestion`, the first free name made of the type's): a new class holds those
+  declarations, every element of the type lists it and keeps none of them of its own; one undo step. The suggestion is
+  gone once nothing is shared any more.
+
+### Refusals
+
+A type that shares nothing any more (`status.suggest.none`), a name that is no class name or is taken, a locked
+element (`status.locked.edit`).

@@ -123,6 +123,7 @@ export interface CommandArgs {
   "design.colourToVariable": { readonly colour: string; readonly name: string };
   "classes.moveInto": { readonly className: string };
   "classes.applyToSimilar": { readonly className: string };
+  "design.applySuggestion": { readonly type: string; readonly name: string };
   "element.setTag": { readonly tag: string };
   "element.setAttribute": { readonly attribute: AttributeId; readonly value: JsonValue; readonly target?: NodeId };
   "assetPicker.open": { readonly attribute: string };
@@ -618,4 +619,5 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "command-bar-find": ["pages.switch","selection.select","classes.apply"],
   "site-colours": ["design.replaceColour","design.colourToVariable"],
   "class-moves": ["classes.moveInto","classes.applyToSimilar"],
+  "style-suggestions": ["design.applySuggestion"],
 };

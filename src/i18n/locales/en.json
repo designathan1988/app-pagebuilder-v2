@@ -3372,5 +3372,11 @@
   "status.classes.moved": "The styles of {element} moved into .{name}.",
   "status.classes.noSimilar": "Every element of this kind already has .{name}.",
   "status.classes.appliedToSimilar": ".{name} applied to {count} more elements.",
-  "feature.classMoves": "Move styles into a class; apply a class to every similar element"
+  "feature.classMoves": "Move styles into a class; apply a class to every similar element",
+  "command.design.applySuggestion": "Make class .{name}",
+  "styles.suggestions": "Suggestions",
+  "styles.suggestion": "{count} × {element} share {properties}",
+  "status.suggest.none": "No {type} elements share styles any more.",
+  "status.suggest.applied": ".{name} made and applied to {count} elements.",
+  "feature.styleSuggestions": "Repeated styles offered as one class"
 }

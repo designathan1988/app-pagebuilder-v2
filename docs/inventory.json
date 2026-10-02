@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 210,
-    "built": 209,
-    "commands": 364,
-    "doors": 1319,
-    "scenarios": 1731,
-    "modules": 401,
-    "lines": 73921
+    "features": 211,
+    "built": 210,
+    "commands": 365,
+    "doors": 1320,
+    "scenarios": 1732,
+    "modules": 402,
+    "lines": 74054
   },
   "features": [
     {
@@ -3213,12 +3213,24 @@
       "modules": [
         "src/core/design/classes.ts"
       ]
+    },
+    {
+      "id": "style-suggestions",
+      "built": true,
+      "commands": [
+        "design.applySuggestion"
+      ],
+      "doors": 1,
+      "scenarios": 1,
+      "modules": [
+        "src/core/design/suggest.ts"
+      ]
     }
   ],
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 502,
+      "lines": 504,
       "commands": [],
       "features": []
     },
@@ -3230,7 +3242,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 251,
+      "lines": 252,
       "commands": [],
       "features": []
     },
@@ -3457,6 +3469,16 @@
       ],
       "features": [
         "site-colours"
+      ]
+    },
+    {
+      "path": "src/core/design/suggest.ts",
+      "lines": 88,
+      "commands": [
+        "design.applySuggestion"
+      ],
+      "features": [
+        "style-suggestions"
       ]
     },
     {
@@ -6016,7 +6038,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1160,
+      "lines": 1161,
       "commands": [],
       "features": []
     },
@@ -6064,7 +6086,7 @@
     },
     {
       "path": "src/editor/shell/variables.tsx",
-      "lines": 214,
+      "lines": 244,
       "commands": [],
       "features": []
     },
@@ -6345,13 +6367,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 622,
+      "lines": 624,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6342,
+      "lines": 6351,
       "commands": [],
       "features": []
     },

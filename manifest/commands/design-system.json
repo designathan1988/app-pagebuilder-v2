@@ -1508,6 +1508,70 @@
           "args": {}
         }
       ]
+    },
+    {
+      "id": "design.applySuggestion",
+      "labelKey": "command.design.applySuggestion",
+      "owner": "src/core/design/suggest.ts",
+      "introducedBy": "style-suggestions",
+      "args": {
+        "type": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "name": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.suggest.none",
+        "status.classes.badName",
+        "status.classes.nameTaken",
+        "status.locked.edit"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "styles-suggestion-apply",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "style-suggestions",
+          "panel": "variables",
+          "control": "suggestion-apply",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.design.applySuggestion",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "styles",
+            "order": 9
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
     }
   ]
 }

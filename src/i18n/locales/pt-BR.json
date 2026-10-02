@@ -3372,5 +3372,11 @@
   "status.classes.moved": "Os estilos de {element} foram para .{name}.",
   "status.classes.noSimilar": "Todos os elementos deste tipo já têm .{name}.",
   "status.classes.appliedToSimilar": ".{name} aplicada a mais {count} elementos.",
-  "feature.classMoves": "Mover estilos para uma classe; aplicar uma classe a todos os parecidos"
+  "feature.classMoves": "Mover estilos para uma classe; aplicar uma classe a todos os parecidos",
+  "command.design.applySuggestion": "Criar a classe .{name}",
+  "styles.suggestions": "Sugestões",
+  "styles.suggestion": "{count} × {element} repetem {properties}",
+  "status.suggest.none": "Os elementos {type} não repetem mais estilos.",
+  "status.suggest.applied": ".{name} criada e aplicada a {count} elementos.",
+  "feature.styleSuggestions": "Estilos repetidos oferecidos como uma classe"
 }
