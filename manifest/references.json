@@ -2349,6 +2349,16 @@
       "kind": "handler",
       "id": "view.toggleSideBySide",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "project.setLanguage",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "project.setCodeLanguage",
+      "status": "registered"
     }
   ]
 }

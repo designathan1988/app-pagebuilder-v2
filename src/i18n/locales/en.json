@@ -3294,5 +3294,13 @@
   "preset.border.thin": "Thin",
   "preset.border.medium": "Medium",
   "preset.border.thick": "Thick",
-  "preset.border.dashed": "Dashed"
+  "preset.border.dashed": "Dashed",
+  "command.project.setLanguage": "Project language",
+  "command.project.setCodeLanguage": "Code language",
+  "settings.project": "Project",
+  "settings.projectAbout": "The language the pages are written in, and the one the exported code names its classes in.",
+  "status.project.languageSet": "The project is written in {language}.",
+  "status.project.codeLanguageSet": "The exported code is named in {language}.",
+  "status.project.languageInvalid": "“{value}” is not a language tag (en, pt-BR, es…).",
+  "feature.projectLanguage": "The project’s languages"
 }

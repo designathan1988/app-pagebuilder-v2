@@ -3294,5 +3294,13 @@
   "preset.border.thin": "Fino",
   "preset.border.medium": "Médio",
   "preset.border.thick": "Grosso",
-  "preset.border.dashed": "Tracejado"
+  "preset.border.dashed": "Tracejado",
+  "command.project.setLanguage": "Idioma do projeto",
+  "command.project.setCodeLanguage": "Idioma do código",
+  "settings.project": "Projeto",
+  "settings.projectAbout": "O idioma em que as páginas são escritas, e o idioma em que o código exportado nomeia suas classes.",
+  "status.project.languageSet": "O projeto está escrito em {language}.",
+  "status.project.codeLanguageSet": "O código exportado é nomeado em {language}.",
+  "status.project.languageInvalid": "“{value}” não é uma marca de idioma (en, pt-BR, es…).",
+  "feature.projectLanguage": "Os idiomas do projeto"
 }

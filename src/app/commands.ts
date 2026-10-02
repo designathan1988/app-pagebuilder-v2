@@ -127,6 +127,7 @@ import { stepHandle } from '../editor/canvas/handles.ts';
 import { openCommandBar } from '../editor/command-bar/command-bar.ts';
 import { movePanel, resetWorkspace, resizeSplitter, setActiveTab, setWorkbenchState } from '../editor/workspace/layout.ts';
 import { collapseDocks, setPanelOpen, toggleDeveloperTools, toggleInspector, toggleLeftDock } from '../editor/workspace/panels.ts';
+import { setCodeLanguage, setProjectLanguage } from '../core/project/language.ts';
 
 // the hand's commands, for the editor state that holds the hand
 const HAND = handCommands<EditorUi>();
@@ -323,6 +324,8 @@ export const COMMANDS = {
   'project.restoreVersion': restoreVersion,
   'project.takeOverEditing': takeOverEditing,
   'project.save': saveProject,
+  'project.setLanguage': setProjectLanguage,
+  'project.setCodeLanguage': setCodeLanguage,
   'project.open': openProject,
   'project.openFolder': openFolderCommand,
   'project.importHtml': choosingImport(importHtmlCommand),

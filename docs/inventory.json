@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 205,
-    "built": 204,
-    "commands": 356,
-    "doors": 1307,
-    "scenarios": 1710,
-    "modules": 397,
-    "lines": 73052
+    "features": 206,
+    "built": 205,
+    "commands": 358,
+    "doors": 1309,
+    "scenarios": 1714,
+    "modules": 398,
+    "lines": 73131
   },
   "features": [
     {
@@ -3133,12 +3133,29 @@
         "src/editor/view/breakpoints.ts",
         "src/editor/view/overlays.ts"
       ]
+    },
+    {
+      "id": "project-language",
+      "built": true,
+      "commands": [
+        "project.setLanguage",
+        "project.setCodeLanguage",
+        "workspace.setActiveTab",
+        "project.export"
+      ],
+      "doors": 11,
+      "scenarios": 4,
+      "modules": [
+        "src/core/export/export.ts",
+        "src/core/project/language.ts",
+        "src/editor/workspace/layout.ts"
+      ]
     }
   ],
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 490,
+      "lines": 493,
       "commands": [],
       "features": []
     },
@@ -3150,7 +3167,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 246,
+      "lines": 247,
       "commands": [],
       "features": []
     },
@@ -3614,7 +3631,8 @@
         "html-import-roundtrip",
         "page-seo-meta",
         "preview-mode",
-        "project-breakpoints"
+        "project-breakpoints",
+        "project-language"
       ]
     },
     {
@@ -4082,6 +4100,17 @@
         "command-bar",
         "project-open-json",
         "project-save-json"
+      ]
+    },
+    {
+      "path": "src/core/project/language.ts",
+      "lines": 30,
+      "commands": [
+        "project.setLanguage",
+        "project.setCodeLanguage"
+      ],
+      "features": [
+        "project-language"
       ]
     },
     {
@@ -5798,7 +5827,7 @@
     },
     {
       "path": "src/editor/shell/inspector-settings.tsx",
-      "lines": 361,
+      "lines": 390,
       "commands": [],
       "features": []
     },
@@ -6155,6 +6184,7 @@
         "inspector-panel",
         "panel-combine-tabs",
         "panel-resize",
+        "project-language",
         "workbench-panel",
         "workspace-persist-reset"
       ]
@@ -6215,13 +6245,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 609,
+      "lines": 612,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6238,
+      "lines": 6251,
       "commands": [],
       "features": []
     },

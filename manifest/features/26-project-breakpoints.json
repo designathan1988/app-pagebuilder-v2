@@ -1731,6 +1731,335 @@
           }
         }
       ]
+    },
+    {
+      "id": "project-language",
+      "titleKey": "feature.projectLanguage",
+      "commands": [
+        "project.setLanguage",
+        "project.setCodeLanguage",
+        "workspace.setActiveTab",
+        "project.export"
+      ],
+      "dependsOn": [
+        "inspector-panel"
+      ],
+      "spec": "spec/BEHAVIOUR.md#project-language",
+      "intent": {
+        "title": "The project's languages",
+        "steps": [
+          "Select the page and open Settings.",
+          "Type the project language and the code language."
+        ],
+        "expected": [
+          "Every page without its own language is exported in the project's; the exported classes are named in the code language."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "the-project-is-set-to-portuguese",
+          "setup": {
+            "fixture": "empty",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.setLanguage#inspector-project-language",
+              "args": {
+                "language": "pt-BR"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.setLanguage#inspector-project-language"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@language",
+                "value": "pt-BR"
+              }
+            ],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.project.languageSet",
+                  "params": {
+                    "language": "pt-BR"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-word-that-is-no-language-tag-is-refused",
+          "setup": {
+            "fixture": "empty",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.setLanguage#inspector-project-language",
+              "args": {
+                "language": "portuguese!"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.setLanguage#inspector-project-language"
+          ],
+          "refusals": [
+            {
+              "key": "status.project.languageInvalid",
+              "document": "unchanged"
+            }
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.project.languageInvalid",
+                  "params": {
+                    "value": "portuguese!"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "the-code-is-named-in-portuguese",
+          "setup": {
+            "fixture": "empty",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.setCodeLanguage#inspector-code-language",
+              "args": {
+                "language": "pt-BR"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.setCodeLanguage#inspector-code-language"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@codeLanguage",
+                "value": "pt-BR"
+              }
+            ],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.project.codeLanguageSet",
+                  "params": {
+                    "language": "pt-BR"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "the-export-writes-the-project-language",
+          "setup": {
+            "fixture": "empty",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.setLanguage#inspector-project-language",
+              "args": {
+                "language": "pt-BR"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.export#toolbar-top-bar-export",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.export#toolbar-top-bar-export"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@language",
+                "value": "pt-BR"
+              }
+            ],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": []
+            },
+            "editor": null,
+            "persistence": null,
+            "export": {
+              "files": [
+                {
+                  "path": "index.html",
+                  "present": [
+                    "<html lang=\"pt-BR\""
+                  ],
+                  "absent": []
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }

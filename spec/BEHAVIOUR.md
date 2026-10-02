@@ -8682,3 +8682,17 @@ What the field itself refuses (a locked element, nothing selected): the thumbnai
 ### Refusals
 
 A Bézier whose x lies outside 0–1, or a point that is no number: Use this curve stays unavailable.
+
+## project-language
+
+### Our rule
+
+- The page root's Settings tab ends with a **Project** section: **Project language** (`project.setLanguage`) and
+  **Code language** (`project.setCodeLanguage`), each a field kept on Enter, one undo step each, offering common tags.
+- The project language is the `lang` of every page that names none of its own (canvas and export); a page's own
+  language (Page language) wins. The code language names the exported classes (English by default).
+- A new project's language is the editor's; its code language is English.
+
+### Refusals
+
+A text that is no language tag (`status.project.languageInvalid`), before any change.

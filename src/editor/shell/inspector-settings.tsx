@@ -20,6 +20,7 @@ import { useT } from '../text.ts';
 import { ID_REF, KeptTextField, TextField, keepAfterGesture, keptTextOf } from './field.tsx';
 import './settings.css';
 import { FormsInspector } from '../forms/inspector.tsx';
+import { PanelField } from './panel-field.tsx';
 
 const SETTINGS_FIELDS = doorSlots('inspector-settings').filter((d) => d.door.kind === 'inspector-field' && d.door.attribute !== null && !d.door.control.startsWith('forms-'));
 // the toggles of a table's parts (caption, head, foot; core/elements/parts.ts), drawn while the selection is in a table
@@ -295,6 +296,33 @@ function AttributeField({ entry, label, toggle }: { readonly entry: DoorEntry; r
 
 // The Settings tab: no selector bar (DESIGN.md), its region right under the header. With one element selected, the
 // fields of the attributes that apply to its type (elements.json), in their order, the text first.
+// the project's language fields (core/project/language.ts), drawn under the page root's own settings
+const PROJECT_LANGUAGE = doorSlots('inspector-settings').find((d) => d.door.kind === 'panel-control' && d.door.control === 'project-language');
+const CODE_LANGUAGE = doorSlots('inspector-settings').find((d) => d.door.kind === 'panel-control' && d.door.control === 'code-language');
+// the language tags the fields offer (a person may type any other)
+const COMMON_LANGUAGES: readonly string[] = 'en pt-BR pt-PT es fr de it nl ja zh ko ar'.split(' ');
+// the language the code is named in when the project names none (core/export/names.ts)
+const DEFAULT_CODE_LANGUAGE = 'en';
+
+// The Project section (spec project-language): with the page root selected, the language the pages are written in and
+// the one the exported code is named in, each a field kept on Enter
+function ProjectSettings({ node }: { readonly node: DocNode }) {
+  const t = useT();
+  const isRoot = useEditorState((s) => locate(s.document, node.id)?.parent === null);
+  const language = useEditorState((s) => (s.document as { readonly language?: string }).language ?? '');
+  const code = useEditorState((s) => (s.document as { readonly codeLanguage?: string }).codeLanguage ?? DEFAULT_CODE_LANGUAGE);
+  if (!isRoot || PROJECT_LANGUAGE === undefined || CODE_LANGUAGE === undefined) return null;
+  return (
+    <section className="settings-section" data-settings-section="project" aria-label={t('settings.project')}>
+      <div className="settings-section__header">
+        <h3 title={t('settings.projectAbout')}>{t('settings.project')}</h3>
+      </div>
+      <PanelField entry={PROJECT_LANGUAGE} value={language} label={t('command.project.setLanguage')} offered={COMMON_LANGUAGES} />
+      <PanelField entry={CODE_LANGUAGE} value={code} label={t('command.project.setCodeLanguage')} offered={COMMON_LANGUAGES} />
+    </section>
+  );
+}
+
 export function SettingsTab() {
   const t = useT();
   const count = useEditorState((s) => s.selection.length);
@@ -354,6 +382,7 @@ export function SettingsTab() {
           );
         })}
         {node !== null ? <FormsInspector node={node} /> : null}
+        {node !== null ? <ProjectSettings node={node} /> : null}
       </div>
     </div>
   );

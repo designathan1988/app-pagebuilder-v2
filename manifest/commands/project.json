@@ -681,6 +681,118 @@
           "args": {}
         }
       ]
+    },
+    {
+      "id": "project.setLanguage",
+      "labelKey": "command.project.setLanguage",
+      "owner": "src/core/project/language.ts",
+      "introducedBy": "project-language",
+      "args": {
+        "language": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.project.languageInvalid"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "inspector-project-language",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "project-language",
+          "panel": "inspector",
+          "control": "project-language",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.project.setLanguage",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-settings",
+            "order": 2078
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "project.setCodeLanguage",
+      "labelKey": "command.project.setCodeLanguage",
+      "owner": "src/core/project/language.ts",
+      "introducedBy": "project-language",
+      "args": {
+        "language": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.project.languageInvalid"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "inspector-code-language",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "project-language",
+          "panel": "inspector",
+          "control": "code-language",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.project.setCodeLanguage",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-settings",
+            "order": 2079
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
     }
   ]
 }

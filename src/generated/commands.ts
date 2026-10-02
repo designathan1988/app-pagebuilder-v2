@@ -248,6 +248,8 @@ export interface CommandArgs {
   "project.openFolder": { readonly folder: string };
   "project.importHtml": { readonly files: readonly PickedFile[]; readonly destination?: "page" | "inside" | "replace"; readonly target?: NodeId };
   "project.export": Record<string, never>;
+  "project.setLanguage": { readonly language: string };
+  "project.setCodeLanguage": { readonly language: string };
   "selection.select": { readonly target: NodeId };
   "selection.clear": Record<string, never>;
   "selection.add": { readonly target: NodeId };
@@ -605,4 +607,5 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "shared-regions": ["regions.share","regions.detach","regions.stopSharing","text.set","pages.add","workspace.setPanelOpen"],
   "project-breakpoints": ["breakpoints.add","breakpoints.rename","breakpoints.setWidth","breakpoints.remove","workspace.openDialog","view.setBreakpoint","view.setViewportWidth","style.set","project.export"],
   "side-by-side-view": ["view.toggleSideBySide","view.setBreakpoint"],
+  "project-language": ["project.setLanguage","project.setCodeLanguage","workspace.setActiveTab","project.export"],
 };

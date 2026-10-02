@@ -214,6 +214,8 @@ export const COMMAND_IDS = [
   "project.openFolder",
   "project.importHtml",
   "project.export",
+  "project.setLanguage",
+  "project.setCodeLanguage",
   "selection.select",
   "selection.clear",
   "selection.add",
@@ -998,6 +1000,8 @@ export const DOOR_IDS = [
   "project.export#toolbar-top-bar-export",
   "project.export#toolbar-preview-bar-export",
   "project.export#command-bar",
+  "project.setLanguage#inspector-project-language",
+  "project.setCodeLanguage#inspector-code-language",
   "selection.select#canvas-click-element-or-page",
   "selection.select#layers-row",
   "selection.select#key-enter-in-layers-tree",
@@ -2407,6 +2411,7 @@ export const FEATURE_IDS = [
   "shared-regions",
   "project-breakpoints",
   "side-by-side-view",
+  "project-language",
 ] as const;
 export type FeatureId = (typeof FEATURE_IDS)[number];
 
@@ -6233,5 +6238,13 @@ export const MESSAGE_IDS = [
   "preset.border.medium",
   "preset.border.thick",
   "preset.border.dashed",
+  "command.project.setLanguage",
+  "command.project.setCodeLanguage",
+  "settings.project",
+  "settings.projectAbout",
+  "status.project.languageSet",
+  "status.project.codeLanguageSet",
+  "status.project.languageInvalid",
+  "feature.projectLanguage",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];
