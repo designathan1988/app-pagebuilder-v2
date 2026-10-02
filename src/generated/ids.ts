@@ -5316,5 +5316,7 @@ export const MESSAGE_IDS = [
   "layout.status.traced",
   "layout.problem.no-reference",
   "layout.problem.trace-reading",
+  "layout.status.resized",
+  "layout.status.size",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

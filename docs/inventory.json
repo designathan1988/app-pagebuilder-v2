@@ -6,7 +6,7 @@
     "doors": 1165,
     "scenarios": 1489,
     "modules": 332,
-    "lines": 59948
+    "lines": 59959
   },
   "features": [
     {
@@ -5455,7 +5455,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 5321,
+      "lines": 5323,
       "commands": [],
       "features": []
     },
@@ -5599,7 +5599,7 @@
     },
     {
       "path": "src/modules/layout-composer/host/handlers.ts",
-      "lines": 449,
+      "lines": 458,
       "commands": [
         "layout.enter",
         "layout.leave",

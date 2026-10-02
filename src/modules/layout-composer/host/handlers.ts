@@ -225,8 +225,17 @@ export const strokeLayout = registerHandler<'layout.stroke', EditorUi>('layout.s
     if (!activeBreakpoint(context.state.ui).base) return drawAtBase();
     if (reading.operation === null || reading.result === null) return refusedWith(reading.problems);
     if (!reading.result.ok) return refusedWith(reading.result.problems);
-    const made = reading.result.affected.filter((id) => findRegion(record.intent, id) === undefined && findRegion(reading.result?.ok === true ? reading.result.graph : record.intent, id) !== undefined);
-    return written(context, reading.result.graph, made.length > 0 ? made : state.selection);
+    const graph = reading.result.graph;
+    const made = reading.result.affected.filter((id) => findRegion(record.intent, id) === undefined && findRegion(graph, id) !== undefined);
+    const outcome = written(context, graph, made.length > 0 ? made : state.selection);
+    // a structural handle dragged (a boundary, a corner, a gap; a repeat adds items instead) says the sizes it gave the regions it moved
+    if (outcome.kind !== 'change' || handle === undefined || handleOf(handle)?.kind === 'repeat') return outcome;
+    const sizes = reading.result.affected
+      .map((id) => findRegion(graph, id))
+      .filter((r): r is Region => r !== undefined)
+      .map((r) => context.words('layout.status.size' as MessageId, { name: r.name, width: Math.round(r.box.width), height: Math.round(r.box.height) }))
+      .join(', ');
+    return sizes === '' ? outcome : { ...outcome, message: message('layout.status.resized', { sizes }) };
   }),
 );
 

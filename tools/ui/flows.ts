@@ -26,7 +26,10 @@ export type Step =
   | { readonly drag: { readonly from: string | { readonly x: number; readonly y: number }; readonly to: string | { readonly x: number; readonly y: number }; readonly modifier?: string } }
   // a stroke drawn with the button held through points of a control, as fractions of its drawn box (the Layout
   // Composer's stage), with a key held through it
-  | { readonly stroke: { readonly at: string; readonly points: readonly (readonly [number, number])[]; readonly modifier?: string } }
+  // (from: the stroke starts at the middle of that control, a handle; hold: the button stays down for a photo of the
+  // preview, released by the next `release` step)
+  | { readonly stroke: { readonly at: string; readonly points: readonly (readonly [number, number])[]; readonly modifier?: string; readonly from?: string; readonly hold?: true } }
+  | { readonly release: true }
   // the wheel turned over a control, as a person scrolls the canvas (pixels down; negative: up)
   | { readonly wheel: { readonly at: string; readonly dy: number } }
   // wait for the app to settle (two frames and a breath)
@@ -42,6 +45,9 @@ export type Step =
         readonly nodes?: number;
         readonly files?: readonly string[];
         readonly exportedFiles?: readonly string[];
+        // text the last export's files hold together, and text none of them may hold
+        readonly exportHas?: readonly string[];
+        readonly exportLacks?: readonly string[];
       };
     };
 
@@ -57,7 +63,198 @@ const HEADING_TILE = { door: 'element.insert#elements-tile', labelled: 'Heading'
 const INSERT_PANEL = { door: 'workspace.setPanelOpen#toolbar-activity-bar-insert' } as const;
 const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as const;
 
+
+// The Layout Composer's twelve mandatory cases (.memory/layout-composer-spec.md): points in the page's px at the
+// Desktop width (1440 x 900, the stage the page root is composed in), as fractions of the stage.
+const PX = (x: number, y: number): readonly [number, number] => [x / 1440, y / 900];
+const STAGE = '[data-layout-stage]';
+const COMPOSE: readonly Step[] = [{ door: 'workspace.setPanelOpen#toolbar-activity-bar-layout-composer' }, { door: 'layout.enter#layout-compose' }];
+const draw = (from: readonly [number, number], to: readonly [number, number], modifier?: string): Step => ({ stroke: { at: STAGE, points: [PX(...from), PX(...to)], ...(modifier === undefined ? {} : { modifier }) } });
+// the export, and what no exported file may hold: the composer's authoring data and its overlay
+const EXPORTED: readonly Step[] = [{ click: '[data-door="project.export#toolbar-top-bar-export"]' }, { wait: 800 }, { expect: { exportLacks: ['layout-composer', 'authoring', 'data-layout'] } }];
+const HEADER_BODY: readonly Step[] = [...COMPOSE, draw([40, 40], [1400, 140]), draw([40, 170], [1400, 700])];
+
 export const FLOWS: readonly Flow[] = [
+  {
+    name: 'layout-01-header-sidebar-content',
+    about: 'draw a header band and a body, cut a sidebar off it while the preview shows the cut, fix its width',
+    steps: [
+      ...HEADER_BODY,
+      { stroke: { at: STAGE, points: [PX(400, 150), PX(400, 450), PX(400, 720)], hold: true } },
+      { photo: 'cut-preview' },
+      { release: true },
+      { photo: 'header-sidebar-content' },
+      { click: '[data-layout-region="r2"]' },
+      { click: `[data-door="layout.configure#layout-width"][data-args='{"field":"width","value":"fixed"}']` },
+      { photo: 'sidebar-fixed' },
+      ...EXPORTED,
+      { reload: true },
+      { expect: { nodes: 4 } },
+    ],
+  },
+  {
+    name: 'layout-02-dashboard',
+    about: 'place the dashboard template: the predictor names it, the page is a grid of real elements',
+    steps: [...COMPOSE, { click: `[data-door="layout.template#layout-template"][data-args='{"template":"dashboard"}']` }, { photo: 'dashboard' }, { expect: { nodes: 8 } }, ...EXPORTED],
+  },
+  {
+    name: 'layout-03-asymmetric',
+    about: 'a pinwheel of five regions compiles to one grid with areas and no wrapper',
+    steps: [
+      ...COMPOSE,
+      draw([40, 40], [936, 270]),
+      draw([964, 40], [1400, 540]),
+      draw([504, 568], [1400, 810]),
+      draw([40, 298], [476, 810]),
+      draw([504, 298], [936, 540]),
+      { photo: 'pinwheel' },
+      { expect: { nodes: 6 } },
+      ...EXPORTED,
+    ],
+  },
+  {
+    name: 'layout-04-repeated-grid',
+    about: 'two cards, the repeat handle dragged to four, the suggestion makes them a grid',
+    steps: [
+      ...COMPOSE,
+      draw([40, 40], [290, 300]),
+      draw([320, 40], [570, 300]),
+      { stroke: { at: STAGE, from: '[data-layout-handle^="repeat:"]', points: [PX(700, 170), PX(1130, 170)] } },
+      { photo: 'four-cards' },
+      { expect: { nodes: 5 } },
+      { door: 'layout.suggest#layout-suggest' },
+      { photo: 'cards-as-a-grid' },
+      ...EXPORTED,
+    ],
+  },
+  {
+    name: 'layout-05-nested',
+    about: 'a region drawn inside another with the Draw tool becomes its child element',
+    steps: [
+      ...COMPOSE,
+      draw([40, 40], [800, 600]),
+      { click: `[data-door="layout.view#layout-tool"][data-args='{"tool":"draw"}']` },
+      { stroke: { at: STAGE, points: [PX(100, 100), PX(400, 300)], hold: true } },
+      { photo: 'nest-preview' },
+      { release: true },
+      { photo: 'nested' },
+      { expect: { nodes: 3 } },
+      ...EXPORTED,
+    ],
+  },
+  {
+    name: 'layout-06-multiple-split',
+    about: 'one zigzag stroke across a region makes three columns in one undo step',
+    steps: [
+      ...COMPOSE,
+      draw([40, 40], [1400, 600]),
+      { stroke: { at: STAGE, points: [PX(500, 20), PX(500, 620), PX(950, 620), PX(950, 20)] } },
+      { photo: 'three-columns' },
+      { expect: { nodes: 4 } },
+      { key: 'Control+z' },
+      { photo: 'one-undo-back-to-one' },
+      { expect: { nodes: 2 } },
+    ],
+  },
+  {
+    name: 'layout-07-multiple-merge',
+    about: 'Shift sweeping across four regions merges them into one in one undo step',
+    steps: [
+      ...COMPOSE,
+      draw([40, 40], [1400, 600]),
+      { stroke: { at: STAGE, points: [PX(380, 20), PX(380, 620)] } },
+      { stroke: { at: STAGE, points: [PX(720, 20), PX(720, 620)] } },
+      { stroke: { at: STAGE, points: [PX(1060, 20), PX(1060, 620)] } },
+      { photo: 'four-columns' },
+      { stroke: { at: STAGE, points: [PX(200, 300), PX(500, 300), PX(900, 300), PX(1300, 300)], modifier: 'Shift', hold: true } },
+      { photo: 'merge-preview' },
+      { release: true },
+      { photo: 'merged' },
+      { expect: { nodes: 2 } },
+      { key: 'Control+z' },
+      { expect: { nodes: 5 } },
+    ],
+  },
+  {
+    name: 'layout-08-subtract',
+    about: 'an Alt box inside a region cuts it out: the region becomes the bands around it',
+    steps: [
+      ...COMPOSE,
+      draw([40, 40], [1400, 600]),
+      draw([400, 200], [800, 400], 'Alt'),
+      { photo: 'cut-out' },
+      { expect: { nodes: 5 } },
+      ...EXPORTED,
+    ],
+  },
+  {
+    name: 'layout-09-structural-resize',
+    about: 'dragging the shared boundary moves both regions and the status bar says their sizes',
+    steps: [
+      ...HEADER_BODY,
+      { stroke: { at: STAGE, points: [PX(600, 150), PX(600, 720)] } },
+      { click: '[data-layout-region="r3"]' },
+      { stroke: { at: STAGE, from: '[data-layout-handle^="boundary:"]', points: [PX(800, 435)], hold: true } },
+      { photo: 'boundary-preview' },
+      { release: true },
+      { photo: 'resized' },
+      { expect: { message: 'Resized:' } },
+    ],
+  },
+  {
+    name: 'layout-10-desktop-to-mobile',
+    about: 'stack on a tablet and hide the header on a phone: media queries at 834 and 390 px',
+    steps: [
+      ...HEADER_BODY,
+      { stroke: { at: STAGE, points: [PX(600, 150), PX(600, 720)] } },
+      { door: 'view.setBreakpoint#toolbar-breakpoint-tabs-tablet' },
+      { click: '[data-layout-region="r2"]' },
+      { door: 'layout.respond#layout-stack' },
+      { photo: 'tablet-stacked' },
+      { door: 'view.setBreakpoint#toolbar-breakpoint-tabs-phone' },
+      { wheel: { at: '[data-canvas-stage]', dy: -2000 } },
+      { click: '[data-layout-region="r1"]' },
+      { door: 'layout.respond#layout-hide' },
+      { photo: 'phone-without-header' },
+      { door: 'view.setBreakpoint#toolbar-breakpoint-tabs-desktop' },
+      ...EXPORTED,
+      { expect: { exportHas: ['max-width: 834px', 'max-width: 390px'] } },
+    ],
+  },
+  {
+    name: 'layout-11-real-content',
+    about: 'compose a section that holds text: its elements become placed regions and none is ever lost',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/aurora.json'] } },
+      { door: 'selection.select#layers-row', labelled: 'Hero' },
+      { door: 'workspace.setPanelOpen#toolbar-activity-bar-layout-composer' },
+      { door: 'layout.enter#layout-compose' },
+      { photo: 'hero-content-placed' },
+      { stroke: { at: STAGE, points: [[0.2, 0.3], [0.5, 0.5], [0.8, 0.7]], modifier: 'Shift' } },
+      { photo: 'merge-of-content-refused' },
+      { expect: { message: 'cannot be merged' } },
+      { door: 'layout.leave#layout-done' },
+      ...EXPORTED,
+      { expect: { exportHas: ['<h1'] } },
+    ],
+  },
+  {
+    name: 'layout-12-reopen',
+    about: 'leave, reload, compose again: the container reopens with the layout it keeps',
+    steps: [
+      ...HEADER_BODY,
+      { stroke: { at: STAGE, points: [PX(600, 150), PX(600, 720)] } },
+      { door: 'layout.leave#layout-done' },
+      { photo: 'left' },
+      { reload: true },
+      { expect: { nodes: 4 } },
+      { door: 'workspace.setPanelOpen#toolbar-activity-bar-layout-composer' },
+      { door: 'layout.enter#layout-compose' },
+      { photo: 'reopened-as-drawn' },
+      { expect: { message: 'Composing the layout of Page' } },
+    ],
+  },
   {
     name: 'layout-composer-tools',
     about: 'trace a wireframe image into regions, relate them with a rule, remove it, and place a template',

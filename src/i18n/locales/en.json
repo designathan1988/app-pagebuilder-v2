@@ -2623,5 +2623,7 @@
   "layout.status.unreferenced": "Reference image removed.",
   "layout.status.traced": "{count} regions traced from the image.",
   "layout.problem.no-reference": "Choose a reference image first.",
-  "layout.problem.trace-reading": "The image could not be read."
+  "layout.problem.trace-reading": "The image could not be read.",
+  "layout.status.resized": "Resized: {sizes}.",
+  "layout.status.size": "{name} {width} × {height}"
 }

@@ -2623,5 +2623,7 @@
   "layout.status.unreferenced": "Imagem de referência removida.",
   "layout.status.traced": "{count} regiões traçadas da imagem.",
   "layout.problem.no-reference": "Escolha uma imagem de referência primeiro.",
-  "layout.problem.trace-reading": "Não foi possível ler a imagem."
+  "layout.problem.trace-reading": "Não foi possível ler a imagem.",
+  "layout.status.resized": "Redimensionadas: {sizes}.",
+  "layout.status.size": "{name} {width} × {height}"
 }

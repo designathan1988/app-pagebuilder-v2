@@ -680,8 +680,10 @@
               "geometry": [],
               "feedback": [
                 {
-                  "key": "layout.status.changed",
-                  "params": {}
+                  "key": "layout.status.resized",
+                  "params": {
+                    "sizes": "Region 1 360 Ã— 360, Region 2 360 Ã— 360"
+                  }
                 }
               ]
             },
@@ -981,8 +983,10 @@
               "geometry": [],
               "feedback": [
                 {
-                  "key": "layout.status.changed",
-                  "params": {}
+                  "key": "layout.status.resized",
+                  "params": {
+                    "sizes": "Region 2 420 Ã— 260"
+                  }
                 }
               ]
             },
@@ -1703,8 +1707,10 @@
               "geometry": [],
               "feedback": [
                 {
-                  "key": "layout.status.changed",
-                  "params": {}
+                  "key": "layout.status.resized",
+                  "params": {
+                    "sizes": "Region 1 320 Ã— 360, Region 2 400 Ã— 360"
+                  }
                 }
               ]
             },

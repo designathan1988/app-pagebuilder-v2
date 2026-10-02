@@ -101,6 +101,9 @@ async function pointFor(page: Page, at: string | { readonly x: number; readonly 
   return mapped;
 }
 
+// the key a held stroke keeps down until its release
+let held: string | null = null;
+
 async function runStep(page: Page, step: Step): Promise<string> {
   const label = 'photo' in step ? step.photo : Object.keys(step)[0] ?? 'step';
   if ('door' in step) {
@@ -154,14 +157,28 @@ async function runStep(page: Page, step: Step): Promise<string> {
     const box = await page.locator(step.stroke.at).first().boundingBox();
     if (box === null) throw new Error(`the stroke's surface is not drawn: ${step.stroke.at}`);
     const at = ([fx, fy]: readonly [number, number]) => ({ x: box.x + box.width * fx, y: box.y + box.height * fy });
-    const [first, ...rest] = step.stroke.points.map(at);
+    const points = step.stroke.points.map(at);
+    if (step.stroke.from !== undefined) {
+      const handle = await page.locator(step.stroke.from).first().boundingBox();
+      if (handle === null) throw new Error(`the stroke's handle is not drawn: ${step.stroke.from}`);
+      points.unshift({ x: handle.x + handle.width / 2, y: handle.y + handle.height / 2 });
+    }
+    const [first, ...rest] = points;
     if (first === undefined) throw new Error('a stroke needs points');
     if (step.stroke.modifier !== undefined) await page.keyboard.down(step.stroke.modifier);
     await page.mouse.move(first.x, first.y);
     await page.mouse.down();
     for (const point of rest) await page.mouse.move(point.x, point.y, { steps: 8 });
+    if (step.stroke.hold === true) {
+      held = step.stroke.modifier ?? null;
+      return label;
+    }
     await page.mouse.up();
     if (step.stroke.modifier !== undefined) await page.keyboard.up(step.stroke.modifier);
+  } else if ('release' in step) {
+    await page.mouse.up();
+    if (held !== null) await page.keyboard.up(held);
+    held = null;
   } else if ('wheel' in step) {
     const box = await page.locator(step.wheel.at).first().boundingBox();
     if (box === null) throw new Error(`the wheel's target is not drawn: ${step.wheel.at}`);
@@ -200,6 +217,20 @@ async function check(page: Page, step: Step, index: number): Promise<void> {
     const exported = await exportedFiles();
     for (const wanted of expected.exportedFiles) if (!exported.includes(wanted)) problems.push(`step ${index}: the export has no ${wanted} (it has ${exported.join(', ')})`);
   }
+  if (expected.exportHas !== undefined || expected.exportLacks !== undefined) {
+    const text = await exportedText();
+    for (const wanted of expected.exportHas ?? []) if (!text.includes(wanted)) problems.push(`step ${index}: no exported file holds ${wanted}`);
+    for (const unwanted of expected.exportLacks ?? []) if (text.includes(unwanted)) problems.push(`step ${index}: an exported file holds ${unwanted}`);
+  }
+}
+
+// Every file of the last download as text, one after the other.
+async function exportedText(): Promise<string> {
+  const download = downloads.at(-1);
+  const at = download === undefined ? null : await download.path();
+  if (at === null) return '';
+  const { unzip } = await import('../runner/unzip.ts');
+  return [...unzip(fs.readFileSync(at)).values()].map((bytes) => Buffer.from(bytes as Uint8Array).toString('utf8')).join('\n');
 }
 
 // The files the last download held: the driver lets Playwright keep it and reads the ZIP's index.
