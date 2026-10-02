@@ -44,6 +44,35 @@ if (STATE === 'breakpoint') {
   await app.waitForTimeout(600);
 }
 
+// the other canonical states, each set up on the app with the gestures a person would make
+const card = (name: string) => app.locator('[data-door="selection.select#layers-row"]', { hasText: name }).first();
+if (STATE === 'menu') {
+  await app.locator('[data-menu="arrange"]').click();
+  await app.waitForTimeout(400);
+}
+if (STATE === 'context') {
+  await card('CardA').click({ button: 'right' });
+  await app.waitForTimeout(400);
+}
+if (STATE === 'palette') {
+  await app.keyboard.press('Control+K');
+  await app.waitForTimeout(300);
+  // the canonical palette shows the query exp
+  await app.keyboard.type('exp');
+  await app.waitForTimeout(400);
+}
+if (STATE === 'multi') {
+  await card('CardB').click({ modifiers: ['Control'] });
+  await card('CardC').click({ modifiers: ['Control'] });
+  await app.waitForTimeout(400);
+}
+if (STATE === 'state') {
+  await app.locator('[data-door$="#menu-style-state-hover"]').first().dispatchEvent('click');
+  await app.waitForTimeout(400);
+}
+// the pointer rests where it hovers nothing (a menu stays open: the pointer leaving it does not close it)
+if (STATE !== 'palette') await app.mouse.move(1, 899);
+
 type Box = { x: number; y: number; width: number; height: number };
 const regions = async (page: Page) =>
   page.evaluate(() =>

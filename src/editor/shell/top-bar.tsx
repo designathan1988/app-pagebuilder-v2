@@ -11,6 +11,7 @@ import { MenuGroup, useMenuLayer } from '../doors/menu.tsx';
 import { useRef } from 'react';
 import type { DoorEntry } from '../../manifest/runtime.ts';
 import { TopBarSaveState } from './status-bar.tsx';
+import { chordCap } from '../input/keymap.ts';
 
 const BREAKS = breaksIn('top-bar');
 
@@ -82,7 +83,7 @@ function Search({ entry }: { readonly entry: DoorEntry }) {
   return (
     <DoorControl entry={entry} className="top-bar__search">
       <span className="door__label">{door.label}</span>
-      {door.chord !== null ? <kbd>{door.chord}</kbd> : null}
+      {door.chord !== null ? <kbd>{chordCap(door.chord)}</kbd> : null}
     </DoorControl>
   );
 }

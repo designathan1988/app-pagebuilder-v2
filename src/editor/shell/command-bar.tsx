@@ -8,12 +8,12 @@ import { isFeatureBuilt } from '../../app/features.ts';
 import type { CommandId, FeatureId, MessageId } from '../../generated/ids.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
 import { elementIcon, manifest } from '../../manifest/runtime.ts';
-import { BAR_DOORS, SCOPE_PILLS, askedSet, entryKey, scopeOf, kindOf, namedProperties, recentEntries, remember, setEntryFor, shownEntries, type BarEntry, type NamedProperty } from '../command-bar/command-bar.ts';
+import { BAR_DOORS, SCOPE_PILLS, askedSet, entryKey, matchedRanges, scopeOf, kindOf, namedProperties, recentEntries, remember, setEntryFor, shownEntries, type BarEntry, type NamedProperty } from '../command-bar/command-bar.ts';
 import { labelParamsOf } from '../doors/current.ts';
-import { DoorControl, appliesNow, isDoorBuilt } from '../doors/door.tsx';
-import { doorSlots } from '../doors/placement.ts';
+import { DoorControl, Icon, appliesNow, isDoorBuilt } from '../doors/door.tsx';
+import { doorSlots, menuOf } from '../doors/placement.ts';
 import { setActiveOption } from '../focus/focus.ts';
-import { chordHint } from '../input/keymap.ts';
+import { chordCap, chordHint } from '../input/keymap.ts';
 import { useEditorState, useStore } from '../store.ts';
 import { useT } from '../text.ts';
 import { PANELS, panelName, type Panel } from '../workspace/panels.ts';
@@ -27,6 +27,9 @@ const LIST_ID = 'command-bar-list';
 const PALETTE = manifest.elements.palette.flatMap((g) => g.entries);
 // the keys of the bar's key context (its shortcut doors), as its hints name them
 const KEY_DOORS = manifest.doors.filter((d) => d.door.kind === 'shortcut' && d.door.context === 'command-bar');
+// the menu a command stands in, which its entry names after its label (the canonical palette: Export project (ZIP),
+// File); a command in no menu names none
+const MENU_OF = new Map(manifest.doors.flatMap((d) => (d.door.kind === 'menu' ? [[d.command.id, menuOf(d.door.menu).labelKey] as const] : [])).reverse());
 
 export function CommandBar() {
   const open = useEditorState((s) => s.ui.commandBar === true);
@@ -149,6 +152,9 @@ function CommandBarDialog() {
     <div className="command-bar">
       {BACKDROP ? <DoorControl entry={BACKDROP} className="command-bar__backdrop" /> : null}
       <div className="command-bar__panel" role="dialog" aria-modal="true" aria-label={t('command.commandBar')} data-region="command-palette" data-key-context="command-bar">
+        {/* the field in its row (the canonical palette): the search glyph, the query, the key that closes the bar */}
+        <div className="command-bar__search">
+        <Icon name="search" size="sm" />
         <input
           ref={field}
           className="command-bar__field"
@@ -165,6 +171,8 @@ function CommandBarDialog() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
+        {BACKDROP === undefined ? null : <kbd className="command-bar__close-key">{chordCap(chordHint(BACKDROP.command.id, 'command-bar') ?? '')}</kbd>}
+        </div>
         {/* the scope pills (the canonical palette): the scope the query's prefix keeps is pressed; a press puts its
             prefix before the words typed, All takes it away */}
         <div className="command-bar__scopes" role="group" aria-label={t('commandBar.hint.filter')}>
@@ -191,14 +199,14 @@ function CommandBarDialog() {
         <ul className="command-bar__list" role="listbox" id={LIST_ID} ref={list} aria-label={t('command.commandBar')}>
           {shown.map((e, i) => (
             <li key={e.key} id={`${LIST_ID}-${i}`} role="option" aria-selected="false" className="command-bar__option" onClick={() => { remember(e.key); close(); }}>
-              <Entry e={e} />
+              <Entry e={e} query={query} />
             </li>
           ))}
         </ul>
         <p className="command-bar__hints">
           {KEY_DOORS.map((d) => (
             <span key={d.ref} className="command-bar__key">
-              <kbd>{chordHint(d.command.id, 'command-bar')}</kbd> {t(d.door.labelKey as MessageId)}
+              <kbd>{chordCap(chordHint(d.command.id, 'command-bar') ?? '')}</kbd> {t(d.door.labelKey as MessageId)}
             </span>
           ))}
         </p>
@@ -207,17 +215,26 @@ function CommandBarDialog() {
   );
 }
 
-// an entry's row: its icon (an insert entry's element's), its label and its command's shortcut
-function Entry({ e }: { readonly e: BarEntry }) {
+// an entry's row: its icon (an insert entry's element's), its label with the parts the query matches marked, the menu
+// its command stands in (drawn by the style sheet from data-menu, so the option's text stays its label), and its
+// command's shortcut
+function Entry({ e, query }: { readonly e: BarEntry; readonly query: string }) {
+  const t = useT();
   const chord = chordHint(e.entry.command.id);
+  const menu = kindOf(e.entry) === 'command' ? MENU_OF.get(e.entry.command.id) : undefined;
+  const ranges = matchedRanges(query, e.label);
+  const parts = ranges.flatMap(([from, to], i) => [e.label.slice(i === 0 ? 0 : (ranges[i - 1]?.[1] ?? 0), from), <mark key={from} className="command-bar__match">{e.label.slice(from, to)}</mark>]);
   const element = kindOf(e.entry) === 'insert' ? PALETTE.find((p) => p.id === e.args.entry)?.element : undefined;
   const icon = element !== undefined ? elementIcon(element) : e.entry.door.icon;
   return (
     // one icon, drawn by the control itself (the audit's U-003: the entry drew its icon a second time)
     <DoorControl entry={e.entry} args={e.args} label={e.label} className="command-bar__entry" tabbable={false} icon={icon ?? null}>
       {icon !== null && icon !== undefined ? null : <span className="command-bar__no-icon" />}
-      <span className="command-bar__label">{e.label}</span>
-      {chord !== null && kindOf(e.entry) === 'command' ? <kbd className="command-bar__chord">{chord}</kbd> : null}
+      {/* the menu's name is drawn after the label (its data-menu), never part of the entry's own text */}
+      <span className="command-bar__label" data-menu={menu === undefined ? undefined : t(menu as MessageId)}>
+        {ranges.length === 0 ? e.label : [...parts, e.label.slice(ranges[ranges.length - 1]?.[1] ?? 0)]}
+      </span>
+      {chord !== null && kindOf(e.entry) === 'command' ? <kbd className="command-bar__chord">{chordCap(chord)}</kbd> : null}
     </DoorControl>
   );
 }

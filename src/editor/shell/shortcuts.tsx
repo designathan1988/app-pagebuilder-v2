@@ -4,7 +4,7 @@
 // shows whatever the manifest declares — including a binding whose command the editor has not built yet, marked as
 // not available (DESIGN.md "Build order").
 import type { MessageId } from '../../generated/ids.ts';
-import { bindingGroups } from '../input/keymap.ts';
+import { bindingGroups, chordCap } from '../input/keymap.ts';
 import { useT } from '../text.ts';
 
 export function Shortcuts() {
@@ -20,7 +20,7 @@ export function Shortcuts() {
           <ul className="shortcuts__list">
             {group.bindings.map((binding) => (
               <li key={binding.ref} className={binding.ready ? 'shortcuts__row' : 'shortcuts__row is-unavailable'} data-shortcut={binding.ref}>
-                <kbd className="shortcuts__keys">{binding.chord}</kbd>
+                <kbd className="shortcuts__keys">{chordCap(binding.chord)}</kbd>
                 {/* a label with a placeholder the panel cannot fill from the state (the palette's tile) is filled with
                     the word for it: the row says what the key does in the context it is listed under */}
                 <span className="shortcuts__label">{t(binding.labelKey as MessageId, { element: { key: 'palette.tile' } })}</span>

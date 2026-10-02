@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { bindingFor, bindingGroups, chordHint, chordOf, heldKeyBinding } from './keymap.ts';
+import { bindingFor, bindingGroups, chordCap, chordHint, chordOf, heldKeyBinding } from './keymap.ts';
 import type { DoorEntry } from '../../manifest/runtime.ts';
 import { manifest } from '../../manifest/runtime.ts';
 
@@ -62,6 +62,13 @@ describe('the keymap', () => {
     expect(chordHint('element.moveUp', 'canvas')).toBe('Alt+ArrowUp');
     expect(chordHint('element.delete', 'canvas')).toBe('Delete');
     expect(chordHint('history.undo', 'canvas')).toBe('Ctrl+Z');
+  });
+  it('shows an arrow key on its key cap as an arrow and Escape as Esc, every other key by its name', () => {
+    expect(chordCap('Alt+ArrowUp')).toBe('Alt+↑');
+    expect(chordCap('Alt+Shift+ArrowLeft')).toBe('Alt+Shift+←');
+    expect(chordCap('ArrowDown')).toBe('↓');
+    expect(chordCap('Ctrl+Shift+K')).toBe('Ctrl+Shift+K');
+    expect(chordCap('Escape')).toBe('Esc');
   });
   it('lists every binding of the keymap by its context, and a binding added to the keymap appears without another edit', () => {
     const shortcuts = manifest.doors.filter((d) => d.door.kind === 'shortcut');

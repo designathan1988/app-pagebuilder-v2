@@ -2,7 +2,7 @@
 // start of a word, anywhere or as initials; a scope prefix keeps one kind of entry; with no words the recently run
 // entries come first; at most commandBar.maxResults are shown.
 import { describe, expect, it } from 'vitest';
-import { BAR_DOORS, MAX_RESULTS, entryKey, kindOf, matchScore, shownEntries, type BarEntry, scopeOf } from './command-bar.ts';
+import { BAR_DOORS, MAX_RESULTS, entryKey, kindOf, matchScore, matchedRanges, shownEntries, type BarEntry, scopeOf } from './command-bar.ts';
 
 const command = BAR_DOORS.find((d) => kindOf(d) === 'command');
 const insert = BAR_DOORS.find((d) => kindOf(d) === 'insert');
@@ -30,6 +30,20 @@ describe('matchScore', () => {
     const start = matchScore('wrap', 'Wrap in a row') ?? 0;
     const inside = matchScore('wrap', 'Remove wrapper') ?? 0;
     expect(start).toBeGreaterThan(inside);
+  });
+});
+
+describe('matchedRanges', () => {
+  it('marks each word of the query where it starts a word of the label, else where it stands', () => {
+    expect(matchedRanges('exp', 'Export project (ZIP)')).toEqual([[0, 3]]);
+    expect(matchedRanges('exp', 'Open Explorer')).toEqual([[5, 8]]);
+    expect(matchedRanges('row wrap', 'Wrap in a row')).toEqual([[0, 4], [10, 13]]);
+    expect(matchedRanges('ort', 'Export')).toEqual([[3, 6]]);
+  });
+  it('ignores case, accents and the scope prefix, and marks nothing for initials', () => {
+    expect(matchedRanges('> seç', 'Seção nova')).toEqual([[0, 3]]);
+    expect(matchedRanges('wiar', 'Wrap in a row')).toEqual([]);
+    expect(matchedRanges('', 'Export')).toEqual([]);
   });
 });
 

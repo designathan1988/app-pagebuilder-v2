@@ -11,6 +11,7 @@ import { locate } from '../../core/document/model.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
 import type { CommandId, KeyContextId, MenuId, MessageId } from '../../generated/ids.ts';
 import { manifest, type DoorEntry } from '../../manifest/runtime.ts';
+import { chordCap } from '../input/keymap.ts';
 import { menuOver, pressPoint } from '../input/pointer.ts';
 import { openContextMenu } from '../menus/context-menu.ts';
 import { useEditorState, useStore } from '../store.ts';
@@ -59,7 +60,7 @@ function MenuItem({ entry, onDone, keysIn = 'global' }: { readonly entry: DoorEn
       <span className="menu__icon">{icon !== null ? <Icon name={icon} size="sm" /> : null}</span>
       <span className="menu__label">{door.label}</span>
       {door.built || door.reason === null ? null : <span className="menu__reason">{t(door.reason)}</span>}
-      {door.chord !== null ? <kbd className="menu__chord">{door.chord}</kbd> : null}
+      {door.chord !== null ? <kbd className="menu__chord">{chordCap(door.chord)}</kbd> : null}
     </button>
   );
 }
@@ -102,7 +103,7 @@ function MenuList({ menu, onDone, focusFirst, anchor }: { readonly menu: MenuId;
         .flatMap((slot) => [
           // a line between the menu's groups (layout.json breaks)
           ...(BREAKS.get(menu)?.includes(slot.order) === true ? [<div key={`break-${slot.order}`} className="menu__separator" role="separator" />] : []),
-          slot.kind === 'door' ? <MenuItem key={slot.entry.ref} entry={slot.entry} onDone={onDone} /> : <SubMenu key={slot.menu} menu={slot.menu} onDone={onDone} />,
+          slot.kind === 'door' ? <MenuItem key={slot.entry.ref} entry={slot.entry} onDone={onDone} keysIn="canvas" /> : <SubMenu key={slot.menu} menu={slot.menu} onDone={onDone} />,
         ])}
     </div>
   );

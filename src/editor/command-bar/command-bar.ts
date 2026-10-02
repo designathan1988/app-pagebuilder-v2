@@ -82,6 +82,34 @@ export function matchScore(query: string, label: string): number | null {
   return first !== undefined && text.startsWith(first) ? score + 1 : score;
 }
 
+// The parts of a label the query's words match, as the bar marks them (the canonical palette: "Exp" of "Export project"):
+// each word where matchScore found it, at the start of a word of the label, else anywhere in it; initials and a label
+// whose folded text does not keep its length mark nothing. Ranges in the label's own characters, sorted, never overlapping.
+export function matchedRanges(query: string, label: string): readonly (readonly [number, number])[] {
+  const folded = fold(label);
+  if (folded.length !== label.length) return [];
+  const ranges: [number, number][] = [];
+  for (const word of wordsOf(scopeOf(query).words)) {
+    // a word holds letters and digits only (wordsOf): the first place it starts a word of the label, else the first
+    let at = -1;
+    for (let from = folded.indexOf(word); from >= 0; from = folded.indexOf(word, from + 1)) {
+      if (from === 0 || !/[\p{L}\p{N}]/u.test(folded.charAt(from - 1))) {
+        at = from;
+        break;
+      }
+    }
+    if (at < 0) at = folded.indexOf(word);
+    if (at >= 0) ranges.push([at, at + word.length]);
+  }
+  ranges.sort((a, b) => a[0] - b[0]);
+  return ranges.reduce<[number, number][]>((kept, range) => {
+    const last = kept[kept.length - 1];
+    if (last !== undefined && range[0] <= last[1]) last[1] = Math.max(last[1], range[1]);
+    else kept.push([range[0], range[1]]);
+    return kept;
+  }, []);
+}
+
 // The entries a query shows, at most MAX_RESULTS: a scope prefix keeps its kind; with no words, the recently run
 // entries (newest first) before the others in the bar's order; otherwise the best matches, ties in the bar's order.
 export function shownEntries(query: string, offered: readonly BarEntry[], recent: readonly string[]): BarEntry[] {
