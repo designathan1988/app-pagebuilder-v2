@@ -17,7 +17,7 @@ import { createToken, deleteToken, renameToken, updateToken } from '../core/desi
 import { colourToVariableCommand, replaceColourCommand } from '../core/design/site-colours.ts';
 import { applySuggestionCommand } from '../core/design/suggest.ts';
 import { applyToSimilarCommand, moveIntoClassCommand, applyClassCommand, createClassCommand, deleteClassCommand, detachClassCommand, renameClassCommand } from '../core/design/classes.ts';
-import { createComponentCommand, detachInstanceCommand, fillFromDataCommand, repeatCommand, insertInstanceCommand, instanceSelected } from '../core/design/components.ts';
+import { insideInstance, updateFromInstanceCommand, createComponentCommand, detachInstanceCommand, fillFromDataCommand, repeatCommand, insertInstanceCommand, instanceSelected } from '../core/design/components.ts';
 import { closeComponentPrompt, openComponentPrompt } from '../editor/shell/component-prompt.ts';
 import { addGridTrack, enterGridEdit, exitGridEdit, mergeGridCells, removeGridTrack, spanGridItem, splitGridCells } from '../editor/canvas/grid-edit.ts';
 import { setStyleTarget } from '../editor/inspector/style-target.ts';
@@ -208,6 +208,7 @@ export const COMMANDS = {
   'tokens.create': createToken,
   'tokens.update': updateToken,
   'design.replaceColour': replaceColourCommand,
+  'components.updateFromInstance': updateFromInstanceCommand,
   'design.applySuggestion': applySuggestionCommand,
   'classes.moveInto': moveIntoClassCommand,
   'classes.applyToSimilar': applyToSimilarCommand,
@@ -500,4 +501,4 @@ export const COMMANDS = {
 } as const satisfies CommandTable<EditorUi>;
 
 // The availability predicates code has registered; a built command's predicate must be here (createStore checks it).
-export const PREDICATES = { always, canUndo, canRedo, hasSelection, targetOrSelection, singleSelection, singleTextSelection, canUnwrap, canNestIntoPrevious, cellSelected, inTable, hasNaturalChild, flexOrGridContainer, instanceSelected, positionedSelection, distributableSelection, editableSelection, organizableSelection, divideableSelection, ...MODULE_PREDICATES } as const satisfies PredicateTable<EditorUi>;
+export const PREDICATES = { always, canUndo, canRedo, hasSelection, targetOrSelection, singleSelection, singleTextSelection, canUnwrap, canNestIntoPrevious, cellSelected, inTable, hasNaturalChild, flexOrGridContainer, instanceSelected, insideInstance, positionedSelection, distributableSelection, editableSelection, organizableSelection, divideableSelection, ...MODULE_PREDICATES } as const satisfies PredicateTable<EditorUi>;

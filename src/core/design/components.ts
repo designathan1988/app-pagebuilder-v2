@@ -359,3 +359,55 @@ export function componentHolders(document: DocumentJson, id: NodeId): { readonly
   document.pages.forEach((page, i) => visit(page.tree, ['pages', i, 'tree'], null, null));
   return holders;
 }
+
+// components.updateFromInstance (the plan's stage 7, "modo de edição do mestre"; journey D2): an instance edited in
+// place — elements added, removed or moved, styles of its own — becomes its component's definition, and every other
+// instance of the component takes the new structure and styles, keeping its own texts, attributes and names wherever an
+// element of the edited instance came from one it has (the same part); one undo step. The edited instance is the
+// master while it is edited; nothing else changes until this command runs.
+export const updateFromInstanceCommand = registerHandler('components.updateFromInstance', ({ state, ids }): Outcome<never> => {
+  const primary = state.selection[0];
+  const source = primary === undefined ? null : instanceRootOf(state.document, primary);
+  if (source === null || source.component === undefined) return { kind: 'refused', message: message('status.components.notInstance') };
+  const name = source.component;
+  const index = componentsOf(state.document).findIndex((c) => c.name === name);
+  if (index < 0) return { kind: 'refused', message: message('status.components.notInstance') };
+  const next = () => ids.next() as NodeId;
+  // the new definition: the edited instance, plain, with ids of its own
+  const definitionTree = copied(source, next, null, true);
+  const taken = new Set(state.document.pages.flatMap((page) => [...walk(page.tree)].map((one) => one.name)));
+  // an instance rebuilt on the edited one's structure: each element keeps the id, name, text and attributes of the
+  // instance's element of the part it came from, else a new id
+  const rebuilt = (from: DocNode, instance: DocNode | null): DocNode => {
+    const ownPart = from.componentPart;
+    const mine = instance === null || ownPart === undefined ? undefined : [...walk(instance)].find((one) => one.componentPart !== undefined && deepEqual(one.componentPart, ownPart));
+    const plain = unmarked({ ...from, children: [] });
+    // an element new to the edited instance reaches the others as a copy does: a new id and a name no element has
+    const kept =
+      mine === undefined
+        ? instance === null
+          ? plain
+          : { ...plain, id: next(), name: copyName(plain.name, taken) }
+        : { ...plain, id: mine.id, name: mine.name, text: mine.text, attributes: mine.attributes };
+    if (mine === undefined && instance !== null) taken.add(kept.name);
+    return { ...kept, children: from.children.map((child) => rebuilt(child, instance)) };
+  };
+  const patches: Patch[] = [{ op: 'replace', path: ['components', index, 'tree'], value: definitionTree }];
+  let count = 0;
+  const visit = (at: DocNode, atPath: (string | number)[]) => {
+    if (at.component === name) {
+      const tree = at.id === source.id ? rebuilt(source, null) : rebuilt(source, at);
+      patches.push({ op: 'replace', path: atPath, value: marked({ ...tree, name: at.name }, [], name) });
+      if (at.id !== source.id) count += 1;
+      return;
+    }
+    at.children.forEach((child, i) => visit(child, [...atPath, 'children', i]));
+  };
+  state.document.pages.forEach((page, i) => visit(page.tree, ['pages', i, 'tree']));
+  return { kind: 'change', patches, message: message('status.components.updated', { name, count }) };
+});
+
+export const insideInstance = registerPredicate('insideInstance', (state) => {
+  const [only, ...others] = state.selection;
+  return only !== undefined && others.length === 0 && instanceRootOf(state.document, only) !== null;
+});

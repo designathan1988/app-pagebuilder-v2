@@ -1572,6 +1572,48 @@
           "args": {}
         }
       ]
+    },
+    {
+      "id": "components.updateFromInstance",
+      "labelKey": "command.components.updateFromInstance",
+      "owner": "src/core/design/components.ts",
+      "introducedBy": "component-master-edit",
+      "args": {},
+      "availability": {
+        "predicate": "insideInstance",
+        "refusalKey": "status.components.notInstance"
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "context-menu",
+          "kind": "context-menu",
+          "feature": "component-master-edit",
+          "labelKey": "command.components.updateFromInstance",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "status.components.notInstance",
+          "placement": {
+            "region": "context-menu",
+            "order": 34
+          },
+          "adapter": {
+            "selection": "single",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
     }
   ]
 }

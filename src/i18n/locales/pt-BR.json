@@ -3378,5 +3378,8 @@
   "styles.suggestion": "{count} × {element} repetem {properties}",
   "status.suggest.none": "Os elementos {type} não repetem mais estilos.",
   "status.suggest.applied": ".{name} criada e aplicada a {count} elementos.",
-  "feature.styleSuggestions": "Estilos repetidos oferecidos como uma classe"
+  "feature.styleSuggestions": "Estilos repetidos oferecidos como uma classe",
+  "command.components.updateFromInstance": "Atualizar o componente a partir desta instância",
+  "status.components.updated": "Componente {name} atualizado a partir desta instância; {count} outras instâncias acompanham.",
+  "feature.componentMasterEdit": "Uma instância editada no lugar atualiza o componente e todas as instâncias"
 }

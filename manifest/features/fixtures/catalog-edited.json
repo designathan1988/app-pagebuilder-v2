@@ -1,0 +1,186 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "id": "p-home",
+      "name": "Home",
+      "file": "index.html",
+      "tree": {
+        "id": "n-page",
+        "type": "page",
+        "name": "Page",
+        "tag": "body",
+        "attributes": {},
+        "classes": [],
+        "styles": {},
+        "text": null,
+        "children": [
+          {
+            "id": "n-plans",
+            "type": "section",
+            "name": "Plans",
+            "tag": "section",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": [
+              {
+                "id": "n-plan-a",
+                "type": "article",
+                "name": "Plan",
+                "tag": "article",
+                "attributes": {},
+                "classes": [],
+                "styles": {
+                  "desktop": {
+                    "base": {
+                      "padding-top": "24px"
+                    }
+                  }
+                },
+                "text": null,
+                "children": [
+                  {
+                    "id": "n-plan-a-title",
+                    "type": "heading",
+                    "name": "PlanTitle",
+                    "tag": "h3",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Plan name",
+                    "children": [],
+                    "componentPart": [
+                      0
+                    ]
+                  },
+                  {
+                    "id": "n-plan-a-price",
+                    "type": "paragraph",
+                    "name": "PlanPrice",
+                    "tag": "p",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Price",
+                    "children": [],
+                    "componentPart": [
+                      1
+                    ]
+                  },
+                  {
+                    "id": "n-plan-note",
+                    "type": "paragraph",
+                    "name": "PlanNote",
+                    "tag": "p",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Cancel anytime",
+                    "children": []
+                  }
+                ],
+                "component": "Plan",
+                "componentPart": []
+              },
+              {
+                "id": "n-plan-b",
+                "type": "article",
+                "name": "Plan 2",
+                "tag": "article",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": null,
+                "children": [
+                  {
+                    "id": "n-plan-b-title",
+                    "type": "heading",
+                    "name": "PlanTitle 2",
+                    "tag": "h3",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Gold",
+                    "children": [],
+                    "componentPart": [
+                      0
+                    ]
+                  },
+                  {
+                    "id": "n-plan-b-price",
+                    "type": "paragraph",
+                    "name": "PlanPrice 2",
+                    "tag": "p",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Price",
+                    "children": [],
+                    "componentPart": [
+                      1
+                    ]
+                  }
+                ],
+                "component": "Plan",
+                "componentPart": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "components": [
+    {
+      "name": "Plan",
+      "tree": {
+        "id": "d-plan",
+        "type": "article",
+        "name": "Plan",
+        "tag": "article",
+        "attributes": {},
+        "classes": [],
+        "styles": {},
+        "text": null,
+        "children": [
+          {
+            "id": "d-plan-title",
+            "type": "heading",
+            "name": "PlanTitle",
+            "tag": "h3",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": "Plan name",
+            "children": []
+          },
+          {
+            "id": "d-plan-price",
+            "type": "paragraph",
+            "name": "PlanPrice",
+            "tag": "p",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": "Price",
+            "children": []
+          }
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "data/plans.json",
+      "type": "application/json",
+      "bytes": "WwogIHsKICAgICJQbGFuVGl0bGUiOiAiTW9udGhseSIsCiAgICAiUGxhblByaWNlIjogIjkg4oKsIgogIH0sCiAgewogICAgIlBsYW5UaXRsZSI6ICJXZWVrbHkiLAogICAgIlBsYW5QcmljZSI6ICIzIOKCrCIKICB9LAogIHsKICAgICJQbGFuVGl0bGUiOiAiWWVhcmx5IiwKICAgICJQbGFuUHJpY2UiOiAiOTAg4oKsIgogIH0KXQoK"
+    },
+    {
+      "path": "notes.txt",
+      "type": "text/plain",
+      "bytes": "bm90IGRhdGEK"
+    }
+  ]
+}

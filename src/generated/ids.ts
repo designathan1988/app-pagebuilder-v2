@@ -90,6 +90,7 @@ export const COMMAND_IDS = [
   "classes.moveInto",
   "classes.applyToSimilar",
   "design.applySuggestion",
+  "components.updateFromInstance",
   "element.setTag",
   "element.setAttribute",
   "assetPicker.open",
@@ -505,6 +506,7 @@ export const DOOR_IDS = [
   "classes.moveInto#inspector-class-move-into",
   "classes.applyToSimilar#inspector-class-apply-similar",
   "design.applySuggestion#styles-suggestion-apply",
+  "components.updateFromInstance#context-menu",
   "element.setTag#inspector-tag",
   "element.setTag#quick-panel-tag",
   "element.setAttribute#inspector-title",
@@ -2435,6 +2437,7 @@ export const FEATURE_IDS = [
   "site-colours",
   "class-moves",
   "style-suggestions",
+  "component-master-edit",
 ] as const;
 export type FeatureId = (typeof FEATURE_IDS)[number];
 
@@ -2862,6 +2865,7 @@ export const PREDICATE_IDS = [
   "imagePainting",
   "inTable",
   "inlineOrCell",
+  "insideInstance",
   "instanceSelected",
   "layoutComposing",
   "list",
@@ -6346,5 +6350,8 @@ export const MESSAGE_IDS = [
   "status.suggest.none",
   "status.suggest.applied",
   "feature.styleSuggestions",
+  "command.components.updateFromInstance",
+  "status.components.updated",
+  "feature.componentMasterEdit",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

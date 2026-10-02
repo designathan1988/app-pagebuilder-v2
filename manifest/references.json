@@ -2394,6 +2394,16 @@
       "kind": "handler",
       "id": "design.applySuggestion",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "components.updateFromInstance",
+      "status": "registered"
+    },
+    {
+      "kind": "predicate",
+      "id": "insideInstance",
+      "status": "registered"
     }
   ]
 }

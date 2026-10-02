@@ -243,6 +243,7 @@ export const FEATURES = {
   'site-colours': registerFeature('site-colours'),
   'class-moves': registerFeature('class-moves'),
   'style-suggestions': registerFeature('style-suggestions'),
+  'component-master-edit': registerFeature('component-master-edit'),
 } as const satisfies FeatureTable;
 
 // Whether a feature is registered as built.

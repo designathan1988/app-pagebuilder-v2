@@ -3378,5 +3378,8 @@
   "styles.suggestion": "{count} × {element} share {properties}",
   "status.suggest.none": "No {type} elements share styles any more.",
   "status.suggest.applied": ".{name} made and applied to {count} elements.",
-  "feature.styleSuggestions": "Repeated styles offered as one class"
+  "feature.styleSuggestions": "Repeated styles offered as one class",
+  "command.components.updateFromInstance": "Update the component from this instance",
+  "status.components.updated": "Component {name} updated from this instance; {count} other instances follow it.",
+  "feature.componentMasterEdit": "An instance edited in place updates its component and every instance"
 }

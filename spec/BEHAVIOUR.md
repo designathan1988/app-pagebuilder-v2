@@ -8848,3 +8848,20 @@ command bar or a script, never a button that does nothing (src/core/design/class
 
 A type that shares nothing any more (`status.suggest.none`), a name that is no class name or is taken, a locked
 element (`status.locked.edit`).
+
+## component-master-edit
+
+### Our rule
+
+- The master is edited through any of its instances (the plan's stage 7; journey D2): styles written on an element of
+  an instance already reach the component and every instance (spec reusable-components); an instance's structure —
+  elements added, removed or moved — is its own until **Update the component from this instance**
+  (`components.updateFromInstance`, the context menu and the command bar, with one element of an instance selected).
+- Then the instance becomes the component's definition, and every other instance takes its structure and styles,
+  keeping its own texts, attributes and names wherever an element of the edited instance came from one it has; an
+  element new to the edited instance reaches each other one as a copy (a new id, a name no element has). One undo step.
+- Texts, images and links stay each instance's own: they are its properties.
+
+### Refusals
+
+Nothing of an instance selected (`status.components.notInstance`): the command is not offered.
