@@ -22873,7 +22873,7 @@
           "Select a Container.",
           "Set border width 2px, style solid, colour red for all sides.",
           "Select only the Top edge and set it to 4px dashed.",
-          "Set radius 12px for all corners, then unlink and set the top-left corner to 24px.",
+          "Set radius 12 for all corners (bare numbers use px), then unlink and set the top-left corner to 24px.",
           "Set outline and outline-offset."
         ],
         "expected": [
@@ -25018,6 +25018,202 @@
             },
             "editor": null,
             "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "a-bare-radius-uses-the-default-unit",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Actions"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "style.setRadius#inspector-border-radius-radius-editor",
+              "args": {
+                "corners": "all",
+                "value": "12"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "12\n"
+            }
+          ],
+          "doors": [
+            "style.setRadius#inspector-border-radius-radius-editor"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/Actions/@styles/desktop/base/border-top-left-radius",
+                "value": "12px"
+              },
+              {
+                "op": "set",
+                "path": "/Page/Hero/Actions/@styles/desktop/base/border-top-right-radius",
+                "value": "12px"
+              },
+              {
+                "op": "set",
+                "path": "/Page/Hero/Actions/@styles/desktop/base/border-bottom-right-radius",
+                "value": "12px"
+              },
+              {
+                "op": "set",
+                "path": "/Page/Hero/Actions/@styles/desktop/base/border-bottom-left-radius",
+                "value": "12px"
+              }
+            ],
+            "selection": [
+              "/Page/Hero/Actions"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Hero/Actions",
+                  "property": "border-top-left-radius",
+                  "value": "12px"
+                },
+                {
+                  "node": "/Page/Hero/Actions",
+                  "property": "border-bottom-right-radius",
+                  "value": "12px"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.style.set",
+                  "params": {
+                    "property": "Radius",
+                    "name": "Actions",
+                    "value": "12px"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "radius-arithmetic-uses-the-length-interpreter",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Actions"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "style.setRadius#inspector-border-radius-radius-editor",
+              "args": {
+                "corners": "all",
+                "value": "16*2"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "16*2\n"
+            }
+          ],
+          "doors": [
+            "style.setRadius#inspector-border-radius-radius-editor"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/Actions/@styles/desktop/base/border-top-left-radius",
+                "value": "32px"
+              },
+              {
+                "op": "set",
+                "path": "/Page/Hero/Actions/@styles/desktop/base/border-top-right-radius",
+                "value": "32px"
+              },
+              {
+                "op": "set",
+                "path": "/Page/Hero/Actions/@styles/desktop/base/border-bottom-right-radius",
+                "value": "32px"
+              },
+              {
+                "op": "set",
+                "path": "/Page/Hero/Actions/@styles/desktop/base/border-bottom-left-radius",
+                "value": "32px"
+              }
+            ],
+            "selection": [
+              "/Page/Hero/Actions"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Hero/Actions",
+                  "property": "border-top-left-radius",
+                  "value": "32px"
+                },
+                {
+                  "node": "/Page/Hero/Actions",
+                  "property": "border-bottom-right-radius",
+                  "value": "32px"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.style.set",
+                  "params": {
+                    "property": "Radius",
+                    "name": "Actions",
+                    "value": "32px"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
             "export": null
           },
           "refusals": []

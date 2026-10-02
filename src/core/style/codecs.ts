@@ -455,7 +455,16 @@ export function valueWords(text: string): string[] {
 // sharing the second. Each value a keyword the composite offers, a length in one of its units, or, for a composite with
 // no units (the colours), any word the browser then checks longhand by longhand.
 function fourValues(text: string, facts: ValueFacts): Value | null {
-  const words = valueWords(text).map((w) => (facts.keywords.includes(w.toLowerCase()) ? w.toLowerCase() : facts.units.length > 0 ? lengthText(w, facts.units) : w));
+  const words = valueWords(text).map((word) => {
+    if (facts.keywords.includes(word.toLowerCase())) return word.toLowerCase();
+    if (facts.units.length === 0) return word;
+    // Keep existing explicit lengths (including unitless zero); bare numbers and expressions use the same
+    // interpreter as individual lengths, so a composite never imposes a different input language.
+    const explicit = lengthText(word, facts.units);
+    if (explicit !== null) return explicit;
+    const value = lengthPercentage.read(word, facts);
+    return value === null ? null : lengthPercentage.write(value);
+  });
   if (words.length === 0 || words.length > 4 || words.some((w) => w === null)) return null;
   const [a = '', b = a, c = a, d = b] = words as string[];
   return { kind: 'longhands', values: [a, b, c, d], text: words.join(' ') };

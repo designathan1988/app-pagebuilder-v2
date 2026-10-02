@@ -4915,6 +4915,14 @@ The fields and menus are keyboard-operable like every inspector field: Enter kee
 
 ## props-border-outline
 
+### Composite length input (Jornada 03 J18)
+
+Radius and other four-sided length fields accept one through four bare numbers in the field's default unit,
+the same arithmetic as individual length fields, explicit supported units, and balanced CSS math functions.
+For example, radius `12` writes four `12px` corners; spacing `14 28` writes `14px 28px 14px 28px`.
+Existing unitless zero and explicit units retain their representation. Color composites retain color parsing.
+Invalid quantities are refused through the existing value-validation path; one confirmation is one undo step.
+
 How Pager behaves, read from its source (source references are `path:line` inside Pager) and checked in `.cache/pager-run`. Test element: a Container.
 
 ### Trigger

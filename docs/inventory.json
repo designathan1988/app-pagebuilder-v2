@@ -4,9 +4,9 @@
     "built": 187,
     "commands": 264,
     "doors": 1032,
-    "scenarios": 1362,
+    "scenarios": 1364,
     "modules": 267,
-    "lines": 51493
+    "lines": 51502
   },
   "features": [
     {
@@ -864,7 +864,7 @@
         "field.cancel"
       ],
       "doors": 198,
-      "scenarios": 25,
+      "scenarios": 27,
       "modules": [
         "src/core/style/border.ts",
         "src/core/style/set.ts",
@@ -3776,7 +3776,7 @@
     },
     {
       "path": "src/core/style/codecs.ts",
-      "lines": 803,
+      "lines": 812,
       "commands": [],
       "features": []
     },

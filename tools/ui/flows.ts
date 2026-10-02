@@ -54,6 +54,17 @@ const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as cons
 
 export const FLOWS: readonly Flow[] = [
   {
+    name: 'bare-radius',
+    about: 'a radius accepts the same bare lengths and arithmetic as other length fields',
+    steps: [
+      INSERT_PANEL,
+      CONTAINER_TILE,
+      { click: '[data-section="border"] .inspector-section__header' },
+      { type: { at: '[data-door="style.setRadius#inspector-border-radius-radius-editor"] input', text: '12' } },
+      { photo: 'bare-radius-result' },
+    ],
+  },
+  {
     name: 'viewport-width',
     about: 'continuous widths follow the responsive cascade and return to a reference tab',
     steps: [
