@@ -7796,7 +7796,8 @@
       "titleKey": "feature.alignDistribute",
       "commands": [
         "position.align",
-        "position.distribute"
+        "position.distribute",
+        "selection.range"
       ],
       "dependsOn": [
         "absolute-free-drag"
@@ -8080,7 +8081,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardB"
               },
@@ -8091,7 +8092,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardC"
               },
@@ -8505,7 +8506,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardB"
               },
@@ -8516,7 +8517,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardC"
               },
@@ -8925,7 +8926,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardB"
               },
@@ -8936,7 +8937,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardC"
               },
@@ -9345,7 +9346,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardB"
               },
@@ -9356,7 +9357,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardC"
               },
@@ -9765,7 +9766,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardB"
               },
@@ -9776,7 +9777,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardC"
               },
@@ -10185,7 +10186,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardB"
               },
@@ -10196,7 +10197,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardC"
               },
@@ -10605,7 +10606,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardB"
               },
@@ -10616,7 +10617,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardC"
               },
@@ -11030,7 +11031,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardB"
               },
@@ -11041,7 +11042,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Plans/Grid/CardC"
               },

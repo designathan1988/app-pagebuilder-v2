@@ -10,7 +10,7 @@ import { control, runDoor, runs, openStyleControl } from './door.ts';
 const FIXTURE = 'manifest/features/fixtures/aurora.json';
 const OPEN = 'project.open#menu-file';
 const ROW = 'selection.select#layers-row';
-const ADD = 'selection.add#layers-row-shift';
+const ADD = 'selection.range#layers-row-shift';
 const ESSENTIALS = 'inspector.setMode#inspector-mode-essentials';
 const REVEAL = 'inspector.reveal#inspector-add-property-item';
 const LIST_TYPE = 'style.set#inspector-list-style-type';

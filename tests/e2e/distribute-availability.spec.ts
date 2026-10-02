@@ -10,7 +10,7 @@ import { control, openMenu, runDoor, runs } from './door.ts';
 const FIXTURE = 'manifest/features/fixtures/aurora.json';
 const OPEN = 'project.open#menu-file';
 const ROW = 'selection.select#layers-row';
-const ADD = 'selection.add#layers-row-shift';
+const ADD = 'selection.range#layers-row-shift';
 const POSITION = 'position.setMode#inspector-position';
 const DISTRIBUTE = 'position.distribute#menu-arrange-horizontal';
 

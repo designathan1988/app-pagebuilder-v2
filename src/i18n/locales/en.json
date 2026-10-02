@@ -3312,5 +3312,6 @@
   "batchRename.preview": "They will be named: {names}",
   "status.rename.many": "Renamed {count} elements.",
   "status.rename.patternInvalid": "Type the names to give, and a first number of 1 or more.",
-  "feature.batchRename": "Renaming in batch"
+  "feature.batchRename": "Renaming in batch",
+  "command.selectRange": "Select the rows between"
 }

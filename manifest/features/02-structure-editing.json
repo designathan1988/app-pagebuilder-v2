@@ -13788,7 +13788,8 @@
       "titleKey": "feature.multiSelectClick",
       "commands": [
         "selection.add",
-        "selection.toggle"
+        "selection.toggle",
+        "selection.range"
       ],
       "dependsOn": [],
       "spec": "spec/BEHAVIOUR.md#multi-select-click",
@@ -13837,8 +13838,7 @@
             }
           ],
           "doors": [
-            "selection.add#canvas-click-element-shift",
-            "selection.add#layers-row-shift"
+            "selection.add#canvas-click-element-shift"
           ],
           "expect": {
             "document": [],
@@ -13898,8 +13898,7 @@
             }
           ],
           "doors": [
-            "selection.add#canvas-click-element-shift",
-            "selection.add#layers-row-shift"
+            "selection.add#canvas-click-element-shift"
           ],
           "expect": {
             "document": [],
@@ -14049,6 +14048,185 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "shift-click-on-a-layers-row-selects-the-rows-between",
+          "setup": {
+            "fixture": "aurora",
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100,
+            "selection": [
+              "/Page/Hero/Title"
+            ]
+          },
+          "steps": [
+            {
+              "door": "selection.range#layers-row-shift",
+              "args": {
+                "target": "/Page/Hero/Actions"
+              },
+              "target": "/Page/Hero/Actions",
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "selection.range#layers-row-shift"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Hero/Title",
+              "/Page/Hero/Intro",
+              "/Page/Hero/Actions"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.selection.count",
+                  "params": {
+                    "count": 3
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "shift-click-upwards-selects-the-rows-between-in-that-order",
+          "setup": {
+            "fixture": "aurora",
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100,
+            "selection": [
+              "/Page/Hero/Actions"
+            ]
+          },
+          "steps": [
+            {
+              "door": "selection.range#layers-row-shift",
+              "args": {
+                "target": "/Page/Hero/Title"
+              },
+              "target": "/Page/Hero/Title",
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "selection.range#layers-row-shift"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Hero/Actions",
+              "/Page/Hero/Intro",
+              "/Page/Hero/Title"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.selection.count",
+                  "params": {
+                    "count": 3
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "shift-click-on-a-row-of-another-parent-adds-it",
+          "setup": {
+            "fixture": "aurora",
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100,
+            "selection": [
+              "/Page/Hero/Title"
+            ]
+          },
+          "steps": [
+            {
+              "door": "selection.range#layers-row-shift",
+              "args": {
+                "target": "/Page/Plans"
+              },
+              "target": "/Page/Plans",
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "selection.range#layers-row-shift"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Hero/Title",
+              "/Page/Plans"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.selection.count",
+                  "params": {
+                    "count": 2
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
         }
       ]
     },

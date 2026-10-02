@@ -317,7 +317,31 @@
             "fields": []
           },
           "args": {}
-        },
+        }
+      ]
+    },
+    {
+      "id": "selection.range",
+      "labelKey": "command.selectRange",
+      "owner": "src/core/selection/selection.ts",
+      "introducedBy": "multi-select-click",
+      "args": {
+        "target": {
+          "type": "node",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
         {
           "id": "layers-row-shift",
           "kind": "panel-control",

@@ -263,8 +263,9 @@ export function CanvasColumn() {
                         frame's edge instead of being cut or overlapping (the audit's A3.18) */}
                     <BreakpointTabs />
                     <StateBadge />
-                    <CanvasFrame width={pageWidth} screen={pageHeight} zoom={zoom} />
+                    {/* the edge first: the page's overlay (its handles at the page's edge) is drawn over it */}
                     <FrameEdge width={pageWidth} />
+                    <CanvasFrame width={pageWidth} screen={pageHeight} zoom={zoom} />
                   </div>
                   {/* the quick panel of the selection, over the stage (canvas/quick-panel.tsx) */}
                   <QuickPanel stage={stage} />

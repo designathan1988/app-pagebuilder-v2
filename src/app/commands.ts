@@ -41,6 +41,7 @@ import { setPageSettingCommand } from '../core/page/settings.ts';
 import { openProject, saveProject } from '../core/project/archive.ts';
 import {
   addCommand,
+  rangeCommand,
   clearSelectionCommand,
   hasSelection,
   targetOrSelection,
@@ -335,6 +336,7 @@ export const COMMANDS = {
   'selection.select': selectCommand,
   'selection.clear': clearSelectionCommand,
   'selection.add': addCommand,
+  'selection.range': rangeCommand,
   'selection.toggle': toggleCommand,
   'selection.walkNextSibling': walkNextSiblingCommand,
   'selection.walkPreviousSibling': walkPreviousSiblingCommand,

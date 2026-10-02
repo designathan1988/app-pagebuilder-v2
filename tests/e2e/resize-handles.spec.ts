@@ -13,7 +13,7 @@ const interactions = JSON.parse(fs.readFileSync('manifest/interactions.json', 'u
 const ROOM = interactions.constants.find((c) => c.id === 'resize.handleRoom')?.value as number;
 const OPEN = 'project.open#menu-file';
 const ROW = 'selection.select#layers-row';
-const ADD = 'selection.add#layers-row-shift';
+const ADD = 'selection.range#layers-row-shift';
 const LOCK = 'element.toggleLock#layers-row-lock';
 const SE = 'geometry.resize#handle-resize-se';
 const E = 'geometry.resize#handle-resize-e';

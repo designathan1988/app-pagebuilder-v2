@@ -2,11 +2,11 @@
   "totals": {
     "features": 207,
     "built": 206,
-    "commands": 359,
+    "commands": 360,
     "doors": 1311,
-    "scenarios": 1717,
+    "scenarios": 1720,
     "modules": 400,
-    "lines": 73232
+    "lines": 73257
   },
   "features": [
     {
@@ -377,10 +377,11 @@
       "built": true,
       "commands": [
         "selection.add",
-        "selection.toggle"
+        "selection.toggle",
+        "selection.range"
       ],
       "doors": 4,
-      "scenarios": 4,
+      "scenarios": 7,
       "modules": [
         "src/core/selection/selection.ts"
       ]
@@ -1866,12 +1867,14 @@
       "built": true,
       "commands": [
         "position.align",
-        "position.distribute"
+        "position.distribute",
+        "selection.range"
       ],
-      "doors": 24,
+      "doors": 25,
       "scenarios": 9,
       "modules": [
-        "src/core/geometry/align.ts"
+        "src/core/geometry/align.ts",
+        "src/core/selection/selection.ts"
       ]
     },
     {
@@ -2089,9 +2092,10 @@
         "project.export",
         "workspace.setPanelOpen",
         "commandBar.open",
-        "components.startCreate"
+        "components.startCreate",
+        "selection.range"
       ],
-      "doors": 228,
+      "doors": 229,
       "scenarios": 56,
       "modules": [
         "src/core/clipboard/clipboard.ts",
@@ -2298,9 +2302,10 @@
         "element.delete",
         "layers.startRename",
         "layers.expandOrFocusChild",
-        "layers.collapseOrFocusParent"
+        "layers.collapseOrFocusParent",
+        "selection.range"
       ],
-      "doors": 59,
+      "doors": 60,
       "scenarios": 7,
       "modules": [
         "src/core/selection/selection.ts",
@@ -3171,7 +3176,7 @@
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 495,
+      "lines": 497,
       "commands": [],
       "features": []
     },
@@ -4225,12 +4230,13 @@
     },
     {
       "path": "src/core/selection/selection.ts",
-      "lines": 210,
+      "lines": 229,
       "commands": [
         "selection.select",
         "selection.clear",
         "selection.selectAllInContainer",
         "selection.marquee",
+        "selection.range",
         "selection.add",
         "selection.toggle",
         "selection.walkNextSibling",
@@ -4240,6 +4246,7 @@
       ],
       "features": [
         "accessibility-checks",
+        "align-distribute",
         "app-menu",
         "code-panel-selection-sync",
         "command-bar",
@@ -5734,7 +5741,7 @@
     },
     {
       "path": "src/editor/shell/canvas.tsx",
-      "lines": 286,
+      "lines": 287,
       "commands": [],
       "features": []
     },
@@ -6279,13 +6286,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 614,
+      "lines": 615,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6266,
+      "lines": 6268,
       "commands": [],
       "features": []
     },

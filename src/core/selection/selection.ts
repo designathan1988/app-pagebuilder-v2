@@ -149,6 +149,25 @@ function known(state: StoreState<never>, target: string) {
   if (!locate(state.document, target)) throw new Error(`adding to the selection: the document has no node ${target}`);
 }
 
+// selection.range (Shift+click on a Layers row; jornada03 J17): from the node selected last to the one clicked, every
+// sibling between them joins the selection, in the order from that node to the clicked one, as a file tree selects a
+// run of rows. Rows of different parents are no run: the clicked node joins the selection as with Shift+click on the
+// canvas (selection.add). With nothing selected it is selected alone.
+export const rangeCommand = registerHandler('selection.range', ({ state }, { target }) => {
+  known(state, target);
+  const anchorId = state.selection.at(-1);
+  if (anchorId === undefined) return several(state, [target]);
+  const anchor = locate(state.document, anchorId);
+  const clicked = locate(state.document, target);
+  if (anchor === null || clicked === null || clicked.parent === null || anchor.parent?.id !== clicked.parent.id) {
+    return several(state, state.selection.includes(target) ? state.selection : [...state.selection, target]);
+  }
+  const [from, to] = anchor.index <= clicked.index ? [anchor.index, clicked.index] : [clicked.index, anchor.index];
+  const run = clicked.parent.children.slice(from, to + 1).map((node) => node.id);
+  const ordered = anchor.index <= clicked.index ? run : [...run].reverse();
+  return several(state, [...state.selection.filter((id) => !ordered.includes(id)), ...ordered]);
+});
+
 // selection.add (Shift+click): the node joins the selection after the nodes already in it; a node already selected
 // stays where it is (Shift+click adds and never removes, spec Problems in Pager 2)
 export const addCommand = registerHandler('selection.add', ({ state }, { target }) => {

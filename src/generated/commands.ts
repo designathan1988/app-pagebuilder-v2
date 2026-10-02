@@ -254,6 +254,7 @@ export interface CommandArgs {
   "selection.select": { readonly target: NodeId };
   "selection.clear": Record<string, never>;
   "selection.add": { readonly target: NodeId };
+  "selection.range": { readonly target: NodeId };
   "selection.toggle": { readonly target: NodeId };
   "selection.walkNextSibling": Record<string, never>;
   "selection.walkPreviousSibling": Record<string, never>;
@@ -429,7 +430,7 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "text-edit-inline": ["text.startEdit","text.set","text.cancelEdit","text.insertLineBreak"],
   "text-inline-formatting": ["text.toggleBold","text.toggleItalic","text.editLink","text.paste"],
   "rename-element": ["layers.startRename","element.rename","layers.cancelRename"],
-  "multi-select-click": ["selection.add","selection.toggle"],
+  "multi-select-click": ["selection.add","selection.toggle","selection.range"],
   "unwrap": ["element.unwrap"],
   "marquee-select": ["selection.marquee"],
   "multi-select-actions": ["element.moveUp","element.wrapRow","element.wrapColumn","element.promote","element.duplicate","element.delete","hand.take","layers.startRename","text.startEdit"],
@@ -533,7 +534,7 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "absolute-free-drag": ["position.move"],
   "absolute-nudge": ["position.move"],
   "absolute-anchors": ["position.setAnchors"],
-  "align-distribute": ["position.align","position.distribute"],
+  "align-distribute": ["position.align","position.distribute","selection.range"],
   "snap-toggle-settings": ["snap.setEnabled","snap.setSettings","workspace.openDialog"],
   "snap-while-moving": ["geometry.resize","position.move","guides.create","snap.setEnabled"],
   "smart-guides": ["position.move","view.toggleSmartGuides","view.toggleEqualSpacing"],
@@ -545,7 +546,7 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "embed-html": ["element.setEmbedMarkup"],
   "theme-switch": ["preferences.setTheme"],
   "dock-toggles": ["workspace.setPanelOpen","workspace.toggleLeftDock","workspace.toggleInspector","workspace.collapseDocks"],
-  "command-bar": ["history.undo","history.redo","selection.clear","selection.selectAllInContainer","focus.next","focus.previous","focus.activate","ui.dismiss","element.insert","element.moveUp","element.moveDown","element.wrapRow","element.wrapColumn","element.nestIntoPrevious","element.promote","element.duplicate","element.delete","element.unwrap","element.createNaturalChild","hand.take","clipboard.copy","clipboard.paste","layers.startRename","element.toggleLock","element.toggleHidden","text.startEdit","style.resetAll","position.align","position.distribute","table.addColumnAfter","table.addColumnEnd","table.removeColumn","table.addRowAfter","table.removeRow","components.create","components.detach","page.openProperties","view.zoomIn","view.zoomOut","view.zoomReset","view.zoomFit","view.enterPreview","project.newBlankPage","project.save","project.open","project.export","workspace.setPanelOpen","commandBar.open","components.startCreate"],
+  "command-bar": ["history.undo","history.redo","selection.clear","selection.selectAllInContainer","focus.next","focus.previous","focus.activate","ui.dismiss","element.insert","element.moveUp","element.moveDown","element.wrapRow","element.wrapColumn","element.nestIntoPrevious","element.promote","element.duplicate","element.delete","element.unwrap","element.createNaturalChild","hand.take","clipboard.copy","clipboard.paste","layers.startRename","element.toggleLock","element.toggleHidden","text.startEdit","style.resetAll","position.align","position.distribute","table.addColumnAfter","table.addColumnEnd","table.removeColumn","table.addRowAfter","table.removeRow","components.create","components.detach","page.openProperties","view.zoomIn","view.zoomOut","view.zoomReset","view.zoomFit","view.enterPreview","project.newBlankPage","project.save","project.open","project.export","workspace.setPanelOpen","commandBar.open","components.startCreate","selection.range"],
   "command-bar-set-property": ["style.set","style.setSpacing","style.setBorder","style.setRadius","style.setBackgroundImage","style.setShadows","style.setFilter","style.setTransform","position.setMode","inspector.reveal"],
   "shortcuts-panel": ["workspace.setPanelOpen"],
   "workbench-panel": ["workspace.setPanelOpen","workspace.toggleDeveloperTools","workspace.setWorkbenchState","workspace.setActiveTab"],
@@ -556,7 +557,7 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "status-bar": ["selection.select","view.setBreakpoint","view.setStyleState"],
   "accessibility-checks": ["selection.select","workspace.setPanelOpen"],
   "keyboard-panel-navigation": ["focus.next","focus.previous","focus.first","focus.last","focus.activate","focus.nextRegion","focus.previousRegion","focus.canvas"],
-  "layers-keyboard-navigation": ["selection.select","focus.next","focus.previous","focus.first","focus.last","element.moveUp","element.moveDown","element.delete","layers.startRename","layers.expandOrFocusChild","layers.collapseOrFocusParent"],
+  "layers-keyboard-navigation": ["selection.select","focus.next","focus.previous","focus.first","focus.last","element.moveUp","element.moveDown","element.delete","layers.startRename","layers.expandOrFocusChild","layers.collapseOrFocusParent","selection.range"],
   "clipboard-cut-system": ["clipboard.cut"],
   "copy-paste-styles": ["clipboard.copyStyle","clipboard.pasteStyle"],
   "html-import-structure": ["project.importHtml"],

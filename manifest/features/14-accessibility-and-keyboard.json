@@ -705,7 +705,8 @@
         "element.delete",
         "layers.startRename",
         "layers.expandOrFocusChild",
-        "layers.collapseOrFocusParent"
+        "layers.collapseOrFocusParent",
+        "selection.range"
       ],
       "dependsOn": [
         "keyboard-panel-navigation"
@@ -889,7 +890,7 @@
               "type": null
             },
             {
-              "door": "selection.add#layers-row-shift",
+              "door": "selection.range#layers-row-shift",
               "args": {
                 "target": "/Page/Hero/Intro"
               },

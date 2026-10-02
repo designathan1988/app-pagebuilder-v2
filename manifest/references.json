@@ -2364,6 +2364,11 @@
       "kind": "handler",
       "id": "element.renameMany",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "selection.range",
+      "status": "registered"
     }
   ]
 }

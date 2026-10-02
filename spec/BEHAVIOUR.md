@@ -4046,6 +4046,11 @@ See `select-container-children.md` and `layers-keyboard-navigation.md`.
 3. **Only one outline around the union is drawn.** Required: each selected element has its own outline, plus the count chip `N elements`.
 4. **Hover chips intercept clicks meant for the element under them** (see Hit zones). Required: chips never cover another element's content while it could be clicked; when they must overlap, clicks on them pass to the element under the pointer unless the chip itself is the intended drag handle of the selected element.
 
+
+**Layers (stage 5, jornada03 J17):** Shift+click on a Layers row selects the run of rows between the node selected last
+and the row clicked (`selection.range`), siblings in order from that node to the clicked one; a row of another parent
+is added alone; Ctrl+click on a row adds or removes that one row. Shift+click on the canvas still adds the element.
+
 ## multi-select-edit
 
 Read from Pager's source (`reference/Pager`, run from `.cache/pager-run`); references are `path:line` inside Pager. Test document: Section > [Heading, Paragraph, Paragraph] with different font sizes.

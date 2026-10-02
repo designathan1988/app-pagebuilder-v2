@@ -3312,5 +3312,6 @@
   "batchRename.preview": "Serão chamados: {names}",
   "status.rename.many": "{count} elementos renomeados.",
   "status.rename.patternInvalid": "Digite os nomes a dar, e um primeiro número de 1 ou mais.",
-  "feature.batchRename": "Renomear em lote"
+  "feature.batchRename": "Renomear em lote",
+  "command.selectRange": "Selecionar as linhas entre"
 }

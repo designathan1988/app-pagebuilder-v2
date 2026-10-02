@@ -220,6 +220,7 @@ export const COMMAND_IDS = [
   "selection.select",
   "selection.clear",
   "selection.add",
+  "selection.range",
   "selection.toggle",
   "selection.walkNextSibling",
   "selection.walkPreviousSibling",
@@ -1015,7 +1016,7 @@ export const DOOR_IDS = [
   "selection.clear#menu-edit",
   "selection.clear#command-bar",
   "selection.add#canvas-click-element-shift",
-  "selection.add#layers-row-shift",
+  "selection.range#layers-row-shift",
   "selection.toggle#canvas-click-element-ctrl",
   "selection.toggle#layers-row-ctrl",
   "selection.walkNextSibling#key-arrow-right-in-canvas",
@@ -6261,5 +6262,6 @@ export const MESSAGE_IDS = [
   "status.rename.many",
   "status.rename.patternInvalid",
   "feature.batchRename",
+  "command.selectRange",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

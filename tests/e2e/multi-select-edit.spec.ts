@@ -10,7 +10,7 @@ import { control, runDoor, runs } from './door.ts';
 const FIXTURE = 'manifest/features/fixtures/aurora.json';
 const OPEN = 'project.open#menu-file';
 const ROW = 'selection.select#layers-row';
-const ADD = 'selection.add#layers-row-shift';
+const ADD = 'selection.range#layers-row-shift';
 const FONT_SIZE = 'style.set#inspector-font-size';
 const COLOR = 'style.set#inspector-color';
 const WEIGHT = 'style.set#inspector-font-weight';

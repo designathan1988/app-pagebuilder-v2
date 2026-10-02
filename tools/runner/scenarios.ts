@@ -171,7 +171,9 @@ function layersRowClick(command: string, modifier: string | null): string {
   if (!found) throw new Error(`${command} has no Layers row click${modifier === null ? '' : ` with ${modifier}`}`);
   return `${command}#${found.id}`;
 }
-const ADD_ROW_DOOR = layersRowClick('selection.add', doorData(ADD_DOOR).modifier ?? null);
+// a node added to the selection through its Layers row: the row's Ctrl+click (selection.toggle, which adds a row not
+// selected yet); Shift+click on a row selects the run of rows between (selection.range, jornada03 J17)
+const ADD_ROW_DOOR = layersRowClick('selection.toggle', doorData(canvasClick('selection.toggle')).modifier ?? null);
 // The door of a canvas click's command on a node's Layers row, pressed with the same button and the same key: how a
 // person reaches a node its children cover whole, which has no point of its own on the canvas (spec select-click,
 // "Nested elements": the Layers panel). Null when the command has none.
