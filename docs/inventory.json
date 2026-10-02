@@ -6,7 +6,7 @@
     "doors": 1314,
     "scenarios": 1723,
     "modules": 400,
-    "lines": 73438
+    "lines": 73470
   },
   "features": [
     {
@@ -5119,7 +5119,7 @@
     },
     {
       "path": "src/editor/doors/door.tsx",
-      "lines": 328,
+      "lines": 329,
       "commands": [],
       "features": []
     },
@@ -5826,7 +5826,7 @@
     },
     {
       "path": "src/editor/shell/dock.tsx",
-      "lines": 153,
+      "lines": 213,
       "commands": [],
       "features": []
     },
@@ -5994,7 +5994,7 @@
     },
     {
       "path": "src/editor/shell/status-bar.tsx",
-      "lines": 206,
+      "lines": 177,
       "commands": [],
       "features": []
     },

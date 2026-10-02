@@ -184,9 +184,9 @@ npm run inventory         # regenerate docs/INVENTORY.md and docs/inventory.json
   (the headless scenario runner among them) and the complete browser suite: **2,006 passed** in 11.9 minutes, no failure and no flake.
 - The design-system chapter (the audit of jornada01/02 and its resolution plan: waves T, B/E/M, 0 to 6) is done. Its
   decisions, each recorded in its spec section:
-  - **The bottom dock stays as the owner's A3.18 decided** (closed, no strip; its 28 px go to the canvas); the status
-    bar's panel icons carry what the plan's 5.5 wanted seen — the Checks icon with the number of issues
-    (spec dock-toggles).
+  - **The bottom dock keeps its strip when closed**, as the canonical design draws it (jornada03 stage 5, replacing
+    A3.18's status-bar icons): its tabs open the dock, the Checks tab with the number of issues, and the first issue
+    beside them (spec dock-toggles).
   - **S-028 stays**: a whole border the parser cannot read is refused naming the part it guessed, which the scenario
     `a-side-colour-that-is-no-colour-is-refused` pins.
   - **T.2 (door reach batched in one page) is not built**: its aim was speed, met otherwise — the headless runner and

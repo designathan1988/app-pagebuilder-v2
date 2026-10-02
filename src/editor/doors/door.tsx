@@ -293,7 +293,8 @@ export function DoorControl({ entry, args = {}, children, expanded, className, l
       );
     case 'tab':
       return (
-        <button {...common} role="tab" aria-selected={door.current} aria-label={door.face !== door.label ? door.label : undefined}>
+        // named by its label when it differs from its face, or when the caller names it (the Checks tab with its count)
+        <button {...common} role="tab" aria-selected={door.current} aria-label={label !== undefined || door.face !== door.label ? door.label : undefined}>
           {icon}
           {children ?? <span className="door__label">{door.face}</span>}
         </button>

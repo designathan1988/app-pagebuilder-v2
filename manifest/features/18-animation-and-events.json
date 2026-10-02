@@ -162,7 +162,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -279,7 +279,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -459,7 +459,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -606,7 +606,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -753,7 +753,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -897,7 +897,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -1058,7 +1058,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -1269,7 +1269,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -1418,7 +1418,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -1539,7 +1539,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -1662,7 +1662,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -1785,7 +1785,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -1913,7 +1913,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -2110,7 +2110,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"
@@ -3218,7 +3218,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {
                 "panel": "timeline",
                 "open": "toggle"

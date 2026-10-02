@@ -1357,7 +1357,7 @@ The chords above.
 
 1. **Closing or reopening a single panel says nothing.** Required: the status bar reports each change (`Layers closed.` / `Layers opened.`), for every door (manifest feature `dock-toggles`).
 2. **Two parallel panel systems** (independent Elements/Layers groups and the older dock layout) decide visibility; `Ctrl+B` goes through one or the other depending on a body class (`dock.js:174-180`). Required: one workspace owner for docks and panel visibility.
-3. **With the dock closed, the Checks were out of sight** (the audit's U-026; the plan's 5.5 asked for a strip kept when collapsed). Decided: the dock stays as the owner's A3.18 left it — closed, it draws no strip, its 28 px go to the canvas, and its panels stand as icons in the status bar. Required: the status bar's Checks icon carries the number of issues the document has, as a badge and in its name ("Checks: 3 issues"), and a press opens the dock on the Checks tab.
+3. **With the dock closed, the Checks were out of sight** (the audit's U-026; the plan's 5.5 asked for a strip kept when collapsed). Decided (jornada03 plan, stage 5: follow the canonical design/final): closed, the dock keeps its 28 px strip — Timeline, Checks and Motion as tabs that open the dock on their panel, then the first issue of the Checks list, then show/hide and maximize. The Checks tab carries the number of issues the document has, as a badge and in its name ("Checks: 3 issues"), closed or open. The status bar draws no dock panel (A3.18's icons are retired: the strip is where the panels are).
 
 ## drag-autoscroll
 

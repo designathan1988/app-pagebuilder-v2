@@ -11,7 +11,7 @@ const OPEN = 'project.open#menu-file';
 const ROW = 'selection.select#layers-row';
 const TAB = 'workspace.setActiveTab#inspector-tab-interactions';
 const ADD = 'motion.add#inspector-motion-add';
-const PANEL = 'workspace.setPanelOpen#status-bar-motion';
+const PANEL = 'workspace.setPanelOpen#dock-strip-motion';
 const BAR = 'motion.select#timeline-motion-bar';
 const EASING = 'motion.updateAction#timeline-motion-action-easing';
 

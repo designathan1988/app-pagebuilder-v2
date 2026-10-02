@@ -807,7 +807,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-timeline",
+              "door": "workspace.setPanelOpen#dock-strip-timeline",
               "args": {},
               "target": null,
               "drop": null,
@@ -817,7 +817,7 @@
             }
           ],
           "doors": [
-            "workspace.setPanelOpen#status-bar-timeline"
+            "workspace.setPanelOpen#dock-strip-timeline"
           ],
           "expect": {
             "document": [],
@@ -870,7 +870,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-checks",
+              "door": "workspace.setPanelOpen#dock-strip-checks",
               "args": {},
               "target": null,
               "drop": null,
@@ -880,7 +880,7 @@
             }
           ],
           "doors": [
-            "workspace.setPanelOpen#status-bar-checks"
+            "workspace.setPanelOpen#dock-strip-checks"
           ],
           "expect": {
             "document": [],
@@ -11292,7 +11292,7 @@
                   "region": "canvas-stage",
                   "measure": "height",
                   "relation": "greater-than",
-                  "value": 779,
+                  "value": 750,
                   "reference": null
                 }
               ],
@@ -11929,7 +11929,7 @@
                   "region": "canvas-stage",
                   "measure": "height",
                   "relation": "greater-than",
-                  "value": 779,
+                  "value": 750,
                   "reference": null
                 }
               ],

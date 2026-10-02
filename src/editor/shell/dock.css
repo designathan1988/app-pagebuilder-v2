@@ -43,6 +43,30 @@
   margin-left: auto;
 }
 
+/* the number of issues beside the Checks tab (design/final .badge) */
+.dock-strip__badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--space-8);
+  height: var(--space-8);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-origin-breakpoint-soft);
+  color: var(--color-warning);
+  font: var(--fw-micro) var(--fs-micro) / var(--lh-micro) var(--font-ui);
+}
+
+/* the closed dock's first issue (design/final .peek) */
+.dock-strip__peek {
+  min-width: 0;
+  margin-left: var(--space-4);
+  overflow: hidden;
+  color: var(--color-text-subtle);
+  font-size: var(--fs-caption);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .dock-strip__actions .door--icon-button {
   width: var(--size-target-min);
   height: var(--size-target-min);

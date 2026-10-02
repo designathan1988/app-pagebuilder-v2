@@ -536,9 +536,9 @@
           }
         },
         {
-          "id": "status-bar-timeline",
+          "id": "dock-strip-timeline",
           "kind": "toolbar",
-          "drawnAs": "icon-button",
+          "drawnAs": "button",
           "pressed": false,
           "feature": "dock-toggles",
           "labelKey": "panel.timeline",
@@ -546,8 +546,8 @@
           "icon": "diamond",
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
-            "region": "status-bar",
-            "order": 90
+            "region": "dock-strip",
+            "order": 4
           },
           "adapter": {
             "selection": "none",
@@ -561,9 +561,9 @@
           }
         },
         {
-          "id": "status-bar-motion",
+          "id": "dock-strip-motion",
           "kind": "toolbar",
-          "drawnAs": "icon-button",
+          "drawnAs": "button",
           "pressed": false,
           "feature": "motion-timeline",
           "labelKey": "panel.motion",
@@ -571,8 +571,8 @@
           "icon": "sparkles",
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
-            "region": "status-bar",
-            "order": 92
+            "region": "dock-strip",
+            "order": 6
           },
           "adapter": {
             "selection": "none",
@@ -586,9 +586,9 @@
           }
         },
         {
-          "id": "status-bar-checks",
+          "id": "dock-strip-checks",
           "kind": "toolbar",
-          "drawnAs": "icon-button",
+          "drawnAs": "button",
           "pressed": false,
           "feature": "dock-toggles",
           "labelKey": "panel.checks",
@@ -596,8 +596,8 @@
           "icon": "check",
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
-            "region": "status-bar",
-            "order": 91
+            "region": "dock-strip",
+            "order": 5
           },
           "adapter": {
             "selection": "none",

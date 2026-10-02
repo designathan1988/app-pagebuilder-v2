@@ -108,19 +108,25 @@ test('every control of the status bar is as tall as the bar', runs(OPEN, CLICK),
   expect(heights.controls.every((h) => h <= heights.bar), JSON.stringify(heights)).toBe(true);
 });
 
-// While the dock is closed the status bar draws its panels as icons (the audit's A3.18); the Checks icon carries the
-// number of issues the document has, as a badge and in its name (plan 5.5, spec dock-toggles), and opens the dock on
-// its tab.
-test('the Checks icon says how many issues the document has and opens the dock on them', runs(OPEN, 'workspace.setPanelOpen#status-bar-checks'), async ({ page }) => {
+// While the dock is closed its strip stays (design/final): its Checks tab carries the number of issues the document
+// has, as a badge and in its name (plan 5.5, spec dock-toggles), the strip says the first issue, and the tab opens the
+// dock on the list.
+test('the Checks tab of the closed dock says how many issues the document has and opens the dock on them', runs(OPEN, 'workspace.setPanelOpen#dock-strip-checks'), async ({ page }) => {
   // (the aurora project is open: beforeEach)
-  const icon = page.locator('[data-door="workspace.setPanelOpen#status-bar-checks"]');
+  const icon = page.locator('[data-door="workspace.setPanelOpen#dock-strip-checks"]');
   const name = (await icon.getAttribute('aria-label')) ?? '';
   const count = Number(/(\d+)/.exec(name)?.[1] ?? 'NaN');
   expect(name).toMatch(/^Checks: \d+ issues?$/);
-  if (count > 0) await expect(page.locator('.status-bar__badge')).toHaveText(String(count));
-  else await expect(page.locator('.status-bar__badge')).toHaveCount(0);
+  if (count > 0) await expect(page.locator('.dock-strip__badge')).toHaveText(String(count));
+  else await expect(page.locator('.dock-strip__badge')).toHaveCount(0);
+  if (count > 0) await expect(page.locator('.dock-strip__peek')).toHaveText(/ · /);
+  // the status bar draws no dock panel any more
+  await expect(page.locator('footer.status-bar [data-door^="workspace.setPanelOpen"]')).toHaveCount(0);
   await icon.click();
-  await expect(page.locator('[data-region="tab-strip"] [role="tab"][aria-selected="true"]')).toHaveText('Checks');
+  // the open dock's Checks tab keeps the count, in its name too
+  const tab = page.locator('[data-region="tab-strip"] [role="tab"][aria-selected="true"]');
+  await expect(tab.locator('.door__label')).toHaveText('Checks');
+  await expect(tab).toHaveAttribute('aria-label', name);
   await expect(page.locator('.dock-checks__list li, .dock-checks__none')).not.toHaveCount(0);
 });
 

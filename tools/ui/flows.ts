@@ -217,6 +217,17 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'dock-strip',
+    about: 'stage 5: the closed dock keeps its strip (Timeline, Checks with its count, Motion, the first issue); a tab opens it, show/hide folds it back',
+    steps: [
+      { photo: 'closed-strip' },
+      { door: 'workspace.setPanelOpen#dock-strip-checks' },
+      { photo: 'checks-open' },
+      { door: 'workspace.setWorkbenchState#toolbar-workbench-strip-toggle' },
+      { photo: 'folded-again' },
+    ],
+  },
+  {
     name: 'easing-curve',
     about: 'stage 3: an action easing chosen from ready-made curves drawn as curves, then a Bézier typed by its points',
     steps: [
@@ -225,7 +236,7 @@ export const FLOWS: readonly Flow[] = [
       { door: 'selection.select#layers-row', labelled: 'Hero' },
       { door: 'workspace.setActiveTab#inspector-tab-interactions' },
       { door: 'motion.add#inspector-motion-add' },
-      { door: 'workspace.setPanelOpen#status-bar-motion' },
+      { door: 'workspace.setPanelOpen#dock-strip-motion' },
       { click: '[data-door="motion.select#timeline-motion-bar"]' },
       { click: '[data-door="motion.updateAction#timeline-motion-action-easing"] .easing-curve__button' },
       { photo: 'ready-made-curves' },

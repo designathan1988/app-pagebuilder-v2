@@ -5351,7 +5351,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -7973,7 +7973,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -8077,7 +8077,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -8191,7 +8191,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -8290,7 +8290,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -8408,7 +8408,7 @@
           },
           "steps": [
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -8572,7 +8572,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -8715,7 +8715,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -8859,7 +8859,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -9003,7 +9003,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -9147,7 +9147,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -9290,7 +9290,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -9435,7 +9435,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -9579,7 +9579,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -9723,7 +9723,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -9869,7 +9869,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -10012,7 +10012,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -10155,7 +10155,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -10298,7 +10298,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -10441,7 +10441,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -10584,7 +10584,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -10727,7 +10727,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -10870,7 +10870,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -11015,7 +11015,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -11158,7 +11158,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -11301,7 +11301,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -11445,7 +11445,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -11589,7 +11589,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -11731,7 +11731,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -11875,7 +11875,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -12021,7 +12021,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -12163,7 +12163,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -12316,7 +12316,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -12461,7 +12461,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -12606,7 +12606,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -12765,7 +12765,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -12922,7 +12922,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -13079,7 +13079,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -13224,7 +13224,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -13369,7 +13369,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -13514,7 +13514,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -13660,7 +13660,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -13806,7 +13806,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -13955,7 +13955,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -14104,7 +14104,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -14274,7 +14274,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -14404,7 +14404,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -14537,7 +14537,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -14670,7 +14670,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -14803,7 +14803,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -14961,7 +14961,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -15084,7 +15084,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -15214,7 +15214,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -15340,7 +15340,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -15476,7 +15476,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -15624,7 +15624,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -15772,7 +15772,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -15905,7 +15905,7 @@
           ],
           "doors": [
             "workspace.setPanelOpen#menu-view-motion",
-            "workspace.setPanelOpen#status-bar-motion"
+            "workspace.setPanelOpen#dock-strip-motion"
           ],
           "expect": {
             "document": [],
@@ -15996,7 +15996,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -16152,7 +16152,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -16308,7 +16308,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -16492,7 +16492,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -16676,7 +16676,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -16861,7 +16861,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -17073,7 +17073,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -17257,7 +17257,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -17455,7 +17455,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -17662,7 +17662,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -17835,7 +17835,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -18141,7 +18141,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -18337,7 +18337,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -18467,7 +18467,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"
@@ -18601,7 +18601,7 @@
               "type": null
             },
             {
-              "door": "workspace.setPanelOpen#status-bar-motion",
+              "door": "workspace.setPanelOpen#dock-strip-motion",
               "args": {
                 "panel": "motion",
                 "open": "toggle"

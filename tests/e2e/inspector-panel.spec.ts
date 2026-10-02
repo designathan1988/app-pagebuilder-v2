@@ -22,7 +22,7 @@ const STYLE = 'workspace.setActiveTab#inspector-tab-style';
 const SETTINGS = 'workspace.setActiveTab#inspector-tab-settings';
 const INTERACTIONS = 'workspace.setActiveTab#inspector-tab-interactions';
 const DOCK_TAB = 'workspace.setActiveTab#tab-strip-tab';
-const DOCK_ICON = 'workspace.setPanelOpen#status-bar-timeline';
+const DOCK_ICON = 'workspace.setPanelOpen#dock-strip-timeline';
 const TEXT = 'text.set#inspector-text';
 const ENTER = 'text.set#key-enter-in-element-text-field';
 const ESCAPE = 'text.cancelEdit#key-escape-in-element-text-field';
@@ -465,11 +465,11 @@ test('Element actions › Hide hides the selected element on the canvas, as one 
   await expect(page.getByRole('status')).toHaveText(words('status.hidden', { name: 'Intro' }));
 });
 
-test('the status-bar Timeline icon opens the collapsed dock on its panel, where the tab then switches it', runs(DOCK_ICON, DOCK_TAB), async ({ page }) => {
+test('the Timeline tab of the closed strip opens the collapsed dock on its panel, where the tab then switches it', runs(DOCK_ICON, DOCK_TAB), async ({ page }) => {
   // the dock's own body: the sidebar's panel area draws a tabpanel of its own (the workspace panels), so the
   // collapsed dock is measured by what it draws
   await expect(page.locator('.dock-body')).toHaveCount(0);
-  // a collapsed dock draws no tab strip (A3.18): its panels stand as status-bar icons
+  // a collapsed dock's strip draws the doors that open it on a panel, not the open dock's tabs
   await expect(control(page, DOCK_TAB, { args: { panel: 'timeline' } })).toHaveCount(0);
   await runDoor(page, DOCK_ICON, { args: { panel: 'timeline' } });
   const panel = page.locator('.dock-body');
