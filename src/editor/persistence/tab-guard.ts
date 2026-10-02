@@ -23,23 +23,38 @@ function setRole(next: TabRole) {
 }
 export const isEditing = (): boolean => role === 'editing';
 
-// Asks for the editing lock at start: held for the page's life when free, else this tab is read-only; the lock taken
-// by another tab later makes it read-only then.
+// How long a tab that finds the lock held keeps asking before it is read-only: a reloaded tab's previous page lets go of
+// the lock a moment after the new one starts (the user's report: "this project is being edited in another tab" after
+// reloading the one tab), so a lock held that briefly is no other tab.
+const RETRY_EVERY_MS = 100;
+const RETRIES = 20;
+
+// Asks for the editing lock at start: held for the page's life when free (asked again for a moment while the page this
+// one replaces lets it go), else this tab is read-only; the lock taken by another tab later makes it read-only then.
 export function claimEditing(): Promise<void> {
   if (typeof navigator === 'undefined' || !('locks' in navigator)) return Promise.resolve();
+  let tries = 0;
   return new Promise((resolve) => {
-    navigator.locks
-      .request(LOCK, { ifAvailable: true }, (lock) => {
-        if (lock === null) {
-          setRole('readOnly');
+    const ask = () => {
+      navigator.locks
+        .request(LOCK, { ifAvailable: true }, (lock) => {
+          if (lock === null) {
+            tries += 1;
+            if (tries < RETRIES) {
+              setTimeout(ask, RETRY_EVERY_MS);
+              return undefined;
+            }
+            setRole('readOnly');
+            resolve();
+            return undefined;
+          }
+          setRole('editing');
           resolve();
-          return undefined;
-        }
-        setRole('editing');
-        resolve();
-        return new Promise<void>(() => undefined);
-      })
-      .catch(() => setRole('lost'));
+          return new Promise<void>(() => undefined);
+        })
+        .catch(() => setRole('lost'));
+    };
+    ask();
   });
 }
 

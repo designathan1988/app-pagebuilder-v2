@@ -2969,7 +2969,8 @@
             "guides-grids",
             "snap-settings",
             "breakpoints",
-            "batch-rename"
+            "batch-rename",
+            "capture-url"
           ],
           "optional": false
         }
@@ -3100,6 +3101,30 @@
           },
           "args": {
             "dialog": "batch-rename"
+          }
+        },
+        {
+          "id": "menu-file-capture-url",
+          "kind": "menu",
+          "feature": "capture-url",
+          "menu": "file",
+          "checked": null,
+          "labelKey": "capture.open",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "menu:file",
+            "order": 9
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "dialog": "capture-url"
           }
         }
       ]

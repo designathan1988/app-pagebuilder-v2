@@ -67,3 +67,14 @@ test('a second tab reads, refuses and writes nothing; taking over makes the firs
   await expect(second.locator('[data-save-state]')).toHaveAttribute('data-save-state', 'saved');
   expect(await savedRevision(second)).toBeGreaterThan(revision ?? 0);
 });
+
+// The one tab reloaded is still the editing tab (the user's report: "this project is being edited in another tab" after
+// reloading it): the page it replaces lets go of the lock a moment after the new one asks, and the new one asks again.
+test('a reloaded tab keeps editing and shows no other-tab notice', runs(), async ({ page }) => {
+  await openEditor(page);
+  for (let i = 0; i < 3; i += 1) {
+    await page.reload();
+    await expect(page.locator('.workbench')).toBeVisible();
+    await expect(page.locator('[data-region="tab-guard"]')).toHaveCount(0);
+  }
+});

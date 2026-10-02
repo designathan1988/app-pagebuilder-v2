@@ -224,6 +224,7 @@ export const COMMAND_IDS = [
   "project.export",
   "project.setLanguage",
   "project.setCodeLanguage",
+  "project.captureUrl",
   "selection.select",
   "selection.clear",
   "selection.add",
@@ -1021,6 +1022,7 @@ export const DOOR_IDS = [
   "project.export#command-bar",
   "project.setLanguage#inspector-project-language",
   "project.setCodeLanguage#inspector-code-language",
+  "project.captureUrl#capture-url-run",
   "selection.select#canvas-click-element-or-page",
   "selection.select#layers-row",
   "selection.select#key-enter-in-layers-tree",
@@ -1587,6 +1589,7 @@ export const DOOR_IDS = [
   "workspace.openDialog#menu-view-breakpoints",
   "workspace.openDialog#toolbar-breakpoints-manage",
   "workspace.openDialog#context-menu-batch-rename",
+  "workspace.openDialog#menu-file-capture-url",
   "view.setViewportWidth#viewport-width",
   "view.resizeViewport#panel-drag-frame-edge",
   "view.toggleSideBySide#toolbar-breakpoints-side-by-side",
@@ -2441,6 +2444,7 @@ export const FEATURE_IDS = [
   "style-suggestions",
   "component-master-edit",
   "component-variants",
+  "capture-url",
 ] as const;
 export type FeatureId = (typeof FEATURE_IDS)[number];
 
@@ -2497,6 +2501,7 @@ export const REGION_IDS = [
   "snap-settings-dialog",
   "breakpoints-dialog",
   "batch-rename-dialog",
+  "capture-url-dialog",
   "recovery-dialog",
   "tab-guard",
   "toast",
@@ -6362,5 +6367,18 @@ export const MESSAGE_IDS = [
   "status.components.variantSet",
   "status.components.variantCleared",
   "feature.componentVariants",
+  "capture.open",
+  "capture.title",
+  "capture.url",
+  "capture.placeholder",
+  "capture.notice",
+  "capture.companionHint",
+  "command.project.captureUrl",
+  "status.capture.invalidUrl",
+  "status.capture.running",
+  "status.capture.noCompanion",
+  "status.capture.failed",
+  "feature.captureUrl",
+  "status.import.released",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

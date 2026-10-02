@@ -56,6 +56,7 @@ import { filesOf, objectUrl, resolvedSource } from '../files/files.ts';
 import { fontFaceCss } from '../files/fonts.ts';
 import { animationsOf, keyframesCss, previewDeclarations } from '../animation/animation.ts';
 import { outputForTable } from '../document/breakpoint-rules.ts';
+import { captureAssetPath, capturedPageCss } from '../import/capture-styles.ts';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 export const NODE_ATTRIBUTE = 'data-node';
@@ -81,6 +82,9 @@ const TOKENS_FIELD = 'tokens';
 // the style element of the project's style classes (core/design/classes.ts): their rules, after the tokens', before
 // every node's, so an element's own values override its classes (spec shared-style-classes)
 export const CLASSES_STYLE_ATTRIBUTE = 'data-classes-style';
+// the style element of a captured page's residual stylesheet (spec capture-url): before the classes and every node's
+// rules, so what the person edits wins over it
+export const CAPTURE_STYLE_ATTRIBUTE = 'data-capture-style';
 // the style element of the project's fonts (core/files/fonts.ts): one @font-face per font file of the tree, serving
 // it through the file's object URL, so the family the font menu offers draws on the canvas (manifest: custom-fonts)
 export const FONTS_STYLE_ATTRIBUTE = 'data-fonts-style';
@@ -520,7 +524,7 @@ export class PageRenderer {
     this.doc = doc;
     this.model = outputForTable(this.manifestModel, doc.breakpoints);
     // the style elements of every node, also those a previous renderer of this document left
-    for (const sheet of [...this.target.head.querySelectorAll(`style[${NODE_STYLE_ATTRIBUTE}], style[${EDITOR_STYLE_ATTRIBUTE}], style[${TOKENS_STYLE_ATTRIBUTE}], style[${CLASSES_STYLE_ATTRIBUTE}], style[${FONTS_STYLE_ATTRIBUTE}], style[${BASE_STYLE_ATTRIBUTE}]`)]) sheet.remove();
+    for (const sheet of [...this.target.head.querySelectorAll(`style[${NODE_STYLE_ATTRIBUTE}], style[${EDITOR_STYLE_ATTRIBUTE}], style[${TOKENS_STYLE_ATTRIBUTE}], style[${CLASSES_STYLE_ATTRIBUTE}], style[${FONTS_STYLE_ATTRIBUTE}], style[${BASE_STYLE_ATTRIBUTE}], style[${CAPTURE_STYLE_ATTRIBUTE}]`)]) sheet.remove();
     for (const sheet of [
       ...this.target.head.querySelectorAll(
         `style[${NODE_STYLE_ATTRIBUTE}], style[${EDITOR_STYLE_ATTRIBUTE}], style[${TOKENS_STYLE_ATTRIBUTE}], style[${CLASSES_STYLE_ATTRIBUTE}], style[${BASE_STYLE_ATTRIBUTE}], style[${PREVIEW_STYLE_ATTRIBUTE}], style[${KEYFRAMES_STYLE_ATTRIBUTE}], style[${PLAY_STYLE_ATTRIBUTE}]`,
@@ -552,6 +556,10 @@ export class PageRenderer {
     classes.setAttribute(CLASSES_STYLE_ATTRIBUTE, '');
     tokens.after(classes);
     this.writeClasses(doc);
+    const capture = this.target.createElement('style');
+    capture.setAttribute(CAPTURE_STYLE_ATTRIBUTE, '');
+    tokens.after(capture);
+    this.writeCapture(doc);
     this.writeKeyframes(doc);
     const body = this.target.body;
     body.replaceChildren();
@@ -577,6 +585,7 @@ export class PageRenderer {
     if (patches.some((patch) => patch.path[0] === CLASSES_FIELD)) this.writeClasses(after);
     // a font file added, removed or changed writes the fonts' @font-face rules again (the manifest's custom-fonts)
     if (patches.some((patch) => patch.path[0] === FILES_FIELD)) this.writeFonts(after);
+    if (patches.some((patch) => patch.path[0] === FILES_FIELD)) this.writeCapture(after);
     const children = new Set<NodeId>();
     const styles = new Set<NodeId>();
     const elements = new Set<NodeId>();
@@ -755,6 +764,14 @@ export class PageRenderer {
   private writeFonts(doc: DocumentJson): void {
     const sheet = this.target.head.querySelector(`style[${FONTS_STYLE_ATTRIBUTE}]`);
     const css = fontFaceCss(filesOf(doc), (file) => objectUrl(file));
+    if (sheet !== null && sheet.textContent !== css) sheet.textContent = css;
+  }
+
+  // A captured page's residual stylesheet (capture-styles.ts), its addresses drawn from the project's files.
+  private writeCapture(doc: DocumentJson): void {
+    const sheet = this.target.head.querySelector(`style[${CAPTURE_STYLE_ATTRIBUTE}]`);
+    const page = doc.pages[this.page];
+    const css = page === undefined ? '' : fileUrlsIn(capturedPageCss(doc, page), (address) => resolvedSource(doc, captureAssetPath(page, address)));
     if (sheet !== null && sheet.textContent !== css) sheet.textContent = css;
   }
 

@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 213,
-    "built": 212,
-    "commands": 367,
-    "doors": 1322,
-    "scenarios": 1736,
-    "modules": 402,
-    "lines": 74193
+    "features": 214,
+    "built": 213,
+    "commands": 368,
+    "doors": 1324,
+    "scenarios": 1738,
+    "modules": 404,
+    "lines": 74532
   },
   "features": [
     {
@@ -1816,7 +1816,7 @@
         "workspace.openDialog",
         "grid.toggleFolds"
       ],
-      "doors": 30,
+      "doors": 31,
       "scenarios": 11,
       "modules": [
         "src/core/page/grid.ts",
@@ -1885,7 +1885,7 @@
         "snap.setSettings",
         "workspace.openDialog"
       ],
-      "doors": 9,
+      "doors": 10,
       "scenarios": 9,
       "modules": [
         "src/editor/view/snap.ts",
@@ -3115,7 +3115,7 @@
         "style.set",
         "project.export"
       ],
-      "doors": 198,
+      "doors": 199,
       "scenarios": 15,
       "modules": [
         "src/core/export/export.ts",
@@ -3164,7 +3164,7 @@
         "workspace.openDialog",
         "contextMenu.open"
       ],
-      "doors": 9,
+      "doors": 10,
       "scenarios": 3,
       "modules": [
         "src/core/nodes/rename-many.ts",
@@ -3249,12 +3249,26 @@
       "modules": [
         "src/core/design/components.ts"
       ]
+    },
+    {
+      "id": "capture-url",
+      "built": true,
+      "commands": [
+        "project.captureUrl",
+        "workspace.openDialog"
+      ],
+      "doors": 7,
+      "scenarios": 2,
+      "modules": [
+        "src/editor/import/capture.ts",
+        "src/editor/workspace/dialogs.ts"
+      ]
     }
   ],
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 506,
+      "lines": 508,
       "commands": [],
       "features": []
     },
@@ -3266,7 +3280,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 254,
+      "lines": 255,
       "commands": [],
       "features": []
     },
@@ -3965,7 +3979,7 @@
     },
     {
       "path": "src/core/import/import.ts",
-      "lines": 1270,
+      "lines": 1395,
       "commands": [
         "project.importHtml"
       ],
@@ -4332,7 +4346,7 @@
     },
     {
       "path": "src/core/render/render.ts",
-      "lines": 819,
+      "lines": 836,
       "commands": [],
       "features": []
     },
@@ -5326,6 +5340,16 @@
       "features": []
     },
     {
+      "path": "src/editor/import/capture.ts",
+      "lines": 98,
+      "commands": [
+        "project.captureUrl"
+      ],
+      "features": [
+        "capture-url"
+      ]
+    },
+    {
       "path": "src/editor/import/html-import.ts",
       "lines": 20,
       "commands": [],
@@ -5768,7 +5792,7 @@
     },
     {
       "path": "src/editor/persistence/tab-guard.ts",
-      "lines": 54,
+      "lines": 69,
       "commands": [],
       "features": []
     },
@@ -5851,6 +5875,12 @@
     {
       "path": "src/editor/shell/canvas.tsx",
       "lines": 301,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/shell/capture-url.tsx",
+      "lines": 54,
       "commands": [],
       "features": []
     },
@@ -6048,7 +6078,7 @@
     },
     {
       "path": "src/editor/shell/shell.tsx",
-      "lines": 186,
+      "lines": 191,
       "commands": [],
       "features": []
     },
@@ -6120,7 +6150,7 @@
     },
     {
       "path": "src/editor/state.ts",
-      "lines": 141,
+      "lines": 143,
       "commands": [],
       "features": []
     },
@@ -6313,6 +6343,7 @@
       ],
       "features": [
         "batch-rename",
+        "capture-url",
         "project-breakpoints",
         "snap-toggle-settings",
         "workspace-settings-dialog"
@@ -6395,13 +6426,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 628,
+      "lines": 630,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6367,
+      "lines": 6385,
       "commands": [],
       "features": []
     },

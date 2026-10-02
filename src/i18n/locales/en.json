@@ -3387,5 +3387,18 @@
   "status.components.badVariant": "{variant} is no variant name: a letter, then letters, digits and dashes.",
   "status.components.variantSet": "{name} shows the variant {variant}.",
   "status.components.variantCleared": "{name} shows its component as it is.",
-  "feature.componentVariants": "Variants of a component, chosen per instance"
+  "feature.componentVariants": "Variants of a component, chosen per instance",
+  "capture.open": "Open a web address…",
+  "capture.title": "Open a web address",
+  "capture.url": "Address",
+  "capture.placeholder": "https://",
+  "capture.notice": "A site you capture belongs to its authors: use what you copy with their permission, as a reference, or for a site of your own.",
+  "capture.companionHint": "The Builder Companion opens the page in Chrome for the editor: run npm run companion beside it.",
+  "command.project.captureUrl": "Capture",
+  "status.capture.invalidUrl": "{url} is no web address (http or https).",
+  "status.capture.running": "Capturing {url}…",
+  "status.capture.noCompanion": "The Builder Companion does not answer: run npm run companion, then capture again.",
+  "status.capture.failed": "{url} could not be captured: {reason}",
+  "feature.captureUrl": "Open any web address as a page of the project",
+  "status.import.released": "{count} links or labels named nothing the page holds and were released ({values})."
 }

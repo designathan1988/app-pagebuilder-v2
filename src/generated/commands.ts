@@ -258,6 +258,7 @@ export interface CommandArgs {
   "project.export": Record<string, never>;
   "project.setLanguage": { readonly language: string };
   "project.setCodeLanguage": { readonly language: string };
+  "project.captureUrl": { readonly url: string };
   "selection.select": { readonly target: NodeId };
   "selection.clear": Record<string, never>;
   "selection.add": { readonly target: NodeId };
@@ -363,7 +364,7 @@ export interface CommandArgs {
   "guides.toggleVisible": Record<string, never>;
   "snap.setEnabled": { readonly enabled: "toggle" | "on" | "off" };
   "snap.setSettings": { readonly targets: JsonValue; readonly distance: number };
-  "workspace.openDialog": { readonly dialog: "guides-grids" | "snap-settings" | "breakpoints" | "batch-rename" };
+  "workspace.openDialog": { readonly dialog: "guides-grids" | "snap-settings" | "breakpoints" | "batch-rename" | "capture-url" };
   "view.setViewportWidth": { readonly width: number };
   "view.resizeViewport": { readonly size?: number; readonly distance: number };
   "view.toggleSideBySide": Record<string, never>;
@@ -624,4 +625,5 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "style-suggestions": ["design.applySuggestion"],
   "component-master-edit": ["components.updateFromInstance"],
   "component-variants": ["components.setVariant"],
+  "capture-url": ["project.captureUrl","workspace.openDialog"],
 };

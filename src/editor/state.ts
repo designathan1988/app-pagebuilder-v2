@@ -79,7 +79,9 @@ export interface EditorUi {
   // the class the Style tab's writes go to (inspector/style-target.ts); absent while the target is the element
   readonly styleTarget?: string | undefined;
   // the dialog open (workspace/dialogs.ts): Guides & Grids, Snap settings; absent while none is
-  readonly dialog?: 'guides-grids' | 'snap-settings' | 'breakpoints' | 'batch-rename' | 'recovery' | 'html-import' | undefined;
+  readonly dialog?: 'guides-grids' | 'snap-settings' | 'breakpoints' | 'batch-rename' | 'capture-url' | 'recovery' | 'html-import' | undefined;
+  // the last web address asked to be captured, counted (import/capture.ts); absent until one is
+  readonly capture?: { readonly url: string; readonly count: number } | undefined;
   readonly htmlImport?: { readonly files: readonly PickedFile[] } | undefined;
   // the saved versions the recovery dialog offers, the newest first, with their times (spec
   // autosave-corruption-recovery); absent when the saved work was read

@@ -4140,6 +4140,10 @@ Pager has no guard: two tabs of the app write the same IndexedDB record in turn,
 A read-only tab records nothing: its document commands are refused.
 2. **The read-only notice covered the top bar's page switcher and Commands** (the audit's U-024). Required: the notice hangs under the top bar, centred, never over it.
 
+- **A reloaded tab said another tab was editing** (the user's report): the page it replaced still held the editing lock
+  for a moment. Required: a tab that finds the lock held asks again for up to 2 seconds before it is read-only, so the
+  one tab reloaded keeps editing; a second tab opened while the first edits is read-only after that wait.
+
 ## natural-child-command
 
 How Pager behaves, observed by running it from `.cache/pager-run` (Chrome, window 1600×900) and read from its source. Source references are `path:line` inside Pager.
@@ -8881,3 +8885,38 @@ Nothing of an instance selected (`status.components.notInstance`): the command i
 
 A name that is no variant name (`status.components.badVariant`: a letter, then letters, digits and dashes), a locked
 instance (`status.locked.edit`).
+
+## capture-url
+
+### Our rule
+
+- A browser page cannot read another site (CORS), so a capture goes through the **Builder Companion**, a local Node
+  process started beside the editor (`npm run companion`; `tools/companion/server.ts`, on 127.0.0.1 only, port
+  `COMPANION_PORT`, 5410 by default). It opens the address in the installed Chrome, waits for the network to rest,
+  scrolls to the end so lazy content loads, stops animations and transitions, and reads the page as its scripts left
+  it: the markup (scripts left out: their effect is already in it), every stylesheet in order (a linked one fetched
+  whole, from any origin, its `@import`s laid in place; a `<style>` as written), and the images, backgrounds and fonts
+  they name, downloaded to `img/` and `fonts/` with every reference rewritten.
+- **File › Open a web address…** (`workspace.openDialog`, dialog `capture-url`) asks for the address (a bare host is read
+  as https), reminds that a captured site belongs to its authors, and says how the Companion is started. **Capture**
+  (`project.captureUrl`) closes the dialog and sends the request; the status bar says it is capturing.
+- The captured files go through **Import HTML** as if they had been picked (`project.importHtml`): its destinations
+  dialog, then the page with its classes, its media queries as the project's breakpoints, its images and fonts.
+- The Companion marks the captured page (`<meta name="builder-capture">`), and the import keeps, beside the classes and
+  values it maps, what the model does not hold of its sheets: a rule whose selector it does not read (a descendant with
+  a state, `:has()`, an attribute), an at-rule other than a media query a breakpoint takes (`@font-face`, `@keyframes`,
+  `@layer`, `@supports`, a colour-scheme query), and a declaration the editor does not store (a custom property, a vendor
+  prefix), in the page's residual stylesheet (`<page>.capture.css`). The canvas draws it and the export links it before
+  the project's own stylesheet, so the page looks as it did and what the person edits in the inspector wins over it. A
+  page that is no capture keeps none.
+- A link or a label that names no element of the captured page (one a script removed) is released, and the report
+  says so (`status.import.released`), so the import is always a valid document.
+- Not captured: other pages of the site (links stay absolute), what a script draws live (canvas, WebGL), the content of
+  a frame from another origin, pages behind a login. The pixel-for-pixel corpus of the plan (20 sites, 98 %) is not
+  met: a public site such as MDN arrives whole and editable, but its header and some layout differ (open).
+
+### Refusals
+
+A text that is no http or https address (`status.capture.invalidUrl`), refused before any request. A Companion that does
+not answer (`status.capture.noCompanion`) or a page it could not open (`status.capture.failed`, with its reason) is
+said in the status bar.

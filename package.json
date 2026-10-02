@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "companion": "node --experimental-strip-types companion/main.mjs",
+    "companion": "node tools/companion/server.ts",
     "build": "vite build",
     "build:proofs": "vite build --config vite.proofs.config.ts",
     "preview": "vite preview",

@@ -2409,6 +2409,11 @@
       "kind": "handler",
       "id": "components.setVariant",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "project.captureUrl",
+      "status": "registered"
     }
   ]
 }

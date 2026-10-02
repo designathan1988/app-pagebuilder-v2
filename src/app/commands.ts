@@ -132,6 +132,7 @@ import { movePanel, resetWorkspace, resizeSplitter, setActiveTab, setWorkbenchSt
 import { collapseDocks, setPanelOpen, toggleDeveloperTools, toggleInspector, toggleLeftDock } from '../editor/workspace/panels.ts';
 import { setCodeLanguage, setProjectLanguage } from '../core/project/language.ts';
 import { renameManyCommand } from '../core/nodes/rename-many.ts';
+import { captureUrlCommand } from '../editor/import/capture.ts';
 
 // the hand's commands, for the editor state that holds the hand
 const HAND = handCommands<EditorUi>();
@@ -208,6 +209,7 @@ export const COMMANDS = {
   'tokens.create': createToken,
   'tokens.update': updateToken,
   'design.replaceColour': replaceColourCommand,
+  'project.captureUrl': captureUrlCommand,
   'components.updateFromInstance': updateFromInstanceCommand,
   'components.setVariant': setVariantCommand,
   'design.applySuggestion': applySuggestionCommand,

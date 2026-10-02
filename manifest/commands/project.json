@@ -793,6 +793,58 @@
           "args": {}
         }
       ]
+    },
+    {
+      "id": "project.captureUrl",
+      "labelKey": "command.project.captureUrl",
+      "owner": "src/editor/import/capture.ts",
+      "introducedBy": "capture-url",
+      "args": {
+        "url": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.capture.invalidUrl"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "capture-url-run",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "capture-url",
+          "panel": "capture-url",
+          "control": "run",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.project.captureUrl",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "capture-url-dialog",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
     }
   ]
 }

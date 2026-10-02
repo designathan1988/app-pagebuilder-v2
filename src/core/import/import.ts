@@ -52,6 +52,9 @@ import { readDeclarations, readStylesheet, type CssRule, type CssSheet } from '.
 import { baseCss } from '../render/base.ts';
 // reading markup (core/import/markup.ts): the DOM walk and the source lines, moved out of this file
 import { lineOf, lineOfNode, parseMarkup, parsePage, textOf, type MarkupChild, type MarkupNode } from './markup.ts';
+import { orphanReferences } from '../elements/references.ts';
+import { generate as generateCssTree, parse as parseCssTree, walk as walkCssTree, type CssNode as CssTreeNode } from 'css-tree';
+import { capturedPageStylePath } from './capture-styles.ts';
 
 // the entries this module published before the markup reading moved out stay published here: consumers need not change
 export { parseMarkup, parsePage, lineOf } from './markup.ts';
@@ -146,9 +149,11 @@ interface Report {
   readonly approximated: Map<string, number[]>;
   readonly declarations: Map<string, number[]>;
   readonly sheetsMissing: string[];
+  // the references (a link's #fragment, a label's for) that named no element of the imported pages, released
+  readonly released: string[];
 }
 
-const emptyReport = (): Report => ({ scripts: [], handlers: [], unwrapped: [], repaired: [], dropped: [], attributes: [], unmapped: new Map(), approximated: new Map(), declarations: new Map(), sheetsMissing: [] });
+const emptyReport = (): Report => ({ scripts: [], handlers: [], unwrapped: [], repaired: [], dropped: [], attributes: [], unmapped: new Map(), approximated: new Map(), declarations: new Map(), sheetsMissing: [], released: [] });
 
 const add = (into: Map<string, number[]>, file: string, line: number): void => {
   const held = into.get(file);
@@ -179,6 +184,7 @@ export function reportNotes(report: Report, words: (key: MessageId, params?: Rea
   for (const [file, lines] of report.unmapped) notes.push(words('status.import.unmapped', { file: named(file), lines: linesOf(lines) }));
   for (const [file, lines] of report.declarations) notes.push(words('status.import.declarations', { file: named(file), lines: linesOf(lines) }));
   for (const file of report.sheetsMissing) notes.push(words('status.import.sheetMissing', { file }));
+  if (report.released.length > 0) notes.push(words('status.import.released', { count: report.released.length, values: [...new Set(report.released)].slice(0, 6).join(', ') }));
   return notes.length === 0 ? '' : ` ${notes.join(' ')}`;
 }
 
@@ -231,6 +237,8 @@ interface Script {
 interface Sheet {
   readonly file: string;
   readonly css: CssSheet;
+  // the sheet as written (a captured page keeps what the model does not hold: residualCss)
+  readonly text: string;
 }
 
 // What builds one page: the names no node has, the picked files (a script's src resolves among them), the report, the
@@ -455,7 +463,7 @@ function build(child: MarkupChild, builder: Builder, ancestors: readonly string[
       return { nothing: true };
     }
     if (builder.mode === 'import' && child.tag === 'style') {
-      if (builder.keepScripts) builder.sheets.push({ file: builder.file, css: readStylesheet(textOf(child)) });
+      if (builder.keepScripts) { const text = textOf(child); builder.sheets.push({ file: builder.file, css: readStylesheet(text), text }); }
       else builder.report.dropped.push(lineOfNode(builder.markup, child));
       return { nothing: true };
     }
@@ -761,6 +769,8 @@ function mediaPlace(conditions: readonly string[], rules: ModelRules): { readonl
 interface SheetSource {
   readonly file: string;
   readonly css: CssSheet;
+  // the sheet as written (a captured page keeps what the model does not hold: residualCss)
+  readonly text: string;
 }
 
 // The declarations a stylesheet gives the nodes of a page: each rule read by the matcher, its declarations read by the
@@ -805,7 +815,9 @@ function applyStyles(tree: DocNode, builder: Builder, sources: readonly SheetSou
       }
       if (media.approximated) add(builder.report.approximated, source.file, rule.line);
       const selector = readSelector(rule.selector);
-      if (selector === null) {
+      // a pseudo-class on an ancestor (nav a:hover > span) is no state of the element the rule styles: the matcher
+      // reads only the compounds' names, so the rule would hold always; it is reported, never guessed
+      if (selector === null || innerPseudo(selector)) {
         add(builder.report.unmapped, source.file, rule.line);
         continue;
       }
@@ -987,6 +999,9 @@ function authorClasses(pages: readonly Page[], sources: readonly SheetSource[]):
   return new Set([...ruled].filter((name) => (uses.get(name) ?? 0) >= 2 || notLast.has(name)));
 }
 
+// whether a compound before the last carries a pseudo-class (a state of an ancestor)
+const innerPseudo = (selector: Selector): boolean => selector.compounds.slice(0, -1).some((compound) => compound.pseudo !== null);
+
 function classRuleOf(selector: Selector): string | null {
   if (selector.compounds.length !== 1) return null;
   const only = selector.compounds[0] as Compound;
@@ -1091,14 +1106,14 @@ function pageFrom(file: PickedFile, builder: Builder): Page {
       if (rel.split(/\s+/).includes('stylesheet')) {
         const sheet = builder.picked.find((one) => !isHtmlFile(one.name) && (one.name === href || one.name.endsWith(`/${href}`) || one.name === href.replace(/^\.?\//, '')));
         if (sheet === undefined) builder.report.sheetsMissing.push(href);
-        else builder.sheets.push({ file: sheet.name, css: readStylesheet(textOfFile(sheet)) });
+        else { const text = textOfFile(sheet); builder.sheets.push({ file: sheet.name, css: readStylesheet(text), text }); }
         continue;
       }
       if (rel === 'canonical') settings.push(['pageCanonical', href]);
       else if (rel.split(/\s+/).includes('icon')) settings.push(['pageFavicon', href]);
       continue;
     }
-    if (node.tag === 'style') builder.sheets.push({ file: builder.file, css: readStylesheet(textOf(node)) });
+    if (node.tag === 'style') { const text = textOf(node); builder.sheets.push({ file: builder.file, css: readStylesheet(text), text }); }
   }
   const children = buildChildren(parsed.body, 'body', ['body'], builder, lineOf(builder.markup, '<body'));
   // the body's own attributes: its classes, its inline style and the person's own attributes
@@ -1196,6 +1211,23 @@ export const importHtmlCommand = registerHandler('project.importHtml', (context,
   const authors = authorClasses(pages, sources);
   const definitions = new Map<string, Styles>();
   for (const one of built) applyStyles(one.page.tree, one.builder, sources, authors, definitions);
+  // A reference that names no element of the imported pages (a link to #search, whose element was a script's, or one the
+  // model does not keep) is released as element.applyHtml releases one, so the result stays a valid document; the
+  // report names them (the plan's stage 12: a captured page is imported whole)
+  const dangling = orphanReferences({ version: state.document.version, pages });
+  if (dangling.length > 0) {
+    const releasing = new Map<string, Set<string>>();
+    for (const one of dangling) {
+      releasing.set(one.node.id, (releasing.get(one.node.id) ?? new Set()).add(one.attribute));
+      report.released.push(one.value);
+    }
+    const released = (node: DocNode): DocNode => {
+      const gone = releasing.get(node.id);
+      const attributes = gone === undefined ? node.attributes : Object.fromEntries(Object.entries(node.attributes).filter(([id]) => !gone.has(id)));
+      return { ...node, attributes, children: node.children.map(released) };
+    };
+    pages.splice(0, pages.length, ...pages.map((page) => ({ ...page, tree: released(page.tree) })));
+  }
   // The files the import keeps: everything picked that is no page (a stylesheet's rules are in the document now) and no
   // file a script already kept. A file an address of a page names is kept at that address's path — a src written
   // img/logo.png with the file picked as logo.png draws on the canvas — and the others at their own path.
@@ -1216,6 +1248,18 @@ export const importHtmlCommand = registerHandler('project.importHtml', (context,
     const referenced = [...wanted].find(([, name]) => name === file.name);
     if (referenced !== undefined && held.some((one) => one.path === referenced[0])) continue;
     held.push(referenced === undefined ? recordOf(file) : { ...recordOf(file), path: referenced[0] });
+  }
+  // a captured page keeps what the model does not hold of its sheets, in its residual stylesheet (spec capture-url)
+  for (const one of built) {
+    const source = markup.find((file) => file.name === one.builder.file);
+    if (source === undefined || !isCapturedPage(textOfFile(source))) continue;
+    const at = capturedPageStylePath(one.page);
+    const css = one.builder.sheets.map((sheet) => residualCss(sheet.text, sheet.file, at, context as HandlerContext<never>, rules)).filter((part) => part !== '').join('\n');
+    if (css === '') continue;
+    const index = held.findIndex((file) => file.path === at);
+    const record: ProjectFile = { path: at, type: 'text/css', bytes: base64(new TextEncoder().encode(css)) };
+    if (index < 0) held.push(record);
+    else held[index] = record;
   }
   // the project's languages are the project's own (spec export-clean): an import keeps them, whatever it replaces
   const parsed = { version: state.document.version, ...projectLanguages(state.document), pages, ...(definitions.size ? { classes: [...definitions].map(([name, styles]) => ({ name, styles })) } : {}), ...(held.length ? { files: held } : {}) };
@@ -1266,4 +1310,85 @@ export function pageHead(markup: string, parse: (text: string) => Document = (te
     stylesheets: [...document.querySelectorAll('link[href]')].filter((link) => (link.getAttribute('rel') ?? '').split(/\s+/).includes('stylesheet')).map((link) => written(link, 'href')).filter((href) => href !== ''),
     scripts: [...document.querySelectorAll('script[src]')].map((script) => written(script, 'src')).filter((src) => src !== ''),
   };
+}
+
+// ---------------------------------------------------------------- what a captured page keeps of its sheets
+
+// A captured page (the Builder Companion marks it: <meta name="builder-capture">; spec capture-url) keeps, beside the
+// classes and values the import maps, what the model does not hold — a rule whose selector this importer does not read
+// (a descendant, :has(), an attribute), an at-rule other than a media query a breakpoint takes (@font-face, @keyframes,
+// @layer, @supports), and a declaration the editor does not store (a custom property, a vendor prefix) — in a residual
+// stylesheet the page links before the project's own (capture-styles.ts capturedPageStylePath), so the page looks as
+// it did and what the person edits in the inspector still wins.
+export const isCapturedPage = (markup: string): boolean => /<meta\b[^>]*\bname\s*=\s*["']?builder-capture\b/i.test(markup);
+
+// whether this importer maps a selector, as applyStyles decides it
+function mapsSelector(text: string, rules: ModelRules): boolean {
+  const selector = readSelector(text);
+  if (selector === null || innerPseudo(selector)) return false;
+  const last = selector.compounds[selector.compounds.length - 1] as Compound;
+  const classRule = classRuleOf(selector);
+  if (last.pseudo !== null && (rules.statePseudos.get(last.pseudo) === undefined || (selector.compounds.length > 1 && classRule === null))) return false;
+  return classRule === null || validClassName(classRule);
+}
+
+// whether the editor stores a declaration, as storedDeclarations decides it (without its report)
+function storesDeclaration(context: HandlerContext<never>, rules: ModelRules, text: string): boolean {
+  const colon = text.indexOf(':');
+  const property = colon <= 0 ? '' : text.slice(0, colon).trim().toLowerCase();
+  if (property === '' || property.startsWith('--')) return false;
+  const fields = rules.structures.get(property);
+  if (fields !== undefined) return shadowLayersFromCss(text.slice(colon + 1).replace(/!\s*important\s*$/i, ''), fields) !== null;
+  return !('refused' in parseDeclarations(`${property}: ${text.slice(colon + 1).replace(/!\s*important\s*$/i, '').trim()};`, context));
+}
+
+// a sheet's address rewritten from where the sheet was (`from`) to where the residual stylesheet is (`at`)
+function movedUrl(value: string, from: string, at: string): string {
+  if (/^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(value)) return value;
+  const target = new URL(value, new URL(from, 'https://capture.invalid/')).pathname.slice(1);
+  const base = at.split('/').slice(0, -1);
+  const parts = target.split('/');
+  while (base.length > 0 && parts.length > 1 && base[0] === parts[0]) {
+    base.shift();
+    parts.shift();
+  }
+  return '../'.repeat(base.length) + parts.join('/');
+}
+
+// The part of one sheet the model does not hold, as CSS, its addresses written from the residual stylesheet's place.
+export function residualCss(text: string, from: string, at: string, context: HandlerContext<never>, rules: ModelRules): string {
+  let ast: CssTreeNode;
+  try {
+    ast = parseCssTree(text, { parseValue: true, parseCustomProperty: false });
+  } catch {
+    return '';
+  }
+  walkCssTree(ast, (node) => {
+    if (node.type === 'Url') node.value = movedUrl(node.value, from, at);
+  });
+  const rulesOf = (list: readonly CssTreeNode[], inMedia: boolean): string[] =>
+    list.flatMap((node): string[] => {
+      if (node.type === 'Rule') {
+        if (node.prelude.type !== 'SelectorList') return [generateCssTree(node)];
+        const selectors = node.prelude.children.toArray().map((one) => generateCssTree(one));
+        const declarations = node.block.children.toArray().filter((one) => one.type === 'Declaration').map((one) => generateCssTree(one));
+        const unmapped = selectors.filter((one) => !mapsSelector(one, rules));
+        const mapped = selectors.filter((one) => mapsSelector(one, rules));
+        const left = declarations.filter((one) => !storesDeclaration(context, rules, one));
+        return [
+          ...(unmapped.length > 0 && declarations.length > 0 ? [`${unmapped.join(',')}{${declarations.join(';')}}`] : []),
+          ...(mapped.length > 0 && left.length > 0 ? [`${mapped.join(',')}{${left.join(';')}}`] : []),
+        ];
+      }
+      if (node.type === 'Atrule') {
+        const prelude = node.prelude === null ? '' : generateCssTree(node.prelude);
+        if (node.name.toLowerCase() === 'media' && !inMedia && node.block !== null && !mediaPlace([prelude], rules).unmappable) {
+          const inner = rulesOf(node.block.children.toArray(), true);
+          return inner.length === 0 ? [] : [`@media ${prelude}{${inner.join('')}}`];
+        }
+        return [generateCssTree(node)];
+      }
+      return [];
+    });
+  return ast.type === 'StyleSheet' ? rulesOf(ast.children.toArray(), false).join('\n') : '';
 }

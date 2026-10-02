@@ -3387,5 +3387,18 @@
   "status.components.badVariant": "{variant} não é um nome de variante: uma letra, depois letras, dígitos e hífens.",
   "status.components.variantSet": "{name} mostra a variante {variant}.",
   "status.components.variantCleared": "{name} mostra o componente como ele é.",
-  "feature.componentVariants": "Variantes de um componente, escolhidas por instância"
+  "feature.componentVariants": "Variantes de um componente, escolhidas por instância",
+  "capture.open": "Abrir um endereço da web…",
+  "capture.title": "Abrir um endereço da web",
+  "capture.url": "Endereço",
+  "capture.placeholder": "https://",
+  "capture.notice": "Um site capturado pertence aos seus autores: use o que copiar com a permissão deles, como referência ou para um site seu.",
+  "capture.companionHint": "O Builder Companion abre a página no Chrome para o editor: rode npm run companion ao lado dele.",
+  "command.project.captureUrl": "Capturar",
+  "status.capture.invalidUrl": "{url} não é um endereço da web (http ou https).",
+  "status.capture.running": "Capturando {url}…",
+  "status.capture.noCompanion": "O Builder Companion não responde: rode npm run companion e capture de novo.",
+  "status.capture.failed": "Não foi possível capturar {url}: {reason}",
+  "feature.captureUrl": "Abrir qualquer endereço da web como página do projeto",
+  "status.import.released": "{count} links ou rótulos apontavam para nada da página e foram soltos ({values})."
 }

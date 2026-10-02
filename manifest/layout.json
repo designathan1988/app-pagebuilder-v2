@@ -216,6 +216,10 @@
       "area": "overlay"
     },
     {
+      "id": "capture-url-dialog",
+      "area": "overlay"
+    },
+    {
       "id": "recovery-dialog",
       "area": "overlay"
     },

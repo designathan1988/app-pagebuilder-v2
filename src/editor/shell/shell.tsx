@@ -34,6 +34,8 @@ import { GuidesGridsDialog } from './guides-grids.tsx';
 import { SnapSettingsDialog } from './snap-settings.tsx';
 import { BreakpointsDialog } from './breakpoints-dialog.tsx';
 import { BatchRenameDialog } from './batch-rename.tsx';
+import { CaptureUrlDialog } from './capture-url.tsx';
+import { installCapture } from '../import/capture.ts';
 import { RecoveryDialog } from './recovery.tsx';
 import { TabGuardNotice } from './tab-guard.tsx';
 import { PreviewBar, PreviewPage } from './preview.tsx';
@@ -124,6 +126,8 @@ export function Shell() {
   // folder drop), in canvas/frame.tsx for the frame's own
   useEffect(() => installOsFileDrop(store, window, false), [store]);
   useEffect(() => installFocus(store), [store]);
+  // a web address asked to be captured goes to the Builder Companion (import/capture.ts, spec capture-url)
+  useEffect(() => installCapture(store), [store]);
   useEffect(() => installSelectOnFocus(), []);
   const classes = ['shell', sidebar ? '' : 'shell--no-sidebar', inspector ? '' : 'shell--no-inspector', `shell--dock-${dock}`].filter((c) => c !== '').join(' ');
   // while previewing, the preview bar and the exported page over the editor (spec preview-mode): the editor stays as it
@@ -167,6 +171,7 @@ export function Shell() {
             <SnapSettingsDialog />
             <BreakpointsDialog />
             <BatchRenameDialog />
+            <CaptureUrlDialog />
             <RecoveryDialog />
             <HtmlImportDialog />
             <TabGuardNotice />
