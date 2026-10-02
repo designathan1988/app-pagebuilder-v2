@@ -33,11 +33,13 @@ import { materialize } from './materialize.ts';
 import { NAMESPACE, markerOf, recordOf, withAuthoring, type ContainerRecord } from './record.ts';
 import { composerOf, withComposer, type ComposerState } from './state.ts';
 import { breakpointWords } from '../../../core/document/breakpoints.ts';
-import { showPanel } from '../../../editor/workspace/panels.ts';
+import { hidePanel, isPanelOpen, showPanel } from '../../../editor/workspace/panels.ts';
 
 // the sidebar view the tool's options are drawn in while it is the canvas tool, and the one it gives back
 const PANEL = 'layout-composer';
 const BACK = 'explorer';
+// the section the tool folds while it is on, for its panel to take the column
+const LAYERS = 'layers';
 
 type Context = HandlerContext<EditorUi>;
 
@@ -138,8 +140,20 @@ function filledRegions(container: DocNode): Set<string> {
 // The intent's changed graph written into the container: compiled and materialized in this one command. A fresh
 // compilation keeps nothing of the structure the page holds (a new arrangement chosen), so no wrapper of the old one
 // stays behind.
-function written(context: Context, graph: LayoutIntent, selection: readonly string[], fresh = false): Outcome<EditorUi> {
+function written(context: Context, graph: LayoutIntent, selection: readonly string[], fresh = false, grabbed?: boolean): Outcome<EditorUi> {
   const { state, container, path, record } = composed(context);
+  const next = structured(context, container, record, graph, fresh);
+  const kept = selection.filter((id) => findRegion(graph, id) !== undefined);
+  return {
+    kind: 'change',
+    patches: [{ op: 'replace', path: [...path], value: next }],
+    ui: withComposer(context.state.ui, { ...state, selection: kept, ...(grabbed === undefined ? {} : { grabbed }) }),
+    message: message('layout.status.changed'),
+  };
+}
+
+// The container with the structure the intent compiles to written into it.
+function structured(context: Context, container: DocNode, record: ContainerRecord, graph: LayoutIntent, fresh: boolean): DocNode {
   const keys = new Set<string>();
   const visit = (node: DocNode) => {
     for (const child of node.children) {
@@ -155,14 +169,102 @@ function written(context: Context, graph: LayoutIntent, selection: readonly stri
   const compilation = { ...compiled, intent: { ...compiled.intent, responsive: graph.responsive } };
   const breakpoints = mapBreakpoints(shown, projectBreakpoints());
   const make = nodeMaker(context.state.document, context.rules, context.ids, context.words);
-  const next = materialize(context, withAuthoring(container, { ...record, intent: graph }), compilation, { make, regionType: REGION_TYPE, breakpoints });
-  const kept = selection.filter((id) => findRegion(graph, id) !== undefined);
-  return {
-    kind: 'change',
-    patches: [{ op: 'replace', path: [...path], value: next }],
-    ui: withComposer(context.state.ui, { ...state, selection: kept }),
-    message: message('layout.status.changed'),
+  return materialize(context, withAuthoring(container, { ...record, intent: graph }), compilation, { make, regionType: REGION_TYPE, breakpoints });
+}
+
+// The regions where the page lays them out at the width the canvas shows, in the container's own px: the view a
+// stroke at a narrower width is read on. A region the page does not draw there (hidden) stays where it was drawn.
+function laidOutAt(context: Context, container: DocNode, intent: LayoutIntent): LayoutIntent | null {
+  const origin = context.layout.box(container.id);
+  if (origin === null) return null;
+  const elements = new Map<string, DocNode>();
+  const visit = (node: DocNode) => {
+    for (const child of node.children) {
+      const marker = markerOf(child);
+      if (marker === null) continue;
+      if (!elements.has(marker.key)) elements.set(marker.key, child);
+      if (marker.kind === 'structural') visit(child);
+    }
   };
+  visit(container);
+  const regions = intent.regions.map((r) => {
+    const element = elements.get(r.id);
+    const b = element === undefined ? null : context.layout.box(element.id);
+    return b === null || !(b.width > 0) ? r : { ...r, box: { x: b.x - origin.x, y: b.y - origin.y, width: b.width, height: b.height } };
+  });
+  return { ...intent, viewport: { x: 0, y: 0, width: origin.width, height: Math.max(origin.height, intent.viewport.height) }, regions };
+}
+
+// the sizes a person can declare on an element that the layout owns once it is a region (the Select tool's handles
+// write them): read back as the region's box, then taken off for the layout to write them its own way
+const SIZE_ROLES = [WIDTH, HEIGHT, 'minWidth', 'maxWidth', 'minHeight', 'maxHeight'];
+
+// What the page holds now, read back into the intent when the tool comes on again: between two compositions the page
+// changes by other means (the Select tool, the Layers, the inspector). A region whose element is gone goes, with what
+// it holds; an element moved into another region's element takes that region as its parent; at the drawing's width,
+// an element the page lays out elsewhere or at another size takes that box, and the sizes the person declared on it are
+// taken back by the layout. A reading the layout cannot hold (regions that would overlap) keeps the intent as it was,
+// but for the regions that are gone.
+function readBack(context: Context, container: DocNode, intent: LayoutIntent): { readonly intent: LayoutIntent; readonly container: DocNode; readonly changed: boolean } {
+  const found = new Map<string, { readonly node: DocNode; readonly parent: string | null }>();
+  const visit = (node: DocNode, parent: string | null) => {
+    for (const child of node.children) {
+      const marker = markerOf(child);
+      if (marker === null) continue;
+      if (!found.has(marker.key)) found.set(marker.key, { node: child, parent });
+      if (marker.kind === 'structural') visit(child, findRegion(intent, marker.key) === undefined ? parent : marker.key);
+    }
+  };
+  visit(container, null);
+  const gone = intent.regions.filter((r) => !found.has(r.id)).map((r) => r.id);
+  let graph = intent;
+  if (gone.length > 0) {
+    const result = execute(graph, { kind: 'delete', ids: gone }, naming(context));
+    if (result.ok) graph = result.graph;
+  }
+  const afterGone = graph;
+  // where the page lays the regions out: only at the drawing's width, where the boxes mean what the intent means
+  const origin = context.layout.box(container.id);
+  const measured = activeBreakpoint(context.state).base && origin !== null;
+  const properties = SIZE_ROLES.map((role) => COMPILER.properties[role]).filter((id): id is string => id !== undefined);
+  const { breakpoint: base, state: baseState } = context.rules.baseLayer;
+  const released = new Map<string, DocNode>();
+  graph = {
+    ...graph,
+    regions: graph.regions.map((r) => {
+      const at = found.get(r.id);
+      if (at === undefined) return r;
+      let next: Region = at.parent !== r.parent ? { ...r, parent: at.parent } : r;
+      if (measured) {
+        const b = context.layout.box(at.node.id);
+        if (b !== null && b.width > 0 && b.height > 0) {
+          const box = { x: Math.round(b.x - (origin as { x: number }).x), y: Math.round(b.y - (origin as { y: number }).y), width: Math.round(b.width), height: Math.round(b.height) };
+          const moved = Math.abs(box.x - r.box.x) > 8 || Math.abs(box.y - r.box.y) > 8 || Math.abs(box.width - r.box.width) > 8 || Math.abs(box.height - r.box.height) > 8;
+          if (moved) next = { ...next, box };
+        }
+        // the sizes the person declared there, which the layout writes its own way from now on
+        const owned = new Set(markerOf(at.node)?.owns?.[base] ?? []);
+        const layer = (at.node.styles as Readonly<Record<string, Readonly<Record<string, Readonly<Record<string, string>>>>>>)[base]?.[baseState] ?? {};
+        const declared = properties.filter((property) => layer[property] !== undefined && !owned.has(property));
+        if (declared.length > 0) {
+          // the layer without them; a state or a breakpoint left with nothing is no layer at all
+          const kept = Object.fromEntries(Object.entries(layer).filter(([property]) => !declared.includes(property)));
+          const all = at.node.styles as Readonly<Record<string, Readonly<Record<string, unknown>>>>;
+          const states = Object.fromEntries(Object.entries({ ...all[base], [baseState]: kept }).filter(([, value]) => Object.keys(value as object).length > 0));
+          const styles = Object.fromEntries(Object.entries({ ...all, [base]: states }).filter(([, value]) => Object.keys(value).length > 0));
+          released.set(at.node.id, { ...at.node, styles: styles as unknown as DocNode['styles'] });
+        }
+      }
+      return next;
+    }),
+  };
+  if (validateIntent(graph).length > 0) graph = afterGone;
+  const replace = (node: DocNode): DocNode => {
+    const own = released.get(node.id) ?? node;
+    return own.children.length === 0 ? own : { ...own, children: own.children.map(replace) };
+  };
+  const next = released.size === 0 ? container : replace(container);
+  return { intent: graph, container: next, changed: graph !== intent || released.size > 0 };
 }
 
 // An operation of the gesture algebra on the composed intent, refused with the engine's own problem when it cannot be.
@@ -265,12 +367,18 @@ export const enterLayout = registerHandler<'layout.enter', EditorUi>('layout.ent
     // height for any other container (interactions.json layout.emptyHeight)
     const room = at.parent === null ? activeBreakpoint(context.state).height : EMPTY_HEIGHT;
     const start: LayoutIntent = held === null ? emptyIntent(box.width, Math.max(box.height, room)) : namesFromElements(at.node, held.intent);
-    const adopted = adopt(context, at.node, start);
+    // a container composed before: what the page holds now is read back first (the Select tool may have changed it)
+    const back = held === null ? { intent: start, container: at.node, changed: false } : readBack(context, at.node, start);
+    const adopted = adopt(context, back.container, back.intent);
     const record: ContainerRecord = { role: 'container', version: 1, intent: adopted.graph, owns: held?.owns ?? {} };
+    const entered = back.changed ? structured(context, withAuthoring(adopted.container, record), record, adopted.graph, false) : withAuthoring(adopted.container, record);
     return {
       kind: 'change',
-      patches: [{ op: 'replace', path: [...at.path], value: withAuthoring(adopted.container, record) }],
-      ui: showPanel(withComposer(context.state.ui, { target: id, selection: [], lens: 'spatial', tool: 'auto' }), PANEL),
+      patches: [{ op: 'replace', path: [...at.path], value: entered }],
+      ui: (() => {
+        const layers = composerOf(context.state.ui)?.layers ?? isPanelOpen(context.state.ui, LAYERS);
+        return hidePanel(showPanel(withComposer(context.state.ui, { target: id, selection: [], lens: 'spatial', tool: 'auto', shows: PANEL, ...(layers ? { layers } : {}) }), PANEL), LAYERS);
+      })(),
       message: message('layout.status.entered', { name: at.node.name }),
     };
   } catch (error) {
@@ -282,7 +390,9 @@ export const enterLayout = registerHandler<'layout.enter', EditorUi>('layout.ent
 
 // layout.leave: the composer closes; the page keeps the structure it was compiled to, and the container its intent.
 export const leaveLayout = registerHandler<'layout.leave', EditorUi>('layout.leave', ({ state }) => {
-  const ui = withComposer(state.ui, null);
+  const folded = composerOf(state.ui)?.layers === true;
+  const left = withComposer(state.ui, null);
+  const ui = folded ? showPanel(left, LAYERS) : left;
   // the sidebar gives back the Explorer when it was showing the tool's options
   return { kind: 'change', ui: ui.panels.sidebarView === PANEL ? showPanel(ui, BACK) : ui, message: message('layout.status.closed') };
 });
@@ -300,19 +410,36 @@ const isPoint = (p: unknown): p is Point => typeof p === 'object' && p !== null 
 // a marquee that selects, constraints painted, a lasso that groups.
 export const strokeLayout = registerHandler<'layout.stroke', EditorUi>('layout.stroke', (context, { mode, points, handle }) =>
   guarded(context, () => {
-    const { record, state } = composed(context);
+    const { record, state, container } = composed(context);
     if (!Array.isArray(points) || !points.every(isPoint)) throw new Error('layout.stroke: a door hands the stroke as points');
-    const reading = readStroke(record.intent, { points, mode: mode as StrokeMode, handle: handle === undefined ? null : handleOf(handle), radius: hitRadius(context.state.ui) }, naming(context));
-    if (reading.selection !== null) return { kind: 'change', ui: withComposer(context.state.ui, { ...state, selection: reading.selection }) };
+    // narrower than the drawing, a stroke says what changes there (spec "Responsive editing"): a region dragged among
+    // its siblings sets their order at that width, a divider dragged the two regions' widths; the regions are read
+    // where the page lays them out there, and any other change of structure belongs to the drawing's width
+    const breakpoint = activeBreakpoint(context.state);
+    if (!breakpoint.base) {
+      const view = laidOutAt(context, container, record.intent);
+      if (view === null) return drawAtBase();
+      const narrow = readStroke(record.intent, { points, mode: 'auto', handle: null, radius: hitRadius(context.state.ui), responsive: { maxWidth: breakpoint.width, view } }, naming(context));
+      if (narrow.operation === null || narrow.result === null || !narrow.result.ok) return drawAtBase();
+      const outcome = written(context, narrow.result.graph, state.selection);
+      return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.responded', { breakpoint: breakpointWords(breakpoint) }) } : outcome;
+    }
+    const reading = readStroke(record.intent, { points, mode: mode as StrokeMode, handle: handle === undefined ? null : handleOf(handle), radius: hitRadius(context.state.ui), selected: state.grabbed === true ? state.selection : [] }, naming(context));
+    // a marquee picks the regions it holds whole: they follow a drag of their body
+    if (reading.selection !== null) {
+      const names = reading.selection.map((id) => findRegion(record.intent, id)?.name ?? id).join(', ');
+      return { kind: 'change', ui: withComposer(context.state.ui, { ...state, selection: reading.selection, grabbed: true }), message: reading.selection.length === 0 ? message('layout.status.noSelection') : message('layout.status.selected', { names }) };
+    }
     // the regions are drawn at the base screen size; a narrower one says what changes there (layout.respond)
     if (!activeBreakpoint(context.state).base) return drawAtBase();
     if (reading.operation === null || reading.result === null) return refusedWith(reading.problems);
     if (!reading.result.ok) return refusedWith(reading.result.problems);
     // composing the page itself, what its regions plainly mean is read from where they stand (intent/meaning.ts)
     const page = pageShown(context.state)?.tree.id === state.target;
-    const graph = page ? inferMeaning(reading.result.graph, { name: (key) => context.words(`layout.template.part.${key}` as MessageId), numbered: (n) => context.words('layout.label.region' as MessageId, { n }), generic: numberedWith(context.words) }) : reading.result.graph;
+    const graph = inferMeaning(reading.result.graph, { name: (key) => context.words(`layout.template.part.${key}` as MessageId), numbered: (n) => context.words('layout.label.region' as MessageId, { n }), generic: numberedWith(context.words) }, page);
     const made = reading.result.affected.filter((id) => findRegion(record.intent, id) === undefined && findRegion(graph, id) !== undefined);
-    const result = written(context, graph, made.length > 0 ? made : state.selection);
+    const moved = reading.mode === 'move' || reading.mode === 'nest';
+    const result = written(context, graph, made.length > 0 ? made : state.selection, false, moved);
     const outcome = result.kind === 'change' ? { ...result, message: gestureSaid(reading.mode, record.intent, graph, reading.result.affected) } : result;
     // a structural handle dragged (a boundary, a corner, a gap; a repeat adds items instead) says the sizes it gave the regions it moved
     // a boundary, a corner, a gap or an edge dragged says the sizes it gave; a label dragged moved its region instead
@@ -334,7 +461,7 @@ export const selectLayout = registerHandler<'layout.select', EditorUi>('layout.s
     if (!Array.isArray(regions) || !regions.every((r) => typeof r === 'string' && findRegion(record.intent, r) !== undefined)) return refusedWith([{ code: 'unknown-region', params: {} }]);
     const selection = nextSelection(state.selection, regions as string[], mode as SelectionMode);
     const names = selection.map((id) => findRegion(record.intent, id)?.name ?? id).join(', ');
-    return { kind: 'change', ui: withComposer(context.state.ui, { ...state, selection }), message: selection.length === 0 ? message('layout.status.noSelection') : message('layout.status.selected', { names }) };
+    return { kind: 'change', ui: withComposer(context.state.ui, { ...state, selection, grabbed: true }), message: selection.length === 0 ? message('layout.status.noSelection') : message('layout.status.selected', { names }) };
   }),
 );
 

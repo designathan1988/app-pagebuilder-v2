@@ -54,7 +54,11 @@ describe('reading a stroke with the one tool', () => {
     const out = read(inside, stroke([{ x: 250, y: 250 }, { x: 950, y: 250 }], 'auto', label));
     expect(out.mode).toBe('nest');
     expect(out.result?.ok && findRegion(out.result.graph, 'r2')?.parent).toBeNull();
-    // a drag inside a region, away from its edges, draws a region inside it
+    // a selected region dragged by its body goes wherever it is dropped
+    const body = read(graph, stroke([{ x: 750, y: 150 }, { x: 1000, y: 450 }], 'auto', { selected: ['r2'] }));
+    expect(body.mode).toBe('move');
+    expect(body.result?.ok && findRegion(body.result.graph, 'r2')?.box).toMatchObject({ x: 950, y: 400 });
+    // a drag inside a region that is not selected draws a region inside it
     const child = read(graph, stroke([{ x: 100, y: 100 }, { x: 300, y: 300 }]));
     expect(child.mode).toBe('draw');
     expect(child.parent).toBe('r1');

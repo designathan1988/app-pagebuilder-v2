@@ -97,6 +97,13 @@ describe('the automatic reflow at narrower screens', () => {
     expect(laid.responsive.find((r) => r.maxWidth === 390)?.columns).toBe(1);
   });
 
+  it('flows a row of three items as tall as one another in two columns on a tablet, whatever their widths', () => {
+    const row = drawn(1440, 800, [{ x: 40, y: 0, width: 1360, height: 96 }, { x: 40, y: 128, width: 175, height: 320 }, { x: 384, y: 128, width: 320, height: 320 }, { x: 728, y: 128, width: 320, height: 320 }]);
+    const tablet = withAdaptation(row, ADAPT).responsive.find((r) => r.maxWidth === 834);
+    expect(tablet?.columns).toBe(2);
+    expect(tablet?.wide).toEqual(['r1']);
+  });
+
   it('leaves a column of regions one under the other as it is', () => {
     const column = drawn(1200, 800, [{ x: 0, y: 0, width: 1200, height: 300 }, { x: 0, y: 324, width: 1200, height: 476 }]);
     expect(withAdaptation(column, ADAPT).responsive).toEqual([]);
@@ -130,13 +137,24 @@ describe('strokes that snap, select and cut', () => {
     expect(reading.guides.some((g) => g.axis === 'x' && g.at === 40)).toBe(true);
   });
 
-  it('groups the regions a box drawn from outside holds in a new region over the box', () => {
-    const graph = drawn(1440, 900, [{ x: 40, y: 40, width: 600, height: 400 }, { x: 680, y: 40, width: 600, height: 400 }]);
+  it('selects the regions a box drawn from outside holds (a marquee), and moves them together', () => {
+    const graph = drawn(1440, 900, [{ x: 40, y: 40, width: 600, height: 400 }, { x: 680, y: 40, width: 600, height: 400 }, { x: 40, y: 480, width: 600, height: 300 }]);
     const reading = readStroke(graph, stroke([{ x: 10, y: 10 }, { x: 1300, y: 460 }]), DEFAULT_NAMING);
-    expect(reading.mode).toBe('group');
-    const grouped = reading.result?.ok === true ? reading.result.graph : null;
-    expect(grouped?.regions.filter((r) => r.parent === null)).toHaveLength(1);
-    expect(grouped?.regions.filter((r) => r.parent !== null).map((r) => r.id)).toEqual(['r1', 'r2']);
+    expect(reading.mode).toBe('select');
+    expect(reading.selection).toEqual(['r1', 'r2']);
+    expect(reading.operation).toBeNull();
+    // the picked regions dragged by the body of one of them go together; the third stays
+    const moved = readStroke(graph, { ...stroke([{ x: 300, y: 200 }, { x: 300, y: 220 }]), selected: ['r1', 'r2'] }, DEFAULT_NAMING);
+    expect(moved.mode).toBe('move');
+    const after = moved.result?.ok === true ? moved.result.graph : null;
+    expect(moved.result?.ok).toBe(true);
+    const ys = after?.regions.map((r) => r.box.y) ?? [];
+    expect(ys[0]).toBeGreaterThan(40);
+    expect(ys[1]).toBe(ys[0]);
+    expect(ys[2]).toBe(480);
+    // a region drawn and not picked takes a drag inside it as its child
+    const child = readStroke(graph, stroke([{ x: 100, y: 100 }, { x: 300, y: 300 }]), DEFAULT_NAMING);
+    expect(child.mode).toBe('draw');
   });
 
   it('never reads a slanted drag across a region as a cut', () => {

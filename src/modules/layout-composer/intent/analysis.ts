@@ -18,8 +18,9 @@ export interface Pattern {
   readonly confidence: number;
 }
 
-// Two lengths the same to the eye: what a hand drawing two equal columns produces.
-const near = (a: number, b: number, tolerance = 2): boolean => Math.abs(a - b) <= tolerance;
+// Two lengths the same to the eye: what a hand drawing two equal columns produces (within 4 px, or 3% of the shorter:
+// the last card of a row snapped to the container's edge is a few pixels wider than the others).
+const near = (a: number, b: number, tolerance?: number): boolean => Math.abs(a - b) <= (tolerance ?? Math.max(4, Math.min(Math.abs(a), Math.abs(b)) * 0.03));
 
 function siblingPatterns(held: readonly Region[], parent: string | null): Pattern[] {
   const result: Pattern[] = [];

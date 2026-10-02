@@ -165,3 +165,54 @@ describe('Layout Composer properties and screen sizes (layout.configure, layout.
     expect(stroke(store, [{ x: 40, y: 500 }, { x: 400, y: 700 }]).status).toBe('refused');
   });
 });
+
+describe('the Layout tool reads back what the page holds when it comes on again', () => {
+  it('drops a region whose element the Select tool deleted, and takes the size its handles set as the region box', () => {
+    const boxes: Record<string, Rect> = {};
+    const { store, root } = composer(boxes);
+    store.dispatch('layout.enter', {});
+    stroke(store, [{ x: 40, y: 40 }, { x: 1400, y: 600 }]);
+    stroke(store, [{ x: 500, y: 20 }, { x: 500, y: 620 }]);
+    store.dispatch('layout.leave', {});
+    const [left, right] = root().children as [DocNode, DocNode];
+    // with the Select tool: the right column deleted, the left one made 300 wide by its handles
+    store.dispatch('selection.select', { target: right.id } as never);
+    expect(store.dispatch('element.delete', {} as never).status).toBe('done');
+    store.dispatch('selection.select', { target: left.id } as never);
+    expect(store.dispatch('geometry.resize', { width: '300px' } as never).status).toBe('done');
+    boxes[left.id] = { x: 40, y: 40, width: 300, height: 560 };
+    store.dispatch('selection.clear', {} as never);
+    expect(store.dispatch('layout.enter', {}).status).toBe('done');
+    const intent = recordOf(root())?.intent;
+    expect(intent?.regions.map((r) => r.id)).toEqual(['r1']);
+    expect(intent?.regions[0]?.box).toEqual({ x: 40, y: 40, width: 300, height: 560 });
+    // the layout writes the size its own way: the width the handles declared is taken back
+    expect(JSON.stringify(root().children[0]?.styles)).not.toContain('"width":"300px"');
+    // one undo step brings back the page as the Select tool left it
+    store.dispatch('history.undo', {} as never);
+    expect(JSON.stringify(root().children[0]?.styles)).toContain('"width":"300px"');
+  });
+});
+
+describe('a stroke at a narrower width says what changes there', () => {
+  it('drags a region among its stacked siblings and records their order at that width', () => {
+    const boxes: Record<string, Rect> = {};
+    const { store, root } = composer(boxes);
+    store.dispatch('layout.enter', {});
+    stroke(store, [{ x: 40, y: 40 }, { x: 460, y: 400 }]);
+    stroke(store, [{ x: 500, y: 40 }, { x: 920, y: 400 }]);
+    stroke(store, [{ x: 960, y: 40 }, { x: 1380, y: 400 }]);
+    expect(store.dispatch('view.setBreakpoint', { breakpoint: 'tablet' } as never).status).toBe('done');
+    // the tablet stacks them: the canvas lays them one under the other
+    root().children.forEach((child, i) => {
+      boxes[child.id] = { x: 40, y: 40 + i * 384, width: 754, height: 360 };
+    });
+    // the first one dragged below the last one
+    const dragged = stroke(store, [{ x: 400, y: 200 }, { x: 400, y: 900 }, { x: 400, y: 1150 }]);
+    expect(dragged.status).toBe('done');
+    const rule = recordOf(root())?.intent.responsive.find((r) => r.maxWidth === 834);
+    expect(rule?.order).toEqual(['r2', 'r3', 'r1']);
+    // drawing a new region there is no change of that width: it is refused
+    expect(stroke(store, [{ x: 100, y: 1300 }, { x: 300, y: 1400 }]).status).toBe('refused');
+  });
+});

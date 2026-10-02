@@ -94,12 +94,14 @@ export interface ResponsiveRule {
   readonly maxWidth: number;
   // the columns the top-level regions flow in (1: stacked); absent keeps their structure
   readonly columns?: number;
+  // the top-level regions that take a whole row while the others flow in those columns (a header over cards)
+  readonly wide?: readonly string[];
   readonly gap?: number;
   readonly hidden: readonly string[];
   readonly order?: readonly string[];
   readonly sizes?: Readonly<Record<string, { readonly width?: number; readonly mode?: Sizing }>>;
   // the columns of a nested group, by its preference key (preferenceKey below)
-  readonly groups?: Readonly<Record<string, { readonly columns: number; readonly gap?: number }>>;
+  readonly groups?: Readonly<Record<string, { readonly columns: number; readonly gap?: number; readonly wide?: readonly string[] }>>;
   // the groups the person keeps as drawn here (by preference key): no automatic reflow applies to them at this width
   readonly kept?: readonly string[];
 }

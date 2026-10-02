@@ -223,7 +223,7 @@ export function validateIntent(graph: LayoutIntent): LayoutProblem[] {
     const badGap = rule.gap !== undefined && (!Number.isFinite(rule.gap) || rule.gap < 0);
     const badGroups = Object.values(rule.groups ?? {}).some((g) => !Number.isInteger(g.columns) || g.columns < 1 || (g.gap !== undefined && (!Number.isFinite(g.gap) || g.gap < 0)));
     if (!Number.isFinite(rule.maxWidth) || rule.maxWidth <= 0 || badColumns || badGap || badGroups) problems.push(problem('responsive-rule', { rule: rule.id }));
-    const named = [...rule.hidden, ...(rule.order ?? []), ...Object.keys(rule.sizes ?? {})];
+    const named = [...rule.hidden, ...(rule.order ?? []), ...Object.keys(rule.sizes ?? {}), ...(rule.wide ?? []), ...Object.values(rule.groups ?? {}).flatMap((g) => g.wide ?? [])];
     const groupKeys = [...Object.keys(rule.groups ?? {}), ...(rule.kept ?? [])].map((key) => (key.startsWith('region:') ? key.slice('region:'.length) : null)).filter((id): id is string => id !== null);
     if ([...named, ...groupKeys].some((id) => !ids.has(id))) problems.push(problem('responsive-region', { rule: rule.id }));
     if (rule.order !== undefined && new Set(rule.order).size !== rule.order.length) problems.push(problem('responsive-order', { rule: rule.id }));

@@ -13,6 +13,7 @@ import { locate } from '../../../core/document/model.ts';
 import type { Gesture } from '../../../core/store/store.ts';
 import type { CommandId, KeyContextId, MessageId } from '../../../generated/ids.ts';
 import { manifest, numberConstant } from '../../../manifest/runtime.ts';
+import { canvasFrame, geometryOf } from '../../../editor/canvas/coordinates.ts';
 import { textOf } from '../../../editor/text.ts';
 import type { PointerTool, ToolPoint, ToolSession } from '../../../editor/input/pointer-tools.ts';
 import { hitRegions } from '../geometry/geometry.ts';
@@ -64,7 +65,10 @@ export const layoutTool: PointerTool = {
     if (record === null) return null;
     const box = stage.getBoundingClientRect();
     const measured = stage.hasAttribute('data-measured');
-    const scale = box.width / record.intent.viewport.width;
+    // at the drawing's width the stage is the intent's viewport; narrower, it is the container where the page lays it
+    // out, in the page's px under the frame's zoom
+    const frame = canvasFrame();
+    const scale = measured ? (frame === null ? 1 : (geometryOf(frame)?.zoom ?? 1)) : box.width / record.intent.viewport.width;
     if (!(scale > 0)) return null;
     const local = (p: ToolPoint): Point => rounded({ x: (p.x - box.left) / scale, y: (p.y - box.top) / scale });
     const handleText = target.closest('[data-layout-handle]')?.getAttribute('data-layout-handle') ?? null;
@@ -74,7 +78,7 @@ export const layoutTool: PointerTool = {
     const radius = hitRadius(state.ui);
     const points: Point[] = [local(at)];
     let travelled = false;
-    const read = (mode: StrokeMode) => readStroke(record.intent, { points, mode, handle, radius }, naming);
+    const read = (mode: StrokeMode) => readStroke(record.intent, { points, mode, handle, radius, selected: composer.grabbed === true ? composer.selection : [] }, naming);
     return {
       move(next) {
         if (!travelled && Math.hypot(next.x - at.x, next.y - at.y) < CLICK_TRAVEL) return null;

@@ -2399,7 +2399,7 @@
   "layout.door.moveHandle": "Arraste o rótulo para mover a região",
   "layout.field.equalize": "igualar",
   "layout.status.equalized": "Agora iguais: {names}.",
-  "layout.panel.gestures": "Arraste para desenhar uma região; dentro de outra, ela vira filha. Trace uma linha reta atravessando uma região para dividi-la; esfregue a linha entre duas regiões para uni-las. Arraste uma borda ou divisória para redimensionar. Clique numa região para selecioná-la e arraste o rótulo para movê-la. Arraste uma caixa em volta de regiões para agrupá-las.",
+  "layout.panel.gestures": "Arraste em qualquer lugar para desenhar uma região (dentro de outra, ela vira filha). Clique numa região para selecioná-la (Shift adiciona), ou arraste uma caixa a partir do vazio em volta de regiões para selecionar todas; depois arraste-as para onde quiser. Trace uma linha reta atravessando uma região para dividi-la; esfregue a linha entre duas regiões para uni-las. Arraste uma borda ou divisória para redimensionar. Solte regiões dentro de outra para aninhá-las.",
   "layout.status.drew": "Nova região: {names}.",
   "layout.status.cut": "Corte feito: {names}.",
   "layout.status.merged": "Regiões unidas em {name}.",

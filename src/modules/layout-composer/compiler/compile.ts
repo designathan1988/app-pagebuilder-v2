@@ -277,6 +277,9 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
     return result;
   };
 
+  // a whole row of a grid of so many columns: from its first column line to its last (written as the column's pair of
+  // lines: an area is one name)
+  const spanAll = (columns: number): Declarations => ({ gridColumn: `1 / ${columns + 1}` });
   // what a reflowed child's place in the drawing becomes
   const RELEASED: Readonly<Declarations> = { flexGrow: '0', flexShrink: '1', flexBasis: 'auto', [WIDTH]: 'auto', gridArea: 'auto', marginLeft: '0px', marginTop: '0px' };
   // a reflowed group's children drop their place in the drawing: no grid area, no share of a row
@@ -288,7 +291,13 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
       // only what the child declares about its place is taken back: its area, its share of a row, a margin of its own
       const released: Declarations = {};
       for (const [role, value] of Object.entries(RELEASED)) if (child.styles[role] !== undefined) released[role] = value;
-      for (const rule of rules) responsive[rule.id] = { ...released, ...responsive[rule.id] };
+      for (const rule of rules) {
+        // a region that takes a whole row while the others flow in columns spans them all
+        const wide = (key === preferenceKey(null) ? rule.wide : rule.groups?.[key]?.wide) ?? [];
+        const columns = (key === preferenceKey(null) ? rule.columns : rule.groups?.[key]?.columns) ?? 1;
+        const spans = child.region !== null && wide.includes(child.region) ? spanAll(columns) : {};
+        responsive[rule.id] = { ...released, ...spans, ...responsive[rule.id] };
+      }
       return { ...child, responsive };
     });
   };
@@ -449,7 +458,8 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
       for (let y = at.y1; y < at.y2; y += 1) for (let x = at.x1; x < at.x2; x += 1) (areas[y] as string[])[x] = named(i);
       const node = leaf(r);
       const more = { ...(rows.extra.has(at.y1) ? { marginTop: px(rows.extra.get(at.y1) as number) } : {}), ...(columns.extra.has(at.x1) ? { marginLeft: px(columns.extra.get(at.x1) as number) } : {}) };
-      return { ...node, styles: { ...node.styles, ...more, gridArea: overlapping ? `${at.y1 + 1} / ${at.x1 + 1} / ${at.y2 + 1} / ${at.x2 + 1}` : named(i) } };
+      const place: Declarations = overlapping ? { gridRow: `${at.y1 + 1} / ${at.y2 + 1}`, gridColumn: `${at.x1 + 1} / ${at.x2 + 1}` } : { gridArea: named(i) };
+      return { ...node, styles: { ...node.styles, ...more, ...place } };
     });
     // a column track: fixed where a fixed region spans exactly it, sized by content where hugging ones do, else a share
     // of the free space (with the minimum a region spanning exactly it asks for)

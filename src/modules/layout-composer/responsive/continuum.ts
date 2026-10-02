@@ -163,8 +163,9 @@ export function responsiveEdit(graph: LayoutIntent, maxWidth: number, edit: Resp
 // The behaviour a layout has on its own at narrower screens (spec "Responsive inference": [A][B][C] side by side on a
 // desktop are [A] [B] [C] one under the other on a phone), wherever the person chose nothing else there. At the tablet
 // breakpoint (the widest project breakpoint no wider than ADAPT_WIDEST) a group laid side by side stacks; a row or a
-// grid of three alike items or more flows in two columns there instead, and stacks at the phone breakpoint (the
-// narrowest). A group the person reflowed or kept as drawn at a width (or a wider one) keeps that choice there.
+// grid of three alike items or more flows in two columns there instead (the group's other regions, a header over the
+// cards, take a whole row), and stacks at the phone breakpoint (the narrowest). A group the person reflowed or kept as
+// drawn at a width (or a wider one) keeps that choice there.
 export const ADAPT_WIDEST = 1024;
 
 export interface Adaptation {
@@ -185,6 +186,14 @@ function sideBySide(held: readonly Region[]): boolean {
   return held.some((a, i) => held.some((b, j) => j > i && Math.min(a.box.y + a.box.height, b.box.y + b.box.height) - Math.max(a.box.y, b.box.y) > 4));
 }
 
+// Three regions or more side by side on one row, as tall as one another (a quarter apart at most) whatever their
+// widths: items a tablet flows in two columns like alike cards. The longest such row of the group.
+function rowOfThree(held: readonly Region[]): { readonly regions: readonly string[] } | undefined {
+  const rows = held.map((a) => held.filter((b) => Math.abs(b.box.y - a.box.y) <= 8 && Math.abs(b.box.height - a.box.height) <= Math.max(a.box.height, b.box.height) * 0.25));
+  const longest = rows.filter((row) => row.length >= 3).sort((a, b) => b.length - a.length)[0];
+  return longest === undefined ? undefined : { regions: longest.map((r) => r.id) };
+}
+
 const columnsOf = (rule: ResponsiveRule, key: string): number | undefined => (key === ROOT_KEY ? rule.columns : rule.groups?.[key]?.columns);
 
 // The intent with the automatic behaviour added to its rules: what the compiler writes and the widths check measures.
@@ -194,10 +203,11 @@ export function withAdaptation(graph: LayoutIntent, adaptation: Adaptation): Lay
   const found = patterns(graph);
   let rules = [...graph.responsive];
   const chosen = (key: string, width: number) => graph.responsive.some((r) => r.maxWidth >= width - 0.5 && (columnsOf(r, key) !== undefined || r.kept?.includes(key) === true));
-  const add = (width: number, key: string, columns: number) => {
+  const add = (width: number, key: string, columns: number, wide: readonly string[] = []) => {
     const at = rules.findIndex((r) => Math.abs(r.maxWidth - width) < 0.5);
     const held: ResponsiveRule = at >= 0 ? (rules[at] as ResponsiveRule) : { id: `auto-${width}`, maxWidth: width, hidden: [] };
-    const rule: ResponsiveRule = key === ROOT_KEY ? (held.columns === undefined ? { ...held, columns } : held) : held.groups?.[key] !== undefined ? held : { ...held, groups: { ...held.groups, [key]: { columns } } };
+    const spans = wide.length === 0 ? {} : { wide: [...wide] };
+    const rule: ResponsiveRule = key === ROOT_KEY ? (held.columns === undefined ? { ...held, columns, ...spans } : held) : held.groups?.[key] !== undefined ? held : { ...held, groups: { ...held.groups, [key]: { columns, ...spans } } };
     rules = at >= 0 ? rules.map((r, i) => (i === at ? rule : r)) : [...rules, rule];
   };
   const parents: (string | null)[] = [null, ...graph.regions.filter((r) => childrenOf(graph, r.id).length >= 2).map((r) => r.id)];
@@ -205,9 +215,12 @@ export function withAdaptation(graph: LayoutIntent, adaptation: Adaptation): Lay
     const held = childrenOf(graph, parent);
     if (held.length < 2 || !sideBySide(held)) continue;
     const key = preferenceKey(parent);
-    const alike = held.length >= 3 && found.some((p) => p.parent === parent && p.regions.length === held.length && (p.kind === 'repeated-row' || p.kind === 'grid'));
-    if (!chosen(key, adaptation.tablet)) add(adaptation.tablet, key, alike ? 2 : 1);
-    if (alike && adaptation.phone !== null && !chosen(key, adaptation.phone)) add(adaptation.phone, key, 1);
+    // the alike items among the group: all of it (cards alone), or a part of it (cards between a header and a footer)
+    const alike = found.filter((p) => p.parent === parent && p.regions.length >= 3 && (p.kind === 'repeated-row' || p.kind === 'grid')).sort((a, b) => b.regions.length - a.regions.length)[0];
+    const cards = alike ?? rowOfThree(held);
+    const wide = cards === undefined ? [] : held.filter((r) => !cards.regions.includes(r.id)).map((r) => r.id);
+    if (!chosen(key, adaptation.tablet)) add(adaptation.tablet, key, cards !== undefined ? 2 : 1, wide);
+    if (cards !== undefined && adaptation.phone !== null && !chosen(key, adaptation.phone)) add(adaptation.phone, key, 1);
   }
   return rules.length === graph.responsive.length && rules.every((r, i) => r === graph.responsive[i]) ? graph : { ...graph, responsive: rules };
 }

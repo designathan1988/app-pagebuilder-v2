@@ -126,6 +126,8 @@ function withPanel(ui: EditorUi, panel: Panel, open: boolean): EditorUi {
 // The editor state with a panel shown, for a command whose work is drawn in that panel (a rename in place, in Layers):
 // its view and the sidebar shown first, as when it is opened.
 export const showPanel = (ui: EditorUi, panel: Panel): EditorUi => (isPanelOpen(ui, panel) ? ui : withPanel(ui, panel, true));
+// The editor state with a panel hidden (a tool that needs the room while it is on: the Layout tool folds the Layers).
+export const hidePanel = (ui: EditorUi, panel: Panel): EditorUi => (isPanelOpen(ui, panel) ? withPanel(ui, panel, false) : ui);
 
 const panelMessage = (panel: Panel, open: boolean): Message => message(open ? 'status.panel.opened' : 'status.panel.closed', { panel: { key: panelName(panel) } });
 

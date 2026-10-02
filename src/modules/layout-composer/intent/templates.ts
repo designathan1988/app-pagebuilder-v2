@@ -169,7 +169,8 @@ interface Part {
 function fromParts(parts: readonly Part[], width: number, height: number): LayoutIntent {
   return solve({
     ...emptyIntent(width, height),
-    regions: parts.map((p, i) => ({ ...region(`r${i + 1}`, p.box, p.name), semantic: p.semantic, ...(p.fixed === true ? { width: { mode: 'fixed' as const } } : {}) })),
+    // a template's regions are named and given their meaning: the layout never reads another one into them
+    regions: parts.map((p, i) => ({ ...region(`r${i + 1}`, p.box, p.name), semantic: p.semantic, chosen: true as const, ...(p.fixed === true ? { width: { mode: 'fixed' as const } } : {}) })),
   }).graph;
 }
 

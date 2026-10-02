@@ -1199,7 +1199,7 @@
                         {
                           "id": "r1",
                           "parent": null,
-                          "name": "Region 1",
+                          "name": "Item 1",
                           "box": {
                             "x": 340,
                             "y": 40,
@@ -1212,7 +1212,7 @@
                           "height": {
                             "mode": "fluid"
                           },
-                          "semantic": "div",
+                          "semantic": "article",
                           "provenance": [
                             "op1"
                           ]
@@ -1220,7 +1220,7 @@
                         {
                           "id": "r2",
                           "parent": null,
-                          "name": "Region 2",
+                          "name": "Item 2",
                           "box": {
                             "x": 520,
                             "y": 40,
@@ -1233,7 +1233,7 @@
                           "height": {
                             "mode": "fluid"
                           },
-                          "semantic": "div",
+                          "semantic": "article",
                           "provenance": [
                             "op2"
                           ]
@@ -1241,7 +1241,7 @@
                         {
                           "id": "r3",
                           "parent": null,
-                          "name": "Region 3",
+                          "name": "Item 3",
                           "box": {
                             "x": 700,
                             "y": 40,
@@ -1254,7 +1254,7 @@
                           "height": {
                             "mode": "fluid"
                           },
-                          "semantic": "div",
+                          "semantic": "article",
                           "provenance": [
                             "op3"
                           ]
@@ -1262,7 +1262,7 @@
                         {
                           "id": "r4",
                           "parent": null,
-                          "name": "Region 4",
+                          "name": "Item 4",
                           "box": {
                             "x": 880,
                             "y": 40,
@@ -1275,7 +1275,7 @@
                           "height": {
                             "mode": "fluid"
                           },
-                          "semantic": "div",
+                          "semantic": "article",
                           "provenance": [
                             "op1",
                             "op4"
@@ -1329,7 +1329,7 @@
                       "column-gap": "30px",
                       "grid-template-columns": "repeat(4, minmax(0, 1fr))",
                       "grid-template-rows": "minmax(160px, auto)",
-                      "grid-template-areas": "\"region-1 region-2 region-3 region-4\""
+                      "grid-template-areas": "\"item-1 item-2 item-3 item-4\""
                     }
                   },
                   "tablet": {
@@ -1354,8 +1354,8 @@
                 "value": [
                   {
                     "type": "div",
-                    "name": "Region 1",
-                    "tag": "div",
+                    "name": "Item 1",
+                    "tag": "article",
                     "attributes": {},
                     "classes": [],
                     "styles": {
@@ -1363,10 +1363,10 @@
                         "base": {
                           "min-height": "160px",
                           "min-width": "0px",
-                          "grid-row-start": "region-1",
-                          "grid-column-start": "region-1",
-                          "grid-row-end": "region-1",
-                          "grid-column-end": "region-1"
+                          "grid-row-start": "item-1",
+                          "grid-column-start": "item-1",
+                          "grid-row-end": "item-1",
+                          "grid-column-end": "item-1"
                         }
                       },
                       "tablet": {
@@ -1420,8 +1420,8 @@
                   },
                   {
                     "type": "div",
-                    "name": "Region 2",
-                    "tag": "div",
+                    "name": "Item 2",
+                    "tag": "article",
                     "attributes": {},
                     "classes": [],
                     "styles": {
@@ -1429,10 +1429,10 @@
                         "base": {
                           "min-height": "160px",
                           "min-width": "0px",
-                          "grid-row-start": "region-2",
-                          "grid-column-start": "region-2",
-                          "grid-row-end": "region-2",
-                          "grid-column-end": "region-2"
+                          "grid-row-start": "item-2",
+                          "grid-column-start": "item-2",
+                          "grid-row-end": "item-2",
+                          "grid-column-end": "item-2"
                         }
                       },
                       "tablet": {
@@ -1486,8 +1486,8 @@
                   },
                   {
                     "type": "div",
-                    "name": "Region 3",
-                    "tag": "div",
+                    "name": "Item 3",
+                    "tag": "article",
                     "attributes": {},
                     "classes": [],
                     "styles": {
@@ -1495,10 +1495,10 @@
                         "base": {
                           "min-height": "160px",
                           "min-width": "0px",
-                          "grid-row-start": "region-3",
-                          "grid-column-start": "region-3",
-                          "grid-row-end": "region-3",
-                          "grid-column-end": "region-3"
+                          "grid-row-start": "item-3",
+                          "grid-column-start": "item-3",
+                          "grid-row-end": "item-3",
+                          "grid-column-end": "item-3"
                         }
                       },
                       "tablet": {
@@ -1552,8 +1552,8 @@
                   },
                   {
                     "type": "div",
-                    "name": "Region 4",
-                    "tag": "div",
+                    "name": "Item 4",
+                    "tag": "article",
                     "attributes": {},
                     "classes": [],
                     "styles": {
@@ -1561,10 +1561,10 @@
                         "base": {
                           "min-height": "160px",
                           "min-width": "0px",
-                          "grid-row-start": "region-4",
-                          "grid-column-start": "region-4",
-                          "grid-row-end": "region-4",
-                          "grid-column-end": "region-4"
+                          "grid-row-start": "item-4",
+                          "grid-column-start": "item-4",
+                          "grid-row-end": "item-4",
+                          "grid-column-end": "item-4"
                         }
                       },
                       "tablet": {
@@ -7567,7 +7567,8 @@
                           "provenance": [
                             "template:Sidebar layout",
                             "op1"
-                          ]
+                          ],
+                          "chosen": true
                         },
                         {
                           "id": "r2",
@@ -7589,7 +7590,8 @@
                           "provenance": [
                             "template:Sidebar layout",
                             "op1"
-                          ]
+                          ],
+                          "chosen": true
                         }
                       ],
                       "constraints": [],

@@ -10,6 +10,8 @@ import { ORDER, STROKE, lengthKey } from '../geometry/keys.ts';
 //  - pressed on a shared boundary and dragged across it: the boundary moves, and every region along its line follows;
 //    rubbed along it: the line is erased, and the two regions it parted are merged;
 //  - pressed on a region's own edge (one no other region shares): that edge moves, the region is resized;
+//  - pressed inside a selected region and dragged: the region goes wherever it is dropped (a region drawn is selected
+//    at once, so it can be dragged straight away);
 //  - pressed outside every region, over a box that holds whole regions: they are grouped in a new region drawn there;
 //  - pressed outside the regions or on an edge, crossing a region from side to side in a nearly straight line: a cut
 //    (a stroke that turns and crosses again is several cuts);
@@ -67,6 +69,8 @@ export interface Stroke {
   // how near an edge or a handle a press counts as on it, in the graph's px (the screen radius over the zoom)
   readonly radius: number;
   readonly responsive?: ResponsiveContext | null;
+  // the regions selected now: a selected region dragged by its body goes wherever it is dropped
+  readonly selected?: readonly string[];
 }
 
 export type Cursor = 'crosshair' | 'move' | 'col-resize' | 'row-resize' | 'cell' | 'copy' | 'alias' | 'default' | 'not-allowed';
@@ -261,23 +265,31 @@ function read(graph: LayoutIntent, stroke: Stroke, mode: StrokeReading['mode'], 
 
 // A region dragged by the travel of the stroke: it snaps to the lines near it, and where it lands decides its parent
 // (the deepest region holding the moved box, never itself or what it holds).
-function readMove(graph: LayoutIntent, stroke: Stroke, target: Region, mode: 'move' | 'nest', naming: Naming): StrokeReading {
+function readMove(graph: LayoutIntent, stroke: Stroke, target: Region, mode: 'move' | 'nest', naming: Naming, along: readonly string[] = []): StrokeReading {
   const points = stroke.points;
   const first = points[0] as Point;
   const last = points[points.length - 1] as Point;
   if (Math.hypot(last.x - first.x, last.y - first.y) < precision) return { ...nothing(mode, points), visited: [target.id] };
-  const moving = descendants(graph, [target.id]);
-  const pulled = snapMoved(graph, { ...target.box, x: target.box.x + last.x - first.x, y: target.box.y + last.y - first.y }, stroke.radius, moving);
+  // the regions that go: the one dragged and the other picked ones beside it (one inside another goes with it)
+  const picked = [target.id, ...along.filter((id) => id !== target.id && findRegion(graph, id) !== undefined)];
+  const ids = picked.filter((id) => !picked.some((other) => other !== id && descendants(graph, [other]).has(id)));
+  const regions = ids.map((id) => findRegion(graph, id) as Region);
+  const moving = descendants(graph, ids);
+  const whole = bounds(regions.map((r) => r.box));
+  const pulled = snapMoved(graph, { ...whole, x: whole.x + last.x - first.x, y: whole.y + last.y - first.y }, stroke.radius, moving);
   const dx = Math.round(last.x - first.x + pulled.dx);
   const dy = Math.round(last.y - first.y + pulled.dy);
-  const movedBox = { ...target.box, x: target.box.x + dx, y: target.box.y + dy };
+  const movedBox = { ...whole, x: whole.x + dx, y: whole.y + dy };
+  // one region lands in the region that holds it; several land together only where they all share a parent
   const landing = holder(graph, movedBox, moving);
   const parent = landing?.id ?? null;
-  if (mode === 'nest' && (parent === null || parent === target.parent)) return { ...nothing('nest', points, [problem('missing-parent', { region: target.name })]), visited: [target.id] };
-  const operations: Operation[] = [{ kind: 'move', ids: [target.id], dx, dy }];
-  if (parent !== target.parent) operations.push(parent === null ? { kind: 'extract', ids: [target.id] } : { kind: 'nest', ids: [target.id], parent });
+  const from = target.parent;
+  const reparent = parent !== from && regions.every((r) => r.parent === from);
+  if (mode === 'nest' && (parent === null || parent === from)) return { ...nothing('nest', points, [problem('missing-parent', { region: target.name })]), visited: [target.id] };
+  const operations: Operation[] = [{ kind: 'move', ids, dx, dy }];
+  if (reparent) operations.push(parent === null ? { kind: 'extract', ids } : { kind: 'nest', ids, parent });
   const operation: Operation = operations.length === 1 ? (operations[0] as Operation) : { kind: 'compose', operations };
-  return read(graph, stroke, parent !== target.parent ? 'nest' : 'move', operation, naming, { visited: [target.id], parent, area: movedBox, guides: pulled.guides }, 'move');
+  return read(graph, stroke, reparent ? 'nest' : 'move', operation, naming, { visited: ids, parent: reparent ? parent : from, area: movedBox, guides: pulled.guides }, 'move');
 }
 
 // The edge of a region's own a press is on (one no other region shares), within the radius: its axis and whether it
@@ -418,10 +430,14 @@ export function readStroke(graph: LayoutIntent, stroke: Stroke, naming: Naming):
     const edge = ownEdge(graph, first, stroke.radius);
     if (edge !== null) return readResize(graph, stroke, edge, naming);
     const target = hitRegions(graph.regions, first)[0];
-    // a box from outside every region that holds whole regions groups them in a new region drawn there
+    // a picked region dragged by its body goes wherever it is dropped, with the other picked ones, snapped to the
+    // lines near it; anywhere else a drag draws (inside a region, its child)
+    const picked = hitRegions(graph.regions, first).find((r) => stroke.selected?.includes(r.id) === true);
+    if (picked !== undefined) return readMove(graph, stroke, picked, 'move', naming, stroke.selected ?? []);
+    // a box from outside every region that holds whole regions selects them (a marquee)
     const around = target === undefined && box.width > stroke.radius && box.height > stroke.radius && graph.regions.some((r) => contains(box, r.box));
     const crossing = pieces(points, tolerance).some((piece) => straight(piece) && crossedBy(graph, piece).length > 0);
-    mode = around ? 'group' : crossing ? 'cut' : 'draw';
+    mode = around ? 'select' : crossing ? 'cut' : 'draw';
   }
   switch (mode) {
     case 'draw': {

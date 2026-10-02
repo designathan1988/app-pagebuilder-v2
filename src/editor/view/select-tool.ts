@@ -4,13 +4,17 @@
 // and the grid edit mode. It is current while no other tool is.
 import { message, registerHandler } from '../../core/commands/registry.ts';
 import type { EditorUi } from '../state.ts';
+import { showPanel } from '../workspace/panels.ts';
 
-// the editor state with no tool but Select
+// the editor state with no tool but Select. A tool says in its state what it changed of the workspace while on: the
+// Layers it folded to give its panel the room (layers: true) open again, and the sidebar view its options were drawn
+// in (shows) gives the sidebar back to the Explorer.
 function selecting(ui: EditorUi): EditorUi {
-  const { modules: _modules, gridEdit: _gridEdit, ...rest } = ui;
-  void _modules;
+  const { modules, gridEdit: _gridEdit, ...rest } = ui;
   void _gridEdit;
-  return rest;
+  const states = Object.values(modules ?? {}).filter((state): state is { layers?: unknown; shows?: unknown } => typeof state === 'object' && state !== null);
+  const opened = states.some((state) => state.layers === true) ? showPanel(rest, 'layers') : rest;
+  return states.some((state) => state.shows === opened.panels.sidebarView) ? showPanel(opened, 'explorer') : opened;
 }
 
 const otherTool = (ui: EditorUi): boolean => Object.keys(ui.modules ?? {}).length > 0 || ui.gridEdit !== undefined;
