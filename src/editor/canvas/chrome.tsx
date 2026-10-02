@@ -857,7 +857,8 @@ export function CanvasChrome() {
   const at = (b: Box): CSSProperties => ({ left: b.x, top: b.y, width: b.width, height: b.height });
   const shown = selection.length === 0 && hovered === null && drawnBand === null ? EMPTY : layout;
   return (
-    <div className="chrome" ref={layer} data-canvas-chrome style={layerColour === null ? undefined : ({ '--color-layer-label': layerColour } as CSSProperties)}>
+    // a state other than Base edited: the selection wears the state's colour (the canonical .ov-sel.is-state)
+    <div className="chrome" ref={layer} data-canvas-chrome data-edited-state={state.id === BASE_STATE.id ? undefined : state.id} style={layerColour === null ? undefined : ({ '--color-layer-label': layerColour } as CSSProperties)}>
       <GridOverlay />
       <ViewOverlays />
       {shown.hovered ? <div className="chrome__hover" data-chrome="hover" style={at(shown.hovered)} /> : null}
@@ -993,7 +994,8 @@ export function CanvasChrome() {
                   {t('canvas.measure.size', { width: shown.size.width, height: shown.size.height })}
                 </small>
               ) : null}
-              {state.id !== BASE_STATE.id ? <small className="chrome__state">{t(state.labelKey as MessageId)}</small> : null}
+              {/* the state as its selector writes it (the canonical "Assinar agora · :hover"), its name in the tooltip */}
+              {state.id !== BASE_STATE.id ? <small className="chrome__state" title={t(state.labelKey as MessageId)}>{state.pseudo}</small> : null}
               {breakpoint.base !== true ? <small className="chrome__breakpoint">{breakpointName(breakpoint, t)}</small> : null}
             </>
           )}

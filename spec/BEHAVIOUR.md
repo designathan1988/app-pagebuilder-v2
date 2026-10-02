@@ -7304,8 +7304,10 @@ Each write is one undo step; choosing a state records nothing.
   h2 or a paragraph lists no Disabled, Invalid, Placeholder shown or Visited) and the validator refuses a stored layer
   of a state its element does not take — so the export and the canvas never carry a rule a browser would ignore
   (`:disabled` in an h2's CSS). `before` and `after` are written as the pseudo-elements they are (`::before`).
-- **The canvas says the state being edited**: beside the element's name and tag, the label names it ("Heading 2 · Hover",
-  `chrome__state`), and the badge says "Editing <state>".
+- **The canvas says the state being edited**: beside the element's name and tag, the label names it as its selector
+  writes it ("Heading 2 · :hover", `chrome__state`, its name in the tooltip), the selection's outline and the label wear
+  the state's colour (the canonical .ov-sel.is-state), the badge says "Editing <state>", and the class bar's line names
+  the rule the writes land in (".card:hover affects 3 elements").
 - **A class target's state shows on the canvas too**: while a state other than Base is edited, the preview stylesheet
   applies the selected nodes' own values of that state *and* those of the classes they wear, after them, as the class
   rules do (maintenance of a class's hover is seen where it lands).

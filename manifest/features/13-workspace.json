@@ -11536,7 +11536,7 @@
                   "region": "canvas-stage",
                   "measure": "height",
                   "relation": "greater-than",
-                  "value": 750,
+                  "value": 716,
                   "reference": null
                 }
               ],
@@ -11694,7 +11694,7 @@
                   "region": "canvas-toolbar",
                   "measure": "y",
                   "relation": "equals",
-                  "value": 40,
+                  "value": 74,
                   "reference": null
                 }
               ],
@@ -12173,7 +12173,7 @@
                   "region": "canvas-stage",
                   "measure": "height",
                   "relation": "greater-than",
-                  "value": 750,
+                  "value": 716,
                   "reference": null
                 }
               ],

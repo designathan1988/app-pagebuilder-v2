@@ -126,7 +126,8 @@ test('a paragraph\'s State menu leaves out the states it does not take, and the 
   for (const there of ['Hover', 'Focus', 'Focus visible', 'First child', 'Last child', 'Before', 'After']) expect(offered, there).toContain(there);
   // the state chosen (the menu is open: its item is clicked) closes it and is named on the canvas label
   await page.locator('[data-door="view.setStyleState#menu-style-state-hover"]').click();
-  await expect(page.locator('[data-chrome="label"] .chrome__state')).toHaveText('Hover');
+  // the state as its selector writes it (the canonical "· :hover" on the label)
+  await expect(page.locator('[data-chrome="label"] .chrome__state')).toHaveText(':hover');
 });
 
 // A3.36: a link, the one kind :visited stands on, is offered it (a paragraph is not).

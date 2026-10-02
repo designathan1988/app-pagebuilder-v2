@@ -67,7 +67,9 @@ if (STATE === 'multi') {
   await app.waitForTimeout(400);
 }
 if (STATE === 'state') {
-  await app.locator('[data-door$="#menu-style-state-hover"]').first().dispatchEvent('click');
+  // the State picker of the selector bar, then its Hover item, as a person picks it
+  await app.locator('.state-picker').first().click();
+  await app.locator('[data-door$="#menu-style-state-hover"]').first().click();
   await app.waitForTimeout(400);
 }
 // the pointer rests where it hovers nothing (a menu stays open: the pointer leaving it does not close it)

@@ -1314,3 +1314,19 @@
   color: var(--color-text-muted);
   font: var(--fw-caption) var(--fs-caption) / var(--lh-caption) var(--font-ui);
 }
+
+/* a state other than Base edited (chrome.tsx data-edited-state): the selection's outline and its label wear the
+   state's colour, the label's state in its own ink (the canonical .ov-sel.is-state, .is-state.ov-tag) */
+.chrome[data-edited-state] .chrome__selection {
+  outline-color: var(--color-mode-state);
+}
+
+.chrome[data-edited-state] .chrome__label {
+  background: var(--color-mode-state);
+  color: var(--color-on-mode-state);
+}
+
+.chrome[data-edited-state] .chrome__label .chrome__state {
+  color: var(--color-on-mode-state);
+  font-family: var(--font-mono);
+}

@@ -189,7 +189,8 @@ test('a handle writes into the class the style target names, at the state and br
   await page.locator('[data-quick-panel-chip][aria-expanded="false"]').click();
   await expect(page.locator('.quick-panel__context')).toHaveText('.card · Hover · Tablet');
   await expect(page.locator('[data-chrome="label"] .chrome__target')).toHaveText('.card');
-  await expect(page.locator('[data-chrome="label"] .chrome__state')).toHaveText('Hover');
+  // the state as its selector writes it (the canonical "· :hover" on the label)
+  await expect(page.locator('[data-chrome="label"] .chrome__state')).toHaveText(':hover');
   await expect(page.locator('[data-chrome="label"] .chrome__breakpoint')).toHaveText('Tablet');
   await page.locator('[data-quick-panel-chip][aria-expanded="true"]').click();
   await dragHandle(page, E, 40, 0, null);
