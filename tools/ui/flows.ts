@@ -102,6 +102,22 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'lean-field',
+    about: 'a value keeps its whole cell while its field holds the focus: Reset stands at the row end or, in a pair, at the label end (J6)',
+    steps: [
+      INSERT_PANEL,
+      CONTAINER_TILE,
+      HEADING_TILE,
+      STYLE_TAB,
+      { type: { at: '[data-door="style.set#inspector-font-size"] input', text: '48px' } },
+      { type: { at: '[data-door="style.set#inspector-color"] input', text: '#204060' } },
+      { click: '[data-door="style.set#inspector-font-size"] input' },
+      { photo: 'pair-focused-reset-at-label-end' },
+      { click: '[data-door="style.set#inspector-color"] input' },
+      { photo: 'single-focused-reset-at-row-end' },
+    ],
+  },
+  {
     name: 'bare-radius',
     about: 'a radius accepts the same bare lengths and arithmetic as other length fields',
     steps: [

@@ -514,16 +514,20 @@ export function NumberField({ entry, door, property, label, bare = false, labell
         ))}
         {bare ? null : <FieldOriginBadge label={appearance.label} />}
         {measurement !== undefined && measured !== null && base === 'auto' ? <span className="field__measurement" aria-hidden="true">{measured[measurement]}</span> : null}
-        <span className="field__actions">{PARTS.filter((part) => !(part.door.kind === 'panel-control' && part.door.control === 'unit-menu')).map((part) => {
-          // Reset this value: drawn only while the element holds a value of its own (spec inspector-provenance-reset,
-          // Problems in Pager 5): with nothing to reset there is no control
-          if (part === RESET && !anyStored) return null;
-          // the reset names what it resets (A3.24): what a screen reader reads
-          const named = part === RESET ? { label: t('field.reset.of', { property: propertyWord(t, property) }) } : {};
-          return <DoorControl key={part.ref} entry={part} args={{ property }} ready={available} {...named} />;
-        })}</span>
     </span>
   );
+  // Reset this value stands at the row's end, never inside the value cell (jornada02 A.0, J6 of the jornada03 study:
+  // inside the cell it shrank the number of a pair to nothing while the field was focused). It is drawn only while
+  // the element holds a value of its own (spec inspector-provenance-reset, Problems in Pager 5), and shows while its
+  // field is hovered or holds the focus (inspector.css .field__end).
+  const resets = PARTS.filter((part) => !(part.door.kind === 'panel-control' && part.door.control === 'unit-menu')).map((part) => {
+    if (part === RESET && !anyStored) return null;
+    // the reset names what it resets (A3.24): what a screen reader reads
+    const named = part === RESET ? { label: t('field.reset.of', { property: propertyWord(t, property) }) } : {};
+    return <DoorControl key={part.ref} entry={part} args={{ property }} ready={available} {...named} />;
+  });
+  // a row of its own: at the row's end; a field of a pair: at the end of the row's label column (inspector.css)
+  const end = <span className="field__end">{resets}</span>;
   const refusedText = refused.text !== null ? <span className="field-row__refusal" role="alert">{refused.text}</span> : null;
   // a field of a pair row draws its cells for the row's grid: its label (the row's own, when it is the row's first
   // field) beside its value cell, never a row of its own. Its cell is the field: the door, the value and, under it, a
@@ -536,6 +540,7 @@ export function NumberField({ entry, door, property, label, bare = false, labell
           {cell}
           {refusedText}
         </span>
+        {end}
       </>
     );
   }
@@ -543,6 +548,7 @@ export function NumberField({ entry, door, property, label, bare = false, labell
     <div className={`field-row${state}`} data-origin={appearance.kind} data-door={entry.ref} data-args={JSON.stringify({ property })} data-number-field title={door.title}>
       {scrub ?? <span className="field-row__label">{label}</span>}
       {cell}
+      {end}
       {refusedText}
     </div>
   );
@@ -880,9 +886,12 @@ export function TextStyleField({
             onBlur={keepSlide}
           />
         ) : null}
-        {RESET !== undefined && (set || anyStored) ? <span className="field__actions"><DoorControl key="reset" entry={RESET} args={{ property }} ready={available} label={t('field.reset.of', { property: propertyWord(t, property) })} /></span> : null}
     </span>
   );
+  // Reset this value at the row's end, as a number field's (jornada02 A.0, J6): never inside the value cell
+  const reset = RESET !== undefined && (set || anyStored) ? <DoorControl key="reset" entry={RESET} args={{ property }} ready={available} label={t('field.reset.of', { property: propertyWord(t, property) })} /> : null;
+  // a row of its own: at the row's end; a field of a pair: at the end of the row's label column (inspector.css)
+  const end = <span className="field__end">{reset}</span>;
   const refusedText = refused.text !== null ? <span className="field-row__refusal" role="alert">{refused.text}</span> : null;
   // a field of a pair row draws its cells for the row's grid: its label (the row's own, when it is the row's first
   // field) beside its value cell, never a row of its own. Its cell is the field: the door, the value and, under it, a
@@ -899,6 +908,7 @@ export function TextStyleField({
           {cell}
           {refusedText}
         </span>
+        {end}
       </>
     );
   }
@@ -908,6 +918,7 @@ export function TextStyleField({
         {label}
       </span>
       {cell}
+      {end}
       {refusedText}
     </div>
   );

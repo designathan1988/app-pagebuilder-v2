@@ -645,6 +645,43 @@
   grid-template-columns: var(--size-label-column) minmax(0, 1fr) minmax(0, 1fr);
 }
 
+/* A row of one field keeps a 24 px column at its end for Reset this value (jornada02 A.0, J6): the value
+   cells keep their width whether the reset shows or not, so focusing a field never squeezes its number. Every field
+   of the row places its reset in that one column; only the hovered or focused field's shows. */
+[data-region='inspector-style'] .field-row:not(.field-row--pair):has(> .field__end) {
+  grid-template-columns: var(--size-label-column) minmax(0, 1fr) var(--size-target-min);
+}
+[data-region='inspector-style'] .field__end {
+  display: none;
+  grid-row: 1;
+  grid-column: -2;
+  justify-content: center;
+  align-items: center;
+}
+[data-region='inspector-style'] .input-wrap:hover + .field__end:not(:empty),
+[data-region='inspector-style'] .input-wrap:focus-within + .field__end:not(:empty),
+[data-region='inspector-style'] .field__end:hover:not(:empty),
+[data-region='inspector-style'] .field__end:focus-within:not(:empty) { display: flex; }
+.field__end:not([data-region='inspector-style'] *) { display: contents; }
+/* A pair has no room at its end for two resets: each field's reset stands at the end of the row's label column (the
+   short pair labels, Font size, Width, Gap, leave it free), out of the grid's flow so it takes no cell. A positioned
+   grid item would measure from its own grid area: the area is reset to the whole row (grid-column/row auto). */
+[data-region='inspector-style'] .field-row--pair:has(> .field__end) {
+  position: relative;
+}
+[data-region='inspector-style'] .field-row--pair > .field__end {
+  position: absolute;
+  grid-column: auto;
+  grid-row: auto;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--size-label-column) - var(--size-target-min));
+  width: var(--size-target-min);
+  background: var(--color-surface);
+}
+[data-region='inspector-style'] .field-cell:hover + .field__end:not(:empty),
+[data-region='inspector-style'] .field-cell:focus-within + .field__end:not(:empty) { display: flex; }
+
 /* A shorthand that writes both cells of a pair is a small linked edit control,
    placed on that line. Focusing it opens its full CSS value for typing. */
 [data-region='inspector-style'] .field-row-pair-wrap {
