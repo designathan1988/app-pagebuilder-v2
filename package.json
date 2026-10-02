@@ -27,6 +27,8 @@
     "inventory:check": "node tools/inventory/check.ts",
     "check:fast": "npm run gen:check && npm run manifest:check && npm run inventory:check && npm run typecheck && npm run lint && npm run unit",
     "perf": "node tools/perf/run.ts",
+    "perf:layout": "node tools/perf/layout-pointer.ts",
+    "modules:removal": "node tools/modules/removal.ts",
     "journey": "node tools/journey/cli.mjs",
     "journey:check": "node --test tools/journey/*.test.mjs"
   },

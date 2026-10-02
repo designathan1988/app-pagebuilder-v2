@@ -6,7 +6,7 @@
     "doors": 1165,
     "scenarios": 1489,
     "modules": 332,
-    "lines": 59959
+    "lines": 59972
   },
   "features": [
     {
@@ -2892,13 +2892,13 @@
     },
     {
       "path": "src/app/modules-view.ts",
-      "lines": 20,
+      "lines": 27,
       "commands": [],
       "features": []
     },
     {
       "path": "src/app/modules.ts",
-      "lines": 20,
+      "lines": 26,
       "commands": [],
       "features": []
     },
