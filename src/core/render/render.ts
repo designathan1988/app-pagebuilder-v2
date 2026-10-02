@@ -99,9 +99,10 @@ const FILES_FIELD = 'files';
 // editor-only: the group that draws an SVG's markup after its shapes (the export writes the markup itself there)
 const SVG_MARKUP_ATTRIBUTE = 'data-svg-markup';
 const SVG_TAG = 'svg';
-// editor-only: what an image with no source shows on the canvas, a grey box of the default image size naming it
+// editor-only: what an image with no source shows on the canvas (jornada03 J22): a neutral 16:9 marker with a picture
+// glyph, which keeps its proportion at any width (the 800 x 300 band it was spanned widths its picture would not)
 const IMAGE_PLACEHOLDER = `data:image/svg+xml,${encodeURIComponent(
-  '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="300" viewBox="0 0 800 300"><rect width="800" height="300" fill="#e2e8f0"/><text x="400" y="160" font-family="sans-serif" font-size="32" fill="#64748b" text-anchor="middle">800 × 300</text></svg>',
+  '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360"><rect width="640" height="360" fill="#e2e8f0"/><g fill="none" stroke="#94a3b8" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"><rect x="260" y="130" width="120" height="100" rx="10"/><circle cx="295" cy="162" r="11"/><path d="M262 214l38-34 26 22 22-18 32 30"/></g></svg>',
 )}`;
 export const EDITABLE_VALUE = 'plaintext-only';
 export const KEY_CONTEXT_ATTRIBUTE = 'data-key-context';

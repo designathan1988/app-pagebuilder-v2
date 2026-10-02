@@ -880,6 +880,15 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'image-placeholder',
+    about: 'stage 5, J22: an image with no source shows a neutral 16:9 marker that keeps its proportion',
+    steps: [
+      INSERT_PANEL,
+      { door: 'element.insert#elements-tile', labelled: 'Image' },
+      { photo: 'image-placeholder' },
+    ],
+  },
+  {
     name: 'interactions-card',
     about: 'stage 5: the Interactions tab against the canonical card (On click → Play animation, Applies to, Trigger, Action, Target, Options)',
     steps: [

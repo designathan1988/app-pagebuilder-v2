@@ -3876,6 +3876,10 @@ document stays the source of truth:
    the markup holds a `<script>`, an `on…` attribute or a `javascript:` address, the field shows
    `settings.embedRunsCode` beside it. The export writes the code as it is; the canvas keeps it in a sandboxed frame
    where it never runs.
+7. **An image with no source shows a neutral 16:9 marker on the canvas** (jornada03 J22: an 800 × 300 band, naming a
+   size, spanned widths the picture chosen later would not, and the layout jumped when it arrived): a grey 640 × 360
+   picture with a picture glyph and no words, which keeps its proportion at any width the image is given. Editor-only:
+   the document holds no source and the export writes none (the Checks panel reports it).
 
 ## move-up-down
 
