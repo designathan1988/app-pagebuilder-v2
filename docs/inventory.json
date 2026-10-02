@@ -6,7 +6,7 @@
     "doors": 1311,
     "scenarios": 1720,
     "modules": 400,
-    "lines": 73257
+    "lines": 73261
   },
   "features": [
     {
@@ -5444,7 +5444,7 @@
     },
     {
       "path": "src/editor/layers/tree.ts",
-      "lines": 165,
+      "lines": 166,
       "commands": [
         "layers.search",
         "layers.setExpanded",
@@ -5957,7 +5957,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1115,
+      "lines": 1118,
       "commands": [],
       "features": []
     },

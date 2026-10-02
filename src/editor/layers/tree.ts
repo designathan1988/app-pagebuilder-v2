@@ -99,7 +99,8 @@ export const collapseOrFocusParent = registerHandler<'layers.collapseOrFocusPare
   return found.parent === null ? { kind: 'change' } : { kind: 'change', ui: asking(state.ui, 'parent') };
 });
 
-// layers.collapseAll folds every branch, the page root's included, so only the page's row is left; layers.expandAll
+// layers.collapseAll folds every branch below the page root, so the page's row and its first level stay in view (the
+// page's own outline; jornada03 J9: folding the root left one row and nothing to work with); layers.expandAll
 // unfolds every branch (spec layers-expand-collapse-all). A selection inside a folded branch unfolds its ancestors
 // (revealSelection, Problems in Pager 1).
 export const collapseAll = registerHandler<'layers.collapseAll', EditorUi>('layers.collapseAll', ({ state }) => {
@@ -109,7 +110,7 @@ export const collapseAll = registerHandler<'layers.collapseAll', EditorUi>('laye
       if (node.children.length > 0) branches.push(node.id);
       node.children.forEach(visit);
     };
-    visit(page.tree);
+    page.tree.children.forEach(visit);
   }
   return { kind: 'change', ui: withCollapsed(state.ui, branches), message: message('status.layers.collapsedAll') };
 });

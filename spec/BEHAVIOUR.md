@@ -3390,6 +3390,10 @@ None for collapse/expand all. Single branches: ArrowRight / ArrowLeft on a focus
 
 1. **Selecting a hidden descendant does not reveal it in Layers.** Required: selecting a node whose row is inside a collapsed branch (from the canvas or anywhere else) expands its ancestors and scrolls its row into view (manifest feature `layers-expand-collapse-all`).
 
+
+**Stage 5 (jornada03 J9):** Collapse every branch folds every branch below the page root: the page's row and its first
+level stay in view (folding the root left one row and nothing to work with). Expand every branch is unchanged.
+
 ## layers-keyboard-navigation
 
 How Pager behaves, observed by running it from `.cache/pager-run` (Chrome, window 1600×900) and read from its source. Source references are `path:line` inside Pager. Test document: Page > [Section > [Heading, Paragraph], Container].

@@ -361,7 +361,7 @@
       },
       "scenarios": [
         {
-          "id": "collapse-every-branch-leaves-only-the-page-row",
+          "id": "collapse-every-branch-keeps-the-page-and-its-first-level",
           "setup": {
             "fixture": "aurora",
             "selection": [],
@@ -409,8 +409,15 @@
                 {
                   "region": "layers-row",
                   "measure": "height",
-                  "relation": "less-than",
+                  "relation": "greater-than",
                   "value": 80,
+                  "reference": null
+                },
+                {
+                  "region": "layers-row",
+                  "measure": "height",
+                  "relation": "less-than",
+                  "value": 150,
                   "reference": null
                 }
               ],

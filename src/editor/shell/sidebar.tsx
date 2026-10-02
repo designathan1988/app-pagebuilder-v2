@@ -433,6 +433,9 @@ function LayersRow({ node, depth, view }: { readonly node: DocNode; readonly dep
         ) : (
           <span className="row__caret-space" />
         )}
+        {/* a coloured row shows its colour before its icon, as the canonical layers list does (stage 5); the palette
+            that chooses it stays among the row's actions */}
+        {colour === undefined ? null : <span className="row__colour-dot" style={{ '--row-colour': colour } as CSSProperties} aria-hidden />}
         <Icon name={elementIcon(node.type) ?? GLYPHS.folder} size="sm" />
         {renaming ? (
           <NameField node={node} />

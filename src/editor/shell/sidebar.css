@@ -485,6 +485,16 @@
   border: 1px dashed var(--color-border-strong);
 }
 
+/* the coloured row's dot, before its icon (sidebar.tsx LayersRow) */
+.row__colour-dot {
+  --row-colour: var(--color-text-subtle);
+  flex: none;
+  width: var(--space-4);
+  height: var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--row-colour);
+}
+
 /* the row wears the colour it holds: a line on its left, never a filled background, so the name stays readable */
 .row--tree.is-coloured {
   /* the line is a border, not a shadow: it follows the row's colour without a length literal */
