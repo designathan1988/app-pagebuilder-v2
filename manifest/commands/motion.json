@@ -3301,7 +3301,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "canvas-toolbar",
-            "order": 20
+            "order": 22
           },
           "adapter": {
             "selection": "none",

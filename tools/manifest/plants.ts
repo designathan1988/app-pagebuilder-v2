@@ -891,7 +891,7 @@ PLANTS.push(
         faceLabelKey: null,
         icon: 'mouse-pointer-2',
         disabledReasonKey: 'common.notAvailableYet',
-        placement: { region: 'canvas-toolbar', order: 13 },
+        placement: { region: 'canvas-toolbar', order: 16 },
         adapter: { selection: 'none', offers: null, writes: [], fields: [] },
         args: { state: 'hover' },
       };

@@ -30,6 +30,7 @@ import { copyMotionKeyframesCommand, makeMotionPicked, makeMotionPicking, openTi
 import { pauseCommand, playCommand, stopCommand, toggleLoopCommand } from '../editor/timeline/preview.ts';
 import { copyPane, downloadPane, setPane } from '../editor/code-panel/code-panel.ts';
 import { setEditorView } from '../editor/view/editor-view.ts';
+import { selectTool } from '../editor/view/select-tool.ts';
 import { openFile, startRenameFile } from '../editor/explorer/explorer.ts';
 import { closeFileTab } from '../editor/explorer/file-tabs.ts';
 import { setInputTypeCommand, setLabelTargetCommand } from '../core/elements/inputs.ts';
@@ -441,6 +442,7 @@ export const COMMANDS = {
   'view.setViewportWidth': setViewportWidth,
   'view.resizeViewport': resizeViewport,
   'view.toggleSideBySide': toggleSideBySide,
+  'view.selectTool': selectTool,
   'breakpoints.add': addBreakpoint,
   'breakpoints.rename': renameBreakpoint,
   'breakpoints.setWidth': setBreakpointWidth,

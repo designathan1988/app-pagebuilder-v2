@@ -1,18 +1,20 @@
-import { ORDER, STROKE } from '../geometry/keys.ts';
+import { ORDER, STROKE, lengthKey } from '../geometry/keys.ts';
 // One tool, many structural gestures (spec "Ferramenta única de construção"): a stroke is read by where it starts,
 // what it crosses and where it ends, and becomes one operation of the gesture algebra. The same reading runs on every
 // pointer move for the preview (the predictor says what it understood before anything is committed) and once more by
 // the command's handler on the stroke the release hands it, so the committed change is exactly the one previewed.
 //
-// Reading a stroke with the automatic tool:
-//  - pressed on a handle: the handle's own edit (a boundary, a vertex, a gap, a repetition);
-//  - pressed on a shared boundary: the boundary moves, and every region along its line follows;
-//  - pressed inside a region, away from its edges: the region moves; dropped wholly inside another region it is
-//    nested there, dropped out of its parent it is detached;
-//  - pressed outside every region, over a box that holds whole regions: those regions are selected (a marquee);
+// Reading a stroke with the Layout tool (one tool, no modes to choose):
+//  - pressed on a handle: the handle's own edit (a boundary, a vertex, a gap, a repetition, a region's label: it moves
+//    the region; dropped wholly inside another region it is nested there, dropped out of its parent it is detached);
+//  - pressed on a shared boundary and dragged across it: the boundary moves, and every region along its line follows;
+//    rubbed along it: the line is erased, and the two regions it parted are merged;
+//  - pressed on a region's own edge (one no other region shares): that edge moves, the region is resized;
+//  - pressed outside every region, over a box that holds whole regions: they are grouped in a new region drawn there;
 //  - pressed outside the regions or on an edge, crossing a region from side to side in a nearly straight line: a cut
 //    (a stroke that turns and crosses again is several cuts);
-//  - pressed in empty space: a new region over the dragged box.
+//  - any other drag, in empty space or inside a region: a new region over the dragged box (inside a region, its
+//    child).
 // A box drawn or moved snaps its edges to the lines near them (spec "Snap"): the container's edges, the other regions'
 // edges and centres, and the spacing the layout already repeats; a cut snaps to them too. The lines it snapped to are
 // the guides the canvas draws before the release.
@@ -23,7 +25,7 @@ import type { Axis, Box, LayoutIntent, Point, Region } from '../intent/model.ts'
 import { childrenOf, descendants, findRegion, region as newRegion } from '../intent/model.ts';
 import { nextRegionId } from '../intent/ids.ts';
 import { problem, type LayoutProblem } from '../intent/problems.ts';
-import { bounds, centre, contains, distanceToEdge, end, hitRegions, intersection, length, polygonContains, precision, spanned } from '../geometry/geometry.ts';
+import { bounds, centre, contains, cross, end, hitRegions, intersection, length, polygonContains, precision, spanned } from '../geometry/geometry.ts';
 import { sharedBoundaries, topology } from '../topology/topology.ts';
 import { interpretations, patterns, predict, type Interpretation, type Prediction } from '../intent/analysis.ts';
 import { execute, type Naming, type Operation, type Result } from './operations.ts';
@@ -34,10 +36,11 @@ import { responsiveEdit } from '../responsive/continuum.ts';
 export type StrokeMode = 'auto' | 'draw' | 'cut' | 'merge' | 'subtract' | 'move' | 'nest' | 'select' | 'relate' | 'group';
 export const STROKE_MODES: readonly StrokeMode[] = ['auto', 'draw', 'cut', 'merge', 'subtract', 'move', 'nest', 'select', 'relate', 'group'];
 
-export type HandleKind = 'boundary' | 'vertex' | 'gap' | 'repeat' | 'edge';
-export const HANDLE_KINDS: readonly HandleKind[] = ['boundary', 'vertex', 'gap', 'repeat', 'edge'];
+export type HandleKind = 'boundary' | 'vertex' | 'gap' | 'repeat' | 'edge' | 'move';
+export const HANDLE_KINDS: readonly HandleKind[] = ['boundary', 'vertex', 'gap', 'repeat', 'edge', 'move'];
 
-// A handle's id says what it stands for: "boundary:<boundary id>", "gap:<axis>:<a>:<b>", "repeat:<first region>".
+// A handle's id says what it stands for: "boundary:<boundary id>", "gap:<axis>:<a>:<b>", "repeat:<first region>",
+// "move:<region>" (the region's label).
 export interface HandleRef {
   readonly kind: HandleKind;
   readonly id: string;
@@ -256,11 +259,71 @@ function read(graph: LayoutIntent, stroke: Stroke, mode: StrokeReading['mode'], 
   };
 }
 
+// A region dragged by the travel of the stroke: it snaps to the lines near it, and where it lands decides its parent
+// (the deepest region holding the moved box, never itself or what it holds).
+function readMove(graph: LayoutIntent, stroke: Stroke, target: Region, mode: 'move' | 'nest', naming: Naming): StrokeReading {
+  const points = stroke.points;
+  const first = points[0] as Point;
+  const last = points[points.length - 1] as Point;
+  if (Math.hypot(last.x - first.x, last.y - first.y) < precision) return { ...nothing(mode, points), visited: [target.id] };
+  const moving = descendants(graph, [target.id]);
+  const pulled = snapMoved(graph, { ...target.box, x: target.box.x + last.x - first.x, y: target.box.y + last.y - first.y }, stroke.radius, moving);
+  const dx = Math.round(last.x - first.x + pulled.dx);
+  const dy = Math.round(last.y - first.y + pulled.dy);
+  const movedBox = { ...target.box, x: target.box.x + dx, y: target.box.y + dy };
+  const landing = holder(graph, movedBox, moving);
+  const parent = landing?.id ?? null;
+  if (mode === 'nest' && (parent === null || parent === target.parent)) return { ...nothing('nest', points, [problem('missing-parent', { region: target.name })]), visited: [target.id] };
+  const operations: Operation[] = [{ kind: 'move', ids: [target.id], dx, dy }];
+  if (parent !== target.parent) operations.push(parent === null ? { kind: 'extract', ids: [target.id] } : { kind: 'nest', ids: [target.id], parent });
+  const operation: Operation = operations.length === 1 ? (operations[0] as Operation) : { kind: 'compose', operations };
+  return read(graph, stroke, parent !== target.parent ? 'nest' : 'move', operation, naming, { visited: [target.id], parent, area: movedBox, guides: pulled.guides }, 'move');
+}
+
+// The edge of a region's own a press is on (one no other region shares), within the radius: its axis and whether it
+// is the region's far edge along it. The deepest region's first, so a child's edge wins over its parent's.
+interface OwnEdge {
+  readonly region: Region;
+  readonly axis: Axis;
+  readonly far: boolean;
+}
+function ownEdge(graph: LayoutIntent, p: Point, radius: number): OwnEdge | null {
+  const within = (axis: Axis, b: Box) => p[axis] >= b[axis] - radius && p[axis] <= end(b, axis) + radius;
+  const sorted = [...graph.regions].sort((a, b) => a.box.width * a.box.height - b.box.width * b.box.height);
+  for (const region of sorted)
+    for (const axis of ['x', 'y'] as const) {
+      if (!within(cross(axis), region.box)) continue;
+      if (Math.abs(p[axis] - region.box[axis]) <= radius) return { region, axis, far: false };
+      if (Math.abs(p[axis] - end(region.box, axis)) <= radius) return { region, axis, far: true };
+    }
+  return null;
+}
+
+// A region's own edge dragged: the edge follows the pointer and snaps to the lines near it; the region never gets
+// thinner than the radius twice over.
+function readResize(graph: LayoutIntent, stroke: Stroke, edge: OwnEdge, naming: Naming): StrokeReading {
+  const last = stroke.points[stroke.points.length - 1] as Point;
+  const { region, axis, far } = edge;
+  const line = nearest(snapLines(graph, axis, descendants(graph, [region.id])), last[axis], stroke.radius);
+  const at = Math.round(line ?? last[axis]);
+  const b = region.box;
+  const size = lengthKey(axis);
+  const least = stroke.radius * 2;
+  const from = far ? b[axis] : Math.min(at, end(b, axis) - least);
+  const to = far ? Math.max(b[axis] + least, at) : end(b, axis);
+  const box: Box = { ...b, [axis]: from, [size]: to - from };
+  return read(graph, stroke, 'edge', { kind: 'resize-region', id: region.id, box }, naming, { visited: [region.id], area: box, guides: line === null ? [] : [{ axis, at }] }, axis === 'x' ? 'col-resize' : 'row-resize');
+}
+
 // A handle's edit (spec "Structural Handles"): a boundary or polygon edge moves, a vertex moves, a gap changes for the
-// whole group, a repetition grows or shrinks by whole items.
+// whole group, a repetition grows or shrinks by whole items, a label moves its region.
 function readHandle(graph: LayoutIntent, stroke: Stroke, handle: HandleRef, naming: Naming): StrokeReading {
   const first = stroke.points[0] as Point;
   const last = stroke.points[stroke.points.length - 1] as Point;
+  if (handle.kind === 'move') {
+    const target = findRegion(graph, handle.id);
+    return target === undefined ? nothing('move', stroke.points, [problem('unknown-region', { region: handle.id })]) : readMove(graph, stroke, target, 'move', naming);
+  }
   if (handle.kind === 'boundary') {
     const boundary = topology(graph).boundaries.find((b) => b.id === handle.id);
     if (boundary === undefined) return nothing('boundary', stroke.points, [problem('unknown-boundary')]);
@@ -344,13 +407,21 @@ export function readStroke(graph: LayoutIntent, stroke: Stroke, naming: Naming):
   let mode = stroke.mode;
   if (mode === 'auto') {
     const boundary = sharedBoundaries(graph).find((b) => Math.abs(first[b.axis] - b.at) <= stroke.radius && first[b.axis === 'x' ? 'y' : 'x'] >= b.from && first[b.axis === 'x' ? 'y' : 'x'] <= b.to);
-    if (boundary !== undefined) return readHandle(graph, stroke, { kind: 'boundary', id: boundary.id }, naming);
+    if (boundary !== undefined) {
+      // rubbed along the line (it travels along it more than twice as far as across): the line is erased
+      const along = Math.abs(last[boundary.axis === 'x' ? 'y' : 'x'] - first[boundary.axis === 'x' ? 'y' : 'x']);
+      const across = Math.abs(last[boundary.axis] - first[boundary.axis]);
+      const rubbed = travelled(points) >= stroke.radius * 3 && along > across * 2;
+      if (rubbed && boundary.regions.length === 2) return read(graph, stroke, 'merge', { kind: 'merge', ids: [...boundary.regions] }, naming, { visited: [...boundary.regions] }, 'cell');
+      return readHandle(graph, stroke, { kind: 'boundary', id: boundary.id }, naming);
+    }
+    const edge = ownEdge(graph, first, stroke.radius);
+    if (edge !== null) return readResize(graph, stroke, edge, naming);
     const target = hitRegions(graph.regions, first)[0];
-    const interior = target !== undefined && distanceToEdge(first, target.box) > stroke.radius * 2;
-    // a box from outside every region that holds whole regions selects them (a marquee)
-    const marquee = target === undefined && box.width > stroke.radius && box.height > stroke.radius && graph.regions.some((r) => contains(box, r.box));
+    // a box from outside every region that holds whole regions groups them in a new region drawn there
+    const around = target === undefined && box.width > stroke.radius && box.height > stroke.radius && graph.regions.some((r) => contains(box, r.box));
     const crossing = pieces(points, tolerance).some((piece) => straight(piece) && crossedBy(graph, piece).length > 0);
-    mode = interior ? 'move' : marquee ? 'select' : crossing ? 'cut' : 'draw';
+    mode = around ? 'group' : crossing ? 'cut' : 'draw';
   }
   switch (mode) {
     case 'draw': {
@@ -388,21 +459,7 @@ export function readStroke(graph: LayoutIntent, stroke: Stroke, naming: Naming):
     case 'move':
     case 'nest': {
       const target = hitRegions(graph.regions, first)[0];
-      if (target === undefined) return nothing(mode, points);
-      if (Math.hypot(last.x - first.x, last.y - first.y) < precision) return { ...nothing(mode, points), visited: [target.id] };
-      const moving = descendants(graph, [target.id]);
-      const pulled = snapMoved(graph, { ...target.box, x: target.box.x + last.x - first.x, y: target.box.y + last.y - first.y }, stroke.radius, moving);
-      const dx = Math.round(last.x - first.x + pulled.dx);
-      const dy = Math.round(last.y - first.y + pulled.dy);
-      const movedBox = { ...target.box, x: target.box.x + dx, y: target.box.y + dy };
-      // where it lands: the deepest region holding the moved box, never itself or what it holds
-      const landing = holder(graph, movedBox, moving);
-      const parent = landing?.id ?? null;
-      if (mode === 'nest' && (parent === null || parent === target.parent)) return { ...nothing('nest', points, [problem('missing-parent', { region: target.name })]), visited: [target.id] };
-      const operations: Operation[] = [{ kind: 'move', ids: [target.id], dx, dy }];
-      if (parent !== target.parent) operations.push(parent === null ? { kind: 'extract', ids: [target.id] } : { kind: 'nest', ids: [target.id], parent });
-      const operation: Operation = operations.length === 1 ? (operations[0] as Operation) : { kind: 'compose', operations };
-      return read(graph, stroke, parent !== target.parent ? 'nest' : 'move', operation, naming, { visited: [target.id], parent, area: movedBox, guides: pulled.guides }, 'move');
+      return target === undefined ? nothing(mode, points) : readMove(graph, stroke, target, mode, naming);
     }
     case 'select': {
       const inside = graph.regions.filter((r) => contains(box, r.box));
@@ -410,14 +467,16 @@ export function readStroke(graph: LayoutIntent, stroke: Stroke, naming: Naming):
       return { ...nothing('select', points), selection, area: box, visited: selection, cursor: 'default' };
     }
     case 'group': {
-      if (!closed(points, tolerance)) return { ...nothing('group', points), area: box };
-      const around = graph.regions.filter((r) => polygonContains(centre(r.box), points));
+      // a box drawn around whole regions (the Layout tool), or a lasso closed around them (the group mode)
+      const boxed = stroke.mode === 'auto';
+      if (!boxed && !closed(points, tolerance)) return { ...nothing('group', points), area: box };
+      const around = boxed ? graph.regions.filter((r) => contains(box, r.box)) : graph.regions.filter((r) => polygonContains(centre(r.box), points));
       const roots = around.filter((r) => !around.some((outer) => outer.id === r.parent));
       const parent = roots[0]?.parent ?? null;
-      if (roots.length < 2 || roots.some((r) => r.parent !== parent)) return { ...nothing('group', points, [problem('group-siblings')]), area: box };
-      // the new wrapper spans what it groups; it is only checked once the regions are inside it (execute validates the
-      // whole compound operation at its end)
-      const outline = bounds(roots.map((r) => r.box));
+      if (roots.length < (boxed ? 1 : 2) || roots.some((r) => r.parent !== parent)) return { ...nothing('group', points, [problem('group-siblings')]), area: box };
+      // the new wrapper spans what it groups (a box drawn around them: the box, snapped); it is only checked once the
+      // regions are inside it (execute validates the whole compound operation at its end)
+      const outline = boxed ? snapDrawn(graph, box, stroke.radius).box : bounds(roots.map((r) => r.box));
       const id = nextRegionId(graph);
       const wrapper = { ...newRegion(id, outline, naming.named(null, Number(id.slice(1)))), parent };
       const operation: Operation = { kind: 'compose', operations: [{ kind: 'draw', region: wrapper }, { kind: 'nest', ids: roots.map((r) => r.id), parent: id }] };

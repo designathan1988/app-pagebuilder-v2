@@ -1020,7 +1020,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "canvas-toolbar",
-            "order": 1
+            "order": 3
           },
           "adapter": {
             "selection": "none",
@@ -1044,7 +1044,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "canvas-toolbar",
-            "order": 2
+            "order": 4
           },
           "adapter": {
             "selection": "none",
@@ -1068,7 +1068,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "canvas-toolbar",
-            "order": 3
+            "order": 5
           },
           "adapter": {
             "selection": "none",
@@ -1703,7 +1703,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "canvas-toolbar",
-            "order": 5
+            "order": 7
           },
           "adapter": {
             "selection": "none",
@@ -1747,7 +1747,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "canvas-toolbar",
-            "order": 6
+            "order": 8
           },
           "adapter": {
             "selection": "none",
@@ -1947,7 +1947,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "canvas-toolbar",
-            "order": 7
+            "order": 9
           },
           "adapter": {
             "selection": "none",
@@ -2021,7 +2021,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "canvas-toolbar",
-            "order": 8
+            "order": 10
           },
           "adapter": {
             "selection": "none",
@@ -2095,7 +2095,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "canvas-toolbar",
-            "order": 9
+            "order": 11
           },
           "adapter": {
             "selection": "none",
@@ -2829,7 +2829,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "canvas-toolbar",
-            "order": 10
+            "order": 12
           },
           "adapter": {
             "selection": "none",
@@ -3282,6 +3282,66 @@
             "region": "menu:view",
             "order": 21
           },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "view.selectTool",
+      "labelKey": "command.selectTool",
+      "owner": "src/editor/view/select-tool.ts",
+      "introducedBy": "select-click",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "toolbar-canvas-toolbar-select",
+          "kind": "toolbar",
+          "drawnAs": "icon-button",
+          "pressed": true,
+          "feature": "select-click",
+          "labelKey": "command.selectTool",
+          "faceLabelKey": null,
+          "icon": "mouse-pointer-2",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "canvas-toolbar",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "key-v-in-global",
+          "kind": "shortcut",
+          "feature": "select-click",
+          "chord": "V",
+          "context": "global",
+          "gesture": null,
+          "labelKey": "command.selectTool",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
           "adapter": {
             "selection": "none",
             "offers": null,

@@ -109,8 +109,18 @@ function CanvasToolbar() {
   // the canvas tools, and the toolbar door that shows or hides them (the one that opens their panel)
   const tools = slotsIn('canvas-toolbar').filter((s) => s.kind === 'door' && s.entry.door.kind === 'panel-control' && s.entry.door.panel === 'canvas-tools').map((s) => s.order);
   const toggleOrder = slotsIn('canvas-toolbar').find((s) => s.kind === 'door' && s.entry.door.args.panel === 'canvas-tools')?.order ?? 0;
+  // the canvas tools come first (Select, Layout): what the toolbar holds before its view segments
+  const firstSegment = slotsIn('canvas-toolbar').find((s) => s.kind === 'door' && drawnAs(s.entry) === 'segment')?.order ?? 1;
   return (
     <div className="canvas-toolbar" data-region="canvas-toolbar" data-key-context="toolbar">
+      {firstSegment > 1 ? (
+        <>
+          <div className="canvas-toolbar__tools" role="group">
+            <Slots region="canvas-toolbar" to={firstSegment - 1} />
+          </div>
+          <span className="separator" />
+        </>
+      ) : null}
       <div className="segmented" role="group">
         <Slots region="canvas-toolbar" render={(slot) => (slot.kind === 'door' && drawnAs(slot.entry) === 'segment' ? undefined : null)} />
       </div>

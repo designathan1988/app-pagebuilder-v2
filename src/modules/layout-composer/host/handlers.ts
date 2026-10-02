@@ -17,7 +17,7 @@ import { propertyVocabulary } from '../adapters/properties.ts';
 import { compile, type CompilerPorts } from '../compiler/compile.ts';
 import { execute, type Naming, type Operation, type RegionValues } from '../gestures/operations.ts';
 import { handleOf, readStroke, type StrokeMode } from '../gestures/recognize.ts';
-import { acceptSuggestion, nextSelection, type SelectionMode } from '../gestures/structural.ts';
+import { acceptSuggestion, nextSelection, paintConstraint, type SelectionMode } from '../gestures/structural.ts';
 import { suggestions, type Suggestion } from '../intent/analysis.ts';
 import { builtInTemplate, placeTemplate, type BuiltInTemplate } from '../intent/templates.ts';
 import { traceBlocks, traceRegions, type Luminance } from '../adapters/reference.ts';
@@ -32,6 +32,11 @@ import { materialize } from './materialize.ts';
 import { NAMESPACE, markerOf, recordOf, withAuthoring, type ContainerRecord } from './record.ts';
 import { composerOf, withComposer, type ComposerState } from './state.ts';
 import { breakpointWords } from '../../../core/document/breakpoints.ts';
+import { showPanel } from '../../../editor/workspace/panels.ts';
+
+// the sidebar view the tool's options are drawn in while it is the canvas tool, and the one it gives back
+const PANEL = 'layout-composer';
+const BACK = 'explorer';
 
 type Context = HandlerContext<EditorUi>;
 
@@ -259,17 +264,22 @@ export const enterLayout = registerHandler<'layout.enter', EditorUi>('layout.ent
     return {
       kind: 'change',
       patches: [{ op: 'replace', path: [...at.path], value: withAuthoring(adopted.container, record) }],
-      ui: withComposer(context.state.ui, { target: id, selection: [], lens: 'spatial', tool: 'auto' }),
+      ui: showPanel(withComposer(context.state.ui, { target: id, selection: [], lens: 'spatial', tool: 'auto' }), PANEL),
       message: message('layout.status.entered', { name: at.node.name }),
     };
   } catch (error) {
     if (error instanceof LayoutRefusal) return refusedWith([error.problem]);
     throw error;
   }
-});
+  // the Layout tool is the canvas tool while a container is composed
+}, (state) => composerOf(state.ui) !== null);
 
 // layout.leave: the composer closes; the page keeps the structure it was compiled to, and the container its intent.
-export const leaveLayout = registerHandler<'layout.leave', EditorUi>('layout.leave', ({ state }) => ({ kind: 'change', ui: withComposer(state.ui, null), message: message('layout.status.closed') }));
+export const leaveLayout = registerHandler<'layout.leave', EditorUi>('layout.leave', ({ state }) => {
+  const ui = withComposer(state.ui, null);
+  // the sidebar gives back the Explorer when it was showing the tool's options
+  return { kind: 'change', ui: ui.panels.sidebarView === PANEL ? showPanel(ui, BACK) : ui, message: message('layout.status.closed') };
+});
 
 // The hit radius in the container's px: the screen radius over the zoom the person set (the fitted view: 1). The
 // canvas previews a stroke with the same radius (interaction/tool.ts), so the preview and the command read it alike.
@@ -297,7 +307,8 @@ export const strokeLayout = registerHandler<'layout.stroke', EditorUi>('layout.s
     const result = written(context, graph, made.length > 0 ? made : state.selection);
     const outcome = result.kind === 'change' ? { ...result, message: gestureSaid(reading.mode, record.intent, graph, reading.result.affected) } : result;
     // a structural handle dragged (a boundary, a corner, a gap; a repeat adds items instead) says the sizes it gave the regions it moved
-    const dragged = handle !== undefined || reading.mode === 'boundary';
+    // a boundary, a corner, a gap or an edge dragged says the sizes it gave; a label dragged moved its region instead
+    const dragged = (handle !== undefined && reading.mode !== 'move' && reading.mode !== 'nest') || reading.mode === 'boundary' || reading.mode === 'edge';
     if (outcome.kind !== 'change' || !dragged || reading.mode === 'repeat') return outcome;
     const sizes = reading.result.affected
       .map((id) => findRegion(graph, id))
@@ -308,23 +319,6 @@ export const strokeLayout = registerHandler<'layout.stroke', EditorUi>('layout.s
   }),
 );
 
-// The elements the selected regions are, in the container: the document's selection follows the composer's, so the
-// inspector and the Layers show what is selected.
-function elementsOf(container: DocNode, regions: readonly string[]): NodeId[] {
-  const wanted = new Set(regions);
-  const found: NodeId[] = [];
-  const visit = (node: DocNode) => {
-    for (const child of node.children) {
-      const marker = markerOf(child);
-      if (marker === null) continue;
-      if (wanted.has(marker.key)) found.push(child.id);
-      if (marker.kind === 'structural') visit(child);
-    }
-  };
-  visit(container);
-  return found;
-}
-
 // layout.select: the regions a click picks (replace, add, toggle, or the next one under the same point).
 export const selectLayout = registerHandler<'layout.select', EditorUi>('layout.select', (context, { regions, mode }) =>
   guarded(context, () => {
@@ -332,9 +326,7 @@ export const selectLayout = registerHandler<'layout.select', EditorUi>('layout.s
     if (!Array.isArray(regions) || !regions.every((r) => typeof r === 'string' && findRegion(record.intent, r) !== undefined)) return refusedWith([{ code: 'unknown-region', params: {} }]);
     const selection = nextSelection(state.selection, regions as string[], mode as SelectionMode);
     const names = selection.map((id) => findRegion(record.intent, id)?.name ?? id).join(', ');
-    const { container } = composed(context);
-    const elements = elementsOf(container, selection);
-    return { kind: 'change', ...(elements.length === 0 ? {} : { selection: elements }), ui: withComposer(context.state.ui, { ...state, selection }), message: selection.length === 0 ? message('layout.status.noSelection') : message('layout.status.selected', { names }) };
+    return { kind: 'change', ui: withComposer(context.state.ui, { ...state, selection }), message: selection.length === 0 ? message('layout.status.noSelection') : message('layout.status.selected', { names }) };
   }),
 );
 
@@ -348,17 +340,6 @@ export const deleteLayout = registerHandler<'layout.delete', EditorUi>('layout.d
     const names = state.selection.map((id) => findRegion(record.intent, id)?.name ?? id).join(', ');
     const outcome = operate(context, { kind: 'delete', ids: state.selection }, []);
     return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.deleted', { names }) } : outcome;
-  }),
-);
-
-// layout.view: the lens the overlay draws and the tool the canvas uses.
-export const viewLayout = registerHandler<'layout.view', EditorUi>('layout.view', (context, { lens, tool }) =>
-  guarded(context, () => {
-    const { state } = composed(context);
-    const next = { ...state, ...(lens === undefined ? {} : { lens }), ...(tool === undefined ? {} : { tool: tool as StrokeMode }) };
-    // what the canvas now draws and reads, in the person's words
-    const said = tool !== undefined ? message('layout.status.tool', { tool: context.words(`layout.tool.${next.tool}` as MessageId) }) : message('layout.status.lens', { lens: context.words(`layout.lens.${next.lens}` as MessageId) });
-    return { kind: 'change', ui: withComposer(context.state.ui, next), message: said };
   }),
 );
 
@@ -412,6 +393,7 @@ export const configureLayout = registerHandler<'layout.configure', EditorUi>('la
     const breakpoint = activeBreakpoint(context.state);
     if (!breakpoint.base && field !== 'name' && field !== 'semantic') return { kind: 'refused', message: message('layout.respond.configureAtBase', { breakpoint: breakpointWords(BASE_BREAKPOINT) }) };
     const { state, record, regions } = selected(context);
+    if (field === EQUALIZE) return equalized(context, record.intent, regions, value);
     const property = context.words(`layout.field.${field}` as MessageId);
     const operations: Operation[] = regions.map((r) => ({ kind: 'configure', id: r.id, values: valuesOf(r, field, value, property) }));
     const result = execute(record.intent, operations.length === 1 ? (operations[0] as Operation) : { kind: 'compose', operations }, naming(context));
@@ -421,6 +403,40 @@ export const configureLayout = registerHandler<'layout.configure', EditorUi>('la
     return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.configured', { names, property: context.words(`layout.field.${field}` as MessageId) }) } : outcome;
   }),
 );
+
+// Equal sizes or one gap for the selected regions (the panel's Equal widths and Equal gaps): a rule the layout keeps
+// between them, listed with the others and removed by its own door. Siblings side by side are equalized across, a
+// column of them down.
+const EQUALIZE = 'equalize';
+const PAINTED = ['equal-size', 'gap'] as const;
+function equalized(context: Context, graph: LayoutIntent, regions: readonly Region[], value: string): Outcome<EditorUi> {
+  const kind = PAINTED.find((one) => one === value);
+  if (kind === undefined) throw new LayoutRefusal('value', { value, property: context.words(`layout.field.${EQUALIZE}` as MessageId) });
+  if (regions.length < 2) throw new LayoutRefusal('distribute-count');
+  const across = regions.some((a, i) => regions.some((b, j) => j > i && Math.min(a.box.y + a.box.height, b.box.y + b.box.height) - Math.max(a.box.y, b.box.y) > 0));
+  const axis = across ? 'x' : 'y';
+  const size = axis === 'x' ? WIDTH : HEIGHT;
+  // in their order along the axis, within the span they take now: equal widths share that span after the gaps they
+  // keep; one gap keeps their widths and the span's two ends, and shares what is left between them
+  const ordered = [...regions].sort((a, b) => a.box[axis] - b.box[axis]);
+  const first = ordered[0] as Region;
+  const last = ordered[ordered.length - 1] as Region;
+  const span = last.box[axis] + last.box[size] - first.box[axis];
+  const gaps = ordered.slice(1).map((r, i) => r.box[axis] - ((ordered[i] as Region).box[axis] + (ordered[i] as Region).box[size]));
+  const lengths = ordered.map((r) => r.box[size]);
+  const gap = (span - lengths.reduce((s, l) => s + l, 0)) / (ordered.length - 1);
+  const each = (span - gaps.reduce((s, g) => s + g, 0)) / ordered.length;
+  let at = first.box[axis];
+  const placed: Operation[] = ordered.map((r, i) => {
+    const length = kind === 'gap' ? r.box[size] : Math.round(each);
+    const box = { ...r.box, [axis]: Math.round(at), [size]: length };
+    at += length + (kind === 'gap' ? gap : (gaps[i] ?? 0));
+    return { kind: 'resize-region', id: r.id, box };
+  });
+  const rule = paintConstraint(graph, kind, ordered.map((r) => r.id), axis, kind === 'gap' ? Math.round(gap) : undefined);
+  const outcome = operate(context, { kind: 'compose', operations: [...placed, rule] });
+  return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.equalized', { names: regions.map((r) => r.name).join(', ') }) } : outcome;
+}
 
 // The group an arrangement or a screen-size change is about: the one selected region's children when it holds some,
 // else the group the selection sits in, else the container's top level.

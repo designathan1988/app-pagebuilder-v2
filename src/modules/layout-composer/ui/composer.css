@@ -116,6 +116,11 @@
   stroke-dasharray: 6 4;
 }
 
+.layout-composer__label[data-layout-handle] {
+  pointer-events: auto;
+  cursor: grab;
+}
+
 .layout-composer__guide {
   stroke: var(--color-canvas-snap);
   stroke-width: var(--size-snap-line);

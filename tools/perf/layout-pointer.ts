@@ -31,7 +31,6 @@ await page.goto(`http://localhost:${port}/`);
 await page.evaluate(() => window.localStorage.clear());
 await page.reload();
 await page.locator('.workbench').waitFor();
-await page.locator('[data-door="workspace.setPanelOpen#toolbar-activity-bar-layout-composer"]').click();
 await page.locator('[data-door="layout.enter#layout-compose"]').click();
 // a composition of fifteen regions: the dashboard (seven) and the gallery (eight) placed inside its chart
 await page.locator(`[data-door="layout.template#layout-template"][data-args='{"template":"dashboard"}']`).click();

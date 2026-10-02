@@ -31,6 +31,7 @@ const STAGE: DoorEntry | undefined = manifest.doors.find((d) => d.door.kind === 
 const HANDLE_DOORS: Readonly<Partial<Record<HandleKind, DoorEntry>>> = Object.fromEntries(
   manifest.doors.flatMap((d) => (d.door.kind === 'canvas-handle' && d.door.gesture === 'layout-handle' ? [[d.door.handle.replace(/^layout-/, ''), d]] : [])),
 );
+const MOVE: DoorEntry | undefined = HANDLE_DOORS.move;
 const REGION_CLICK: DoorEntry | undefined = manifest.doors.find((d) => d.door.kind === 'canvas-click' && d.door.gesture === 'layout-click' && d.door.modifier === null);
 
 // the words of a label: an enumerated value (a sizing, a semantic, a flow) in the person's language
@@ -153,7 +154,11 @@ export function LayoutOverlay() {
             data-depth={region.depth}
             style={{ ...place, borderRadius: region.radius * scale, ...(region.polygon === null ? {} : { clipPath: `polygon(${region.polygon.map((p) => `${(p.x - region.box.x) * scale}px ${(p.y - region.box.y) * scale}px`).join(', ')})` }) }}
           >
-            <span className="layout-composer__label">{measured?.[region.id] === undefined || region.label.key !== SIZE_LABEL ? say(region.label) : say({ key: SIZE_LABEL, params: { ...region.label.params, ...measured[region.id]?.page } })}</span>
+            {/* a selected region's label is its handle: dragged, it moves the region (at the drawing's width); an
+                unselected one's lets a drag begin there and draw, as anywhere in the region */}
+            <span className="layout-composer__label" data-layout-handle={measured === null && region.selected && MOVE !== undefined ? `move:${region.id}` : undefined} data-door={measured === null && region.selected ? MOVE?.ref : undefined}>
+              {measured?.[region.id] === undefined || region.label.key !== SIZE_LABEL ? say(region.label) : say({ key: SIZE_LABEL, params: { ...region.label.params, ...measured[region.id]?.page } })}
+            </span>
           </div>
           );
         })}

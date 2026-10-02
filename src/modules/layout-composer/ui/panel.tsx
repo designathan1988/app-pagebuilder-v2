@@ -1,6 +1,6 @@
-// The Layout Composer's sidebar view (manifest/layout.json panel "layout-composer", region layout-composer-panel):
-// the container composed and what the layout predicts it becomes (spec "Prediction"), the tool and the lens
-// (layout.view), the selected regions' properties (layout.configure, spec "Intent Inspector"), how the group is
+// The Layout tool's sidebar view (manifest/layout.json panel "layout-composer", region layout-composer-panel): the
+// container composed and what the layout predicts it becomes (spec "Prediction"), how the gestures work, the selected
+// regions' properties and the rules that make them equal (layout.configure, spec "Intent Inspector"), how the group is
 // arranged (layout.interpret), what changes at the screen size the canvas shows (layout.respond), delete and Done.
 // Every control is the door the manifest declares; nothing here changes state but through them.
 import { useEffect, useMemo, useRef, type ReactNode } from 'react';
@@ -16,7 +16,6 @@ import { BASE_BREAKPOINT, activeBreakpoint } from '../../../editor/view/breakpoi
 import { breakpointName, breakpointsOf } from '../../../core/document/breakpoints.ts';
 import { imageFiles } from '../../../core/files/files.ts';
 import type { DocumentJson, ProjectFile } from '../../../core/document/model.ts';
-import { STROKE_MODES } from '../gestures/recognize.ts';
 import { predict, stress, stressWidths, type Suggestion } from '../intent/analysis.ts';
 import { BUILT_IN_TEMPLATES } from '../intent/templates.ts';
 import { luminanceOf } from '../interaction/luminance.ts';
@@ -24,13 +23,11 @@ import { ALIGNMENTS, DISTRIBUTIONS, SEMANTICS, SIZINGS, childrenOf, findRegion, 
 import { recordOf } from '../host/record.ts';
 import { laidOut, usefulSuggestions } from '../host/handlers.ts';
 import { composerOf } from '../host/state.ts';
-import { LENSES, describeConstraint } from './scene.ts';
+import { describeConstraint } from './scene.ts';
 import './composer.css';
 
 const control = (name: string): DoorEntry | undefined => manifest.doors.find((d) => d.door.kind === 'panel-control' && d.door.panel === 'layout-composer' && d.door.control === name);
 const DONE = control('layout-done');
-const TOOL = control('layout-tool');
-const LENS = control('layout-lens');
 const DELETE = control('layout-delete-button');
 const NAME = control('layout-name');
 const SEMANTIC = control('layout-semantic');
@@ -39,6 +36,7 @@ const HEIGHT = control('layout-height');
 const PADDING = control('layout-padding');
 const ALIGNMENT = control('layout-alignment');
 const DISTRIBUTION = control('layout-distribution');
+const EQUALIZE = ['layout-equal-widths', 'layout-equal-gaps'].map(control).filter((d): d is DoorEntry => d !== undefined);
 const STRATEGY = control('layout-strategy');
 const RESPONDS = ['layout-stack', 'layout-unstack', 'layout-hide', 'layout-show'].map(control).filter((d): d is DoorEntry => d !== undefined);
 const COLUMNS = control('layout-columns');
@@ -140,6 +138,13 @@ function RegionSection({ regions, base }: { readonly regions: readonly Region[];
       {NAME === undefined || regions.length !== 1 ? null : <DoorField entry={NAME} value={first.name} />}
       {SEMANTIC === undefined || regions.some((r) => r.kind === 'content') ? null : <Segments entry={SEMANTIC} values={SEMANTICS} current={same((r) => r.semantic)} words={(v) => t(`layout.word.${v}` as MessageId)} />}
       {base ? <BaseProperties regions={regions} /> : <p className="layout-panel__text">{t('layout.respond.configureAtBase', { breakpoint: breakpointName(BASE_BREAKPOINT, t) })}</p>}
+      {base && regions.length > 1 ? (
+        <div className="layout-panel__actions">
+          {EQUALIZE.map((entry) => (
+            <DoorControl key={entry.ref} entry={entry} />
+          ))}
+        </div>
+      ) : null}
     </section>
   );
 }
@@ -198,8 +203,7 @@ export function LayoutPanel(): ReactNode {
       <p className="layout-panel__prediction" data-layout-prediction={prediction.key}>
         {t(prediction.key as MessageId, Object.fromEntries(Object.entries(prediction.params).map(([name, value]) => [name, name === 'sizing' && typeof value === 'string' && !value.endsWith('px') ? t(`layout.word.${value}` as MessageId) : value])))}
       </p>
-      {TOOL === undefined ? null : <Segments entry={TOOL} values={STROKE_MODES} current={composer.tool} words={(v) => t(`layout.tool.${v}` as MessageId)} arg="tool" />}
-      {LENS === undefined ? null : <Segments entry={LENS} values={LENSES} current={composer.lens} words={(v) => t(`layout.lens.${v}` as MessageId)} arg="lens" />}
+      <p className="layout-panel__text">{t('layout.panel.gestures')}</p>
       <p className="layout-panel__text" data-layout-selection={composer.selection.join(' ')}>
         {names.length === 0 ? t('layout.panel.noSelection') : t('layout.panel.selection', { names: names.join(', ') })}
       </p>

@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "language": "en",
+  "codeLanguage": "en",
+  "pages": [
+    {
+      "id": "n1",
+      "name": "Home",
+      "file": "index.html",
+      "tree": {
+        "id": "n2",
+        "type": "page",
+        "name": "Page",
+        "tag": "body",
+        "attributes": {},
+        "classes": [],
+        "styles": {
+          "desktop": {
+            "base": {
+              "padding-top": "40px",
+              "padding-right": "590px",
+              "padding-bottom": "500px",
+              "padding-left": "340px"
+            }
+          }
+        },
+        "text": null,
+        "children": [
+          {
+            "id": "w1",
+            "type": "div",
+            "name": "Region 1",
+            "tag": "div",
+            "attributes": {},
+            "classes": [],
+            "styles": {
+              "desktop": {
+                "base": {
+                  "min-height": "360px",
+                  "min-width": "0px"
+                }
+              }
+            },
+            "text": null,
+            "children": [
+              {
+                "id": "w2",
+                "type": "div",
+                "name": "Region 2",
+                "tag": "div",
+                "attributes": {},
+                "classes": [],
+                "styles": {
+                  "desktop": {
+                    "base": {
+                      "min-height": "360px",
+                      "min-width": "0px"
+                    }
+                  }
+                },
+                "text": null,
+                "children": [],
+                "authoring": {
+                  "layout-composer": {
+                    "role": "node",
+                    "key": "r2",
+                    "owns": {
+                      "desktop": [
+                        "min-height",
+                        "min-width"
+                      ]
+                    },
+                    "kind": "structural"
+                  }
+                }
+              }
+            ],
+            "authoring": {
+              "layout-composer": {
+                "role": "node",
+                "key": "r1",
+                "owns": {
+                  "desktop": [
+                    "min-height",
+                    "min-width"
+                  ]
+                },
+                "kind": "structural"
+              }
+            }
+          }
+        ],
+        "authoring": {
+          "layout-composer": {
+            "role": "container",
+            "version": 1,
+            "intent": {
+              "version": 1,
+              "viewport": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 900
+              },
+              "regions": [
+                {
+                  "id": "r1",
+                  "parent": null,
+                  "name": "Region 1",
+                  "box": {
+                    "x": 340,
+                    "y": 40,
+                    "width": 510,
+                    "height": 360
+                  },
+                  "width": {
+                    "mode": "fluid"
+                  },
+                  "height": {
+                    "mode": "fluid"
+                  },
+                  "semantic": "div",
+                  "provenance": [
+                    "op1"
+                  ]
+                },
+                {
+                  "id": "r2",
+                  "parent": "r1",
+                  "name": "Region 2",
+                  "box": {
+                    "x": 340,
+                    "y": 40,
+                    "width": 510,
+                    "height": 360
+                  },
+                  "width": {
+                    "mode": "fluid"
+                  },
+                  "height": {
+                    "mode": "fluid"
+                  },
+                  "semantic": "div",
+                  "provenance": [
+                    "op2"
+                  ]
+                }
+              ],
+              "constraints": [],
+              "responsive": [],
+              "variables": {},
+              "revision": 2
+            },
+            "owns": {
+              "desktop": [
+                "padding-top",
+                "padding-right",
+                "padding-bottom",
+                "padding-left"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -60,6 +60,15 @@ describe('a layout drawn by hand', () => {
     expect(order(root)).toEqual(['r3', 'r4', 'r2', 'r1']);
   });
 
+  it('keeps unequal gaps as the smallest one and a margin where there is more', () => {
+    const graph = drawn(1200, 800, [{ x: 0, y: 0, width: 1200, height: 100 }, { x: 0, y: 124, width: 300, height: 400 }, { x: 324, y: 124, width: 876, height: 400 }, { x: 0, y: 584, width: 1200, height: 100 }]);
+    const { root } = compile(graph, PORTS);
+    expect(css(root, 'gap')).toBe('24px');
+    expect(css(root, 'gridTemplateRows')).not.toMatch(/minmax\(\d+px, auto\) minmax\(\d{1,2}px/);
+    const footer = root.children.find((c) => c.region === 'r4');
+    expect(css(footer, 'marginTop')).toBe('36px');
+  });
+
   it('drops the drawn height of a region once it holds content of its own', () => {
     const graph = drawn(1200, 800, [{ x: 0, y: 0, width: 1200, height: 300 }, { x: 0, y: 324, width: 1200, height: 476 }]);
     const empty = compile(graph, PORTS).root.children.find((c) => c.region === 'r1');
@@ -121,12 +130,13 @@ describe('strokes that snap, select and cut', () => {
     expect(reading.guides.some((g) => g.axis === 'x' && g.at === 40)).toBe(true);
   });
 
-  it('selects the regions a box from outside holds, and changes nothing', () => {
+  it('groups the regions a box drawn from outside holds in a new region over the box', () => {
     const graph = drawn(1440, 900, [{ x: 40, y: 40, width: 600, height: 400 }, { x: 680, y: 40, width: 600, height: 400 }]);
     const reading = readStroke(graph, stroke([{ x: 10, y: 10 }, { x: 1300, y: 460 }]), DEFAULT_NAMING);
-    expect(reading.mode).toBe('select');
-    expect(reading.selection).toEqual(['r1', 'r2']);
-    expect(reading.operation).toBeNull();
+    expect(reading.mode).toBe('group');
+    const grouped = reading.result?.ok === true ? reading.result.graph : null;
+    expect(grouped?.regions.filter((r) => r.parent === null)).toHaveLength(1);
+    expect(grouped?.regions.filter((r) => r.parent !== null).map((r) => r.id)).toEqual(['r1', 'r2']);
   });
 
   it('never reads a slanted drag across a region as a cut', () => {
@@ -139,7 +149,7 @@ describe('strokes that snap, select and cut', () => {
 
   it('snaps a moved region to its neighbour', () => {
     const graph = drawn(1440, 900, [{ x: 40, y: 40, width: 400, height: 300 }, { x: 600, y: 400, width: 400, height: 300 }]);
-    const reading = readStroke(graph, stroke([{ x: 800, y: 550 }, { x: 645, y: 550 }]), DEFAULT_NAMING);
+    const reading = readStroke(graph, stroke([{ x: 800, y: 550 }, { x: 645, y: 550 }], { handle: { kind: 'move', id: 'r2' } }), DEFAULT_NAMING);
     expect(reading.mode).toBe('move');
     // dragged 155 px left: its left edge lands 5 px from the first region's right edge, and snaps onto it
     expect(reading.area?.x).toBe(440);

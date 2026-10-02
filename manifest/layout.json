@@ -503,7 +503,7 @@
       "anchors": [
         {
           "region": "canvas-toolbar",
-          "order": 12,
+          "order": 14,
           "drawnAs": "button",
           "icon": null
         },
@@ -521,7 +521,7 @@
       "anchors": [
         {
           "region": "canvas-toolbar",
-          "order": 11,
+          "order": 13,
           "drawnAs": "icon-button",
           "icon": "chevron-down"
         }

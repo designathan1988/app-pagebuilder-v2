@@ -39,15 +39,21 @@ const stroke = (store: EditorStore, points: readonly { x: number; y: number }[],
 const intent = (root: () => DocNode) => recordOf(root())?.intent;
 
 describe('Layout Composer rules, suggestions and templates', () => {
-  it('paints an equal-width rule with the Relate tool, then removes it with its own door', () => {
+  it('makes the selected regions equally wide with Equal widths, then removes the rule with its own door', () => {
     const { store, root } = composing();
     stroke(store, [{ x: 0, y: 0 }, { x: 300, y: 200 }]);
     stroke(store, [{ x: 400, y: 0 }, { x: 800, y: 200 }]);
     stroke(store, [{ x: 900, y: 0 }, { x: 1100, y: 200 }]);
-    store.dispatch('layout.view', { tool: 'relate' } as never);
-    expect(stroke(store, [{ x: 150, y: 100 }, { x: 600, y: 100 }, { x: 1000, y: 100 }], 'relate').status).toBe('done');
+    store.dispatch('layout.select', { regions: ['r1'], mode: 'replace' } as never);
+    store.dispatch('layout.select', { regions: ['r2'], mode: 'add' } as never);
+    store.dispatch('layout.select', { regions: ['r3'], mode: 'add' } as never);
+    expect(store.dispatch('layout.configure', { field: 'equalize', value: 'equal-size' } as never).status).toBe('done');
     const rule = intent(root)?.constraints[0];
     expect(rule?.kind).toBe('equal-size');
+    // one region alone cannot be made equal to anything, and an unknown rule is refused
+    store.dispatch('layout.select', { regions: ['r1'], mode: 'replace' } as never);
+    expect(store.dispatch('layout.configure', { field: 'equalize', value: 'gap' } as never).status).toBe('refused');
+    expect(store.dispatch('layout.configure', { field: 'equalize', value: 'nothing' } as never).status).toBe('refused');
     expect(store.dispatch('layout.unrelate', { constraint: rule?.id } as never).status).toBe('done');
     expect(intent(root)?.constraints).toEqual([]);
     expect(store.dispatch('layout.unrelate', { constraint: 'c9' } as never).status).toBe('refused');

@@ -315,7 +315,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "canvas-toolbar",
-            "order": 4
+            "order": 6
           },
           "adapter": {
             "selection": "none",
@@ -340,7 +340,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "activity-bar",
-            "order": 1
+            "order": 2
           },
           "adapter": {
             "selection": "none",
@@ -366,7 +366,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "activity-bar",
-            "order": 2
+            "order": 1
           },
           "adapter": {
             "selection": "none",
@@ -623,7 +623,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "activity-bar",
-            "order": 20
+            "order": 5
           },
           "adapter": {
             "selection": "none",
@@ -638,17 +638,17 @@
         },
         {
           "id": "toolbar-activity-bar-layout-composer",
-          "kind": "toolbar",
-          "drawnAs": "icon-button",
-          "pressed": true,
+          "kind": "menu",
           "feature": "layout-composer",
+          "menu": "view",
+          "checked": null,
           "labelKey": "panel.layoutComposer",
           "faceLabelKey": null,
-          "icon": "layout-freeform",
+          "icon": null,
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
-            "region": "activity-bar",
-            "order": 21
+            "region": "menu:view",
+            "order": 32
           },
           "adapter": {
             "selection": "none",

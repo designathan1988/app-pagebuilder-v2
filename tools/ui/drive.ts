@@ -112,7 +112,7 @@ async function runStep(page: Page, step: Step): Promise<string> {
     await control.waitFor({ state: 'visible', timeout: 5_000 });
     await control.click();
   } else if ('click' in step) {
-    await page.locator(step.click).first().click();
+    await page.locator(step.click).first().click(step.modifier === undefined ? undefined : { modifiers: [step.modifier] });
   } else if ('type' in step) {
     const field = page.locator(step.type.at).first();
     await field.waitFor({ state: 'visible', timeout: 5_000 });

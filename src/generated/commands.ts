@@ -198,8 +198,7 @@ export interface CommandArgs {
   "layout.stroke": { readonly mode: "auto" | "draw" | "cut" | "merge" | "subtract" | "move" | "nest" | "select" | "relate" | "group"; readonly points: JsonValue; readonly handle?: string };
   "layout.select": { readonly regions: JsonValue; readonly mode: "replace" | "add" | "toggle" | "cycle" };
   "layout.delete": Record<string, never>;
-  "layout.view": { readonly lens?: "spatial" | "structure" | "constraints" | "responsive" | "flow" | "semantic"; readonly tool?: "auto" | "draw" | "cut" | "merge" | "subtract" | "move" | "nest" | "select" | "relate" | "group" };
-  "layout.configure": { readonly field: "name" | "semantic" | "width" | "height" | "padding" | "alignment" | "distribution"; readonly value: string };
+  "layout.configure": { readonly field: "name" | "semantic" | "width" | "height" | "padding" | "alignment" | "distribution" | "equalize"; readonly value: string };
   "layout.interpret": { readonly strategy: "auto" | "grid" | "flex" | "fixed" | "proportional" | "masonry" };
   "layout.respond": { readonly edit: "stack" | "unstack" | "columns" | "hide" | "show"; readonly value?: string };
   "layout.unrelate": { readonly constraint: string };
@@ -368,6 +367,7 @@ export interface CommandArgs {
   "view.setViewportWidth": { readonly width: number };
   "view.resizeViewport": { readonly size?: number; readonly distance: number };
   "view.toggleSideBySide": Record<string, never>;
+  "view.selectTool": Record<string, never>;
   "workspace.setPanelOpen": { readonly panel: "elements" | "layers" | "inspector" | "explorer" | "timeline" | "motion" | "variables" | "checks" | "workbench" | "shortcuts" | "document" | "canvas-tools" | "assistant" | "layout-composer" | "data"; readonly open: "open" | "close" | "toggle"; readonly focus?: boolean };
   "workspace.toggleLeftDock": Record<string, never>;
   "workspace.toggleInspector": Record<string, never>;
@@ -415,7 +415,7 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "editor-shell": ["workspace.setPanelOpen"],
   "canvas-page-iframe": [],
   "palette-click-insert": ["element.insert","workspace.setPanelOpen"],
-  "select-click": ["selection.select","selection.clear"],
+  "select-click": ["selection.select","selection.clear","view.selectTool"],
   "layers-tree": ["selection.select","layers.setExpanded","workspace.setPanelOpen"],
   "undo-redo": ["history.undo","history.redo"],
   "delete-element": ["history.undo","element.delete"],
@@ -603,7 +603,7 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "layout-actions": ["element.wrapContainer","element.wrapGrid","element.swapDirection","element.stackOnPhone","element.organize","element.setDivider"],
   "canvas-grid-editor": ["grid.enterEdit","grid.exitEdit","grid.addTrack","grid.removeTrack","grid.spanItem","grid.mergeCells","grid.splitCells","style.setGridTracks"],
   "assistant-chat": ["assistant.setModel","assistant.setPreferences","assistant.attachReference","assistant.clearReference","assistant.editKey","assistant.send","assistant.cancel","assistant.connect","assistant.disconnect","assistant.saveKey","assistant.deleteKey","assistant.selectSession","assistant.clearConversation","assistant.update","workspace.setPanelOpen"],
-  "layout-composer": ["layout.enter","layout.leave","layout.stroke","layout.select","layout.delete","layout.view","layout.configure","layout.interpret","layout.respond","layout.unrelate","layout.suggest","layout.template","layout.reference","layout.trace","workspace.setPanelOpen"],
+  "layout-composer": ["layout.enter","layout.leave","layout.stroke","layout.select","layout.delete","layout.configure","layout.interpret","layout.respond","layout.unrelate","layout.suggest","layout.template","layout.reference","layout.trace","workspace.setPanelOpen"],
   "motion-interactions": ["motion.add","motion.update","motion.remove"],
   "motion-timeline": ["motion.createTimeline","motion.renameTimeline","motion.deleteTimeline","motion.openTimeline","motion.addAction","motion.updateAction","motion.setEffectOption","motion.removeActions","motion.moveActions","motion.resizeAction","motion.select","motion.setPlayhead","motion.zoomTimeline","motion.toggleSnap","motion.addMarker","motion.moveMarker","motion.renameMarker","motion.removeMarker","workspace.setPanelOpen"],
   "motion-keyframes": ["motion.setKeyframe","motion.editKeyframe","motion.moveKeyframes","motion.deleteKeyframes","motion.copyKeyframes","motion.pasteKeyframes","motion.toggleRecord","motion.select"],

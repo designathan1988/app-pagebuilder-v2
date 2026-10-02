@@ -1981,11 +1981,6 @@
       "status": "registered"
     },
     {
-      "kind": "handler",
-      "id": "layout.view",
-      "status": "registered"
-    },
-    {
       "kind": "predicate",
       "id": "layoutComposing",
       "status": "registered"
@@ -2348,6 +2343,11 @@
     {
       "kind": "handler",
       "id": "view.toggleSideBySide",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "view.selectTool",
       "status": "registered"
     },
     {

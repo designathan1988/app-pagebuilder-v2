@@ -3,7 +3,7 @@
 // from where the canvas draws it, a region clicked. A step's points are in the composed container's px; the runner
 // puts each on the screen through the stage's drawn box and the intent's width it carries (data-viewport-width), so
 // the tool reads back the same whole px. The key the stroke's mode stands for (interactions.json layout-stroke) is
-// held through it; a mode no key gives is the tool chosen, which a layout.view step before it chose.
+// held through it; any other mode is the one tool's own reading of the stroke (auto).
 import fs from 'node:fs';
 import { expect, type Page } from '../../tests/support/test.ts';
 

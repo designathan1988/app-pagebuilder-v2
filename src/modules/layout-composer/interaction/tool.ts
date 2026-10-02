@@ -3,10 +3,10 @@
 // the container's own px (the stage's screen box over the intent's viewport); the moves only draw the preview
 // (preview.ts); the release dispatches the one door it means through the gesture the pointer owner opened, so it is
 // one undo step:
-//  - a press and release in place, on no handle: a click — layout.select (layout-region, -add with Shift, -cycle
-//    with Alt) on the deepest region under it, or the empty selection;
+//  - a press and release in place, on no handle or on a region's label: a click — layout.select (layout-region,
+//    -add with Shift, -cycle with Alt) on the deepest region under it, or the empty selection;
 //  - a drag from a handle ([data-layout-handle]): layout.stroke with the handle (layout-boundary, -gap, -repeat,
-//    -vertex);
+//    -vertex, -move: a region's label);
 //  - any other drag: layout.stroke (layout-stage) with the tool's mode, or the mode the key held gives (Shift merges,
 //    Alt subtracts, Ctrl cuts: interactions.json layout-stroke).
 import { locate } from '../../../core/document/model.ts';
@@ -87,7 +87,7 @@ export const layoutTool: PointerTool = {
       },
       release(next: ToolPoint, gesture: Gesture) {
         preview.set(null);
-        if (!travelled && handle === null) {
+        if (!travelled && (handle === null || handle.kind === 'move')) {
           const point = points[0] as Point;
           const mode = next.alt ? 'cycle' : next.shift ? 'add' : 'replace';
           // narrower than the drawing, the region is the one drawn under the pointer where the page lays it out

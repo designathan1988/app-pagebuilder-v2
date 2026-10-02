@@ -395,6 +395,9 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
     // each track's first line
     readonly tracks: readonly { readonly from: number; readonly to: number; readonly first: number }[];
     readonly gap: number | null;
+    // the room a gap holds beyond the grid's one gap, by the kept track that follows it: unequal gaps are the
+    // smallest one as the grid's gap and a margin where there is more
+    readonly extra: ReadonlyMap<number, number>;
   }
   const tracksAlong = (held: readonly Region[], axis: Axis): Tracks => {
     const lines = linesAlong(held, axis);
@@ -404,8 +407,12 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
     const occupied = tracks.map((t) => held.some((r) => lineAt(lines, r.box[axis]) === t.first || lineAt(lines, end(r.box, axis)) === t.first + 1));
     const alternating = occupied.length >= 3 && occupied.every((o, i) => o === (i % 2 === 0));
     const gaps = tracks.filter((_, i) => occupied[i] === false).map((t) => t.to - t.from);
-    if (!alternating || !alike(gaps)) return { lines, tracks, gap: null };
-    return { lines, tracks: tracks.filter((_, i) => occupied[i] === true), gap: mean(gaps) };
+    if (!alternating || gaps.length === 0) return { lines, tracks, gap: null, extra: new Map() };
+    const kept = tracks.filter((_, i) => occupied[i] === true);
+    if (alike(gaps)) return { lines, tracks: kept, gap: mean(gaps), extra: new Map() };
+    const least = Math.min(...gaps);
+    const extra = new Map(gaps.map((g, i) => [i + 1, g - least] as const).filter(([, more]) => more >= 1));
+    return { lines, tracks: kept, gap: least, extra };
   };
 
   const grid = (held: readonly Region[], key: string): Laid => {
@@ -431,7 +438,8 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
     const children = ordered.map(({ r, at }, i) => {
       for (let y = at.y1; y < at.y2; y += 1) for (let x = at.x1; x < at.x2; x += 1) (areas[y] as string[])[x] = named(i);
       const node = leaf(r);
-      return { ...node, styles: { ...node.styles, gridArea: overlapping ? `${at.y1 + 1} / ${at.x1 + 1} / ${at.y2 + 1} / ${at.x2 + 1}` : named(i) } };
+      const more = { ...(rows.extra.has(at.y1) ? { marginTop: px(rows.extra.get(at.y1) as number) } : {}), ...(columns.extra.has(at.x1) ? { marginLeft: px(columns.extra.get(at.x1) as number) } : {}) };
+      return { ...node, styles: { ...node.styles, ...more, gridArea: overlapping ? `${at.y1 + 1} / ${at.x1 + 1} / ${at.y2 + 1} / ${at.x2 + 1}` : named(i) } };
     });
     // a column track: fixed where a fixed region spans exactly it, sized by content where hugging ones do, else a share
     // of the free space (with the minimum a region spanning exactly it asks for)

@@ -41,18 +41,34 @@ describe('reading a stroke with the one tool', () => {
     expect(twice.regions.map((r) => r.box.width)).toEqual([400, 400, 400]);
   });
 
-  it('moves a region pressed inside it, nests it where it lands wholly inside another, and detaches it out of its parent', () => {
+  it('moves a region dragged by its label, nests it where it lands wholly inside another, and detaches it out of its parent', () => {
     const graph = drawn(1200, 600, [{ x: 0, y: 0, width: 600, height: 600 }, { x: 700, y: 100, width: 100, height: 100 }]);
-    const moved = read(graph, stroke([{ x: 750, y: 150 }, { x: 760, y: 160 }]));
+    const label = { handle: { kind: 'move', id: 'r2' } } as const;
+    const moved = read(graph, stroke([{ x: 750, y: 150 }, { x: 760, y: 160 }], 'auto', label));
     expect(moved.mode).toBe('move');
-    const nested = read(graph, stroke([{ x: 750, y: 150 }, { x: 250, y: 250 }]));
+    const nested = read(graph, stroke([{ x: 750, y: 150 }, { x: 250, y: 250 }], 'auto', label));
     expect(nested.mode).toBe('nest');
     expect(nested.parent).toBe('r1');
-    const inside = after(graph, stroke([{ x: 750, y: 150 }, { x: 250, y: 250 }]));
+    const inside = after(graph, stroke([{ x: 750, y: 150 }, { x: 250, y: 250 }], 'auto', label));
     expect(findRegion(inside, 'r2')?.parent).toBe('r1');
-    const out = read(inside, stroke([{ x: 250, y: 250 }, { x: 950, y: 250 }]));
+    const out = read(inside, stroke([{ x: 250, y: 250 }, { x: 950, y: 250 }], 'auto', label));
     expect(out.mode).toBe('nest');
     expect(out.result?.ok && findRegion(out.result.graph, 'r2')?.parent).toBeNull();
+    // a drag inside a region, away from its edges, draws a region inside it
+    const child = read(graph, stroke([{ x: 100, y: 100 }, { x: 300, y: 300 }]));
+    expect(child.mode).toBe('draw');
+    expect(child.parent).toBe('r1');
+  });
+
+  it('erases the line between two regions rubbed along it, and resizes a region by its own edge', () => {
+    const graph = drawn(1000, 400, [{ x: 0, y: 0, width: 300, height: 400 }, { x: 300, y: 0, width: 700, height: 400 }]);
+    const rubbed = read(graph, stroke([{ x: 300, y: 50 }, { x: 302, y: 200 }, { x: 299, y: 350 }]));
+    expect(rubbed.mode).toBe('merge');
+    expect(rubbed.result?.ok && rubbed.result.graph.regions).toHaveLength(1);
+    const alone = drawn(1000, 400, [{ x: 100, y: 100, width: 300, height: 200 }]);
+    const wider = read(alone, stroke([{ x: 400, y: 200 }, { x: 523, y: 200 }]));
+    expect(wider.mode).toBe('edge');
+    expect(wider.result?.ok && wider.result.graph.regions[0]?.box).toEqual({ x: 100, y: 100, width: 423, height: 200 });
   });
 
   it('drags a shared boundary pressed on it, moving the regions on both sides', () => {

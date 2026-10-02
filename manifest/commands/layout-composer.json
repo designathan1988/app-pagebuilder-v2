@@ -36,7 +36,7 @@
         {
           "id": "layout-compose",
           "kind": "toolbar",
-          "drawnAs": "button",
+          "drawnAs": "icon-button",
           "pressed": true,
           "feature": "layout-composer",
           "labelKey": "layout.door.compose",
@@ -45,7 +45,7 @@
           "disabledReasonKey": "layout.noContainer",
           "placement": {
             "region": "canvas-toolbar",
-            "order": 14
+            "order": 2
           },
           "adapter": {
             "selection": "none",
@@ -69,6 +69,48 @@
           },
           "adapter": {
             "selection": "single",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "key-l-in-global",
+          "kind": "shortcut",
+          "feature": "layout-composer",
+          "chord": "L",
+          "context": "global",
+          "gesture": null,
+          "labelKey": "layout.door.compose",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.noContainer",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "toolbar-activity-bar-layout",
+          "kind": "toolbar",
+          "drawnAs": "icon-button",
+          "pressed": true,
+          "feature": "layout-composer",
+          "labelKey": "layout.door.compose",
+          "faceLabelKey": null,
+          "icon": "layout-freeform",
+          "disabledReasonKey": "layout.noContainer",
+          "placement": {
+            "region": "activity-bar",
+            "order": 6
+          },
+          "adapter": {
+            "selection": "none",
             "offers": null,
             "writes": [],
             "fields": []
@@ -296,6 +338,25 @@
             "fields": []
           },
           "args": {}
+        },
+        {
+          "id": "layout-move",
+          "kind": "canvas-handle",
+          "feature": "layout-composer",
+          "handle": "layout-move",
+          "gesture": "layout-handle",
+          "labelKey": "layout.door.moveHandle",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
         }
       ]
     },
@@ -487,111 +548,6 @@
       ]
     },
     {
-      "id": "layout.view",
-      "labelKey": "layout.command.view",
-      "owner": "src/modules/layout-composer/host/handlers.ts",
-      "introducedBy": "layout-composer",
-      "args": {
-        "lens": {
-          "type": "enum",
-          "values": [
-            "spatial",
-            "structure",
-            "constraints",
-            "responsive",
-            "flow",
-            "semantic"
-          ],
-          "optional": true
-        },
-        "tool": {
-          "type": "enum",
-          "values": [
-            "auto",
-            "draw",
-            "cut",
-            "merge",
-            "subtract",
-            "move",
-            "nest",
-            "select",
-            "relate",
-            "group"
-          ],
-          "optional": true
-        }
-      },
-      "availability": {
-        "predicate": "layoutComposing",
-        "refusalKey": "layout.inactive"
-      },
-      "refusals": [
-        "layout.refused",
-        "layout.inactive",
-        "layout.noContainer",
-        "status.locked.edit",
-        "status.locked.byAncestor"
-      ],
-      "confirmation": null,
-      "history": {
-        "undoable": false
-      },
-      "entryPoints": [
-        {
-          "id": "layout-tool",
-          "kind": "panel-control",
-          "drawnAs": "segment",
-          "pressed": false,
-          "feature": "layout-composer",
-          "panel": "layout-composer",
-          "control": "layout-tool",
-          "modifier": null,
-          "gesture": null,
-          "labelKey": "layout.door.tool",
-          "faceLabelKey": null,
-          "icon": null,
-          "disabledReasonKey": "layout.inactive",
-          "placement": {
-            "region": "layout-composer-panel",
-            "order": 2
-          },
-          "adapter": {
-            "selection": "none",
-            "offers": null,
-            "writes": [],
-            "fields": []
-          },
-          "args": {}
-        },
-        {
-          "id": "layout-lens",
-          "kind": "panel-control",
-          "drawnAs": "segment",
-          "pressed": false,
-          "feature": "layout-composer",
-          "panel": "layout-composer",
-          "control": "layout-lens",
-          "modifier": null,
-          "gesture": null,
-          "labelKey": "layout.door.lens",
-          "faceLabelKey": null,
-          "icon": null,
-          "disabledReasonKey": "layout.inactive",
-          "placement": {
-            "region": "layout-composer-panel",
-            "order": 3
-          },
-          "adapter": {
-            "selection": "none",
-            "offers": null,
-            "writes": [],
-            "fields": []
-          },
-          "args": {}
-        }
-      ]
-    },
-    {
       "id": "layout.configure",
       "labelKey": "layout.command.configure",
       "owner": "src/modules/layout-composer/host/handlers.ts",
@@ -606,7 +562,8 @@
             "height",
             "padding",
             "alignment",
-            "distribution"
+            "distribution",
+            "equalize"
           ],
           "optional": false
         },
@@ -830,6 +787,64 @@
           },
           "args": {
             "field": "distribution"
+          }
+        },
+        {
+          "id": "layout-equal-widths",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-equal-widths",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.equalWidths",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 53
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "equalize",
+            "value": "equal-size"
+          }
+        },
+        {
+          "id": "layout-equal-gaps",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-equal-gaps",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.equalGaps",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 54
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "equalize",
+            "value": "gap"
           }
         }
       ]

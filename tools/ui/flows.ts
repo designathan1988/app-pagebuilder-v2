@@ -9,8 +9,8 @@
 export type Step =
   // press a door: the first control drawn for it (a palette tile takes its label, a Layers row its name)
   | { readonly door: string; readonly labelled?: string }
-  // a click on anything the app draws
-  | { readonly click: string }
+  // a click on anything the app draws, with a key held through it
+  | { readonly click: string; readonly modifier?: 'Shift' | 'Alt' | 'Control' }
   // type into a control, Enter keeping it unless told otherwise
   | { readonly type: { readonly at: string; readonly text: string; readonly enter?: boolean; readonly clear?: boolean } }
   // a key with its modifiers, as a person presses it
@@ -68,7 +68,8 @@ const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as cons
 // Desktop width (1440 x 900, the stage the page root is composed in), as fractions of the stage.
 const PX = (x: number, y: number): readonly [number, number] => [x / 1440, y / 900];
 const STAGE = '[data-layout-stage]';
-const COMPOSE: readonly Step[] = [{ door: 'workspace.setPanelOpen#toolbar-activity-bar-layout-composer' }, { door: 'layout.enter#layout-compose' }];
+// the Layout tool, from the canvas toolbar: it opens its own panel
+const COMPOSE: readonly Step[] = [{ door: 'layout.enter#layout-compose' }];
 const draw = (from: readonly [number, number], to: readonly [number, number], modifier?: string): Step => ({ stroke: { at: STAGE, points: [PX(...from), PX(...to)], ...(modifier === undefined ? {} : { modifier }) } });
 // the export, and what no exported file may hold: the composer's authoring data and its overlay
 const EXPORTED: readonly Step[] = [{ click: '[data-door="project.export#toolbar-top-bar-export"]' }, { wait: 800 }, { expect: { exportLacks: ['layout-composer', 'authoring', 'data-layout'] } }];
@@ -325,7 +326,7 @@ export const FLOWS: readonly Flow[] = [
   },
   {
     name: 'layout-04-repeated-grid',
-    about: 'two cards, the repeat handle dragged to four, the suggestion makes them a grid',
+    about: 'two cards, the repeat handle dragged to four: alike cards are a grid of their own',
     steps: [
       ...COMPOSE,
       draw([40, 40], [290, 300]),
@@ -333,18 +334,16 @@ export const FLOWS: readonly Flow[] = [
       { stroke: { at: STAGE, from: '[data-layout-handle^="repeat:"]', points: [PX(700, 170), PX(1130, 170)] } },
       { photo: 'four-cards' },
       { expect: { nodes: 5 } },
-      { door: 'layout.suggest#layout-suggest' },
       { photo: 'cards-as-a-grid' },
       ...EXPORTED,
     ],
   },
   {
     name: 'layout-05-nested',
-    about: 'a region drawn inside another with the Draw tool becomes its child element',
+    about: 'a region drawn inside another becomes its child element: the one tool draws there too',
     steps: [
       ...COMPOSE,
       draw([40, 40], [800, 600]),
-      { click: `[data-door="layout.view#layout-tool"][data-args='{"tool":"draw"}']` },
       { stroke: { at: STAGE, points: [PX(100, 100), PX(400, 300)], hold: true } },
       { photo: 'nest-preview' },
       { release: true },
@@ -439,7 +438,6 @@ export const FLOWS: readonly Flow[] = [
       { click: '[data-menu="file"]' },
       { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/aurora.json'] } },
       { door: 'selection.select#layers-row', labelled: 'Hero' },
-      { door: 'workspace.setPanelOpen#toolbar-activity-bar-layout-composer' },
       { door: 'layout.enter#layout-compose' },
       { photo: 'hero-content-placed' },
       { stroke: { at: STAGE, points: [[0.2, 0.3], [0.5, 0.5], [0.8, 0.7]], modifier: 'Shift' } },
@@ -460,10 +458,9 @@ export const FLOWS: readonly Flow[] = [
       { photo: 'left' },
       { reload: true },
       { expect: { nodes: 4 } },
-      { door: 'workspace.setPanelOpen#toolbar-activity-bar-layout-composer' },
       { door: 'layout.enter#layout-compose' },
       { photo: 'reopened-as-drawn' },
-      { expect: { message: 'Composing the layout of Page' } },
+      { expect: { message: 'Layout tool on Page' } },
     ],
   },
   {
@@ -472,15 +469,15 @@ export const FLOWS: readonly Flow[] = [
     steps: [
       { click: '[data-menu="file"]' },
       { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/layout-wireframe.json'] } },
-      { door: 'workspace.setPanelOpen#toolbar-activity-bar-layout-composer' },
       { door: 'layout.enter#layout-compose' },
       { click: `[data-door="layout.reference#layout-reference"][data-args='{"file":"img/wireframe.png"}']` },
       { photo: 'reference-under-the-stage' },
       { door: 'layout.trace#layout-trace' },
       { wait: 400 },
       { photo: 'traced-regions' },
-      { click: `[data-door="layout.view#layout-tool"][data-args='{"tool":"relate"}']` },
-      { stroke: { at: '[data-layout-stage]', points: [[0.2, 0.6], [0.5, 0.6], [0.8, 0.6]] } },
+      { click: '[data-layout-region="r2"]' },
+      { click: '[data-layout-region="r3"]', modifier: 'Shift' },
+      { door: 'layout.configure#layout-equal-widths' },
       { photo: 'rule-painted' },
       { door: 'layout.unrelate#layout-unrelate' },
       { photo: 'rule-removed' },
@@ -495,7 +492,6 @@ export const FLOWS: readonly Flow[] = [
     name: 'layout-composer-template',
     about: 'place the dashboard template on an empty page and check the widths',
     steps: [
-      { door: 'workspace.setPanelOpen#toolbar-activity-bar-layout-composer' },
       { door: 'layout.enter#layout-compose' },
       { click: `[data-door="layout.template#layout-template"][data-args='{"template":"dashboard"}']` },
       { photo: 'dashboard-placed' },
@@ -508,7 +504,6 @@ export const FLOWS: readonly Flow[] = [
     name: 'layout-composer-properties',
     about: 'set what regions mean and how they size, then say what changes on a tablet and a phone',
     steps: [
-      { door: 'workspace.setPanelOpen#toolbar-activity-bar-layout-composer' },
       { door: 'layout.enter#layout-compose' },
       { stroke: { at: '[data-layout-stage]', points: [[0.04, 0.03], [0.96, 0.12]] } },
       { stroke: { at: '[data-layout-stage]', points: [[0.04, 0.16], [0.96, 0.6]] } },
@@ -539,7 +534,6 @@ export const FLOWS: readonly Flow[] = [
     name: 'layout-composer',
     about: 'compose the page by drawing: regions drawn, cut and merged become ordinary elements, one undo step each',
     steps: [
-      { door: 'workspace.setPanelOpen#toolbar-activity-bar-layout-composer' },
       { photo: 'panel-idle' },
       { door: 'layout.enter#layout-compose' },
       { photo: 'composing-the-page' },
@@ -555,7 +549,6 @@ export const FLOWS: readonly Flow[] = [
       { photo: 'undo-brings-the-cut-back' },
       { click: '[data-layout-region]' },
       { photo: 'region-selected' },
-      { door: 'layout.view#layout-lens' },
       { door: 'layout.leave#layout-done' },
       { photo: 'done' },
     ],
