@@ -114,8 +114,18 @@ if (STATE === 'hover') {
     await app.waitForTimeout(400);
   }
 }
+if (STATE === 'drag') {
+  // CardA dragged by the pointer and held midway, past CardB (the canonical drag: the insertion line and the ghost)
+  const from = await app.locator('.chrome__selection').first().boundingBox();
+  if (from !== null) {
+    await app.mouse.move(from.x + from.width / 2, from.y + from.height / 2);
+    await app.mouse.down();
+    await app.mouse.move(from.x + from.width / 2, from.y + from.height + 60, { steps: 12 });
+    await app.waitForTimeout(400);
+  }
+}
 // the pointer rests where it hovers nothing (a menu stays open: the pointer leaving it does not close it)
-if (STATE !== 'palette' && STATE !== 'hover') await app.mouse.move(1, 899);
+if (STATE !== 'palette' && STATE !== 'hover' && STATE !== 'drag') await app.mouse.move(1, 899);
 
 type Box = { x: number; y: number; width: number; height: number };
 const regions = async (page: Page) =>

@@ -675,3 +675,10 @@
   min-height: calc(var(--size-control) * 2);
   font-family: var(--font-ui);
 }
+
+/* where a drag would drop, said in the drop's colour (the canonical .is-drop.ov-tag: "Drop in Grade de cartões ·
+   position 2 of 3"); a refused drop keeps its own */
+.chrome__drop .chrome__label:not(.is-refused) {
+  background: var(--color-canvas-drop);
+  color: var(--color-on-accent);
+}
