@@ -10,6 +10,7 @@ import { manifest, type DoorEntry } from '../../../manifest/runtime.ts';
 import { canvasFrame, geometryOf, nodeBox } from '../../../editor/canvas/coordinates.ts';
 import { useEditorState } from '../../../editor/store.ts';
 import { useT } from '../../../editor/text.ts';
+import { imageFiles, objectUrl } from '../../../core/files/files.ts';
 import { activeBreakpoint } from '../../../editor/view/breakpoints.ts';
 import type { HandleKind } from '../gestures/recognize.ts';
 import { markerOf, recordOf } from '../host/record.ts';
@@ -75,6 +76,8 @@ export function LayoutOverlay() {
   const [measured, setMeasured] = useState<Readonly<Record<string, Measured>> | null>(null);
   const elements = useMemo(() => (container === null ? [] : markedElements(container)), [container]);
   const held = useSyncExternalStore(preview.subscribe, preview.get);
+  const referencePath = record?.intent.reference?.file ?? null;
+  const referenceFile = useEditorState((s) => (referencePath === null ? null : (imageFiles(s.document).find((f) => f.path === referencePath) ?? null)));
   const say = useWords();
   const t = useT();
   useEffect(() => {
@@ -136,6 +139,9 @@ export function LayoutOverlay() {
         data-measured={measured === null ? undefined : ''}
         style={{ left: box.x, top: box.y, width: box.width, height: measured === null ? drawn.viewport.height * scale : box.height }}
       >
+        {referenceFile === null || drawn.reference == null || measured !== null ? null : (
+          <img className="layout-composer__reference" src={objectUrl(referenceFile)} alt="" data-layout-reference={drawn.reference.file} style={{ ...at(drawn.reference.box), opacity: drawn.reference.opacity }} />
+        )}
         {drawn.regions.map((region) => {
           const place = placedAt(region.id, region.box);
           return place === null ? null : (

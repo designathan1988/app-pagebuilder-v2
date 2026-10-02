@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "language": "en",
+  "codeLanguage": "en",
+  "pages": [
+    {
+      "id": "w1",
+      "name": "Home",
+      "file": "index.html",
+      "tree": {
+        "id": "w2",
+        "type": "page",
+        "name": "Page",
+        "tag": "body",
+        "attributes": {},
+        "classes": [],
+        "styles": {},
+        "text": null,
+        "children": []
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "img/wireframe.png",
+      "type": "image/png",
+      "bytes": "iVBORw0KGgoAAAANSUhEUgAAAKAAAABkCAAAAAAk3WRTAAAAb0lEQVR42u3aMQ4AIAgDQJ7j/z+oo6uLpNHrTnJbA6FmeAoQEPAR4IgLICAgICAgICAgIOBPQFsdICAgIGDndWvPh3YxICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4BHQ5xEgIOClLKaasn6Ach23AAAAAElFTkSuQmCC",
+      "width": 160,
+      "height": 100
+    }
+  ]
+}

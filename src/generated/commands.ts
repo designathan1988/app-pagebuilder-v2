@@ -165,6 +165,11 @@ export interface CommandArgs {
   "layout.configure": { readonly field: "name" | "semantic" | "width" | "height" | "padding" | "alignment" | "distribution"; readonly value: string };
   "layout.interpret": { readonly strategy: "auto" | "grid" | "flex" | "fixed" | "proportional" | "masonry" };
   "layout.respond": { readonly edit: "stack" | "unstack" | "columns" | "hide" | "show"; readonly value?: string };
+  "layout.unrelate": { readonly constraint: string };
+  "layout.suggest": { readonly suggestion: string };
+  "layout.template": { readonly template: "dashboard" | "landing" | "sidebar" | "article" | "gallery" };
+  "layout.reference": { readonly file?: string; readonly opacity?: string };
+  "layout.trace": { readonly luminance?: JsonValue };
   "layers.startRename": Record<string, never>;
   "layers.cancelRename": Record<string, never>;
   "element.rename": { readonly target: NodeId; readonly name: string };
@@ -521,5 +526,5 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "layout-actions": ["element.wrapContainer","element.wrapGrid","element.swapDirection","element.stackOnPhone","element.organize","element.setDivider"],
   "canvas-grid-editor": ["grid.enterEdit","grid.exitEdit","grid.addTrack","grid.removeTrack","grid.spanItem","grid.mergeCells","grid.splitCells","style.setGridTracks"],
   "assistant-chat": ["assistant.setModel","assistant.setPreferences","assistant.attachReference","assistant.clearReference","assistant.editKey","assistant.send","assistant.cancel","assistant.connect","assistant.disconnect","assistant.saveKey","assistant.deleteKey","assistant.selectSession","assistant.clearConversation","assistant.update","workspace.setPanelOpen"],
-  "layout-composer": ["layout.enter","layout.leave","layout.stroke","layout.select","layout.delete","layout.view","layout.configure","layout.interpret","layout.respond","workspace.setPanelOpen"],
+  "layout-composer": ["layout.enter","layout.leave","layout.stroke","layout.select","layout.delete","layout.view","layout.configure","layout.interpret","layout.respond","layout.unrelate","layout.suggest","layout.template","layout.reference","layout.trace","workspace.setPanelOpen"],
 };

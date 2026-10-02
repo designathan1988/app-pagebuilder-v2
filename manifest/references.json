@@ -2004,6 +2004,31 @@
       "kind": "handler",
       "id": "layout.respond",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.unrelate",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.suggest",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.template",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.reference",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.trace",
+      "status": "registered"
     }
   ]
 }

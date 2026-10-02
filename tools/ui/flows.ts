@@ -59,6 +59,44 @@ const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as cons
 
 export const FLOWS: readonly Flow[] = [
   {
+    name: 'layout-composer-tools',
+    about: 'trace a wireframe image into regions, relate them with a rule, remove it, and place a template',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/layout-wireframe.json'] } },
+      { door: 'workspace.setPanelOpen#toolbar-activity-bar-layout-composer' },
+      { door: 'layout.enter#layout-compose' },
+      { click: `[data-door="layout.reference#layout-reference"][data-args='{"file":"img/wireframe.png"}']` },
+      { photo: 'reference-under-the-stage' },
+      { door: 'layout.trace#layout-trace' },
+      { wait: 400 },
+      { photo: 'traced-regions' },
+      { click: `[data-door="layout.view#layout-tool"][data-args='{"tool":"relate"}']` },
+      { stroke: { at: '[data-layout-stage]', points: [[0.2, 0.6], [0.5, 0.6], [0.8, 0.6]] } },
+      { photo: 'rule-painted' },
+      { door: 'layout.unrelate#layout-unrelate' },
+      { photo: 'rule-removed' },
+      { door: 'layout.reference#layout-reference-clear' },
+      { key: 'Control+z' },
+      { key: 'Control+z' },
+      { key: 'Control+z' },
+      { photo: 'back-to-the-reference' },
+    ],
+  },
+  {
+    name: 'layout-composer-template',
+    about: 'place the dashboard template on an empty page and check the widths',
+    steps: [
+      { door: 'workspace.setPanelOpen#toolbar-activity-bar-layout-composer' },
+      { door: 'layout.enter#layout-compose' },
+      { click: `[data-door="layout.template#layout-template"][data-args='{"template":"dashboard"}']` },
+      { photo: 'dashboard-placed' },
+      { door: 'view.setBreakpoint#toolbar-breakpoint-tabs-phone' },
+      { door: 'layout.respond#layout-stack' },
+      { photo: 'dashboard-on-a-phone' },
+    ],
+  },
+  {
     name: 'layout-composer-properties',
     about: 'set what regions mean and how they size, then say what changes on a tablet and a phone',
     steps: [

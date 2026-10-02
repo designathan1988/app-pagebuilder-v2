@@ -223,3 +223,17 @@
   flex-wrap: wrap;
   gap: var(--space-4);
 }
+
+.layout-panel__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+/* the reference image under the regions, at its opacity; it takes no press */
+.layout-composer__reference {
+  position: absolute;
+  pointer-events: none;
+  object-fit: fill;
+}

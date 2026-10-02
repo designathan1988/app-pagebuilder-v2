@@ -1398,6 +1398,13 @@
       "unit": "css-px",
       "source": "spec/BEHAVIOUR.md#layout-composer",
       "note": "The height a container the page draws shorter than this is composed in, so an empty section has room to draw in. The page's root is composed at least as tall as the breakpoint's screen."
+    },
+    {
+      "id": "layout.referenceOpacity",
+      "value": 0.5,
+      "unit": "fraction",
+      "source": "spec/BEHAVIOUR.md#layout-composer",
+      "note": "How strongly a reference image shows under the regions when it is chosen; the panel's opacity field changes it."
     }
   ],
   "gestures": [

@@ -3,22 +3,26 @@
 // (layout.view), the selected regions' properties (layout.configure, spec "Intent Inspector"), how the group is
 // arranged (layout.interpret), what changes at the screen size the canvas shows (layout.respond), delete and Done.
 // Every control is the door the manifest declares; nothing here changes state but through them.
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, type ReactNode } from 'react';
 import { locate } from '../../../core/document/model.ts';
 import type { DispatchResult } from '../../../core/store/store.ts';
 import type { CommandId, MessageId } from '../../../generated/ids.ts';
 import { manifest, type DoorEntry } from '../../../manifest/runtime.ts';
-import { DoorControl, useDoor } from '../../../editor/doors/door.tsx';
+import { DoorControl, Icon, useDoor } from '../../../editor/doors/door.tsx';
 import { markFieldKept, recordFieldInput } from '../../../editor/input/drafts.ts';
 import { useEditorState, useStore } from '../../../editor/store.ts';
 import { useT } from '../../../editor/text.ts';
-import { activeBreakpoint } from '../../../editor/view/breakpoints.ts';
+import { BREAKPOINTS, activeBreakpoint } from '../../../editor/view/breakpoints.ts';
+import { imageFiles } from '../../../core/files/files.ts';
+import type { DocumentJson, ProjectFile } from '../../../core/document/model.ts';
 import { STROKE_MODES } from '../gestures/recognize.ts';
-import { predict } from '../intent/analysis.ts';
-import { ALIGNMENTS, DISTRIBUTIONS, SEMANTICS, SIZINGS, childrenOf, findRegion, preferenceKey, type Region } from '../intent/model.ts';
+import { predict, stress, stressWidths, suggestions, type Suggestion } from '../intent/analysis.ts';
+import { BUILT_IN_TEMPLATES } from '../intent/templates.ts';
+import { luminanceOf } from '../interaction/luminance.ts';
+import { ALIGNMENTS, DISTRIBUTIONS, SEMANTICS, SIZINGS, childrenOf, findRegion, preferenceKey, type LayoutIntent, type Region } from '../intent/model.ts';
 import { recordOf } from '../host/record.ts';
 import { composerOf } from '../host/state.ts';
-import { LENSES } from './scene.ts';
+import { LENSES, describeConstraint } from './scene.ts';
 import './composer.css';
 
 const control = (name: string): DoorEntry | undefined => manifest.doors.find((d) => d.door.kind === 'panel-control' && d.door.panel === 'layout-composer' && d.door.control === name);
@@ -37,9 +41,49 @@ const STRATEGY = control('layout-strategy');
 const RESPONDS = ['layout-stack', 'layout-unstack', 'layout-hide', 'layout-show'].map(control).filter((d): d is DoorEntry => d !== undefined);
 const COLUMNS = control('layout-columns');
 const STRATEGIES = ['auto', 'grid', 'flex', 'fixed', 'proportional', 'masonry'] as const;
+const UNRELATE = control('layout-unrelate');
+const SUGGEST = control('layout-suggest');
+const TEMPLATE = control('layout-template');
+const REFERENCE = control('layout-reference');
+const REFERENCE_OPACITY = control('layout-reference-opacity');
+const REFERENCE_CLEAR = control('layout-reference-clear');
+const TRACE = control('layout-trace');
+// the argument the opacity field writes: the reference command's one argument besides its file
+const OPACITY_ARG = Object.keys(REFERENCE_OPACITY?.command.args ?? {}).find((name) => name !== 'file') ?? '';
+// the narrowest width the widths check measures down to: the narrowest phone a page is made for
+const NARROWEST = 320;
+
+// A suggestion in words (spec "Structural Suggestions").
+function suggestionWords(t: ReturnType<typeof useT>, graph: LayoutIntent, s: Suggestion): string {
+  if (s.kind === 'repeat') return t('layout.suggestion.repeat', { count: s.regions.length });
+  if (s.kind === 'equal-gap') return t('layout.suggestion.equal-gap', { gap: Math.round(s.evidence.reduce((a, g) => a + g, 0) / Math.max(1, s.evidence.length)) });
+  return t('layout.suggestion.remove-wrapper', { name: findRegion(graph, s.regions[0] ?? '')?.name ?? '' });
+}
+
+// Trace regions from the image: the panel reads the reference's luminance (interaction/luminance.ts), then runs the
+// door with it; an image the browser cannot decode is handed as nothing, and the command says so.
+function TraceButton({ entry, file }: { readonly entry: DoorEntry; readonly file: ProjectFile | null }) {
+  const store = useStore();
+  const door = useDoor(entry, {});
+  const dispatch = (luminance: unknown) => (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(entry.command.id, { ...entry.door.args, luminance });
+  const run = () => {
+    if (!door.available || file === null) {
+      door.run();
+      return;
+    }
+    void luminanceOf(file).then(dispatch, () => dispatch(null));
+  };
+  return (
+    <button type="button" className={`door door--button${door.available ? '' : ' is-unavailable'}`} data-door={entry.ref} title={door.title} aria-disabled={door.available ? undefined : true} onClick={run}>
+      {entry.door.icon === null ? null : <Icon name={entry.door.icon} size="sm" />}
+      <span className="door__label">{door.face}</span>
+    </button>
+  );
+}
+
 
 // A text field of a door: what it holds is kept on Enter or when the focus leaves it, as its command's `value`.
-function DoorField({ entry, value, type = 'text' }: { readonly entry: DoorEntry; readonly value: string; readonly type?: 'text' | 'number' }) {
+function DoorField({ entry, value, type = 'text', arg = 'value' }: { readonly entry: DoorEntry; readonly value: string; readonly type?: 'text' | 'number'; readonly arg?: string }) {
   const store = useStore();
   const t = useT();
   const field = useRef<HTMLInputElement>(null);
@@ -54,7 +98,7 @@ function DoorField({ entry, value, type = 'text' }: { readonly entry: DoorEntry;
   const keep = () => {
     const input = field.current;
     if (input === null || !door.available || input.value === (input.dataset.shown ?? value)) return;
-    (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(entry.command.id, { ...entry.door.args, value: input.value });
+    (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(entry.command.id, { ...entry.door.args, [arg]: input.value });
     markFieldKept(input, input.value);
   };
   return (
@@ -105,6 +149,9 @@ export function LayoutPanel(): ReactNode {
   const composer = useEditorState((s) => composerOf(s.ui));
   const container = useEditorState((s) => (composer === null ? null : (locate(s.document, composer.target)?.node ?? null)));
   const breakpoint = useEditorState((s) => activeBreakpoint(s.ui));
+  // the project's images: read from the files list the document holds, so the panel redraws only when it changes
+  const files = useEditorState((s) => s.document.files);
+  const images = useMemo(() => imageFiles({ files } as DocumentJson), [files]);
   const record = container === null ? null : recordOf(container);
   if (composer === null || container === null || record === null) {
     return (
@@ -122,6 +169,12 @@ export function LayoutPanel(): ReactNode {
   const groupName = group === null ? container.name : (findRegion(record.intent, group)?.name ?? container.name);
   const prediction = predict(record.intent, group);
   const strategy = record.intent.preferences?.[preferenceKey(group)] ?? 'auto';
+  const offered = suggestions(record.intent);
+  const reference = record.intent.reference;
+  // the widths check (spec "Layout Stress Testing"): the widest width at which a fixed region no longer fits
+  const widths = stressWidths(record.intent.viewport.width, BREAKPOINTS.map((b) => b.width), NARROWEST);
+  const issues = stress(record.intent, widths.map((width) => ({ width, scale: 1, content: {} })));
+  const breaking = issues.length === 0 ? null : issues.reduce((a, b) => (b.viewport > a.viewport ? b : a));
   return (
     <section className="view layout-panel" data-region="layout-composer-panel" aria-label={t('panel.layoutComposer')}>
       <div className="view__title">{t('layout.panel.container', { name: container.name })}</div>
@@ -156,7 +209,66 @@ export function LayoutPanel(): ReactNode {
           </>
         )}
       </section>
+      <section className="layout-panel__section" aria-label={t('layout.panel.rules')}>
+        <span className="layout-panel__heading">{t('layout.panel.rules')}</span>
+        {record.intent.constraints.length === 0 ? <p className="layout-panel__text">{t('layout.panel.noRules')}</p> : null}
+        {record.intent.constraints.map((c) => {
+          const words = describeConstraint(record.intent, c);
+          return (
+            <div key={c.id} className="layout-panel__item" data-layout-constraint={c.id}>
+              <span className="layout-panel__text">{t(words.key as MessageId, words.params)}</span>
+              {UNRELATE === undefined ? null : <DoorControl entry={UNRELATE} args={{ constraint: c.id }} />}
+            </div>
+          );
+        })}
+      </section>
+      {offered.length === 0 || SUGGEST === undefined ? null : (
+        <section className="layout-panel__section" aria-label={t('layout.panel.suggestions')}>
+          <span className="layout-panel__heading">{t('layout.panel.suggestions')}</span>
+          {offered.map((s) => (
+            <div key={s.id} className="layout-panel__item" data-layout-suggestion={s.id}>
+              <span className="layout-panel__text">{suggestionWords(t, record.intent, s)}</span>
+              <DoorControl entry={SUGGEST} args={{ suggestion: s.id }} />
+            </div>
+          ))}
+        </section>
+      )}
+      {TEMPLATE === undefined ? null : (
+        <section className="layout-panel__section" aria-label={t('layout.panel.templates')}>
+          <Segments entry={TEMPLATE} values={BUILT_IN_TEMPLATES} current={null} words={(v) => t(`layout.template.${v}` as MessageId)} arg="template" />
+        </section>
+      )}
+      {REFERENCE === undefined ? null : (
+        <section className="layout-panel__section" aria-label={t('layout.panel.reference')}>
+          {images.length === 0 ? (
+            <>
+              <span className="layout-panel__heading">{t('layout.panel.reference')}</span>
+              <p className="layout-panel__text">{t('layout.panel.noImages')}</p>
+            </>
+          ) : (
+            <Segments entry={REFERENCE} values={images.map((f) => f.path)} current={reference?.file ?? null} words={(v) => v.slice(v.lastIndexOf('/') + 1)} arg="file" />
+          )}
+          {reference === undefined ? null : (
+            <>
+              {REFERENCE_OPACITY === undefined ? null : <DoorField entry={REFERENCE_OPACITY} value={String(Math.round(reference.opacity * 100))} type="number" arg={OPACITY_ARG} />}
+              <div className="layout-panel__actions">
+                {TRACE === undefined ? null : <TraceButton entry={TRACE} file={images.find((f) => f.path === reference.file) ?? null} />}
+                {REFERENCE_CLEAR === undefined ? null : <DoorControl entry={REFERENCE_CLEAR} />}
+              </div>
+            </>
+          )}
+        </section>
+      )}
+      <section className="layout-panel__section" aria-label={t('layout.panel.widths')}>
+        <span className="layout-panel__heading">{t('layout.panel.widths')}</span>
+        <p className="layout-panel__text" data-layout-widths={breaking === null ? 'holds' : 'breaks'}>
+          {breaking === null
+            ? t('layout.panel.holds', { widest: Math.round(record.intent.viewport.width), narrowest: NARROWEST })
+            : t('layout.panel.breaks', { width: breaking.viewport, region: findRegion(record.intent, breaking.region)?.name ?? breaking.region, required: Math.round(breaking.required), available: Math.round(breaking.available) })}
+        </p>
+      </section>
       <p className="layout-panel__text">{t('layout.panel.help')}</p>
+
       <div className="layout-panel__actions">
         {DELETE === undefined ? null : <DoorControl entry={DELETE} />}
         {DONE === undefined ? null : <DoorControl entry={DONE} />}

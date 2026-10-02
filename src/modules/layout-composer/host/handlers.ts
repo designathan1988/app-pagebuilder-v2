@@ -17,7 +17,11 @@ import { propertyVocabulary } from '../adapters/properties.ts';
 import { compile, type CompilerPorts } from '../compiler/compile.ts';
 import { execute, type Naming, type Operation, type RegionValues } from '../gestures/operations.ts';
 import { handleOf, readStroke, type StrokeMode } from '../gestures/recognize.ts';
-import { nextSelection, type SelectionMode } from '../gestures/structural.ts';
+import { acceptSuggestion, nextSelection, type SelectionMode } from '../gestures/structural.ts';
+import { suggestions } from '../intent/analysis.ts';
+import { builtInTemplate, placeTemplate, type BuiltInTemplate } from '../intent/templates.ts';
+import { traceBlocks, traceRegions, type Luminance } from '../adapters/reference.ts';
+import { imageFiles } from '../../../core/files/files.ts';
 import { nextRegionId } from '../intent/ids.ts';
 import { ALIGNMENTS, DISTRIBUTIONS, SEMANTICS, SIZINGS, childrenOf, emptyIntent, findRegion, region as newRegion, type LayoutIntent, type LayoutStrategy, type Point, type Region } from '../intent/model.ts';
 import { LayoutRefusal, problemKey, type LayoutProblem } from '../intent/problems.ts';
@@ -34,6 +38,8 @@ type Context = HandlerContext<EditorUi>;
 const HIT_RADIUS = numberConstant('layout.hitRadius');
 // the height an empty container is composed in (interactions.json layout.emptyHeight)
 const EMPTY_HEIGHT = numberConstant('layout.emptyHeight');
+// how strongly a reference image shows under the regions when it is chosen (interactions.json layout.referenceOpacity)
+const REFERENCE_OPACITY = numberConstant('layout.referenceOpacity');
 
 const COMPILER: CompilerPorts = {
   tracks: tracksToValue,
@@ -349,6 +355,93 @@ export const respondLayout = registerHandler<'layout.respond', EditorUi>('layout
     }
     const outcome = operate(context, responsiveEdit(record.intent, breakpoint.width, change));
     return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.responded', { breakpoint: context.words(breakpoint.labelKey as MessageId) }) } : outcome;
+  }),
+);
+
+// layout.unrelate: a rule between regions goes (spec "Constraint Painting"); the regions keep where they are.
+export const unrelateLayout = registerHandler<'layout.unrelate', EditorUi>('layout.unrelate', (context, { constraint }) =>
+  guarded(context, () => {
+    const { record } = composed(context);
+    if (!record.intent.constraints.some((c) => c.id === constraint)) throw new LayoutRefusal('orphan-constraint', { constraint });
+    const outcome = operate(context, { kind: 'remove-constraint', id: constraint });
+    return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.unrelated') } : outcome;
+  }),
+);
+
+// layout.suggest: a suggestion the layout offers on strong evidence (spec "Structural Suggestions"), accepted.
+export const suggestLayout = registerHandler<'layout.suggest', EditorUi>('layout.suggest', (context, { suggestion }) =>
+  guarded(context, () => {
+    const { record } = composed(context);
+    const found = suggestions(record.intent).find((s) => s.id === suggestion);
+    if (found === undefined) throw new LayoutRefusal('unknown-region', { region: suggestion });
+    const outcome = operate(context, acceptSuggestion(record.intent, found));
+    return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.suggested') } : outcome;
+  }),
+);
+
+// layout.template: a built-in structure placed (spec "Layout templates"): inside the one selected region that holds
+// nothing, else over the whole container while it holds no region; it is scaled to that box.
+export const templateLayout = registerHandler<'layout.template', EditorUi>('layout.template', (context, { template }) =>
+  guarded(context, () => {
+    const { state, record } = composed(context);
+    const words = (key: string) => context.words(key as MessageId);
+    const made = builtInTemplate(template as BuiltInTemplate, words);
+    const one = state.selection.length === 1 ? findRegion(record.intent, state.selection[0] as string) : undefined;
+    const target =
+      one !== undefined && one.kind !== 'content' && childrenOf(record.intent, one.id).length === 0
+        ? { parent: one.id, box: one.box }
+        : record.intent.regions.length === 0
+          ? { parent: null, box: record.intent.viewport }
+          : null;
+    if (target === null) throw new LayoutRefusal('template', { name: made.name });
+    const outcome = operate(context, placeTemplate(record.intent, made, target, {}, naming(context)), []);
+    return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.templated', { template: made.name }) } : outcome;
+  }),
+);
+
+// layout.reference: an image of the project under the composition to trace a design from (spec, bet F), at an
+// opacity; an empty file takes it away. The image stays a project file: the layout keeps its path.
+export const referenceLayout = registerHandler<'layout.reference', EditorUi>('layout.reference', (context, { file, opacity }) =>
+  guarded(context, () => {
+    const { record } = composed(context);
+    const held = record.intent.reference;
+    if (file === '') {
+      if (held === undefined) throw new LayoutRefusal('no-reference');
+      const outcome = operate(context, { kind: 'reference', reference: null });
+      return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.unreferenced') } : outcome;
+    }
+    const path = file ?? held?.file;
+    if (path === undefined) throw new LayoutRefusal('no-reference');
+    if (!imageFiles(context.state.document).some((f) => f.path === path)) throw new LayoutRefusal('reference');
+    let alpha = held?.opacity ?? REFERENCE_OPACITY;
+    if (opacity !== undefined) {
+      const percent = Number(opacity);
+      if (!Number.isFinite(percent) || percent < 0 || percent > 100) throw new LayoutRefusal('value', { value: opacity, property: context.words('layout.door.referenceOpacity' as MessageId) });
+      alpha = percent / 100;
+    }
+    const outcome = operate(context, { kind: 'reference', reference: { file: path, box: held?.box ?? record.intent.viewport, opacity: alpha, locked: true } });
+    return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.referenced', { file: path }) } : outcome;
+  }),
+);
+
+const isLuminance = (value: unknown): value is Luminance => {
+  if (typeof value !== 'object' || value === null) return false;
+  const { width, height, values } = value as Luminance;
+  return Number.isInteger(width) && Number.isInteger(height) && width > 0 && height > 0 && Array.isArray(values) && values.length === width * height && values.every((v) => typeof v === 'number' && v >= 0 && v <= 1);
+};
+
+// layout.trace: the blocks of the reference image drawn as regions over it (spec, bet F). The panel hands the image's
+// luminance, read where the editor can decode it; the blocks and the regions are the engine's.
+export const traceLayout = registerHandler<'layout.trace', EditorUi>('layout.trace', (context, { luminance }) =>
+  guarded(context, () => {
+    const { record } = composed(context);
+    const held = record.intent.reference;
+    if (held === undefined) throw new LayoutRefusal('no-reference');
+    if (!isLuminance(luminance)) throw new LayoutRefusal('trace-reading');
+    const blocks = traceBlocks(luminance);
+    const operation = traceRegions(record.intent, blocks, luminance, held.box, naming(context));
+    const outcome = operate(context, operation, []);
+    return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.traced', { count: blocks.length }) } : outcome;
   }),
 );
 

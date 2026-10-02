@@ -62,7 +62,10 @@ export type ProblemCode =
   | 'declaration'
   // a property the person set: a page element keeps its own tag; a value that is not one of the property's
   | 'content-semantic'
-  | 'value';
+  | 'value'
+  // the reference image: none chosen yet, or one the editor could not read
+  | 'no-reference'
+  | 'trace-reading';
 
 export interface LayoutProblem {
   readonly code: ProblemCode;
