@@ -3,6 +3,7 @@ import { setAssistantModel, setAssistantPreferences, attachAssistantReference, c
 // its feature is not built (its doors are drawn disabled with "not available yet"). CommandTable has a key for every
 // CommandId (src/generated/ids.ts), so a missing or an extra entry, or a handler under another command's key, is a
 // type error (src/app/commands.typecheck.ts proves it). The order is the manifest's.
+import { MODULE_COMMANDS, MODULE_PREDICATES } from './modules.ts';
 import { always, type CommandTable, type PredicateTable } from '../core/commands/registry.ts';
 import { setLinkCommand } from '../core/elements/link.ts';
 import { createFileCommand, createFolderCommand, deleteFileCommand, moveFileCommand, renameFileCommand, saveFileContentCommand, uploadCommand } from '../core/files/files.ts';
@@ -407,7 +408,9 @@ export const COMMANDS = {
   'codePanel.setPane': setPane,
   'codePanel.copyPane': copyPane,
   'codePanel.downloadPane': downloadPane,
+  // the commands of the installed modules (app/modules.ts)
+  ...MODULE_COMMANDS,
 } as const satisfies CommandTable<EditorUi>;
 
 // The availability predicates code has registered; a built command's predicate must be here (createStore checks it).
-export const PREDICATES = { always, canUndo, canRedo, hasSelection, targetOrSelection, singleSelection, singleTextSelection, canUnwrap, canNestIntoPrevious, cellSelected, inTable, hasNaturalChild, flexOrGridContainer, instanceSelected, positionedSelection, distributableSelection, editableSelection, organizableSelection, divideableSelection } as const satisfies PredicateTable<EditorUi>;
+export const PREDICATES = { always, canUndo, canRedo, hasSelection, targetOrSelection, singleSelection, singleTextSelection, canUnwrap, canNestIntoPrevious, cellSelected, inTable, hasNaturalChild, flexOrGridContainer, instanceSelected, positionedSelection, distributableSelection, editableSelection, organizableSelection, divideableSelection, ...MODULE_PREDICATES } as const satisfies PredicateTable<EditorUi>;

@@ -1,0 +1,101 @@
+// The Layout Composer's canvas tool (editor/input/canvas-tools.ts): while a container is composed, a primary press on
+// its stage (ui/overlay.tsx, [data-layout-stage]) is the composer's. The press, its moves and its release are read in
+// the container's own px (the stage's screen box over the intent's viewport); the moves only draw the preview
+// (preview.ts); the release dispatches the one door it means through the gesture the pointer owner opened, so it is
+// one undo step:
+//  - a press and release in place, on no handle: a click — layout.select (layout-region, -add with Shift, -cycle
+//    with Alt) on the deepest region under it, or the empty selection;
+//  - a drag from a handle ([data-layout-handle]): layout.stroke with the handle (layout-boundary, -gap, -repeat,
+//    -vertex);
+//  - any other drag: layout.stroke (layout-stage) with the tool's mode, or the mode the key held gives (Shift merges,
+//    Alt subtracts, Ctrl cuts: interactions.json layout-stroke).
+import { locate } from '../../../core/document/model.ts';
+import type { Gesture } from '../../../core/store/store.ts';
+import type { CommandId, KeyContextId, MessageId } from '../../../generated/ids.ts';
+import { manifest, numberConstant } from '../../../manifest/runtime.ts';
+import { textOf } from '../../../editor/text.ts';
+import type { CanvasTool, ToolPoint, ToolSession } from '../../../editor/input/canvas-tools.ts';
+import { hitRegions } from '../geometry/geometry.ts';
+import { handleOf, readStroke, type StrokeMode } from '../gestures/recognize.ts';
+import { cycleSelection } from '../gestures/structural.ts';
+import type { Point } from '../intent/model.ts';
+import { hitRadius, namingWith } from '../host/handlers.ts';
+import { recordOf } from '../host/record.ts';
+import { composerOf } from '../host/state.ts';
+import { preview } from './preview.ts';
+
+// a press that travels less than this (screen px) is a click: the drag threshold the editor's drags share
+const CLICK_TRAVEL = numberConstant('drag.threshold');
+
+// the meanings of the keys held during a stroke, from the gesture (interactions.json layout-stroke)
+const STROKE_KEYS: Readonly<Record<string, StrokeMode>> = { 'merge-swept-regions': 'merge', 'subtract-dragged-box': 'subtract', 'cut-along-stroke': 'cut' };
+const KEYED = Object.fromEntries((manifest.interactions.gestures.find((g) => g.id === 'layout-stroke')?.modifiers ?? []).map((m) => [m.key, STROKE_KEYS[m.meaning]])) as Readonly<Record<string, StrokeMode | undefined>>;
+
+// the commands a click and a stroke run: the doors' own (manifest/commands/layout-composer.json)
+const commandOf = (find: (entry: (typeof manifest.doors)[number]) => boolean): CommandId => (manifest.doors.find(find)?.command.id ?? '') as CommandId;
+const SELECT = commandOf((d) => d.door.kind === 'canvas-click' && d.door.gesture === 'layout-click');
+const STROKE = commandOf((d) => d.door.kind === 'canvas-drag' && d.door.gesture === 'layout-stroke');
+
+// The mode a stroke is read in: the key held, else the tool chosen.
+function modeOf(at: ToolPoint, tool: StrokeMode): StrokeMode {
+  if (at.shift && KEYED.Shift !== undefined) return KEYED.Shift;
+  if (at.alt && KEYED.Alt !== undefined) return KEYED.Alt;
+  if (at.ctrl && KEYED.Ctrl !== undefined) return KEYED.Ctrl;
+  return tool;
+}
+
+// A point of the stroke on the container's whole px (regions are drawn on the pixel grid): what the command receives
+// is what the preview read.
+const rounded = (p: Point): Point => ({ x: Math.round(p.x), y: Math.round(p.y) });
+
+// the composer's own key context (interactions.json): Escape leaves it, Delete deletes the selected regions
+const KEY_CONTEXT = 'layout-composer' as KeyContextId;
+
+export const layoutTool: CanvasTool = {
+  id: 'layout-composer',
+  keyContext: (ui) => (composerOf(ui) === null ? null : KEY_CONTEXT),
+  press(at, target, state): ToolSession | null {
+    const composer = composerOf(state.ui);
+    if (composer === null) return null;
+    const stage = target.closest<HTMLElement>('[data-layout-stage]');
+    if (stage === null) return null;
+    const container = locate(state.document, composer.target)?.node;
+    const record = container === undefined ? null : recordOf(container);
+    if (record === null) return null;
+    const box = stage.getBoundingClientRect();
+    const scale = box.width / record.intent.viewport.width;
+    if (!(scale > 0)) return null;
+    const local = (p: ToolPoint): Point => rounded({ x: (p.x - box.left) / scale, y: (p.y - box.top) / scale });
+    const handleText = target.closest('[data-layout-handle]')?.getAttribute('data-layout-handle') ?? null;
+    const handle = handleText === null ? null : handleOf(handleText);
+    const locale = state.ui.preferences.locale;
+    const naming = namingWith((key, params) => textOf(locale, key as MessageId, params));
+    const radius = hitRadius(state.ui);
+    const points: Point[] = [local(at)];
+    let travelled = false;
+    const read = (mode: StrokeMode) => readStroke(record.intent, { points, mode, handle, radius }, naming);
+    return {
+      move(next) {
+        if (!travelled && Math.hypot(next.x - at.x, next.y - at.y) < CLICK_TRAVEL) return;
+        travelled = true;
+        points.push(local(next));
+        preview.set({ points: [...points], reading: read(handle === null ? modeOf(next, composer.tool) : 'auto') });
+      },
+      release(next: ToolPoint, gesture: Gesture) {
+        preview.set(null);
+        if (!travelled && handle === null) {
+          const point = points[0] as Point;
+          const mode = next.alt ? 'cycle' : next.shift ? 'add' : 'replace';
+          const picked = mode === 'cycle' ? cycleSelection(record.intent, point, composer.selection.at(-1) ?? null) : (hitRegions(record.intent.regions, point)[0]?.id ?? null);
+          gesture.dispatch(SELECT as never, { regions: picked === null ? [] : [picked], mode } as never);
+          return;
+        }
+        if (travelled) points.push(local(next));
+        gesture.dispatch(STROKE as never, { mode: handle === null ? modeOf(next, composer.tool) : 'auto', points: [...points], ...(handleText === null ? {} : { handle: handleText }) } as never);
+      },
+      cancel() {
+        preview.set(null);
+      },
+    };
+  },
+};

@@ -21,7 +21,8 @@
             "shortcuts",
             "document",
             "canvas-tools",
-            "assistant"
+            "assistant",
+            "layout-composer"
           ],
           "optional": false
         },
@@ -579,6 +580,31 @@
           },
           "args": {
             "panel": "assistant",
+            "open": "open"
+          }
+        },
+        {
+          "id": "toolbar-activity-bar-layout-composer",
+          "kind": "toolbar",
+          "drawnAs": "icon-button",
+          "pressed": true,
+          "feature": "layout-composer",
+          "labelKey": "panel.layoutComposer",
+          "faceLabelKey": null,
+          "icon": "layout-freeform",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "activity-bar",
+            "order": 21
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "panel": "layout-composer",
             "open": "open"
           }
         }

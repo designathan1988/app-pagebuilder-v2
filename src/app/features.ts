@@ -9,6 +9,8 @@ import type { FeatureId } from '../generated/ids.ts';
 
 export const FEATURES = {
   'assistant-chat': registerFeature('assistant-chat'),
+  // 23 the Layout Composer, a removable module (src/modules/layout-composer, installed by app/modules.ts)
+  'layout-composer': registerFeature('layout-composer'),
   // 01 foundation
   'editor-shell': registerFeature('editor-shell'),
   'canvas-page-iframe': registerFeature('canvas-page-iframe'),

@@ -1,3 +1,4 @@
+import { installModuleTools } from '../../app/modules-view.ts';
 import { HtmlImportDialog } from './html-import.tsx';
 // The shell regions (ARCHITECTURE.md): the window grid of DESIGN.md "The window", with the top bar, the activity
 // bar and the sidebar, the centre column, the inspector, the dock and the status bar. The sidebar, the inspector and
@@ -111,6 +112,8 @@ export function Shell() {
   useProjectFontsOnDocument();
   useEffect(() => installKeymap(store), [store]);
   useEffect(() => installPointer(store), [store]);
+  // the canvas tools of the installed modules (app/modules-view.ts), asked first by the pointer owner
+  useEffect(() => installModuleTools(), []);
   // an image file dragged in from the operating system: here for the editor's window (the canvas and the Explorer's
   // folder drop), in canvas/frame.tsx for the frame's own
   useEffect(() => installOsFileDrop(store, window, false), [store]);

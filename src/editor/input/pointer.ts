@@ -65,6 +65,7 @@ import { drawnProposal, liveDrag } from '../drag/drag-session.ts';
 import { rowDrop, SIDE_DWELL, type DropProposal, type SideOffer } from '../drag/drop.ts';
 import { elementPredicate } from '../../core/style/applies.ts';
 import { MODEL_RULES, type EditorStore } from '../store.ts';
+import { toolPoint, toolPress, type ToolSession } from './canvas-tools.ts';
 import { SPLITTERS, splitterSize, type SplitterId } from '../workspace/layout.ts';
 import { typedBand } from '../canvas/band-typing.ts';
 import { SHADOW_EDITS } from '../canvas/handles.ts';
@@ -1340,7 +1341,19 @@ export function installPointer(store: EditorStore, target: Window = window): () 
   const underPointer = (event: PointerEvent): EventTarget | null => (captured === event.pointerId ? target.document.elementFromPoint(event.clientX, event.clientY) : event.target);
   // the gestures of a handle (a spacing band, a guide, a rotation, a resize), the pan and the colour pick: ended, their
   // open gesture cancelled
+  // a press a module's canvas tool took (canvas-tools.ts): its session, the pointer, the gesture opened at the press and
+  // the cancellations counted then (Escape, drag.cancel, ends it)
+  let tooling: { readonly session: ToolSession; readonly pointer: number; readonly gesture: Gesture; readonly cancels: number } | null = null;
+  const dropTool = () => {
+    if (tooling === null) return;
+    const { session, gesture } = tooling;
+    tooling = null;
+    if (open === gesture) open = null;
+    session.cancel();
+    gesture.cancel();
+  };
   const dropHandleGestures = () => {
+    dropTool();
     const opened = [spacing?.gesture, guiding?.gesture, rotating?.gesture, resizing?.gesture].filter((g): g is Gesture => g != null);
     const panned = panning !== null;
     spacing = null;
@@ -1361,10 +1374,21 @@ export function installPointer(store: EditorStore, target: Window = window): () 
   };
   const onDown = (event: PointerEvent) => {
     // a press or a gesture still open here lost its release: it ends before anything new begins
-    if (pointerPressing() || spacing !== null || guiding !== null || rotating !== null || resizing !== null || panning !== null || pickingColor !== null || sliding !== null) onCancel();
+    if (pointerPressing() || spacing !== null || guiding !== null || rotating !== null || resizing !== null || panning !== null || pickingColor !== null || sliding !== null || tooling !== null) onCancel();
     setPressing(true);
     setPressRegion(pressRegionOf(event.target));
     publishOutsidePress(event.target);
+    // a module's canvas tool (the Layout Composer's stage): a primary press on its surface, Space not held (a pan)
+    const tool = event.button === 0 && machine.phase === 'idle' && open === null && !spaceDown ? toolPress(toolPoint(event), event.target, store) : null;
+    if (tool !== null) {
+      event.preventDefault();
+      leaveField();
+      capture(event.pointerId);
+      const gesture = store.gesture();
+      open = gesture;
+      tooling = { session: tool, pointer: event.pointerId, gesture, cancels: store.getState().ui.drag.cancels };
+      return;
+    }
     // a slider a field draws (A3.30): the pointer moves the thumb freely, and only the release writes
     const commit = event.button === 0 && event.target instanceof HTMLInputElement && event.target.type === 'range' ? (SLIDER_COMMITS.get(event.target) ?? null) : null;
     if (commit !== null && event.target instanceof HTMLInputElement) {
@@ -1501,6 +1525,10 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     run(next.effect);
   };
   const onMove = (event: PointerEvent) => {
+    if (tooling !== null) {
+      if (event.pointerId === tooling.pointer) tooling.session.move(toolPoint(event));
+      return;
+    }
     if (pickingColor !== null) {
       if (event.pointerId === pickingColor.pointer) pickColor(pickingColor.area, event.clientX, event.clientY);
       return;
@@ -1697,6 +1725,16 @@ export function installPointer(store: EditorStore, target: Window = window): () 
       if (event.pointerId === pickingColor.pointer) pickingColor = null;
       return;
     }
+    // a canvas tool's release: what it means runs through the gesture opened at the press, one undo step
+    if (tooling !== null) {
+      if (event.pointerId !== tooling.pointer) return;
+      const { session, gesture } = tooling;
+      tooling = null;
+      if (open === gesture) open = null;
+      session.release(toolPoint(event), gesture);
+      gesture.commit();
+      return;
+    }
     if (spacing !== null) {
       if (event.pointerId !== spacing.pointer) return;
       const { gesture, entry, opposite, element } = spacing;
@@ -1874,6 +1912,11 @@ export function installPointer(store: EditorStore, target: Window = window): () 
   const stopPicker = store.subscribe(followPicker);
   const stopListening = store.subscribe(() => {
     if (session !== null) return;
+    // Escape during a canvas tool's press (drag.cancel): nothing it drew is kept
+    if (tooling !== null && store.getState().ui.drag.cancels !== tooling.cancels) {
+      queueMicrotask(dropTool);
+      return;
+    }
     // Escape during a band's drag (drag.cancel): the side goes back to where it was
     if (spacing?.gesture != null && store.getState().ui.drag.cancels !== spacing.cancels) {
       const cancelled = spacing.gesture;

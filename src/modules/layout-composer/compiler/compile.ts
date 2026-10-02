@@ -5,7 +5,7 @@
 // that keeps the nodes the page already has, then fewer wrappers and fewer declarations, so moving a divider 10px never
 // rebuilds half the page. The output is data: a tree of keyed nodes and their declarations by the manifest's property
 // ids, which the host turns into document nodes through the document's own owners (host/materialize.ts).
-import type { Axis, Dimension, LayoutIntent, LayoutValue, Region } from '../intent/model.ts';
+import type { Axis, Box, Dimension, LayoutIntent, LayoutValue, Region } from '../intent/model.ts';
 import { childrenOf, preferenceKey } from '../intent/model.ts';
 import { refuse } from '../intent/problems.ts';
 import { bounds, end, length, precision } from '../geometry/geometry.ts';
@@ -289,9 +289,19 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
     readonly children: CompiledNode[];
   }
 
+  // The room between a holder's edges and what it holds, as drawn (spec "Fluxo normal": what is drawn is what the page
+  // shows): its padding, side by side, unless the region declares its own. Nothing when the regions touch its edges.
+  const inset = (holder: Box, held: readonly Region[], declared: boolean): Declarations => {
+    if (declared || held.length === 0) return {};
+    const outer = bounds(held.map((r) => r.box));
+    const sides = [outer.y - holder.y, end(holder, 'x') - end(outer, 'x'), end(holder, 'y') - end(outer, 'y'), outer.x - holder.x].map((side) => Math.max(0, side));
+    return sides.every((side) => side < precision) ? {} : { padding: sides.map((side) => px(side)).join(' ') };
+  };
+
   const leaf = (r: Region): CompiledNode => {
     const inner = childrenOf(graph, r.id);
     const laid = inner.length > 0 ? group(inner, preferenceKey(r.id)) : null;
+    const room = inner.length > 0 && r.kind !== 'content' ? inset(r.box, inner, r.layout?.padding !== undefined) : {};
     return {
       key: r.id,
       region: r.id,
@@ -299,7 +309,7 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
       role: 'region',
       tag: r.kind === 'content' ? null : r.semantic,
       name: r.name,
-      styles: { ...ownStyles(r), ...(laid?.styles ?? {}) },
+      styles: { ...room, ...ownStyles(r), ...(laid?.styles ?? {}) },
       responsive: merge(ownResponsive(r), laid?.responsive ?? {}),
       children: laid?.children ?? [],
       provenance: r.provenance,
@@ -461,7 +471,7 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
 
   const roots = childrenOf(graph, null);
   const laid: Laid = roots.length === 0 ? { role: 'root', styles: {}, responsive: {}, children: [] } : group(roots, preferenceKey(null));
-  const root = materialize({ key: ROOT_NODE, region: null, content: false, role: 'root', tag: null, name: null, styles: laid.styles, responsive: laid.responsive, children: laid.children, provenance: [] }, true);
+  const root = materialize({ key: ROOT_NODE, region: null, content: false, role: 'root', tag: null, name: null, styles: { ...inset(graph.viewport, roots, false), ...laid.styles }, responsive: laid.responsive, children: laid.children, provenance: [] }, true);
   const breakpoints = [...graph.responsive.map((r) => ({ id: r.id, maxWidth: r.maxWidth })), ...(graph.morphs ?? []).flatMap((m) => m.points.slice(1, -1).map((p) => ({ id: morphSegmentId(m, p.width), maxWidth: p.width })))];
   const display = laid.styles.display;
   return { root, intent: graph, cost: cost(root, options.previous), strategy: display === 'flex' ? 'flex' : display === 'grid' ? 'grid' : 'flow', fingerprint: JSON.stringify(root), breakpoints };

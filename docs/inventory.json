@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 190,
-    "built": 189,
-    "commands": 278,
-    "doors": 1128,
-    "scenarios": 1455,
-    "modules": 317,
-    "lines": 57994
+    "features": 191,
+    "built": 190,
+    "commands": 284,
+    "doors": 1145,
+    "scenarios": 1469,
+    "modules": 331,
+    "lines": 59304
   },
   "features": [
     {
@@ -15,7 +15,7 @@
       "commands": [
         "workspace.setPanelOpen"
       ],
-      "doors": 21,
+      "doors": 22,
       "scenarios": 3,
       "modules": [
         "src/editor/workspace/panels.ts"
@@ -36,7 +36,7 @@
         "element.insert",
         "workspace.setPanelOpen"
       ],
-      "doors": 26,
+      "doors": 27,
       "scenarios": 6,
       "modules": [
         "src/core/structure/insert.ts",
@@ -64,7 +64,7 @@
         "layers.setExpanded",
         "workspace.setPanelOpen"
       ],
-      "doors": 29,
+      "doors": 30,
       "scenarios": 5,
       "modules": [
         "src/core/selection/selection.ts",
@@ -507,7 +507,7 @@
         "focus.nextMenu",
         "focus.previousMenu"
       ],
-      "doors": 105,
+      "doors": 106,
       "scenarios": 21,
       "modules": [
         "src/core/clipboard/clipboard.ts",
@@ -1164,7 +1164,7 @@
         "tokens.delete",
         "workspace.setPanelOpen"
       ],
-      "doors": 25,
+      "doors": 26,
       "scenarios": 11,
       "modules": [
         "src/core/design/tokens.ts",
@@ -1760,7 +1760,7 @@
         "view.toggleZones",
         "workspace.setPanelOpen"
       ],
-      "doors": 23,
+      "doors": 24,
       "scenarios": 3,
       "modules": [
         "src/editor/view/overlays.ts",
@@ -2013,7 +2013,7 @@
         "workspace.toggleInspector",
         "workspace.collapseDocks"
       ],
-      "doors": 27,
+      "doors": 28,
       "scenarios": 12,
       "modules": [
         "src/editor/workspace/panels.ts"
@@ -2073,7 +2073,7 @@
         "commandBar.open",
         "components.startCreate"
       ],
-      "doors": 224,
+      "doors": 225,
       "scenarios": 56,
       "modules": [
         "src/core/clipboard/clipboard.ts",
@@ -2140,7 +2140,7 @@
       "commands": [
         "workspace.setPanelOpen"
       ],
-      "doors": 21,
+      "doors": 22,
       "scenarios": 1,
       "modules": [
         "src/editor/workspace/panels.ts"
@@ -2155,7 +2155,7 @@
         "workspace.setWorkbenchState",
         "workspace.setActiveTab"
       ],
-      "doors": 29,
+      "doors": 30,
       "scenarios": 10,
       "modules": [
         "src/editor/workspace/layout.ts",
@@ -2240,7 +2240,7 @@
         "selection.select",
         "workspace.setPanelOpen"
       ],
-      "doors": 27,
+      "doors": 28,
       "scenarios": 1,
       "modules": [
         "src/core/selection/selection.ts",
@@ -2414,7 +2414,7 @@
         "view.setEditorView",
         "codePanel.setPane"
       ],
-      "doors": 28,
+      "doors": 29,
       "scenarios": 5,
       "modules": [
         "src/editor/code-panel/code-panel.ts",
@@ -2481,7 +2481,7 @@
         "animation.delete",
         "timeline.show"
       ],
-      "doors": 25,
+      "doors": 26,
       "scenarios": 3,
       "modules": [
         "src/core/animation/animation.ts",
@@ -2586,7 +2586,7 @@
         "pages.switch",
         "workspace.setPanelOpen"
       ],
-      "doors": 28,
+      "doors": 29,
       "scenarios": 11,
       "modules": [
         "src/core/project/pages.ts",
@@ -2836,18 +2836,37 @@
         "assistant.update",
         "workspace.setPanelOpen"
       ],
-      "doors": 37,
+      "doors": 38,
       "scenarios": 15,
       "modules": [
         "src/editor/assistant/state.ts",
         "src/editor/workspace/panels.ts"
+      ]
+    },
+    {
+      "id": "layout-composer",
+      "built": true,
+      "commands": [
+        "layout.enter",
+        "layout.leave",
+        "layout.stroke",
+        "layout.select",
+        "layout.delete",
+        "layout.view",
+        "workspace.setPanelOpen"
+      ],
+      "doors": 38,
+      "scenarios": 14,
+      "modules": [
+        "src/editor/workspace/panels.ts",
+        "src/modules/layout-composer/host/handlers.ts"
       ]
     }
   ],
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 414,
+      "lines": 417,
       "commands": [],
       "features": []
     },
@@ -2859,7 +2878,19 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 228,
+      "lines": 230,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/app/modules-view.ts",
+      "lines": 20,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/app/modules.ts",
+      "lines": 20,
       "commands": [],
       "features": []
     },
@@ -2985,6 +3016,12 @@
       ]
     },
     {
+      "path": "src/core/document/authoring.ts",
+      "lines": 52,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/core/document/clone.ts",
       "lines": 67,
       "commands": [],
@@ -2998,7 +3035,7 @@
     },
     {
       "path": "src/core/document/model.ts",
-      "lines": 264,
+      "lines": 269,
       "commands": [],
       "features": []
     },
@@ -3010,7 +3047,7 @@
     },
     {
       "path": "src/core/document/validate.ts",
-      "lines": 575,
+      "lines": 578,
       "commands": [],
       "features": []
     },
@@ -4254,7 +4291,7 @@
     },
     {
       "path": "src/editor/canvas/edit-mode.ts",
-      "lines": 86,
+      "lines": 92,
       "commands": [
         "canvas.setEditMode"
       ],
@@ -4264,7 +4301,7 @@
     },
     {
       "path": "src/editor/canvas/frame.tsx",
-      "lines": 234,
+      "lines": 239,
       "commands": [],
       "features": []
     },
@@ -4561,6 +4598,12 @@
       "features": []
     },
     {
+      "path": "src/editor/input/canvas-tools.ts",
+      "lines": 79,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/editor/input/drafts.ts",
       "lines": 29,
       "commands": [],
@@ -4586,7 +4629,7 @@
     },
     {
       "path": "src/editor/input/pointer.ts",
-      "lines": 1988,
+      "lines": 2031,
       "commands": [],
       "features": []
     },
@@ -5100,7 +5143,7 @@
     },
     {
       "path": "src/editor/shell/shell.tsx",
-      "lines": 175,
+      "lines": 178,
       "commands": [],
       "features": []
     },
@@ -5112,7 +5155,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1080,
+      "lines": 1082,
       "commands": [],
       "features": []
     },
@@ -5160,7 +5203,7 @@
     },
     {
       "path": "src/editor/state.ts",
-      "lines": 131,
+      "lines": 134,
       "commands": [],
       "features": []
     },
@@ -5376,6 +5419,7 @@
         "editor-shell",
         "explorer-pages",
         "layers-tree",
+        "layout-composer",
         "palette-click-insert",
         "shortcuts-panel",
         "timeline-animations",
@@ -5397,13 +5441,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 516,
+      "lines": 523,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 5000,
+      "lines": 5194,
       "commands": [],
       "features": []
     },
@@ -5427,7 +5471,7 @@
     },
     {
       "path": "src/manifest/check.ts",
-      "lines": 2323,
+      "lines": 2326,
       "commands": [],
       "features": []
     },
@@ -5493,7 +5537,7 @@
     },
     {
       "path": "src/modules/layout-composer/compiler/compile.ts",
-      "lines": 474,
+      "lines": 484,
       "commands": [],
       "features": []
     },
@@ -5546,6 +5590,39 @@
       "features": []
     },
     {
+      "path": "src/modules/layout-composer/host/handlers.ts",
+      "lines": 237,
+      "commands": [
+        "layout.enter",
+        "layout.leave",
+        "layout.stroke",
+        "layout.select",
+        "layout.delete",
+        "layout.view"
+      ],
+      "features": [
+        "layout-composer"
+      ]
+    },
+    {
+      "path": "src/modules/layout-composer/host/materialize.ts",
+      "lines": 124,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/host/record.ts",
+      "lines": 77,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/host/state.ts",
+      "lines": 27,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/modules/layout-composer/intent/analysis.ts",
       "lines": 349,
       "commands": [],
@@ -5565,7 +5642,7 @@
     },
     {
       "path": "src/modules/layout-composer/intent/problems.ts",
-      "lines": 82,
+      "lines": 87,
       "commands": [],
       "features": []
     },
@@ -5578,6 +5655,24 @@
     {
       "path": "src/modules/layout-composer/intent/variables.ts",
       "lines": 71,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/interaction/preview.ts",
+      "lines": 28,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/interaction/tool.ts",
+      "lines": 102,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/module.ts",
+      "lines": 13,
       "commands": [],
       "features": []
     },
@@ -5600,8 +5695,26 @@
       "features": []
     },
     {
+      "path": "src/modules/layout-composer/ui/overlay.tsx",
+      "lines": 143,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/ui/panel.tsx",
+      "lines": 82,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/modules/layout-composer/ui/scene.ts",
       "lines": 227,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/modules/layout-composer/view.ts",
+      "lines": 12,
       "commands": [],
       "features": []
     }

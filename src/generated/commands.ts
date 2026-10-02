@@ -156,6 +156,12 @@ export interface CommandArgs {
   "canvas.setEditMode": { readonly mode: "none" | "padding" | "margin" | "radius" | "border" | "gap" | "row-gap" | "column-gap" | "shadow-offset" | "shadow-blur" };
   "history.undo": Record<string, never>;
   "history.redo": Record<string, never>;
+  "layout.enter": { readonly target?: NodeId };
+  "layout.leave": Record<string, never>;
+  "layout.stroke": { readonly mode: "auto" | "draw" | "cut" | "merge" | "subtract" | "move" | "nest" | "select" | "relate" | "group"; readonly points: JsonValue; readonly handle?: string };
+  "layout.select": { readonly regions: JsonValue; readonly mode: "replace" | "add" | "toggle" | "cycle" };
+  "layout.delete": Record<string, never>;
+  "layout.view": { readonly lens?: "spatial" | "structure" | "constraints" | "responsive" | "flow" | "semantic"; readonly tool?: "auto" | "draw" | "cut" | "merge" | "subtract" | "move" | "nest" | "select" | "relate" | "group" };
   "layers.startRename": Record<string, never>;
   "layers.cancelRename": Record<string, never>;
   "element.rename": { readonly target: NodeId; readonly name: string };
@@ -278,7 +284,7 @@ export interface CommandArgs {
   "snap.setSettings": { readonly targets: JsonValue; readonly distance: number };
   "workspace.openDialog": { readonly dialog: "guides-grids" | "snap-settings" };
   "view.setViewportWidth": { readonly width: number };
-  "workspace.setPanelOpen": { readonly panel: "elements" | "layers" | "inspector" | "explorer" | "timeline" | "variables" | "checks" | "workbench" | "shortcuts" | "document" | "canvas-tools" | "assistant"; readonly open: "open" | "close" | "toggle"; readonly focus?: boolean };
+  "workspace.setPanelOpen": { readonly panel: "elements" | "layers" | "inspector" | "explorer" | "timeline" | "variables" | "checks" | "workbench" | "shortcuts" | "document" | "canvas-tools" | "assistant" | "layout-composer"; readonly open: "open" | "close" | "toggle"; readonly focus?: boolean };
   "workspace.toggleLeftDock": Record<string, never>;
   "workspace.toggleInspector": Record<string, never>;
   "workspace.collapseDocks": Record<string, never>;
@@ -512,4 +518,5 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "layout-actions": ["element.wrapContainer","element.wrapGrid","element.swapDirection","element.stackOnPhone","element.organize","element.setDivider"],
   "canvas-grid-editor": ["grid.enterEdit","grid.exitEdit","grid.addTrack","grid.removeTrack","grid.spanItem","grid.mergeCells","grid.splitCells","style.setGridTracks"],
   "assistant-chat": ["assistant.setModel","assistant.setPreferences","assistant.attachReference","assistant.clearReference","assistant.editKey","assistant.send","assistant.cancel","assistant.connect","assistant.disconnect","assistant.saveKey","assistant.deleteKey","assistant.selectSession","assistant.clearConversation","assistant.update","workspace.setPanelOpen"],
+  "layout-composer": ["layout.enter","layout.leave","layout.stroke","layout.select","layout.delete","layout.view","workspace.setPanelOpen"],
 };

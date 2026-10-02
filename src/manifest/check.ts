@@ -2186,7 +2186,10 @@ export function checkManifest(input: ManifestInput): CheckResult {
           const drag = entry !== undefined && (GESTURE_DOOR_KINDS as readonly string[]).includes(entry.door.kind);
           const hold = step.hold === true;
           const wholePanelDrag = entry?.door.kind === 'panel-drag' && !held.has(step.door);
-          const release = drag && !hold && step.target === null && step.drop === null && !wholePanelDrag;
+          // a stroke whose command takes the path it went through (the Layout Composer's layout.stroke: its points)
+          // is drawn whole by its step, from its first point to its last
+          const wholeStroke = entry !== undefined && 'points' in entry.command.args && !held.has(step.door);
+          const release = drag && !hold && step.target === null && step.drop === null && !wholePanelDrag && !wholeStroke;
           if (hold && !drag) report('step', f.file, `${at}.steps[${ti}].hold`, `${step.door} is not a drag: only a drag is held`);
           if (hold && drag) held.set(step.door, ti);
           if (release) {

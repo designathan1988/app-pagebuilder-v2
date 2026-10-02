@@ -215,6 +215,12 @@
       "labelKey": "assistant.input",
       "inherits": "field",
       "absorbsFields": false
+    },
+    {
+      "id": "layout-composer",
+      "labelKey": "keyContext.layoutComposer",
+      "inherits": "global",
+      "absorbsFields": false
     }
   ],
   "constants": [
@@ -1378,6 +1384,20 @@
       "unit": "css-px",
       "source": "spec/BEHAVIOUR.md#app-menu",
       "note": "Movement farther than this from the last resting point restarts menus.hoverSwitch, even inside the same button. Small pointer jitter does not prevent an intentional hover."
+    },
+    {
+      "id": "layout.hitRadius",
+      "value": 8,
+      "unit": "screen-px",
+      "source": "spec/BEHAVIOUR.md#layout-composer",
+      "note": "How near a region's edge, a shared boundary or a handle a press of the Layout Composer counts as on it. Divided by the zoom, so it is the same distance on the screen at every zoom."
+    },
+    {
+      "id": "layout.emptyHeight",
+      "value": 320,
+      "unit": "css-px",
+      "source": "spec/BEHAVIOUR.md#layout-composer",
+      "note": "The height a container the page draws shorter than this is composed in, so an empty section has room to draw in. The page's root is composed at least as tall as the breakpoint's screen."
     }
   ],
   "gestures": [
@@ -1729,6 +1749,43 @@
       "id": "pick-target",
       "source": "spec/BEHAVIOUR.md#events-actions",
       "modifiers": []
+    },
+    {
+      "id": "layout-stroke",
+      "source": "spec/BEHAVIOUR.md#layout-composer",
+      "modifiers": [
+        {
+          "key": "Shift",
+          "meaning": "merge-swept-regions"
+        },
+        {
+          "key": "Alt",
+          "meaning": "subtract-dragged-box"
+        },
+        {
+          "key": "Ctrl",
+          "meaning": "cut-along-stroke"
+        }
+      ]
+    },
+    {
+      "id": "layout-handle",
+      "source": "spec/BEHAVIOUR.md#layout-composer",
+      "modifiers": []
+    },
+    {
+      "id": "layout-click",
+      "source": "spec/BEHAVIOUR.md#layout-composer",
+      "modifiers": [
+        {
+          "key": "Shift",
+          "meaning": "add-to-selection"
+        },
+        {
+          "key": "Alt",
+          "meaning": "cycle-overlapping-regions"
+        }
+      ]
     }
   ],
   "checks": {

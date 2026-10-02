@@ -20,7 +20,7 @@ export interface DocumentPath {
 
 // the fields of a node a path may name; id is generated, so never named. locked, hidden (true, absent when off) and
 // inline (the runs of inline marks) arrive with the lock, hide and inline formatting features of group 02.
-export const NODE_FIELDS = ['type', 'name', 'tag', 'attributes', 'classes', 'styles', 'text', 'children', 'locked', 'hidden', 'inline', 'customAttributes', 'component', 'componentPart', 'guides', 'grid', 'layerColors', 'animations', 'interactions'] as const;
+export const NODE_FIELDS = ['type', 'name', 'tag', 'attributes', 'classes', 'styles', 'text', 'children', 'locked', 'hidden', 'inline', 'customAttributes', 'component', 'componentPart', 'guides', 'grid', 'layerColors', 'animations', 'interactions', 'authoring'] as const;
 // the fields of the project itself a diff names with no node path ("/@swatches"): the saved colours and the design
 // tokens (model.ts)
 export const DOCUMENT_FIELDS = ['pages', 'swatches', 'tokens', 'classes', 'components', 'files', 'folders'] as const;

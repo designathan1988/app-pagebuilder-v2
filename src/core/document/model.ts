@@ -5,6 +5,7 @@ import type { NodeId } from '../../generated/commands.ts';
 import type { AttributeId, BreakpointId, ElementType, PropertyId, StateId } from '../../generated/ids.ts';
 import type { IdGenerator } from '../ports/ids.ts';
 import type { InlineRun } from '../text/inline.ts';
+import type { Authoring } from './authoring.ts';
 
 export type { NodeId };
 
@@ -72,7 +73,11 @@ export interface DocNode {
   readonly animations?: readonly Animation[];
   // the interactions of the element (core/events/interactions.ts, group 18), in the order they were made; absent while
   // it has none. The editing canvas never runs them; the preview and the exported page do.
-  readonly interactions?: readonly Interaction[];}
+  readonly interactions?: readonly Interaction[];
+  // the authoring data of removable modules (core/document/authoring.ts): a tool's record by its namespace, inert for
+  // everything else (never rendered, exported or shown); absent while no module keeps anything on the element
+  readonly authoring?: Authoring;
+}
 
 export interface LayerColor {
   readonly node: NodeId;

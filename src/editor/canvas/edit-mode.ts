@@ -8,6 +8,7 @@
 // starts with the mode's name, their feature registered as built), so a mode never draws nothing (DESIGN.md "Build
 // order"); a mode whose handles edit a structured value (a shadow's layers) applies to an element that holds one
 // (modeApplies: spec shadow-handles, Problems in Pager 2), and is disabled with its reason on any other.
+import { toolKeyContext } from '../input/canvas-tools.ts';
 import { isFeatureBuilt } from '../../app/features.ts';
 import { registerHandler } from '../../core/commands/registry.ts';
 import type { CommandArgs } from '../../generated/commands.ts';
@@ -80,6 +81,11 @@ export const modeApplies = (mode: EditMode, node: DocNode, rules: ModelRules, co
 // canvas-edit-mode inherits the canvas's keys).
 const EDIT_CONTEXT: KeyContextId = 'canvas-edit-mode';
 const CANVAS_CONTEXT: KeyContextId = 'canvas';
+const GLOBAL_CONTEXT: KeyContextId = 'global';
 // The grid editor's own context comes first: while it is on, the canvas's keys are the grid's (Escape leaves it)
+// A canvas tool of a module (the Layout Composer) comes before both: while it is on, the keys of the canvas and of any
+// control outside a field (its own panel's buttons, the toolbar) are its own, so Escape leaves it from anywhere.
 export const keyContextIn = (ui: EditorUi, context: KeyContextId): KeyContextId =>
-  context === CANVAS_CONTEXT && gridEditOf(ui) !== null ? GRID_EDIT_CONTEXT : context === CANVAS_CONTEXT && editMode(ui) !== NO_MODE ? EDIT_CONTEXT : context;
+  (context === CANVAS_CONTEXT || context === GLOBAL_CONTEXT) && toolKeyContext(ui) !== null
+    ? (toolKeyContext(ui) as KeyContextId)
+    : context === CANVAS_CONTEXT && gridEditOf(ui) !== null ? GRID_EDIT_CONTEXT : context === CANVAS_CONTEXT && editMode(ui) !== NO_MODE ? EDIT_CONTEXT : context;

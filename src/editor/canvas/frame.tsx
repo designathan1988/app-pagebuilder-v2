@@ -5,6 +5,7 @@
 // for keys on the frame's window (the page itself still carries no event handler or event attribute), and the frame
 // is not aria-hidden, as it holds the focus. The frame is scaled with the standard CSS zoom (Chrome 128+), so
 // the page lays out at its breakpoint's width and the stage shows it at the canvas zoom.
+import { MODULE_CANVAS_LAYERS } from '../../app/modules-view.ts';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { PageRenderer, renderModelFromManifest } from '../../core/render/render.ts';
 import { applyInlineChange, plainText, type TextRange } from '../../core/text/inline.ts';
@@ -227,6 +228,10 @@ export function CanvasFrame({ width, screen, zoom }: { readonly width: number; r
         <CanvasChrome />
         <Guides overlay={overlay} />
         <SnapLines overlay={overlay} />
+        {/* the layers the installed modules draw over the page (app/modules-view.ts) */}
+        {MODULE_CANVAS_LAYERS.map((Layer, i) => (
+          <Layer key={i} />
+        ))}
       </div>
     </div>
   );

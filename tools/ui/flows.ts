@@ -24,6 +24,9 @@ export type Step =
   | { readonly move: { readonly at: string; readonly from: readonly [number, number]; readonly to: readonly [number, number]; readonly steps: number; readonly interval: number } }
   // a real drag: from one node or point to another, in page pixels (the frame's own space)
   | { readonly drag: { readonly from: string | { readonly x: number; readonly y: number }; readonly to: string | { readonly x: number; readonly y: number }; readonly modifier?: string } }
+  // a stroke drawn with the button held through points of a control, as fractions of its drawn box (the Layout
+  // Composer's stage), with a key held through it
+  | { readonly stroke: { readonly at: string; readonly points: readonly (readonly [number, number])[]; readonly modifier?: string } }
   // wait for the app to settle (two frames and a breath)
   | { readonly wait?: number }
   // name the photo taken after this step (every step is photographed; a flow may name the ones that matter)
@@ -53,6 +56,31 @@ const INSERT_PANEL = { door: 'workspace.setPanelOpen#toolbar-activity-bar-insert
 const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as const;
 
 export const FLOWS: readonly Flow[] = [
+  {
+    name: 'layout-composer',
+    about: 'compose the page by drawing: regions drawn, cut and merged become ordinary elements, one undo step each',
+    steps: [
+      { door: 'workspace.setPanelOpen#toolbar-activity-bar-layout-composer' },
+      { photo: 'panel-idle' },
+      { door: 'layout.enter#layout-compose' },
+      { photo: 'composing-the-page' },
+      { stroke: { at: '[data-layout-stage]', points: [[0.04, 0.03], [0.5, 0.08], [0.96, 0.12]] } },
+      { photo: 'header-drawn' },
+      { stroke: { at: '[data-layout-stage]', points: [[0.04, 0.16], [0.5, 0.4], [0.96, 0.6]] } },
+      { photo: 'body-drawn' },
+      { stroke: { at: '[data-layout-stage]', points: [[0.3, 0.13], [0.3, 0.4], [0.3, 0.63]] } },
+      { photo: 'body-cut-in-two' },
+      { stroke: { at: '[data-layout-stage]', points: [[0.15, 0.4], [0.5, 0.4], [0.8, 0.4]], modifier: 'Shift' } },
+      { photo: 'merged-back' },
+      { key: 'Control+z' },
+      { photo: 'undo-brings-the-cut-back' },
+      { click: '[data-layout-region]' },
+      { photo: 'region-selected' },
+      { door: 'layout.view#layout-lens' },
+      { door: 'layout.leave#layout-done' },
+      { photo: 'done' },
+    ],
+  },
   {
     name: 'assistant',
     about: 'open the assistant and inspect its model, local key and Companion setup',

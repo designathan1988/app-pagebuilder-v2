@@ -150,6 +150,18 @@ async function runStep(page: Page, step: Step): Promise<string> {
     await page.mouse.move(to.x, to.y, { steps: 10 });
     await page.mouse.up();
     if (step.drag.modifier !== undefined) await page.keyboard.up(step.drag.modifier);
+  } else if ('stroke' in step) {
+    const box = await page.locator(step.stroke.at).first().boundingBox();
+    if (box === null) throw new Error(`the stroke's surface is not drawn: ${step.stroke.at}`);
+    const at = ([fx, fy]: readonly [number, number]) => ({ x: box.x + box.width * fx, y: box.y + box.height * fy });
+    const [first, ...rest] = step.stroke.points.map(at);
+    if (first === undefined) throw new Error('a stroke needs points');
+    if (step.stroke.modifier !== undefined) await page.keyboard.down(step.stroke.modifier);
+    await page.mouse.move(first.x, first.y);
+    await page.mouse.down();
+    for (const point of rest) await page.mouse.move(point.x, point.y, { steps: 8 });
+    await page.mouse.up();
+    if (step.stroke.modifier !== undefined) await page.keyboard.up(step.stroke.modifier);
   } else if ('wait' in step) {
     await page.waitForTimeout(step.wait ?? 200);
   }
@@ -211,6 +223,7 @@ async function runFlow(browser: Browser, flow: Flow): Promise<void> {
   await page.locator('.workbench').waitFor();
   console.log(`\nflow "${flow.name}": ${flow.about}`);
   let index = 0;
+  let told = false;
   for (const step of flow.steps) {
     index += 1;
     const label = await runStep(page, step);
@@ -220,6 +233,11 @@ async function runFlow(browser: Browser, flow: Flow): Promise<void> {
     const incidents = await readIncidents(page);
     const first = (await page.locator('[data-region="status-bar"]').innerText().then((text) => text.split('\n')[0]).catch(() => '')) ?? '';
     console.log(`  ${String(index).padStart(2, '0')} ${label.padEnd(18)} ${first.slice(0, 60)}${incidents.length > 0 ? `  [${incidents.length} incident(s)]` : ''}`);
+    // the first incident is told where it happened, whole: a later step that fails because of it hides the cause
+    if (incidents.length > 0 && !told) {
+      told = true;
+      for (const one of incidents) console.log(`     incident (${one.kind}): ${one.what} — ${one.detail.split(String.fromCharCode(10)).slice(0, 3).join(' | ')}`);
+    }
   }
   const incidents = await readIncidents(page);
   if (incidents.length > 0) for (const one of incidents) problems.push(`incident (${one.kind}): ${one.what} — ${one.detail.split('\n')[0] ?? ''}`);

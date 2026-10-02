@@ -54,7 +54,12 @@ export type ProblemCode =
   | 'template'
   | 'template-name'
   | 'nothing-selected'
-  | 'stroke';
+  | 'stroke'
+  // the host's: the composed container is gone or holds no layout, an element the layout places is no longer there
+  // (or would be lost), a declaration the browser does not take
+  | 'container'
+  | 'content-missing'
+  | 'declaration';
 
 export interface LayoutProblem {
   readonly code: ProblemCode;

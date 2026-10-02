@@ -1954,6 +1954,41 @@
       "kind": "handler",
       "id": "view.setViewportWidth",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.enter",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.leave",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.stroke",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.select",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.delete",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.view",
+      "status": "registered"
+    },
+    {
+      "kind": "predicate",
+      "id": "layoutComposing",
+      "status": "registered"
     }
   ]
 }

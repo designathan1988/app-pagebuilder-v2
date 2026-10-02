@@ -14,6 +14,7 @@ import { contentModelFrom, type ContentModel } from '../elements/content-model.t
 import { orphanReferences, setReferenceAttributes } from '../elements/references.ts';
 import { addressAllowed } from '../elements/address.ts';
 import { deepEqual } from '../history/transaction.ts';
+import { authoringProblems } from './authoring.ts';
 import { settingOf } from '../page/grid-settings.ts';
 import { canonical, hasMarks, parseInline, plainText } from '../text/inline.ts';
 import { DOCUMENT_VERSION, walk, type DocNode, type DocumentJson, type Selection } from './model.ts';
@@ -504,6 +505,8 @@ function validateNode(
     if (!root) bad(`${at}/layerColors`, 'only a page’s root holds the label colours');
     else if (!Array.isArray(colors) || colors.length === 0 || !colors.every((one) => isRecord(one) && typeof one.node === 'string' && one.node !== '' && typeof one.colour === 'string' && one.colour.trim() !== '')) bad(`${at}/layerColors`, 'layerColors is a list of the label colours of the page, each an element and its colour, absent while there is none');
   }
+  // the authoring data of removable modules: JSON by namespace, each checked by its installed module (authoring.ts)
+  if ('authoring' in node) for (const problem of authoringProblems(node.authoring)) bad(`${at}/authoring${problem.path}`, problem.message);
   if ('customAttributes' in node) {
     const custom: unknown = node.customAttributes;
     if (!isRecord(custom) || Object.keys(custom).length === 0) bad(`${at}/customAttributes`, 'customAttributes is an object with at least one attribute, or absent');

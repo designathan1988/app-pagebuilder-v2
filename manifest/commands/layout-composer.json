@@ -1,0 +1,593 @@
+{
+  "domain": "layout-composer",
+  "commands": [
+    {
+      "id": "layout.enter",
+      "labelKey": "layout.command.enter",
+      "owner": "src/modules/layout-composer/host/handlers.ts",
+      "introducedBy": "layout-composer",
+      "args": {
+        "target": {
+          "type": "node",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "layout.refused",
+        "layout.inactive",
+        "layout.noContainer",
+        "status.locked.edit",
+        "status.locked.byAncestor"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "layout-compose",
+          "kind": "toolbar",
+          "drawnAs": "button",
+          "pressed": true,
+          "feature": "layout-composer",
+          "labelKey": "layout.door.compose",
+          "faceLabelKey": null,
+          "icon": "layout-freeform",
+          "disabledReasonKey": "layout.noContainer",
+          "placement": {
+            "region": "canvas-toolbar",
+            "order": 14
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "layout-compose-menu",
+          "kind": "context-menu",
+          "feature": "layout-composer",
+          "labelKey": "layout.door.composeMenu",
+          "faceLabelKey": null,
+          "icon": "layout-dashboard",
+          "disabledReasonKey": "layout.noContainer",
+          "placement": {
+            "region": "context-menu",
+            "order": 32
+          },
+          "adapter": {
+            "selection": "single",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "layout.leave",
+      "labelKey": "layout.command.leave",
+      "owner": "src/modules/layout-composer/host/handlers.ts",
+      "introducedBy": "layout-composer",
+      "args": {},
+      "availability": {
+        "predicate": "layoutComposing",
+        "refusalKey": "layout.inactive"
+      },
+      "refusals": [
+        "layout.refused",
+        "layout.inactive",
+        "layout.noContainer",
+        "status.locked.edit",
+        "status.locked.byAncestor"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "layout-done",
+          "kind": "panel-control",
+          "drawnAs": "primary",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-done",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.done",
+          "faceLabelKey": null,
+          "icon": "check",
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "layout-escape",
+          "kind": "shortcut",
+          "feature": "layout-composer",
+          "chord": "Escape",
+          "context": "layout-composer",
+          "gesture": null,
+          "labelKey": "layout.door.escape",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "layout.stroke",
+      "labelKey": "layout.command.stroke",
+      "owner": "src/modules/layout-composer/host/handlers.ts",
+      "introducedBy": "layout-composer",
+      "args": {
+        "mode": {
+          "type": "enum",
+          "values": [
+            "auto",
+            "draw",
+            "cut",
+            "merge",
+            "subtract",
+            "move",
+            "nest",
+            "select",
+            "relate",
+            "group"
+          ],
+          "optional": false
+        },
+        "points": {
+          "type": "json",
+          "values": [],
+          "optional": false
+        },
+        "handle": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "layoutComposing",
+        "refusalKey": "layout.inactive"
+      },
+      "refusals": [
+        "layout.refused",
+        "layout.inactive",
+        "layout.noContainer",
+        "status.locked.edit",
+        "status.locked.byAncestor"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-gesture",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "layout-stage",
+          "kind": "canvas-drag",
+          "feature": "layout-composer",
+          "source": "layout-stage",
+          "zone": "layout-composition",
+          "gesture": "layout-stroke",
+          "labelKey": "layout.door.stage",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "layout-boundary",
+          "kind": "canvas-handle",
+          "feature": "layout-composer",
+          "handle": "layout-boundary",
+          "gesture": "layout-handle",
+          "labelKey": "layout.door.boundaryHandle",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "layout-gap",
+          "kind": "canvas-handle",
+          "feature": "layout-composer",
+          "handle": "layout-gap",
+          "gesture": "layout-handle",
+          "labelKey": "layout.door.gapHandle",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "layout-repeat",
+          "kind": "canvas-handle",
+          "feature": "layout-composer",
+          "handle": "layout-repeat",
+          "gesture": "layout-handle",
+          "labelKey": "layout.door.repeatHandle",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "layout-vertex",
+          "kind": "canvas-handle",
+          "feature": "layout-composer",
+          "handle": "layout-vertex",
+          "gesture": "layout-handle",
+          "labelKey": "layout.door.vertexHandle",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "layout.select",
+      "labelKey": "layout.command.select",
+      "owner": "src/modules/layout-composer/host/handlers.ts",
+      "introducedBy": "layout-composer",
+      "args": {
+        "regions": {
+          "type": "json",
+          "values": [],
+          "optional": false
+        },
+        "mode": {
+          "type": "enum",
+          "values": [
+            "replace",
+            "add",
+            "toggle",
+            "cycle"
+          ],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "layoutComposing",
+        "refusalKey": "layout.inactive"
+      },
+      "refusals": [
+        "layout.refused",
+        "layout.inactive",
+        "layout.noContainer",
+        "status.locked.edit",
+        "status.locked.byAncestor"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "layout-region",
+          "kind": "canvas-click",
+          "feature": "layout-composer",
+          "target": "layout-region",
+          "button": "primary",
+          "count": 1,
+          "modifier": null,
+          "gesture": "layout-click",
+          "labelKey": "layout.door.regionClick",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "mode": "replace"
+          }
+        },
+        {
+          "id": "layout-region-add",
+          "kind": "canvas-click",
+          "feature": "layout-composer",
+          "target": "layout-region",
+          "button": "primary",
+          "count": 1,
+          "modifier": "Shift",
+          "gesture": "layout-click",
+          "labelKey": "layout.door.regionAdd",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "mode": "add"
+          }
+        },
+        {
+          "id": "layout-region-cycle",
+          "kind": "canvas-click",
+          "feature": "layout-composer",
+          "target": "layout-region",
+          "button": "primary",
+          "count": 1,
+          "modifier": "Alt",
+          "gesture": "layout-click",
+          "labelKey": "layout.door.regionCycle",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "mode": "cycle"
+          }
+        }
+      ]
+    },
+    {
+      "id": "layout.delete",
+      "labelKey": "layout.command.delete",
+      "owner": "src/modules/layout-composer/host/handlers.ts",
+      "introducedBy": "layout-composer",
+      "args": {},
+      "availability": {
+        "predicate": "layoutComposing",
+        "refusalKey": "layout.inactive"
+      },
+      "refusals": [
+        "layout.refused",
+        "layout.inactive",
+        "layout.noContainer",
+        "status.locked.edit",
+        "status.locked.byAncestor"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "layout-delete",
+          "kind": "shortcut",
+          "feature": "layout-composer",
+          "chord": "Delete",
+          "context": "layout-composer",
+          "gesture": null,
+          "labelKey": "layout.door.delete",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "layout-delete-button",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-delete-button",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.deleteButton",
+          "faceLabelKey": null,
+          "icon": "trash",
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 6
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "layout.view",
+      "labelKey": "layout.command.view",
+      "owner": "src/modules/layout-composer/host/handlers.ts",
+      "introducedBy": "layout-composer",
+      "args": {
+        "lens": {
+          "type": "enum",
+          "values": [
+            "spatial",
+            "structure",
+            "constraints",
+            "responsive",
+            "flow",
+            "semantic"
+          ],
+          "optional": true
+        },
+        "tool": {
+          "type": "enum",
+          "values": [
+            "auto",
+            "draw",
+            "cut",
+            "merge",
+            "subtract",
+            "move",
+            "nest",
+            "select",
+            "relate",
+            "group"
+          ],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "layoutComposing",
+        "refusalKey": "layout.inactive"
+      },
+      "refusals": [
+        "layout.refused",
+        "layout.inactive",
+        "layout.noContainer",
+        "status.locked.edit",
+        "status.locked.byAncestor"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "layout-tool",
+          "kind": "panel-control",
+          "drawnAs": "segment",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-tool",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.tool",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 2
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "layout-lens",
+          "kind": "panel-control",
+          "drawnAs": "segment",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-lens",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.lens",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 3
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    }
+  ]
+}

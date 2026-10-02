@@ -14,7 +14,7 @@ describe('manifest:check', () => {
     expect(loaded.problems).toEqual([]);
     const result = checkManifest(loaded.input);
     expect(result.problems).toEqual([]);
-    expect(result.summary?.features).toBe(190);
+    expect(result.summary?.features).toBe(191);
   });
 
   it('has a planted fixture for every rule', () => {

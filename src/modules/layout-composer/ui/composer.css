@@ -1,0 +1,203 @@
+/* The Layout Composer's canvas layer and panel (src/modules/layout-composer/ui): the stage over the composed
+   container takes the composer's presses; the regions, labels and handles are drawn in the chrome, never in the page.
+   Colours, spacing, type and radii come from the tokens only. */
+.layout-composer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.layout-composer__stage {
+  position: absolute;
+  pointer-events: auto;
+  cursor: crosshair;
+  outline: 2px dashed var(--color-canvas-selection);
+  outline-offset: 1px;
+  background: color-mix(in srgb, var(--color-canvas-selection) 4%, transparent);
+  touch-action: none;
+}
+
+.layout-composer__stage[data-cursor='move'] { cursor: move; }
+.layout-composer__stage[data-cursor='col-resize'] { cursor: col-resize; }
+.layout-composer__stage[data-cursor='row-resize'] { cursor: row-resize; }
+.layout-composer__stage[data-cursor='copy'] { cursor: copy; }
+.layout-composer__stage[data-cursor='cell'] { cursor: cell; }
+.layout-composer__stage[data-cursor='alias'] { cursor: alias; }
+.layout-composer__stage[data-cursor='not-allowed'],
+.layout-composer__stage.is-refused { cursor: not-allowed; }
+
+.layout-composer__region {
+  position: absolute;
+  border: 1px solid color-mix(in srgb, var(--color-canvas-selection) 70%, transparent);
+  background: color-mix(in srgb, var(--color-canvas-selection) 10%, transparent);
+}
+
+.layout-composer__region.is-content {
+  border-style: dotted;
+  background: color-mix(in srgb, var(--color-canvas-drop) 6%, transparent);
+}
+
+.layout-composer__region.is-visited {
+  background: color-mix(in srgb, var(--color-canvas-hover) 24%, transparent);
+}
+
+.layout-composer__region.is-selected {
+  border: 2px solid var(--color-canvas-selection);
+  background: color-mix(in srgb, var(--color-canvas-selection) 18%, transparent);
+}
+
+.layout-composer__region.is-hidden {
+  opacity: 0.35;
+}
+
+.layout-composer__label {
+  position: absolute;
+  top: var(--space-1);
+  left: var(--space-1);
+  max-width: calc(100% - var(--space-2));
+  overflow: hidden;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-canvas-selection);
+  color: var(--color-canvas-handle);
+  font: var(--fw-caption) var(--fs-micro) / var(--lh-micro) var(--font-ui);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.layout-composer__area {
+  position: absolute;
+  border: 1px dashed var(--color-canvas-drop);
+  background: color-mix(in srgb, var(--color-canvas-drop) 12%, transparent);
+}
+
+.is-refused .layout-composer__area {
+  border-color: var(--color-canvas-measure);
+  background: color-mix(in srgb, var(--color-canvas-measure) 10%, transparent);
+}
+
+.layout-composer__measure {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: translateY(100%);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-canvas-drop);
+  color: var(--color-canvas-handle);
+  font: var(--fw-caption) var(--fs-micro) / var(--lh-micro) var(--font-mono);
+  white-space: nowrap;
+}
+
+.layout-composer__stroke,
+.layout-composer__relation {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.layout-composer__stroke polyline {
+  fill: none;
+  stroke: var(--color-canvas-drop);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.is-refused .layout-composer__stroke polyline {
+  stroke: var(--color-canvas-measure);
+}
+
+.layout-composer__cut {
+  stroke: var(--color-canvas-measure);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+
+.layout-composer__relation line {
+  stroke: var(--color-canvas-gap);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+
+.layout-composer__handle {
+  position: absolute;
+  width: var(--space-6);
+  height: var(--space-6);
+  margin: calc(var(--space-3) * -1) 0 0 calc(var(--space-3) * -1);
+  border: 2px solid var(--color-canvas-selection);
+  border-radius: var(--radius-pill);
+  background: var(--color-canvas-handle);
+  box-shadow: var(--shadow-1);
+}
+
+.layout-composer__handle--boundary.is-x { cursor: col-resize; border-radius: var(--radius-sm); height: var(--space-9); margin-top: calc(var(--space-9) / -2); }
+.layout-composer__handle--boundary.is-y { cursor: row-resize; border-radius: var(--radius-sm); width: var(--space-9); margin-left: calc(var(--space-9) / -2); }
+.layout-composer__handle--gap { border-color: var(--color-canvas-gap); }
+.layout-composer__handle--gap.is-x { cursor: col-resize; }
+.layout-composer__handle--gap.is-y { cursor: row-resize; }
+.layout-composer__handle--repeat { border-color: var(--color-canvas-drop); cursor: copy; }
+.layout-composer__handle--vertex { cursor: move; }
+.layout-composer__handle--edge { cursor: move; border-radius: var(--radius-sm); }
+
+.layout-composer__problem {
+  position: absolute;
+  margin-top: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-canvas-measure);
+  color: var(--color-canvas-handle);
+  font: var(--fw-caption) var(--fs-caption) / var(--lh-caption) var(--font-ui);
+  white-space: nowrap;
+}
+
+/* the panel (ui/panel.tsx) */
+.layout-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-6);
+}
+
+.layout-panel__title {
+  font: var(--fw-title) var(--fs-title) / var(--lh-title) var(--font-ui);
+  color: var(--color-text);
+}
+
+.layout-panel__text {
+  margin: 0;
+  color: var(--color-text-muted);
+  font: var(--fw-body) var(--fs-body) / var(--lh-body) var(--font-ui);
+}
+
+.layout-panel__prediction {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-canvas-selection) 10%, var(--color-surface));
+  color: var(--color-text);
+  font: var(--fw-body) var(--fs-body) / var(--lh-body) var(--font-ui);
+}
+
+.layout-panel__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.layout-panel__group .segmented {
+  flex-wrap: wrap;
+}
+
+.layout-panel__label {
+  color: var(--color-text-muted);
+  font: var(--fw-overline) var(--fs-overline) / var(--lh-overline) var(--font-ui);
+  text-transform: uppercase;
+}
+
+.layout-panel__actions {
+  display: flex;
+  gap: var(--space-4);
+}

@@ -314,6 +314,10 @@
     {
       "id": "assistant-panel",
       "area": "left"
+    },
+    {
+      "id": "layout-composer-panel",
+      "area": "left"
     }
   ],
   "menus": [
@@ -629,6 +633,13 @@
     "assistant": {
       "icon": "sparkles",
       "labelKey": "panel.assistant",
+      "place": "sidebar",
+      "in": null,
+      "open": false
+    },
+    "layout-composer": {
+      "icon": "layout-freeform",
+      "labelKey": "panel.layoutComposer",
       "place": "sidebar",
       "in": null,
       "open": false

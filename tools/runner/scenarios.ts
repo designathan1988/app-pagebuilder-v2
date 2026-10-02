@@ -28,6 +28,7 @@ import { barLabel, control, door as doorData, inQuickPanel, keys, modifiedContro
 import { openEditor } from '../../tests/support/editor.ts';
 import { unzip } from './unzip.ts';
 import { COMPANION_KEY, startCompanion } from './companion.ts';
+import { LAYOUT_GESTURES, driveLayout } from './layout-composer.ts';
 
 type Measure = 'x' | 'y' | 'width' | 'height';
 type Relation = 'equals' | 'less-than' | 'greater-than';
@@ -1144,7 +1145,10 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
   if (inQuickPanel(d)) await openQuickPanel(page);
   const quickField = d.kind === 'quick-panel' && (await control(page, ref).locator('input, textarea').count()) > 0;
 
-  if (d.kind === 'canvas-click' && d.target !== 'stage-outside-page' && step.target !== null && (await rowInsteadOfCanvas(page, ref, document, step.target, action))) {
+  if ((d.kind === 'canvas-click' || d.kind === 'canvas-drag' || d.kind === 'canvas-handle') && LAYOUT_GESTURES.includes(d.gesture ?? '')) {
+    // a door of the Layout Composer: a stroke on its stage, a handle of it, a region of it (layout-composer.ts)
+    await driveLayout(page, ref, d.gesture ?? '', d.kind === 'canvas-click' ? (d.modifier ?? null) : null, args);
+  } else if (d.kind === 'canvas-click' && d.target !== 'stage-outside-page' && step.target !== null && (await rowInsteadOfCanvas(page, ref, document, step.target, action))) {
     // reached through the node's Layers row
   } else if (d.kind === 'canvas-click') {
     if (step.hold === true || step.drop !== null) throw new Error(`step ${ref}: a click neither drops nor holds`);

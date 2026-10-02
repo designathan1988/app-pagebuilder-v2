@@ -167,15 +167,15 @@ export function describeConstraint(graph: LayoutIntent, c: Constraint): Words {
   const names = c.regions.map((id) => findRegion(graph, id)?.name ?? id).join(', ');
   switch (c.kind) {
     case 'equal-size':
-      return { key: `layout.constraint.equal-${c.axis}`, params: { regions: names } };
+      return { key: `layout.constraint.equal.${c.axis}`, params: { regions: names } };
     case 'gap':
       return { key: 'layout.constraint.gap', params: { regions: names, value: typeof c.value === 'number' ? Math.round(c.value * 100) / 100 : c.value } };
     case 'ratio':
       return { key: 'layout.constraint.ratio', params: { regions: names, value: c.value } };
     case 'align':
-      return { key: `layout.constraint.align-${c.edge}`, params: { regions: names } };
+      return { key: `layout.constraint.align.${c.edge}`, params: { regions: names } };
     case 'size':
-      return { key: `layout.constraint.size-${c.dimension.mode}`, params: { regions: names, value: c.value === undefined ? '' : typeof c.value === 'number' ? Math.round(c.value) : c.value } };
+      return { key: `layout.constraint.size.${c.dimension.mode}`, params: { regions: names, value: c.value === undefined ? '' : typeof c.value === 'number' ? Math.round(c.value) : c.value } };
   }
 }
 

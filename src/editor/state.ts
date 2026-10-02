@@ -69,6 +69,9 @@ export interface EditorUi {
   // the spacing boxes (padding, margin) an element's link was turned on or off for, by element (inspector/spacing.ts,
   // J27): a box with no entry is linked while its four sides hold the same value
   readonly spacingLinks?: Readonly<Record<string, Readonly<Record<string, boolean>>>> | undefined;
+  // the editor state of removable modules (src/modules/*), by the module's namespace: what a tool shows while it is
+  // open (the Layout Composer's target, selection, lens, tool); absent while no module holds any
+  readonly modules?: Readonly<Record<string, unknown>> | undefined;
   // the class the Style tab's writes go to (inspector/style-target.ts); absent while the target is the element
   readonly styleTarget?: string | undefined;
   // the dialog open (workspace/dialogs.ts): Guides & Grids, Snap settings; absent while none is
