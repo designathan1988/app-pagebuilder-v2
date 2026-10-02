@@ -204,6 +204,19 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'value-presets',
+    about: 'stage 3: a shadow chosen by its thumbnail',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/responsive-title.json'] } },
+      { door: 'selection.select#layers-row', labelled: 'Title' },
+      { click: `[data-door="inspector.toggleRow#inspector-row-disclosure"][data-args*='"box-shadow"']` },
+      { photo: 'shadow-thumbnails' },
+      { click: `[data-door="style.setShadows#inspector-shadow-preset"][data-args*='0.28']` },
+      { photo: 'strong-shadow' },
+    ],
+  },
+  {
     name: 'data-c3',
     about: 'jornada03 C3/H13: the header shared with every page, its menu changed once',
     steps: [

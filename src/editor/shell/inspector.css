@@ -1408,6 +1408,7 @@
   /* the value the thumbnail wears, set on each thumbnail (value-presets.tsx); the property's initial value without it */
   --preset-value: initial;
   display: flex;
+  height: auto;
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);
@@ -1426,6 +1427,8 @@
 }
 
 .value-preset__thumb {
+  display: block;
+  flex: none;
   width: var(--size-control);
   height: var(--size-control);
   border: 1px solid var(--color-border);
