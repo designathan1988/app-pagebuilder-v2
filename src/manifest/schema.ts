@@ -978,6 +978,11 @@ export const scenarioSchema = z.strictObject({
     clipboard: z
       .union([z.literal('denied'), z.strictObject({ html: z.string().optional(), text: z.string().optional() })])
       .optional(),
+    // the local Companion the assistant talks to (optional: absent is none running; spec assistant-chat): "running"
+    // starts one before the steps, whose connection file the runner hands the chooser Connect to Companion opens;
+    // "paired" also saves a test-only service key and connects this editor, as a person does in the preferences. Its
+    // model answers "Done." at once, and holds a reply whose request says [hold] until the turn is stopped.
+    companion: z.enum(['running', 'paired']).optional(),
   }),
   // run in order after the fixture is loaded; exactly one is the action step
   steps: z.array(stepSchema).min(1),

@@ -4,9 +4,9 @@
     "built": 189,
     "commands": 278,
     "doors": 1128,
-    "scenarios": 1440,
+    "scenarios": 1455,
     "modules": 295,
-    "lines": 54003
+    "lines": 54012
   },
   "features": [
     {
@@ -2837,7 +2837,7 @@
         "workspace.setPanelOpen"
       ],
       "doors": 37,
-      "scenarios": 0,
+      "scenarios": 15,
       "modules": [
         "src/editor/assistant/state.ts",
         "src/editor/workspace/panels.ts"
@@ -4189,7 +4189,7 @@
     },
     {
       "path": "src/editor/assistant/state.ts",
-      "lines": 73,
+      "lines": 77,
       "commands": [
         "assistant.setPreferences",
         "assistant.setModel",
@@ -5463,7 +5463,7 @@
     },
     {
       "path": "src/manifest/schema.ts",
-      "lines": 1298,
+      "lines": 1303,
       "commands": [],
       "features": []
     },

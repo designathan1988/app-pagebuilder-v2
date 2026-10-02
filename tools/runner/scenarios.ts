@@ -27,6 +27,7 @@ import { EMPTY_FIXTURE, applyDiff, matchDocument, refusalCheck, resolveNode, typ
 import { barLabel, control, door as doorData, inQuickPanel, keys, modifiedControl, openCommandBar, openMenu, openQuickPanel, openStyleControl, openValueMenu, runDoor, standingControl, type Door } from '../../tests/e2e/door.ts';
 import { openEditor } from '../../tests/support/editor.ts';
 import { unzip } from './unzip.ts';
+import { COMPANION_KEY, startCompanion } from './companion.ts';
 
 type Measure = 'x' | 'y' | 'width' | 'height';
 type Relation = 'equals' | 'less-than' | 'greater-than';
@@ -51,7 +52,7 @@ interface Step {
 }
 interface Scenario {
   readonly id: string;
-  readonly setup: { fixture: string; selection: string[]; context: string; breakpoint: string; state: string; locale: string; viewport: string; zoom: 'fit' | number; storage?: 'corrupt-current-record'; tabs?: 'another-tab-editing'; clipboard?: 'denied' | { html?: string; text?: string } };
+  readonly setup: { fixture: string; selection: string[]; context: string; breakpoint: string; state: string; locale: string; viewport: string; zoom: 'fit' | number; storage?: 'corrupt-current-record'; tabs?: 'another-tab-editing'; clipboard?: 'denied' | { html?: string; text?: string }; companion?: 'running' | 'paired' };
   readonly steps: readonly Step[];
   readonly doors: readonly string[];
   readonly expect: {
@@ -1786,6 +1787,21 @@ async function setUp(page: Page, s: Scenario): Promise<unknown> {
     );
     await page.reload();
     await expect(page.locator('.workbench')).toBeVisible();
+  }
+  // a local Companion for the assistant (spec assistant-chat): started, and with "paired" this editor's key saved and
+  // the editor connected through the preferences, as a person does before asking anything
+  if (s.setup.companion !== undefined) {
+    await startCompanion(page);
+    if (s.setup.companion === 'paired') {
+      await runDoor(page, 'workspace.setPanelOpen#toolbar-activity-bar-assistant');
+      await runDoor(page, 'assistant.setPreferences#assistant-preferences');
+      await control(page, 'assistant.editKey#assistant-key').locator('input').fill(COMPANION_KEY);
+      await runDoor(page, 'assistant.saveKey#assistant-save-key');
+      await expect(page.locator('[data-region="assistant-panel"]'), 'the key is saved').toContainText(await text(page, s.setup.locale, 'assistant.keySaved', {}));
+      await runDoor(page, 'assistant.connect#assistant-bridge-connect');
+      await expect(page.locator('.assistant-connection__state'), 'the editor is connected').toHaveText(await text(page, s.setup.locale, 'assistant.connection.connected', {}));
+      await runDoor(page, 'assistant.setPreferences#assistant-close-preferences');
+    }
   }
   const loaded = (await port(page)).document;
   // the selection, clicked on the canvas as a person selects: the first node, then each other added. A node its

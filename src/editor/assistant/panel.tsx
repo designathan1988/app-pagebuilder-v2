@@ -71,7 +71,7 @@ export function AssistantPanel(): ReactNode {
       <DoorControl entry={entryOf('assistant-close-preferences')} />
     </> : <ChatSurface entries={state.entries} draft={state.draft} busy={state.busy} configured={state.hasKey && state.connection === 'connected'} model={model} door={door} t={key => t(key as MessageId)} />}
     <div className="assistant-connection" role="group" aria-label={t('assistant.status')}>
-      <span role="status">{t(`assistant.connection.${state.connection}` as MessageId)}</span>
+      <span className="assistant-connection__state">{t(`assistant.connection.${state.connection}` as MessageId)}</span>
       {state.connection === 'connected' && <DoorControl entry={entryOf('assistant-select-session')} ready={!state.busy} />}
     </div>
     {state.reference && <div className="assistant-reference"><img src={`data:${state.reference.type};base64,${state.reference.bytes}`} alt={t('assistant.referenceImage')} /><DoorControl entry={entryOf('assistant-clear-reference')} ready={!state.busy} /></div>}

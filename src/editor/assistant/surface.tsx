@@ -5,7 +5,7 @@ export interface ChatSurfaceProps {entries:readonly ChatEntry[];draft:string;bus
 export function ChatSurface({entries,draft,busy,configured,model,door,t}:ChatSurfaceProps){
  return <section className="assistant-chat" aria-label={t('assistant.title')}>
    <header>{door('assistant-model',{value:model,disabled:busy})}{door('assistant-preferences',{})}</header>
-   {!configured&&<p role="status">{t('assistant.configure')}</p>}
+   {!configured&&<p className="assistant-note">{t('assistant.configure')}</p>}
    <div className="assistant-chat__messages" role="log" aria-live="polite" aria-relevant="additions text">
      {entries.map(entry=><article key={entry.id} className={`assistant-chat__message assistant-chat__message--${entry.role}`}>
        <span>{t(`assistant.role.${entry.role}`)}</span><p role={entry.error?'alert':undefined}>{entry.text}</p>
@@ -19,7 +19,7 @@ export function AssistantPreferences({model,hasKey,keyDraft,connected,door,t}:Pi
  return <section className="assistant-preferences" aria-label={t('assistant.preferences')}>
    {door('assistant-provider',{})}{door('assistant-model',{value:model})}
    {door('assistant-key',{type:'password',autoComplete:'off',value:keyDraft})}
-   <p role="status">{t(hasKey?'assistant.keySaved':'assistant.keyRequired')}</p>
+   <p className="assistant-note">{t(hasKey?'assistant.keySaved':'assistant.keyRequired')}</p>
    {door('assistant-save-key',{})}{door('assistant-delete-key',{disabled:!hasKey})}
    {door('assistant-bridge-connect',{})}{door('assistant-bridge-disconnect',{disabled:!connected})}
  </section>;

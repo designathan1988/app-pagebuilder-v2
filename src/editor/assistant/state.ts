@@ -32,9 +32,13 @@ export const setAssistantModel = registerHandler<'assistant.setModel', EditorUi>
 });
 export const attachAssistantReference = registerHandler<'assistant.attachReference', EditorUi>('assistant.attachReference', ({ state }, { file }) => {
   try {
-    const picked = z.object({ name: z.string(), type: z.enum(['image/png', 'image/jpeg', 'image/webp', 'image/gif']), bytes: z.string() }).parse(JSON.parse(file));
+    // the door reads the chosen file as an upload record (doors/door.tsx fileReading "upload": a list of one); a JSON
+    // text of one record is taken too (the MCP tools hand text)
+    const given: unknown = typeof file === 'string' ? JSON.parse(file) : file;
+    const record: unknown = Array.isArray(given) ? given[0] : given;
+    const picked = z.object({ name: z.string(), type: z.enum(['image/png', 'image/jpeg', 'image/webp', 'image/gif']), bytes: z.string() }).parse(record);
     imageBlock(Uint8Array.from(atob(picked.bytes), char => char.charCodeAt(0)), picked.type);
-    return { kind: 'change', ui: nextUi(state.ui, { reference: picked }), message: message('assistant.referenceAdded') };
+    return { kind: 'change', ui: nextUi(state.ui, { reference: { name: picked.name, type: picked.type, bytes: picked.bytes } }), message: message('assistant.referenceAdded') };
   } catch { return { kind: 'refused', message: message('assistant.invalidImage') }; }
 });
 export const clearAssistantReference = registerHandler<'assistant.clearReference', EditorUi>('assistant.clearReference', ({ state }) => ({ kind: 'change', ui: nextUi(state.ui, { reference: null }) }));

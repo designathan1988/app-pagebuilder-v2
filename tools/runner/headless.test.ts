@@ -40,7 +40,7 @@ interface Step {
 }
 interface Scenario {
   readonly id: string;
-  readonly setup: { fixture: string; selection: string[]; breakpoint: string; state: string; locale: string; storage?: string; tabs?: string; clipboard?: unknown };
+  readonly setup: { fixture: string; selection: string[]; breakpoint: string; state: string; locale: string; storage?: string; tabs?: string; clipboard?: unknown; companion?: string };
   readonly steps: readonly Step[];
   readonly doors: readonly string[];
   readonly expect: {
@@ -69,7 +69,10 @@ const BROWSER_ARG_TYPES = new Set(['clipboard', 'files', 'file', 'rect', 'point'
 const BROWSER_COMMANDS = new Set(['project.open', 'project.importHtml', 'project.openFolder', 'project.restoreVersion', 'project.newBlankPage', 'project.save', 'project.export', 'files.upload', 'codePanel.copyPane', 'codePanel.downloadPane', 'view.enterPreview',
   // the stage's size (Fit), the text editor's own range (bold, italic), the focus a key moves in a menu or a list, the
   // colour picker's session (one gesture the pointer owner opens with the picker: src/editor/inspector/color-picker.ts)
-  'view.zoomFit', 'colorPicker.open', 'text.toggleBold', 'text.toggleItalic', 'focus.first', 'focus.last', 'focus.next', 'focus.previous', 'focus.activate']);
+  'view.zoomFit', 'colorPicker.open', 'text.toggleBold', 'text.toggleItalic', 'focus.first', 'focus.last', 'focus.next', 'focus.previous', 'focus.activate',
+  // the assistant's requests, which its controller carries out in the browser (the credential store, the Companion's
+  // socket and its model: src/editor/assistant/controller.ts) and says when they are done
+  'assistant.saveKey', 'assistant.deleteKey', 'assistant.connect', 'assistant.disconnect', 'assistant.selectSession', 'assistant.send', 'assistant.cancel']);
 // the one command whose field hands the typed text as it is (a value of style.set): every other field shapes what is
 // typed into its command's arguments itself (a border's width and style, an image's address, an attribute), which the
 // browser runner proves through the field
@@ -107,7 +110,7 @@ function browserOnly(step: Step, ref: string): string | null {
 }
 
 function scenarioBrowserOnly(s: Scenario, door: string): string | null {
-  if (s.setup.storage !== undefined || s.setup.tabs !== undefined || s.setup.clipboard !== undefined) return 'a setup a browser makes';
+  if (s.setup.storage !== undefined || s.setup.tabs !== undefined || s.setup.clipboard !== undefined || s.setup.companion !== undefined) return 'a setup a browser makes';
   for (const step of s.steps) {
     const why = browserOnly(step, step.action ? door : step.door);
     if (why !== null) return why;

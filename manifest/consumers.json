@@ -1185,6 +1185,10 @@
       "reader": "tools/runner/scenarios.ts"
     },
     {
+      "field": "features:features[].scenarios[].setup.companion",
+      "reader": "tools/runner/scenarios.ts"
+    },
+    {
       "field": "features:features[].scenarios[].setup.clipboard.html",
       "reader": "tools/runner/scenarios.ts"
     },
