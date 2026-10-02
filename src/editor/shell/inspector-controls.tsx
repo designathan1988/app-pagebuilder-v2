@@ -14,8 +14,8 @@ import { styleSource } from '../inspector/style-target.ts';
 import { pluralForm } from '../../i18n/index.ts';
 import { useLocale, useT } from '../text.ts';
 import { usePrimarySize } from '../view/selection-size.ts';
-import { KeywordButtons, NumberField, TextStyleField, keepAfterGesture, presetsOf, useEffectiveText, useMixed, type FieldPart } from './field.tsx';
-import { storedValue } from '../../core/style/set.ts';
+import { KeywordButtons, NumberField, propertyWord, TextStyleField, keepAfterGesture, presetsOf, useEffectiveText, useMixed, type FieldPart } from './field.tsx';
+import { shownText, storedValue } from '../../core/style/set.ts';
 import { kindsOf } from '../../core/style/applies.ts';
 import { storedPlace } from '../../core/style/grid-item.ts';
 import { tracksOf } from '../../core/style/tracks.ts';
@@ -286,9 +286,11 @@ export function GridTracks({ entry }: { readonly entry: DoorEntry }) {
   const property = typeof entry.door.args.property === 'string' ? entry.door.args.property : '';
   // where the value comes from is read on the longhands the document stores (grid-column-start, grid-column-end)
   const appearance = useFieldAppearance(MODEL_RULES.compositeFacts.get(property)?.longhands ?? [property]);
+  // the element's own tracks here, else the ones it inherits along the cascade (another breakpoint, a class): a
+  // breakpoint that inherits two columns shows those two, with the origin its row says, never "0 tracks" (J10)
   const value = useEditorState((s) => {
     const node = styleSource(s);
-    return node ? storedValue(node, property, layeredRules(s.ui)) : undefined;
+    return node ? (storedValue(node, property, layeredRules(s.ui)) ?? shownText(node, property, layeredRules(s.ui))) : undefined;
   });
   const tracks = tracksOf(value);
   const control = (d: DoorEntry) => (d.door.kind === 'panel-control' ? d.door.control : null);
@@ -299,16 +301,19 @@ export function GridTracks({ entry }: { readonly entry: DoorEntry }) {
   const primary = useEditorState((s) => s.selection[0] ?? null);
   return (
     <div className="grid-tracks" data-door={entry.ref} data-args={JSON.stringify({ property })}>
-      <div className="field-row" data-origin={appearance.kind}>
-        <span className="field-row__label">{t(`inspector.grid.trackCount.${pluralForm(locale, tracks.length)}`, { count: tracks.length })}</span>
+      {/* the axis named with its count, and the add and remove buttons in this header: they stay in place however many
+          tracks the list holds (J10: the + moved after the first add, and the two lists were not named) */}
+      <div className="field-row grid-tracks__header" data-origin={appearance.kind}>
+        <span className="field-row__label">{propertyWord(t, property)}</span>
+        <span className="grid-tracks__count">{t(`inspector.grid.trackCount.${pluralForm(locale, tracks.length)}`, { count: tracks.length })}</span>
+        <span className="grid-tracks__buttons">
+          {add ? <DoorControl entry={add} args={{ property, edit: { add: true } }} /> : null}
+          {remove ? <DoorControl entry={remove} args={{ property, edit: { remove: true } }} /> : null}
+        </span>
       </div>
       {tracks.map((track, index) => (
         <GridTrackField key={index} entry={field} property={property} index={index} track={track} available={primary !== null} />
       ))}
-      <div className="field-row grid-tracks__buttons">
-        {add ? <DoorControl entry={add} args={{ property, edit: { add: true } }} /> : null}
-        {remove ? <DoorControl entry={remove} args={{ property, edit: { remove: true } }} /> : null}
-      </div>
     </div>
   );
 }

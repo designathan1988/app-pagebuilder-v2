@@ -1370,3 +1370,16 @@
 }
 .field__keyword-value { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .field__keyword .icon { flex: none; color: var(--color-text-subtle); }
+
+/* The grid track editor's header (J10): the axis named, its count, and its add and remove buttons, which stay in this
+   row however many tracks the list below holds */
+.grid-tracks__header {
+  grid-template-columns: var(--size-label-column) minmax(0, 1fr) auto;
+}
+.grid-tracks__count {
+  color: var(--color-text-muted);
+}
+.grid-tracks__buttons {
+  display: inline-flex;
+  gap: var(--space-1);
+}

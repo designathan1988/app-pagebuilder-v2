@@ -234,3 +234,38 @@ test('every field of a pair row takes what is typed into it', runs(OPEN, ROW, SE
     }
   }
 });
+
+// J10 of the jornada03 study: a breakpoint that inherits two columns showed "0 tracks"; the lists were unnamed and the
+// + moved after the first add. The editor shows the inherited tracks, names its axis, keeps + in its header, and an
+// edited inherited track writes the whole list at the edited breakpoint only.
+test('a breakpoint that inherits two columns shows them, and editing one writes the list there only', runs(OPEN, ROW, 'style.set#inspector-display', 'style.setGridTracks#inspector-grid-template-columns-add-track', 'style.setGridTracks#inspector-grid-template-columns-track', 'view.setBreakpoint#toolbar-breakpoint-tabs-tablet'), async ({ page }) => {
+  await control(page, ROW, { args: { target: 'n-card-a' } }).click();
+  const display = panel(page).locator('[data-door="style.set#inspector-display"] input').first();
+  await display.fill('grid');
+  await display.press('Enter');
+  const layout = panel(page).locator('.inspector-section[aria-label="Layout"]');
+  const add = layout.locator('[data-door="style.setGridTracks#inspector-grid-template-columns-add-track"]');
+  await add.click();
+  const header = layout.locator('.grid-tracks__header').first();
+  const before = await add.boundingBox();
+  await add.click();
+  // the + stays where it was: it lives in the header, not after the list
+  expect((await add.boundingBox())?.y).toBe(before?.y);
+  await expect(header).toContainText('2 tracks');
+  await expect.poll(async () => (await stylesOf(page, 'n-card-a'))['grid-template-columns']).toBe('repeat(2, minmax(0, 1fr))');
+  await runDoor(page, 'view.setBreakpoint#toolbar-breakpoint-tabs-tablet');
+  // the tablet inherits the desktop's two columns: they are shown, never "0 tracks"
+  await expect(header).toContainText('2 tracks');
+  const first = layout.locator('[data-door="style.setGridTracks#inspector-grid-template-columns-track"] input').first();
+  await expect(first).toHaveValue('minmax(0, 1fr)');
+  await first.fill('2fr');
+  await first.press('Enter');
+  const tablet = async () => page.evaluate(() => {
+    const port = (window as unknown as { __builderTestPort: { document: () => { pages: { tree: { children: { id: string; styles?: Record<string, Record<string, Record<string, string>>> }[] } }[] } } }).__builderTestPort;
+    const walk = (n: { id: string; styles?: Record<string, Record<string, Record<string, string>>>; children?: unknown[] }): typeof n | undefined => n.id === 'n-card-a' ? n : (n.children ?? []).map((c) => walk(c as typeof n)).find((x) => x !== undefined);
+    return walk(port.document().pages[0]?.tree as never)?.styles;
+  });
+  await expect.poll(async () => (await tablet())?.tablet?.base?.['grid-template-columns']).toBe('2fr minmax(0, 1fr)');
+  // the desktop keeps its own two equal columns
+  expect((await stylesOf(page, 'n-card-a'))['grid-template-columns']).toBe('repeat(2, minmax(0, 1fr))');
+});

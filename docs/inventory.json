@@ -6,7 +6,7 @@
     "doors": 1128,
     "scenarios": 1440,
     "modules": 295,
-    "lines": 53974
+    "lines": 53982
   },
   "features": [
     {
@@ -4053,7 +4053,7 @@
     },
     {
       "path": "src/core/style/tracks.ts",
-      "lines": 139,
+      "lines": 142,
       "commands": [
         "style.setGridTracks"
       ],
@@ -5022,7 +5022,7 @@
     },
     {
       "path": "src/editor/shell/inspector-controls.tsx",
-      "lines": 588,
+      "lines": 593,
       "commands": [],
       "features": []
     },

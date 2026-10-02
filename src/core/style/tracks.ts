@@ -10,7 +10,7 @@ const REPEAT = /^repeat\(\s*(\d+)\s*,\s*([\s\S]+)\s*\)$/i;
 import { message, registerHandler } from '../commands/registry.ts';
 import { locate } from '../document/model.ts';
 import { commandOf, manifest, numberConstantAt } from '../../manifest/runtime.ts';
-import { propertyName, readValue, storedValue, writeStyle } from './set.ts';
+import { propertyName, readValue, shownText, storedValue, writeStyle } from './set.ts';
 
 // the tracks a value holds, in order; none for none or an unreadable value
 export function tracksOf(value: string | undefined): readonly string[] {
@@ -121,7 +121,10 @@ export const setGridTracksCommand = registerHandler('style.setGridTracks', (cont
   if (primary === null) return { kind: 'change' };
   // a track's field hands its place and the text typed; the add and remove buttons hand an edit
   const asked: TrackEdit = typeof track === 'number' ? { track, value: typeof value === 'string' ? value : '' } : (edit as TrackEdit);
-  const written = editedTracks(storedValue(primary.node, property, rules), asked);
+  // the tracks the element shows here: its own at the edited breakpoint and state, else the ones it inherits along the
+  // cascade (another breakpoint, a class) — editing an inherited track writes the whole list here (J10)
+  const held = storedValue(primary.node, property, rules) ?? shownText(primary.node, property, rules);
+  const written = editedTracks(held, asked);
   // a place the grid does not hold is a refusal naming the element, not a defect of the door
   if (typeof written !== 'string') return { kind: 'refused', message: message('status.tracks.noTrack', { name: primary.node.name }) };
   const read = readValue(context, property, written);
