@@ -74,6 +74,8 @@ export interface Region {
   // the gesture operations it came from, oldest first (spec "Structural Provenance")
   readonly provenance: readonly string[];
   readonly layout?: RegionLayout;
+  // the person gave it its name or its meaning: the layout never infers one for it (intent/meaning.ts)
+  readonly chosen?: true;
 }
 
 export type Constraint =

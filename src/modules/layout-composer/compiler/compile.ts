@@ -434,7 +434,17 @@ export function compile(intent: LayoutIntent, ports: CompilerPorts, options: Com
     const ordered = held.map((r) => ({ r, at: placeOf(r) })).sort((a, b) => a.at.y1 - b.at.y1 || a.at.x1 - b.at.x1);
     const overlapping = held.some((r) => r.overlap === true || r.polygon !== undefined);
     const areas = rows.tracks.map(() => columns.tracks.map(() => '.'));
-    const named = (i: number) => `r${i + 1}`;
+    // each area is named after its region (Header: header; Conteúdo: conteudo), once: a stylesheet that says
+    // "header header" "sidebar content" reads as the page does
+    const taken = new Map<string, number>();
+    const names = ordered.map(({ r }, i) => {
+      const plain = r.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      const ident = /^[a-z]/.test(plain) ? plain : `r${i + 1}`;
+      const seen = taken.get(ident) ?? 0;
+      taken.set(ident, seen + 1);
+      return seen === 0 ? ident : `${ident}-${seen + 1}`;
+    });
+    const named = (i: number) => names[i] as string;
     const children = ordered.map(({ r, at }, i) => {
       for (let y = at.y1; y < at.y2; y += 1) for (let x = at.x1; x < at.x2; x += 1) (areas[y] as string[])[x] = named(i);
       const node = leaf(r);

@@ -25,7 +25,7 @@ describe('the layout compiler', () => {
     expect(root.key).toBe(ROOT_NODE);
     expect(strategy).toBe('grid');
     expect(root.children.map((c) => c.key)).toEqual(['r1', 'r2', 'r3']);
-    expect(css(root, 'gridTemplateAreas')).toBe('"r1 r1" "r2 r3"');
+    expect(css(root, 'gridTemplateAreas')).toBe('"region-1 region-1" "region-2 region-3"');
     expect(css(root, 'gridTemplateColumns')).toBe('280px minmax(0, 1fr)');
     expect(css(root, 'gridTemplateRows')).toBe('minmax(100px, auto) minmax(700px, auto)');
     expect(JSON.stringify(root)).not.toContain('absolute');
@@ -67,8 +67,8 @@ describe('the layout compiler', () => {
     const { root, strategy } = compile(graph, PORTS);
     expect(strategy).toBe('grid');
     expect(root.children).toHaveLength(5);
-    // the areas are named in reading order, row by row and left to right, and the elements stand in that order
-    expect(css(root, 'gridTemplateAreas')).toBe('"r1 r1 r2" "r3 r4 r2" "r3 r5 r5"');
+    // the areas are named after their regions, and the elements stand in reading order, row by row and left to right
+    expect(css(root, 'gridTemplateAreas')).toBe('"region-1 region-1 region-2" "region-4 region-5 region-2" "region-4 region-3 region-3"');
     expect(root.children.map((c) => c.region)).toEqual(['r1', 'r2', 'r4', 'r5', 'r3']);
     expect(root.children.every((c) => c.children.length === 0)).toBe(true);
   });

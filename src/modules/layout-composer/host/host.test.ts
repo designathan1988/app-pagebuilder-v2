@@ -84,7 +84,8 @@ describe('Layout Composer host (host/handlers.ts)', () => {
     expect(base).toContain('"padding-left":"40px"');
     expect(base).toContain('"padding-right":"40px"');
     stroke(store, [{ x: 500, y: 10 }, { x: 500, y: 300 }, { x: 500, y: 640 }]);
-    expect(recordOf(root())?.intent.regions.map((r) => r.name).sort()).toEqual(['Region 1', 'Region 2']);
+    // composing the page, the two columns are read as what they plainly are: the narrow one beside the content
+    expect(recordOf(root())?.intent.regions.map((r) => [r.name, r.semantic]).sort()).toEqual([['Content', 'main'], ['Sidebar', 'aside']]);
   });
 
   it('cuts a region in two along a stroke across it', () => {
@@ -135,7 +136,7 @@ describe('Layout Composer properties and screen sizes (layout.configure, layout.
     expect(root().children.some((c) => styles(c).includes('"padding-top":"24px"'))).toBe(true);
     expect(store.dispatch('layout.configure', { field: 'width', value: 'fill-available' } as never).status).toBe('done');
     expect(store.getState().history.past.length).toBe(steps + 3);
-    expect(store.getState().message).toEqual({ key: 'layout.status.configured', params: { names: 'Region 2', property: 'width' } });
+    expect(store.getState().message).toEqual({ key: 'layout.status.configured', params: { names: 'Content', property: 'width' } });
   });
 
   it('refuses a value the property does not take, and a meaning for an element of the page, changing nothing', () => {

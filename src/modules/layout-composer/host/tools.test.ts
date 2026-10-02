@@ -69,6 +69,11 @@ describe('Layout Composer rules, suggestions and templates', () => {
     stroke(store, [{ x: 0, y: 300 }, { x: 600, y: 700 }]);
     stroke(store, [{ x: 0, y: 300 }, { x: 600, y: 700 }], 'draw');
     const wrapper = intent(root)?.regions.find((r) => r.box.y === 300 && r.parent === null)?.id ?? '';
+    // the page reads the big region as its main content: a wrapper with a meaning is no inert wrapper; made a plain div
+    // again by the person, it changes nothing and the suggestion takes it away
+    expect(store.dispatch('layout.suggest', { suggestion: `remove-wrapper:${wrapper}` } as never).status).toBe('refused');
+    store.dispatch('layout.select', { regions: [wrapper], mode: 'replace' } as never);
+    expect(store.dispatch('layout.configure', { field: 'semantic', value: 'div' } as never).status).toBe('done');
     expect(store.dispatch('layout.suggest', { suggestion: `remove-wrapper:${wrapper}` } as never).status).toBe('done');
     expect(intent(root)?.regions.filter((r) => r.box.y === 300)).toHaveLength(1);
     expect(store.dispatch('layout.suggest', { suggestion: `remove-wrapper:${wrapper}` } as never).status).toBe('refused');

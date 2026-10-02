@@ -16,7 +16,7 @@ import { boxShape, outsideArea, polygonBoolean, regionShape, shapeArea, shapeBou
 import { topology, validateIntent } from '../topology/topology.ts';
 import { solve } from '../constraints/solve.ts';
 
-export type RegionValues = Partial<Pick<Region, 'name' | 'semantic' | 'width' | 'height' | 'layout' | 'radius' | 'overlap'>>;
+export type RegionValues = Partial<Pick<Region, 'name' | 'semantic' | 'width' | 'height' | 'layout' | 'radius' | 'overlap' | 'chosen'>>;
 
 export type Operation =
   | { readonly kind: 'configure'; readonly id: string; readonly values: RegionValues }
