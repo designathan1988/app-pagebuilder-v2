@@ -2692,6 +2692,9 @@ Ctrl is the modifier; there is no keyboard way to pick the measured element.
 1. **The modifier is Ctrl, which the new app uses for Ctrl+click toggling.** Required: hovering an element always shows its size (W × H in CSS px) next to its hover outline, and holding **Alt** shows distances (manifest feature `hover-measure`).
 2. **Distances are measured to the hovered element's parent, not from the selection.** Required: with a selection, holding Alt over another element draws distance lines between the nearest edges of the selection and that element, each labelled in CSS px; over an ancestor of the selection it shows the distances from the selection to the ancestor's inner edges.
 3. **A measurement line is also a padding handle,** so a measuring gesture can change the document. Required: measuring never changes the selection or the document JSON.
+4. **The hovered element's size chip was drawn over the selection's label** (jornada03 J16: a button's label below it and
+   its section's "1440 × 246" one over the other). Required: where the chip under the hovered element's bottom-left
+   corner would meet the selection's label, it stands under the bottom-right corner instead.
 
 ## html-import
 
@@ -6458,6 +6461,10 @@ The outline follows the element at any zoom (mapped through the iframe's CSS zoo
 3. **The hover and selection chips cover neighbouring content.** The chip sits above the element's top-left corner and hides the text of the previous sibling (visible in `select-click--02-selected.png`, where the heading text is covered). Required: the chip must not cover the text of other elements while nothing is being dragged; place it outside the element box where there is room (above, else below, else inside), and keep it the same height as the design token for canvas labels.
 4. **The Page root's chip reads `<div> Page`,** although the Page renders as `<body>`. Required: the chip shows the real tag of the node that is exported (`<body>` for the Page root).
 5. **The Page root shows eight resize handles,** which invite a resize the page does not support. Required: the Page root selection shows the outline and chip but no resize handles.
+6. **Where every place around the element covers text, the label still took presses** (jornada03 J16: a button's label
+   over a card's price; a press on the price selected and dragged the button). Required: the label covers the least it
+   can, and then takes no press — a press there reaches the page under it; the label takes presses (select, drag) only
+   where it covers nothing.
 
 ## select-container-children
 
@@ -8738,7 +8745,9 @@ A text that is no language tag (`status.project.languageInvalid`), before any ch
 ### Refusals
 
 An empty pattern or a first number below 1 (`status.rename.patternInvalid`); the page root or a locked element among
-the selected refuses the whole batch with the renamer's own refusal, and nothing is renamed.
+the selected refuses the whole batch with the renamer's own refusal, and nothing is renamed. The dialog itself opens only on a
+selection the batch can rename: with nothing selected, the page root or a locked element among the selected, the
+context menu does not offer **Rename the selected…** (it offers only what applies).
 
 ## command-bar-find
 

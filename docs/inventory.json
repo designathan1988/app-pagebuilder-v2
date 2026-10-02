@@ -6,7 +6,7 @@
     "doors": 1315,
     "scenarios": 1724,
     "modules": 400,
-    "lines": 73497
+    "lines": 73524
   },
   "features": [
     {
@@ -4844,7 +4844,7 @@
     },
     {
       "path": "src/editor/canvas/chrome.tsx",
-      "lines": 992,
+      "lines": 999,
       "commands": [],
       "features": []
     },
@@ -4928,7 +4928,7 @@
     },
     {
       "path": "src/editor/canvas/placement.ts",
-      "lines": 153,
+      "lines": 156,
       "commands": [],
       "features": []
     },
@@ -5850,7 +5850,7 @@
     },
     {
       "path": "src/editor/shell/field.tsx",
-      "lines": 1542,
+      "lines": 1544,
       "commands": [],
       "features": []
     },
@@ -6217,7 +6217,7 @@
     },
     {
       "path": "src/editor/workspace/dialogs.ts",
-      "lines": 9,
+      "lines": 24,
       "commands": [
         "workspace.openDialog"
       ],

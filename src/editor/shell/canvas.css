@@ -934,6 +934,11 @@
   white-space: nowrap;
 }
 
+/* under the hovered element's bottom-right corner, clear of the selection's label (chrome.tsx hoverSize.end) */
+.chrome__size--end {
+  translate: -100% 0;
+}
+
 /* a distance Alt measures from the selection (spec hover-measure): a line in the measure colour and its length */
 .chrome__distance {
   position: absolute;
@@ -1100,7 +1105,7 @@
 
 /* the label of the one selected element is a hit target of the canvas (select-click, drag-reorder-canvas): a press on
    it selects that element and arms its drag (pointer.ts); the rest of the chrome takes no pointer event */
-.chrome__label.is-target:not(.is-measuring, .is-hidden) {
+.chrome__label.is-target:not(.is-measuring, .is-hidden, .is-covering) {
   pointer-events: auto;
   cursor: grab;
 }

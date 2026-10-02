@@ -55,7 +55,7 @@ const LEAVE_MODE = manifest.doors.find((d) => d.door.kind === 'shortcut' && d.do
 import { ViewOverlays } from './view-overlays.tsx';
 import { GridOverlay } from './grid-overlay.tsx';
 // where a label and a resize handle may be drawn (canvas/placement.ts): the rules moved out of this file, which draws
-import { controlBoxes, handleHitBox, placeLabel, visibleCanvas, type Box, type Placement } from './placement.ts';
+import { controlBoxes, handleHitBox, overlaps as overlapsBox, placeLabel, visibleCanvas, type Box, type Placement } from './placement.ts';
 import { breakpointName } from '../../core/document/breakpoints.ts';
 
 // the entries this module published before the placement rules moved out stay published here: consumers need not change
@@ -221,7 +221,7 @@ interface Layout {
   // the box around every selected node, drawn dashed while several are selected (DESIGN.md "Canvas", multi)
   readonly union: Box | null;
   readonly hovered: Box | null;
-  readonly label: { readonly box: Box; readonly placement: Placement } | null;
+  readonly label: { readonly box: Box; readonly placement: Placement; readonly covers?: boolean } | null;
   // where the text toolbar goes while a text is edited in place: above the edit's label, placed with it as one
   readonly toolbar: { readonly x: number; readonly y: number } | null;
   // the marquee's band while one is drawn (pointer.ts)
@@ -236,7 +236,7 @@ interface Layout {
   // the element's own rotation in degrees (0 when it holds none): the outline and the handles turn with it (item 4.4)
   readonly rotation: number;
   // the hovered element's size in CSS px, drawn below its hover outline (spec hover-measure)
-  readonly hoverSize: { readonly x: number; readonly y: number; readonly width: number; readonly height: number } | null;
+  readonly hoverSize: { readonly x: number; readonly y: number; readonly width: number; readonly height: number; readonly end: boolean } | null;
   // while Alt is held, the distances from the selection to the hovered element, each a line and its length in CSS px
   readonly distances: readonly Distance[];
   // the boxes of the one selected element's neighbouring siblings, in the chrome layer's pixels: a resize handle
@@ -792,7 +792,14 @@ export function CanvasChrome() {
         const rotate = single === undefined ? null : ROTATE_ZONES.map((side) => turnedSpot(rotateSpot(single, origin, zone, gapTo, side), single, spin, zone, origin));
         // the hovered element's size in CSS px, and, with Alt held, its distances to the one selected element
         const zoom = iframe.currentCSSZoom > 0 ? iframe.currentCSSZoom : 1;
-        const hoverSize = hoveredBox === null ? null : { x: hoveredBox.x, y: hoveredBox.y + hoveredBox.height, width: Math.round(hoveredBox.width / zoom), height: Math.round(hoveredBox.height / zoom) };
+        // the hovered element's size chip stands under its bottom-left corner, or under its bottom-right one where the
+        // selection's label is (jornada03 J16: a button's label and its section's size chip were drawn one over the
+        // other); the chip's own size is read from the one drawn
+        const chip = layer.current?.querySelector<HTMLElement>('[data-chrome="hover-size"]');
+        const chipSize = { width: chip?.offsetWidth ?? 0, height: chip?.offsetHeight ?? 0 };
+        const atStart = hoveredBox === null ? null : { x: hoveredBox.x, y: hoveredBox.y + hoveredBox.height, ...chipSize };
+        const meetsLabel = atStart !== null && placed !== null && overlapsBox(atStart, placed.box);
+        const hoverSize = hoveredBox === null ? null : { x: meetsLabel ? hoveredBox.x + hoveredBox.width : hoveredBox.x, y: hoveredBox.y + hoveredBox.height, width: Math.round(hoveredBox.width / zoom), height: Math.round(hoveredBox.height / zoom), end: meetsLabel };
         // the selected element's own size in CSS px (the label's chip)
         const ownSize = single === undefined ? null : { width: Math.round(single.width / zoom), height: Math.round(single.height / zoom) };
         const ancestor = hovered !== null && single !== undefined && selection[0] !== undefined && holdsNode(iframe, hovered, selection[0]);
@@ -853,7 +860,7 @@ export function CanvasChrome() {
       <ViewOverlays />
       {shown.hovered ? <div className="chrome__hover" data-chrome="hover" style={at(shown.hovered)} /> : null}
       {shown.hoverSize ? (
-        <div className="chrome__size" data-chrome="hover-size" style={{ left: shown.hoverSize.x, top: shown.hoverSize.y }}>
+        <div className={`chrome__size${shown.hoverSize.end ? ' chrome__size--end' : ''}`} data-chrome="hover-size" style={{ left: shown.hoverSize.x, top: shown.hoverSize.y }}>
           {t('canvas.measure.size', { width: shown.hoverSize.width, height: shown.hoverSize.height })}
         </div>
       ) : null}
@@ -952,7 +959,7 @@ export function CanvasChrome() {
       ) : node !== null && targets.includes(node.id) ? (
         <div
           ref={label}
-          className={`chrome__label is-target${shown.label ? '' : ' is-measuring'}${dropping ? ' is-hidden' : ''}${editing ? ' is-editing' : ''}`}
+          className={`chrome__label is-target${shown.label ? '' : ' is-measuring'}${shown.label?.covers === true ? ' is-covering' : ''}${dropping ? ' is-hidden' : ''}${editing ? ' is-editing' : ''}`}
           data-chrome="label"
           data-label-for={node.id}
           data-placement={shown.label?.placement}

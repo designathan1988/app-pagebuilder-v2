@@ -97,7 +97,9 @@ function FieldMenu({ anchor, list, label, children }: { readonly anchor: RefObje
     const { width, height } = panel.getBoundingClientRect();
     setAt(floatBelow(from, { width, height }, { width: window.innerWidth, height: window.innerHeight }, edge));
   }, [anchor, list]);
-  const style: CSSProperties = at === null ? { visibility: 'hidden', left: 0, top: 0 } : { left: at.left, top: at.top };
+  // unplaced for its first frame it is transparent, not hidden: the layer puts the focus in its first item then, and a
+  // hidden item takes no focus (Escape then went to another key context and closed nothing)
+  const style: CSSProperties = at === null ? { opacity: 0, left: 0, top: 0 } : { left: at.left, top: at.top };
   return createPortal(
     <div className="menu field__menu field__menu--floating" role="menu" ref={list} aria-label={label} data-key-context="menu" style={style}>
       {children}

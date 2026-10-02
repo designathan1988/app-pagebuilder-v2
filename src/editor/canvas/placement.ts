@@ -6,7 +6,9 @@
 // covers a control the chrome draws either — a resize handle or an edit band under it would lose the press to the
 // label, which stands for the element and starts a move. It sits above its element when that space is free, otherwise
 // inside the element's top-left corner when that corner is free, otherwise below the element; with a ghost chip at the
-// pointer (a drag) it keeps clear of the chip too.
+// pointer (a drag) it keeps clear of the chip too. Where no place is free the label covers the least it can and says so
+// (`covers`): the selection's label then takes no press, so a press meant for the text under it reaches the text
+// (jornada03 J16: a label over a card's price selected the button instead).
 export interface Box {
   readonly x: number;
   readonly y: number;
@@ -15,7 +17,8 @@ export interface Box {
 }
 export type Placement = 'above' | 'inside' | 'below';
 
-const overlaps = (a: Box, b: Box) => a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
+// whether two boxes share any area
+export const overlaps = (a: Box, b: Box) => a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
 const within = (a: Box, area: Box) => a.x >= area.x && a.y >= area.y && a.x + a.width <= area.x + area.width && a.y + a.height <= area.y + area.height;
 
 // The hit area of one resize handle in the chrome layer's pixels: a `size` square beside the element's edge or
@@ -113,7 +116,7 @@ function heldInside(box: Box, area: Box): Box {
 // the three places are tried at its start and then at its far end (a line between two lines of text: the text sits at
 // the left, and the far end is empty), and where even those are not free the place covering the least content wins —
 // never the largest overlap just because it is the documented order.
-export function placeLabel(box: Box, size: { readonly width: number; readonly height: number }, gap: number, content: readonly Box[], canvas: Box, ghost: Box | null = null): { box: Box; placement: Placement } {
+export function placeLabel(box: Box, size: { readonly width: number; readonly height: number }, gap: number, content: readonly Box[], canvas: Box, ghost: Box | null = null): { box: Box; placement: Placement; covers: boolean } {
   const far = box.x + box.width - size.width;
   // 'inside' needs the label to fit within the element it names: a label taller than the element spills past its
   // bottom edge and reads as a label of whatever lies there (a paragraph one line tall), so the corner is offered only
@@ -139,7 +142,7 @@ export function placeLabel(box: Box, size: { readonly width: number; readonly he
   const free = candidates.find((p) => !content.some((c) => overlaps(p.box, c)) && clear(p));
   const fallback = places.find((p) => p.placement === 'below') as { box: Box; placement: Placement };
   const best = candidates.reduce((held, p) => (covered(p.box) < covered(held.box) ? p : held), { ...fallback, box: heldInside(fallback.box, canvas) });
-  const chosen = free ?? best;
+  const chosen = { ...(free ?? best), covers: free === undefined };
   if (ghost === null || clear(chosen)) return chosen;
   // beside the chip: to its left, to its right, above it or below it, the first on the canvas
   const beside = [
@@ -148,5 +151,5 @@ export function placeLabel(box: Box, size: { readonly width: number; readonly he
     { ...chosen.box, y: ghost.y - gap - size.height },
     { ...chosen.box, y: ghost.y + ghost.height + gap },
   ];
-  return { placement: chosen.placement, box: beside.find((b) => within(b, canvas)) ?? heldInside(beside[0] as Box, canvas) };
+  return { placement: chosen.placement, covers: chosen.covers, box: beside.find((b) => within(b, canvas)) ?? heldInside(beside[0] as Box, canvas) };
 }
