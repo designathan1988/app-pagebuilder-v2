@@ -179,6 +179,20 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'colour-variables',
+    about: 'stage 3: the project variable brand used from the colour picker without typing var(, and the contrast with the background',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/brand-title.json'] } },
+      { door: 'selection.select#layers-row', labelled: 'Title' },
+      { click: `[data-door="colorPicker.open#field-color-swatch"][data-args*='"color"']` },
+      { photo: 'picker-with-variables' },
+      { click: '[data-door="style.set#color-picker-variable"]' },
+      { photo: 'brand-used' },
+      { door: 'colorPicker.apply#color-picker-apply' },
+    ],
+  },
+  {
     name: 'data-c3',
     about: 'jornada03 C3/H13: the header shared with every page, its menu changed once',
     steps: [

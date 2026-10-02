@@ -217,7 +217,7 @@ export function useMixed(properties: readonly string[]): boolean {
 // The design tokens a field of a property offers next to typed values (spec css-variables-tokens, Problems in Pager 4):
 // the project's variables of the kind the property takes, as var(--name).
 const TOKEN_KINDS: readonly string[] = manifest.commandById.get(createToken.command)?.args.kind?.values ?? [];
-function useTokenSuggestions(property: string): readonly string[] {
+export function useTokenSuggestions(property: string): readonly string[] {
   const text = useEditorState((s) => {
     const kind = tokenKindOf(property, TOKEN_KINDS, MODEL_RULES);
     return kind === null ? '' : tokensOf(s.document).filter((t) => t.kind === kind).map((t) => `var(--${t.name})`).join('\n');

@@ -3255,5 +3255,10 @@
   "keyword.cover": "cobrir",
   "keyword.contain": "conter",
   "keyword.wrap": "quebrar",
-  "keyword.nowrap": "sem quebra"
+  "keyword.nowrap": "sem quebra",
+  "colorPicker.variable": "Usar a variável",
+  "colorPicker.variables": "Variáveis",
+  "colorPicker.contrast": "Contraste {ratio}:1 com o fundo",
+  "colorPicker.contrastPasses": "passa no AA",
+  "colorPicker.contrastFails": "abaixo do AA (4,5:1)"
 }

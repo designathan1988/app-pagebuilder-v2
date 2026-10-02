@@ -41,6 +41,21 @@
   cursor: pointer;
 }
 
+/* a variable of the project: its colour, ringed so it reads as a named value (color.tsx VariableChip) */
+.picker__chip--variable {
+  border-radius: var(--radius-pill);
+}
+
+/* the contrast of a text colour with its background (color.tsx ContrastLine) */
+.picker__contrast {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.picker__contrast.is-low {
+  color: var(--color-danger);
+}
+
 .field__swatch.door {
   flex: none;
   padding: var(--space-0);

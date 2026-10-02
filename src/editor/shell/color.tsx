@@ -33,7 +33,10 @@ import { dispatchInSession } from '../input/pointer.ts';
 import { MODEL_RULES, layeredRules, useEditorState } from '../store.ts';
 import { useOutsideLayer } from './outside-layer.ts';
 import { useT } from '../text.ts';
-import { COLOR_SWATCH, propertyWord, usePageValues } from './field.tsx';
+import { COLOR_SWATCH, propertyWord, usePageValues, useTokenSuggestions } from './field.tsx';
+import { contrast, CONTRAST_MINIMUM } from '../../core/a11y/checks.ts';
+import { locate } from '../../core/document/model.ts';
+import { manifest } from '../../manifest/runtime.ts';
 
 // the picker's parts, in their order (layout.json region color-picker)
 const PARTS = doorSlots('color-picker');
@@ -181,6 +184,53 @@ function ColourChip({ entry, property, colour }: { readonly entry: DoorEntry; re
   );
 }
 
+// A variable of the project (a colour token): its chip shows its colour, its click uses var(--name) (the value follows
+// the variable when it changes)
+function VariableChip({ entry, property, name, colour }: { readonly entry: DoorEntry; readonly property: string; readonly name: string; readonly colour: string }) {
+  const args = { property, value: `var(--${name})` };
+  const door = useDoor(entry, args, undefined, isFeatureBuilt(entry.door.feature as FeatureId));
+  return (
+    <button
+      type="button"
+      className={`picker__chip picker__chip--variable door${door.available ? '' : ' is-unavailable'}`}
+      data-door={entry.ref}
+      data-args={JSON.stringify(args)}
+      title={`${door.label}: --${name} (${colour})`}
+      aria-label={`${door.label}: --${name}`}
+      aria-disabled={door.available ? undefined : true}
+      style={{ '--swatch-colour': colour } as CSSProperties}
+      onClick={() => (door.available ? run(entry, args) : undefined)}
+    />
+  );
+}
+
+// The contrast of a text colour with the background it stands on (WCAG's, core/a11y/checks.ts, the one owner of it):
+// the background the page computes for the element, else its nearest ancestor's that has one; white when none has.
+// Shown for the text colour only (the property the contrast check reads, interactions.json checks).
+function ContrastLine({ property, current }: { readonly property: string; readonly current: string }) {
+  const t = useT();
+  const background = useEditorState((s) => {
+    if (property !== manifest.interactions.checks.colourProperty) return '';
+    const lines = lineStyles(MODEL_RULES);
+    for (let at = s.selection[0] === undefined ? null : locate(s.document, s.selection[0]); at !== null; at = at.parent === null ? null : locate(s.document, at.parent.id)) {
+      const value = computedValues(at.node.id, [manifest.interactions.checks.backgroundProperty], lines)?.[manifest.interactions.checks.backgroundProperty] ?? '';
+      const read = parseColor(value);
+      if (read !== null && read.a >= 1) return `${read.r},${read.g},${read.b}`;
+    }
+    return '255,255,255';
+  });
+  const text = parseColor(current);
+  if (background === '' || text === null) return null;
+  const [r = 255, g = 255, b = 255] = background.split(',').map(Number);
+  const ratio = contrast([text.r, text.g, text.b], [r, g, b]);
+  const passes = ratio >= CONTRAST_MINIMUM;
+  return (
+    <p className={`picker__contrast${passes ? '' : ' is-low'}`} data-contrast={ratio.toFixed(2)}>
+      {t('colorPicker.contrast', { ratio: ratio.toFixed(1) })} · {t(passes ? 'colorPicker.contrastPasses' : 'colorPicker.contrastFails')}
+    </p>
+  );
+}
+
 // Chrome's EyeDropper, when the browser has it (its sRGBHex is the colour picked; an Escape in it picks none)
 interface EyeDropperApi {
   open(): Promise<{ readonly sRGBHex: string }>;
@@ -196,6 +246,11 @@ function Library({ property, current }: { readonly property: string; readonly cu
   const savedPart = partFor('saved-swatch');
   const recentPart = partFor('recent-swatch');
   const dropper = partFor('eyedropper');
+  // the project's colour variables (spec css-variables-tokens): a click uses var(--name), never its value
+  const variablePart = partFor('variable-swatch');
+  const offered = useTokenSuggestions(property);
+  const tokens = useEditorState((s) => s.document.tokens);
+  const variables = useMemo(() => (tokens ?? []).filter((token) => offered.includes(`var(--${token.name})`)), [tokens, offered]);
   return (
     <div className="picker__library">
       <div className="picker__row" role="group" aria-label={t('colorPicker.saved')}>
@@ -223,6 +278,13 @@ function Library({ property, current }: { readonly property: string; readonly cu
           />
         ) : null}
       </div>
+      {variablePart !== undefined && variables.length > 0 ? (
+        <div className="picker__row" role="group" aria-label={t('colorPicker.variables')}>
+          {variables.map((token) => (
+            <VariableChip key={token.name} entry={variablePart} property={property} name={token.name} colour={token.value} />
+          ))}
+        </div>
+      ) : null}
       {recentPart !== undefined && recent.length > 0 ? (
         <div className="picker__row" role="group" aria-label={t('colorPicker.recent')}>
           {recent.map((colour) => (
@@ -273,6 +335,8 @@ function Picker({ property, previous }: { readonly property: string; readonly pr
   // the colour as it is, outside sRGB too (OKLCH and OKLab show it; the area shows the nearest sRGB colour)
   const exact = parseSrgb(stored ?? '') ?? parseSrgb(computed ?? '');
   const hsb = rgbToHsb(rgba);
+  // the colour drawn for the value: itself, or, for a variable (var(--brand)), the colour the page computes for it
+  const visible = parseColor(current) !== null ? current : formatColor(rgba);
   // the hue the area shows: the colour's, else (a grey, black) the one last chosen on the hue slider
   const [chosenHue, setChosenHue] = useState(0);
   const hue = hsb.s > 0 && hsb.v > 0 ? Math.round(hsb.h) : chosenHue;
@@ -325,9 +389,10 @@ function Picker({ property, previous }: { readonly property: string; readonly pr
               onClick={() => (previousValue !== null ? run(previousPart, { property, value: previousValue }) : undefined)}
             />
           ) : null}
-          <span className="picker__swatch" role="img" aria-label={t('colorPicker.current')} title={current} style={{ '--swatch-colour': current } as CSSProperties} />
+          <span className="picker__swatch" role="img" aria-label={t('colorPicker.current')} title={current} style={{ '--swatch-colour': visible } as CSSProperties} />
         </div>
         <Library property={property} current={current} />
+        <ContrastLine property={property} current={visible} />
         {area !== undefined ? (
           <div
             className="picker__area"

@@ -1267,6 +1267,7 @@ export const DOOR_IDS = [
   "style.set#color-picker-alpha",
   "style.set#color-picker-value",
   "style.set#color-picker-saved-swatch",
+  "style.set#color-picker-variable",
   "style.set#color-picker-recent-swatch",
   "style.set#color-picker-eyedropper",
   "style.set#inspector-grid-area",
@@ -6189,5 +6190,10 @@ export const MESSAGE_IDS = [
   "keyword.contain",
   "keyword.wrap",
   "keyword.nowrap",
+  "colorPicker.variable",
+  "colorPicker.variables",
+  "colorPicker.contrast",
+  "colorPicker.contrastPasses",
+  "colorPicker.contrastFails",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

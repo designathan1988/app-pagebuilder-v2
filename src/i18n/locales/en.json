@@ -3255,5 +3255,10 @@
   "keyword.cover": "cover",
   "keyword.contain": "contain",
   "keyword.wrap": "wrap",
-  "keyword.nowrap": "nowrap"
+  "keyword.nowrap": "nowrap",
+  "colorPicker.variable": "Use the variable",
+  "colorPicker.variables": "Variables",
+  "colorPicker.contrast": "Contrast {ratio}:1 with the background",
+  "colorPicker.contrastPasses": "passes AA",
+  "colorPicker.contrastFails": "below AA (4.5:1)"
 }

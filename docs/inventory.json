@@ -3,10 +3,10 @@
     "features": 204,
     "built": 203,
     "commands": 356,
-    "doors": 1304,
-    "scenarios": 1705,
+    "doors": 1305,
+    "scenarios": 1706,
     "modules": 394,
-    "lines": 72471
+    "lines": 72542
   },
   "features": [
     {
@@ -652,7 +652,7 @@
         "field.setUnit",
         "field.cancel"
       ],
-      "doors": 181,
+      "doors": 182,
       "scenarios": 19,
       "modules": [
         "src/core/style/set.ts",
@@ -665,7 +665,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 170,
+      "doors": 171,
       "scenarios": 11,
       "modules": [
         "src/core/style/set.ts"
@@ -678,7 +678,7 @@
         "style.set",
         "style.setAlignment"
       ],
-      "doors": 171,
+      "doors": 172,
       "scenarios": 20,
       "modules": [
         "src/core/style/alignment.ts",
@@ -693,7 +693,7 @@
         "style.setGridTracks",
         "style.setGridItem"
       ],
-      "doors": 181,
+      "doors": 182,
       "scenarios": 21,
       "modules": [
         "src/core/style/grid-item.ts",
@@ -707,7 +707,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 170,
+      "doors": 171,
       "scenarios": 10,
       "modules": [
         "src/core/style/set.ts"
@@ -736,7 +736,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 170,
+      "doors": 171,
       "scenarios": 13,
       "modules": [
         "src/core/style/set.ts"
@@ -749,7 +749,7 @@
         "style.set",
         "position.setMode"
       ],
-      "doors": 172,
+      "doors": 173,
       "scenarios": 15,
       "modules": [
         "src/core/geometry/position.ts",
@@ -768,8 +768,8 @@
         "colorPicker.cancel",
         "drag.cancel"
       ],
-      "doors": 181,
-      "scenarios": 21,
+      "doors": 182,
+      "scenarios": 22,
       "modules": [
         "src/core/style/set.ts",
         "src/editor/drag/drag-session.ts",
@@ -797,7 +797,7 @@
         "colors.removeSwatch",
         "style.set"
       ],
-      "doors": 172,
+      "doors": 173,
       "scenarios": 5,
       "modules": [
         "src/core/design/colors.ts",
@@ -810,7 +810,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 170,
+      "doors": 171,
       "scenarios": 23,
       "modules": [
         "src/core/style/set.ts"
@@ -822,7 +822,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 170,
+      "doors": 171,
       "scenarios": 15,
       "modules": [
         "src/core/style/set.ts"
@@ -835,7 +835,7 @@
         "style.set",
         "style.setBackgroundImage"
       ],
-      "doors": 189,
+      "doors": 190,
       "scenarios": 16,
       "modules": [
         "src/core/style/background-image.ts",
@@ -863,7 +863,7 @@
         "style.setRadius",
         "field.cancel"
       ],
-      "doors": 198,
+      "doors": 199,
       "scenarios": 27,
       "modules": [
         "src/core/style/border.ts",
@@ -877,7 +877,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 170,
+      "doors": 171,
       "scenarios": 9,
       "modules": [
         "src/core/style/set.ts"
@@ -902,7 +902,7 @@
         "style.set",
         "style.setFilter"
       ],
-      "doors": 181,
+      "doors": 182,
       "scenarios": 16,
       "modules": [
         "src/core/style/filter.ts",
@@ -916,7 +916,7 @@
         "style.set",
         "style.setTransform"
       ],
-      "doors": 175,
+      "doors": 176,
       "scenarios": 15,
       "modules": [
         "src/core/style/set.ts",
@@ -929,7 +929,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 170,
+      "doors": 171,
       "scenarios": 6,
       "modules": [
         "src/core/style/set.ts"
@@ -941,7 +941,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 170,
+      "doors": 171,
       "scenarios": 20,
       "modules": [
         "src/core/style/set.ts"
@@ -1038,7 +1038,7 @@
         "style.setTransform",
         "quickPanel.setOpen"
       ],
-      "doors": 233,
+      "doors": 234,
       "scenarios": 36,
       "modules": [
         "src/core/elements/tag.ts",
@@ -1057,7 +1057,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 170,
+      "doors": 171,
       "scenarios": 3,
       "modules": [
         "src/core/style/set.ts"
@@ -1098,7 +1098,7 @@
         "style.setRadius",
         "handle.step"
       ],
-      "doors": 199,
+      "doors": 200,
       "scenarios": 11,
       "modules": [
         "src/core/style/border.ts",
@@ -1431,7 +1431,7 @@
         "element.setSvgMarkup",
         "parts.add"
       ],
-      "doors": 196,
+      "doors": 197,
       "scenarios": 14,
       "modules": [
         "src/core/elements/parts.ts",
@@ -1473,7 +1473,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 170,
+      "doors": 171,
       "scenarios": 10,
       "modules": [
         "src/core/style/set.ts"
@@ -1712,7 +1712,7 @@
       "commands": [
         "style.set"
       ],
-      "doors": 170,
+      "doors": 171,
       "scenarios": 3,
       "modules": [
         "src/core/style/set.ts"
@@ -1943,7 +1943,7 @@
         "style.reset",
         "view.setBreakpoint"
       ],
-      "doors": 182,
+      "doors": 183,
       "scenarios": 5,
       "modules": [
         "src/core/style/reset.ts",
@@ -1959,7 +1959,7 @@
         "view.setBreakpoint",
         "view.setStyleState"
       ],
-      "doors": 196,
+      "doors": 197,
       "scenarios": 16,
       "modules": [
         "src/core/style/set.ts",
@@ -2124,7 +2124,7 @@
         "position.setMode",
         "inspector.reveal"
       ],
-      "doors": 284,
+      "doors": 285,
       "scenarios": 10,
       "modules": [
         "src/core/geometry/position.ts",
@@ -2731,7 +2731,7 @@
         "project.export",
         "files.upload"
       ],
-      "doors": 176,
+      "doors": 177,
       "scenarios": 1,
       "modules": [
         "src/core/export/export.ts",
@@ -3096,7 +3096,7 @@
         "style.set",
         "project.export"
       ],
-      "doors": 195,
+      "doors": 196,
       "scenarios": 15,
       "modules": [
         "src/core/export/export.ts",
@@ -5668,7 +5668,7 @@
     },
     {
       "path": "src/editor/shell/color.tsx",
-      "lines": 421,
+      "lines": 486,
       "commands": [],
       "features": []
     },
@@ -6187,7 +6187,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6194,
+      "lines": 6200,
       "commands": [],
       "features": []
     },

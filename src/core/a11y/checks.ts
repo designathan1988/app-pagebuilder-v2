@@ -25,7 +25,7 @@ export interface CheckIssue {
 }
 
 // WCAG 2.1's minimum contrast for body text
-const CONTRAST_MINIMUM = 4.5;
+export const CONTRAST_MINIMUM = 4.5;
 
 // a colour the reader understands: #rgb, #rrggbb, rgb(r, g, b) and rgba(r, g, b, a) with a fully opaque alpha; null
 // for everything else (a variable, a keyword, a partly transparent colour)
@@ -56,7 +56,7 @@ function luminance([r, g, b]: readonly [number, number, number]): number {
   };
   return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
 }
-function contrast(one: readonly [number, number, number], other: readonly [number, number, number]): number {
+export function contrast(one: readonly [number, number, number], other: readonly [number, number, number]): number {
   const [light, dark] = luminance(one) >= luminance(other) ? [one, other] : [other, one];
   return (luminance(light) + 0.05) / (luminance(dark) + 0.05);
 }

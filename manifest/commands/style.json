@@ -5090,6 +5090,32 @@
         {
           "kind": "panel-control",
           "pressed": false,
+          "feature": "color-picker",
+          "modifier": null,
+          "gesture": null,
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "adapter": {
+            "selection": "all",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {},
+          "id": "color-picker-variable",
+          "drawnAs": "item",
+          "panel": "color-picker",
+          "control": "variable-swatch",
+          "labelKey": "colorPicker.variable",
+          "placement": {
+            "region": "color-picker",
+            "order": 6
+          }
+        },
+        {
+          "kind": "panel-control",
+          "pressed": false,
           "feature": "color-swatches-eyedropper",
           "modifier": null,
           "gesture": null,
