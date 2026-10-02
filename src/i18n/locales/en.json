@@ -3223,5 +3223,10 @@
   "status.breakpoints.baseStays": "{name} is the base breakpoint; every project keeps it.",
   "status.breakpoints.usedByMotion": "A motion runs only at {name} or starts on it: change that motion first.",
   "status.breakpoints.unknown": "The project has no such breakpoint.",
-  "breakpoints.addAt": "Add a breakpoint at this width ({width} px)"
+  "breakpoints.addAt": "Add a breakpoint at this width ({width} px)",
+  "status.breakpoints.removedInto": "Removed the breakpoint {name}; its styles moved to {into}.",
+  "status.breakpoints.noNarrower": "{name} is the narrowest breakpoint: its styles can move to a wider one or go.",
+  "breakpoints.removeInto": "Move its styles to {name} and remove",
+  "breakpoints.removeDiscard": "Remove with its styles",
+  "breakpoints.removeMenu": "Remove {name}"
 }

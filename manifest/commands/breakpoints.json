@@ -221,6 +221,15 @@
           "type": "breakpoint",
           "values": [],
           "optional": false
+        },
+        "styles": {
+          "type": "enum",
+          "values": [
+            "discard",
+            "wider",
+            "narrower"
+          ],
+          "optional": false
         }
       },
       "availability": {
@@ -230,7 +239,8 @@
       "refusals": [
         "status.breakpoints.unknown",
         "status.breakpoints.baseStays",
-        "status.breakpoints.usedByMotion"
+        "status.breakpoints.usedByMotion",
+        "status.breakpoints.noNarrower"
       ],
       "confirmation": null,
       "history": {

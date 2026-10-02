@@ -110,35 +110,52 @@ export function resizedTable(table: readonly ProjectBreakpoint[], id: string, wi
   return table.map((b) => (b.id === id ? { ...b, width } : b));
 }
 
-// What a document holds at a breakpoint: every styles record (elements, classes, components) and every grid setting
-// keeps its other breakpoints; a motion's list of breakpoints loses it. Refused while a motion runs only there or is
-// triggered by it (a person removes that first).
-export function documentWithout(document: DocumentLike, id: string): { readonly document: DocumentLike } | TableRefusal {
+// What a document holds at a breakpoint, when it goes: every styles record (elements, classes, components) and every
+// grid setting at it is dropped, or moved `into` another breakpoint (where that one sets nothing of its own: its own
+// values win); a motion's list of breakpoints forgets it or names the other one instead. Without `into`, refused
+// while a motion runs only there or is started by it (a person removes that first, or moves it).
+export function documentWithout(document: DocumentLike, id: string, into: string | null = null): { readonly document: DocumentLike } | TableRefusal {
   let used = false;
+  const isRecord = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === 'object' && !Array.isArray(value);
+  // a record by breakpoint (an element's styles, a grid's settings) without the breakpoint, its values moved `into`
+  // the other one under what that one holds (by state, or by setting)
+  const byBreakpoint = (record: Record<string, unknown>, deep: boolean): Record<string, unknown> => {
+    const { [id]: held, ...rest } = record;
+    if (into === null || held === undefined) return rest;
+    const there = rest[into];
+    if (!isRecord(held) || !isRecord(there)) return { ...rest, [into]: there ?? held };
+    const merged: Record<string, unknown> = { ...held, ...there };
+    if (deep) for (const [state, values] of Object.entries(held)) if (isRecord(values) && isRecord(there[state])) merged[state] = { ...values, ...there[state] };
+    return { ...rest, [into]: merged };
+  };
   const strip = (value: unknown, key: string | null): unknown => {
     if (Array.isArray(value)) {
       if (key === 'breakpoints' && value.every((v) => typeof v === 'string')) {
-        if (value.includes(id) && value.length === 1) used = true;
+        if (!value.includes(id)) return value;
+        if (into !== null) return value.includes(into) ? value.filter((v) => v !== id) : value.map((v) => (v === id ? into : v));
+        if (value.length === 1) used = true;
         return value.filter((v) => v !== id);
       }
       return value.map((v) => strip(v, null));
     }
-    if (value === null || typeof value !== 'object') return value;
-    const record = value as Record<string, unknown>;
-    if (record.kind === 'breakpoint' && record.breakpoint === id) used = true;
-    // a page's grids: each grid's settings by breakpoint
-    // (a grid left with no breakpoint goes, and the record with it when no grid is left)
+    if (!isRecord(value)) return value;
+    if (value.kind === 'breakpoint' && value.breakpoint === id) {
+      if (into === null) used = true;
+      else return { ...value, breakpoint: into };
+    }
+    // a page's grids: each grid's settings by breakpoint (a grid left with no breakpoint goes, and the record with it
+    // when no grid is left)
     if (key === 'grid')
       return Object.fromEntries(
-        Object.entries(record)
-          .map(([grid, held]) => [grid, held !== null && typeof held === 'object' && !Array.isArray(held) ? Object.fromEntries(Object.entries(held).filter(([name]) => name !== id)) : held] as const)
-          .filter(([, held]) => !(held !== null && typeof held === 'object' && Object.keys(held).length === 0)),
+        Object.entries(value)
+          .map(([grid, held]) => [grid, isRecord(held) ? byBreakpoint(held, false) : held] as const)
+          .filter(([, held]) => !(isRecord(held) && Object.keys(held).length === 0)),
       );
+    if (key === 'styles') return Object.fromEntries(Object.entries(byBreakpoint(value, true)).map(([name, held]) => [name, strip(held, name)]));
     const out: Record<string, unknown> = {};
-    for (const [name, held] of Object.entries(record)) {
-      if (key === 'styles' && name === id) continue;
+    for (const [name, held] of Object.entries(value)) {
       const kept = strip(held, name);
-      if (name === 'grid' && kept !== null && typeof kept === 'object' && Object.keys(kept).length === 0) continue;
+      if (name === 'grid' && isRecord(kept) && Object.keys(kept).length === 0) continue;
       out[name] = kept;
     }
     return out;

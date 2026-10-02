@@ -57,11 +57,17 @@ export const setBreakpointWidth = registerHandler<'breakpoints.setWidth', Editor
   return { kind: 'change', patches: [tablePatch(state.document, table)], ...(shown ? { ui: rest } : {}), message: message('status.breakpoints.resized', { name: breakpointWords(held), width: rounded }) };
 });
 
-export const removeBreakpoint = registerHandler<'breakpoints.remove', EditorUi>('breakpoints.remove', ({ state }, { breakpoint }) => {
+// Where a removed breakpoint's styles go: nowhere, or into the next wider or narrower breakpoint (the narrower keeps its
+// own look: it inherited them anyway)
+export const removeBreakpoint = registerHandler<'breakpoints.remove', EditorUi>('breakpoints.remove', ({ state }, { breakpoint, styles }) => {
   const held = breakpointById(state.document, breakpoint);
   if (held === undefined) return unknown();
   if (held.base) return { kind: 'refused', message: message('status.breakpoints.baseStays', { name: breakpointWords(held) }) };
-  const without = documentWithout(state.document as unknown as Readonly<Record<string, unknown>>, breakpoint);
+  const table = breakpointsOf(state.document);
+  const at = table.findIndex((b) => b.id === breakpoint);
+  const into = styles === 'wider' ? table[at - 1] : styles === 'narrower' ? table[at + 1] : undefined;
+  if (styles === 'narrower' && into === undefined) return { kind: 'refused', message: message('status.breakpoints.noNarrower', { name: breakpointWords(held) }) };
+  const without = documentWithout(state.document as unknown as Readonly<Record<string, unknown>>, breakpoint, into?.id ?? null);
   if (isRefusal(without)) return { kind: 'refused', message: message('status.breakpoints.usedByMotion', { name: breakpointWords(held) }) };
   const before = state.document as unknown as Readonly<Record<string, unknown>>;
   const after = without.document;
@@ -71,7 +77,7 @@ export const removeBreakpoint = registerHandler<'breakpoints.remove', EditorUi>(
     .map((field) => ({ op: 'replace', path: [field], value: after[field] }));
   patches.push(tablePatch(state.document, breakpointsOf(state.document).filter((b) => b.id !== breakpoint)));
   const shown = activeBreakpoint(state).id === breakpoint;
-  const said: Message = message('status.breakpoints.removed', { name: breakpointWords(held) });
+  const said: Message = into === undefined ? message('status.breakpoints.removed', { name: breakpointWords(held) }) : message('status.breakpoints.removedInto', { name: breakpointWords(held), into: breakpointWords(into) });
   if (!shown) return { kind: 'change', patches, message: said };
   const { viewportWidth: _width, ...ui } = state.ui;
   void _width;

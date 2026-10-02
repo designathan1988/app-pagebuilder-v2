@@ -6148,5 +6148,10 @@ export const MESSAGE_IDS = [
   "status.breakpoints.usedByMotion",
   "status.breakpoints.unknown",
   "breakpoints.addAt",
+  "status.breakpoints.removedInto",
+  "status.breakpoints.noNarrower",
+  "breakpoints.removeInto",
+  "breakpoints.removeDiscard",
+  "breakpoints.removeMenu",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

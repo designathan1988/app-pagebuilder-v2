@@ -68,7 +68,7 @@ export interface CommandArgs {
   "breakpoints.add": { readonly width?: number; readonly name?: string };
   "breakpoints.rename": { readonly breakpoint: string; readonly name: string };
   "breakpoints.setWidth": { readonly breakpoint: string; readonly width: number };
-  "breakpoints.remove": { readonly breakpoint: string };
+  "breakpoints.remove": { readonly breakpoint: string; readonly styles: "discard" | "wider" | "narrower" };
   "clipboard.copy": Record<string, never>;
   "clipboard.paste": { readonly clipboard: ClipboardContent };
   "clipboard.cut": Record<string, never>;

@@ -192,6 +192,11 @@
   color: var(--color-text);
 }
 
+/* opened from a modal dialog: over it */
+.popover.popover--over-dialog {
+  z-index: var(--z-confirm);
+}
+
 /* ---------------------------------------------------------------- the colour swatch */
 
 /* a colour field's swatch (color-picker): the colour over a checkerboard, which shows through a translucent one */

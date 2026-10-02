@@ -54,8 +54,8 @@ describe('project breakpoints', () => {
   it('removes a breakpoint with the styles set at it, never the base, and undo brings them back', () => {
     const store = storeWith(fixture as unknown as DocumentJson);
     store.dispatch('view.setBreakpoint', { breakpoint: 'tablet' });
-    expect(store.dispatch('breakpoints.remove', { breakpoint: 'desktop' }).status).toBe('refused');
-    expect(store.dispatch('breakpoints.remove', { breakpoint: 'tablet' }).status).toBe('done');
+    expect(store.dispatch('breakpoints.remove', { breakpoint: 'desktop', styles: 'discard' }).status).toBe('refused');
+    expect(store.dispatch('breakpoints.remove', { breakpoint: 'tablet', styles: 'discard' }).status).toBe('done');
     const title = store.getState().document.pages[0]?.tree.children[0];
     expect(Object.keys(title?.styles ?? {})).toEqual(['desktop', 'phone']);
     expect(activeBreakpoint(store.getState()).id).toBe('desktop');
@@ -65,10 +65,26 @@ describe('project breakpoints', () => {
     expect(store.getState().document.breakpoints).toBeUndefined();
   });
 
+  it('moves the styles of a removed breakpoint into a neighbour, where it sets nothing of its own', () => {
+    const narrower = storeWith(fixture as unknown as DocumentJson);
+    expect(narrower.dispatch('breakpoints.remove', { breakpoint: 'phone', styles: 'narrower' }).status).toBe('refused');
+    expect(narrower.dispatch('breakpoints.remove', { breakpoint: 'tablet', styles: 'narrower' }).status).toBe('done');
+    // the phone keeps its own size: its own value wins over the tablet's it inherited
+    expect(narrower.getState().document.pages[0]?.tree.children[0]?.styles).toEqual({ desktop: { base: { 'font-size': '48px' } }, phone: { base: { 'font-size': '24px' } } });
+    const wider = storeWith(fixture as unknown as DocumentJson);
+    expect(wider.dispatch('breakpoints.remove', { breakpoint: 'tablet', styles: 'wider' }).status).toBe('done');
+    // the laptop held nothing: it takes the tablet's size
+    expect(wider.getState().document.pages[0]?.tree.children[0]?.styles).toEqual({ desktop: { base: { 'font-size': '48px' } }, laptop: { base: { 'font-size': '32px' } }, phone: { base: { 'font-size': '24px' } } });
+    expect(wider.getState().message?.key).toBe('status.breakpoints.removedInto');
+  });
+
   it('refuses removing a breakpoint a motion runs only at', () => {
     const document = { ...(fixture as unknown as DocumentJson), pages: [{ ...(fixture as unknown as DocumentJson).pages[0], motions: [{ breakpoints: ['tablet'] }] }] };
     expect(isRefusal(documentWithout(document as unknown as Record<string, unknown>, 'tablet'))).toBe(true);
     expect(isRefusal(documentWithout(document as unknown as Record<string, unknown>, 'phone'))).toBe(false);
+    // moved into another breakpoint, the motion runs there instead
+    const moved = documentWithout(document as unknown as Record<string, unknown>, 'tablet', 'phone');
+    expect(isRefusal(moved) ? null : JSON.stringify(moved.document)).toContain('"breakpoints":["phone"]');
   });
 
   it('validates styles against the project table and writes its media queries', () => {

@@ -8600,10 +8600,12 @@ each page's copy as ordinary markup (one CSS class per element, as for any compo
   its own media query in the export.
 - **Breakpoints dialog** (View ▸ Breakpoints…, and the sliders button after the tabs): one row per breakpoint with
   its name and its width; Enter or leaving a field keeps it (`breakpoints.rename`, `breakpoints.setWidth`); the
-  trash removes it (`breakpoints.remove`). The base has no trash.
+  trash asks where the breakpoint's styles go and removes it (`breakpoints.remove`): into the next narrower breakpoint
+  (which keeps its own look: it inherited them), into the next wider one, or nowhere. The base has no trash.
 - A width stays between the neighbours' (the cascade's order never changes, so every style keeps its meaning).
-- Removing a breakpoint removes every style set at it (elements, classes, components) and its grid settings; a motion
-  listing it forgets it. The breakpoint shown gives way to the base when it is the one removed.
+- Removing a breakpoint takes every style set at it (elements, classes, components) and its grid settings away, or
+  moves them into the chosen neighbour where that one sets nothing of its own (its own values win); a motion listing
+  it forgets it, or names the neighbour instead. The breakpoint shown gives way to the base when it is the one removed.
 - Each change is one undo step; undo restores the table and every removed style.
 - The tabs, the status bar, the inspector's origin badges, the Layout Composer and every message name a breakpoint by
   its name; the canvas, the preview, the export and the import read the project's table.
@@ -8613,6 +8615,7 @@ each page's copy as ordinary markup (one CSS class per element, as for any compo
 - A width the table already has (`status.breakpoints.widthTaken`), outside 240 px to the base's width minus one
   (`status.breakpoints.widthRange`), or past a neighbour's (`status.breakpoints.widthOrder`, naming the range).
 - An empty name (`status.breakpoints.nameEmpty`) or one another breakpoint shows (`status.breakpoints.nameTaken`).
-- Removing the base (`status.breakpoints.baseStays`), or a breakpoint a motion runs only at or starts on
-  (`status.breakpoints.usedByMotion`).
+- Removing the base (`status.breakpoints.baseStays`), or, discarding its styles, a breakpoint a motion runs only at or
+  starts on (`status.breakpoints.usedByMotion`); moving the narrowest one's styles into a narrower one
+  (`status.breakpoints.noNarrower`).
 - A breakpoint the project does not have (`status.breakpoints.unknown`).

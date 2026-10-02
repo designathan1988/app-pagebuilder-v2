@@ -696,7 +696,8 @@
             {
               "door": "breakpoints.remove#breakpoints-dialog-remove",
               "args": {
-                "breakpoint": "tablet"
+                "breakpoint": "tablet",
+                "styles": "discard"
               },
               "target": null,
               "drop": null,
@@ -769,6 +770,233 @@
                   "key": "status.breakpoints.removed",
                   "params": {
                     "name": "Tablet"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-removed-breakpoint-moves-its-styles-into-the-narrower-one",
+          "setup": {
+            "fixture": "responsive-title",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.openDialog#toolbar-breakpoints-manage",
+              "args": {
+                "dialog": "breakpoints"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.remove#breakpoints-dialog-remove",
+              "args": {
+                "breakpoint": "tablet",
+                "styles": "narrower"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "breakpoints.remove#breakpoints-dialog-remove"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@breakpoints",
+                "value": [
+                  {
+                    "id": "desktop",
+                    "name": null,
+                    "width": 1440,
+                    "height": 900,
+                    "base": true
+                  },
+                  {
+                    "id": "laptop",
+                    "name": null,
+                    "width": 1180,
+                    "height": 800,
+                    "base": false
+                  },
+                  {
+                    "id": "phone",
+                    "name": null,
+                    "width": 390,
+                    "height": 844,
+                    "base": false
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles",
+                "value": {
+                  "desktop": {
+                    "base": {
+                      "font-size": "48px"
+                    }
+                  },
+                  "phone": {
+                    "base": {
+                      "font-size": "24px"
+                    }
+                  }
+                }
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.breakpoints.removedInto",
+                  "params": {
+                    "name": "Tablet",
+                    "into": "Phone"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-removed-breakpoint-moves-its-styles-into-the-wider-one",
+          "setup": {
+            "fixture": "responsive-title",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.openDialog#toolbar-breakpoints-manage",
+              "args": {
+                "dialog": "breakpoints"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.remove#breakpoints-dialog-remove",
+              "args": {
+                "breakpoint": "tablet",
+                "styles": "wider"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "breakpoints.remove#breakpoints-dialog-remove"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@breakpoints",
+                "value": [
+                  {
+                    "id": "desktop",
+                    "name": null,
+                    "width": 1440,
+                    "height": 900,
+                    "base": true
+                  },
+                  {
+                    "id": "laptop",
+                    "name": null,
+                    "width": 1180,
+                    "height": 800,
+                    "base": false
+                  },
+                  {
+                    "id": "phone",
+                    "name": null,
+                    "width": 390,
+                    "height": 844,
+                    "base": false
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles",
+                "value": {
+                  "desktop": {
+                    "base": {
+                      "font-size": "48px"
+                    }
+                  },
+                  "laptop": {
+                    "base": {
+                      "font-size": "32px"
+                    }
+                  },
+                  "phone": {
+                    "base": {
+                      "font-size": "24px"
+                    }
+                  }
+                }
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.breakpoints.removedInto",
+                  "params": {
+                    "name": "Tablet",
+                    "into": "Laptop"
                   }
                 }
               ]

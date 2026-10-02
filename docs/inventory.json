@@ -4,9 +4,9 @@
     "built": 202,
     "commands": 354,
     "doors": 1300,
-    "scenarios": 1698,
+    "scenarios": 1700,
     "modules": 390,
-    "lines": 71998
+    "lines": 72099
   },
   "features": [
     {
@@ -3093,7 +3093,7 @@
         "view.setViewportWidth"
       ],
       "doors": 20,
-      "scenarios": 11,
+      "scenarios": 13,
       "modules": [
         "src/editor/view/breakpoint-table.ts",
         "src/editor/view/breakpoints.ts",
@@ -3357,7 +3357,7 @@
     },
     {
       "path": "src/core/document/breakpoints.ts",
-      "lines": 156,
+      "lines": 173,
       "commands": [],
       "features": []
     },
@@ -5610,7 +5610,7 @@
     },
     {
       "path": "src/editor/shell/breakpoints-dialog.tsx",
-      "lines": 136,
+      "lines": 207,
       "commands": [],
       "features": []
     },
@@ -5784,7 +5784,7 @@
     },
     {
       "path": "src/editor/shell/popover.tsx",
-      "lines": 97,
+      "lines": 99,
       "commands": [],
       "features": []
     },
@@ -5923,7 +5923,7 @@
     },
     {
       "path": "src/editor/view/breakpoint-table.ts",
-      "lines": 82,
+      "lines": 88,
       "commands": [
         "breakpoints.add",
         "breakpoints.rename",
@@ -6134,7 +6134,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6153,
+      "lines": 6158,
       "commands": [],
       "features": []
     },

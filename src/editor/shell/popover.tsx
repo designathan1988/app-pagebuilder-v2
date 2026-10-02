@@ -78,7 +78,9 @@ export function Popover({ anchor, className, children, role = 'dialog', label, k
     if (placed && takesFocus) own.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus();
   }, [placed, takesFocus]);
   const style: CSSProperties = at === null ? { visibility: 'hidden', left: 0, top: 0 } : { left: at.left, top: at.top };
-  const common = { className: `popover ${className}`, role, 'aria-label': label, 'data-key-context': keyContext, style, onClick };
+  // a layer opened from a modal dialog floats over it (the Breakpoints dialog's trash menu), else under every dialog
+  const overDialog = anchor.current?.closest('[aria-modal="true"]') !== null && anchor.current !== null;
+  const common = { className: `popover${overDialog ? ' popover--over-dialog' : ''} ${className}`, role, 'aria-label': label, 'data-key-context': keyContext, style, onClick };
   return createPortal(
     <div className="popover-layer">
       {as === 'form' ? (

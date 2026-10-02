@@ -10,12 +10,13 @@ import { breakpointName, breakpointsOf, type ProjectBreakpoint } from '../../cor
 import type { DispatchResult } from '../../core/store/store.ts';
 import type { CommandId, FeatureId } from '../../generated/ids.ts';
 import type { DoorEntry } from '../../manifest/runtime.ts';
-import { DoorControl, useDoor } from '../doors/door.tsx';
+import { DoorControl, Icon, useDoor } from '../doors/door.tsx';
 import { doorSlots } from '../doors/placement.ts';
 import { useEditorState, useStore } from '../store.ts';
 import { useT } from '../text.ts';
 import { viewportWidth } from '../view/breakpoints.ts';
 import { DIALOG_KEYS, ModalDialog } from './dialog.tsx';
+import { Popover, usePopover } from './popover.tsx';
 
 const REGION = 'breakpoints-dialog';
 const DIALOG = 'breakpoints';
@@ -26,8 +27,8 @@ const isNumber = (entry: DoorEntry): boolean => entry.command.args[keptArg(entry
 const FIELDS = DOORS.filter((d) => d.door.kind === 'panel-control' && d.door.drawnAs === 'field');
 const NAME = FIELDS.find((d) => !isNumber(d));
 const WIDTH = FIELDS.find(isNumber);
-// the trash: the door that takes the breakpoint alone; Add: the one that takes none
-const REMOVE = DOORS.find((d) => Object.keys(d.command.args).length === 1 && d.command.args[Object.keys(d.command.args)[0] ?? '']?.type === 'breakpoint');
+// the trash: the door that takes the breakpoint and a choice; Add: the one that takes nothing it must have
+const REMOVE = DOORS.find((d) => Object.values(d.command.args).some((a) => a.type === 'enum') && Object.values(d.command.args).some((a) => a.type === 'breakpoint'));
 const ADD = DOORS.find((d) => Object.values(d.command.args).every((a) => a.optional));
 
 const built = (entry: DoorEntry | undefined): boolean => entry !== undefined && isFeatureBuilt(entry.door.feature as FeatureId);
@@ -79,9 +80,79 @@ function BreakpointRow({ breakpoint }: { readonly breakpoint: ProjectBreakpoint 
       ) : REMOVE === undefined ? (
         <span />
       ) : (
-        <DoorControl entry={REMOVE} args={{ breakpoint: breakpoint.id }} ready={built(REMOVE)} title={`${t('command.breakpoints.remove')}: ${name}`} />
+        <RemoveMenu entry={REMOVE} breakpoint={breakpoint} />
       )}
     </div>
+  );
+}
+
+// The trash of a row: a menu of where the breakpoint's styles go — into the next wider breakpoint, into the next
+// narrower one (which keeps its own look: it inherited them), or nowhere — each the remove door with that choice.
+function RemoveMenu({ entry, breakpoint }: { readonly entry: DoorEntry; readonly breakpoint: ProjectBreakpoint }) {
+  const t = useT();
+  const trigger = useRef<HTMLButtonElement>(null);
+  const { open, setOpen } = usePopover(trigger);
+  const table = useEditorState((s) => breakpointsOf(s.document));
+  const door = useDoor(entry, { breakpoint: breakpoint.id }, undefined, built(entry));
+  const at = table.findIndex((b) => b.id === breakpoint.id);
+  const wider = table[at - 1];
+  const narrower = table[at + 1];
+  const name = breakpointName(breakpoint, t);
+  const choices: readonly { readonly styles: string; readonly label: string }[] = [
+    ...(narrower === undefined ? [] : [{ styles: 'narrower', label: t('breakpoints.removeInto', { name: breakpointName(narrower, t) }) }]),
+    ...(wider === undefined ? [] : [{ styles: 'wider', label: t('breakpoints.removeInto', { name: breakpointName(wider, t) }) }]),
+    { styles: 'discard', label: t('breakpoints.removeDiscard') },
+  ];
+  return (
+    <span className="breakpoints-dialog__remove">
+      <button
+        ref={trigger}
+        type="button"
+        className={`door door--icon-button${door.available ? '' : ' is-unavailable'}`}
+        data-door={entry.ref}
+        data-args={JSON.stringify({ breakpoint: breakpoint.id })}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label={t('breakpoints.removeMenu', { name })}
+        title={t('breakpoints.removeMenu', { name })}
+        aria-disabled={door.available ? undefined : true}
+        data-key-context={DIALOG_KEYS}
+        onClick={() => door.available && setOpen((was) => !was)}
+      >
+        {entry.door.icon === null ? null : <Icon name={entry.door.icon} size="md" />}
+      </button>
+      {open ? (
+        <Popover onDismiss={() => setOpen(false)} anchor={trigger} className="menu breakpoints-dialog__menu" role="menu" label={t('breakpoints.removeMenu', { name })} keyContext={DIALOG_KEYS}>
+          {choices.map((choice) => (
+            <RemoveChoice key={choice.styles} entry={entry} args={{ breakpoint: breakpoint.id, styles: choice.styles }} label={choice.label} onDone={() => setOpen(false)} />
+          ))}
+        </Popover>
+      ) : null}
+    </span>
+  );
+}
+
+// One choice of the trash's menu: an item of the menu, the remove door with its choice
+function RemoveChoice({ entry, args, label, onDone }: { readonly entry: DoorEntry; readonly args: Readonly<Record<string, unknown>>; readonly label: string; readonly onDone: () => void }) {
+  const door = useDoor(entry, args, label, built(entry));
+  return (
+    <button
+      type="button"
+      role="menuitem"
+      className={['menu__item', door.available ? '' : 'is-unavailable'].filter((c) => c !== '').join(' ')}
+      data-door={entry.ref}
+      data-args={JSON.stringify(args)}
+      title={door.title}
+      aria-disabled={door.available ? undefined : true}
+      onClick={() => {
+        if (!door.available) return;
+        // the menu closes first, then the choice runs (as a menu's item does: doors/menu.tsx)
+        onDone();
+        door.run();
+      }}
+    >
+      <span className="menu__label">{label}</span>
+    </button>
   );
 }
 
