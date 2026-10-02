@@ -19,7 +19,7 @@ const region = (page: Page): Promise<string> =>
   page.evaluate(() => {
     const held = document.activeElement;
     if (held === null || held === document.body) return 'body';
-    for (const one of ['header.top-bar', 'nav.activity-bar', 'aside.sidebar', '.stage', '.dock-strip', 'aside.inspector', 'footer.status-bar']) {
+    for (const one of ['header.top-bar', 'nav.activity-bar', 'section[data-panel-area="layers"]', 'aside.sidebar', '.stage', '.dock-strip', 'aside.inspector', 'footer.status-bar']) {
       if (held.closest(one) !== null) return one;
     }
     return held.tagName;
@@ -31,12 +31,13 @@ test('F6 walks the focus through the editor regions and Shift+F6 walks it back',
   // the start: nothing holds the focus, which is the canvas's own context (the editor's body)
   expect(await region(page), 'the canvas holds the focus at the start').toBe('body');
   const walked: string[] = [];
-  for (let i = 0; i < 7; i += 1) {
+  for (let i = 0; i < 8; i += 1) {
     await runDoor(page, f6);
     walked.push(await region(page));
   }
   // every region the window draws takes the focus at some point in one full turn
-  for (const one of ['header.top-bar', 'nav.activity-bar', '.stage', 'aside.inspector', 'footer.status-bar']) {
+  // the Layers tree is a stop of its own (jornada03 J12)
+  for (const one of ['header.top-bar', 'nav.activity-bar', 'section[data-panel-area="layers"]', '.stage', 'aside.inspector', 'footer.status-bar']) {
     expect(walked, `F6 reaches ${one}`).toContain(one);
   }
   // and Shift+F6 turns the same ring the other way: two steps forward and one back is one step forward

@@ -6,7 +6,7 @@
     "doors": 1314,
     "scenarios": 1723,
     "modules": 400,
-    "lines": 73427
+    "lines": 73438
   },
   "features": [
     {
@@ -5189,7 +5189,7 @@
     },
     {
       "path": "src/editor/focus/focus.ts",
-      "lines": 217,
+      "lines": 228,
       "commands": [
         "focus.next",
         "focus.previous",
