@@ -1244,6 +1244,9 @@ Read from Pager's source (`reference/Pager`, run from `.cache/pager-run`); refer
 4. **Fields do not offer the variables.** Required: a colour field offers the colour variables, a length field the length variables and the font size field the font-size variables, as `var(--name)` next to the typed values; a value typed as `var(--name)` of a variable the project has is kept as written, and of one it does not have is refused.
 5. **A variable's name and value are not checked.** Required: a name is a CSS custom property name without its dashes (letters, digits and `-`, starting with a letter), unique in the project (`status.token.nameTaken`, `status.token.badName`); a value is one the browser takes for its kind (a colour for a colour variable, a length for a length or font-size variable), else it is refused naming it.
 6. **Changing a variable** changes every element that uses it at once, one undo step: the page draws the new value wherever it is used.
+- **A new variable left the focus on nothing** (jornada03 plan, stage 5: "nova variável rola até ela e foca"). Required:
+  the variable New variable makes is scrolled into view and its name field takes the focus with the name selected, so
+  the name typed next replaces it (Enter keeps it, as every name).
 
 ### Undo and redo
 
