@@ -3354,5 +3354,15 @@
   "interactions.section.events": "Eventos",
   "interactions.none": "Este elemento ainda não tem evento.",
   "motion.section.title": "Movimento",
-  "interactions.runNote": "Executar interações roda o movimento na tela; Pré-visualizar roda os eventos e o movimento."
+  "interactions.runNote": "Executar interações roda o movimento na tela; Pré-visualizar roda os eventos e o movimento.",
+  "command.design.replaceColour": "Trocar esta cor em todo o site",
+  "command.design.colourToVariable": "Criar uma variável desta cor",
+  "styles.siteColours": "Cores em uso",
+  "styles.siteColours.uses.one": "{count} uso",
+  "styles.siteColours.uses.other": "{count} usos",
+  "status.siteColours.notUsed": "Nenhum valor do site usa {colour}.",
+  "status.siteColours.invalid": "{value} não é uma cor.",
+  "status.siteColours.replaced": "{colour} trocada por {value} em {count} valores.",
+  "status.siteColours.madeVariable": "Variável {name} criada com {colour}, usada por {count} valores.",
+  "feature.siteColours": "Cores em uso, trocadas ou viradas variável em todo o site"
 }

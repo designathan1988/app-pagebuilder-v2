@@ -240,6 +240,7 @@ export const FEATURES = {
   'project-language': registerFeature('project-language'),
   'batch-rename': registerFeature('batch-rename'),
   'command-bar-find': registerFeature('command-bar-find'),
+  'site-colours': registerFeature('site-colours'),
 } as const satisfies FeatureTable;
 
 // Whether a feature is registered as built.

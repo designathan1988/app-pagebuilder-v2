@@ -144,7 +144,7 @@ export function usesToken(document: DocumentJson, name: string): number {
 }
 
 // the property whose values a kind's value is read as: the property the kind names, else one whose codec reads the kind
-function probeOf<Ui>(context: HandlerContext<Ui>, kind: string): string | null {
+export function probeOf<Ui>(context: HandlerContext<Ui>, kind: string): string | null {
   const { rules } = context;
   if (rules.propertyFacts.has(kind)) return kind;
   return [...rules.propertyFacts.entries()].find(([, facts]) => facts.codec.startsWith(`${kind}-`))?.[0] ?? null;

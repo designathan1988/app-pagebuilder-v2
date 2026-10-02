@@ -1267,6 +1267,131 @@
           "args": {}
         }
       ]
+    },
+    {
+      "id": "design.replaceColour",
+      "labelKey": "command.design.replaceColour",
+      "owner": "src/core/design/site-colours.ts",
+      "introducedBy": "site-colours",
+      "args": {
+        "colour": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "value": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.siteColours.notUsed",
+        "status.siteColours.invalid"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "styles-site-colour-replace",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "site-colours",
+          "panel": "variables",
+          "control": "site-colour-replace",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.design.replaceColour",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "styles",
+            "order": 7
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "design.colourToVariable",
+      "labelKey": "command.design.colourToVariable",
+      "owner": "src/core/design/site-colours.ts",
+      "introducedBy": "site-colours",
+      "args": {
+        "colour": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "name": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.siteColours.notUsed",
+        "status.tokens.badName",
+        "status.tokens.nameTaken"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "styles-site-colour-variable",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "site-colours",
+          "panel": "variables",
+          "control": "site-colour-variable",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.design.colourToVariable",
+          "faceLabelKey": null,
+          "icon": "braces",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "styles",
+            "order": 8
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
     }
   ]
 }

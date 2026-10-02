@@ -3354,5 +3354,15 @@
   "interactions.section.events": "Events",
   "interactions.none": "No event on this element yet.",
   "motion.section.title": "Motion",
-  "interactions.runNote": "Run interactions plays the motion on the canvas; Preview runs the events and the motion."
+  "interactions.runNote": "Run interactions plays the motion on the canvas; Preview runs the events and the motion.",
+  "command.design.replaceColour": "Replace this colour everywhere",
+  "command.design.colourToVariable": "Make a variable of this colour",
+  "styles.siteColours": "Colours in use",
+  "styles.siteColours.uses.one": "{count} use",
+  "styles.siteColours.uses.other": "{count} uses",
+  "status.siteColours.notUsed": "No value of the site uses {colour}.",
+  "status.siteColours.invalid": "{value} is no colour.",
+  "status.siteColours.replaced": "{colour} replaced by {value} in {count} values.",
+  "status.siteColours.madeVariable": "Variable {name} made of {colour}, used by {count} values.",
+  "feature.siteColours": "Colours in use, replaced or made a variable across the site"
 }

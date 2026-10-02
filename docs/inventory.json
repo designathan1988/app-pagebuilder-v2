@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 208,
-    "built": 207,
-    "commands": 360,
-    "doors": 1315,
-    "scenarios": 1725,
-    "modules": 400,
-    "lines": 73574
+    "features": 209,
+    "built": 208,
+    "commands": 362,
+    "doors": 1317,
+    "scenarios": 1728,
+    "modules": 401,
+    "lines": 73808
   },
   "features": [
     {
@@ -3187,12 +3187,25 @@
         "src/core/project/pages.ts",
         "src/core/selection/selection.ts"
       ]
+    },
+    {
+      "id": "site-colours",
+      "built": true,
+      "commands": [
+        "design.replaceColour",
+        "design.colourToVariable"
+      ],
+      "doors": 2,
+      "scenarios": 3,
+      "modules": [
+        "src/core/design/site-colours.ts"
+      ]
     }
   ],
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 497,
+      "lines": 500,
       "commands": [],
       "features": []
     },
@@ -3204,7 +3217,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 249,
+      "lines": 250,
       "commands": [],
       "features": []
     },
@@ -3418,6 +3431,17 @@
       "lines": 86,
       "commands": [],
       "features": []
+    },
+    {
+      "path": "src/core/design/site-colours.ts",
+      "lines": 157,
+      "commands": [
+        "design.replaceColour",
+        "design.colourToVariable"
+      ],
+      "features": [
+        "site-colours"
+      ]
     },
     {
       "path": "src/core/design/tokens.ts",
@@ -5976,7 +6000,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1159,
+      "lines": 1160,
       "commands": [],
       "features": []
     },
@@ -6024,7 +6048,7 @@
     },
     {
       "path": "src/editor/shell/variables.tsx",
-      "lines": 160,
+      "lines": 214,
       "commands": [],
       "features": []
     },
@@ -6305,13 +6329,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 616,
+      "lines": 619,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6314,
+      "lines": 6329,
       "commands": [],
       "features": []
     },

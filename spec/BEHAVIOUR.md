@@ -8787,3 +8787,24 @@ context menu does not offer **Rename the selected…** (it offers only what appl
 ### Refusals
 
 None: an entry that would not run (a class with nothing selected) is not offered.
+
+## site-colours
+
+### Our rule
+
+- Styles lists **Colours in use** (the plan's stage 7, "achar usos e trocar no site"; journey C1, a rebrand): every
+  colour a style value of the site names — an element's own styles on every page, a class's, a component's tree — with
+  how many values name it, the most used first. `#B9512A`, `#b9512a` and `rgb(185, 81, 42)` are one colour (written
+  `#b9512a`); a hex colour inside a longer value (a gradient's `linear-gradient(90deg, #b9512a, #ffffff)`) counts; a value naming a variable is
+  the variable's.
+- A colour's field (`design.replaceColour`): the colour typed there replaces it in every value that names it, in one
+  undo step; the rest of each value stays as written.
+- Its variable button (`design.colourToVariable`): a colour variable is made with the colour (the next free name,
+  `color-1`…) and every value that is the colour names it, `var(--color-1)`, in one undo step; the rebrand is then one
+  change of the variable. A colour written inside a longer value (a gradient) keeps it there: the variable stands for
+  whole values only.
+
+### Refusals
+
+A text that is no colour (`status.siteColours.invalid`), a colour no value uses (`status.siteColours.notUsed`), a
+variable name that is no name or is taken (the variables' own refusals).

@@ -14,6 +14,7 @@ import { setEmbedMarkupCommand } from '../core/elements/embed.ts';
 import { setSvgMarkupCommand } from '../core/elements/svg.ts';
 import { removeSwatchCommand, saveSwatchCommand } from '../core/design/colors.ts';
 import { createToken, deleteToken, renameToken, updateToken } from '../core/design/tokens.ts';
+import { colourToVariableCommand, replaceColourCommand } from '../core/design/site-colours.ts';
 import { applyClassCommand, createClassCommand, deleteClassCommand, detachClassCommand, renameClassCommand } from '../core/design/classes.ts';
 import { createComponentCommand, detachInstanceCommand, fillFromDataCommand, repeatCommand, insertInstanceCommand, instanceSelected } from '../core/design/components.ts';
 import { closeComponentPrompt, openComponentPrompt } from '../editor/shell/component-prompt.ts';
@@ -205,6 +206,8 @@ export const COMMANDS = {
   'colors.removeSwatch': removeSwatchCommand,
   'tokens.create': createToken,
   'tokens.update': updateToken,
+  'design.replaceColour': replaceColourCommand,
+  'design.colourToVariable': colourToVariableCommand,
   'tokens.rename': renameToken,
   'tokens.delete': deleteToken,
   'classes.create': createClassCommand,

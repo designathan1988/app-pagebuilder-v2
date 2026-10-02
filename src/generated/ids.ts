@@ -85,6 +85,8 @@ export const COMMAND_IDS = [
   "components.detach",
   "components.repeat",
   "components.fillFromData",
+  "design.replaceColour",
+  "design.colourToVariable",
   "element.setTag",
   "element.setAttribute",
   "assetPicker.open",
@@ -495,6 +497,8 @@ export const DOOR_IDS = [
   "components.repeat#menu-arrange",
   "components.repeat#command-bar",
   "components.fillFromData#explorer-fill-from-data",
+  "design.replaceColour#styles-site-colour-replace",
+  "design.colourToVariable#styles-site-colour-variable",
   "element.setTag#inspector-tag",
   "element.setTag#quick-panel-tag",
   "element.setAttribute#inspector-title",
@@ -2422,6 +2426,7 @@ export const FEATURE_IDS = [
   "project-language",
   "batch-rename",
   "command-bar-find",
+  "site-colours",
 ] as const;
 export type FeatureId = (typeof FEATURE_IDS)[number];
 
@@ -6309,5 +6314,15 @@ export const MESSAGE_IDS = [
   "interactions.none",
   "motion.section.title",
   "interactions.runNote",
+  "command.design.replaceColour",
+  "command.design.colourToVariable",
+  "styles.siteColours",
+  "styles.siteColours.uses.one",
+  "styles.siteColours.uses.other",
+  "status.siteColours.notUsed",
+  "status.siteColours.invalid",
+  "status.siteColours.replaced",
+  "status.siteColours.madeVariable",
+  "feature.siteColours",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

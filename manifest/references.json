@@ -2369,6 +2369,16 @@
       "kind": "handler",
       "id": "selection.range",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "design.replaceColour",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "design.colourToVariable",
+      "status": "registered"
     }
   ]
 }

@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "classes": [
+    {
+      "name": "accent",
+      "styles": {
+        "desktop": {
+          "base": {
+            "color": "#b9512a"
+          }
+        }
+      }
+    }
+  ],
+  "pages": [
+    {
+      "id": "p-home",
+      "name": "Home",
+      "file": "index.html",
+      "tree": {
+        "id": "n-page",
+        "type": "page",
+        "name": "Page",
+        "tag": "body",
+        "attributes": {},
+        "classes": [],
+        "styles": {},
+        "text": null,
+        "children": [
+          {
+            "id": "n-title",
+            "type": "heading",
+            "name": "Title",
+            "tag": "h1",
+            "attributes": {},
+            "classes": [],
+            "styles": {
+              "desktop": {
+                "base": {
+                  "font-size": "48px",
+                  "color": "#B9512A"
+                }
+              }
+            },
+            "text": "Fresh coffee",
+            "children": []
+          },
+          {
+            "id": "n-intro",
+            "type": "paragraph",
+            "name": "Intro",
+            "tag": "p",
+            "attributes": {},
+            "classes": [],
+            "styles": {
+              "desktop": {
+                "base": {
+                  "background-image": "linear-gradient(90deg, #B9512A, #ffffff)",
+                  "background-color": "#f8fafc"
+                }
+              }
+            },
+            "text": "Fresh coffee",
+            "children": []
+          }
+        ]
+      }
+    }
+  ]
+}

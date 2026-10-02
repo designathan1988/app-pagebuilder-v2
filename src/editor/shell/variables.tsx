@@ -7,6 +7,8 @@
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
 import { isFeatureBuilt } from '../../app/features.ts';
 import { tokensOf, type Token } from '../../core/design/tokens.ts';
+import { siteColoursOf } from '../../core/design/site-colours.ts';
+import { pluralForm } from '../../i18n/index.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
 import type { CommandId, FeatureId, MessageId } from '../../generated/ids.ts';
 import type { DoorEntry } from '../../manifest/runtime.ts';
@@ -14,7 +16,7 @@ import { DoorControl, Icon, useDoor } from '../doors/door.tsx';
 import { doorSlots } from '../doors/placement.ts';
 import { afterGesture } from '../input/pointer.ts';
 import { useEditorState, useStore } from '../store.ts';
-import { useT } from '../text.ts';
+import { useLocale, useT } from '../text.ts';
 
 const DOORS = doorSlots('styles');
 // the doors of the section: New variable (its command takes a kind), a row's name field (a name), value field (a value
@@ -23,6 +25,10 @@ const ADD = DOORS.find((d) => 'kind' in d.command.args);
 const RENAME = DOORS.find((d) => 'name' in d.command.args && 'token' in d.command.args);
 const UPDATE = DOORS.find((d) => 'value' in d.command.args && 'token' in d.command.args);
 const DELETE = DOORS.find((d) => Object.keys(d.command.args).join() === 'token');
+// the site's colours (spec site-colours): a colour's replace field (a colour and a value) and its variable button (a
+// colour and a name)
+const REPLACE_COLOUR = DOORS.find((d) => 'colour' in d.command.args && 'value' in d.command.args);
+const COLOUR_VARIABLE = DOORS.find((d) => 'colour' in d.command.args && 'name' in d.command.args);
 // tokens.create's kinds, in their manifest order (a colour, a length, a font size), and a first value for each, the
 // value a new variable of the kind starts with, and the words of each kind's group
 const KINDS: readonly string[] = ADD?.command.args.kind?.values ?? [];
@@ -157,3 +163,51 @@ export function Variables() {
   );
 }
 
+// A field kept with its door's command on Enter or when it is left, standing for the arguments given (a colour of the
+// site's), whenever its text differs from what it showed.
+function KeptField({ entry, args, filled, held, label }: { readonly entry: DoorEntry; readonly args: Readonly<Record<string, string>>; readonly filled: string; readonly held: string; readonly label: string }) {
+  const store = useStore();
+  const door = useDoor(entry, args, label, isFeatureBuilt(entry.door.feature as FeatureId));
+  const input = useRef<HTMLInputElement>(null);
+  const said = useEditorState((s) => s.message);
+  useEffect(() => {
+    if (input.current !== null) input.current.value = held;
+  }, [held, said]);
+  const keep = () => {
+    const text = input.current?.value ?? '';
+    if (text === held) return;
+    afterGesture(() => (store.dispatch as (id: CommandId, a: unknown) => DispatchResult)(entry.command.id as CommandId, { ...entry.door.args, ...args, [filled]: text }));
+  };
+  return (
+    <form className={`variables__field${door.available ? '' : ' is-unavailable'}`} data-door={entry.ref} data-args={JSON.stringify(args)} title={door.title} onSubmit={(event: FormEvent) => { event.preventDefault(); keep(); }}>
+      <input ref={input} className="input" aria-label={label} spellCheck={false} disabled={!door.available} onBlur={keep} />
+    </form>
+  );
+}
+
+// Colours in use (spec site-colours): every colour the site's values name, the most used first, each with its swatch,
+// its field (the colour typed there replaces it everywhere: design.replaceColour), how many values name it and its
+// variable button (design.colourToVariable, with the next free colour variable name)
+export function SiteColours() {
+  const t = useT();
+  const locale = useLocale();
+  const document = useEditorState((s) => s.document);
+  const colours = siteColoursOf(document);
+  if (colours.length === 0 || REPLACE_COLOUR === undefined) return null;
+  const name = nextName(COLOUR_KIND ?? '', tokensOf(document));
+  return (
+    <div className="variables site-colours">
+      <div className="section-title">
+        <span className="section-title__text">{t('styles.siteColours')}</span>
+      </div>
+      {colours.map(({ colour, uses }) => (
+        <div key={colour} className="variables__row variables__row--colour site-colours__row">
+          <span className="variables__swatch" style={{ '--swatch-colour': colour } as CSSProperties} aria-hidden />
+          <KeptField entry={REPLACE_COLOUR} args={{ colour }} filled="value" held={colour} label={t('command.design.replaceColour')} />
+          <span className="site-colours__uses">{t(`styles.siteColours.uses.${pluralForm(locale, uses)}` as MessageId, { count: uses })}</span>
+          {COLOUR_VARIABLE !== undefined ? <DoorControl entry={COLOUR_VARIABLE} args={{ colour, name }} ready={isFeatureBuilt(COLOUR_VARIABLE.door.feature as FeatureId)} /> : null}
+        </div>
+      ))}
+    </div>
+  );
+}

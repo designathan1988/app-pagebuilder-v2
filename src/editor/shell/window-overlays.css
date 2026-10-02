@@ -48,6 +48,17 @@
   background: var(--swatch-colour);
 }
 
+/* a colour in use (spec site-colours): its swatch, its replace field, how many values use it, its variable button */
+.site-colours__row {
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+}
+
+.site-colours__uses {
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+  white-space: nowrap;
+}
+
 .variables__kind {
   padding: var(--space-2) var(--space-4);
   border: 0;
