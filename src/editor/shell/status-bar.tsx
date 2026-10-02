@@ -174,3 +174,15 @@ function SaveStateLabel() {
     </span>
   );
 }
+
+// The same state in the top bar, left of Preview (design/final: "● Saved" after Undo and Redo): a dot in the state's
+// colour and its words; the status bar's label stays the one the tests and the unsaved-work guard read
+export function TopBarSaveState() {
+  const t = useT();
+  const current = useSyncExternalStore(saveState.subscribe, saveState.get);
+  return (
+    <span className={`top-bar__saved is-${current}`} data-top-save-state={current}>
+      {t(SAVE_STATE_KEYS[current])}
+    </span>
+  );
+}

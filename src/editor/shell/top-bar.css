@@ -57,3 +57,35 @@
 .top-bar__search kbd {
   margin-left: auto;
 }
+
+/* the save state left of Preview (design/final .saved): a dot in the state's colour, then its words */
+.top-bar__saved {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: var(--space-3);
+  color: var(--color-text-subtle);
+  font-size: var(--fs-caption);
+  white-space: nowrap;
+}
+
+.top-bar__saved::before {
+  content: '';
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-pill);
+  background: currentColor;
+}
+
+.top-bar__saved.is-saved {
+  color: var(--color-success);
+}
+
+.top-bar__saved.is-saving {
+  color: var(--color-text-muted);
+}
+
+.top-bar__saved.is-notSaved,
+.top-bar__saved.is-recoveryRequired {
+  color: var(--color-warning);
+}

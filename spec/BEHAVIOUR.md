@@ -7842,6 +7842,9 @@ Read from Pager's source (`reference/Pager`); references are `path:line` inside 
 - While a change is not in IndexedDB yet (the status bar reads Saving…), or a write failed (Not saved), closing or reloading the tab triggers the browser's leave-page confirmation. Once the status reads Saved, nothing asks.
 - A write IndexedDB refuses leaves the status bar reading **Not saved**, with the reason (`status.save.notSaved`), and the change kept in memory and in the journal. The next change writes again, and so does a retry after `autosave.retryDelay`; a success reads Saved.
 - Hiding the tab (visibilitychange) or leaving it (pagehide) writes what is pending at once.
+- The top bar shows the same state left of Preview, as the canonical bar does (jornada03 plan, stage 5): a dot in the
+  state's colour (Saved green, Saving muted, Not saved amber) and its words; the reason a write failed stays in the
+  status bar's label.
 
 ### Refusals
 
