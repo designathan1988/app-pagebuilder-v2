@@ -34,6 +34,8 @@ export const focusActivate = registerHandler<'focus.activate', EditorUi>('focus.
 // The Layers tree is a stop of its own inside the sidebar (jornada03 J12: F6 never reached it): a region inside another
 // comes right after it, and the focus is in the innermost region holding it.
 const LAYERS_REGION = 'section[data-panel-area="layers"]';
+// a panel's header (its name, Put back, Close)
+const PANEL_HEADER = '[data-region="panel-header"]';
 const REGION_ROOTS: readonly string[] = ['header.top-bar', 'nav.activity-bar', 'aside.sidebar', LAYERS_REGION, '.stage', 'section.code-pane', '.dock-strip', 'aside.right-dock', 'section.panel-window', 'aside.inspector', 'footer.status-bar'];
 
 // the region roots the window draws, in that order
@@ -43,16 +45,22 @@ const drawnRegions = (): Element[] => REGION_ROOTS.map((one) => document.querySe
 // (a region that takes the focus keeps the focus ring of its own).
 function focusRegion(region: Element): void {
   // the Layers tree is entered on its row that takes the Tab key (the selected row, else the page's)
-  if (region.matches(LAYERS_REGION)) {
-    const row = region.querySelector<HTMLElement>('[role="tree"] [tabindex="0"]');
+  // (the region itself, or the Layers' own panel area around it: never a larger region that holds it, the sidebar)
+  const layers = region.matches(LAYERS_REGION) ? region : region.matches('[data-panel-area="layers"]') ? region.querySelector(LAYERS_REGION) : null;
+  if (layers !== null) {
+    const row = layers.querySelector<HTMLElement>('[role="tree"] [tabindex="0"]');
     if (row !== null) {
       row.focus();
       return;
     }
   }
   // a control that is a key context of its own (a canvas handle, a guide) is not where a region is entered: F6 is no key
-  // of it, and the walk would stop there (the audit's U-029)
-  const first = [...region.querySelectorAll<HTMLElement>(FOCUSABLE)].find((el) => el.getClientRects().length > 0 && !el.hasAttribute('disabled') && el.tabIndex >= 0 && !el.hasAttribute('data-key-context'));
+  // of it, and the walk would stop there (the audit's U-029); a panel is entered on its content, its header's controls
+  // (Close the panel) only when it has none
+  // (a region nested in it, the Layers in the sidebar, is a stop of its own: none of its controls enters this one)
+  const nested = drawnRegions().filter((one) => one !== region && region.contains(one));
+  const enterable = [...region.querySelectorAll<HTMLElement>(FOCUSABLE)].filter((el) => el.getClientRects().length > 0 && !el.hasAttribute('disabled') && el.tabIndex >= 0 && !el.hasAttribute('data-key-context') && !nested.some((one) => one.contains(el)));
+  const first = enterable.find((el) => el.closest(PANEL_HEADER) === null) ?? enterable[0];
   if (first !== undefined) {
     first.focus();
     return;
@@ -163,10 +171,13 @@ function comboboxMove(move: FocusMove, field: Element): boolean {
 
 export function carryOut(move: FocusMove, focused: Element | null): void {
   if (move.startsWith('panel:')) {
-    requestAnimationFrame(() => {
-      const region = document.querySelector(`[data-panel-area="${move.slice(6)}"], [data-panel-window="${move.slice(6)}"]`);
-      if (region) focusRegion(region);
-    });
+    // the panel just opened is drawn on the next frame, and its rows (the Layers tree's) on the one after
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        const region = document.querySelector(`[data-panel-area="${move.slice(6)}"], [data-panel-window="${move.slice(6)}"]`);
+        if (region) focusRegion(region);
+      }),
+    );
     return;
   }
   if (move === 'canvas') {

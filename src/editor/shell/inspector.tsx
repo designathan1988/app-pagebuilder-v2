@@ -702,7 +702,7 @@ export function Inspector() {
   if (!open) return null;
   const Body = TAB_BODIES[tab];
   return (
-    <aside className="inspector" aria-label={t(panelName('inspector'))}>
+    <aside className="inspector" aria-label={t(panelName('inspector'))} data-panel-area="inspector">
       <div className="inspector-header" data-region="inspector-header">
         {/* its tabs rove with the arrows (the tab-strip key context; the audit's U-034) */}
         <div className="inspector-header__tabs" role="tablist" data-key-context="tab-strip">

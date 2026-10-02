@@ -1107,6 +1107,11 @@ This is the keyboard feature.
 3. **Fuzzy search is substring-only.** Required: fuzzy matching (initials and out-of-order words, e.g. `insert hero`, `ins hero`).
 4. **The bar was a narrow box of the inspector's width, its rows the height of a toolbar button, the keyboard's row told apart from a hovered one only by the same fill, and a search nothing matched showed an empty box.** Required: the canonical palette — 640 px wide (never wider than the window less 32 px on each side), 72 px from the window's top, centred; its input 48 px high in the input type role with a line under it; entries 32 px; the keyboard's entry in the accent's soft fill with a 1 px accent ring, a hovered one in the hover surface; a search no entry matches says so in the bar (manifest feature `command-bar`: at a 1440 px window the palette is 640 wide at x 400).
 5. **The scopes were only a line of hints to type** (jornada02 pairing 5.1). Required: under the field the palette draws its scope pills — All, Commands >, Insert +, Panels /, Properties # — the one the query's prefix keeps pressed (All with no prefix); a press puts that scope's prefix before the words typed (All takes it away) and gives the field the focus back.
+- **A panel opened from the bar left the focus on nothing** (jornada03 plan, stage 5: "foco vai ao painel aberto"): Open
+  Layers closed the bar and the page body held the focus. Required: **Open …** puts the focus in the panel it opens, as
+  the activity bar's buttons do (`workspace.setPanelOpen` with `focus`): on its first control of content (a sidebar
+  panel's search field, never its header's Close first), the Layers on their row that takes Tab, a panel with no
+  control on the panel itself.
 - **A command that cannot run now vanished without a word** (the dogfooding pass, 2026-09-30): "dup" with nothing selected answered only that nothing matched. Required: it is still not offered (Problem 2), and when nothing is offered the bar names the best-matching command that cannot run now and its reason (`commandBar.unavailable`: "“Duplicate” cannot run now: …"); with none, `commandBar.none` as before.
 
 ## context-menu

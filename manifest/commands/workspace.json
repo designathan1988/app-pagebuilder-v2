@@ -479,7 +479,8 @@
             "fields": []
           },
           "args": {
-            "open": "open"
+            "open": "open",
+            "focus": true
           }
         },
         {
