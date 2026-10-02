@@ -14,6 +14,20 @@
   flex-direction: column;
   min-width: 0;
   min-height: 0;
+  /* its width decides how much the canvas toolbar and the frame bar show (the 1280 x 720 layout, jornada03 J25) */
+  container: centre / inline-size;
+}
+
+/* a narrow centre (a 1280 px window with both side panels): the canvas toolbar's buttons keep their icons and their
+   names as tooltips, and the frame bar keeps its width field without the range beside it, so neither runs off */
+@container centre (max-width: 820px) {
+  .canvas-toolbar .door:has(.icon) .door__label {
+    display: none;
+  }
+
+  .viewport-width__range {
+    display: none;
+  }
 }
 
 /* the maximised workbench covers the canvas area: the row that holds the canvas and the right dock goes too */
