@@ -63,6 +63,7 @@ export type Outcome<Ui> =
   | { readonly kind: 'confirm'; readonly params?: Readonly<Record<string, string | number>> };
 
 export interface HandlerContext<Ui> {
+  readonly language?: string;
   readonly siteScripts?: SiteScripts;
   readonly state: StoreState<Ui>;
   readonly clock: Clock;

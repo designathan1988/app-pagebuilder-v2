@@ -72,16 +72,7 @@
                     "tag": "div",
                     "attributes": {},
                     "classes": [],
-                    "styles": {
-                      "desktop": {
-                        "base": {
-                          "padding-top": "0px",
-                          "padding-right": "0px",
-                          "padding-bottom": "0px",
-                          "padding-left": "0px"
-                        }
-                      }
-                    },
+                    "styles": {},
                     "text": null,
                     "children": []
                   }
@@ -180,10 +171,6 @@
                     "styles": {
                       "desktop": {
                         "base": {
-                          "padding-top": "0px",
-                          "padding-right": "0px",
-                          "padding-bottom": "0px",
-                          "padding-left": "0px",
                           "display": "flex",
                           "flex-direction": "row",
                           "column-gap": "16px"
@@ -201,10 +188,6 @@
                         "styles": {
                           "desktop": {
                             "base": {
-                              "padding-top": "0px",
-                              "padding-right": "0px",
-                              "padding-bottom": "0px",
-                              "padding-left": "0px",
                               "display": "flex",
                               "flex-direction": "column",
                               "flex-grow": "1",
@@ -225,10 +208,6 @@
                         "styles": {
                           "desktop": {
                             "base": {
-                              "padding-top": "0px",
-                              "padding-right": "0px",
-                              "padding-bottom": "0px",
-                              "padding-left": "0px",
                               "display": "flex",
                               "flex-direction": "column",
                               "flex-grow": "1",
@@ -337,10 +316,6 @@
                     "styles": {
                       "desktop": {
                         "base": {
-                          "padding-top": "0px",
-                          "padding-right": "0px",
-                          "padding-bottom": "0px",
-                          "padding-left": "0px",
                           "display": "flex",
                           "flex-direction": "column",
                           "row-gap": "16px"
@@ -355,16 +330,7 @@
                         "tag": "div",
                         "attributes": {},
                         "classes": [],
-                        "styles": {
-                          "desktop": {
-                            "base": {
-                              "padding-top": "0px",
-                              "padding-right": "0px",
-                              "padding-bottom": "0px",
-                              "padding-left": "0px"
-                            }
-                          }
-                        },
+                        "styles": {},
                         "text": null,
                         "children": []
                       },
@@ -374,16 +340,7 @@
                         "tag": "div",
                         "attributes": {},
                         "classes": [],
-                        "styles": {
-                          "desktop": {
-                            "base": {
-                              "padding-top": "0px",
-                              "padding-right": "0px",
-                              "padding-bottom": "0px",
-                              "padding-left": "0px"
-                            }
-                          }
-                        },
+                        "styles": {},
                         "text": null,
                         "children": []
                       }
@@ -484,10 +441,6 @@
                     "styles": {
                       "desktop": {
                         "base": {
-                          "padding-top": "0px",
-                          "padding-right": "0px",
-                          "padding-bottom": "0px",
-                          "padding-left": "0px",
                           "display": "grid",
                           "grid-template-columns": "repeat(3, minmax(0, 1fr))",
                           "column-gap": "16px",
@@ -513,16 +466,7 @@
                         "tag": "div",
                         "attributes": {},
                         "classes": [],
-                        "styles": {
-                          "desktop": {
-                            "base": {
-                              "padding-top": "0px",
-                              "padding-right": "0px",
-                              "padding-bottom": "0px",
-                              "padding-left": "0px"
-                            }
-                          }
-                        },
+                        "styles": {},
                         "text": null,
                         "children": []
                       },
@@ -532,16 +476,7 @@
                         "tag": "div",
                         "attributes": {},
                         "classes": [],
-                        "styles": {
-                          "desktop": {
-                            "base": {
-                              "padding-top": "0px",
-                              "padding-right": "0px",
-                              "padding-bottom": "0px",
-                              "padding-left": "0px"
-                            }
-                          }
-                        },
+                        "styles": {},
                         "text": null,
                         "children": []
                       },
@@ -551,16 +486,7 @@
                         "tag": "div",
                         "attributes": {},
                         "classes": [],
-                        "styles": {
-                          "desktop": {
-                            "base": {
-                              "padding-top": "0px",
-                              "padding-right": "0px",
-                              "padding-bottom": "0px",
-                              "padding-left": "0px"
-                            }
-                          }
-                        },
+                        "styles": {},
                         "text": null,
                         "children": []
                       }
@@ -2064,10 +1990,6 @@
                         "styles": {
                           "desktop": {
                             "base": {
-                              "padding-top": "0px",
-                              "padding-right": "0px",
-                              "padding-bottom": "0px",
-                              "padding-left": "0px",
                               "display": "flex",
                               "flex-direction": "row",
                               "column-gap": "12px"
@@ -4408,16 +4330,7 @@
                       "tag": "div",
                       "attributes": {},
                       "classes": [],
-                      "styles": {
-                        "desktop": {
-                          "base": {
-                            "padding-top": "0px",
-                            "padding-right": "0px",
-                            "padding-bottom": "0px",
-                            "padding-left": "0px"
-                          }
-                        }
-                      },
+                      "styles": {},
                       "text": null,
                       "children": []
                     }
@@ -4434,16 +4347,7 @@
                     "tag": "div",
                     "attributes": {},
                     "classes": [],
-                    "styles": {
-                      "desktop": {
-                        "base": {
-                          "padding-top": "0px",
-                          "padding-right": "0px",
-                          "padding-bottom": "0px",
-                          "padding-left": "0px"
-                        }
-                      }
-                    },
+                    "styles": {},
                     "text": null,
                     "children": []
                   },
@@ -4453,16 +4357,7 @@
                     "tag": "div",
                     "attributes": {},
                     "classes": [],
-                    "styles": {
-                      "desktop": {
-                        "base": {
-                          "padding-top": "0px",
-                          "padding-right": "0px",
-                          "padding-bottom": "0px",
-                          "padding-left": "0px"
-                        }
-                      }
-                    },
+                    "styles": {},
                     "text": null,
                     "children": [],
                     "component": "Container 2",
@@ -4474,16 +4369,7 @@
                     "tag": "div",
                     "attributes": {},
                     "classes": [],
-                    "styles": {
-                      "desktop": {
-                        "base": {
-                          "padding-top": "0px",
-                          "padding-right": "0px",
-                          "padding-bottom": "0px",
-                          "padding-left": "0px"
-                        }
-                      }
-                    },
+                    "styles": {},
                     "text": null,
                     "children": [],
                     "component": "Container 2",
@@ -5999,10 +5885,6 @@
                     "styles": {
                       "desktop": {
                         "base": {
-                          "padding-top": "0px",
-                          "padding-right": "0px",
-                          "padding-bottom": "0px",
-                          "padding-left": "0px",
                           "display": "flex",
                           "flex-direction": "column",
                           "row-gap": "12px"
@@ -6181,10 +6063,6 @@
                     "styles": {
                       "desktop": {
                         "base": {
-                          "padding-top": "0px",
-                          "padding-right": "0px",
-                          "padding-bottom": "0px",
-                          "padding-left": "0px",
                           "display": "flex",
                           "flex-direction": "row",
                           "column-gap": "8px"
@@ -6317,16 +6195,7 @@
                     "tag": "div",
                     "attributes": {},
                     "classes": [],
-                    "styles": {
-                      "desktop": {
-                        "base": {
-                          "padding-top": "0px",
-                          "padding-right": "0px",
-                          "padding-bottom": "0px",
-                          "padding-left": "0px"
-                        }
-                      }
-                    },
+                    "styles": {},
                     "text": null,
                     "children": [
                       {
@@ -6388,16 +6257,7 @@
                         "tag": "div",
                         "attributes": {},
                         "classes": [],
-                        "styles": {
-                          "desktop": {
-                            "base": {
-                              "padding-top": "0px",
-                              "padding-right": "0px",
-                              "padding-bottom": "0px",
-                              "padding-left": "0px"
-                            }
-                          }
-                        },
+                        "styles": {},
                         "text": null,
                         "children": [
                           {
@@ -6501,16 +6361,7 @@
                     "tag": "div",
                     "attributes": {},
                     "classes": [],
-                    "styles": {
-                      "desktop": {
-                        "base": {
-                          "padding-top": "0px",
-                          "padding-right": "0px",
-                          "padding-bottom": "0px",
-                          "padding-left": "0px"
-                        }
-                      }
-                    },
+                    "styles": {},
                     "text": null,
                     "children": [
                       {

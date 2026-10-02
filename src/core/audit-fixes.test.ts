@@ -27,8 +27,10 @@ describe('names derived from a person’s words (B-15, B-16)', () => {
     expect(slug('Ação! Única ç ã é í ô ü')).toBe('acao-unica-c-a-e-i-o-u');
   });
 
+  // Class names are written in the project's code language (stage 6: English by default); this project chose
+  // Portuguese, so the person's own words stay, folded without accents.
   it('exports the class of a pt-BR name without accents (se-o__t-tulo before)', () => {
-    const document = documentOf({ pages: [page('p', 'Início', 'index.html', [node('Seção', 'section', 'section', { styles: { desktop: { base: { 'padding-top': '8px' } } }, children: [node('Título', 'heading', 'h1', { styles: { desktop: { base: { color: 'red' } } } })] })])] });
+    const document = { ...documentOf({ pages: [page('p', 'Início', 'index.html', [node('Seção', 'section', 'section', { styles: { desktop: { base: { 'padding-top': '8px' } } }, children: [node('Título', 'heading', 'h1', { styles: { desktop: { base: { color: 'red' } } } })] })])] }), codeLanguage: 'pt-BR' };
     const site = siteFiles(document, RULES);
     expect(site.pages[0]?.html).toContain('class="secao"');
     expect(site.pages[0]?.html).toContain('class="secao__titulo"');

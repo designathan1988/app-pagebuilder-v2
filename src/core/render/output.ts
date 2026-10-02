@@ -3,12 +3,16 @@
 // attributes of its element (elementAttributes). No class and no DOM: every tool can load it.
 import type { ElementsFile, PropertiesFile } from '../../manifest/schema.ts';
 import type { DocNode, StyleClass } from '../document/model.ts';
+import { compactDeclarations, type Composite } from './clean.ts';
+import { codecOf } from '../style/codecs.ts';
+import { buttonKind, pageLanguage } from '../export/names.ts';
 import { isPageSetting } from '../page/settings.ts';
 import { viewBoxOf } from '../elements/svg.ts';
 
 // The manifest data the page's output needs, on the canvas and in the export: the elements, their attributes' HTML
 // names, the breakpoints, the states' pseudo-classes and the recipes.
 export interface OutputModel {
+  readonly composites?: readonly Composite[];
   readonly elements: ReadonlyMap<string, { readonly namespace: 'html' | 'svg'; readonly content: 'children' | 'text' | 'markup' | 'none' }>;
   // attribute id → its HTML attribute name, or null when it is not one (the text, the tag)
   readonly attributes: ReadonlyMap<string, string | null>;
@@ -72,6 +76,7 @@ export function outputModelFromManifest(elements: ElementsFile, properties: Prop
     states: new Map(properties.states.map((s) => [s.id, { pseudo: s.pseudo, elements: s.elements }] as const)),
     base: { breakpoint: properties.breakpoints.find((b) => b.base)?.id ?? '', state: properties.states[0]?.id ?? '' },
     boxSize: boxSizeOf(properties),
+    composites: properties.composites.flatMap(c => c.shorthand === null ? [] : [{ shorthand: c.shorthand, longhands: c.longhands, codec: c.codec, compose: codecOf(c.codec)?.compose }]),
     recipes: new Map(properties.recipes.map((r) => [r.id, r.declarations])),
     structures: new Map(
       properties.properties.flatMap((p) => {
@@ -130,14 +135,14 @@ export function declarationLines(
   layout: 'line' | 'block' = 'line',
   screen: { readonly height: number } | null = null,
 ): string[] {
-  void layout;
-  return Object.entries(declarations).flatMap(([property, value]) => {
+  const lines = Object.entries(declarations).flatMap(([property, value]) => {
     const recipe = model.recipes.get(property);
     if (recipe) return recipe.map((d) => `${d.property}: ${d.value ?? String(value)};`);
     const fields = model.structures.get(property);
     if (fields !== undefined && Array.isArray(value)) return [`${property}: ${structuredCss(value as readonly Readonly<Record<string, string | boolean>>[], fields)};`];
     return [`${property}: ${screen === null ? String(value) : viewportUnits(String(value), screen)};`];
   });
+  return layout === 'block' ? compactDeclarations(lines, model.composites ?? []) : lines;
 }
 
 // The project's style classes as their rules (spec shared-style-classes): each class that holds styles, in the project's
@@ -182,6 +187,7 @@ export function elementAttributes(
   // how a stored value is written (a project file as its object URL on the canvas, a reference as the target's id
   // attribute): null writes nothing at all (a reference whose target holds no id; core/elements/references.ts)
   resolve: (name: string, value: string) => string | null = (_name, value) => value,
+  context: { readonly language?: string; readonly inForm?: boolean } = {},
 ): { readonly element: Map<string, string | true>; readonly page: Map<string, string> } {
   const element = new Map<string, string | true>();
   const page = new Map<string, string>();
@@ -203,6 +209,8 @@ export function elementAttributes(
     (root && isPageSetting(model.appliesTo.get(id), node.type) ? page : element).set(name, written);
   }
   for (const [name, value] of Object.entries(node.customAttributes ?? {})) if (!element.has(name)) element.set(name, value);
+  if (root) page.set('lang', pageLanguage(page.get('lang'), context.language));
+  if (tag === 'button') element.set('type', buttonKind(element.get('type'), context.inForm === true, typeof element.get('form') === 'string' && element.get('form') !== ''));
   // an SVG draws in its own size: a unit of its drawing is a CSS px (spec elements-svg-shapes, Problems in Pager 2)
   const viewBox = tag === SVG_TAG ? viewBoxOf(node, model) : null;
   if (viewBox !== null) element.set(VIEW_BOX, viewBox);

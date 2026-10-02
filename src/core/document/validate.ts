@@ -324,6 +324,8 @@ export function validateDocument(doc: DocumentJson, selection: Selection, rules:
     else ids.set(id, path);
   };
 
+  if (doc.language !== undefined && (typeof doc.language !== 'string' || !languageTagAllowed(doc.language))) bad('/language', 'invalid project language');
+  if (doc.codeLanguage !== undefined && (typeof doc.codeLanguage !== 'string' || !languageTagAllowed(doc.codeLanguage))) bad('/codeLanguage', 'invalid code language');
   if (doc.version !== DOCUMENT_VERSION) bad('/version', `the document version is ${DOCUMENT_VERSION}`);
   if (!Array.isArray(doc.pages) || doc.pages.length === 0) bad('/pages', 'a project has at least one page');
   // the saved colours: CSS colour texts, at least one when the list is there

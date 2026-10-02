@@ -89,7 +89,7 @@ export function createEditorStore(options: EditorStoreOptions = {}): EditorStore
   const rootLabel = manifest.elements.elements.find((e) => e.id === rules.root.type)?.labelKey ?? 'element.page.label';
   // the restored work, else the empty project, whose names are the words of the person who creates it
   const document =
-    options.restored?.document ?? createEmptyDocument(ids, { page: translate(preferences.locale, 'pages.defaultHome'), root: translate(preferences.locale, rootLabel as 'element.page.label') }, rules.root);
+    options.restored?.document ?? createEmptyDocument(ids, { language: preferences.locale, page: translate(preferences.locale, 'pages.defaultHome'), root: translate(preferences.locale, rootLabel as 'element.page.label') }, rules.root);
   const store = createStore<EditorUi>({
     table: COMMANDS,
     predicates: PREDICATES,
@@ -100,6 +100,7 @@ export function createEditorStore(options: EditorStoreOptions = {}): EditorStore
     clock: options.clock ?? systemClock,
     ids,
     words: (ui, key, params) => translate(ui.preferences.locale, key, params),
+    language: ui => ui.preferences.locale,
     layout: options.ports?.layout ?? pageLayout,
     downloads: options.ports?.downloads ?? browserDownloads,
     clipboard: options.ports?.clipboard ?? browserClipboard,

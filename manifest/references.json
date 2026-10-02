@@ -1879,6 +1879,81 @@
       "kind": "handler",
       "id": "grid.splitCells",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.setModel",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.setPreferences",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.attachReference",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.clearReference",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.editKey",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.send",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.cancel",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.connect",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.disconnect",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.saveKey",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.deleteKey",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.selectSession",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.clearConversation",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "assistant.update",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "view.setViewportWidth",
+      "status": "registered"
     }
   ]
 }

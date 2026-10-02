@@ -5,10 +5,10 @@
 import { message, registerHandler } from '../commands/registry.ts';
 import { createEmptyDocument, isEmptyProject } from '../document/model.ts';
 
-export const newBlankPage = registerHandler('project.newBlankPage', ({ state, ids, rules, words, confirmed }) => {
+export const newBlankPage = registerHandler('project.newBlankPage', ({ state, ids, rules, words, confirmed, language }) => {
   if (confirmed !== true && !isEmptyProject(state.document)) return { kind: 'confirm' as const };
   const rootLabel = rules.elements.get(rules.root.type)?.labelKey;
   if (rootLabel === undefined) throw new Error('newBlankPage: the page root has no label');
-  const document = createEmptyDocument(ids, { page: words('pages.defaultHome'), root: words(rootLabel) }, rules.root);
+  const document = createEmptyDocument(ids, { language: language ?? 'en', page: words('pages.defaultHome'), root: words(rootLabel) }, rules.root);
   return { kind: 'load' as const, document, message: message('status.project.blankPage') };
 });

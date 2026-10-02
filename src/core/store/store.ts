@@ -147,6 +147,7 @@ export interface StoreOptions<Ui> {
   readonly ids: IdGenerator;
   // a catalogue text in the language the editor state holds (the core never reads the editor state itself)
   readonly words: (ui: Ui, key: MessageId, params?: Readonly<Record<string, string | number>>) => string;
+  readonly language?: (ui: Ui) => string;
   // where the canvas draws the page's nodes (the editor's canvas); none drawn when absent
   readonly layout?: Layout;
   // whether the browser takes a value for a property (the editor's CSS.supports); every value when absent
@@ -313,6 +314,7 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
       ...(options.siteScripts === undefined ? {} : { siteScripts: options.siteScripts }),
       rules: layered,
       words: (key, params) => options.words(ui, key, params),
+      ...(options.language === undefined ? {} : { language: options.language(ui) }),
       layout: options.layout ?? noLayout,
       css: options.css ?? anyCss,
       styleClass: options.styleClass?.(ui) ?? null,

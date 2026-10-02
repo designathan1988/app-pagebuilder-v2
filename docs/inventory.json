@@ -5,8 +5,8 @@
     "commands": 278,
     "doors": 1128,
     "scenarios": 1440,
-    "modules": 291,
-    "lines": 53713
+    "modules": 295,
+    "lines": 53963
   },
   "features": [
     {
@@ -2916,7 +2916,7 @@
     },
     {
       "path": "src/core/commands/registry.ts",
-      "lines": 199,
+      "lines": 200,
       "commands": [
         "<id>"
       ],
@@ -2998,7 +2998,7 @@
     },
     {
       "path": "src/core/document/model.ts",
-      "lines": 259,
+      "lines": 264,
       "commands": [],
       "features": []
     },
@@ -3010,7 +3010,7 @@
     },
     {
       "path": "src/core/document/validate.ts",
-      "lines": 573,
+      "lines": 575,
       "commands": [],
       "features": []
     },
@@ -3175,8 +3175,14 @@
       "features": []
     },
     {
+      "path": "src/core/export/authoring.ts",
+      "lines": 46,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/core/export/export.ts",
-      "lines": 420,
+      "lines": 440,
       "commands": [
         "project.export"
       ],
@@ -3196,6 +3202,12 @@
         "page-seo-meta",
         "preview-mode"
       ]
+    },
+    {
+      "path": "src/core/export/names.ts",
+      "lines": 25,
+      "commands": [],
+      "features": []
     },
     {
       "path": "src/core/files/assets.ts",
@@ -3362,6 +3374,12 @@
       "features": [
         "code-panel-edit-html"
       ]
+    },
+    {
+      "path": "src/core/import/capture-styles.ts",
+      "lines": 37,
+      "commands": [],
+      "features": []
     },
     {
       "path": "src/core/import/css.ts",
@@ -3616,6 +3634,12 @@
       "features": []
     },
     {
+      "path": "src/core/render/clean.ts",
+      "lines": 102,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/core/render/inline.ts",
       "lines": 61,
       "commands": [],
@@ -3623,13 +3647,13 @@
     },
     {
       "path": "src/core/render/output.ts",
-      "lines": 212,
+      "lines": 220,
       "commands": [],
       "features": []
     },
     {
       "path": "src/core/render/render.ts",
-      "lines": 795,
+      "lines": 796,
       "commands": [],
       "features": []
     },
@@ -3666,7 +3690,7 @@
     },
     {
       "path": "src/core/store/store.ts",
-      "lines": 607,
+      "lines": 609,
       "commands": [],
       "features": []
     },
@@ -5142,7 +5166,7 @@
     },
     {
       "path": "src/editor/store.ts",
-      "lines": 148,
+      "lines": 149,
       "commands": [],
       "features": []
     },

@@ -41,6 +41,7 @@
 // They are the renderer's state, never the document's, and the page still gets no event handler.
 import type { NodeId } from '../../generated/commands.ts';
 import { baseCss } from './base.ts';
+import { formNodes } from '../export/authoring.ts';
 import { classesCss, elementAttributes, fileUrlsIn, nodeCss, outputModelFromManifest, type OutputModel } from './output.ts';
 export { elementAttributes, nodeCss, outputModelFromManifest, type OutputModel } from './output.ts';
 import type { ElementsFile, InteractionsFile, PropertiesFile } from '../../manifest/schema.ts';
@@ -641,7 +642,7 @@ export class PageRenderer {
       wanted.set(KEY_CONTEXT_ATTRIBUTE, edited.context);
     }
     const tag = element.localName;
-    const output = elementAttributes(node, tag, root, this.model);
+    const output = elementAttributes(node, tag, root, this.model, (_name, value) => value, { language: this.doc?.language ?? 'en', inForm: this.doc !== null && formNodes(this.doc).has(node.id) });
     for (const [name, value] of output.element) {
       if (wanted.has(name)) continue;
       const written = value === true ? '' : this.address(name, value);

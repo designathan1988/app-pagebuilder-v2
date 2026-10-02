@@ -736,6 +736,7 @@
                     "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
                     "<title>Home</title>",
                     "<link rel=\"stylesheet\" href=\"css/styles.css\">",
+                    "<html lang=\"en\">",
                     "<body>",
                     "<section class=\"hero\">",
                     "<h1>Welcome to Aurora</h1>",
@@ -750,7 +751,6 @@
                     "data-",
                     "id=\"n-",
                     "canvas-export",
-                    "lang=",
                     "dir="
                   ]
                 },
@@ -758,10 +758,7 @@
                   "path": "css/styles.css",
                   "present": [
                     ".hero {",
-                    "  padding-top: 56px;",
-                    "  padding-right: 40px;",
-                    "  padding-bottom: 56px;",
-                    "  padding-left: 40px;"
+                    "  padding: 56px 40px;"
                   ],
                   "absent": [
                     "[data-",

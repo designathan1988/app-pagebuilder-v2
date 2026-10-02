@@ -136,6 +136,8 @@ export interface Page {
 }
 
 export interface DocumentJson {
+  readonly language?: string;
+  readonly codeLanguage?: string;
   readonly version: typeof DOCUMENT_VERSION;
   readonly pages: readonly Page[];
   // the colours saved with the project, in the order they were saved (core/design/colors.ts); absent while none is
@@ -182,6 +184,7 @@ export interface StyleClass {
 export type Selection = readonly NodeId[];
 
 export interface EmptyProjectNames {
+  readonly language?: string;
   // the home page's name and its root element's name, in the UI language of the person who creates it
   readonly page: string;
   readonly root: string;
@@ -192,6 +195,8 @@ export interface EmptyProjectNames {
 export function createEmptyDocument(ids: IdGenerator, names: EmptyProjectNames, root: { readonly type: ElementType; readonly tag: string }): DocumentJson {
   return {
     version: DOCUMENT_VERSION,
+    language: names.language ?? 'en',
+    codeLanguage: 'en',
     pages: [
       {
         id: ids.next(),

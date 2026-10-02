@@ -21,6 +21,10 @@
 // Exporting changes nothing in the document and records nothing; the status bar names the file.
 import { message, registerHandler } from '../commands/registry.ts';
 import { slug } from '../text/fold.ts';
+import { semanticName, stableClass } from './names.ts';
+import { mergeCssLines } from '../render/clean.ts';
+import { formNodes } from './authoring.ts';
+import { capturedPageStylePath, capturedPageCss, captureAssetPath } from '../import/capture-styles.ts';
 import type { NodeId } from '../../generated/commands.ts';
 import { walk, type Animation, type DocNode, type DocumentJson } from '../document/model.ts';
 import type { ModelRules } from '../document/validate.ts';
@@ -105,11 +109,13 @@ interface SharedClasses {
   // name is unique across the pages and never one of the project's own classes ("card" of a class and "Card" of an
   // element would otherwise share one rule)
   readonly taken: Set<string>;
+  readonly language: string;
+  readonly identities: Map<string, string>;
 }
 const newShared = (document: DocumentJson): SharedClasses => {
   const taken = new Set<string>((document.classes ?? []).map((one) => one.name));
   for (const page of document.pages) for (const node of walk(page.tree)) for (const own of node.classes) taken.add(own);
-  return { parts: new Map(), reused: new Set(), taken };
+  return { parts: new Map(), reused: new Set(), taken, language: document.codeLanguage ?? 'en', identities: new Map() };
 };
 
 // The generated class of every styled node of a tree, in document order, unique within it: a block, an element of
@@ -120,9 +126,8 @@ const newShared = (document: DocumentJson): SharedClasses => {
 function generatedClasses(tree: DocNode, shared: SharedClasses, addressed: ReadonlySet<NodeId> = new Set()): Map<string, string> {
   const taken = shared.taken;
   const classes = new Map<string, string>();
-  const unique = (base: string) => {
-    let name = base;
-    for (let n = 2; taken.has(name); n++) name = `${base}-${n}`;
+  const unique = (base: string, identity: string) => {
+    const name = stableClass(base, identity, '', taken);
     taken.add(name);
     return name;
   };
@@ -141,8 +146,13 @@ function generatedClasses(tree: DocNode, shared: SharedClasses, addressed: Reado
         taken.add(name);
         shared.reused.add(node.id);
       } else {
-        const word = classOf(node.name, node.type.toLowerCase());
-        name = unique(author !== undefined ? `${author}--${word}` : block !== null ? `${block}__${word}` : word);
+        const word = classOf(semanticName(node.name, node.tag ?? node.type.toLowerCase(), shared.language), node.type.toLowerCase());
+        const base = author !== undefined ? `${author}--${word}` : block !== null ? `${block}__${word}` : word;
+        const identity = JSON.stringify([base, node.type, node.styles, node.animations ?? [], addressed.has(node.id as NodeId) ? node.id : null]);
+        const reused = shared.identities.get(identity);
+        name = reused ?? unique(base, identity);
+        if (reused !== undefined) shared.reused.add(node.id);
+        else shared.identities.set(identity, name);
         if (key !== null && met === undefined) shared.parts.set(key, { name, styles });
       }
       classes.set(node.id, name);
@@ -213,6 +223,7 @@ export function pageLines(document: DocumentJson, pageIndex: number, rules: Mode
   const addressed = new Set<NodeId>(addressedNodes(document));
   for (const page of document.pages) for (const node of walk(page.tree)) if (animationsOf(node).length > 0 || isModalTemplate(node) || isTabsTemplate(node)) addressed.add(node.id as NodeId);
   const classes = generatedClasses(page.tree, shared, addressed);
+  const inForm = formNodes(document);
   // the file the page is written at: the base of every address it holds (the preview writes absolute paths, which it
   // then turns into object URLs of its own)
   const from = relative ? page.file : '';
@@ -230,7 +241,7 @@ export function pageLines(document: DocumentJson, pageIndex: number, rules: Mode
   // (runsOn) is written whole on its own line, its subtree in one string (`lines` null below it).
   const write = (node: DocNode, depth: number, root: boolean, lines: CodeLine[] | null = body): string => {
     const tag = node.tag ?? 'div';
-    const own = elementAttributes(node, tag, root, output, (name, value) => exportValue(document, name, value, from));
+    const own = elementAttributes(node, tag, root, output, (name, value) => exportValue(document, name, value, from), { language: document.language ?? 'en', inForm: inForm.has(node.id) });
     if (root) pageAttributes = own.page;
     const generated = classes.get(node.id);
     const attributes = new Map(own.element);
@@ -304,6 +315,7 @@ export function pageLines(document: DocumentJson, pageIndex: number, rules: Mode
     '  <meta name="viewport" content="width=device-width, initial-scale=1">',
     `  <title>${escapeText(title)}</title>`,
     ...headLines(document, page.tree, rules, from),
+    ...(fileAt(document, capturedPageStylePath(page)) === null ? [] : [`  <link rel="stylesheet" href="${escapeAttribute(relativePath(from, capturedPageStylePath(page)))}">`]),
     `  <link rel="stylesheet" href="${escapeAttribute(relativePath(from, STYLESHEET))}">`,
     ...(usesInteractions ? [`  <script defer src="${escapeAttribute(relativePath(from, INTERACTIONS_SCRIPT))}"></script>`] : []),
     ...(pageUsesForms(page.tree) ? [`  <script defer src="${escapeAttribute(relativePath(from, FORMS_SCRIPT))}"></script>`] : []),
@@ -338,10 +350,11 @@ export function siteFiles(
   // each block ends with its line's end, as a page's rules do, so a blank line parts every rule from the next
   const fonts = fontFaceCss(filesOf(document), (file) => relativePath(STYLESHEET, file.path));
   const shared = [baseCss(), rootCss(document.tokens ?? []), fonts === '' ? '' : `${fonts}\n`, classesCss(document.classes ?? [], rules.output, 'block')].filter((c) => c !== '').map((c) => `${relative ? writtenCss(document, c, STYLESHEET) : c}\n`);
-  const files = pages.map((p) => pageCss(p.code.css));
+  const generated = mergeCssLines(pages.flatMap(p => p.code.css), new Set(pages.flatMap(p => [...p.code.classes.values()])));
+  const files = [pageCss(generated)];
   const css = [...shared, ...files].filter((c) => c !== '').join('\n');
   // the same text, line by line: every part's own lines, and the blank line the join writes between two parts
-  const parts = [...shared.map((text) => text.split('\n').slice(0, -1).map((line) => ({ text: line, node: null as NodeId | null }))), ...pages.map((p) => p.code.css.map((line) => ({ text: line.text, node: line.node as NodeId | null })))];
+  const parts = [...shared.map((text) => text.split('\n').slice(0, -1).map((line) => ({ text: line, node: null as NodeId | null }))), generated.map((line) => ({ text: line.text, node: line.node as NodeId | null }))];
   const lines: CodeLine[] = parts.flatMap((one, i) => (i < parts.length - 1 ? [...one, { text: '', node: null }] : one));
   // the stylesheet ends with a line's end, so its last line is the empty one a text ends with
   const cssLines: CodeLine[] = css.endsWith('\n') ? [...lines, { text: '', node: null }] : lines;
@@ -373,6 +386,13 @@ export function previewPage(document: DocumentJson, rules: ModelRules, pageIndex
   // of the editor's origin does not load there (spec code-panel-edit-js: "Preview runs the linked scripts"). A script
   // whose address is no project file keeps its address, as the export writes it.
   const page = document.pages[pageIndex];
+  if (page !== undefined) {
+    const residual = fileAt(document, capturedPageStylePath(page));
+    if (residual !== null) {
+      const capture = fileUrlsIn(capturedPageCss(document, page), address => { const file = fileAt(document, captureAssetPath(page, address)); return file === null ? address : dataUrl(file); });
+      html = html.replace(`  <link rel="stylesheet" href="${dataUrl(residual)}">`, () => `  <style>\n${capture.replace(/<\/style/gi, '<\\/style')}\n  </style>`);
+    }
+  }
   const linked = typeof page?.tree.attributes.pageScripts === 'string' ? page.tree.attributes.pageScripts.split(/\s+/).filter((one) => one !== '') : [];
   for (const path of linked) {
     const file = fileAt(document, path);
