@@ -31,14 +31,19 @@ describe('reading a stroke with the one tool', () => {
     expect(reading.result?.ok && findRegion(reading.result.graph, 'r2')?.parent).toBe('r1');
   });
 
-  it('cuts across a region from outside its edge, and a stroke that turns back cuts twice', () => {
+  it('cuts along a line drawn with S held, across the region or short of its edges, and a stroke that turns back cuts twice', () => {
     const graph = drawn(1200, 600, [{ x: 0, y: 0, width: 1200, height: 600 }]);
-    const once = read(graph, stroke([{ x: 400, y: -10 }, { x: 400, y: 300 }, { x: 400, y: 610 }]));
+    const once = read(graph, stroke([{ x: 400, y: -10 }, { x: 400, y: 300 }, { x: 400, y: 610 }], 'cut'));
     expect(once.mode).toBe('cut');
     expect(once.cuts).toHaveLength(1);
     expect(once.result?.ok && once.result.graph.regions.map((r) => r.box.width)).toEqual([400, 800]);
-    const twice = after(graph, stroke([{ x: 400, y: -10 }, { x: 400, y: 610 }, { x: 800, y: 610 }, { x: 800, y: -10 }]));
+    // a line inside the region, short of its edges, is carried across it
+    const short = read(graph, stroke([{ x: 400, y: 200 }, { x: 402, y: 400 }], 'cut'));
+    expect(short.result?.ok && short.result.graph.regions.map((r) => r.box.width)).toEqual([401, 799]);
+    const twice = after(graph, stroke([{ x: 400, y: -10 }, { x: 400, y: 610 }, { x: 800, y: 610 }, { x: 800, y: -10 }], 'cut'));
     expect(twice.regions.map((r) => r.box.width)).toEqual([400, 400, 400]);
+    // with no key held the same line is a drag that draws: never a cut
+    expect(read(graph, stroke([{ x: 400, y: 200 }, { x: 402, y: 400 }])).mode).not.toBe('cut');
   });
 
   it('moves a region dragged by its label, nests it where it lands wholly inside another, and detaches it out of its parent', () => {
@@ -54,21 +59,22 @@ describe('reading a stroke with the one tool', () => {
     const out = read(inside, stroke([{ x: 250, y: 250 }, { x: 950, y: 250 }], 'auto', label));
     expect(out.mode).toBe('nest');
     expect(out.result?.ok && findRegion(out.result.graph, 'r2')?.parent).toBeNull();
-    // a selected region dragged by its body goes wherever it is dropped
-    const body = read(graph, stroke([{ x: 750, y: 150 }, { x: 1000, y: 450 }], 'auto', { selected: ['r2'] }));
+    // Ctrl held (the move mode): a region dragged by its body goes wherever it is dropped, selected or not
+    const body = read(graph, stroke([{ x: 750, y: 150 }, { x: 1000, y: 450 }], 'move', { selected: ['r2'] }));
     expect(body.mode).toBe('move');
     expect(body.result?.ok && findRegion(body.result.graph, 'r2')?.box).toMatchObject({ x: 950, y: 400 });
-    // a drag inside a region that is not selected draws a region inside it
+    expect(read(graph, stroke([{ x: 100, y: 100 }, { x: 140, y: 120 }], 'move')).mode).toBe('move');
+    // with no key held a drag inside a region draws its child
     const child = read(graph, stroke([{ x: 100, y: 100 }, { x: 300, y: 300 }]));
     expect(child.mode).toBe('draw');
     expect(child.parent).toBe('r1');
   });
 
-  it('erases the line between two regions rubbed along it, and resizes a region by its own edge', () => {
-    const graph = drawn(1000, 400, [{ x: 0, y: 0, width: 300, height: 400 }, { x: 300, y: 0, width: 700, height: 400 }]);
-    const rubbed = read(graph, stroke([{ x: 300, y: 50 }, { x: 302, y: 200 }, { x: 299, y: 350 }]));
-    expect(rubbed.mode).toBe('merge');
-    expect(rubbed.result?.ok && rubbed.result.graph.regions).toHaveLength(1);
+  it('merges the regions a drag with M held sweeps, apart as they may stand, and resizes a region by its own edge', () => {
+    const graph = drawn(1000, 400, [{ x: 0, y: 0, width: 300, height: 400 }, { x: 340, y: 0, width: 660, height: 400 }]);
+    const swept = read(graph, stroke([{ x: 150, y: 200 }, { x: 600, y: 210 }], 'merge'));
+    expect(swept.mode).toBe('merge');
+    expect(swept.result?.ok && swept.result.graph.regions.map((r) => r.box)).toEqual([{ x: 0, y: 0, width: 1000, height: 400 }]);
     const alone = drawn(1000, 400, [{ x: 100, y: 100, width: 300, height: 200 }]);
     const wider = read(alone, stroke([{ x: 400, y: 200 }, { x: 523, y: 200 }]));
     expect(wider.mode).toBe('edge');

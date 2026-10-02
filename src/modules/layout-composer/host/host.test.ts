@@ -83,7 +83,7 @@ describe('Layout Composer host (host/handlers.ts)', () => {
     expect(base).toContain('"padding-top":"30px"');
     expect(base).toContain('"padding-left":"40px"');
     expect(base).toContain('"padding-right":"40px"');
-    stroke(store, [{ x: 500, y: 10 }, { x: 500, y: 300 }, { x: 500, y: 640 }]);
+    stroke(store, [{ x: 500, y: 10 }, { x: 500, y: 300 }, { x: 500, y: 640 }], 'cut');
     // composing the page, the two columns are read as what they plainly are: the narrow one beside the content
     expect(recordOf(root())?.intent.regions.map((r) => [r.name, r.semantic]).sort()).toEqual([['Content', 'main'], ['Sidebar', 'aside']]);
   });
@@ -92,7 +92,7 @@ describe('Layout Composer host (host/handlers.ts)', () => {
     const { store, root } = composer();
     store.dispatch('layout.enter', {});
     stroke(store, [{ x: 40, y: 40 }, { x: 1400, y: 600 }]);
-    expect(stroke(store, [{ x: 500, y: 10 }, { x: 500, y: 300 }, { x: 500, y: 640 }]).status).toBe('done');
+    expect(stroke(store, [{ x: 500, y: 10 }, { x: 500, y: 300 }, { x: 500, y: 640 }], 'cut').status).toBe('done');
     expect(recordOf(root())?.intent.regions).toHaveLength(2);
     expect(root().children.length).toBeGreaterThan(0);
   });
@@ -122,7 +122,7 @@ describe('Layout Composer properties and screen sizes (layout.configure, layout.
     const made = composer();
     made.store.dispatch('layout.enter', {});
     stroke(made.store, [{ x: 40, y: 40 }, { x: 1400, y: 400 }]);
-    stroke(made.store, [{ x: 500, y: 20 }, { x: 500, y: 420 }]);
+    stroke(made.store, [{ x: 500, y: 20 }, { x: 500, y: 420 }], 'cut');
     return made;
   };
   const styles = (node: DocNode | undefined) => JSON.stringify(node?.styles ?? {});
@@ -172,7 +172,7 @@ describe('the Layout tool reads back what the page holds when it comes on again'
     const { store, root } = composer(boxes);
     store.dispatch('layout.enter', {});
     stroke(store, [{ x: 40, y: 40 }, { x: 1400, y: 600 }]);
-    stroke(store, [{ x: 500, y: 20 }, { x: 500, y: 620 }]);
+    stroke(store, [{ x: 500, y: 20 }, { x: 500, y: 620 }], 'cut');
     store.dispatch('layout.leave', {});
     const [left, right] = root().children as [DocNode, DocNode];
     // with the Select tool: the right column deleted, the left one made 300 wide by its handles
@@ -191,6 +191,69 @@ describe('the Layout tool reads back what the page holds when it comes on again'
     // one undo step brings back the page as the Select tool left it
     store.dispatch('history.undo', {} as never);
     expect(JSON.stringify(root().children[0]?.styles)).toContain('"width":"300px"');
+  });
+});
+
+describe('the Select tool places a region the Layout tool drew', () => {
+  it('resizes a region by a handle and moves it by its body, in the layout, one undo step each', () => {
+    const { store, root } = composer();
+    store.dispatch('layout.enter', {});
+    stroke(store, [{ x: 40, y: 40 }, { x: 400, y: 600 }]);
+    stroke(store, [{ x: 600, y: 40 }, { x: 1400, y: 600 }]);
+    store.dispatch('layout.leave', {});
+    const [left] = root().children as [DocNode];
+    store.dispatch('selection.select', { target: left.id } as never);
+    const steps = store.getState().history.past.length;
+    const resized = store.dispatch('layout.place', { edges: 'e', dx: 100, dy: 0 } as never);
+    expect(resized).toMatchObject({ status: 'done' });
+    expect(recordOf(root())?.intent.regions[0]?.box).toEqual({ x: 40, y: 40, width: 460, height: 560 });
+    // grown into its neighbour, the neighbour gives way and keeps the gap between them
+    expect(store.dispatch('layout.place', { edges: 'e', dx: 300, dy: 0 } as never)).toMatchObject({ status: 'done' });
+    expect(recordOf(root())?.intent.regions.map((r) => [r.box.x, r.box.width])).toEqual([[40, 760], [900, 500]]);
+    store.dispatch('history.undo', {} as never);
+    const moved = store.dispatch('layout.place', { target: left.id, edges: 'move', dx: 0, dy: 100 } as never);
+    expect(moved).toMatchObject({ status: 'done' });
+    expect(recordOf(root())?.intent.regions[0]?.box).toMatchObject({ x: 40, y: 140 });
+    expect(store.getState().history.past.length).toBe(steps + 2);
+    // an element that is no region is refused, and nothing changes
+    store.dispatch('selection.select', { target: root().id } as never);
+    expect(store.dispatch('layout.place', { edges: 'move', dx: 10, dy: 10 } as never).status).toBe('refused');
+  });
+});
+
+describe('the panel merges, spaces and repeats the selected regions', () => {
+  it('merges two regions apart into one over the box they span', () => {
+    const { store, root } = composer();
+    store.dispatch('layout.enter', {});
+    stroke(store, [{ x: 40, y: 40 }, { x: 400, y: 400 }]);
+    stroke(store, [{ x: 500, y: 40 }, { x: 900, y: 400 }]);
+    store.dispatch('layout.select', { regions: ['r1'], mode: 'replace' } as never);
+    store.dispatch('layout.select', { regions: ['r2'], mode: 'add' } as never);
+    expect(store.dispatch('layout.merge', {} as never).status).toBe('done');
+    expect(recordOf(root())?.intent.regions.map((r) => r.box)).toEqual([{ x: 40, y: 40, width: 860, height: 360 }]);
+    // one region selected: nothing to merge
+    expect(store.dispatch('layout.merge', {} as never).status).toBe('refused');
+  });
+
+  it('puts one spacing between the selected regions, and repeats one region across its row', () => {
+    const { store, root } = composer();
+    store.dispatch('layout.enter', {});
+    stroke(store, [{ x: 40, y: 40 }, { x: 340, y: 300 }]);
+    stroke(store, [{ x: 400, y: 40 }, { x: 700, y: 300 }]);
+    store.dispatch('layout.select', { regions: ['r1'], mode: 'replace' } as never);
+    store.dispatch('layout.select', { regions: ['r2'], mode: 'add' } as never);
+    expect(store.dispatch('layout.configure', { field: 'spacing', value: '40' } as never).status).toBe('done');
+    const [a, b] = recordOf(root())?.intent.regions ?? [];
+    expect((b?.box.x ?? 0) - ((a?.box.x ?? 0) + (a?.box.width ?? 0))).toBe(40);
+    store.dispatch('layout.select', { regions: ['r2'], mode: 'replace' } as never);
+    expect(store.dispatch('layout.delete', {} as never).status).toBe('done');
+    store.dispatch('layout.select', { regions: ['r1'], mode: 'replace' } as never);
+    const repeated = store.dispatch('layout.configure', { field: 'repeat', value: '4' } as never);
+    expect(repeated).toMatchObject({ status: 'done' });
+    const items = recordOf(root())?.intent.regions ?? [];
+    expect(items).toHaveLength(4);
+    expect(new Set(items.map((r) => r.box.width)).size).toBe(1);
+    expect(items.every((r) => r.box.y === 40)).toBe(true);
   });
 });
 

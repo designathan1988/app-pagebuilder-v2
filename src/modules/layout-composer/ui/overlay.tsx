@@ -165,7 +165,7 @@ export function LayoutOverlay() {
         {reading?.area == null ? null : <div className="layout-composer__area" data-layout-preview="area" style={at(reading.area)}><span className="layout-composer__measure">{t('layout.preview.size', { width: Math.round(reading.area.width), height: Math.round(reading.area.height) })}</span></div>}
         {held === null || held.points.length < 2 ? null : (
           <svg className="layout-composer__stroke" width={box.width} height={box.height} aria-hidden="true">
-            <polyline points={held.points.map((p) => `${p.x * scale},${p.y * scale}`).join(' ')} />
+            {/* no trail of the pointer: what the stroke does is drawn instead (the area, the cut, the guides) */}
             {reading?.cuts.map((piece, i) => <line key={i} className="layout-composer__cut" x1={piece.from.x * scale} y1={piece.from.y * scale} x2={piece.to.x * scale} y2={piece.to.y * scale} />)}
             {/* the lines the stroke snapped to, across the whole container, before the release fixes them */}
             {reading?.guides.map((guide, i) =>
@@ -195,7 +195,10 @@ export function LayoutOverlay() {
                   data-door={door.ref}
                   title={t(door.door.labelKey as MessageId)}
                   style={{ left: handle.point.x * scale, top: handle.point.y * scale }}
-                />
+                >
+                  {/* a gap shows its spacing, dragged to change it; a repeat end shows it adds items */}
+                  {handle.kind === 'gap' ? handle.value : handle.kind === 'repeat' ? '+' : null}
+                </span>
               );
             })}
       </div>

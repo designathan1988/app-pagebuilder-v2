@@ -1981,6 +1981,16 @@
       "status": "registered"
     },
     {
+      "kind": "handler",
+      "id": "layout.merge",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.place",
+      "status": "registered"
+    },
+    {
       "kind": "predicate",
       "id": "layoutComposing",
       "status": "registered"

@@ -21,6 +21,20 @@ export interface ToolPoint {
   readonly shift: boolean;
   readonly alt: boolean;
   readonly ctrl: boolean;
+  // the letters held (upper case): a letter held through a drag is a spring-loaded tool (the Layout tool's S and M)
+  readonly letters: readonly string[];
+}
+
+// The letters held now: the keymap, which owns the keys, says when one goes down and when it is let go (or the window
+// loses the focus, and every key with it).
+const letters = new Set<string>();
+export function holdLetter(key: string, down: boolean): void {
+  if (key.length !== 1) return;
+  if (down) letters.add(key.toUpperCase());
+  else letters.delete(key.toUpperCase());
+}
+export function releaseLetters(): void {
+  letters.clear();
 }
 
 // a command a move runs, with its arguments
@@ -88,4 +102,5 @@ export const toolPoint = (event: { clientX: number; clientY: number; shiftKey: b
   shift: event.shiftKey,
   alt: event.altKey,
   ctrl: event.ctrlKey || event.metaKey,
+  letters: [...letters],
 });

@@ -21,6 +21,7 @@ import { TEXT_EDITING, editArgs } from '../canvas/text-edit.ts';
 import { readClipboard } from '../clipboard.ts';
 import type { EditorStore } from '../store.ts';
 import { cancelPan, holdAlt, holdSpace, modifierOf, openGesture, pointerPressing } from './pointer.ts';
+import { holdLetter, releaseLetters } from './pointer-tools.ts';
 import { canvasChosenCount, pressCount, pressRegion } from './pointer/views.ts';
 import { shortcutRuns } from './shortcut-rule.ts';
 import { keyContextIn } from '../canvas/edit-mode.ts';
@@ -355,6 +356,8 @@ export function installKeymap(store: EditorStore, target: Window = window): () =
   };
   const onKeyDown = (event: KeyboardEvent) => {
     const letter = event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey;
+    // a letter held outside a field: a pointer tool may read it through a drag (pointer-tools.ts)
+    if (letter && !typesText(event.target)) holdLetter(event.key, true);
     if ((!letter && event.key !== SHIFT) || (letter && event.timeStamp - lastLetterAt >= TYPING_BURST)) {
       endBurst();
     }
@@ -496,12 +499,14 @@ export function installKeymap(store: EditorStore, target: Window = window): () =
     else if (gesture === null) void readClipboard().then((content) => dispatch(binding.command.id, { ...args, [clipboard]: content }));
   };
   const onKeyUp = (event: KeyboardEvent) => {
+    holdLetter(event.key, false);
     if (event.code === 'Space') holdSpace(false);
     // Alt let go: the canvas stops measuring distances (spec hover-measure)
     if (event.key === ALT) holdAlt(false);
   };
   const onBlur = () => {
     endBurst();
+    releaseLetters();
     holdSpace(false);
     holdAlt(false);
   };

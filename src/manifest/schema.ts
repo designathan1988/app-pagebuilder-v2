@@ -494,7 +494,8 @@ export const propertiesFileSchema = z.strictObject({
 
 // ---------------------------------------------------------------- interactions
 
-export const modifierKeySchema = z.enum(['Shift', 'Alt', 'Ctrl', 'Meta', 'Space']);
+// a key held through a gesture: a modifier, Space, or a letter held as a spring-loaded tool (the Layout tool's S and M)
+export const modifierKeySchema = z.enum(['Shift', 'Alt', 'Ctrl', 'Meta', 'Space', 'S', 'M']);
 
 export const interactionsFileSchema = z.strictObject({
   keyContexts: z

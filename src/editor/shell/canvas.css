@@ -817,6 +817,11 @@
   outline-offset: -1px;
 }
 
+/* an empty container with the switches off: its box, so it can be seen, picked and moved */
+.chrome__outline--empty {
+  outline-color: color-mix(in srgb, var(--color-canvas-selection) 55%, transparent);
+}
+
 .chrome__zone {
   position: absolute;
   background: color-mix(in srgb, var(--color-canvas-padding) 22%, transparent);

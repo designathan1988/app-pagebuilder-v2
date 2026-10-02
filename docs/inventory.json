@@ -2,11 +2,11 @@
   "totals": {
     "features": 214,
     "built": 213,
-    "commands": 368,
-    "doors": 1330,
-    "scenarios": 1744,
-    "modules": 408,
-    "lines": 75661
+    "commands": 370,
+    "doors": 1335,
+    "scenarios": 1749,
+    "modules": 409,
+    "lines": 76110
   },
   "features": [
     {
@@ -2877,6 +2877,8 @@
         "layout.stroke",
         "layout.select",
         "layout.delete",
+        "layout.merge",
+        "layout.place",
         "layout.configure",
         "layout.interpret",
         "layout.respond",
@@ -2887,8 +2889,8 @@
         "layout.trace",
         "workspace.setPanelOpen"
       ],
-      "doors": 64,
-      "scenarios": 35,
+      "doors": 69,
+      "scenarios": 40,
       "modules": [
         "src/editor/workspace/panels.ts",
         "src/modules/layout-composer/host/handlers.ts"
@@ -5110,7 +5112,7 @@
     },
     {
       "path": "src/editor/canvas/view-overlays.tsx",
-      "lines": 82,
+      "lines": 99,
       "commands": [],
       "features": []
     },
@@ -5141,7 +5143,7 @@
     },
     {
       "path": "src/editor/command-bar/command-bar.ts",
-      "lines": 228,
+      "lines": 246,
       "commands": [
         "commandBar.open"
       ],
@@ -5382,13 +5384,13 @@
     },
     {
       "path": "src/editor/input/keymap.ts",
-      "lines": 546,
+      "lines": 551,
       "commands": [],
       "features": []
     },
     {
       "path": "src/editor/input/pointer-tools.ts",
-      "lines": 92,
+      "lines": 107,
       "commands": [],
       "features": []
     },
@@ -5881,7 +5883,7 @@
     },
     {
       "path": "src/editor/shell/canvas.tsx",
-      "lines": 294,
+      "lines": 300,
       "commands": [],
       "features": []
     },
@@ -5911,7 +5913,7 @@
     },
     {
       "path": "src/editor/shell/command-bar.tsx",
-      "lines": 241,
+      "lines": 247,
       "commands": [],
       "features": []
     },
@@ -6449,13 +6451,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 630,
+      "lines": 632,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6395,
+      "lines": 6431,
       "commands": [],
       "features": []
     },
@@ -6515,7 +6517,7 @@
     },
     {
       "path": "src/manifest/schema.ts",
-      "lines": 1317,
+      "lines": 1318,
       "commands": [],
       "features": []
     },
@@ -6575,13 +6577,13 @@
     },
     {
       "path": "src/modules/layout-composer/gestures/operations.ts",
-      "lines": 514,
+      "lines": 516,
       "commands": [],
       "features": []
     },
     {
       "path": "src/modules/layout-composer/gestures/recognize.ts",
-      "lines": 536,
+      "lines": 629,
       "commands": [],
       "features": []
     },
@@ -6599,13 +6601,15 @@
     },
     {
       "path": "src/modules/layout-composer/host/handlers.ts",
-      "lines": 728,
+      "lines": 864,
       "commands": [
         "layout.enter",
         "layout.leave",
         "layout.stroke",
+        "layout.place",
         "layout.select",
         "layout.delete",
+        "layout.merge",
         "layout.configure",
         "layout.interpret",
         "layout.respond",
@@ -6633,7 +6637,7 @@
     },
     {
       "path": "src/modules/layout-composer/host/state.ts",
-      "lines": 35,
+      "lines": 32,
       "commands": [],
       "features": []
     },
@@ -6663,7 +6667,7 @@
     },
     {
       "path": "src/modules/layout-composer/intent/problems.ts",
-      "lines": 93,
+      "lines": 97,
       "commands": [],
       "features": []
     },
@@ -6686,6 +6690,12 @@
       "features": []
     },
     {
+      "path": "src/modules/layout-composer/interaction/place-tool.ts",
+      "lines": 83,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/modules/layout-composer/interaction/preview.ts",
       "lines": 28,
       "commands": [],
@@ -6693,7 +6703,7 @@
     },
     {
       "path": "src/modules/layout-composer/interaction/tool.ts",
-      "lines": 112,
+      "lines": 115,
       "commands": [],
       "features": []
     },
@@ -6723,25 +6733,25 @@
     },
     {
       "path": "src/modules/layout-composer/ui/overlay.tsx",
-      "lines": 210,
+      "lines": 213,
       "commands": [],
       "features": []
     },
     {
       "path": "src/modules/layout-composer/ui/panel.tsx",
-      "lines": 301,
+      "lines": 319,
       "commands": [],
       "features": []
     },
     {
       "path": "src/modules/layout-composer/ui/scene.ts",
-      "lines": 227,
+      "lines": 229,
       "commands": [],
       "features": []
     },
     {
       "path": "src/modules/layout-composer/view.ts",
-      "lines": 12,
+      "lines": 14,
       "commands": [],
       "features": []
     }

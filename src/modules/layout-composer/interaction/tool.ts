@@ -7,8 +7,9 @@
 //    -add with Shift, -cycle with Alt) on the deepest region under it, or the empty selection;
 //  - a drag from a handle ([data-layout-handle]): layout.stroke with the handle (layout-boundary, -gap, -repeat,
 //    -vertex, -move: a region's label);
-//  - any other drag: layout.stroke (layout-stage) with the tool's mode, or the mode the key held gives (Shift merges,
-//    Alt subtracts, Ctrl cuts: interactions.json layout-stroke).
+//  - any other drag: layout.stroke (layout-stage) with the tool's mode, or the mode the key held gives (Ctrl moves the
+//    region dragged, Shift selects the regions boxed, S held splits, M held merges, Alt subtracts: interactions.json
+//    layout-stroke).
 import { locate } from '../../../core/document/model.ts';
 import type { Gesture } from '../../../core/store/store.ts';
 import type { CommandId, KeyContextId, MessageId } from '../../../generated/ids.ts';
@@ -29,7 +30,7 @@ import { preview } from './preview.ts';
 const CLICK_TRAVEL = numberConstant('drag.threshold');
 
 // the meanings of the keys held during a stroke, from the gesture (interactions.json layout-stroke)
-const STROKE_KEYS: Readonly<Record<string, StrokeMode>> = { 'merge-swept-regions': 'merge', 'subtract-dragged-box': 'subtract', 'cut-along-stroke': 'cut' };
+const STROKE_KEYS: Readonly<Record<string, StrokeMode>> = { 'move-dragged-region': 'move', 'select-boxed-regions': 'select', 'cut-along-stroke': 'cut', 'merge-swept-regions': 'merge', 'subtract-dragged-box': 'subtract' };
 const KEYED = Object.fromEntries((manifest.interactions.gestures.find((g) => g.id === 'layout-stroke')?.modifiers ?? []).map((m) => [m.key, STROKE_KEYS[m.meaning]])) as Readonly<Record<string, StrokeMode | undefined>>;
 
 // the commands a click and a stroke run: the doors' own (manifest/commands/layout-composer.json)
@@ -37,11 +38,13 @@ const commandOf = (find: (entry: (typeof manifest.doors)[number]) => boolean): C
 const SELECT = commandOf((d) => d.door.kind === 'canvas-click' && d.door.gesture === 'layout-click');
 const STROKE = commandOf((d) => d.door.kind === 'canvas-drag' && d.door.gesture === 'layout-stroke');
 
-// The mode a stroke is read in: the key held, else the tool chosen.
+// The mode a stroke is read in: the letter held, else the modifier held, else the tool chosen.
 function modeOf(at: ToolPoint, tool: StrokeMode): StrokeMode {
+  // a letter held is a spring-loaded tool (S splits, M merges), as a tool's key held in a design tool switches to it
+  for (const letter of at.letters) if (KEYED[letter] !== undefined) return KEYED[letter];
+  if (at.ctrl && KEYED.Ctrl !== undefined) return KEYED.Ctrl;
   if (at.shift && KEYED.Shift !== undefined) return KEYED.Shift;
   if (at.alt && KEYED.Alt !== undefined) return KEYED.Alt;
-  if (at.ctrl && KEYED.Ctrl !== undefined) return KEYED.Ctrl;
   return tool;
 }
 
@@ -75,10 +78,10 @@ export const layoutTool: PointerTool = {
     const handle = handleText === null ? null : handleOf(handleText);
     const locale = state.ui.preferences.locale;
     const naming = namingWith((key, params) => textOf(locale, key as MessageId, params));
-    const radius = hitRadius(state.ui);
+    const radius = hitRadius(state);
     const points: Point[] = [local(at)];
     let travelled = false;
-    const read = (mode: StrokeMode) => readStroke(record.intent, { points, mode, handle, radius, selected: composer.grabbed === true ? composer.selection : [] }, naming);
+    const read = (mode: StrokeMode) => readStroke(record.intent, { points, mode, handle, radius, selected: composer.selection }, naming);
     return {
       move(next) {
         if (!travelled && Math.hypot(next.x - at.x, next.y - at.y) < CLICK_TRAVEL) return null;

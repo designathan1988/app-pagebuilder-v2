@@ -14,9 +14,9 @@ interface Point {
 
 const interactions = JSON.parse(fs.readFileSync('manifest/interactions.json', 'utf8')) as { gestures: { id: string; modifiers: { key: string; meaning: string }[] }[] };
 // the modes the keys held during a stroke stand for, by the meaning the gesture gives them
-const MEANINGS: Readonly<Record<string, string>> = { 'merge-swept-regions': 'merge', 'subtract-dragged-box': 'subtract', 'cut-along-stroke': 'cut' };
+const MEANINGS: Readonly<Record<string, string>> = { 'move-dragged-region': 'move', 'select-boxed-regions': 'select', 'cut-along-stroke': 'cut', 'merge-swept-regions': 'merge', 'subtract-dragged-box': 'subtract' };
 const KEY_OF_MODE: Readonly<Record<string, string>> = Object.fromEntries((interactions.gestures.find((g) => g.id === 'layout-stroke')?.modifiers ?? []).map((m) => [MEANINGS[m.meaning] ?? '', m.key]));
-const MODIFIER_KEY: Readonly<Record<string, string>> = { Ctrl: 'Control', Shift: 'Shift', Alt: 'Alt', Meta: 'Meta' };
+const MODIFIER_KEY: Readonly<Record<string, string>> = { Ctrl: 'Control', Shift: 'Shift', Alt: 'Alt', Meta: 'Meta', S: 's', M: 'm' };
 
 export const LAYOUT_GESTURES: readonly string[] = ['layout-stroke', 'layout-handle', 'layout-click'];
 

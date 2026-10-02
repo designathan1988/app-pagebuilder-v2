@@ -137,14 +137,14 @@ describe('strokes that snap, select and cut', () => {
     expect(reading.guides.some((g) => g.axis === 'x' && g.at === 40)).toBe(true);
   });
 
-  it('selects the regions a box drawn from outside holds (a marquee), and moves them together', () => {
+  it('selects the regions a box drawn with Shift held holds (a marquee), and moves them together with Ctrl held', () => {
     const graph = drawn(1440, 900, [{ x: 40, y: 40, width: 600, height: 400 }, { x: 680, y: 40, width: 600, height: 400 }, { x: 40, y: 480, width: 600, height: 300 }]);
-    const reading = readStroke(graph, stroke([{ x: 10, y: 10 }, { x: 1300, y: 460 }]), DEFAULT_NAMING);
+    const reading = readStroke(graph, stroke([{ x: 10, y: 10 }, { x: 1300, y: 460 }], { mode: 'select' }), DEFAULT_NAMING);
     expect(reading.mode).toBe('select');
     expect(reading.selection).toEqual(['r1', 'r2']);
     expect(reading.operation).toBeNull();
     // the picked regions dragged by the body of one of them go together; the third stays
-    const moved = readStroke(graph, { ...stroke([{ x: 300, y: 200 }, { x: 300, y: 220 }]), selected: ['r1', 'r2'] }, DEFAULT_NAMING);
+    const moved = readStroke(graph, { ...stroke([{ x: 300, y: 200 }, { x: 300, y: 220 }], { mode: 'move' }), selected: ['r1', 'r2'] }, DEFAULT_NAMING);
     expect(moved.mode).toBe('move');
     const after = moved.result?.ok === true ? moved.result.graph : null;
     expect(moved.result?.ok).toBe(true);
@@ -152,16 +152,34 @@ describe('strokes that snap, select and cut', () => {
     expect(ys[0]).toBeGreaterThan(40);
     expect(ys[1]).toBe(ys[0]);
     expect(ys[2]).toBe(480);
-    // a region drawn and not picked takes a drag inside it as its child
+    // a region not picked dragged with Ctrl held moves alone; with no key held, a drag inside it draws its child
+    const alone = readStroke(graph, stroke([{ x: 300, y: 600 }, { x: 320, y: 620 }], { mode: 'move' }), DEFAULT_NAMING);
+    expect(alone.mode).toBe('move');
+    expect(alone.visited).toEqual(['r3']);
     const child = readStroke(graph, stroke([{ x: 100, y: 100 }, { x: 300, y: 300 }]), DEFAULT_NAMING);
     expect(child.mode).toBe('draw');
+    expect(child.parent).toBe('r1');
   });
 
-  it('never reads a slanted drag across a region as a cut', () => {
+  it('snaps an edge drawn or moved near a region beside it to touch it, with no sliver between them', () => {
+    const graph = drawn(1440, 900, [{ x: 40, y: 40, width: 600, height: 400 }]);
+    // drawn 10 px away from the region's right edge (the radius is 8): it touches
+    const near = readStroke(graph, stroke([{ x: 650, y: 40 }, { x: 1100, y: 440 }]), DEFAULT_NAMING);
+    expect(near.mode).toBe('draw');
+    expect(near.area?.x).toBe(640);
+    // moved to 12 px from it: it touches
+    const two = drawn(1440, 900, [{ x: 40, y: 40, width: 600, height: 400 }, { x: 800, y: 40, width: 400, height: 400 }]);
+    const moved = readStroke(two, stroke([{ x: 1000, y: 200 }, { x: 852, y: 200 }], { mode: 'move' }), DEFAULT_NAMING);
+    expect(moved.mode).toBe('move');
+    expect(moved.result?.ok === true ? moved.result.graph.regions[1]?.box.x : null).toBe(640);
+  });
+
+  it('never reads a drag with no key held as a cut; with S held a rough line splits along its main direction', () => {
     const graph = drawn(1440, 900, [{ x: 40, y: 40, width: 1360, height: 560 }]);
-    const reading = readStroke(graph, stroke([{ x: 300, y: 20 }, { x: 900, y: 880 }]), DEFAULT_NAMING);
-    expect(reading.mode).not.toBe('cut');
-    const straight = readStroke(graph, stroke([{ x: 500, y: 20 }, { x: 505, y: 620 }]), DEFAULT_NAMING);
+    expect(readStroke(graph, stroke([{ x: 500, y: 20 }, { x: 505, y: 620 }]), DEFAULT_NAMING).mode).not.toBe('cut');
+    const rough = readStroke(graph, stroke([{ x: 300, y: 20 }, { x: 900, y: 880 }], { mode: 'cut' }), DEFAULT_NAMING);
+    expect(rough.result?.ok === true ? rough.result.graph.regions.map((r) => r.box.width) : null).toEqual([560, 800]);
+    const straight = readStroke(graph, stroke([{ x: 500, y: 20 }, { x: 505, y: 620 }], { mode: 'cut' }), DEFAULT_NAMING);
     expect(straight.mode).toBe('cut');
   });
 

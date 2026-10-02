@@ -132,13 +132,30 @@ function nearest(lines: readonly number[], at: number, radius: number): number |
   return best;
 }
 
+// An edge that comes near the facing edge of a region beside it (the two overlap across the axis) touches it: within
+// twice the radius, contact wins over every other line, so regions drawn or moved next to one another join, with no
+// sliver left between them. The edge a start edge meets is another region's end, and the reverse.
+function contact(graph: LayoutIntent, axis: Axis, box: Box, start: boolean, radius: number, excluded: ReadonlySet<string>): number | null {
+  const across: Axis = axis === 'x' ? 'y' : 'x';
+  const at = start ? box[axis] : end(box, axis);
+  let best: number | null = null;
+  for (const r of graph.regions) {
+    if (excluded.has(r.id)) continue;
+    const overlap = Math.min(end(r.box, across), end(box, across)) - Math.max(r.box[across], box[across]);
+    if (overlap <= 0) continue;
+    const line = start ? end(r.box, axis) : r.box[axis];
+    if (Math.abs(line - at) <= radius * 2 && (best === null || Math.abs(line - at) < Math.abs(best - at))) best = line;
+  }
+  return best;
+}
+
 // A box drawn: each edge snaps on its own.
 export function snapDrawn(graph: LayoutIntent, box: Box, radius: number): { readonly box: Box; readonly guides: Guide[] } {
   const guides: Guide[] = [];
   const edges = (axis: Axis): [number, number] => {
     const lines = snapLines(graph, axis, new Set());
-    const from = nearest(lines, box[axis], radius);
-    const to = nearest(lines, end(box, axis), radius);
+    const from = contact(graph, axis, box, true, radius, new Set()) ?? nearest(lines, box[axis], radius);
+    const to = contact(graph, axis, box, false, radius, new Set()) ?? nearest(lines, end(box, axis), radius);
     if (from !== null) guides.push({ axis, at: from });
     if (to !== null && to !== from) guides.push({ axis, at: to });
     const a = from ?? box[axis];
@@ -156,6 +173,16 @@ export function snapMoved(graph: LayoutIntent, box: Box, radius: number, exclude
   const pull = (axis: Axis): number => {
     const lines = snapLines(graph, axis, excluded);
     let best: { shift: number; at: number } | null = null;
+    // an edge meeting the facing edge of a region beside it touches it first
+    for (const start of [true, false]) {
+      const line = contact(graph, axis, box, start, radius, excluded);
+      const at = start ? box[axis] : end(box, axis);
+      if (line !== null && (best === null || Math.abs(line - at) < Math.abs(best.shift))) best = { shift: line - at, at: line };
+    }
+    if (best !== null) {
+      guides.push({ axis, at: best.at });
+      return best.shift;
+    }
     for (const at of [box[axis], centre(box)[axis], end(box, axis)]) {
       const line = nearest(lines, at, radius);
       if (line !== null && (best === null || Math.abs(line - at) < Math.abs(best.shift))) best = { shift: line - at, at: line };
@@ -265,6 +292,23 @@ function read(graph: LayoutIntent, stroke: Stroke, mode: StrokeReading['mode'], 
 
 // A region dragged by the travel of the stroke: it snaps to the lines near it, and where it lands decides its parent
 // (the deepest region holding the moved box, never itself or what it holds).
+// A split line drawn inside a region (S held), short of its edges: it is carried across the deepest region it lies in,
+// edge to edge, so a cut need not start outside the region. A line already across regions is kept as drawn.
+function across(graph: LayoutIntent, piece: Piece): Piece {
+  if (!straight(piece) || crossedBy(graph, piece).length > 0) return piece;
+  const middle = { x: (piece.from.x + piece.to.x) / 2, y: (piece.from.y + piece.to.y) / 2 };
+  const inside = hitRegions(graph.regions, middle)[0];
+  if (inside === undefined) return piece;
+  const vertical = Math.abs(piece.to.x - piece.from.x) < Math.abs(piece.to.y - piece.from.y);
+  const b = inside.box;
+  return vertical ? { from: { x: middle.x, y: b.y - 1 }, to: { x: middle.x, y: b.y + b.height + 1 } } : { from: { x: b.x - 1, y: middle.y }, to: { x: b.x + b.width + 1, y: middle.y } };
+}
+
+// Whether a region holds another, at any depth.
+function holds(graph: LayoutIntent, outer: string, inner: string): boolean {
+  return descendants(graph, [outer]).has(inner) && outer !== inner;
+}
+
 function readMove(graph: LayoutIntent, stroke: Stroke, target: Region, mode: 'move' | 'nest', naming: Naming, along: readonly string[] = []): StrokeReading {
   const points = stroke.points;
   const first = points[0] as Point;
@@ -325,6 +369,55 @@ function readResize(graph: LayoutIntent, stroke: Stroke, edge: OwnEdge, naming: 
   const to = far ? Math.max(b[axis] + least, at) : end(b, axis);
   const box: Box = { ...b, [axis]: from, [size]: to - from };
   return read(graph, stroke, 'edge', { kind: 'resize-region', id: region.id, box }, naming, { visited: [region.id], area: box, guides: line === null ? [] : [{ axis, at }] }, axis === 'x' ? 'col-resize' : 'row-resize');
+}
+
+// A region placed from outside the Layout tool (the Select tool's drag of its element, or of one of its resize handles:
+// layout.place): moved by (dx, dy), or the edges named (n, s, e, w, and the corners) moved by them, snapped to the
+// lines near them as a stroke is (the facing edge of a neighbour first). The same reading the Layout tool's own move
+// and resize give, so the page keeps the region where it was put and the grid follows.
+export type PlaceEdges = 'move' | 'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
+export function readPlace(graph: LayoutIntent, id: string, edges: PlaceEdges, dx: number, dy: number, radius: number, naming: Naming): StrokeReading {
+  const region = findRegion(graph, id);
+  if (region === undefined) return nothing('move', [], [problem('unknown-region', { region: id })]);
+  const centre_ = centre(region.box);
+  const points = [centre_, { x: centre_.x + dx, y: centre_.y + dy }];
+  const stroke: Stroke = { points, mode: 'move', handle: null, radius };
+  if (edges === 'move') return readMove(graph, stroke, region, 'move', naming);
+  const excluded = descendants(graph, [region.id]);
+  const b = region.box;
+  const least = radius * 2;
+  let { x, y } = b;
+  let right = end(b, 'x');
+  let bottom = end(b, 'y');
+  const guides: Guide[] = [];
+  const snap = (axis: Axis, at: number, start: boolean): number => {
+    const moved = start ? { ...b, [axis]: at } : { ...b, [lengthKey(axis)]: at - b[axis] };
+    const line = contact(graph, axis, moved, start, radius, excluded) ?? nearest(snapLines(graph, axis, excluded), at, radius);
+    if (line !== null) guides.push({ axis, at: line });
+    return Math.round(line ?? at);
+  };
+  if (edges.includes('w')) x = Math.min(snap('x', b.x + dx, true), right - least);
+  if (edges.includes('e')) right = Math.max(snap('x', right + dx, false), x + least);
+  if (edges.includes('n')) y = Math.min(snap('y', b.y + dy, true), bottom - least);
+  if (edges.includes('s')) bottom = Math.max(snap('y', bottom + dy, false), y + least);
+  const box: Box = { x, y, width: right - x, height: bottom - y };
+  // a neighbour the grown edge runs into gives way: its facing edge moves along, keeping the gap there was between them,
+  // as the line two regions share does when it is dragged; one that would get thinner than the least size stops it
+  const pushed: Operation[] = [];
+  for (const other of childrenOf(graph, region.parent)) {
+    if (other.id === region.id || intersection(other.box, box) === null) continue;
+    const o = other.box;
+    const was = (axis: Axis, after: boolean) => (after ? o[axis] - end(b, axis) : b[axis] - end(o, axis));
+    let next: Box | null = null;
+    if (edges.includes('e') && o.x >= end(b, 'x')) next = { ...o, x: right + was('x', true), width: end(o, 'x') - (right + was('x', true)) };
+    else if (edges.includes('w') && end(o, 'x') <= b.x) next = { ...o, width: x - was('x', false) - o.x };
+    else if (edges.includes('s') && o.y >= end(b, 'y')) next = { ...o, y: bottom + was('y', true), height: end(o, 'y') - (bottom + was('y', true)) };
+    else if (edges.includes('n') && end(o, 'y') <= b.y) next = { ...o, height: y - was('y', false) - o.y };
+    if (next === null || next.width < least || next.height < least) return { ...nothing('edge', points, [problem('overlap')]), area: box, visited: [region.id, other.id] };
+    pushed.push({ kind: 'resize-region', id: other.id, box: next });
+  }
+  const resize: Operation = { kind: 'resize-region', id: region.id, box };
+  return read(graph, stroke, 'edge', pushed.length === 0 ? resize : { kind: 'compose', operations: [...pushed, resize] }, naming, { visited: [region.id], area: box, guides }, 'move');
 }
 
 // A handle's edit (spec "Structural Handles"): a boundary or polygon edge moves, a vertex moves, a gap changes for the
@@ -418,26 +511,24 @@ export function readStroke(graph: LayoutIntent, stroke: Stroke, naming: Naming):
   const tolerance = Math.max(stroke.radius, 2);
   let mode = stroke.mode;
   if (mode === 'auto') {
+    // a press on the line two regions share drags it (both regions follow); on a region's own edge, resizes it
     const boundary = sharedBoundaries(graph).find((b) => Math.abs(first[b.axis] - b.at) <= stroke.radius && first[b.axis === 'x' ? 'y' : 'x'] >= b.from && first[b.axis === 'x' ? 'y' : 'x'] <= b.to);
-    if (boundary !== undefined) {
-      // rubbed along the line (it travels along it more than twice as far as across): the line is erased
-      const along = Math.abs(last[boundary.axis === 'x' ? 'y' : 'x'] - first[boundary.axis === 'x' ? 'y' : 'x']);
-      const across = Math.abs(last[boundary.axis] - first[boundary.axis]);
-      const rubbed = travelled(points) >= stroke.radius * 3 && along > across * 2;
-      if (rubbed && boundary.regions.length === 2) return read(graph, stroke, 'merge', { kind: 'merge', ids: [...boundary.regions] }, naming, { visited: [...boundary.regions] }, 'cell');
-      return readHandle(graph, stroke, { kind: 'boundary', id: boundary.id }, naming);
-    }
+    if (boundary !== undefined) return readHandle(graph, stroke, { kind: 'boundary', id: boundary.id }, naming);
     const edge = ownEdge(graph, first, stroke.radius);
     if (edge !== null) return readResize(graph, stroke, edge, naming);
-    const target = hitRegions(graph.regions, first)[0];
-    // a picked region dragged by its body goes wherever it is dropped, with the other picked ones, snapped to the
-    // lines near it; anywhere else a drag draws (inside a region, its child)
+    // anything else draws: in empty space a region, inside a region its child; a box drawn from empty space around
+    // whole regions puts them in the new region
+    const around = hitRegions(graph.regions, first)[0] === undefined && box.width > stroke.radius && box.height > stroke.radius && graph.regions.some((r) => contains(box, r.box));
+    mode = around ? 'group' : 'draw';
+  }
+  // Ctrl held: a region dragged by its body goes wherever it is dropped (the picked region under the press with the
+  // other picked ones, else the deepest region there); from empty space the drag is a selection box
+  if (mode === 'move') {
     const picked = hitRegions(graph.regions, first).find((r) => stroke.selected?.includes(r.id) === true);
     if (picked !== undefined) return readMove(graph, stroke, picked, 'move', naming, stroke.selected ?? []);
-    // a box from outside every region that holds whole regions selects them (a marquee)
-    const around = target === undefined && box.width > stroke.radius && box.height > stroke.radius && graph.regions.some((r) => contains(box, r.box));
-    const crossing = pieces(points, tolerance).some((piece) => straight(piece) && crossedBy(graph, piece).length > 0);
-    mode = around ? 'select' : crossing ? 'cut' : 'draw';
+    const under = hitRegions(graph.regions, first)[0];
+    if (under !== undefined) return readMove(graph, stroke, under, 'move', naming);
+    mode = 'select';
   }
   switch (mode) {
     case 'draw': {
@@ -450,6 +541,7 @@ export function readStroke(graph: LayoutIntent, stroke: Stroke, naming: Naming):
     }
     case 'cut': {
       const snappedCuts = pieces(points, tolerance)
+        .map((piece) => across(graph, piece))
         .filter((piece) => crossedBy(graph, piece).length > 0)
         .map((piece) => snapCut(graph, piece, stroke.radius))
         .filter((one) => crossedBy(graph, one.piece).length > 0);
@@ -462,7 +554,9 @@ export function readStroke(graph: LayoutIntent, stroke: Stroke, naming: Naming):
     case 'merge': {
       const visited = swept(graph, points);
       if (visited.length < 2) return { ...nothing('merge', points), visited, cursor: 'cell' };
-      return read(graph, stroke, 'merge', { kind: 'merge', ids: visited }, naming, { visited }, 'cell');
+      // the regions swept become one over the box they span, apart as they may stand
+      const ids = visited.filter((id) => !visited.some((other) => holds(graph, other, id)));
+      return read(graph, stroke, 'merge', { kind: 'merge', ids, span: true }, naming, { visited: ids, area: bounds(ids.map((id) => (findRegion(graph, id) as Region).box)) }, 'cell');
     }
     case 'subtract': {
       if (box.width < stroke.radius || box.height < stroke.radius) return nothing('subtract', points);
@@ -472,7 +566,6 @@ export function readStroke(graph: LayoutIntent, stroke: Stroke, naming: Naming):
       if (ids.length === 0) return { ...nothing('subtract', points), area: box };
       return read(graph, stroke, 'subtract', { kind: 'subtract', ids, box }, naming, { area: box, visited: ids }, 'crosshair');
     }
-    case 'move':
     case 'nest': {
       const target = hitRegions(graph.regions, first)[0];
       return target === undefined ? nothing(mode, points) : readMove(graph, stroke, target, mode, naming);

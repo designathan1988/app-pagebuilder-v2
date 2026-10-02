@@ -23,7 +23,8 @@ export type Operation =
   | { readonly kind: 'draw'; readonly region: Region }
   | { readonly kind: 'split'; readonly ids: readonly string[]; readonly axis: Axis; readonly positions: readonly number[] }
   | { readonly kind: 'cut'; readonly from: Point; readonly to: Point }
-  | { readonly kind: 'merge'; readonly ids: readonly string[] }
+  // span: the merged region is the box over them all, apart as they may stand (two boxes linked by a stroke)
+  | { readonly kind: 'merge'; readonly ids: readonly string[]; readonly span?: boolean }
   | { readonly kind: 'subtract'; readonly ids: readonly string[]; readonly box: Box; readonly polygon?: readonly Point[] }
   | { readonly kind: 'move'; readonly ids: readonly string[]; readonly dx: number; readonly dy: number }
   | { readonly kind: 'resize-region'; readonly id: string; readonly box: Box }
@@ -103,8 +104,9 @@ function withoutRegionReferences(graph: LayoutIntent, gone: ReadonlySet<string>)
     ...graph,
     regions: graph.regions.filter((r) => keepRegion(r.id)),
     constraints: graph.constraints.flatMap((c) => {
+      // a rule between regions (one gap, equal sizes, an alignment) means nothing once one region is left of it
       const regions = c.regions.filter(keepRegion);
-      return regions.length === 0 ? [] : [{ ...c, regions }];
+      return regions.length < (c.kind === 'size' || c.kind === 'ratio' ? 1 : 2) ? [] : [{ ...c, regions }];
     }),
     responsive: graph.responsive.map((rule) => ({
       ...rule,
@@ -264,10 +266,10 @@ function raw(graph: LayoutIntent, op: Operation, run: Run): LayoutIntent {
       const first = held[0] as Region;
       if (held.some((r) => r.parent !== first.parent)) refuse('merge-siblings');
       if (held.some((r) => r.kind === 'content')) refuse('merge-content');
-      const shapes = polygonBoolean(held.map(regionShape), [], 'union');
+      const box = bounds(held.map((r) => r.box));
+      const shapes = op.span === true ? [{ outer: [{ x: box.x, y: box.y }, { x: box.x + box.width, y: box.y }, { x: box.x + box.width, y: box.y + box.height }, { x: box.x, y: box.y + box.height }], holes: [] }] : polygonBoolean(held.map(regionShape), [], 'union');
       if (shapes.length !== 1) refuse('merge-disconnected');
       const shape = shapes[0] as PolygonShape;
-      const box = bounds(held.map((r) => r.box));
       const { polygon: _polygon, holes: _holes, ...base } = first;
       void _polygon;
       void _holes;
@@ -390,7 +392,7 @@ function raw(graph: LayoutIntent, op: Operation, run: Run): LayoutIntent {
         made.push(copy);
         named = { ...named, regions: [...named.regions, copy] };
       }
-      const copiedConstraints = graph.constraints.filter((c) => c.regions.every((id) => ids.has(id))).map((c) => ({ ...c, id: `${c.id}-${run.op}`, regions: c.regions.map((id) => map.get(id) as string) }));
+      const copiedConstraints = graph.constraints.filter((c) => c.regions.every((id) => ids.has(id))).map((c) => ({ ...c, id: `${c.id}-${map.get(c.regions[0] as string) ?? run.op}`, regions: c.regions.map((id) => map.get(id) as string) }));
       return { ...graph, regions: [...graph.regions, ...made], constraints: [...graph.constraints, ...copiedConstraints] };
     }
     case 'repeat': {

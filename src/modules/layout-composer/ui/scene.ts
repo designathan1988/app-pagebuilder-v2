@@ -39,6 +39,8 @@ export interface SceneHandle {
   readonly point: Point;
   readonly axis: Axis | null;
   readonly regions: readonly string[];
+  // a gap handle's spacing (px), written on it
+  readonly value?: number;
 }
 
 export interface SceneRelation {
@@ -122,7 +124,7 @@ export function scene(graph: LayoutIntent, selection: readonly string[], lens: L
         const to = b.box[axis];
         const lo = Math.max(a.box[across], b.box[across]);
         const hi = Math.min(end(a.box, across), end(b.box, across));
-        if (to - from > precision && hi - lo > precision) handles.push({ id: handleText({ kind: 'gap', id: `${axis}:${a.id}:${b.id}` }), kind: 'gap', point: axis === 'x' ? { x: (from + to) / 2, y: (lo + hi) / 2 } : { x: (lo + hi) / 2, y: (from + to) / 2 }, axis, regions: [a.id, b.id] });
+        if (to - from > precision && hi - lo > precision) handles.push({ id: handleText({ kind: 'gap', id: `${axis}:${a.id}:${b.id}` }), kind: 'gap', point: axis === 'x' ? { x: (from + to) / 2, y: (lo + hi) / 2 } : { x: (lo + hi) / 2, y: (from + to) / 2 }, axis, regions: [a.id, b.id], value: Math.round(to - from) });
       }
     }
   // the end of a selected repeated group: dragging it adds or removes whole items

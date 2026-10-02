@@ -12,9 +12,6 @@ export interface ComposerState {
   readonly selection: readonly string[];
   readonly lens: Lens;
   readonly tool: StrokeMode;
-  // the selection was picked (a click, a marquee) or moved, not made by a drawing: its regions follow a drag of their
-  // body; a region just drawn is selected for the panel, and a drag inside it draws its child
-  readonly grabbed?: boolean;
   // the Layers were open when the tool came on and folded to give its panel the column: putting the tool away (Done,
   // Escape, the Select tool) opens them again
   readonly layers?: boolean;

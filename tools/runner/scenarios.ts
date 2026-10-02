@@ -571,6 +571,16 @@ function ranInstead(listed: string, ran: string) {
 // name label on the canvas, which shows once the element is selected: clicked first when it is not, as a person
 // would (spec select-click, "Hit zones": the element's selection label selects or drags the element it names).
 const MARQUEE_DOOR = COMMANDS.flatMap((c) => c.entryPoints).find((d) => d.kind === 'canvas-drag' && d.source === 'empty-area');
+// the gesture of a region dragged with the Select tool (manifest/interactions.json), and the Select tool's resize
+// handle that moves the edges named (the canvas handle whose id ends with them: n, e, se…)
+const LAYOUT_PLACE = 'layout-place';
+function resizeHandleRef(edges: string): string | null {
+  for (const command of COMMANDS)
+    for (const door of command.entryPoints)
+      if (door.kind === 'canvas-handle' && typeof door.handle === 'string' && door.handle.endsWith(`-${edges}`) && door.handle.split('-').length === 2) return `${command.id}#${door.id}`;
+  return null;
+}
+
 async function elementDragPoint(page: Page, document: unknown, nodePath: string): Promise<Point> {
   const node = nodeAt(document, nodePath);
   const own = await nodePoint(page, node.id, isRoot(document, nodePath), nodePath);
@@ -1160,7 +1170,30 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
   if (inQuickPanel(d)) await openQuickPanel(page);
   const quickField = d.kind === 'quick-panel' && (await control(page, ref).locator('input, textarea').count()) > 0;
 
-  if ((d.kind === 'canvas-click' || d.kind === 'canvas-drag' || d.kind === 'canvas-handle') && LAYOUT_GESTURES.includes(d.gesture ?? '')) {
+  if ((d.kind === 'canvas-drag' || d.kind === 'canvas-handle') && d.gesture === LAYOUT_PLACE) {
+    // a region the Layout tool drew, dragged with the Select tool (layout.place): by its body, pressed where an element
+    // drag presses it, or by the resize handle of the edges the step names; moved past the threshold and then by the
+    // step's travel in page px times the zoom, released
+    if (step.target === null) throw new Error(`step ${ref}: a region placed names its target`);
+    const dx = args.dx;
+    const dy = args.dy;
+    if (typeof dx !== 'number' || typeof dy !== 'number') throw new Error(`step ${ref}: a region placed names its dx and dy`);
+    let from: Point;
+    if (d.kind === 'canvas-drag') from = await elementDragPoint(page, document, step.target);
+    else {
+      const handle = resizeHandleRef(String(args.edges));
+      const box = handle === null ? null : await page.locator(`[data-door="${handle}"]`).first().boundingBox();
+      if (box === null) throw new Error(`step ${ref}: the resize handle ${String(args.edges)} is not drawn`);
+      from = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+    }
+    const zoom = await page.locator('.frame__page').evaluate((frame) => (frame as HTMLIFrameElement).currentCSSZoom);
+    const threshold = typeof DRAG_THRESHOLD === 'number' ? DRAG_THRESHOLD : 4;
+    await page.mouse.move(from.x, from.y);
+    await page.mouse.down();
+    await page.mouse.move(from.x + Math.sign(dx || 1) * (threshold + 2), from.y, { steps: 3 });
+    await page.mouse.move(from.x + dx * zoom, from.y + dy * zoom, { steps: 12 });
+    await page.mouse.up();
+  } else if ((d.kind === 'canvas-click' || d.kind === 'canvas-drag' || d.kind === 'canvas-handle') && LAYOUT_GESTURES.includes(d.gesture ?? '')) {
     // a door of the Layout Composer: a stroke on its stage, a handle of it, a region of it (layout-composer.ts)
     await driveLayout(page, ref, d.gesture ?? '', d.kind === 'canvas-click' ? (d.modifier ?? null) : null, args);
   } else if (d.kind === 'canvas-click' && d.target !== 'stage-outside-page' && step.target !== null && (await rowInsteadOfCanvas(page, ref, document, step.target, action))) {

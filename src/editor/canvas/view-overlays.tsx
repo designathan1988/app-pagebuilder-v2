@@ -1,7 +1,9 @@
 // What the view switches draw over the page (spec canvas-outlines-zones; the switches: src/editor/view/overlays.ts):
 // with Outlines, a dashed box around every element; with Zones, the padding of every container, tinted, and the
-// content area of every empty container, marked as a drop area. Measured on every animation frame from the page's
-// elements (coordinates.ts) while a switch is on; drawn in the canvas chrome, never in the page.
+// content area of every empty container, marked as a drop area. With both off, an empty container still shows its box
+// (a region the Layout tool drew, a section not filled yet): nothing in it would show where it is. Measured on every
+// animation frame from the page's elements (coordinates.ts) while there is something to draw; drawn in the canvas
+// chrome, never in the page.
 import { useEffect, useRef, useState } from 'react';
 import { manifest } from '../../manifest/runtime.ts';
 import { useEditorState } from '../store.ts';
@@ -30,15 +32,28 @@ function paddingBands(b: ElementBox): Rect[] {
 }
 const contentBox = (b: ElementBox): Rect => ({ x: b.box.x + b.padding.left, y: b.box.y + b.padding.top, width: b.box.width - b.padding.left - b.padding.right, height: b.box.height - b.padding.top - b.padding.bottom });
 
+interface TreeNode {
+  readonly type: string;
+  readonly children: readonly TreeNode[];
+  readonly text?: unknown;
+}
+// whether a tree holds a container with no element and no text in it
+function holdsEmpty(node: TreeNode): boolean {
+  if (CONTAINERS.has(node.type) && node.children.length === 0 && (node.text === undefined || node.text === null || node.text === '')) return true;
+  return node.children.some(holdsEmpty);
+}
+
 export function ViewOverlays() {
   const outlines = useEditorState((s) => s.ui.preferences.outlines === true);
   const zones = useEditorState((s) => s.ui.preferences.zones === true);
   const types = useEditorState((s) => s.document);
   const layer = useRef<HTMLDivElement>(null);
   const [boxes, setBoxes] = useState<readonly ElementBox[]>([]);
+  // a container with nothing in it, somewhere in the project: its box is drawn whatever the switches
+  const placeholders = useEditorState((s) => s.document.pages.some((page) => holdsEmpty(page.tree)));
 
   useEffect(() => {
-    if (!outlines && !zones) return;
+    if (!outlines && !zones && !placeholders) return;
     let request = 0;
     const read = () => {
       const iframe = canvasFrame();
@@ -51,7 +66,7 @@ export function ViewOverlays() {
     };
     request = requestAnimationFrame(read);
     return () => cancelAnimationFrame(request);
-  }, [outlines, zones]);
+  }, [outlines, zones, placeholders]);
 
   // each element's type, to tell a container
   const typeOf = new Map<string, string>();
@@ -72,7 +87,9 @@ export function ViewOverlays() {
     <div className="chrome__view" ref={layer}>
       {outlines
         ? boxes.map((b, i) => <div key={b.id} className="chrome__outline" data-region={i === 0 ? 'canvas-outlines' : undefined} style={at(b.box)} />)
-        : null}
+        : placeholders
+          ? containers.filter((b) => b.empty).map((b) => <div key={b.id} className="chrome__outline chrome__outline--empty" data-empty-box={b.id} style={at(b.box)} />)
+          : null}
       {zones
         ? zoneRects.map((z, i) => <div key={z.key} className={`chrome__zone${z.empty ? ' chrome__zone--empty' : ''}`} data-region={i === 0 ? 'canvas-zones' : undefined} style={at(z.rect)} />)
         : null}

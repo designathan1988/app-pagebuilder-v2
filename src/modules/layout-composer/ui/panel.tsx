@@ -29,6 +29,12 @@ import './composer.css';
 const control = (name: string): DoorEntry | undefined => manifest.doors.find((d) => d.door.kind === 'panel-control' && d.door.panel === 'layout-composer' && d.door.control === name);
 const DONE = control('layout-done');
 const DELETE = control('layout-delete-button');
+const MERGE = control('layout-merge-button');
+const SPACING = control('layout-spacing');
+const REPEAT = control('layout-repeat');
+
+// The gestures, one line each: the keys held and what the drag does (interactions.json layout-stroke)
+const LEGEND = ['draw', 'move', 'select', 'split', 'merge', 'edges'] as const;
 const NAME = control('layout-name');
 const SEMANTIC = control('layout-semantic');
 const WIDTH = control('layout-width');
@@ -139,12 +145,16 @@ function RegionSection({ regions, base }: { readonly regions: readonly Region[];
       {SEMANTIC === undefined || regions.some((r) => r.kind === 'content') ? null : <Segments entry={SEMANTIC} values={SEMANTICS} current={same((r) => r.semantic)} words={(v) => t(`layout.word.${v}` as MessageId)} />}
       {base ? <BaseProperties regions={regions} /> : <p className="layout-panel__text">{t('layout.respond.configureAtBase', { breakpoint: breakpointName(BASE_BREAKPOINT, t) })}</p>}
       {base && regions.length > 1 ? (
-        <div className="layout-panel__actions">
-          {EQUALIZE.map((entry) => (
-            <DoorControl key={entry.ref} entry={entry} />
-          ))}
-        </div>
+        <>
+          {SPACING === undefined ? null : <DoorField entry={SPACING} value="" type="number" />}
+          <div className="layout-panel__actions">
+            {EQUALIZE.map((entry) => (
+              <DoorControl key={entry.ref} entry={entry} />
+            ))}
+          </div>
+        </>
       ) : null}
+      {base && regions.length === 1 && REPEAT !== undefined ? <DoorField entry={REPEAT} value="" type="number" /> : null}
     </section>
   );
 }
@@ -203,10 +213,23 @@ export function LayoutPanel(): ReactNode {
       <p className="layout-panel__prediction" data-layout-prediction={prediction.key}>
         {t(prediction.key as MessageId, Object.fromEntries(Object.entries(prediction.params).map(([name, value]) => [name, name === 'sizing' && typeof value === 'string' && !value.endsWith('px') ? t(`layout.word.${value}` as MessageId) : value])))}
       </p>
-      <p className="layout-panel__text">{t('layout.panel.gestures')}</p>
+      <dl className="layout-panel__legend" aria-label={t('layout.panel.gestures')}>
+        {LEGEND.map((id) => (
+          <div key={id} className="layout-panel__gesture" data-layout-gesture={id}>
+            <dt className="layout-panel__keys">{t(`layout.legend.${id}.keys` as MessageId)}</dt>
+            <dd className="layout-panel__does">{t(`layout.legend.${id}.does` as MessageId)}</dd>
+          </div>
+        ))}
+      </dl>
       <p className="layout-panel__text" data-layout-selection={composer.selection.join(' ')}>
         {names.length === 0 ? t('layout.panel.noSelection') : t('layout.panel.selection', { names: names.join(', ') })}
       </p>
+      {/* two regions or more selected: one press makes them one */}
+      {MERGE === undefined || regions.length < 2 ? null : (
+        <div className="layout-panel__actions">
+          <DoorControl entry={MERGE} />
+        </div>
+      )}
       {regions.length === 0 ? null : <RegionSection regions={regions} base={breakpoint.base} />}
       {STRATEGY === undefined ? null : (
         <section className="layout-panel__section" aria-label={t('layout.panel.arrangement', { name: groupName })}>
@@ -214,11 +237,10 @@ export function LayoutPanel(): ReactNode {
           <Segments entry={STRATEGY} values={STRATEGIES} current={strategy} words={(v) => t(`layout.strategy.${v}` as MessageId)} arg="strategy" />
         </section>
       )}
+      {/* what changes at a narrower screen: only while one is chosen in the frame's tabs */}
+      {breakpoint.base ? null : (
       <section className="layout-panel__section" aria-label={t('layout.panel.screen')}>
         <span className="layout-panel__heading">{t('layout.panel.screen')}</span>
-        {breakpoint.base ? (
-          <p className="layout-panel__text">{t('layout.respond.base')}</p>
-        ) : (
           <>
             <p className="layout-panel__text">{t('layout.respond.at', { breakpoint: breakpointName(breakpoint, t), width: breakpoint.width })}</p>
             <p className="layout-panel__text">{t('layout.respond.auto')}</p>
@@ -229,11 +251,12 @@ export function LayoutPanel(): ReactNode {
             </div>
             {COLUMNS === undefined ? null : <DoorField entry={COLUMNS} value="" type="number" />}
           </>
-        )}
       </section>
+      )}
+      {/* the rules the layout keeps (equal widths, one gap): only once there is one */}
+      {record.intent.constraints.length === 0 ? null : (
       <section className="layout-panel__section" aria-label={t('layout.panel.rules')}>
         <span className="layout-panel__heading">{t('layout.panel.rules')}</span>
-        {record.intent.constraints.length === 0 ? <p className="layout-panel__text">{t('layout.panel.noRules')}</p> : null}
         {record.intent.constraints.map((c) => {
           const words = describeConstraint(record.intent, c);
           return (
@@ -244,6 +267,7 @@ export function LayoutPanel(): ReactNode {
           );
         })}
       </section>
+      )}
       {offered.length === 0 || SUGGEST === undefined ? null : (
         <section className="layout-panel__section" aria-label={t('layout.panel.suggestions')}>
           <span className="layout-panel__heading">{t('layout.panel.suggestions')}</span>
@@ -260,16 +284,10 @@ export function LayoutPanel(): ReactNode {
           <Segments entry={TEMPLATE} values={BUILT_IN_TEMPLATES} current={null} words={(v) => t(`layout.template.${v}` as MessageId)} arg="template" />
         </section>
       )}
-      {REFERENCE === undefined ? null : (
+      {/* a reference image to trace: only once the project holds an image */}
+      {REFERENCE === undefined || images.length === 0 ? null : (
         <section className="layout-panel__section" aria-label={t('layout.panel.reference')}>
-          {images.length === 0 ? (
-            <>
-              <span className="layout-panel__heading">{t('layout.panel.reference')}</span>
-              <p className="layout-panel__text">{t('layout.panel.noImages')}</p>
-            </>
-          ) : (
-            <Segments entry={REFERENCE} values={images.map((f) => f.path)} current={reference?.file ?? null} words={(v) => v.slice(v.lastIndexOf('/') + 1)} arg="file" />
-          )}
+          <Segments entry={REFERENCE} values={images.map((f) => f.path)} current={reference?.file ?? null} words={(v) => v.slice(v.lastIndexOf('/') + 1)} arg="file" />
           {reference === undefined ? null : (
             <>
               {REFERENCE_OPACITY === undefined ? null : <DoorField entry={REFERENCE_OPACITY} value={String(Math.round(reference.opacity * 100))} type="number" arg={OPACITY_ARG} />}
@@ -281,15 +299,15 @@ export function LayoutPanel(): ReactNode {
           )}
         </section>
       )}
-      <section className="layout-panel__section" aria-label={t('layout.panel.widths')}>
-        <span className="layout-panel__heading">{t('layout.panel.widths')}</span>
-        <p className="layout-panel__text" data-layout-widths={breaking === null ? 'holds' : 'breaks'}>
-          {breaking === null
-            ? t('layout.panel.holds', { widest: Math.round(record.intent.viewport.width), narrowest: NARROWEST })
-            : t(breaking.kind === 'squeezed' ? 'layout.panel.squeezed' : 'layout.panel.breaks', { width: breaking.viewport, region: findRegion(record.intent, breaking.region)?.name ?? breaking.region, required: Math.round(breaking.required), available: Math.round(breaking.available) })}
-        </p>
-      </section>
-      <p className="layout-panel__text">{t('layout.panel.help')}</p>
+      {/* the widths check: a warning only when a region stops fitting at some width */}
+      {breaking === null ? null : (
+        <section className="layout-panel__section" aria-label={t('layout.panel.widths')}>
+          <span className="layout-panel__heading">{t('layout.panel.widths')}</span>
+          <p className="layout-panel__text" data-layout-widths="breaks">
+            {t(breaking.kind === 'squeezed' ? 'layout.panel.squeezed' : 'layout.panel.breaks', { width: breaking.viewport, region: findRegion(record.intent, breaking.region)?.name ?? breaking.region, required: Math.round(breaking.required), available: Math.round(breaking.available) })}
+          </p>
+        </section>
+      )}
 
       <div className="layout-panel__actions">
         {DELETE === undefined ? null : <DoorControl entry={DELETE} />}

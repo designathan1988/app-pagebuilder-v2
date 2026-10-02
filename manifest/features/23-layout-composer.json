@@ -11,6 +11,8 @@
         "layout.stroke",
         "layout.select",
         "layout.delete",
+        "layout.merge",
+        "layout.place",
         "layout.configure",
         "layout.interpret",
         "layout.respond",
@@ -444,7 +446,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -1689,7 +1691,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -2021,7 +2023,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -2346,7 +2348,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -2944,7 +2946,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -3277,7 +3279,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -3610,7 +3612,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -3942,7 +3944,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -4272,7 +4274,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -4615,7 +4617,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -4952,7 +4954,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -5289,7 +5291,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -5630,7 +5632,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -5978,7 +5980,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -6305,7 +6307,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -6654,7 +6656,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -7005,7 +7007,7 @@
             {
               "door": "layout.stroke#layout-stage",
               "args": {
-                "mode": "auto",
+                "mode": "cut",
                 "points": [
                   {
                     "x": 600,
@@ -10055,6 +10057,1700 @@
                 {
                   "key": "layout.status.unrelated",
                   "params": {}
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "spacing-puts-one-gap-typed-between-the-selected-regions",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-layout-composer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.enter#layout-compose",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.stroke#layout-stage",
+              "args": {
+                "mode": "auto",
+                "points": [
+                  {
+                    "x": 340,
+                    "y": 40
+                  },
+                  {
+                    "x": 500,
+                    "y": 300
+                  }
+                ]
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.stroke#layout-stage",
+              "args": {
+                "mode": "auto",
+                "points": [
+                  {
+                    "x": 530,
+                    "y": 40
+                  },
+                  {
+                    "x": 690,
+                    "y": 300
+                  }
+                ]
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.stroke#layout-stage",
+              "args": {
+                "mode": "auto",
+                "points": [
+                  {
+                    "x": 730,
+                    "y": 40
+                  },
+                  {
+                    "x": 890,
+                    "y": 300
+                  }
+                ]
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.select#layout-region",
+              "args": {
+                "regions": [
+                  "r1"
+                ],
+                "mode": "replace"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.select#layout-region-add",
+              "args": {
+                "regions": [
+                  "r2"
+                ],
+                "mode": "add"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.select#layout-region-add",
+              "args": {
+                "regions": [
+                  "r3"
+                ],
+                "mode": "add"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.configure#layout-spacing",
+              "args": {
+                "field": "spacing",
+                "value": "48"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "layout.configure#layout-spacing"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/@authoring",
+                "value": {
+                  "layout-composer": {
+                    "role": "container",
+                    "version": 1,
+                    "intent": {
+                      "version": 1,
+                      "viewport": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 1440,
+                        "height": 900
+                      },
+                      "regions": [
+                        {
+                          "id": "r1",
+                          "parent": null,
+                          "name": "Region 1",
+                          "box": {
+                            "x": 340,
+                            "y": 40,
+                            "width": 160,
+                            "height": 260
+                          },
+                          "width": {
+                            "mode": "fluid"
+                          },
+                          "height": {
+                            "mode": "fluid"
+                          },
+                          "semantic": "div",
+                          "provenance": [
+                            "op1"
+                          ]
+                        },
+                        {
+                          "id": "r2",
+                          "parent": null,
+                          "name": "Region 2",
+                          "box": {
+                            "x": 548,
+                            "y": 40,
+                            "width": 160,
+                            "height": 260
+                          },
+                          "width": {
+                            "mode": "fluid"
+                          },
+                          "height": {
+                            "mode": "fluid"
+                          },
+                          "semantic": "div",
+                          "provenance": [
+                            "op2"
+                          ]
+                        },
+                        {
+                          "id": "r3",
+                          "parent": null,
+                          "name": "Region 3",
+                          "box": {
+                            "x": 756,
+                            "y": 40,
+                            "width": 160,
+                            "height": 260
+                          },
+                          "width": {
+                            "mode": "fluid"
+                          },
+                          "height": {
+                            "mode": "fluid"
+                          },
+                          "semantic": "div",
+                          "provenance": [
+                            "op3"
+                          ]
+                        }
+                      ],
+                      "constraints": [
+                        {
+                          "id": "c1",
+                          "kind": "gap",
+                          "axis": "x",
+                          "regions": [
+                            "r1",
+                            "r2",
+                            "r3"
+                          ],
+                          "value": 48
+                        }
+                      ],
+                      "responsive": [],
+                      "variables": {},
+                      "revision": 4
+                    },
+                    "owns": {
+                      "desktop": [
+                        "padding-top",
+                        "padding-right",
+                        "padding-bottom",
+                        "padding-left",
+                        "display",
+                        "grid-template-columns",
+                        "grid-template-rows",
+                        "grid-template-areas",
+                        "row-gap",
+                        "column-gap"
+                      ],
+                      "tablet": [
+                        "display",
+                        "grid-template-columns",
+                        "grid-template-rows",
+                        "grid-template-areas"
+                      ],
+                      "phone": [
+                        "display",
+                        "flex-direction"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "op": "set",
+                "path": "/Page/@styles",
+                "value": {
+                  "desktop": {
+                    "base": {
+                      "padding-top": "40px",
+                      "padding-right": "524px",
+                      "padding-bottom": "600px",
+                      "padding-left": "340px",
+                      "display": "grid",
+                      "grid-template-columns": "repeat(3, minmax(0, 1fr))",
+                      "grid-template-rows": "minmax(260px, auto)",
+                      "grid-template-areas": "\"region-1 region-2 region-3\"",
+                      "row-gap": "48px",
+                      "column-gap": "48px"
+                    }
+                  },
+                  "tablet": {
+                    "base": {
+                      "display": "grid",
+                      "grid-template-columns": "repeat(2, minmax(0, 1fr))",
+                      "grid-template-rows": "none",
+                      "grid-template-areas": "none"
+                    }
+                  },
+                  "phone": {
+                    "base": {
+                      "display": "flex",
+                      "flex-direction": "column"
+                    }
+                  }
+                }
+              },
+              {
+                "op": "set",
+                "path": "/Page/@children",
+                "value": [
+                  {
+                    "type": "div",
+                    "name": "Region 1",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "min-height": "260px",
+                          "min-width": "0px",
+                          "grid-row-start": "region-1",
+                          "grid-column-start": "region-1",
+                          "grid-row-end": "region-1",
+                          "grid-column-end": "region-1"
+                        }
+                      },
+                      "tablet": {
+                        "base": {
+                          "grid-row-start": "auto",
+                          "grid-column-start": "auto",
+                          "grid-row-end": "auto",
+                          "grid-column-end": "auto"
+                        }
+                      },
+                      "phone": {
+                        "base": {
+                          "grid-row-start": "auto",
+                          "grid-column-start": "auto",
+                          "grid-row-end": "auto",
+                          "grid-column-end": "auto"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "authoring": {
+                      "layout-composer": {
+                        "role": "node",
+                        "key": "r1",
+                        "owns": {
+                          "desktop": [
+                            "min-height",
+                            "min-width",
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ],
+                          "tablet": [
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ],
+                          "phone": [
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ]
+                        },
+                        "kind": "structural"
+                      }
+                    },
+                    "children": []
+                  },
+                  {
+                    "type": "div",
+                    "name": "Region 2",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "min-height": "260px",
+                          "min-width": "0px",
+                          "grid-row-start": "region-2",
+                          "grid-column-start": "region-2",
+                          "grid-row-end": "region-2",
+                          "grid-column-end": "region-2"
+                        }
+                      },
+                      "tablet": {
+                        "base": {
+                          "grid-row-start": "auto",
+                          "grid-column-start": "auto",
+                          "grid-row-end": "auto",
+                          "grid-column-end": "auto"
+                        }
+                      },
+                      "phone": {
+                        "base": {
+                          "grid-row-start": "auto",
+                          "grid-column-start": "auto",
+                          "grid-row-end": "auto",
+                          "grid-column-end": "auto"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "authoring": {
+                      "layout-composer": {
+                        "role": "node",
+                        "key": "r2",
+                        "owns": {
+                          "desktop": [
+                            "min-height",
+                            "min-width",
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ],
+                          "tablet": [
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ],
+                          "phone": [
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ]
+                        },
+                        "kind": "structural"
+                      }
+                    },
+                    "children": []
+                  },
+                  {
+                    "type": "div",
+                    "name": "Region 3",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "min-height": "260px",
+                          "min-width": "0px",
+                          "grid-row-start": "region-3",
+                          "grid-column-start": "region-3",
+                          "grid-row-end": "region-3",
+                          "grid-column-end": "region-3"
+                        }
+                      },
+                      "tablet": {
+                        "base": {
+                          "grid-row-start": "auto",
+                          "grid-column-start": "auto",
+                          "grid-row-end": "auto",
+                          "grid-column-end": "auto"
+                        }
+                      },
+                      "phone": {
+                        "base": {
+                          "grid-row-start": "auto",
+                          "grid-column-start": "auto",
+                          "grid-row-end": "auto",
+                          "grid-column-end": "auto"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "authoring": {
+                      "layout-composer": {
+                        "role": "node",
+                        "key": "r3",
+                        "owns": {
+                          "desktop": [
+                            "min-height",
+                            "min-width",
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ],
+                          "tablet": [
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ],
+                          "phone": [
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ]
+                        },
+                        "kind": "structural"
+                      }
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 5,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "layout.status.equalized",
+                  "params": {
+                    "names": "Region 1, Region 2, Region 3"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "merge-makes-the-selected-regions-one",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-layout-composer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.enter#layout-compose",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.stroke#layout-stage",
+              "args": {
+                "mode": "auto",
+                "points": [
+                  {
+                    "x": 340,
+                    "y": 40
+                  },
+                  {
+                    "x": 500,
+                    "y": 300
+                  }
+                ]
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.stroke#layout-stage",
+              "args": {
+                "mode": "auto",
+                "points": [
+                  {
+                    "x": 530,
+                    "y": 40
+                  },
+                  {
+                    "x": 690,
+                    "y": 300
+                  }
+                ]
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.select#layout-region",
+              "args": {
+                "regions": [
+                  "r1"
+                ],
+                "mode": "replace"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.select#layout-region-add",
+              "args": {
+                "regions": [
+                  "r2"
+                ],
+                "mode": "add"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.merge#layout-merge-button",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "layout.merge#layout-merge-button"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/@authoring",
+                "value": {
+                  "layout-composer": {
+                    "role": "container",
+                    "version": 1,
+                    "intent": {
+                      "version": 1,
+                      "viewport": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 1440,
+                        "height": 900
+                      },
+                      "regions": [
+                        {
+                          "id": "r1",
+                          "parent": null,
+                          "name": "Region 1",
+                          "box": {
+                            "x": 340,
+                            "y": 40,
+                            "width": 350,
+                            "height": 260
+                          },
+                          "width": {
+                            "mode": "fluid"
+                          },
+                          "height": {
+                            "mode": "fluid"
+                          },
+                          "semantic": "div",
+                          "provenance": [
+                            "op1",
+                            "op2",
+                            "op3"
+                          ]
+                        }
+                      ],
+                      "constraints": [],
+                      "responsive": [],
+                      "variables": {},
+                      "revision": 3
+                    },
+                    "owns": {
+                      "desktop": [
+                        "padding-top",
+                        "padding-right",
+                        "padding-bottom",
+                        "padding-left"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "op": "set",
+                "path": "/Page/@styles",
+                "value": {
+                  "desktop": {
+                    "base": {
+                      "padding-top": "40px",
+                      "padding-right": "750px",
+                      "padding-bottom": "600px",
+                      "padding-left": "340px"
+                    }
+                  }
+                }
+              },
+              {
+                "op": "set",
+                "path": "/Page/@children",
+                "value": [
+                  {
+                    "type": "div",
+                    "name": "Region 1",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "min-height": "260px",
+                          "min-width": "0px"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "authoring": {
+                      "layout-composer": {
+                        "role": "node",
+                        "key": "r1",
+                        "owns": {
+                          "desktop": [
+                            "min-height",
+                            "min-width"
+                          ]
+                        },
+                        "kind": "structural"
+                      }
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 4,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "layout.status.merged",
+                  "params": {
+                    "name": "Region 1"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "repeat-makes-items-of-the-selected-region",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-layout-composer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.enter#layout-compose",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.stroke#layout-stage",
+              "args": {
+                "mode": "auto",
+                "points": [
+                  {
+                    "x": 340,
+                    "y": 40
+                  },
+                  {
+                    "x": 500,
+                    "y": 300
+                  }
+                ]
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.select#layout-region",
+              "args": {
+                "regions": [
+                  "r1"
+                ],
+                "mode": "replace"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.configure#layout-repeat",
+              "args": {
+                "field": "repeat",
+                "value": "3"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "layout.configure#layout-repeat"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/@authoring",
+                "value": {
+                  "layout-composer": {
+                    "role": "container",
+                    "version": 1,
+                    "intent": {
+                      "version": 1,
+                      "viewport": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 1440,
+                        "height": 900
+                      },
+                      "regions": [
+                        {
+                          "id": "r1",
+                          "parent": null,
+                          "name": "Region 1",
+                          "box": {
+                            "x": 340,
+                            "y": 40,
+                            "width": 160,
+                            "height": 260
+                          },
+                          "width": {
+                            "mode": "fluid"
+                          },
+                          "height": {
+                            "mode": "fluid"
+                          },
+                          "semantic": "div",
+                          "provenance": [
+                            "op1"
+                          ]
+                        },
+                        {
+                          "id": "r2",
+                          "parent": null,
+                          "name": "Region 2",
+                          "box": {
+                            "x": 524,
+                            "y": 40,
+                            "width": 160,
+                            "height": 260
+                          },
+                          "width": {
+                            "mode": "fluid"
+                          },
+                          "height": {
+                            "mode": "fluid"
+                          },
+                          "semantic": "div",
+                          "provenance": [
+                            "op1",
+                            "op2"
+                          ]
+                        },
+                        {
+                          "id": "r3",
+                          "parent": null,
+                          "name": "Region 3",
+                          "box": {
+                            "x": 708,
+                            "y": 40,
+                            "width": 160,
+                            "height": 260
+                          },
+                          "width": {
+                            "mode": "fluid"
+                          },
+                          "height": {
+                            "mode": "fluid"
+                          },
+                          "semantic": "div",
+                          "provenance": [
+                            "op1",
+                            "op2"
+                          ]
+                        }
+                      ],
+                      "constraints": [],
+                      "responsive": [],
+                      "variables": {},
+                      "revision": 2
+                    },
+                    "owns": {
+                      "desktop": [
+                        "padding-top",
+                        "padding-right",
+                        "padding-bottom",
+                        "padding-left",
+                        "display",
+                        "grid-template-columns",
+                        "grid-template-rows",
+                        "grid-template-areas",
+                        "row-gap",
+                        "column-gap"
+                      ],
+                      "tablet": [
+                        "display",
+                        "grid-template-columns",
+                        "grid-template-rows",
+                        "grid-template-areas"
+                      ],
+                      "phone": [
+                        "display",
+                        "flex-direction"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "op": "set",
+                "path": "/Page/@styles",
+                "value": {
+                  "desktop": {
+                    "base": {
+                      "padding-top": "40px",
+                      "padding-right": "572px",
+                      "padding-bottom": "600px",
+                      "padding-left": "340px",
+                      "display": "grid",
+                      "grid-template-columns": "repeat(3, minmax(0, 1fr))",
+                      "grid-template-rows": "minmax(260px, auto)",
+                      "grid-template-areas": "\"region-1 region-2 region-3\"",
+                      "row-gap": "24px",
+                      "column-gap": "24px"
+                    }
+                  },
+                  "tablet": {
+                    "base": {
+                      "display": "grid",
+                      "grid-template-columns": "repeat(2, minmax(0, 1fr))",
+                      "grid-template-rows": "none",
+                      "grid-template-areas": "none"
+                    }
+                  },
+                  "phone": {
+                    "base": {
+                      "display": "flex",
+                      "flex-direction": "column"
+                    }
+                  }
+                }
+              },
+              {
+                "op": "set",
+                "path": "/Page/@children",
+                "value": [
+                  {
+                    "type": "div",
+                    "name": "Region 1",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "min-height": "260px",
+                          "min-width": "0px",
+                          "grid-row-start": "region-1",
+                          "grid-column-start": "region-1",
+                          "grid-row-end": "region-1",
+                          "grid-column-end": "region-1"
+                        }
+                      },
+                      "tablet": {
+                        "base": {
+                          "grid-row-start": "auto",
+                          "grid-column-start": "auto",
+                          "grid-row-end": "auto",
+                          "grid-column-end": "auto"
+                        }
+                      },
+                      "phone": {
+                        "base": {
+                          "grid-row-start": "auto",
+                          "grid-column-start": "auto",
+                          "grid-row-end": "auto",
+                          "grid-column-end": "auto"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "authoring": {
+                      "layout-composer": {
+                        "role": "node",
+                        "key": "r1",
+                        "owns": {
+                          "desktop": [
+                            "min-height",
+                            "min-width",
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ],
+                          "tablet": [
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ],
+                          "phone": [
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ]
+                        },
+                        "kind": "structural"
+                      }
+                    },
+                    "children": []
+                  },
+                  {
+                    "type": "div",
+                    "name": "Region 2",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "min-height": "260px",
+                          "min-width": "0px",
+                          "grid-row-start": "region-2",
+                          "grid-column-start": "region-2",
+                          "grid-row-end": "region-2",
+                          "grid-column-end": "region-2"
+                        }
+                      },
+                      "tablet": {
+                        "base": {
+                          "grid-row-start": "auto",
+                          "grid-column-start": "auto",
+                          "grid-row-end": "auto",
+                          "grid-column-end": "auto"
+                        }
+                      },
+                      "phone": {
+                        "base": {
+                          "grid-row-start": "auto",
+                          "grid-column-start": "auto",
+                          "grid-row-end": "auto",
+                          "grid-column-end": "auto"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "authoring": {
+                      "layout-composer": {
+                        "role": "node",
+                        "key": "r2",
+                        "owns": {
+                          "desktop": [
+                            "min-height",
+                            "min-width",
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ],
+                          "tablet": [
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ],
+                          "phone": [
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ]
+                        },
+                        "kind": "structural"
+                      }
+                    },
+                    "children": []
+                  },
+                  {
+                    "type": "div",
+                    "name": "Region 3",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "min-height": "260px",
+                          "min-width": "0px",
+                          "grid-row-start": "region-3",
+                          "grid-column-start": "region-3",
+                          "grid-row-end": "region-3",
+                          "grid-column-end": "region-3"
+                        }
+                      },
+                      "tablet": {
+                        "base": {
+                          "grid-row-start": "auto",
+                          "grid-column-start": "auto",
+                          "grid-row-end": "auto",
+                          "grid-column-end": "auto"
+                        }
+                      },
+                      "phone": {
+                        "base": {
+                          "grid-row-start": "auto",
+                          "grid-column-start": "auto",
+                          "grid-row-end": "auto",
+                          "grid-column-end": "auto"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "authoring": {
+                      "layout-composer": {
+                        "role": "node",
+                        "key": "r3",
+                        "owns": {
+                          "desktop": [
+                            "min-height",
+                            "min-width",
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ],
+                          "tablet": [
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ],
+                          "phone": [
+                            "grid-row-start",
+                            "grid-column-start",
+                            "grid-row-end",
+                            "grid-column-end"
+                          ]
+                        },
+                        "kind": "structural"
+                      }
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 3,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "layout.status.repeated",
+                  "params": {
+                    "name": "Region 1",
+                    "count": 3
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "the-select-tool-moves-a-region-in-the-layout",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-layout-composer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.enter#layout-compose",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.stroke#layout-stage",
+              "args": {
+                "mode": "auto",
+                "points": [
+                  {
+                    "x": 340,
+                    "y": 40
+                  },
+                  {
+                    "x": 700,
+                    "y": 300
+                  }
+                ]
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.leave#layout-done",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "selection.select#canvas-click-element-or-page",
+              "args": {
+                "target": "/Page/Region 1"
+              },
+              "target": "/Page/Region 1",
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.place#canvas-drag-layout-region",
+              "args": {
+                "edges": "move",
+                "dx": 100,
+                "dy": 60
+              },
+              "target": "/Page/Region 1",
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "layout.place#canvas-drag-layout-region"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/@authoring",
+                "value": {
+                  "layout-composer": {
+                    "role": "container",
+                    "version": 1,
+                    "intent": {
+                      "version": 1,
+                      "viewport": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 1440,
+                        "height": 900
+                      },
+                      "regions": [
+                        {
+                          "id": "r1",
+                          "parent": null,
+                          "name": "Region 1",
+                          "box": {
+                            "x": 440,
+                            "y": 100,
+                            "width": 360,
+                            "height": 260
+                          },
+                          "width": {
+                            "mode": "fluid"
+                          },
+                          "height": {
+                            "mode": "fluid"
+                          },
+                          "semantic": "div",
+                          "provenance": [
+                            "op1"
+                          ]
+                        }
+                      ],
+                      "constraints": [],
+                      "responsive": [],
+                      "variables": {},
+                      "revision": 2
+                    },
+                    "owns": {
+                      "desktop": [
+                        "padding-top",
+                        "padding-right",
+                        "padding-bottom",
+                        "padding-left"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "op": "set",
+                "path": "/Page/@styles",
+                "value": {
+                  "desktop": {
+                    "base": {
+                      "padding-top": "100px",
+                      "padding-right": "640px",
+                      "padding-bottom": "540px",
+                      "padding-left": "440px"
+                    }
+                  }
+                }
+              },
+              {
+                "op": "set",
+                "path": "/Page/@children",
+                "value": [
+                  {
+                    "type": "div",
+                    "name": "Region 1",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "min-height": "260px",
+                          "min-width": "0px"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "authoring": {
+                      "layout-composer": {
+                        "role": "node",
+                        "key": "r1",
+                        "owns": {
+                          "desktop": [
+                            "min-height",
+                            "min-width"
+                          ]
+                        },
+                        "kind": "structural"
+                      }
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Region 1"
+            ],
+            "history": {
+              "undoSteps": 3,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "layout.status.moved",
+                  "params": {
+                    "names": "Region 1"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "the-select-tool-resizes-a-region-in-the-layout",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-layout-composer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.enter#layout-compose",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.stroke#layout-stage",
+              "args": {
+                "mode": "auto",
+                "points": [
+                  {
+                    "x": 340,
+                    "y": 40
+                  },
+                  {
+                    "x": 700,
+                    "y": 300
+                  }
+                ]
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.leave#layout-done",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "selection.select#canvas-click-element-or-page",
+              "args": {
+                "target": "/Page/Region 1"
+              },
+              "target": "/Page/Region 1",
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "layout.place#handle-layout-region-edge",
+              "args": {
+                "edges": "e",
+                "dx": 200,
+                "dy": 0
+              },
+              "target": "/Page/Region 1",
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "layout.place#handle-layout-region-edge"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/@authoring",
+                "value": {
+                  "layout-composer": {
+                    "role": "container",
+                    "version": 1,
+                    "intent": {
+                      "version": 1,
+                      "viewport": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 1440,
+                        "height": 900
+                      },
+                      "regions": [
+                        {
+                          "id": "r1",
+                          "parent": null,
+                          "name": "Region 1",
+                          "box": {
+                            "x": 340,
+                            "y": 40,
+                            "width": 560,
+                            "height": 260
+                          },
+                          "width": {
+                            "mode": "fluid"
+                          },
+                          "height": {
+                            "mode": "fluid"
+                          },
+                          "semantic": "div",
+                          "provenance": [
+                            "op1"
+                          ]
+                        }
+                      ],
+                      "constraints": [],
+                      "responsive": [],
+                      "variables": {},
+                      "revision": 2
+                    },
+                    "owns": {
+                      "desktop": [
+                        "padding-top",
+                        "padding-right",
+                        "padding-bottom",
+                        "padding-left"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "op": "set",
+                "path": "/Page/@styles",
+                "value": {
+                  "desktop": {
+                    "base": {
+                      "padding-top": "40px",
+                      "padding-right": "540px",
+                      "padding-bottom": "600px",
+                      "padding-left": "340px"
+                    }
+                  }
+                }
+              },
+              {
+                "op": "set",
+                "path": "/Page/@children",
+                "value": [
+                  {
+                    "type": "div",
+                    "name": "Region 1",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "min-height": "260px",
+                          "min-width": "0px"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "authoring": {
+                      "layout-composer": {
+                        "role": "node",
+                        "key": "r1",
+                        "owns": {
+                          "desktop": [
+                            "min-height",
+                            "min-width"
+                          ]
+                        },
+                        "kind": "structural"
+                      }
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Region 1"
+            ],
+            "history": {
+              "undoSteps": 3,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "layout.status.resized",
+                  "params": {
+                    "sizes": "Region 1 560 × 260"
+                  }
                 }
               ]
             },

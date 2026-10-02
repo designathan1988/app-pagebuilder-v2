@@ -98,18 +98,6 @@
   pointer-events: none;
 }
 
-.layout-composer__stroke polyline {
-  fill: none;
-  stroke: var(--color-canvas-drop);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.is-refused .layout-composer__stroke polyline {
-  stroke: var(--color-canvas-measure);
-}
-
 .layout-composer__cut {
   stroke: var(--color-canvas-measure);
   stroke-width: 2;
@@ -145,10 +133,24 @@
 
 .layout-composer__handle--boundary.is-x { cursor: col-resize; border-radius: var(--radius-sm); height: var(--space-9); margin-top: calc(var(--space-9) / -2); }
 .layout-composer__handle--boundary.is-y { cursor: row-resize; border-radius: var(--radius-sm); width: var(--space-9); margin-left: calc(var(--space-9) / -2); }
-.layout-composer__handle--gap { border-color: var(--color-canvas-gap); }
+.layout-composer__handle--gap,
+.layout-composer__handle--repeat {
+  display: grid;
+  place-items: center;
+  width: auto;
+  min-width: var(--space-9);
+  height: auto;
+  margin: 0;
+  padding: 0 var(--space-2);
+  transform: translate(-50%, -50%);
+  border-color: var(--color-canvas-gap);
+  background: var(--color-canvas-gap);
+  color: var(--color-canvas-handle);
+  font: var(--fw-title) var(--fs-caption) / var(--lh-label) var(--font-ui);
+}
 .layout-composer__handle--gap.is-x { cursor: col-resize; }
 .layout-composer__handle--gap.is-y { cursor: row-resize; }
-.layout-composer__handle--repeat { border-color: var(--color-canvas-drop); cursor: copy; }
+.layout-composer__handle--repeat { border-color: var(--color-canvas-drop); background: var(--color-canvas-drop); cursor: copy; }
 .layout-composer__handle--vertex { cursor: move; }
 .layout-composer__handle--edge { cursor: move; border-radius: var(--radius-sm); }
 
@@ -198,6 +200,30 @@
 }
 
 .layout-panel__text {
+  margin: 0;
+  color: var(--color-text-muted);
+  font: var(--fw-body) var(--fs-body) / var(--lh-body) var(--font-ui);
+}
+
+/* the gestures, one per line: the keys held, then what the drag does */
+.layout-panel__legend {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-2) var(--space-4);
+  align-items: baseline;
+  margin: 0;
+}
+
+.layout-panel__gesture {
+  display: contents;
+}
+
+.layout-panel__keys {
+  color: var(--color-text);
+  font: var(--fw-body) var(--fs-caption) / var(--lh-body) var(--font-mono);
+}
+
+.layout-panel__does {
   margin: 0;
   color: var(--color-text-muted);
   font: var(--fw-body) var(--fs-body) / var(--lh-body) var(--font-ui);
