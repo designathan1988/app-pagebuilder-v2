@@ -238,6 +238,15 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'layers-instances',
+    about: 'stage 5 / J21: instances of a component named in Layers with its icon; collapse all keeps the first level',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/catalog.json'] } },
+      { photo: 'instances-in-layers' },
+    ],
+  },
+  {
     name: 'data-c3',
     about: 'jornada03 C3/H13: the header shared with every page, its menu changed once',
     steps: [

@@ -360,7 +360,11 @@ interface InsertAt {
   readonly parent: string;
   readonly previous: string | null;
 }
+// the icon an instance of a component wears in its Layers row (the Insert view's components wear it too)
+const COMPONENT_ICON = 'component';
+
 function LayersRow({ node, depth, view }: { readonly node: DocNode; readonly depth: number; readonly view: SearchView | null }) {
+  const t = useT();
   const door = useDoor(LAYERS_SELECT, { target: node.id });
   const rename = useDoor(LAYERS_NAME);
   const selected = useEditorState((s) => s.selection.includes(node.id));
@@ -437,7 +441,8 @@ function LayersRow({ node, depth, view }: { readonly node: DocNode; readonly dep
         {/* a coloured row shows its colour before its icon, as the canonical layers list does (stage 5); the palette
             that chooses it stays among the row's actions */}
         {colour === undefined ? null : <span className="row__colour-dot" style={{ '--row-colour': colour } as CSSProperties} aria-hidden />}
-        <Icon name={elementIcon(node.type) ?? GLYPHS.folder} size="sm" />
+        {/* an instance of a component wears the component's icon and names its component (jornada03 J21) */}
+        <Icon name={node.component !== undefined ? COMPONENT_ICON : (elementIcon(node.type) ?? GLYPHS.folder)} size="sm" />
         {renaming ? (
           <NameField node={node} />
         ) : (
@@ -452,6 +457,11 @@ function LayersRow({ node, depth, view }: { readonly node: DocNode; readonly dep
             {node.name}
           </span>
         )}
+        {node.component !== undefined ? (
+          <span className="row__component" data-row-component={node.component} title={t('layers.instanceOf', { component: node.component })}>
+            {node.component}
+          </span>
+        ) : null}
         <RowDetails node={node} />
         <EmptyMark node={node} />
         <span className="row__actions">

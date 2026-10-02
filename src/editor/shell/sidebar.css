@@ -485,6 +485,16 @@
   border: 1px dashed var(--color-border-strong);
 }
 
+/* an instance's row names its component, in the accent (sidebar.tsx LayersRow, J21) */
+.row__component {
+  flex: none;
+  max-width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-accent);
+}
+
 /* the coloured row's dot, before its icon (sidebar.tsx LayersRow) */
 .row__colour-dot {
   --row-colour: var(--color-text-subtle);

@@ -6302,5 +6302,6 @@ export const MESSAGE_IDS = [
   "commandBar.scope.find",
   "feature.commandBarFind",
   "canvas.badge.editingBreakpoint",
+  "layers.instanceOf",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];
