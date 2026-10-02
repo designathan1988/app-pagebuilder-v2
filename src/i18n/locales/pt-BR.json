@@ -3342,5 +3342,10 @@
   "palette.keywords.template-grid": "grade colunas",
   "palette.keywords.template-tabs": "abas",
   "palette.keywords.template-accordion": "sanfona recolher",
-  "palette.keywords.template-modal": "janela diálogo"
+  "palette.keywords.template-modal": "janela diálogo",
+  "commandBar.goToPage": "Ir para a página {page}",
+  "commandBar.selectLayer": "Selecionar {name}",
+  "commandBar.applyClass": "Aplicar a classe .{className}",
+  "commandBar.scope.find": "Páginas, camadas, classes @",
+  "feature.commandBarFind": "Páginas, camadas e classes na barra de comandos"
 }

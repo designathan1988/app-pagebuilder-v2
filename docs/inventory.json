@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 207,
-    "built": 206,
+    "features": 208,
+    "built": 207,
     "commands": 360,
-    "doors": 1311,
-    "scenarios": 1720,
+    "doors": 1314,
+    "scenarios": 1723,
     "modules": 400,
-    "lines": 73339
+    "lines": 73376
   },
   "features": [
     {
@@ -50,7 +50,7 @@
         "selection.select",
         "selection.clear"
       ],
-      "doors": 10,
+      "doors": 11,
       "scenarios": 5,
       "modules": [
         "src/core/selection/selection.ts"
@@ -64,7 +64,7 @@
         "layers.setExpanded",
         "workspace.setPanelOpen"
       ],
-      "doors": 33,
+      "doors": 34,
       "scenarios": 5,
       "modules": [
         "src/core/selection/selection.ts",
@@ -1350,7 +1350,7 @@
         "classes.detach",
         "inspector.setStyleTarget"
       ],
-      "doors": 4,
+      "doors": 5,
       "scenarios": 10,
       "modules": [
         "src/core/design/classes.ts",
@@ -1674,7 +1674,7 @@
         "layers.search",
         "selection.select"
       ],
-      "doors": 7,
+      "doors": 8,
       "scenarios": 4,
       "modules": [
         "src/core/selection/selection.ts",
@@ -2247,7 +2247,7 @@
         "view.setBreakpoint",
         "view.setStyleState"
       ],
-      "doors": 32,
+      "doors": 33,
       "scenarios": 2,
       "modules": [
         "src/core/selection/selection.ts",
@@ -2262,7 +2262,7 @@
         "selection.select",
         "workspace.setPanelOpen"
       ],
-      "doors": 31,
+      "doors": 32,
       "scenarios": 1,
       "modules": [
         "src/core/selection/selection.ts",
@@ -2305,7 +2305,7 @@
         "layers.collapseOrFocusParent",
         "selection.range"
       ],
-      "doors": 60,
+      "doors": 61,
       "scenarios": 7,
       "modules": [
         "src/core/selection/selection.ts",
@@ -2451,7 +2451,7 @@
       "commands": [
         "selection.select"
       ],
-      "doors": 6,
+      "doors": 7,
       "scenarios": 1,
       "modules": [
         "src/core/selection/selection.ts"
@@ -2609,7 +2609,7 @@
         "pages.switch",
         "workspace.setPanelOpen"
       ],
-      "doors": 32,
+      "doors": 33,
       "scenarios": 11,
       "modules": [
         "src/core/project/pages.ts",
@@ -3171,6 +3171,22 @@
         "src/editor/menus/context-menu.ts",
         "src/editor/workspace/dialogs.ts"
       ]
+    },
+    {
+      "id": "command-bar-find",
+      "built": true,
+      "commands": [
+        "pages.switch",
+        "selection.select",
+        "classes.apply"
+      ],
+      "doors": 13,
+      "scenarios": 3,
+      "modules": [
+        "src/core/design/classes.ts",
+        "src/core/project/pages.ts",
+        "src/core/selection/selection.ts"
+      ]
     }
   ],
   "modules": [
@@ -3188,7 +3204,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 248,
+      "lines": 249,
       "commands": [],
       "features": []
     },
@@ -3364,6 +3380,7 @@
         "classes.delete"
       ],
       "features": [
+        "command-bar-find",
         "settings-audit",
         "settings-class-management",
         "shared-style-classes"
@@ -4155,6 +4172,7 @@
         "pages.switch"
       ],
       "features": [
+        "command-bar-find",
         "data-pages",
         "explorer-pages",
         "export-multi-page",
@@ -4250,6 +4268,7 @@
         "app-menu",
         "code-panel-selection-sync",
         "command-bar",
+        "command-bar-find",
         "keyboard-tree-walk",
         "layers-keyboard-navigation",
         "layers-search",
@@ -5017,7 +5036,7 @@
     },
     {
       "path": "src/editor/command-bar/command-bar.ts",
-      "lines": 198,
+      "lines": 200,
       "commands": [
         "commandBar.open"
       ],
@@ -5765,7 +5784,7 @@
     },
     {
       "path": "src/editor/shell/command-bar.tsx",
-      "lines": 200,
+      "lines": 224,
       "commands": [],
       "features": []
     },
@@ -6286,13 +6305,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 615,
+      "lines": 616,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6297,
+      "lines": 6306,
       "commands": [],
       "features": []
     },

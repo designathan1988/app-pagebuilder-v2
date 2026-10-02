@@ -204,7 +204,7 @@ function textOfValue(args: Readonly<Record<string, unknown>>): string | undefine
   return text?.[1] as string | undefined;
 }
 
-export function barLabel(d: Door, args: Readonly<Record<string, unknown>>): string {
+export function barLabel(d: Door, args: Readonly<Record<string, unknown>>, nameOf: (id: string) => string | undefined = () => undefined): string {
   const template = EN[d.labelKey ?? ''];
   if (template === undefined) throw new Error(`the catalogue has no label ${d.labelKey}`);
   const filled: Record<string, string | undefined> = {
@@ -214,6 +214,10 @@ export function barLabel(d: Door, args: Readonly<Record<string, unknown>>): stri
     // person reaches it by typing them: what is typed is that label
     property: propertyOfEntry(args),
     value: textOfValue(args),
+    // the project's own things (command-bar-find): a page, an element and a class by the names they hold
+    page: typeof args.page === 'string' ? nameOf(args.page) : undefined,
+    name: typeof args.target === 'string' ? nameOf(args.target) : undefined,
+    className: typeof args.className === 'string' ? args.className : undefined,
   };
   return template.replace(/\{(\w+)\}/g, (_, name: string) => filled[name] ?? '').replace(/\s+/g, ' ').trim();
 }

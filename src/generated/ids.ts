@@ -476,6 +476,7 @@ export const DOOR_IDS = [
   "tokens.delete#variables-delete",
   "classes.create#inspector-class-save-as",
   "classes.apply#inspector-class-add",
+  "classes.apply#command-bar-apply-class",
   "classes.detach#inspector-class-remove",
   "classes.rename#styles-class-rename",
   "classes.delete#styles-class-delete",
@@ -698,6 +699,7 @@ export const DOOR_IDS = [
   "pages.switch#explorer-page-row",
   "pages.switch#file-tab",
   "pages.switch#toolbar-top-bar-page-switcher",
+  "pages.switch#command-bar-go-to-page",
   "files.createFolder#explorer-new-folder",
   "files.createFile#explorer-new-file",
   "files.startRename#explorer-file-name",
@@ -1011,6 +1013,7 @@ export const DOOR_IDS = [
   "selection.select#status-bar-breadcrumb-item",
   "selection.select#checks-issue",
   "selection.select#code-panel-html-line",
+  "selection.select#command-bar-select-layer",
   "selection.clear#key-escape-in-canvas",
   "selection.clear#canvas-click-stage-outside-page",
   "selection.clear#menu-edit",
@@ -2417,6 +2420,7 @@ export const FEATURE_IDS = [
   "side-by-side-view",
   "project-language",
   "batch-rename",
+  "command-bar-find",
 ] as const;
 export type FeatureId = (typeof FEATURE_IDS)[number];
 
@@ -6292,5 +6296,10 @@ export const MESSAGE_IDS = [
   "palette.keywords.template-tabs",
   "palette.keywords.template-accordion",
   "palette.keywords.template-modal",
+  "commandBar.goToPage",
+  "commandBar.selectLayer",
+  "commandBar.applyClass",
+  "commandBar.scope.find",
+  "feature.commandBarFind",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

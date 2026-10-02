@@ -333,6 +333,29 @@
           "args": {
             "page": ""
           }
+        },
+        {
+          "id": "command-bar-go-to-page",
+          "kind": "command-bar",
+          "entry": "go-to-page",
+          "feature": "command-bar-find",
+          "labelKey": "commandBar.goToPage",
+          "faceLabelKey": null,
+          "icon": "file",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "command-palette",
+            "order": 72
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "page": ""
+          }
         }
       ]
     },

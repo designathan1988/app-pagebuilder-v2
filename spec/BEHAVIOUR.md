@@ -8720,3 +8720,17 @@ A text that is no language tag (`status.project.languageInvalid`), before any ch
 
 An empty pattern or a first number below 1 (`status.rename.patternInvalid`); the page root or a locked element among
 the selected refuses the whole batch with the renamer's own refusal, and nothing is renamed.
+
+## command-bar-find
+
+### Our rule
+
+- The command bar also offers the project's own things (jornada03 J12): **Go to page …** for each page
+  (`pages.switch`), **Select …** for each element of the open page (`selection.select`), and **Apply class .…** for
+  each class while elements are selected (`classes.apply`), each named by what it holds, found by the same matching
+  as every entry.
+- The scope `@` (its pill: Pages, layers, classes) keeps only these.
+
+### Refusals
+
+None: an entry that would not run (a class with nothing selected) is not offered.

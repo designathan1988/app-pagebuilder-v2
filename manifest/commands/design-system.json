@@ -473,6 +473,29 @@
             "fields": []
           },
           "args": {}
+        },
+        {
+          "id": "command-bar-apply-class",
+          "kind": "command-bar",
+          "entry": "apply-class",
+          "feature": "command-bar-find",
+          "labelKey": "commandBar.applyClass",
+          "faceLabelKey": null,
+          "icon": "palette",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "command-palette",
+            "order": 74
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "className": ""
+          }
         }
       ]
     },

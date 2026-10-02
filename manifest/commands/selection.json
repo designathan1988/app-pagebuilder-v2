@@ -168,6 +168,29 @@
             "fields": []
           },
           "args": {}
+        },
+        {
+          "id": "command-bar-select-layer",
+          "kind": "command-bar",
+          "entry": "select-layer",
+          "feature": "command-bar-find",
+          "labelKey": "commandBar.selectLayer",
+          "faceLabelKey": null,
+          "icon": "layers",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "command-palette",
+            "order": 73
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "target": ""
+          }
         }
       ]
     },

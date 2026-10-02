@@ -672,7 +672,7 @@ export const doorSchema = z.discriminatedUnion('kind', [
   z.strictObject({
     ...doorCommon,
     kind: z.literal('command-bar'),
-    entry: z.enum(['command', 'insert', 'open-panel', 'set-property', 'edit-property']),
+    entry: z.enum(['command', 'insert', 'open-panel', 'set-property', 'edit-property', 'go-to-page', 'select-layer', 'apply-class']),
   }),
   z.strictObject({
     ...doorCommon,

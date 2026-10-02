@@ -1653,7 +1653,15 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
     // the bar opened with its shortcut, the entry's label typed and its row clicked (door.ts); an entry the bar does not
     // offer now (its command cannot run on the selection) fails the step on an assertion, never on the click's timeout
     await openCommandBar(page);
-    await page.keyboard.type(barLabel(d, { ...d.args, ...own }));
+    // an item of the project (a page, an element) is typed by the name it holds in the document (command-bar-find)
+    const pages = (document as { pages: { name: string; tree: Node }[] }).pages;
+    const nameOf = (id: string): string | undefined => {
+      const opened = pages.find((one) => one.tree.id === id);
+      if (opened !== undefined) return opened.name;
+      const find = (n: Node): string | undefined => (n.id === id ? n.name : n.children.map(find).find((x) => x !== undefined));
+      return pages.map((one) => find(one.tree)).find((x) => x !== undefined);
+    };
+    await page.keyboard.type(barLabel(d, { ...d.args, ...own }, nameOf));
     await expect(control(page, ref, { args: own }), `step ${ref}: the command bar offers it`).toBeVisible();
     await control(page, ref, { args: own }).click();
   } else if (d.kind === 'panel-drag' && d.source === 'data-column') {

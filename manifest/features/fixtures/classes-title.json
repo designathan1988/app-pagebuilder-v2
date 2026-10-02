@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "classes": [
+    {
+      "name": "accent",
+      "styles": {
+        "desktop": {
+          "base": {
+            "color": "#b9512a"
+          }
+        }
+      }
+    }
+  ],
+  "pages": [
+    {
+      "id": "p-home",
+      "name": "Home",
+      "file": "index.html",
+      "tree": {
+        "id": "n-page",
+        "type": "page",
+        "name": "Page",
+        "tag": "body",
+        "attributes": {},
+        "classes": [],
+        "styles": {},
+        "text": null,
+        "children": [
+          {
+            "id": "n-title",
+            "type": "heading",
+            "name": "Title",
+            "tag": "h1",
+            "attributes": {},
+            "classes": [],
+            "styles": {
+              "desktop": {
+                "base": {
+                  "font-size": "48px"
+                }
+              },
+              "tablet": {
+                "base": {
+                  "font-size": "32px"
+                }
+              },
+              "phone": {
+                "base": {
+                  "font-size": "24px"
+                }
+              }
+            },
+            "text": "Fresh coffee",
+            "children": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -3342,5 +3342,10 @@
   "palette.keywords.template-grid": "columns grid",
   "palette.keywords.template-tabs": "tabs",
   "palette.keywords.template-accordion": "accordion collapse",
-  "palette.keywords.template-modal": "popup dialog"
+  "palette.keywords.template-modal": "popup dialog",
+  "commandBar.goToPage": "Go to page {page}",
+  "commandBar.selectLayer": "Select {name}",
+  "commandBar.applyClass": "Apply class .{className}",
+  "commandBar.scope.find": "Pages, layers, classes @",
+  "feature.commandBarFind": "Pages, layers and classes in the command bar"
 }

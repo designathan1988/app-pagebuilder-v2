@@ -23,10 +23,11 @@ const constant = (id: string): number => {
 export const MAX_RESULTS = constant('commandBar.maxResults');
 export const RECENT_COUNT = constant('commandBar.recentCount');
 
-export type EntryKind = 'command' | 'insert' | 'open-panel' | 'set-property' | 'edit-property';
-const KIND_ORDER: readonly EntryKind[] = ['command', 'insert', 'open-panel', 'set-property', 'edit-property'];
+export type EntryKind = 'command' | 'insert' | 'open-panel' | 'set-property' | 'edit-property' | 'go-to-page' | 'select-layer' | 'apply-class';
+const KIND_ORDER: readonly EntryKind[] = ['command', 'insert', 'open-panel', 'set-property', 'edit-property', 'go-to-page', 'select-layer', 'apply-class'];
 // a scope typed before the query keeps one kind of entry (DESIGN.md: Commands >, Insert +, Panels /, Properties #)
-const SCOPES: Readonly<Record<string, readonly EntryKind[]>> = { '>': ['command'], '+': ['insert'], '/': ['open-panel'], '#': ['set-property', 'edit-property'] };
+// and @ the project's own things: its pages to go to, the open page's layers to select, its classes to apply (J12)
+const SCOPES: Readonly<Record<string, readonly EntryKind[]>> = { '>': ['command'], '+': ['insert'], '/': ['open-panel'], '#': ['set-property', 'edit-property'], '@': ['go-to-page', 'select-layer', 'apply-class'] };
 export const SCOPE_PREFIXES = Object.keys(SCOPES);
 // the scopes as the bar's pills name them (the canonical palette's scope pills), All first: no prefix
 export const SCOPE_PILLS: readonly { readonly prefix: string; readonly labelKey: string }[] = [
@@ -35,6 +36,7 @@ export const SCOPE_PILLS: readonly { readonly prefix: string; readonly labelKey:
   { prefix: '+', labelKey: 'commandBar.scope.insert' },
   { prefix: '/', labelKey: 'commandBar.scope.panels' },
   { prefix: '#', labelKey: 'commandBar.scope.properties' },
+  { prefix: '@', labelKey: 'commandBar.scope.find' },
 ];
 // the scope a query is in (its prefix, '' for All), and its words
 export function scopeOf(query: string): { readonly prefix: string; readonly words: string } {

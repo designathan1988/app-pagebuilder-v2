@@ -611,4 +611,5 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "side-by-side-view": ["view.toggleSideBySide","view.setBreakpoint"],
   "project-language": ["project.setLanguage","project.setCodeLanguage","workspace.setActiveTab","project.export"],
   "batch-rename": ["element.renameMany","workspace.openDialog","contextMenu.open"],
+  "command-bar-find": ["pages.switch","selection.select","classes.apply"],
 };

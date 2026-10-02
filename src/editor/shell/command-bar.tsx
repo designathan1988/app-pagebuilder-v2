@@ -18,6 +18,9 @@ import { useEditorState, useStore } from '../store.ts';
 import { useT } from '../text.ts';
 import { PANELS, panelName, type Panel } from '../workspace/panels.ts';
 import { PanelBodies } from './bodies.ts';
+import { walk } from '../../core/document/model.ts';
+import { openedPage } from '../../core/project/pages.ts';
+import { classesOf } from '../../core/design/classes.ts';
 
 const BACKDROP = doorSlots('overlay')[0];
 const LIST_ID = 'command-bar-list';
@@ -85,6 +88,27 @@ function CommandBarDialog() {
         if (write === null || write.entry.command.id !== entry.command.id || !isDoorBuilt(entry) || !store.canRun(entry.command.id, write.args as never)) return [];
         // the CSS name, as the spec asks (the status names the CSS property), and what a person types to reach it
         return [{ entry, args: write.args, label: t(entry.door.labelKey as MessageId, { property: property.id, value: asked.value }), key: entryKey(entry, write.args) }];
+      }
+      // the project's own things (jornada03 J12): its pages to go to, the open page's elements to select, its classes to
+      // apply to the selection, each an entry of its own door with the item as its argument
+      if (kind === 'go-to-page') {
+        return state.document.pages.flatMap((one): BarEntry[] => {
+          const args = { page: one.tree.id };
+          return runs(entry, args) ? [{ entry, args, label: t(entry.door.labelKey as MessageId, { page: one.name }), key: entryKey(entry, args) }] : [];
+        });
+      }
+      if (kind === 'select-layer') {
+        const tree = state.document.pages[openedPage(state)]?.tree;
+        return (tree === undefined ? [] : [...walk(tree)].slice(1)).flatMap((node): BarEntry[] => {
+          const args = { target: node.id };
+          return runs(entry, args) ? [{ entry, args, label: t(entry.door.labelKey as MessageId, { name: node.name }), key: entryKey(entry, args) }] : [];
+        });
+      }
+      if (kind === 'apply-class') {
+        return classesOf(state.document).flatMap((one): BarEntry[] => {
+          const args = { className: one.name };
+          return runs(entry, args) ? [{ entry, args, label: t(entry.door.labelKey as MessageId, { className: one.name }), key: entryKey(entry, args) }] : [];
+        });
       }
       if (!runs(entry, {})) return [];
       return [{ entry, args: {}, label: t(entry.door.labelKey as MessageId, labelParamsOf(entry, state)), key: entryKey(entry, {}) }];

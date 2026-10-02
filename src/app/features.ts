@@ -239,6 +239,7 @@ export const FEATURES = {
   'value-presets': registerFeature('value-presets'),
   'project-language': registerFeature('project-language'),
   'batch-rename': registerFeature('batch-rename'),
+  'command-bar-find': registerFeature('command-bar-find'),
 } as const satisfies FeatureTable;
 
 // Whether a feature is registered as built.
