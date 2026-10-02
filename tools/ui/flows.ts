@@ -217,6 +217,27 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'easing-curve',
+    about: 'stage 3: an action easing chosen from ready-made curves drawn as curves, then a Bézier typed by its points',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/motion.json'] } },
+      { door: 'selection.select#layers-row', labelled: 'Hero' },
+      { door: 'workspace.setActiveTab#inspector-tab-interactions' },
+      { door: 'motion.add#inspector-motion-add' },
+      { door: 'workspace.setPanelOpen#status-bar-motion' },
+      { click: '[data-door="motion.select#timeline-motion-bar"]' },
+      { click: '[data-door="motion.updateAction#timeline-motion-action-easing"] .easing-curve__button' },
+      { photo: 'ready-made-curves' },
+      { click: '.easing-preset[title="ease-in-out"]' },
+      { click: '[data-door="motion.updateAction#timeline-motion-action-easing"] .easing-curve__button' },
+      { type: { at: '.easing-popover__point:nth-child(2) input', text: '1.6', enter: false } },
+      { photo: 'own-curve' },
+      { click: '.easing-popover__points button[type="submit"]' },
+      { photo: 'own-curve-used' },
+    ],
+  },
+  {
     name: 'data-c3',
     about: 'jornada03 C3/H13: the header shared with every page, its menu changed once',
     steps: [

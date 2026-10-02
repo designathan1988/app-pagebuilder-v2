@@ -8659,3 +8659,20 @@ None.
 ### Refusals
 
 What the field itself refuses (a locked element, nothing selected): the thumbnails are drawn unavailable.
+
+## easing-curve
+
+### Our rule
+
+- A field that holds an easing (a timeline keyframe's, a motion action's or keyframe's) draws, beside its text, a
+  button showing the easing as a small curve. It opens a layer with the ready-made easings, each drawn as its curve
+  and named, and a cubic Bézier of one's own: its four control points (x1, y1, x2, y2) prefilled from the field's
+  easing (a keyword's own points), the curve redrawn as they change; y may leave 0–1 (an overshoot), x may not.
+- Choosing a ready-made curve, or Use this curve, runs the field's own door with that easing, as typing it would; the
+  layer closes. Opening it and typing in it change nothing.
+- The one reader of an easing's text is core/motion/easing.ts: the curve drawn is the curve the page runs (a spring is
+  drawn over 600 ms).
+
+### Refusals
+
+A Bézier whose x lies outside 0–1, or a point that is no number: Use this curve stays unavailable.

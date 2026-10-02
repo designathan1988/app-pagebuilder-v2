@@ -285,7 +285,7 @@ function ActionFields({ timeline, action, at }: { readonly timeline: MotionTimel
   const effectWords = (kind: string) => t(`motion.action.${camel(kind)}` as MessageId);
   const targetWords = (kind: string) => t(`motion.target.${camel(kind)}` as MessageId);
   const pickable = TARGET_KINDS.filter((kind) => kind !== 'element');
-  const field = (name: string, value: string, extra: { readonly offered?: readonly string[]; readonly display?: (value: string) => string; readonly accept?: (typed: string) => string } = {}) => (
+  const field = (name: string, value: string, extra: { readonly offered?: readonly string[]; readonly display?: (value: string) => string; readonly accept?: (typed: string) => string; readonly curve?: boolean } = {}) => (
     <PanelField key={name} entry={motionDoor(MOTION_DOORS.actionField(name))} args={args} value={value} label={t(`motion.field.${name}` as MessageId)} {...extra} />
   );
   const targetValue = 'className' in action.target ? action.target.className : 'component' in action.target ? action.target.component : null;
@@ -302,7 +302,7 @@ function ActionFields({ timeline, action, at }: { readonly timeline: MotionTimel
       </div>
       {field('start', seconds(action.start))}
       {timed ? field('duration', seconds(action.duration)) : null}
-      {timed ? field('easing', action.easing ?? '', { offered: easing.presets }) : null}
+      {timed ? field('easing', action.easing ?? '', { offered: easing.presets, curve: true }) : null}
       {timed ? field('repeat', String(action.repeat ?? 1), { offered: ['1', '2', '3', 'infinite'], display: (value) => (value === 'infinite' ? t('motion.value.infinite') : value) }) : null}
       {timed ? (
         <div className="field-row">
@@ -347,7 +347,7 @@ function KeyframeFields({ timeline, motion }: { readonly timeline: MotionTimelin
               args={{ timeline: timeline.name, keyframe: only, ...placed }}
               value={field === 'value' ? keyframe.value : field === 'easing' ? (keyframe.easing ?? '') : field === 'time' ? seconds(action.start + keyframe.time) : track.property}
               label={t(`motion.field.${field}` as MessageId)}
-              {...(field === 'easing' ? { offered: easing.presets } : {})}
+              {...(field === 'easing' ? { offered: easing.presets, curve: true } : {})}
             />
           ))}
         </>

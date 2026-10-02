@@ -5,8 +5,8 @@
     "commands": 356,
     "doors": 1307,
     "scenarios": 1709,
-    "modules": 395,
-    "lines": 72715
+    "modules": 396,
+    "lines": 72865
   },
   "features": [
     {
@@ -5737,6 +5737,12 @@
       "features": []
     },
     {
+      "path": "src/editor/shell/easing-curve.tsx",
+      "lines": 132,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/editor/shell/field-face.tsx",
       "lines": 52,
       "commands": [],
@@ -5828,7 +5834,7 @@
     },
     {
       "path": "src/editor/shell/panel-field.tsx",
-      "lines": 162,
+      "lines": 172,
       "commands": [],
       "features": []
     },
@@ -5954,7 +5960,7 @@
     },
     {
       "path": "src/editor/timeline/panel.tsx",
-      "lines": 219,
+      "lines": 220,
       "commands": [],
       "features": []
     },
@@ -6209,7 +6215,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6222,
+      "lines": 6229,
       "commands": [],
       "features": []
     },

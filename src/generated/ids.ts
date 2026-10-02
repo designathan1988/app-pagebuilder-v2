@@ -6217,5 +6217,12 @@ export const MESSAGE_IDS = [
   "preset.borderRadius.pill",
   "status.style.resetMany",
   "status.style.resetAllMany",
+  "easing.title",
+  "easing.edit",
+  "easing.presets",
+  "easing.use",
+  "easing.bezier",
+  "easing.point",
+  "easing.apply",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

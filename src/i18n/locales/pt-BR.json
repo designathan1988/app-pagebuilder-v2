@@ -3279,5 +3279,12 @@
   "preset.borderRadius.large": "Grande",
   "preset.borderRadius.pill": "Pílula",
   "status.style.resetMany": "{property} de {count} elementos redefinido.",
-  "status.style.resetAllMany": "Todos os valores de {count} elementos redefinidos."
+  "status.style.resetAllMany": "Todos os valores de {count} elementos redefinidos.",
+  "easing.title": "Curva",
+  "easing.edit": "A curva de {field}",
+  "easing.presets": "Curvas prontas",
+  "easing.use": "Usar {easing}",
+  "easing.bezier": "Sua própria curva",
+  "easing.point": "Ponto de controle {point}",
+  "easing.apply": "Usar esta curva"
 }

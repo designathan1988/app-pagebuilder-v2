@@ -11,6 +11,7 @@ import type { DoorEntry } from '../../manifest/runtime.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
 import { useStore } from '../store.ts';
 import { isDoorBuilt, useDoor } from '../doors/door.tsx';
+import { EasingCurveButton } from './easing-curve.tsx';
 
 // The one argument a door's text goes in: the argument its command declares that neither the door fixes (its own
 // `args`) nor the drawing gives. A command whose fields do not come to exactly one is a defect of the manifest.
@@ -41,6 +42,7 @@ export function PanelField({
   display,
   accept,
   onDone,
+  curve = false,
 }: {
   readonly entry: DoorEntry;
   readonly args?: Readonly<Record<string, unknown>>;
@@ -57,6 +59,8 @@ export function PanelField({
   readonly display?: (value: string) => string;
   readonly accept?: (typed: string) => string;
   readonly onDone?: () => void;
+  // the field holds an easing: a button beside it draws the easing's curve and chooses another (easing-curve.tsx)
+  readonly curve?: boolean;
 }) {
   const door = useDoor(entry, args, label);
   const store = useStore();
@@ -68,14 +72,19 @@ export function PanelField({
   }, [autoFocus]);
   const list = offered ?? [];
   const id = `panel-field-${entry.ref.replaceAll('#', '-')}-${String(args.animation ?? args.interaction ?? '')}`;
-  const keep = (event: FormEvent) => {
-    event.preventDefault();
-    setEdited(false);
+  // the door run with a text in its free argument (typed and kept, or a curve chosen beside the field)
+  const runWith = (chosen: string) => {
     const argument = textArgument(entry, args);
-    const chosen = accept === undefined ? draft : accept(draft);
     if (argument === null || chosen === value) return;
     const outcome = (store.dispatch as (id: CommandId, a: unknown) => DispatchResult)(entry.command.id as CommandId, { ...entry.door.args, ...args, [argument]: chosen });
     if (outcome.status === 'done') onDone?.();
+  };
+  const keep = (event: FormEvent) => {
+    event.preventDefault();
+    // nothing typed since the field last showed the document's value: nothing to keep (the draft is that old value)
+    if (!edited) return;
+    setEdited(false);
+    runWith(accept === undefined ? draft : accept(draft));
   };
   const ready = door.built && !disabled;
   return (
@@ -99,6 +108,7 @@ export function PanelField({
             setDraft(event.target.value);
           }}
         />
+        {curve ? <EasingCurveButton value={value} label={label} disabled={!ready} run={runWith} /> : null}
         <button type="submit" className="visually-hidden" tabIndex={-1}>
           {label}
         </button>

@@ -3279,5 +3279,12 @@
   "preset.borderRadius.large": "Large",
   "preset.borderRadius.pill": "Pill",
   "status.style.resetMany": "{property} of {count} elements reset.",
-  "status.style.resetAllMany": "Every value of {count} elements reset."
+  "status.style.resetAllMany": "Every value of {count} elements reset.",
+  "easing.title": "Curve",
+  "easing.edit": "The curve of {field}",
+  "easing.presets": "Ready-made curves",
+  "easing.use": "Use {easing}",
+  "easing.bezier": "Your own curve",
+  "easing.point": "Control point {point}",
+  "easing.apply": "Use this curve"
 }

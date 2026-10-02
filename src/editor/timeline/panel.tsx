@@ -201,6 +201,7 @@ export function TimelinePanel() {
               value={shown.animation.keyframes.find((k) => k.offset === playhead)?.easing ?? ''}
               label={t('command.animation.easing')}
               offered={offeredValues(KEYFRAME_EASING)}
+              curve
             />
           ) : null}
           {DELETE_KEYFRAME !== null && shown !== null && playhead !== null ? (
