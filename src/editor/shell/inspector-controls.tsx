@@ -10,6 +10,7 @@ import { DoorControl, Icon, useDoor } from '../doors/door.tsx';
 import { GLYPHS, doorSlots } from '../doors/placement.ts';
 import { isColourValue } from '../inspector/sections.ts';
 import { MODEL_RULES, useEditorState, useStore, layeredRules } from '../store.ts';
+import { isLinked } from '../inspector/spacing.ts';
 import { styleSource } from '../inspector/style-target.ts';
 import { pluralForm } from '../../i18n/index.ts';
 import { useLocale, useT } from '../text.ts';
@@ -490,8 +491,11 @@ function BoxCore() {
 const NO_LINKS: readonly string[] = [];
 export function BoxModel({ doors }: { readonly doors: readonly DoorEntry[] }) {
   const t = useT();
-  const links = useEditorState((st) => st.ui.preferences.spacingLinks ?? NO_LINKS);
   const boxes = doors.filter((d) => d.door.kind === 'inspector-field' && d.door.composite !== null);
+  // the boxes linked for the element the tab edits (inspector/spacing.ts, J27), as one text so the selector's answer
+  // stays the same while nothing changes
+  const linkedText = useEditorState((st) => boxes.map((d) => targetOf(d)?.id ?? '').filter((id) => id !== '' && isLinked(st, id, layeredRules(st.ui))).join(' '));
+  const links = linkedText === '' ? NO_LINKS : linkedText.split(' ');
   const sideField = (css: string | undefined) => doors.find((d) => d.door.kind === 'inspector-field' && d.door.property === css);
   const draw = (level: number): ReactNode => {
     const box = boxes[level];

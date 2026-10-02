@@ -84,8 +84,6 @@ export interface Preferences {
   // the breakpoint the editor shows (view.setBreakpoint; src/editor/view/breakpoints.ts); absent while it is the base
   readonly breakpoint?: string | undefined;
   readonly equalSpacingOff?: true | undefined;
-  // the boxes of the box model edited as one value for their four sides (inspector.toggleSpacingLink); absent while none
-  readonly spacingLinks?: readonly ('padding' | 'margin')[] | undefined;
   // the Style tab showing its essentials only (inspector.setMode); absent while it shows every property
   readonly inspectorMode?: 'essentials' | undefined;
   // where the quick panel was dragged for each element (quickPanel.setOffset; src/editor/quick-panel/quick-panel.ts),
@@ -189,7 +187,6 @@ export function loadPreferences(storage: PreferenceStorage): Preferences {
       ...(stored.smartGuidesOff === true ? { smartGuidesOff: true as const } : {}),
       ...(readBreakpoint(stored.breakpoint) !== undefined ? { breakpoint: readBreakpoint(stored.breakpoint) } : {}),
       ...(stored.equalSpacingOff === true ? { equalSpacingOff: true as const } : {}),
-      ...(Array.isArray(stored.spacingLinks) && stored.spacingLinks.length > 0 ? { spacingLinks: (['padding', 'margin'] as const).filter((b) => (stored.spacingLinks as unknown[]).includes(b)) } : {}),
       ...(stored.inspectorMode === 'essentials' ? { inspectorMode: 'essentials' as const } : {}),
       ...(offsets !== undefined ? { quickPanelOffsets: offsets } : {}),
       ...(recent.length > 0 ? { recentColors: recent } : {}),

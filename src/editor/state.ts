@@ -66,6 +66,9 @@ export interface EditorUi {
   readonly revealed?: Revealed | undefined;
   // the Edit on canvas mode (canvas/edit-mode.ts); absent while none is on
   readonly editMode?: EditMode | undefined;
+  // the spacing boxes (padding, margin) an element's link was turned on or off for, by element (inspector/spacing.ts,
+  // J27): a box with no entry is linked while its four sides hold the same value
+  readonly spacingLinks?: Readonly<Record<string, Readonly<Record<string, boolean>>>> | undefined;
   // the class the Style tab's writes go to (inspector/style-target.ts); absent while the target is the element
   readonly styleTarget?: string | undefined;
   // the dialog open (workspace/dialogs.ts): Guides & Grids, Snap settings; absent while none is

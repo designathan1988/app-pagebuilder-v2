@@ -6,7 +6,7 @@
     "doors": 1128,
     "scenarios": 1440,
     "modules": 295,
-    "lines": 53982
+    "lines": 54003
   },
   "features": [
     {
@@ -4740,7 +4740,7 @@
     },
     {
       "path": "src/editor/inspector/spacing.ts",
-      "lines": 31,
+      "lines": 48,
       "commands": [
         "inspector.toggleSpacingLink"
       ],
@@ -4850,7 +4850,7 @@
     },
     {
       "path": "src/editor/preferences/preferences.ts",
-      "lines": 246,
+      "lines": 243,
       "commands": [
         "preferences.setLanguage",
         "preferences.setTheme"
@@ -5022,7 +5022,7 @@
     },
     {
       "path": "src/editor/shell/inspector-controls.tsx",
-      "lines": 593,
+      "lines": 597,
       "commands": [],
       "features": []
     },
@@ -5160,7 +5160,7 @@
     },
     {
       "path": "src/editor/state.ts",
-      "lines": 128,
+      "lines": 131,
       "commands": [],
       "features": []
     },
