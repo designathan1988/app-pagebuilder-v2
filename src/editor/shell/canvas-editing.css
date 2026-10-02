@@ -441,45 +441,44 @@
 }
 
 
-/* the bands of Edit on canvas's Padding and Margin modes (src/editor/canvas/edit-handles.tsx): tinted, dragged */
+/* the bands of Edit on canvas's Padding and Margin modes (src/editor/canvas/edit-handles.tsx): the canonical .ov-band,
+   hatched in their colour over a faint fill, filled stronger and outlined while hovered or dragged */
 .chrome__band {
+  --band: var(--color-canvas-selection);
   position: absolute;
   display: grid;
   place-items: center;
-  background: var(--color-canvas-selection);
-  opacity: 0.35;
+  background:
+    repeating-linear-gradient(-45deg, color-mix(in srgb, var(--band) 55%, transparent) 0 1px, transparent 0 6px),
+    color-mix(in srgb, var(--band) 12%, transparent);
   pointer-events: auto;
   cursor: ns-resize;
 }
 
 .chrome__band:hover,
 .chrome__band.is-dragging {
-  opacity: 0.55;
+  background: color-mix(in srgb, var(--band) 34%, transparent);
+  outline: 1px solid var(--band);
 }
 
 /* the band a drag pulls keeps its number readable whatever its tint (the pointer has left it) */
 .chrome__band.is-dragging .chrome__handle-value {
-  outline: 1px solid var(--color-canvas-selection);
+  outline: 1px solid var(--band);
 }
 
 .chrome__band--padding {
-  background: var(--color-canvas-padding);
+  --band: var(--color-canvas-padding);
 }
 
 .chrome__band--margin {
-  background: var(--color-canvas-margin);
+  --band: var(--color-canvas-margin);
 }
 
 /* The divider between two columns of a flex row (item 8.1): a grip in its own colour, held over the gap band, dragged
    across the row to change the two children's share of it. */
 .chrome__band--divider {
-  background: var(--color-canvas-drop);
-  opacity: 0.5;
+  --band: var(--color-canvas-drop);
   cursor: col-resize;
-}
-
-.chrome__band--divider:hover {
-  opacity: 0.85;
 }
 
 /* A resize handle the parent's layout does not let the element move (item 4.2: a flex or grid item's north or west
@@ -498,7 +497,7 @@
 }
 
 .chrome__band--auto:hover {
-  opacity: 0.55;
+  opacity: 1;
 }
 
 .chrome__handle-value {
@@ -509,6 +508,16 @@
   font-size: var(--fs-caption);
   line-height: var(--lh-caption);
   pointer-events: none;
+}
+
+/* a band's number is the canonical .ov-bandval: white on the band's colour, darkened */
+.chrome__band .chrome__handle-value {
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-xs);
+  background: color-mix(in srgb, var(--band) 80%, var(--color-canvas-band-shade));
+  color: var(--color-on-canvas-band);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
 }
 
 /* a band too thin for its number keeps it for the pointer and the keyboard's focus (constant spacing.valueMinBand) */
