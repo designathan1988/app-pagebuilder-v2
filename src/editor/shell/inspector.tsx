@@ -594,7 +594,24 @@ function SelectedElement() {
   const t = useT();
   const count = useEditorState((s) => s.selection.length);
   const node = useSingleNode();
-  if (count > 1) return <div className="selector-bar__element">{t('canvas.selectedCount', { count })}</div>;
+  // several: how many, and their tags (the canonical "3 elements  article × 3"; distinct tags listed), as one text so
+  // the hook's answer is stable
+  const several = useEditorState((s) => {
+    if (s.selection.length < 2) return '';
+    const nodes = s.selection.map((id) => locate(s.document, id)?.node ?? null).filter((one): one is DocNode => one !== null);
+    const tags = [...new Set(nodes.map((one) => one.tag ?? ''))].filter((tag) => tag !== '');
+    return JSON.stringify({ type: nodes[0]?.type ?? null, tags });
+  });
+  if (count > 1) {
+    const { type, tags } = JSON.parse(several || '{"type":null,"tags":[]}') as { readonly type: string | null; readonly tags: readonly string[] };
+    return (
+      <div className="selector-bar__element">
+        <Icon name={(type === null ? null : elementIcon(type)) ?? GLYPHS.folder} size="sm" />
+        <span className="selector-bar__name">{t('inspector.elementCount', { count })}</span>
+        <small className="selector-bar__tag">{tags.length === 1 ? `${tags[0]} × ${count}` : tags.join(', ')}</small>
+      </div>
+    );
+  }
   if (node === null) return <div className="selector-bar__element">{t('inspector.nothingSelected')}</div>;
   return (
     <div className="selector-bar__element">

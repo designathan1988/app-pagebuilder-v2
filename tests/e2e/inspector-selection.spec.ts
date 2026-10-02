@@ -56,7 +56,9 @@ test("the inspector's selector bar names what the store holds selected: one, sev
   await page.mouse.click(title.x, title.y);
   await page.keyboard.up('Shift');
   await expect.poll(() => selection(page)).toEqual(['n-intro', 'n-title']);
-  await expect(bar).toHaveText('2 elements selected');
+  // several: how many, and their tags (the canonical selector bar: "3 elements  article × 3"; distinct tags listed)
+  await expect(bar.locator('.selector-bar__name')).toHaveText('2 elements');
+  await expect(bar.locator('.selector-bar__tag')).toHaveText('p, h1');
   await page.keyboard.press('Escape');
   await expect.poll(() => selection(page)).toEqual([]);
   await expect(bar).toHaveText('Nothing selected');

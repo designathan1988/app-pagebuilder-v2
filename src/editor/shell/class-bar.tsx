@@ -179,7 +179,9 @@ export function Affects() {
   const t = useT();
   const target = useEditorState((s) => styleClassOf(s));
   const count = useEditorState((s) => (target === null ? 0 : usesOfClass(s.document, target)));
-  if (target === null) return null;
+  const several = useEditorState((s) => s.selection.length > 1);
+  // several elements written at once: their fields say Mixed where their values differ (the canonical note)
+  if (target === null) return several ? <div className="affects">{t('inspector.mixed')}</div> : null;
   const selector = `.${target}`;
   return (
     <div className="affects">

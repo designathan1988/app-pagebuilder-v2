@@ -4,7 +4,7 @@
 // status-bar, then the save state (autosave-restore). During a palette tile's creation drag the message is the drag's
 // words (palette-drag-insert).
 import { activeBreakpoint } from '../view/breakpoints.ts';
-import { usePrimarySize } from '../view/selection-size.ts';
+import { useSelectionSize } from '../view/selection-size.ts';
 import { useState, useSyncExternalStore } from 'react';
 import type { MessageId } from '../../generated/ids.ts';
 import { saveState, type SaveState } from '../persistence/autosave.ts';
@@ -127,14 +127,22 @@ function IncidentCount() {
 
 // The breadcrumb of the selection (spec status-bar; the audit's A3.20): every ancestor of the primary selected node,
 // from the page root down to it, each a button that selects it (selection.select's status-bar door), with the
-// element's icon and name; the primary itself wears the current mark. Empty without a selection.
+// element's icon and name; the primary itself wears the current mark. With several selected, the path to the
+// nearest element that holds them all, which wears the mark (the canonical "Page › Main › Planos › Grade de cartões").
+// Empty without a selection.
 function Breadcrumb({ entry }: { readonly entry: DoorEntry }) {
   const t = useT();
   const document = useEditorState((s) => s.document);
   const selection = useEditorState((s) => s.selection);
-  const primary = selection[0] ?? null;
-  const crumbs: DocNode[] = [];
-  for (let at = primary === null ? null : locate(document, primary); at !== null; at = at.parent === null ? null : locate(document, at.parent.id)) crumbs.unshift(at.node);
+  const pathOf = (id: string): DocNode[] => {
+    const path: DocNode[] = [];
+    for (let at = locate(document, id); at !== null; at = at.parent === null ? null : locate(document, at.parent.id)) path.unshift(at.node);
+    return path;
+  };
+  const paths = selection.map(pathOf);
+  // the one node's own path; with several, their shared ancestors (each path less the node itself)
+  const crumbs: DocNode[] = paths.length < 2 ? (paths[0] ?? []) : (paths[0] ?? []).slice(0, -1).filter((node, i) => paths.every((path) => path.length - 1 > i && path[i]?.id === node.id));
+  const primary = paths.length < 2 ? (selection[0] ?? null) : (crumbs[crumbs.length - 1]?.id ?? null);
   return (
     <nav className="status-bar__breadcrumb" aria-label={t(panelName('layers'))}>
       {crumbs.map((node, i) => (
@@ -147,12 +155,13 @@ function Breadcrumb({ entry }: { readonly entry: DoorEntry }) {
   );
 }
 
-// The size of the primary selection in page pixels, re-measured on every frame while one is selected: the page's
+// The size of the selection in page pixels (one element's, or the box holding several), re-measured on every frame while one is selected: the page's
 // layout follows styles, the zoom and scrolling, so a measurement taken once goes stale.
 function SelectionSize() {
   const t = useT();
-  const primary = useEditorState((s) => s.selection[0] ?? null);
-  const size = usePrimarySize(primary);
+  // every selected element (one text, a stable input): with several, the box that holds them all
+  const ids = useEditorState((s) => s.selection.join(' '));
+  const size = useSelectionSize(ids);
   if (size === null) return null;
   return (
     <span className="status-bar__item status-bar__size" data-size={`${size.width}x${size.height}`}>

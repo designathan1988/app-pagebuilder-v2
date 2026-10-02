@@ -4073,7 +4073,7 @@ See `select-container-children.md` and `layers-keyboard-navigation.md`.
 
 1. **Ctrl+click does not toggle.** Required: Ctrl+click toggles an element in or out of the selection; Shift+click adds (manifest feature `multi-select-click`).
 2. **Shift+click toggles instead of adding,** so a second Shift+click removes an element. Required: Shift+click adds; removing is Ctrl+click.
-3. **Only one outline around the union is drawn.** Required: each selected element has its own outline, plus the count chip `N elements`.
+3. **Only one outline around the union is drawn.** Required: each selected element has its own outline, plus the count chip `N elements`. The union is outlined dashed and its label reads the count and the size of the box that holds them all (the canonical "3 elements selected 1248 × 390"); the Style tab's selector bar names the count and their tags ("3 elements  article × 3", distinct tags listed) and says that different values show as Mixed; the status bar reads that box's size and the path to the nearest element that holds them all, which wears the current mark.
 4. **Hover chips intercept clicks meant for the element under them** (see Hit zones). Required: chips never cover another element's content while it could be clicked; when they must overlap, clicks on them pass to the element under the pointer unless the chip itself is the intended drag handle of the selected element.
 
 

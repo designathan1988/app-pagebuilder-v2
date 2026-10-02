@@ -800,8 +800,10 @@ export function CanvasChrome() {
         const atStart = hoveredBox === null ? null : { x: hoveredBox.x, y: hoveredBox.y + hoveredBox.height, ...chipSize };
         const meetsLabel = atStart !== null && placed !== null && overlapsBox(atStart, placed.box);
         const hoverSize = hoveredBox === null ? null : { x: meetsLabel ? hoveredBox.x + hoveredBox.width : hoveredBox.x, y: hoveredBox.y + hoveredBox.height, width: Math.round(hoveredBox.width / zoom), height: Math.round(hoveredBox.height / zoom), end: meetsLabel };
-        // the selected element's own size in CSS px (the label's chip)
-        const ownSize = single === undefined ? null : { width: Math.round(single.width / zoom), height: Math.round(single.height / zoom) };
+        // the selected element's own size in CSS px (the label's chip); with several, their union's (the canonical
+        // "3 elements selected 1248 × 390")
+        const sized = union ?? single;
+        const ownSize = sized === undefined ? null : { width: Math.round(sized.width / zoom), height: Math.round(sized.height / zoom) };
         const ancestor = hovered !== null && single !== undefined && selection[0] !== undefined && holdsNode(iframe, hovered, selection[0]);
         const inner = ancestor && hovered !== null ? local(innerBox(iframe, hovered)) : null;
         // a resize in flow draws the distances to its neighbours; Alt over an element draws the ones to it
@@ -955,6 +957,11 @@ export function CanvasChrome() {
           style={shown.label ? { left: shown.label.box.x, top: shown.label.box.y } : undefined}
         >
           <span className="chrome__name">{t('canvas.selectedCount', { count: selection.length })}</span>
+          {shown.size !== null ? (
+            <small className="chrome__label-size" data-chrome="label-size">
+              {t('canvas.measure.size', { width: shown.size.width, height: shown.size.height })}
+            </small>
+          ) : null}
         </div>
       ) : node !== null && targets.includes(node.id) ? (
         <div

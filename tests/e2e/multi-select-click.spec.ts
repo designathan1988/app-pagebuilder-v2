@@ -140,7 +140,9 @@ test(
     // one label, counting them, over no text of the page
     const label = page.locator('[data-chrome="label"]');
     await expect(label).toHaveCount(1);
-    await expect(label).toHaveText('2 elements selected');
+    // the count, then the size of the box holding them (the canonical "3 elements selected 1248 × 390")
+    await expect(label.locator('.chrome__name')).toHaveText('2 elements selected');
+    await expect(label.locator('[data-chrome="label-size"]')).toHaveText(/^\d+ × \d+$/);
     await expect(label).toHaveAttribute('data-placement', /above|inside|below/);
     const placed = await drawn(page, IDS);
     expect(placed.labels, 'one label is laid out').toHaveLength(1);

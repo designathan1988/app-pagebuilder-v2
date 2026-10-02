@@ -27,3 +27,29 @@ export function usePrimarySize(id: NodeId | null): ElementSize | null {
   }, [id]);
   return size;
 }
+
+// The size of what is selected, in page pixels: the one element's, or with several the box that holds them all (the
+// status bar's readout; the canonical "1248 × 390" for three cards), re-measured on every frame. The ids are given as
+// one text (joined by spaces) so the hook's input is stable while the selection is.
+export function useSelectionSize(ids: string): ElementSize | null {
+  const [size, setSize] = useState<ElementSize | null>(null);
+  useEffect(() => {
+    const list = ids.split(' ').filter((id) => id !== '') as NodeId[];
+    if (list.length === 0) {
+      setSize(null);
+      return;
+    }
+    let frame = requestAnimationFrame(function measure() {
+      const boxes = list.map((id) => pageLayout.box(id)).filter((box) => box !== null);
+      const left = Math.min(...boxes.map((box) => box.x));
+      const top = Math.min(...boxes.map((box) => box.y));
+      const right = Math.max(...boxes.map((box) => box.x + box.width));
+      const bottom = Math.max(...boxes.map((box) => box.y + box.height));
+      const next = boxes.length === 0 ? null : { width: Math.round(right - left), height: Math.round(bottom - top) };
+      setSize((was) => (was?.width === next?.width && was?.height === next?.height ? was : next));
+      frame = requestAnimationFrame(measure);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [ids]);
+  return size;
+}
