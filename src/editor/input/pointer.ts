@@ -109,6 +109,7 @@ import {
   type Redirect,
   type SideView,
 } from './pointer/views.ts';
+import { viewportWidth } from '../view/breakpoints.ts';
 
 // the entries this module published before the machine moved out stay published here: consumers need not change
 export { DRAG_THRESHOLD, IDLE, step } from './pointer/machine.ts';
@@ -396,8 +397,10 @@ const SIDES: readonly string[] = BOX_SIDES.map((property) => property.slice(prop
 // the pointer by its margin (item 4.2)
 const MARGIN_ARGS: Readonly<Record<'marginLeft' | 'marginTop', string>> = { marginLeft: 'marginLeft', marginTop: 'marginTop' };
 const GRIP_DRAGS = manifest.doors.filter((d) => d.door.kind === 'panel-drag' && d.door.source === 'quick-panel-grip');
-// The splitters (spec panel-resize): the panel drag doors pressed on a divider between panels.
-const SPLITTER_DRAGS = manifest.doors.filter((d) => d.door.kind === 'panel-drag' && d.door.source === 'splitter');
+// The splitters (spec panel-resize): the panel drag doors pressed on a divider between panels; the frame's edge is
+// one too (spec breakpoints-switch): it sizes the screen the canvas shows, from the width at the press.
+const FRAME_EDGE = 'frame-edge';
+const SPLITTER_DRAGS = manifest.doors.filter((d) => d.door.kind === 'panel-drag' && (d.door.source === 'splitter' || d.door.source === FRAME_EDGE));
 // The Explorer's file tree (spec explorer-file-system): the panel drag doors pressed on a row of the tree, released on
 // a folder row — the file lands in that folder (files.move)
 const EXPLORER_DRAGS = manifest.doors.filter((d) => d.door.kind === 'panel-drag' && d.door.source === 'explorer-row');
@@ -954,7 +957,7 @@ export function installPointer(store: EditorStore, target: Window = window): () 
       if (press.on === 'column') columning = { press, over: null };
       // a press on a splitter starts its drag, which the moves run; the size it shows now is the one Escape puts back
       if (press.on === 'splitter') {
-        const from = splitterSize(store.getState().ui, String(press.args.splitter ?? ''));
+        const from = press.entry.door.kind === 'panel-drag' && press.entry.door.source === FRAME_EDGE ? viewportWidth(store.getState()) : splitterSize(store.getState().ui, String(press.args.splitter ?? ''));
         if (from !== null) splitting = { press, start: machine.start, from };
       }
       // a press on a panel's header starts its drag: the panel follows the pointer as a hint of where it would land

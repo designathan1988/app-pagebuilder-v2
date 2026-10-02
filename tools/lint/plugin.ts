@@ -424,10 +424,10 @@ const gestureOwner: TsRuleDefinition<'gesture'> = {
 
 // builder/frame-owner: only the renderer (src/core/render/render.ts, which the configuration exempts) writes the
 // canvas iframe's DOM and CSS. The frame's document is reached (contentDocument, contentWindow, frames) only by the
-// frame's readers, the canvas frame and the coordinates module, which never write to a DOM or a stylesheet; every
+// frame's readers, the canvas frame, a side frame (side-frame.tsx, spec side-by-side-view) and the coordinates module, which never write to a DOM or a stylesheet; every
 // other module learns nodes and boxes from coordinates' nodeAt and nodeBox, never its elements (elementAt,
 // screenBox).
-const FRAME_READERS = ['src/editor/canvas/frame.tsx', 'src/editor/canvas/coordinates.ts'];
+const FRAME_READERS = ['src/editor/canvas/frame.tsx', 'src/editor/canvas/coordinates.ts', 'src/editor/canvas/side-frame.tsx'];
 const REACH = new Set(['contentDocument', 'contentWindow', 'frames']);
 const ELEMENT_GIVERS = new Set(['elementAt', 'screenBox']);
 const WRITE_METHODS = new Set([

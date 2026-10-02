@@ -957,6 +957,28 @@
             "fields": []
           },
           "args": {}
+        },
+        {
+          "id": "side-by-side-frame",
+          "kind": "toolbar",
+          "drawnAs": "tab",
+          "pressed": false,
+          "feature": "side-by-side-view",
+          "labelKey": "sideBySide.edit",
+          "faceLabelKey": null,
+          "icon": "pencil",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "canvas-side-by-side",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
         }
       ]
     },
@@ -3100,6 +3122,117 @@
           "placement": {
             "region": "canvas-breakpoints",
             "order": 10
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "view.resizeViewport",
+      "labelKey": "command.resizeViewport",
+      "owner": "src/editor/view/frame-edge.ts",
+      "introducedBy": "breakpoints-switch",
+      "args": {
+        "size": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        },
+        "distance": {
+          "type": "number",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "panel-drag-frame-edge",
+          "kind": "panel-drag",
+          "feature": "breakpoints-switch",
+          "source": "frame-edge",
+          "zone": "canvas-stage",
+          "gesture": "frame-resize",
+          "labelKey": "command.resizeViewport",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "view.toggleSideBySide",
+      "labelKey": "command.toggleSideBySide",
+      "owner": "src/editor/view/overlays.ts",
+      "introducedBy": "side-by-side-view",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "toolbar-breakpoints-side-by-side",
+          "kind": "toolbar",
+          "drawnAs": "icon-button",
+          "pressed": true,
+          "feature": "side-by-side-view",
+          "labelKey": "command.toggleSideBySide",
+          "faceLabelKey": null,
+          "icon": "columns-3",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "canvas-breakpoints",
+            "order": 8
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "menu-view-side-by-side",
+          "kind": "menu",
+          "feature": "side-by-side-view",
+          "menu": "view",
+          "checked": "checkbox",
+          "labelKey": "command.toggleSideBySide",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "menu:view",
+            "order": 21
           },
           "adapter": {
             "selection": "none",

@@ -520,7 +520,9 @@ the same store-owned width continuously. The current cascade is the narrowest no
 width includes the viewport, or the base above all media queries. The frame, Fit zoom, camera and preview use the
 temporary width; fields edit the matching cascade. No document change or undo entry is created. Choosing a breakpoint
 tab clears the temporary width. Reload restores the selected breakpoint at its reference width. Invalid or non-finite
-widths are refused without changing the viewport. A project may define its own breakpoints (see project-breakpoints);
+widths are refused without changing the viewport. The frame's right edge drags the width too (`view.resizeViewport`):
+the edge follows the pointer (the frame stays centred, so the width changes by twice the travel over the zoom), clamped
+to 320–7680, the zoom held at the press's while the drag lasts. A project may define its own breakpoints (see project-breakpoints);
 the tabs, the cascade and the media queries then read the project's table.
 
 Read from Pager's source (`reference/Pager`); references are `path:line` inside Pager.
@@ -8619,3 +8621,20 @@ each page's copy as ordinary markup (one CSS class per element, as for any compo
   starts on (`status.breakpoints.usedByMotion`); moving the narrowest one's styles into a narrower one
   (`status.breakpoints.noNarrower`).
 - A breakpoint the project does not have (`status.breakpoints.unknown`).
+
+## side-by-side-view
+
+### Our rule
+
+- Side by side (`view.toggleSideBySide`, the columns button after the frame's tabs and View ▸ Side by side) is a
+  preference, restored after a reload. On, the canvas keeps the frame of the breakpoint being edited and shows, to its
+  right, the project's other breakpoints (up to three, the nearest in width first), each a live page at its own width
+  scaled to its column, named with its name and width.
+- Every change shows at once in every frame, each through its own media queries (a padding set at Tablet shows in
+  Tablet and in every narrower breakpoint that does not set its own); the selection is outlined in each frame.
+- A click on a side frame makes its breakpoint the one the canvas edits (`view.setBreakpoint`); the frame it leaves
+  takes its place among the side frames.
+
+### Refusals
+
+None.

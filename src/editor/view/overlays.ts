@@ -8,7 +8,7 @@ import type { CommandId } from '../../generated/ids.ts';
 import { switched } from '../preferences/said.ts';
 import type { EditorUi } from '../state.ts';
 
-type Switch = 'outlines' | 'zones' | 'rulersHidden' | 'guidesHidden' | 'smartGuidesOff' | 'equalSpacingOff';
+type Switch = 'outlines' | 'zones' | 'rulersHidden' | 'guidesHidden' | 'smartGuidesOff' | 'equalSpacingOff' | 'sideBySide';
 
 function flipped(ui: EditorUi, which: Switch): EditorUi {
   const { [which]: on, ...rest } = ui.preferences;
@@ -60,4 +60,12 @@ export const toggleEqualSpacing: RegisteredHandler<'view.toggleEqualSpacing', Ed
   'view.toggleEqualSpacing',
   ({ state }) => flip(state.ui, 'equalSpacingOff', toggleEqualSpacing.command),
   (state) => state.ui.preferences.equalSpacingOff !== true,
+);
+
+// The breakpoints side by side (spec side-by-side-view): the other breakpoints' frames next to the one edited. Off by
+// default; the switch stands for them being shown.
+export const toggleSideBySide: RegisteredHandler<'view.toggleSideBySide', EditorUi> = registerHandler(
+  'view.toggleSideBySide',
+  ({ state }) => flip(state.ui, 'sideBySide', toggleSideBySide.command),
+  (state) => state.ui.preferences.sideBySide === true,
 );

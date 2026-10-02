@@ -73,6 +73,8 @@ export interface Preferences {
   // the rulers and the manual guides hidden (view.toggleRulers, guides.toggleVisible; src/editor/view/overlays.ts); absent
   // while they show
   readonly rulersHidden?: true | undefined;
+  // the other breakpoints shown next to the frame (view.toggleSideBySide; src/editor/shell/side-by-side.tsx); absent while off
+  readonly sideBySide?: true | undefined;
   readonly guidesHidden?: true | undefined;
   // snapping on (snap.setEnabled), and the targets and distance Snap settings kept (snap.setSettings;
   // src/editor/view/snap.ts); absent while off, and while the settings are the defaults
@@ -181,6 +183,7 @@ export function loadPreferences(storage: PreferenceStorage): Preferences {
       ...(stored.outlines === true ? { outlines: true as const } : {}),
       ...(stored.zones === true ? { zones: true as const } : {}),
       ...(stored.rulersHidden === true ? { rulersHidden: true as const } : {}),
+      ...(stored.sideBySide === true ? { sideBySide: true as const } : {}),
       ...(stored.guidesHidden === true ? { guidesHidden: true as const } : {}),
       ...(stored.snap === true ? { snap: true as const } : {}),
       ...(snapSettings !== undefined ? { snapSettings } : {}),

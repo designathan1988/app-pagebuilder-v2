@@ -320,6 +320,8 @@ export const COMMAND_IDS = [
   "snap.setSettings",
   "workspace.openDialog",
   "view.setViewportWidth",
+  "view.resizeViewport",
+  "view.toggleSideBySide",
   "workspace.setPanelOpen",
   "workspace.toggleLeftDock",
   "workspace.toggleInspector",
@@ -1492,6 +1494,7 @@ export const DOOR_IDS = [
   "view.setBreakpoint#toolbar-preview-bar-tablet",
   "view.setBreakpoint#toolbar-preview-bar-phone",
   "view.setBreakpoint#toolbar-preview-bar-project",
+  "view.setBreakpoint#side-by-side-frame",
   "view.setEditorView#toolbar-canvas-toolbar-canvas",
   "view.setEditorView#toolbar-canvas-toolbar-split",
   "view.setEditorView#toolbar-canvas-toolbar-code",
@@ -1557,6 +1560,9 @@ export const DOOR_IDS = [
   "workspace.openDialog#menu-view-breakpoints",
   "workspace.openDialog#toolbar-breakpoints-manage",
   "view.setViewportWidth#viewport-width",
+  "view.resizeViewport#panel-drag-frame-edge",
+  "view.toggleSideBySide#toolbar-breakpoints-side-by-side",
+  "view.toggleSideBySide#menu-view-side-by-side",
   "workspace.setPanelOpen#menu-view-elements",
   "workspace.setPanelOpen#menu-view-layers",
   "workspace.setPanelOpen#menu-view-inspector",
@@ -2396,6 +2402,7 @@ export const FEATURE_IDS = [
   "data-pages",
   "shared-regions",
   "project-breakpoints",
+  "side-by-side-view",
 ] as const;
 export type FeatureId = (typeof FEATURE_IDS)[number];
 
@@ -2416,6 +2423,7 @@ export const REGION_IDS = [
   "canvas-frame",
   "canvas-stage",
   "canvas-breakpoints",
+  "canvas-side-by-side",
   "quick-panel",
   "text-toolbar",
   "code-view",
@@ -2754,6 +2762,7 @@ export const GESTURE_IDS = [
   "wheel",
   "space-pan",
   "splitter-drag",
+  "frame-resize",
   "panel-drag",
   "keyframe-drag",
   "playhead-drag",
@@ -6153,5 +6162,10 @@ export const MESSAGE_IDS = [
   "breakpoints.removeInto",
   "breakpoints.removeDiscard",
   "breakpoints.removeMenu",
+  "command.resizeViewport",
+  "command.toggleSideBySide",
+  "sideBySide.edit",
+  "sideBySide.label",
+  "feature.sideBySideView",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

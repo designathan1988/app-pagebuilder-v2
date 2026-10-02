@@ -86,6 +86,8 @@ export const CLASSES_STYLE_ATTRIBUTE = 'data-classes-style';
 export const FONTS_STYLE_ATTRIBUTE = 'data-fonts-style';
 // the stylesheet of the state the editor previews on the selection (previewState)
 export const PREVIEW_STYLE_ATTRIBUTE = 'data-preview-style';
+// the outline of the selection in a side frame (spec side-by-side-view)
+export const OUTLINE_STYLE_ATTRIBUTE = 'data-outline-style';
 // The animations' @keyframes of the page the canvas shows (group 18): the canvas writes them so the timeline can play
 // an animation at the playhead; the animation properties themselves are drawn only while the timeline previews one
 // (previewTimeline), so the editing canvas never runs an animation on its own.
@@ -262,6 +264,18 @@ export class PageRenderer {
       const element = this.elements.get(id);
       if (node && element) this.dress(element, node);
     }
+  }
+
+  // Editor-only (spec side-by-side-view): the selected elements outlined in a colour, in a page that draws no canvas
+  // chrome over it (a side frame); one stylesheet, the last of the page's, emptied with no selection.
+  outline(selection: readonly NodeId[], color: string): void {
+    let sheet = this.target.head.querySelector<HTMLStyleElement>(`style[${OUTLINE_STYLE_ATTRIBUTE}]`);
+    if (sheet === null) {
+      sheet = this.target.createElement('style');
+      sheet.setAttribute(OUTLINE_STYLE_ATTRIBUTE, '');
+      this.target.head.append(sheet);
+    }
+    sheet.textContent = selection.map((id) => `${nodeSelector(id)}{outline:2px solid ${color};outline-offset:-1px}`).join('\n');
   }
 
   // Editor-only (spec state-styles): the selected elements drawn as if a state held, while a state other than Base is

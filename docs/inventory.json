@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 203,
-    "built": 202,
-    "commands": 354,
-    "doors": 1300,
-    "scenarios": 1700,
-    "modules": 390,
-    "lines": 72099
+    "features": 204,
+    "built": 203,
+    "commands": 356,
+    "doors": 1304,
+    "scenarios": 1703,
+    "modules": 393,
+    "lines": 72314
   },
   "features": [
     {
@@ -1923,14 +1923,16 @@
         "view.setBreakpoint",
         "grid.toggleFolds",
         "page.setSetting",
-        "view.setViewportWidth"
+        "view.setViewportWidth",
+        "view.resizeViewport"
       ],
-      "doors": 21,
-      "scenarios": 11,
+      "doors": 23,
+      "scenarios": 12,
       "modules": [
         "src/core/page/grid.ts",
         "src/core/page/settings.ts",
-        "src/editor/view/breakpoints.ts"
+        "src/editor/view/breakpoints.ts",
+        "src/editor/view/frame-edge.ts"
       ]
     },
     {
@@ -1941,7 +1943,7 @@
         "style.reset",
         "view.setBreakpoint"
       ],
-      "doors": 181,
+      "doors": 182,
       "scenarios": 5,
       "modules": [
         "src/core/style/reset.ts",
@@ -1957,7 +1959,7 @@
         "view.setBreakpoint",
         "view.setStyleState"
       ],
-      "doors": 195,
+      "doors": 196,
       "scenarios": 16,
       "modules": [
         "src/core/style/set.ts",
@@ -1974,7 +1976,7 @@
         "view.exitPreview",
         "project.export"
       ],
-      "doors": 21,
+      "doors": 22,
       "scenarios": 11,
       "modules": [
         "src/core/export/export.ts",
@@ -2227,7 +2229,7 @@
         "view.setBreakpoint",
         "view.setStyleState"
       ],
-      "doors": 31,
+      "doors": 32,
       "scenarios": 2,
       "modules": [
         "src/core/selection/selection.ts",
@@ -3092,19 +3094,33 @@
         "view.setBreakpoint",
         "view.setViewportWidth"
       ],
-      "doors": 20,
+      "doors": 21,
       "scenarios": 13,
       "modules": [
         "src/editor/view/breakpoint-table.ts",
         "src/editor/view/breakpoints.ts",
         "src/editor/workspace/dialogs.ts"
       ]
+    },
+    {
+      "id": "side-by-side-view",
+      "built": true,
+      "commands": [
+        "view.toggleSideBySide",
+        "view.setBreakpoint"
+      ],
+      "doors": 13,
+      "scenarios": 2,
+      "modules": [
+        "src/editor/view/breakpoints.ts",
+        "src/editor/view/overlays.ts"
+      ]
     }
   ],
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 487,
+      "lines": 490,
       "commands": [],
       "features": []
     },
@@ -3116,7 +3132,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 244,
+      "lines": 245,
       "commands": [],
       "features": []
     },
@@ -4129,7 +4145,7 @@
     },
     {
       "path": "src/core/render/render.ts",
-      "lines": 804,
+      "lines": 818,
       "commands": [],
       "features": []
     },
@@ -4826,6 +4842,12 @@
       "features": []
     },
     {
+      "path": "src/editor/canvas/side-frame.tsx",
+      "lines": 86,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/editor/canvas/snap-lines.tsx",
       "lines": 108,
       "commands": [],
@@ -5136,7 +5158,7 @@
     },
     {
       "path": "src/editor/input/pointer.ts",
-      "lines": 2080,
+      "lines": 2083,
       "commands": [],
       "features": []
     },
@@ -5546,7 +5568,7 @@
     },
     {
       "path": "src/editor/preferences/preferences.ts",
-      "lines": 243,
+      "lines": 246,
       "commands": [
         "preferences.setLanguage",
         "preferences.setTheme"
@@ -5616,7 +5638,7 @@
     },
     {
       "path": "src/editor/shell/canvas.tsx",
-      "lines": 272,
+      "lines": 286,
       "commands": [],
       "features": []
     },
@@ -5819,6 +5841,12 @@
       "features": []
     },
     {
+      "path": "src/editor/shell/side-by-side.tsx",
+      "lines": 41,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/editor/shell/sidebar.tsx",
       "lines": 1115,
       "commands": [],
@@ -5936,7 +5964,7 @@
     },
     {
       "path": "src/editor/view/breakpoints.ts",
-      "lines": 60,
+      "lines": 68,
       "commands": [
         "view.setViewportWidth",
         "view.setBreakpoint"
@@ -5946,6 +5974,7 @@
         "breakpoints-switch",
         "preview-mode",
         "project-breakpoints",
+        "side-by-side-view",
         "state-styles",
         "status-bar"
       ]
@@ -5979,18 +6008,30 @@
       ]
     },
     {
+      "path": "src/editor/view/frame-edge.ts",
+      "lines": 17,
+      "commands": [
+        "view.resizeViewport"
+      ],
+      "features": [
+        "breakpoints-switch"
+      ]
+    },
+    {
       "path": "src/editor/view/overlays.ts",
-      "lines": 64,
+      "lines": 72,
       "commands": [
         "view.toggleOutlines",
         "view.toggleZones",
         "view.toggleRulers",
         "guides.toggleVisible",
         "view.toggleSmartGuides",
-        "view.toggleEqualSpacing"
+        "view.toggleEqualSpacing",
+        "view.toggleSideBySide"
       ],
       "features": [
         "canvas-outlines-zones",
+        "side-by-side-view",
         "smart-guides",
         "workspace-settings-dialog"
       ]
@@ -6128,13 +6169,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 605,
+      "lines": 608,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6158,
+      "lines": 6172,
       "commands": [],
       "features": []
     },

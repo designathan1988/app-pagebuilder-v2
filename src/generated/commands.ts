@@ -354,6 +354,8 @@ export interface CommandArgs {
   "snap.setSettings": { readonly targets: JsonValue; readonly distance: number };
   "workspace.openDialog": { readonly dialog: "guides-grids" | "snap-settings" | "breakpoints" };
   "view.setViewportWidth": { readonly width: number };
+  "view.resizeViewport": { readonly size?: number; readonly distance: number };
+  "view.toggleSideBySide": Record<string, never>;
   "workspace.setPanelOpen": { readonly panel: "elements" | "layers" | "inspector" | "explorer" | "timeline" | "motion" | "variables" | "checks" | "workbench" | "shortcuts" | "document" | "canvas-tools" | "assistant" | "layout-composer" | "data"; readonly open: "open" | "close" | "toggle"; readonly focus?: boolean };
   "workspace.toggleLeftDock": Record<string, never>;
   "workspace.toggleInspector": Record<string, never>;
@@ -532,7 +534,7 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "snap-while-moving": ["geometry.resize","position.move","guides.create","snap.setEnabled"],
   "smart-guides": ["position.move","view.toggleSmartGuides","view.toggleEqualSpacing"],
   "hover-measure": [],
-  "breakpoints-switch": ["view.setBreakpoint","grid.toggleFolds","page.setSetting","view.setViewportWidth"],
+  "breakpoints-switch": ["view.setBreakpoint","grid.toggleFolds","page.setSetting","view.setViewportWidth","view.resizeViewport"],
   "breakpoint-overrides": ["style.set","style.reset","view.setBreakpoint"],
   "state-styles": ["style.set","view.setBreakpoint","view.setStyleState"],
   "preview-mode": ["view.setBreakpoint","view.enterPreview","view.exitPreview","project.export"],
@@ -601,4 +603,5 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "data-pages": ["pages.fromNames","pages.fromCollection","pages.duplicate","workspace.setPanelOpen"],
   "shared-regions": ["regions.share","regions.detach","regions.stopSharing","text.set","pages.add","workspace.setPanelOpen"],
   "project-breakpoints": ["breakpoints.add","breakpoints.rename","breakpoints.setWidth","breakpoints.remove","workspace.openDialog","view.setBreakpoint","view.setViewportWidth"],
+  "side-by-side-view": ["view.toggleSideBySide","view.setBreakpoint"],
 };

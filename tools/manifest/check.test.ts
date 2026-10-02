@@ -14,7 +14,7 @@ describe('manifest:check', () => {
     expect(loaded.problems).toEqual([]);
     const result = checkManifest(loaded.input);
     expect(result.problems).toEqual([]);
-    expect(result.summary?.features).toBe(203);
+    expect(result.summary?.features).toBe(204);
   });
 
   it('has a planted fixture for every rule', () => {
@@ -171,7 +171,7 @@ describe('manifest:check', () => {
   it('refuses a state menu that opens from the canvas frame', { timeout: 30_000 }, () => {
     const rules = mutated((m) => {
       const menus = (m.files['layout.json'] as Json).menus as Json[];
-      (menus.find((x) => x.id === 'style-state') as Json).anchors = [{ region: 'canvas-breakpoints', order: 8, drawnAs: 'button', icon: null }];
+      (menus.find((x) => x.id === 'style-state') as Json).anchors = [{ region: 'canvas-breakpoints', order: 9, drawnAs: 'button', icon: null }];
     });
     expect([...rules]).toEqual(['state-placement']);
   });

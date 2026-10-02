@@ -97,9 +97,10 @@ import { cancelRename, startRename } from '../editor/layers/rename.ts';
 import { collapseAll, collapseOrFocusParent, expandAll, expandOrFocusChild, search, setExpanded, setRowDetails } from '../editor/layers/tree.ts';
 import { pan, zoomAt, zoomFit, zoomIn, zoomOut, zoomReset, zoomToLevel } from '../editor/view/camera.ts';
 import { resizeCommand } from '../core/geometry/resize.ts';
-import { toggleEqualSpacing, toggleGuidesVisible, toggleOutlines, toggleRulers, toggleSmartGuides, toggleZones } from '../editor/view/overlays.ts';
+import { toggleEqualSpacing, toggleGuidesVisible, toggleOutlines, toggleRulers, toggleSmartGuides, toggleZones, toggleSideBySide } from '../editor/view/overlays.ts';
 import { openDialog } from '../editor/workspace/dialogs.ts';
 import { setBreakpoint, setViewportWidth } from '../editor/view/breakpoints.ts';
+import { resizeViewport } from '../editor/view/frame-edge.ts';
 import { addBreakpoint, removeBreakpoint, renameBreakpoint, setBreakpointWidth } from '../editor/view/breakpoint-table.ts';
 import { setStyleState } from '../editor/view/style-state.ts';
 import { enterPreview, exitPreview } from '../editor/view/preview.ts';
@@ -420,6 +421,8 @@ export const COMMANDS = {
   'view.pan': pan,
   'view.setBreakpoint': setBreakpoint,
   'view.setViewportWidth': setViewportWidth,
+  'view.resizeViewport': resizeViewport,
+  'view.toggleSideBySide': toggleSideBySide,
   'breakpoints.add': addBreakpoint,
   'breakpoints.rename': renameBreakpoint,
   'breakpoints.setWidth': setBreakpointWidth,

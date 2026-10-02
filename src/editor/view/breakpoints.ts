@@ -4,7 +4,7 @@
 // the chosen one is not the project's. The frame's tabs switch it (view.setBreakpoint); the page inside the frame takes
 // its width, and style writes go to its layer (the store's `layer`, with the style state of style-state.ts). The tabs,
 // the canvas's width and the export's media queries all read the one table.
-import { message, registerHandler } from '../../core/commands/registry.ts';
+import { message, registerHandler, type Outcome } from '../../core/commands/registry.ts';
 import { baseBreakpointOf, breakpointAtWidth, breakpointById, breakpointWords, DEFAULT_BREAKPOINTS, MAX_BREAKPOINT_WIDTH, type ProjectBreakpoint, type Tabled } from '../../core/document/breakpoints.ts';
 import type { EditorUi } from '../state.ts';
 
@@ -33,11 +33,19 @@ export function choosing(ui: EditorUi, chosen: Breakpoint): EditorUi['preference
   return chosen.base ? rest : { ...rest, breakpoint: chosen.id };
 }
 
+// the narrowest screen the canvas shows
+export const MIN_VIEWPORT_WIDTH = 320;
+
+// The canvas showing a screen of this width (a whole number from 320 to 7680): the breakpoint that holds it is the one
+// the fields edit
+export function showingWidth(state: Shown, width: number): Outcome<EditorUi> {
+  const chosen = breakpointAtWidth(state.document, width);
+  return { kind: 'change', ui: { ...state.ui, viewportWidth: width, preferences: choosing(state.ui, chosen) }, message: message('status.viewport.set', { width, breakpoint: breakpointWords(chosen) }) };
+}
+
 export const setViewportWidth = registerHandler<'view.setViewportWidth', EditorUi>('view.setViewportWidth', ({ state }, { width }) => {
-  if (!Number.isFinite(width) || width < 320 || width > MAX_BREAKPOINT_WIDTH) return { kind: 'refused', message: message('status.viewport.invalid') };
-  const rounded = Math.round(width);
-  const chosen = breakpointAtWidth(state.document, rounded);
-  return { kind: 'change', ui: { ...state.ui, viewportWidth: rounded, preferences: choosing(state.ui, chosen) }, message: message('status.viewport.set', { width: rounded, breakpoint: breakpointWords(chosen) }) };
+  if (!Number.isFinite(width) || width < MIN_VIEWPORT_WIDTH || width > MAX_BREAKPOINT_WIDTH) return { kind: 'refused', message: message('status.viewport.invalid') };
+  return showingWidth(state, Math.round(width));
 });
 
 // a stored breakpoint: an id (whether the open project has it is read when it is shown); undefined otherwise (the base)

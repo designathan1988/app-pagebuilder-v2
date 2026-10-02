@@ -3228,5 +3228,10 @@
   "status.breakpoints.noNarrower": "{name} é o breakpoint mais estreito: seus estilos podem ir para um mais largo ou sair.",
   "breakpoints.removeInto": "Mover seus estilos para {name} e remover",
   "breakpoints.removeDiscard": "Remover com seus estilos",
-  "breakpoints.removeMenu": "Remover {name}"
+  "breakpoints.removeMenu": "Remover {name}",
+  "command.resizeViewport": "Arraste a borda do quadro para mudar a largura",
+  "command.toggleSideBySide": "Lado a lado",
+  "sideBySide.edit": "Editar neste breakpoint",
+  "sideBySide.label": "Os outros breakpoints, lado a lado",
+  "feature.sideBySideView": "Breakpoints lado a lado"
 }

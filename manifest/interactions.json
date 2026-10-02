@@ -1780,6 +1780,11 @@
       "modifiers": []
     },
     {
+      "id": "frame-resize",
+      "source": "spec/BEHAVIOUR.md#breakpoints-switch",
+      "modifiers": []
+    },
+    {
       "id": "panel-drag",
       "source": "spec/BEHAVIOUR.md#floating-panels",
       "modifiers": []

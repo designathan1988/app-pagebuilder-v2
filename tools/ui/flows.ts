@@ -144,6 +144,21 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'side-by-side',
+    about: 'stage 2: the other breakpoints next to the frame, the selection outlined in each, a side frame clicked to edit there',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/responsive-title.json'] } },
+      { door: 'view.toggleSideBySide#toolbar-breakpoints-side-by-side' },
+      { expect: { message: 'Side by side: on.' } },
+      { door: 'selection.select#layers-row', labelled: 'Title' },
+      { photo: 'three-side-frames' },
+      { click: `[data-door="view.setBreakpoint#side-by-side-frame"][data-args*='"phone"']` },
+      { expect: { message: 'Editing the Phone breakpoint.' } },
+      { photo: 'phone-edited' },
+    ],
+  },
+  {
     name: 'data-c3',
     about: 'jornada03 C3/H13: the header shared with every page, its menu changed once',
     steps: [

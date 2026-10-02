@@ -18,6 +18,7 @@ import { activeBreakpoint, viewportWidth } from '../view/breakpoints.ts';
 import { activeState } from '../view/style-state.ts';
 import { editorView } from '../view/editor-view.ts';
 import { CodePane } from './code-pane.tsx';
+import { SideBySide } from './side-by-side.tsx';
 import { breakpointTabSlot } from './breakpoint-tabs.tsx';
 import { breakpointName } from '../../core/document/breakpoints.ts';
 import { drag, panState } from '../input/pointer.ts';
@@ -153,6 +154,17 @@ function ViewportWidth({ entry }: { readonly entry: DoorEntry }) {
   );
 }
 
+// the frame's edge: dragged, the screen the canvas shows follows the pointer (view/frame-edge.ts)
+const FRAME_EDGE = manifest.doors.find((d) => d.door.kind === 'panel-drag' && d.door.source === 'frame-edge');
+
+// The right edge of the frame (spec breakpoints-switch): a separator the pointer drags (the pointer owner runs it, as
+// it runs the splitters); the width field and its range stay the keyboard's way to the same width.
+function FrameEdge({ width }: { readonly width: number }) {
+  const t = useT();
+  if (FRAME_EDGE === undefined) return null;
+  return <div className="frame__edge" role="separator" aria-orientation="vertical" aria-label={t('command.resizeViewport')} title={t('command.resizeViewport')} aria-valuenow={width} data-door={FRAME_EDGE.ref} />;
+}
+
 function BreakpointTabs() {
   const t = useT();
   return (
@@ -252,6 +264,7 @@ export function CanvasColumn() {
                     <BreakpointTabs />
                     <StateBadge />
                     <CanvasFrame width={pageWidth} screen={pageHeight} zoom={zoom} />
+                    <FrameEdge width={pageWidth} />
                   </div>
                   {/* the quick panel of the selection, over the stage (canvas/quick-panel.tsx) */}
                   <QuickPanel stage={stage} />
@@ -261,6 +274,7 @@ export function CanvasColumn() {
               </div>
             </div>
           )}
+          {view === 'code' ? null : <SideBySide />}
           {view === 'canvas' ? null : <CodePane />}
         </div>
       </main>

@@ -424,6 +424,62 @@
   flex-direction: column;
 }
 
+/* The breakpoints side by side (side-by-side.tsx, spec side-by-side-view): a column per other breakpoint to the right
+   of the stage, each its name over its live page scaled to the column */
+.side-by-side {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-left: 1px solid var(--color-border);
+  background: var(--color-surface-sunken);
+}
+
+.side-frame {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  gap: var(--space-2);
+}
+
+.side-frame__head {
+  align-self: flex-start;
+}
+
+.side-frame__body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-canvas);
+  cursor: pointer;
+}
+
+.side-frame__page {
+  display: block;
+  border: 0;
+  pointer-events: none;
+}
+
+/* The frame's right edge (canvas.tsx FrameEdge, spec breakpoints-switch): a band over the edge the pointer drags to
+   change the width of the screen shown */
+.frame__edge {
+  position: absolute;
+  top: var(--size-frame-tabs);
+  right: calc(var(--space-3) * -1);
+  bottom: 0;
+  width: var(--space-6);
+  z-index: 1;
+  cursor: ew-resize;
+}
+
+.frame__edge:hover {
+  background: linear-gradient(to right, transparent 45%, var(--color-accent) 45%, var(--color-accent) 55%, transparent 55%);
+}
+
 /* The breakpoints: a row of tabs attached to the top of the frame (the owner's decision D-1), as wide as its tabs need —
    at a small zoom it runs past the frame's right edge, never cut nor overlapping (the audit's A3.18) */
 .frame-tabs {

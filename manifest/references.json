@@ -2339,6 +2339,16 @@
       "kind": "handler",
       "id": "breakpoints.remove",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "view.resizeViewport",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "view.toggleSideBySide",
+      "status": "registered"
     }
   ]
 }
