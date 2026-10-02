@@ -1,3 +1,4 @@
+import { setAssistantModel, setAssistantPreferences, attachAssistantReference, clearAssistantReference, editAssistantKey, sendAssistant, cancelAssistant, connectAssistant, disconnectAssistant, saveAssistantKey, deleteAssistantKey, selectAssistantSession, clearAssistantConversation, reportAssistant } from '../editor/assistant/state.ts';
 // The command table: the one map from every command of the manifest to its handler, or to NOT_AVAILABLE_YET while
 // its feature is not built (its doors are drawn disabled with "not available yet"). CommandTable has a key for every
 // CommandId (src/generated/ids.ts), so a missing or an extra entry, or a handler under another command's key, is a
@@ -128,6 +129,20 @@ const INTERACTIONS_UPDATE = updateInteractionCommand<EditorUi>({ makePicking, ma
 const SWITCH_PAGE = switchPageCommand<EditorUi>();
 
 export const COMMANDS = {
+  'assistant.setModel': setAssistantModel,
+  'assistant.setPreferences': setAssistantPreferences,
+  'assistant.attachReference': attachAssistantReference,
+  'assistant.clearReference': clearAssistantReference,
+  'assistant.editKey': editAssistantKey,
+  'assistant.send': sendAssistant,
+  'assistant.cancel': cancelAssistant,
+  'assistant.connect': connectAssistant,
+  'assistant.disconnect': disconnectAssistant,
+  'assistant.saveKey': saveAssistantKey,
+  'assistant.deleteKey': deleteAssistantKey,
+  'assistant.selectSession': selectAssistantSession,
+  'assistant.clearConversation': clearAssistantConversation,
+  'assistant.update': reportAssistant,
   'animation.create': createAnimationCommand,
   'animation.rename': renameAnimationCommand,
   'animation.delete': deleteAnimationCommand,

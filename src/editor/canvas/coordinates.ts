@@ -507,3 +507,7 @@ export function registerFrame(iframe: HTMLIFrameElement | null): () => void {
 export function canvasFrame(): HTMLIFrameElement | null {
   return current;
 }
+
+export function canvasDocument(): Document | null {
+  return current?.contentDocument ?? null;
+}

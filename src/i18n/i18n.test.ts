@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { DEFAULT_LOCALE, LOCALES, MESSAGE_IDS, type MessageId } from '../generated/ids.ts';
-import { formatMessage, isLocale, pluralForm, translate, translator, type Locale, type MessageParams } from './index.ts';
+import { describeText, formatMessage, isLocale, pluralForm, translate, translator, type Locale, type MessageParams } from './index.ts';
 import en from './locales/en.json';
 import ptBR from './locales/pt-BR.json';
 
@@ -105,5 +105,14 @@ describe('the i18n runtime', () => {
     expect(isLocale('pt-BR')).toBe(true);
     expect(isLocale('pt')).toBe(false);
     expect(isLocale(undefined)).toBe(false);
+  });
+});
+
+describe('describeText', () => {
+  it('names each placeholder instead of refusing a text that takes values', () => {
+    expect(describeText('en', 'command.components.insertInstance')).toBe('Place <component>');
+  });
+  it('describes every text of every locale', () => {
+    for (const locale of LOCALES) for (const key of MESSAGE_IDS) expect(() => describeText(locale, key)).not.toThrow();
   });
 });

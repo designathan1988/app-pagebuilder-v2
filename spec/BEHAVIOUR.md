@@ -8155,6 +8155,8 @@ The primary metric is the event timestamp to the second animation frame on that 
 
 ## forms-masks-validation
 
+Form configuration remains independent of assistant credentials and conversation state.
+
 Settings exposes masks and validation on input, textarea and select elements, and submission on forms. Every confirmed edit uses element.setAttribute, stores validated JSON in formField or formSubmit, and creates one undo transaction. Invalid grammars, ranges, destinations and regular expressions refuse before patches; project loading validates the same schema. Trial text and message-language selection do not modify the document.
 
 Text masks require a text-compatible input or textarea. For numeric, calendar or other native input controls, Settings offers the existing change-to-text action while keeping validation available. Switching a masked input to an incompatible type refuses until the mask is removed, so no formatting or validation configuration is silently lost.
@@ -8166,3 +8168,13 @@ Validation includes required, type, pattern, length, number bounds and step, cro
 Submission supports the form's native action or a configured endpoint, email service or webhook with GET or POST and form or JSON encoding. It preserves repeated field names and the submitter, optionally sends raw masked values, blocks concurrent submissions and supports honeypots, result elements, retry and redirects. Optional postal lookup maps provider response keys to named fields, cancels stale requests and never enables itself. Credentials stay with the user's service.
 
 Only configured pages link the generated js/forms.js; the path is reserved against uploaded-file collisions. Preview runs exactly that runtime. The editing canvas never installs validation or submission handlers. Export obtains browser script text through the composition port; core code has no DOM dependency.
+
+## assistant-chat
+
+The Assistant sidebar uses the actual manifest command catalogue for chat and authenticated local MCP tools. Model preferences persist; changing model starts a new conversation. The default is claude-opus-5-5. Service keys are encrypted in a separate IndexedDB vault and never enter document JSON, autosave, exported files or command arguments. Connection tokens stay transient and are read from the local Companion connection file.
+
+Companion listens on IPv4 loopback, verifies exact browser origins and session tokens, and keeps standard output exclusively for MCP JSON-RPC. The person explicitly selects the editor session external tools may use. Disconnects, cancellations and invalid tool arguments fail visibly. The browser provider stream goes through the authenticated local proxy; no unsafe direct-browser API header is used.
+
+A chat turn reserves the existing store's command group before waiting for credentials or the provider. Tool edits use actual validated handlers, including per-dispatch attribute commands, and commit as one undo entry. Cancellation, failure or a refused edit restores document, selection and history. Unrelated document/history/load mutations cannot enter the active group. Provisional states are not autosaved. Existing pointer and keyboard transaction contracts remain unchanged.
+
+The person may attach a PNG/JPEG/WebP/GIF reference up to 5 MB. Read tools return document/selection/revision or the canvas image, never editor preferences or credentials. The assistant cannot run its own credential/settings commands. Imported page text and image contents are untrusted task data. Confirmation requirements are never automatically accepted. Streaming replies and tool results render as text. The person can stop a turn or start a new conversation.

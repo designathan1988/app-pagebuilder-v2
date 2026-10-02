@@ -20,7 +20,8 @@
             "workbench",
             "shortcuts",
             "document",
-            "canvas-tools"
+            "canvas-tools",
+            "assistant"
           ],
           "optional": false
         },
@@ -554,6 +555,31 @@
           "args": {
             "panel": "checks",
             "open": "toggle"
+          }
+        },
+        {
+          "id": "toolbar-activity-bar-assistant",
+          "kind": "toolbar",
+          "drawnAs": "icon-button",
+          "pressed": true,
+          "feature": "assistant-chat",
+          "labelKey": "panel.assistant",
+          "faceLabelKey": null,
+          "icon": "sparkles",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "activity-bar",
+            "order": 20
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "panel": "assistant",
+            "open": "open"
           }
         }
       ]

@@ -1,0 +1,45 @@
+{
+  "group": "assistant",
+  "titleKey": "featureGroup.assistant",
+  "features": [
+    {
+      "id": "assistant-chat",
+      "titleKey": "feature.assistant",
+      "commands": [
+        "assistant.setModel",
+        "assistant.setPreferences",
+        "assistant.attachReference",
+        "assistant.clearReference",
+        "assistant.editKey",
+        "assistant.send",
+        "assistant.cancel",
+        "assistant.connect",
+        "assistant.disconnect",
+        "assistant.saveKey",
+        "assistant.deleteKey",
+        "assistant.selectSession",
+        "assistant.clearConversation",
+        "assistant.update",
+        "workspace.setPanelOpen"
+      ],
+      "dependsOn": [
+        "dock-toggles"
+      ],
+      "spec": "spec/BEHAVIOUR.md#assistant-chat",
+      "intent": {
+        "title": "Use a locally paired assistant through the real command catalogue",
+        "steps": [
+          "Open Assistant and configure the model and encrypted service key.",
+          "Pair Companion, select this editor session and send text or a reference image.",
+          "Observe streamed results, cancel or undo the complete turn."
+        ],
+        "expected": [
+          "Every document edit uses the real validated commands and one grouped undo entry.",
+          "Keys stay outside project state and exports.",
+          "MCP tools target only the explicitly selected editor, with authenticated local transport."
+        ]
+      },
+      "scenarios": []
+    }
+  ]
+}

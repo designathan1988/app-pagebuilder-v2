@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
+    "companion": "node --experimental-strip-types companion/main.mjs",
     "build": "vite build",
     "build:proofs": "vite build --config vite.proofs.config.ts",
     "preview": "vite preview",
@@ -30,8 +31,10 @@
     "journey:check": "node --test tools/journey/*.test.mjs"
   },
   "dependencies": {
+    "html-to-image": "1.11.13",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
+    "ws": "8.21.3",
     "zod": "^4.6.5"
   },
   "devDependencies": {

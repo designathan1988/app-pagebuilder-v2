@@ -51,6 +51,12 @@ export function translate(locale: Locale, key: MessageId, params: MessageParams 
   return formatMessage(text, params);
 }
 
+// The text of a key in a locale with each placeholder shown by its name ("Place <component>"): a description of the
+// text itself, for readers that fill no values (the assistant's tool catalogue).
+export function describeText(locale: Locale, key: MessageId): string {
+  return translate(locale, key, new Proxy({}, { get: (_, name) => `<${String(name)}>`, has: () => true }) as MessageParams);
+}
+
 // Which of a key's plural forms (key.one, key.other) a count takes in a locale, by the locale's plural rules — except
 // zero, which every catalogue writes with the plural ("0 elementos", "0 tracks"): Portuguese's rules file 0 under
 // "one", which read "1 trilha" for a grid with no track.

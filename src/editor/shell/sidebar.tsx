@@ -1,3 +1,4 @@
+import { AssistantPanel } from '../assistant/panel.tsx';
 // The activity bar and the sidebar (DESIGN.md "Regions"): Explorer (Pages, Files, Layers), Insert (the element grid
 // of elements.json's palette) and Styles (classes and variables). Rows and tiles are the doors of their regions, one
 // per page, node or palette entry; a section's actions are the region's controls before its first item.
@@ -997,7 +998,7 @@ function ClassNameField({ entry, name }: { readonly entry: DoorEntry; readonly n
 
 // The body of each sidebar view the editor draws; a view without one says "not available yet" and the doors that
 // only open it are not available yet (bodies.ts).
-export const SIDEBAR_VIEWS: BodyTable = { explorer: Explorer, elements: Insert, variables: Styles };
+export const SIDEBAR_VIEWS: BodyTable = { assistant: AssistantPanel, explorer: Explorer, elements: Insert, variables: Styles };
 
 // The body of each section that belongs to no view, drawn in the sidebar's stack below the view (bodies.ts)
 export const SIDEBAR_SECTIONS: BodyTable = { layers: LayersSection };

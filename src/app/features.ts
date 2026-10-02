@@ -8,6 +8,7 @@ import { NOT_AVAILABLE_YET, isRegistered, registerFeature, type FeatureTable } f
 import type { FeatureId } from '../generated/ids.ts';
 
 export const FEATURES = {
+  'assistant-chat': registerFeature('assistant-chat'),
   // 01 foundation
   'editor-shell': registerFeature('editor-shell'),
   'canvas-page-iframe': registerFeature('canvas-page-iframe'),

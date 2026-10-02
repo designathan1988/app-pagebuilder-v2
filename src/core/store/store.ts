@@ -98,12 +98,19 @@ export interface CommandSequence {
   cancel(): boolean;
 }
 
+export interface CommandGroup extends Gesture {
+  active(): boolean;
+}
+
 export interface Store<Ui> {
   getState(): StoreState<Ui>;
   dispatch<Id extends CommandId>(id: Id, args: CommandArgs[Id]): DispatchResult;
   gesture(): Gesture;
   sequence(): CommandSequence;
   sequenceOpen(): boolean;
+  // A non-pointer command group accepts every undoable command and holds an exclusive mutation lease.
+  commandGroup(busy: Message): CommandGroup;
+  commandGroupOpen(): boolean;
   // Whether a gesture is open: its changes are drawn, not committed yet (autosave keeps only committed work)
   gestureOpen(): boolean;
   // Whether the command would run now with these arguments: it is built, its availability predicate holds and its
@@ -244,6 +251,7 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
   );
   started = true;
   let open: OpenGesture | null = null;
+  let group: (OpenGesture & { readonly busy: Message; readonly mergeable: string | null }) | null = null;
   let sequence: { readonly before: StoreState<Ui>; readonly mergeable: string | null; readonly inverses: Patch[] } | null = null;
   // the coalescing key of the last dispatch when it recorded an entry that may merge; any other dispatch clears it,
   // so a burst merges only when no other command came in between (spec absolute-nudge)
@@ -314,10 +322,19 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     };
   };
 
-  const run = <Id extends CommandId>(id: Id, args: CommandArgs[Id], gesture: OpenGesture | null, confirmed = false): DispatchResult => {
+  const groupBlocked = (outcome: Outcome<Ui>, external: boolean): boolean => outcome.kind === 'load' || outcome.kind === 'undo' || outcome.kind === 'redo' || outcome.kind === 'confirm' ||
+    (outcome.kind === 'change' && (outcome.download !== undefined || outcome.clipboard !== undefined || outcome.editing !== undefined || (external && ((outcome.patches?.length ?? 0) > 0 || outcome.selection !== undefined))));
+  const busyResult = (): DispatchResult => {
+    const text = group?.busy ?? message('common.notAvailableYet');
+    publish(commit({ ...state, message: text, refused: true }, 'a command group lease'));
+    return { status: 'refused', message: text };
+  };
+
+  const run = <Id extends CommandId>(id: Id, args: CommandArgs[Id], gesture: OpenGesture | null, confirmed = false, ownedGroup: OpenGesture | null = null): DispatchResult => {
     const entry = table[id];
     const command = commands.get(id);
     if (!command) throw new Error(`unknown command ${id}`);
+    if (group !== null && ownedGroup !== group && command.history.undoable) return busyResult();
     const previousMergeable = lastMergeable;
     lastMergeable = null;
     // the manifest's history.transaction: a command recorded once per dispatch never joins a gesture's transaction
@@ -345,6 +362,7 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
       return { status: 'refused', message: failed };
     }
 
+    if (group !== null && groupBlocked(outcome, ownedGroup !== group)) return busyResult();
     // Effects outside state cannot be taken back by a typing guard. History walks and loads also end its scope.
     if (outcome.kind === 'load' || outcome.kind === 'undo' || outcome.kind === 'redo' ||
       (outcome.kind === 'change' && (outcome.download !== undefined || outcome.clipboard !== undefined || outcome.editing !== undefined))) settleSequence();
@@ -395,7 +413,7 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
       gesture.command ??= id;
       gesture.patches.push(...applied.applied);
       gesture.inverses.unshift(...applied.inverses);
-    } else if (documentChanged) {
+    } else if (documentChanged && ownedGroup === null) {
       const { key, within } = coalescing(command, args, before.selection);
       const tx: Transaction = { command: id, patches: applied.applied, inverses: applied.inverses, selectionBefore: before.selection, selectionAfter: selection, at: clock.now(), coalesceKey: key, message: outcome.message ?? null };
       history = record(before.history, tx, key !== null && key === previousMergeable ? within : null);
@@ -422,6 +440,11 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
         publish(committed);
         return { status: 'refused', message: refused };
       }
+      if (documentChanged && ownedGroup !== null) {
+        ownedGroup.command ??= id;
+        ownedGroup.patches.push(...applied.applied);
+        ownedGroup.inverses.unshift(...applied.inverses);
+      }
       if (documentChanged) sequence?.inverses.unshift(...applied.inverses);
       publish(committed, documentChanged ? applied.applied : []);
     }
@@ -440,10 +463,12 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     const entry = table[id];
     const command = commands.get(id);
     if (!command) throw new Error(`unknown command ${id}`);
+    if (group !== null && command.history.undoable) return group.busy;
     if (!isBuilt(entry)) return message('common.notAvailableYet');
     const predicate = predicates[command.availability.predicate as keyof PredicateTable<Ui>];
     if (predicate && !predicate.test(state, layeredNow(), args)) return predicate.refusal?.(state, layeredNow(), args) ?? message((command.availability.refusalKey ?? 'common.notAvailableYet') as Message['key']);
     const outcome = entry.run(handlerContext(), args);
+    if (group !== null && groupBlocked(outcome, true)) return group.busy;
     return outcome.kind === 'refused' ? outcome.message : null;
   };
 
@@ -451,7 +476,44 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     getState: () => state,
     gestureOpen: () => open !== null,
     sequenceOpen: () => sequence !== null,
+    commandGroupOpen: () => group !== null,
+    commandGroup: (busy) => {
+      if (group !== null) throw new Error('a command group is already open');
+      if (open !== null) throw new Error('a pointer gesture is open');
+      if (sequence !== null) throw new Error('a command sequence is open');
+      if (state.confirmation != null) throw new Error('a confirmation is waiting');
+      const current = { before: state as StoreState<unknown>, busy, mergeable: lastMergeable, command: null as CommandId | null, patches: [] as Patch[], inverses: [] as Patch[] };
+      group = current;
+      const cancel = () => {
+        if (group !== current) return;
+        group = null;
+        lastMergeable = current.mergeable;
+        const before = current.before as StoreState<Ui>;
+        publish(commit({ ...state, document: before.document, selection: before.selection, history: before.history, confirmation: before.confirmation ?? null }, 'a cancelled command group'), current.inverses);
+      };
+      return {
+        active: () => group === current,
+        dispatch: (id, args) => {
+          if (group !== current) throw new Error('this command group is closed');
+          try { const result = run(id, args, null, false, current); if (result.status !== 'done') cancel(); return result; }
+          catch (error) { cancel(); throw error; }
+        },
+        cancel,
+        commit: () => {
+          if (group !== current) throw new Error('this command group is closed');
+          const before = current.before as StoreState<Ui>;
+          try {
+            const tx: Transaction | null = current.command === null || deepEqual(before.document, state.document) ? null : { command: current.command, patches: current.patches, inverses: current.inverses, selectionBefore: before.selection, selectionAfter: state.selection, at: clock.now(), coalesceKey: null, message: state.message !== before.message ? state.message : null };
+            const next = commit({ ...state, history: tx === null ? before.history : record(before.history, tx, null) }, current.command ?? 'a command group');
+            group = null;
+            lastMergeable = null;
+            publish(next);
+          } catch (error) { cancel(); throw error; }
+        },
+      };
+    },
     sequence: () => {
+      if (group !== null) throw new Error('a command group is open');
       if (open) throw new Error('a pointer gesture is open: a command sequence cannot start');
       settleSequence();
       const current = { before: state, mergeable: lastMergeable, inverses: [] as Patch[] };
@@ -480,6 +542,7 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
       return run(id, args, null);
     },
     answer: (confirmed) => {
+      if (group !== null) return busyResult();
       settleSequence();
       const waiting = state.confirmation ?? null;
       if (waiting === null) return { status: 'done', changed: false };
@@ -496,6 +559,7 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
       publish(commit({ ...state, message: text, refused: false }, 'a notice'));
     },
     gesture: () => {
+      if (group !== null) throw new Error('a command group is open');
       if (open) throw new Error('a gesture is already open');
       settleSequence();
       const current: OpenGesture = { before: state as StoreState<unknown>, command: null, patches: [], inverses: [] };

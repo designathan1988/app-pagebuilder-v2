@@ -1,4 +1,5 @@
 import type { PickedFile } from '../generated/commands.ts';
+import type { AssistantState } from './assistant/state.ts';
 // The editor's part of the store state: panel visibility (workspace/panels.ts), the workspace layout
 // (workspace/layout.ts), the preferences (preferences/preferences.ts), the keyboard focus requests (focus/focus.ts),
 // the overlays' dismissals (menus/overlays.ts), the context menu's opening (menus/context-menu.ts), the folded
@@ -30,6 +31,7 @@ import type { EditMode } from './canvas/edit-mode.ts';
 import type { TimelineState } from './timeline/playhead.ts';
 
 export interface EditorUi {
+  readonly assistant?: AssistantState;
   readonly panels: PanelsState;
   readonly layout: LayoutState;
   readonly preferences: Preferences;

@@ -310,6 +310,10 @@
     {
       "id": "forms-settings",
       "area": "right"
+    },
+    {
+      "id": "assistant-panel",
+      "area": "left"
     }
   ],
   "menus": [
@@ -619,6 +623,13 @@
       "icon": "braces",
       "labelKey": "panel.document",
       "place": "dock",
+      "in": null,
+      "open": false
+    },
+    "assistant": {
+      "icon": "sparkles",
+      "labelKey": "panel.assistant",
+      "place": "sidebar",
       "in": null,
       "open": false
     }

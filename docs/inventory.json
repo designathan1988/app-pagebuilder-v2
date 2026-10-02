@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 189,
-    "built": 188,
-    "commands": 264,
-    "doors": 1111,
+    "features": 190,
+    "built": 189,
+    "commands": 278,
+    "doors": 1128,
     "scenarios": 1440,
-    "modules": 276,
-    "lines": 52813
+    "modules": 291,
+    "lines": 53713
   },
   "features": [
     {
@@ -15,7 +15,7 @@
       "commands": [
         "workspace.setPanelOpen"
       ],
-      "doors": 20,
+      "doors": 21,
       "scenarios": 3,
       "modules": [
         "src/editor/workspace/panels.ts"
@@ -36,7 +36,7 @@
         "element.insert",
         "workspace.setPanelOpen"
       ],
-      "doors": 25,
+      "doors": 26,
       "scenarios": 6,
       "modules": [
         "src/core/structure/insert.ts",
@@ -64,7 +64,7 @@
         "layers.setExpanded",
         "workspace.setPanelOpen"
       ],
-      "doors": 28,
+      "doors": 29,
       "scenarios": 5,
       "modules": [
         "src/core/selection/selection.ts",
@@ -507,7 +507,7 @@
         "focus.nextMenu",
         "focus.previousMenu"
       ],
-      "doors": 104,
+      "doors": 105,
       "scenarios": 21,
       "modules": [
         "src/core/clipboard/clipboard.ts",
@@ -1164,7 +1164,7 @@
         "tokens.delete",
         "workspace.setPanelOpen"
       ],
-      "doors": 24,
+      "doors": 25,
       "scenarios": 11,
       "modules": [
         "src/core/design/tokens.ts",
@@ -1760,7 +1760,7 @@
         "view.toggleZones",
         "workspace.setPanelOpen"
       ],
-      "doors": 22,
+      "doors": 23,
       "scenarios": 3,
       "modules": [
         "src/editor/view/overlays.ts",
@@ -2013,7 +2013,7 @@
         "workspace.toggleInspector",
         "workspace.collapseDocks"
       ],
-      "doors": 26,
+      "doors": 27,
       "scenarios": 12,
       "modules": [
         "src/editor/workspace/panels.ts"
@@ -2073,7 +2073,7 @@
         "commandBar.open",
         "components.startCreate"
       ],
-      "doors": 223,
+      "doors": 224,
       "scenarios": 56,
       "modules": [
         "src/core/clipboard/clipboard.ts",
@@ -2140,7 +2140,7 @@
       "commands": [
         "workspace.setPanelOpen"
       ],
-      "doors": 20,
+      "doors": 21,
       "scenarios": 1,
       "modules": [
         "src/editor/workspace/panels.ts"
@@ -2155,7 +2155,7 @@
         "workspace.setWorkbenchState",
         "workspace.setActiveTab"
       ],
-      "doors": 28,
+      "doors": 29,
       "scenarios": 10,
       "modules": [
         "src/editor/workspace/layout.ts",
@@ -2240,7 +2240,7 @@
         "selection.select",
         "workspace.setPanelOpen"
       ],
-      "doors": 26,
+      "doors": 27,
       "scenarios": 1,
       "modules": [
         "src/core/selection/selection.ts",
@@ -2414,7 +2414,7 @@
         "view.setEditorView",
         "codePanel.setPane"
       ],
-      "doors": 27,
+      "doors": 28,
       "scenarios": 5,
       "modules": [
         "src/editor/code-panel/code-panel.ts",
@@ -2481,7 +2481,7 @@
         "animation.delete",
         "timeline.show"
       ],
-      "doors": 24,
+      "doors": 25,
       "scenarios": 3,
       "modules": [
         "src/core/animation/animation.ts",
@@ -2586,7 +2586,7 @@
         "pages.switch",
         "workspace.setPanelOpen"
       ],
-      "doors": 27,
+      "doors": 28,
       "scenarios": 11,
       "modules": [
         "src/core/project/pages.ts",
@@ -2815,12 +2815,39 @@
         "src/core/style/tracks.ts",
         "src/editor/canvas/grid-edit.ts"
       ]
+    },
+    {
+      "id": "assistant-chat",
+      "built": true,
+      "commands": [
+        "assistant.setModel",
+        "assistant.setPreferences",
+        "assistant.attachReference",
+        "assistant.clearReference",
+        "assistant.editKey",
+        "assistant.send",
+        "assistant.cancel",
+        "assistant.connect",
+        "assistant.disconnect",
+        "assistant.saveKey",
+        "assistant.deleteKey",
+        "assistant.selectSession",
+        "assistant.clearConversation",
+        "assistant.update",
+        "workspace.setPanelOpen"
+      ],
+      "doors": 37,
+      "scenarios": 0,
+      "modules": [
+        "src/editor/assistant/state.ts",
+        "src/editor/workspace/panels.ts"
+      ]
     }
   ],
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 399,
+      "lines": 414,
       "commands": [],
       "features": []
     },
@@ -2832,7 +2859,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 227,
+      "lines": 228,
       "commands": [],
       "features": []
     },
@@ -3501,7 +3528,7 @@
     },
     {
       "path": "src/core/ports/ids.ts",
-      "lines": 19,
+      "lines": 24,
       "commands": [],
       "features": []
     },
@@ -3639,7 +3666,7 @@
     },
     {
       "path": "src/core/store/store.ts",
-      "lines": 543,
+      "lines": 607,
       "commands": [],
       "features": []
     },
@@ -4071,6 +4098,107 @@
       "features": []
     },
     {
+      "path": "src/editor/assistant/catalogue.ts",
+      "lines": 41,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/assistant/chat.ts",
+      "lines": 25,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/assistant/client.ts",
+      "lines": 24,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/assistant/controller.ts",
+      "lines": 169,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/assistant/credentials.ts",
+      "lines": 20,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/assistant/editor.ts",
+      "lines": 42,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/assistant/mcp.ts",
+      "lines": 30,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/assistant/panel.tsx",
+      "lines": 82,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/assistant/provider.ts",
+      "lines": 45,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/assistant/proxy-client.ts",
+      "lines": 9,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/assistant/session.ts",
+      "lines": 43,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/assistant/state.ts",
+      "lines": 73,
+      "commands": [
+        "assistant.setPreferences",
+        "assistant.setModel",
+        "assistant.attachReference",
+        "assistant.clearReference",
+        "assistant.editKey",
+        "assistant.send",
+        "assistant.cancel",
+        "assistant.connect",
+        "assistant.disconnect",
+        "assistant.saveKey",
+        "assistant.deleteKey",
+        "assistant.selectSession",
+        "assistant.clearConversation",
+        "assistant.update"
+      ],
+      "features": [
+        "assistant-chat"
+      ]
+    },
+    {
+      "path": "src/editor/assistant/stream.ts",
+      "lines": 19,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/assistant/surface.tsx",
+      "lines": 27,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/editor/canvas/anchor-tabs.tsx",
       "lines": 97,
       "commands": [],
@@ -4090,7 +4218,7 @@
     },
     {
       "path": "src/editor/canvas/coordinates.ts",
-      "lines": 510,
+      "lines": 514,
       "commands": [],
       "features": []
     },
@@ -4181,6 +4309,12 @@
     {
       "path": "src/editor/canvas/rulers.tsx",
       "lines": 90,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/canvas/screenshot.ts",
+      "lines": 45,
       "commands": [],
       "features": []
     },
@@ -4692,7 +4826,7 @@
     },
     {
       "path": "src/editor/preferences/preferences.ts",
-      "lines": 244,
+      "lines": 246,
       "commands": [
         "preferences.setLanguage",
         "preferences.setTheme"
@@ -4954,7 +5088,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1079,
+      "lines": 1080,
       "commands": [],
       "features": []
     },
@@ -5002,7 +5136,7 @@
     },
     {
       "path": "src/editor/state.ts",
-      "lines": 126,
+      "lines": 128,
       "commands": [],
       "features": []
     },
@@ -5209,6 +5343,7 @@
       "features": [
         "accessibility-checks",
         "app-menu",
+        "assistant-chat",
         "canvas-outlines-zones",
         "code-panel-view",
         "command-bar",
@@ -5238,13 +5373,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 501,
+      "lines": 516,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 4909,
+      "lines": 5000,
       "commands": [],
       "features": []
     },
@@ -5256,7 +5391,7 @@
     },
     {
       "path": "src/i18n/index.ts",
-      "lines": 66,
+      "lines": 72,
       "commands": [],
       "features": []
     },

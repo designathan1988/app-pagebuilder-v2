@@ -51,6 +51,20 @@ export interface CommandArgs {
   "timeline.pause": Record<string, never>;
   "timeline.stop": Record<string, never>;
   "timeline.toggleLoop": Record<string, never>;
+  "assistant.setModel": { readonly value: string };
+  "assistant.setPreferences": { readonly open: boolean };
+  "assistant.attachReference": { readonly file: string };
+  "assistant.clearReference": Record<string, never>;
+  "assistant.editKey": { readonly value: string };
+  "assistant.send": Record<string, never>;
+  "assistant.cancel": Record<string, never>;
+  "assistant.connect": Record<string, never>;
+  "assistant.disconnect": Record<string, never>;
+  "assistant.saveKey": Record<string, never>;
+  "assistant.deleteKey": Record<string, never>;
+  "assistant.selectSession": Record<string, never>;
+  "assistant.clearConversation": Record<string, never>;
+  "assistant.update": { readonly value: JsonValue };
   "clipboard.copy": Record<string, never>;
   "clipboard.paste": { readonly clipboard: ClipboardContent };
   "clipboard.cut": Record<string, never>;
@@ -264,7 +278,7 @@ export interface CommandArgs {
   "snap.setSettings": { readonly targets: JsonValue; readonly distance: number };
   "workspace.openDialog": { readonly dialog: "guides-grids" | "snap-settings" };
   "view.setViewportWidth": { readonly width: number };
-  "workspace.setPanelOpen": { readonly panel: "elements" | "layers" | "inspector" | "explorer" | "timeline" | "variables" | "checks" | "workbench" | "shortcuts" | "document" | "canvas-tools"; readonly open: "open" | "close" | "toggle"; readonly focus?: boolean };
+  "workspace.setPanelOpen": { readonly panel: "elements" | "layers" | "inspector" | "explorer" | "timeline" | "variables" | "checks" | "workbench" | "shortcuts" | "document" | "canvas-tools" | "assistant"; readonly open: "open" | "close" | "toggle"; readonly focus?: boolean };
   "workspace.toggleLeftDock": Record<string, never>;
   "workspace.toggleInspector": Record<string, never>;
   "workspace.collapseDocks": Record<string, never>;
@@ -497,4 +511,5 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "shortcuts-e2e-sweep": [],
   "layout-actions": ["element.wrapContainer","element.wrapGrid","element.swapDirection","element.stackOnPhone","element.organize","element.setDivider"],
   "canvas-grid-editor": ["grid.enterEdit","grid.exitEdit","grid.addTrack","grid.removeTrack","grid.spanItem","grid.mergeCells","grid.splitCells","style.setGridTracks"],
+  "assistant-chat": ["assistant.setModel","assistant.setPreferences","assistant.attachReference","assistant.clearReference","assistant.editKey","assistant.send","assistant.cancel","assistant.connect","assistant.disconnect","assistant.saveKey","assistant.deleteKey","assistant.selectSession","assistant.clearConversation","assistant.update","workspace.setPanelOpen"],
 };

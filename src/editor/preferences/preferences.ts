@@ -46,6 +46,7 @@ const THEMES: readonly string[] = commandOf(setTheme.command).args.theme?.values
 const isTheme = (value: unknown): value is Theme => typeof value === 'string' && THEMES.includes(value);
 
 export interface Preferences {
+  readonly assistantModel?: string;
   readonly locale: Locale;
   readonly theme: Theme;
   // the inspector's collapsed sections, in the sections' order (properties.json); absent while the user collapsed none
@@ -170,6 +171,7 @@ export function loadPreferences(storage: PreferenceStorage): Preferences {
     return {
       locale,
       theme,
+      ...(typeof stored.assistantModel === 'string' && /^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$/.test(stored.assistantModel) ? { assistantModel: stored.assistantModel } : {}),
       ...(collapsedSections.length > 0 ? { collapsedSections } : {}),
       ...(expandedSections.length > 0 ? { expandedSections } : {}),
       ...(collapsedRows.length > 0 ? { collapsedRows } : {}),
@@ -216,7 +218,7 @@ export function persistPreferences(store: Store<EditorUi>, storage: PreferenceSt
   return store.subscribe(() => {
     const state = store.getState();
     const now = state.ui.preferences;
-    if (store.gestureOpen() || store.sequenceOpen()) return;
+    if (store.gestureOpen() || store.sequenceOpen() || store.commandGroupOpen()) return;
     const changed = now !== last;
     const documentChanged = state.document !== lastDocument;
     last = now;

@@ -243,7 +243,7 @@ export function startAutosave<Ui>(store: Store<Ui>, saved: SavedWork | null | un
   const unsubscribe = store.subscribe(() => {
     // a gesture's changes are kept once it commits (a drag, the colour picker's session); a cancelled one leaves the
     // document as it was, and nothing is written
-    if (store.gestureOpen() || store.sequenceOpen()) return;
+    if (store.gestureOpen() || store.sequenceOpen() || store.commandGroupOpen()) return;
     const now = store.getState();
     if (now.document === last.document && now.selection === last.selection) return;
     if (!canWrite()) {

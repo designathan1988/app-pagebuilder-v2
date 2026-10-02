@@ -54,6 +54,19 @@ const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as cons
 
 export const FLOWS: readonly Flow[] = [
   {
+    name: 'assistant',
+    about: 'open the assistant and inspect its model, local key and Companion setup',
+    steps: [
+      { door: 'workspace.setPanelOpen#toolbar-activity-bar-assistant' },
+      { photo: 'assistant-conversation' },
+      { door: 'assistant.setPreferences#assistant-preferences' },
+      { photo: 'assistant-preferences' },
+      { type: { at: '[data-door="assistant.setModel#assistant-model"] input', text: 'claude-opus-5-5' } },
+      { door: 'assistant.setPreferences#assistant-close-preferences' },
+      { photo: 'assistant-ready-for-setup' },
+    ],
+  },
+  {
     name: 'forms-submission',
     about: 'configure a service destination without altering the native action implicitly',
     steps: [

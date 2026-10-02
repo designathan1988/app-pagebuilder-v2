@@ -1,0 +1,814 @@
+{
+  "domain": "assistant",
+  "commands": [
+    {
+      "id": "assistant.setModel",
+      "labelKey": "assistant.model",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {
+        "value": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-model",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-model",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.model",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 2
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "assistant.setPreferences",
+      "labelKey": "assistant.preferences",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {
+        "open": {
+          "type": "boolean",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-preferences",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-preferences",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.preferences",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 3
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "open": true
+          }
+        },
+        {
+          "id": "assistant-close-preferences",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-close-preferences",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.backToChat",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 30
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "open": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "assistant.attachReference",
+      "labelKey": "assistant.reference",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {
+        "file": {
+          "type": "file",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-reference",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-reference",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.reference",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 4
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": [],
+            "fileReading": "upload"
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "assistant.clearReference",
+      "labelKey": "assistant.clearReference",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-clear-reference",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-clear-reference",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.clearReference",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 5
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "assistant.editKey",
+      "labelKey": "assistant.key",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {
+        "value": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-key",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-key",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.key",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 6
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "assistant.send",
+      "labelKey": "assistant.send",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-send",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-send",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.send",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 7
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "send-key",
+          "kind": "shortcut",
+          "feature": "assistant-chat",
+          "gesture": null,
+          "labelKey": "assistant.send",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {},
+          "chord": "Ctrl+Enter",
+          "context": "assistant-input"
+        }
+      ]
+    },
+    {
+      "id": "assistant.cancel",
+      "labelKey": "assistant.cancel",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-cancel",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-cancel",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.cancel",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 8
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "assistant.connect",
+      "labelKey": "assistant.connect",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-bridge-connect",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-bridge-connect",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.connect",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 9
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "assistant.disconnect",
+      "labelKey": "assistant.disconnect",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-bridge-disconnect",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-bridge-disconnect",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.disconnect",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 10
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "assistant.saveKey",
+      "labelKey": "assistant.saveKey",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-save-key",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-save-key",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.saveKey",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 11
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "assistant.deleteKey",
+      "labelKey": "assistant.deleteKey",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-delete-key",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-delete-key",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.deleteKey",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 12
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "assistant.selectSession",
+      "labelKey": "assistant.selectSession",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-select-session",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-select-session",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.selectSession",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 13
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "assistant.clearConversation",
+      "labelKey": "assistant.clearConversation",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-clear-conversation",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-clear-conversation",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.clearConversation",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 14
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "assistant.update",
+      "labelKey": "assistant.input",
+      "owner": "src/editor/assistant/state.ts",
+      "introducedBy": "assistant-chat",
+      "args": {
+        "value": {
+          "type": "json",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "assistant.busy",
+        "assistant.invalidModel",
+        "assistant.invalidImage",
+        "assistant.keyRequired",
+        "assistant.connectionRequired",
+        "assistant.emptyInput",
+        "assistant.failed"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "assistant-input",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "assistant-chat",
+          "panel": "assistant",
+          "control": "assistant-input",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "assistant.input",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "assistant-panel",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    }
+  ]
+}

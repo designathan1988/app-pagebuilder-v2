@@ -209,6 +209,12 @@
       "labelKey": "keyContext.componentPrompt",
       "inherits": null,
       "absorbsFields": false
+    },
+    {
+      "id": "assistant-input",
+      "labelKey": "assistant.input",
+      "inherits": "field",
+      "absorbsFields": false
     }
   ],
   "constants": [
