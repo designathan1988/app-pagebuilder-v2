@@ -2711,6 +2711,7 @@ export const CONSTANT_IDS = [
   "timeline.playheadStep",
   "timeline.playheadTick",
   "autosave.retryDelay",
+  "autosave.idleWait",
   "autosave.versions",
   "grid.columns.tablet",
   "grid.columns.phone",

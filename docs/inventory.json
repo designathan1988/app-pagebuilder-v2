@@ -5,8 +5,8 @@
     "commands": 356,
     "doors": 1307,
     "scenarios": 1710,
-    "modules": 396,
-    "lines": 72873
+    "modules": 397,
+    "lines": 73052
   },
   "features": [
     {
@@ -3409,7 +3409,7 @@
     },
     {
       "path": "src/core/document/model.ts",
-      "lines": 298,
+      "lines": 308,
       "commands": [],
       "features": []
     },
@@ -4763,13 +4763,13 @@
     },
     {
       "path": "src/editor/canvas/chrome.tsx",
-      "lines": 961,
+      "lines": 992,
       "commands": [],
       "features": []
     },
     {
       "path": "src/editor/canvas/coordinates.ts",
-      "lines": 514,
+      "lines": 533,
       "commands": [],
       "features": []
     },
@@ -4791,7 +4791,7 @@
     },
     {
       "path": "src/editor/canvas/frame.tsx",
-      "lines": 244,
+      "lines": 270,
       "commands": [],
       "features": []
     },
@@ -4838,6 +4838,12 @@
       "features": [
         "radius-border-gap-handles"
       ]
+    },
+    {
+      "path": "src/editor/canvas/page-clock.ts",
+      "lines": 31,
+      "commands": [],
+      "features": []
     },
     {
       "path": "src/editor/canvas/placement.ts",
@@ -5578,7 +5584,7 @@
     },
     {
       "path": "src/editor/persistence/autosave.ts",
-      "lines": 279,
+      "lines": 327,
       "commands": [],
       "features": []
     },
@@ -5756,7 +5762,7 @@
     },
     {
       "path": "src/editor/shell/field.tsx",
-      "lines": 1524,
+      "lines": 1537,
       "commands": [],
       "features": []
     },
@@ -6215,7 +6221,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6237,
+      "lines": 6238,
       "commands": [],
       "features": []
     },

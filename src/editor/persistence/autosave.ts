@@ -1,7 +1,10 @@
 // Autosave (ARCHITECTURE.md; spec autosave-restore): the work kept between sessions. After every committed change of
 // the document or the selection, one record holding the project's format version, the document and the selection
-// is written at once: first to a journal in localStorage, which a write finishes before the page can unload, then
-// to IndexedDB, in one transaction; the journal is dropped once IndexedDB holds that revision. At start the newer of
+// is written as soon as the browser is idle (at most autosave.idleWait later, the plan's stage 4: the whole document
+// was serialised inside every input, a selection's too): first to a journal in localStorage — written at once, before
+// the page can unload, when the tab hides or closes —, then to IndexedDB, in one transaction; the journal is dropped
+// once IndexedDB holds that revision. A change of the selection alone never writes the document again to the journal
+// (what a crash keeps is the work; the selection travels with the next record). At start the newer of
 // the two is read (`readSavedWork`; the journal's is a crash's work, restored with a notice: spec
 // autosave-crash-recovery), restored through the project reader every open uses (`restoredWork`, which
 // src/editor/store.ts asks while it creates the store: the history starts empty), and kept as it was when the model
@@ -24,6 +27,8 @@ let savedRevision = 0;
 export const currentWorkRevision = (): number => savedRevision;
 
 const RETRY_DELAY = numberConstant('autosave.retryDelay');
+// the longest a change waits for the browser to be idle before it is written
+const IDLE_WAIT = numberConstant('autosave.idleWait');
 
 // What a record holds, in IndexedDB and in the journal alike. `format` is the format version of the saved project,
 // the one project.json carries (the document's own version).
@@ -180,6 +185,42 @@ export function startAutosave<Ui>(store: Store<Ui>, saved: SavedWork | null | un
   let writing = false;
   let pending: SavedWork | null = null;
   let retry = 0;
+  // the revision whose document the journal holds: a change of the selection alone does not write it again
+  let journalled = -1;
+  let idle = 0;
+  // the journal of the pending work, written now (when its document is not in the journal yet)
+  const journalNow = () => {
+    const work = pending;
+    if (work === null || !documentRevisions.has(work.revision) || journalled >= work.revision) return;
+    try {
+      window.localStorage.setItem(JOURNAL, JSON.stringify(work));
+      journalled = work.revision;
+      for (const older of documentRevisions) if (older < work.revision) documentRevisions.delete(older);
+    } catch {
+      // storage refused (quota, private window): IndexedDB alone keeps the work
+    }
+  };
+  // the revisions that changed the document (a selection alone makes none of them)
+  const documentRevisions = new Set<number>();
+  // the pending work, written when the browser is idle: its journal, then IndexedDB
+  const writeWhenIdle = () => {
+    if (idle !== 0) return;
+    const run = () => {
+      idle = 0;
+      journalNow();
+      if (!writing && pending !== null) void flush();
+    };
+    idle = typeof window.requestIdleCallback === 'function' ? window.requestIdleCallback(run, { timeout: IDLE_WAIT }) : window.setTimeout(run, 0);
+  };
+  const writeNow = () => {
+    if (idle !== 0) {
+      if (typeof window.cancelIdleCallback === 'function') window.cancelIdleCallback(idle);
+      else window.clearTimeout(idle);
+      idle = 0;
+    }
+    journalNow();
+    if (!writing && pending !== null) void flush();
+  };
   const flush = async () => {
     // a tab that has lost the editing lock to another writes nothing: its older work would overwrite the newer one
     // (the retry and the hidden-tab write come here too)
@@ -201,7 +242,8 @@ export function startAutosave<Ui>(store: Store<Ui>, saved: SavedWork | null | un
       if (pending === null) {
         // IndexedDB holds the newest revision: the journal of that revision is no longer needed
         try {
-          if (readJournal()?.revision === work.revision) window.localStorage.removeItem(JOURNAL);
+          // (the revision the journal holds is known: its text is never read back to learn it)
+          if (journalled === work.revision) window.localStorage.removeItem(JOURNAL);
         } catch {
           // storage refused: the journal stays, and the next start reads the same revision from either
         }
@@ -221,14 +263,17 @@ export function startAutosave<Ui>(store: Store<Ui>, saved: SavedWork | null | un
   // leaving or reloading the tab while the work is not all in IndexedDB asks the browser's confirmation
   const guard = (event: BeforeUnloadEvent) => {
     flushDraftCaret();
+    // the work not written yet goes to the journal now, which a write finishes before the page can unload (an
+    // IndexedDB write started now could be cut short: the next start reads the journal)
+    journalNow();
     if (state !== 'saving' && refusal === null && !hasPendingDraft()) return;
     event.preventDefault();
     event.returnValue = '';
   };
   window.addEventListener('beforeunload', guard);
-  // a hidden tab writes a refused work again at once, rather than after the delay
+  // a hidden tab writes what is pending at once (its journal too), rather than when idle or after the retry delay
   const hidden = () => {
-    if (document.visibilityState === 'hidden' && !writing && pending !== null) void flush();
+    if (document.visibilityState === 'hidden' && pending !== null) writeNow();
   };
   document.addEventListener('visibilitychange', hidden);
   window.addEventListener('pagehide', hidden);
@@ -253,23 +298,26 @@ export function startAutosave<Ui>(store: Store<Ui>, saved: SavedWork | null | un
     // while recovery is required, only a replaced document (a load: its history starts empty) is written, and
     // from then on everything is
     const replaced = now.document !== last.document && now.history.past.length === 0 && now.history.future.length === 0;
+    const changedDocument = now.document !== last.document;
     last = now;
     if (blocked && !replaced) return;
     blocked = false;
     revision += 1;
     savedRevision = revision;
     const work: SavedWork = { revision, format: now.document.version, document: now.document, selection: now.selection };
-    try {
-      window.localStorage.setItem(JOURNAL, JSON.stringify(work));
-    } catch {
-      // storage refused (quota, private window): IndexedDB alone keeps the work
-    }
+    if (changedDocument) documentRevisions.add(revision);
+    // a pending change of the document stays one to journal when the selection changes after it
+    else if (pending !== null && documentRevisions.has(pending.revision)) documentRevisions.add(revision);
     pending = work;
     setState('saving');
-    if (!writing) void flush();
+    writeWhenIdle();
   });
   return () => {
     unsubscribe();
+    if (idle !== 0) {
+      if (typeof window.cancelIdleCallback === 'function') window.cancelIdleCallback(idle);
+      else window.clearTimeout(idle);
+    }
     window.clearTimeout(retry);
     window.removeEventListener('beforeunload', guard);
     document.removeEventListener('visibilitychange', hidden);

@@ -428,6 +428,11 @@ None: saving needs no action.
 ### Problems in Pager
 
 1. **A change made less than a second before a reload can be lost.** The write waits 1000 ms after the last change; on leaving the page Pager only starts an asynchronous flush, which the unload can abort. Required: a committed change is written to the store as soon as it is committed (no waiting period), so the document survives an immediate reload.
+   Stage 4 (the plan's "salvamento"): the record is written as soon as the browser is idle, at most
+   `autosave.idleWait` (1 s) after the change, so no input waits for the whole document to be serialised; a reload, a
+   closing tab or a hidden tab writes the journal at once (synchronously, before the page can unload), so an immediate
+   reload still keeps the change. Only a browser process that dies within that second can lose the last change. A
+   change of the selection alone never serialises the document again.
 2. **The selection is stored apart from the document** (the document in IndexedDB, the selection in `localStorage`, written at different moments). After a crash between the two writes the restored selection can name nodes of another revision, or nothing. Required: the document and the selection are one record, written together in one IndexedDB transaction, and restored together.
 3. **The record's format is Pager's file format mixed with record fields** (`payload` text plus `name`, `saved`, `previous`). Required: the record carries the format version of the saved project from the first save, the same version `project.json` carries (project-save-json), so every future migration is exercised on the real loading path.
 4. **"Saved" is the only proof shown**, and it is a label. Required (tests): the proof is the document and the selection read back after an immediate reload, never the label.

@@ -274,10 +274,28 @@ export interface Location {
 
 export function locate(doc: DocumentJson, id: NodeId): Location | null {
   for (const [page, p] of doc.pages.entries()) {
-    const found = locateIn(p.tree, id, null, 0, ['pages', page, 'tree'], page);
-    if (found) return found;
+    const found = indexOf(p.tree, page).get(id);
+    if (found !== undefined) return found;
   }
   return null;
+}
+
+// Every node of a page's tree by its id, built once per tree (the plan's stage 4: locate walked the tree, building a
+// path for every node it passed, many times per change). A tree is never changed in place — a change makes a new root
+// (applyPatches) — so its index stays true for as long as the tree lives; a tree read at another page's place is
+// indexed again. The first node of an id wins, as the walk found it.
+const INDEX = new WeakMap<DocNode, { readonly page: number; readonly at: ReadonlyMap<string, Location> }>();
+function indexOf(tree: DocNode, page: number): ReadonlyMap<string, Location> {
+  const held = INDEX.get(tree);
+  if (held !== undefined && held.page === page) return held.at;
+  const at = new Map<string, Location>();
+  const visit = (node: DocNode, parent: DocNode | null, index: number, path: readonly (string | number)[]) => {
+    if (!at.has(node.id)) at.set(node.id, { node, page, parent, index, path });
+    node.children.forEach((child, i) => visit(child, node, i, [...path, 'children', i]));
+  };
+  visit(tree, null, 0, ['pages', page, 'tree']);
+  INDEX.set(tree, { page, at });
+  return at;
 }
 
 // The node and every ancestor of it, the page root first; empty when the document has no such node.
@@ -287,11 +305,3 @@ export function lineage(doc: DocumentJson, id: NodeId): DocNode[] {
   return chain;
 }
 
-function locateIn(node: DocNode, id: NodeId, parent: DocNode | null, index: number, path: readonly (string | number)[], page: number): Location | null {
-  if (node.id === id) return { node, page, parent, index, path };
-  for (const [i, child] of node.children.entries()) {
-    const found = locateIn(child, id, node, i, [...path, 'children', i], page);
-    if (found) return found;
-  }
-  return null;
-}

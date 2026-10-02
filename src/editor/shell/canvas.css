@@ -464,12 +464,13 @@
   pointer-events: none;
 }
 
-/* The frame's right edge (canvas.tsx FrameEdge, spec breakpoints-switch): a band over the edge the pointer drags to
-   change the width of the screen shown */
+/* The frame's right edge (canvas.tsx FrameEdge, spec breakpoints-switch): a band just outside the page's right edge,
+   which the pointer drags to change the width of the screen shown; it never covers the page (a drop at the page's
+   right edge stays the page's) */
 .frame__edge {
   position: absolute;
   top: var(--size-frame-tabs);
-  right: calc(var(--space-3) * -1);
+  right: calc(var(--space-6) * -1);
   bottom: 0;
   width: var(--space-6);
   z-index: 1;
@@ -477,7 +478,7 @@
 }
 
 .frame__edge:hover {
-  background: linear-gradient(to right, transparent 45%, var(--color-accent) 45%, var(--color-accent) 55%, transparent 55%);
+  background: linear-gradient(to right, var(--color-accent) 0, var(--color-accent) 2px, transparent 2px);
 }
 
 /* The breakpoints: a row of tabs attached to the top of the frame (the owner's decision D-1), as wide as its tabs need —

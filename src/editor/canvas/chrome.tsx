@@ -42,7 +42,8 @@ import { band, drag, duplicating, ghostReturn, hover, lastDrop, measuring, resiz
 import { MODEL_RULES, useEditorState, useStore } from '../store.ts';
 import { openedPage } from '../../core/project/pages.ts';
 import { useT } from '../text.ts';
-import { canvasFrame, contentBoxes, flowAxis, flowReversed, holdsNode, innerBox, nodeBox, resizeBasis, elementRotation } from './coordinates.ts';
+import { canvasFrame, contentBoxes, flowAxis, flowReversed, holdsNode, innerBox, nodeBox, pageAnimating, resizeBasis, elementRotation } from './coordinates.ts';
+import { onPageChange } from './page-clock.ts';
 import { TextToolbar } from './text-toolbar.tsx';
 import { GridEditor } from './grid-editor.tsx';
 import { EditHandles } from './edit-handles.tsx';
@@ -741,7 +742,10 @@ export function CanvasChrome() {
     let placedFor = '';
     let placed: Layout['label'] = null;
     let placedToolbar: Layout['toolbar'] = null;
-    const measure = () => {
+    // the layout last measured: a measure that changes it is followed by another, since the overlay's own controls
+    // (drawn from it) are what the label keeps clear of; the overlay settles in a frame or two
+    let last: Layout | null = null;
+    const measure = (): boolean => {
       const iframe = canvasFrame();
       const origin = layer.current?.getBoundingClientRect();
       if (iframe && origin) {
@@ -806,12 +810,39 @@ export function CanvasChrome() {
           return b === null ? [] : [b];
         });
         const next: Layout = { selected, union, hovered: hoveredBox, label: placed, toolbar: placedToolbar, band: local(drawnBand), rotate, starts: startsOf(iframe, selection.length === 1 ? selection[0] ?? null : null), size: ownSize, rotation: selection.length === 1 && selection[0] !== undefined ? elementRotation(iframe, selection[0]) : 0, hoverSize, distances, neighbours, handleSize: zone > 0 ? zone : 24 };
+        const moved = last === null || !same(last, next);
+        last = next;
         setLayout((before) => (same(before, next) ? before : next));
+        return moved;
       }
-      request = requestAnimationFrame(measure);
+      return false;
     };
-    request = requestAnimationFrame(measure);
-    return () => cancelAnimationFrame(request);
+    // The overlay measures when the page may have changed (the page clock: a store change, a scroll, a load), then at
+    // every frame while its layout still moves (its own controls drawn) or the page moves on its own, and stops once
+    // both are still (the plan's stage 4: it measured every frame, always).
+    let running = false;
+    // frames measured with nothing moving: what it draws from a measure is committed a frame or two later, and its
+    // controls are read back by the next measure, so it stops after a few still frames
+    let still = 0;
+    const STILL_FRAMES = 4;
+    const follow = () => {
+      const moved = measure();
+      still = moved ? 0 : still + 1;
+      if (still < STILL_FRAMES || pageAnimating()) request = requestAnimationFrame(follow);
+      else running = false;
+    };
+    const tick = () => {
+      still = 0;
+      if (running) return;
+      running = true;
+      follow();
+    };
+    request = requestAnimationFrame(tick);
+    const stop = onPageChange(tick);
+    return () => {
+      cancelAnimationFrame(request);
+      stop();
+    };
   }, [selection, targets, hovered, node, drawnBand, editing, altHeld, resizing, documentNow, mode]);
 
   const at = (b: Box): CSSProperties => ({ left: b.x, top: b.y, width: b.width, height: b.height });

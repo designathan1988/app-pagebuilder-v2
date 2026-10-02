@@ -55,6 +55,7 @@ import { restoreFieldDraft } from '../persistence/drafts.ts';
 import { DRAFT_KEPT, markFieldKept, recordFieldInput } from '../input/drafts.ts';
 import { wordOfKeyword } from '../../core/style/keyword-words.ts';
 import { floatBelow, type Placed } from './float.ts';
+import { onPageChange } from '../canvas/page-clock.ts';
 
 // the key context a number field's input names (interactions.json)
 const NUMBER_FIELD_CONTEXT: KeyContextId = 'number-field';
@@ -129,8 +130,8 @@ function useWheelSteps(input: RefObject<HTMLInputElement | null>, property: stri
 }
 
 // The values the page computes for a node (coordinates.ts computedValues). The page changes after the store does (the
-// renderer applies each change) and loads after the inspector is drawn, so the values are read at every frame while
-// they are shown, as the canvas overlay measures the page: a measure of the page, not editor state.
+// renderer applies each change) and loads after the inspector is drawn, so the values are read whenever the page may
+// have changed (the page clock, canvas/page-clock.ts): a measure of the page, not editor state.
 export function usePageValues(node: NodeId | null, properties: readonly string[]): Readonly<Record<string, string>> | null {
   const [read, setRead] = useState<{ readonly node: NodeId; readonly values: Readonly<Record<string, string>> | null } | null>(null);
   useEffect(() => {
@@ -144,10 +145,14 @@ export function usePageValues(node: NodeId | null, properties: readonly string[]
         last = text;
         setRead({ node, values });
       }
-      request = requestAnimationFrame(measure);
     };
+    // once now, then whenever the page may have changed (canvas/page-clock.ts), never at every frame
     request = requestAnimationFrame(measure);
-    return () => cancelAnimationFrame(request);
+    const stop = onPageChange(measure);
+    return () => {
+      cancelAnimationFrame(request);
+      stop();
+    };
   }, [node, properties]);
   return read !== null && read.node === node ? read.values : null;
 }
@@ -229,10 +234,14 @@ export function useMixed(properties: readonly string[]): boolean {
         last = text;
         setRead({ selection, text });
       }
-      request = requestAnimationFrame(measure);
     };
+    // once now, then whenever the page may have changed (canvas/page-clock.ts), never at every frame
     request = requestAnimationFrame(measure);
-    return () => cancelAnimationFrame(request);
+    const stop = onPageChange(measure);
+    return () => {
+      cancelAnimationFrame(request);
+      stop();
+    };
   }, [selection, properties]);
   if (selection.length < 2 || classTargeted) return false;
   const stored = JSON.parse(storedText) as ((string | null)[] | null)[];
@@ -1229,10 +1238,14 @@ export function useSelectionContexts(): readonly ElementContext[] | null {
         last = text;
         setRead({ ids, contexts });
       }
-      request = requestAnimationFrame(measure);
     };
+    // once now, then whenever the page may have changed (canvas/page-clock.ts), never at every frame
     request = requestAnimationFrame(measure);
-    return () => cancelAnimationFrame(request);
+    const stop = onPageChange(measure);
+    return () => {
+      cancelAnimationFrame(request);
+      stop();
+    };
   }, [ids, store]);
   return read !== null && read.ids === ids ? read.contexts : null;
 }

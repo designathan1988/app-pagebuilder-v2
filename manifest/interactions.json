@@ -1323,6 +1323,13 @@
       "note": "After a write the browser refused, how long autosave waits before it writes again on its own."
     },
     {
+      "id": "autosave.idleWait",
+      "value": 1000,
+      "unit": "ms",
+      "source": "spec/BEHAVIOUR.md#autosave-restore",
+      "note": "The longest a committed change waits for the browser to be idle before autosave writes it (journal, then IndexedDB); a hidden or closing tab writes at once."
+    },
+    {
       "id": "autosave.versions",
       "value": 10,
       "unit": "count",

@@ -24,6 +24,7 @@ import { Guides } from './guides.tsx';
 import { SnapLines } from './snap-lines.tsx';
 import { keepPagePoint, registerFrame, scrollPageBy } from './coordinates.ts';
 import { TEXT_EDITING, openLinkPrompt, registerEditReader } from './text-edit.ts';
+import { pageChanged } from './page-clock.ts';
 
 const MODEL = renderModelFromManifest(manifest.elements, manifest.properties, manifest.interactions);
 // an empty page the renderer fills: no script, no style of the editor
@@ -75,7 +76,25 @@ export function CanvasFrame({ width, screen, zoom }: { readonly width: number; r
       // the previous start's listeners go first (a load after a ready start runs start twice), then this one's drop
       stop();
       stopFileDrop = target.defaultView !== null ? installOsFileDrop(store, target.defaultView, true) : () => {};
-      const stopDocument = store.subscribeDocument((change) => renderer.apply(change.before, change.after, change.patches));
+      const stopDocument = store.subscribeDocument((change) => {
+        renderer.apply(change.before, change.after, change.patches);
+        pageChanged();
+      });
+      // the page may have changed for its readers (canvas/page-clock.ts): the store changed (a selection, a breakpoint,
+      // a zoom), a resource of the page loaded (an image, which sizes its box; load does not bubble, so it is heard as
+      // it goes down), a font arrived; and it was just mounted
+      const stopTicks = store.subscribe(pageChanged);
+      target.addEventListener('load', pageChanged, true);
+      // a scroll of the page moves every box on it
+      target.addEventListener('scroll', pageChanged, { passive: true });
+      // so does the frame itself, resized (the fit zoom follows the stage, which no command changes)
+      const framed = new ResizeObserver(pageChanged);
+      framed.observe(frame);
+      target.fonts.addEventListener('loadingdone', pageChanged);
+      // a value read while the page's own transition ran is read again once it ends
+      target.addEventListener('transitionend', pageChanged);
+      target.addEventListener('animationend', pageChanged);
+      pageChanged();
       // A text edited in place (text-edit.ts): the renderer marks, focuses and reads the edited element, and while the
       // edit lasts the keymap reads the keys on the frame's window, where they arrive; once it ends, the focus leaves
       // the frame for the editor's page body (the canvas key context).
@@ -153,6 +172,13 @@ export function CanvasFrame({ width, screen, zoom }: { readonly width: number; r
       const stopReader = registerEditReader(() => renderer.editedContent());
       followEdit();
       stop = () => {
+        stopTicks();
+        target.removeEventListener('load', pageChanged, true);
+        target.removeEventListener('scroll', pageChanged);
+        framed.disconnect();
+        target.fonts.removeEventListener('loadingdone', pageChanged);
+        target.removeEventListener('transitionend', pageChanged);
+        target.removeEventListener('animationend', pageChanged);
         stopDraftCapture();
         target.removeEventListener('input', captureDraft);
         target.removeEventListener('selectionchange', captureDraft);
