@@ -11,7 +11,7 @@ import { elementIcon, manifest } from '../../manifest/runtime.ts';
 import { BAR_DOORS, SCOPE_PILLS, askedSet, entryKey, matchedRanges, scopeOf, kindOf, namedProperties, recentEntries, remember, setEntryFor, shownEntries, type BarEntry, type NamedProperty } from '../command-bar/command-bar.ts';
 import { labelParamsOf } from '../doors/current.ts';
 import { DoorControl, Icon, appliesNow, isDoorBuilt } from '../doors/door.tsx';
-import { doorSlots, menuOf } from '../doors/placement.ts';
+import { GLYPHS, doorSlots, menuOf } from '../doors/placement.ts';
 import { setActiveOption } from '../focus/focus.ts';
 import { chordCap, chordHint } from '../input/keymap.ts';
 import { useEditorState, useStore } from '../store.ts';
@@ -154,7 +154,7 @@ function CommandBarDialog() {
       <div className="command-bar__panel" role="dialog" aria-modal="true" aria-label={t('command.commandBar')} data-region="command-palette" data-key-context="command-bar">
         {/* the field in its row (the canonical palette): the search glyph, the query, the key that closes the bar */}
         <div className="command-bar__search">
-        <Icon name="search" size="sm" />
+        <Icon name={GLYPHS.search} size="sm" />
         <input
           ref={field}
           className="command-bar__field"

@@ -1921,6 +1921,14 @@
       "reader": "src/editor/canvas/chrome.tsx"
     },
     {
+      "field": "layout:glyphs.warning",
+      "reader": "src/editor/shell/canvas.tsx"
+    },
+    {
+      "field": "layout:glyphs.search",
+      "reader": "src/editor/shell/command-bar.tsx"
+    },
+    {
       "field": "layout:glyphs.expanded",
       "reader": "src/editor/doors/door.tsx"
     },

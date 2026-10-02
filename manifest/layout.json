@@ -598,7 +598,9 @@
     "sideColumn": "rows-2",
     "quickPanel": "sliders-horizontal",
     "grip": "grip-vertical",
-    "rotate": "rotate-ccw"
+    "rotate": "rotate-ccw",
+    "warning": "triangle-alert",
+    "search": "search"
   },
   "panels": {
     "explorer": {

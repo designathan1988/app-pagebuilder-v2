@@ -427,9 +427,14 @@
   background: var(--color-mode-breakpoint);
   color: var(--color-on-mode-breakpoint);
   font: var(--weight-semibold) var(--fs-body) / var(--lh-body) var(--font-ui);
-  text-overflow: ellipsis;
   white-space: nowrap;
   pointer-events: none;
+}
+
+.canvas-breakpoint-badge > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* while a breakpoint other than the base is edited, the frame wears its colour: the page's outline and the tab of

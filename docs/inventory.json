@@ -5,8 +5,8 @@
     "commands": 368,
     "doors": 1329,
     "scenarios": 1741,
-    "modules": 405,
-    "lines": 75216
+    "modules": 406,
+    "lines": 75343
   },
   "features": [
     {
@@ -5875,7 +5875,7 @@
     },
     {
       "path": "src/editor/shell/canvas.tsx",
-      "lines": 311,
+      "lines": 312,
       "commands": [],
       "features": []
     },
@@ -6503,7 +6503,7 @@
     },
     {
       "path": "src/manifest/schema.ts",
-      "lines": 1316,
+      "lines": 1317,
       "commands": [],
       "features": []
     },
@@ -6533,7 +6533,7 @@
     },
     {
       "path": "src/modules/layout-composer/compiler/compile.ts",
-      "lines": 561,
+      "lines": 571,
       "commands": [],
       "features": []
     },
@@ -6587,7 +6587,7 @@
     },
     {
       "path": "src/modules/layout-composer/host/handlers.ts",
-      "lines": 593,
+      "lines": 601,
       "commands": [
         "layout.enter",
         "layout.leave",
@@ -6638,8 +6638,14 @@
       "features": []
     },
     {
+      "path": "src/modules/layout-composer/intent/meaning.ts",
+      "lines": 105,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/modules/layout-composer/intent/model.ts",
-      "lines": 201,
+      "lines": 203,
       "commands": [],
       "features": []
     },

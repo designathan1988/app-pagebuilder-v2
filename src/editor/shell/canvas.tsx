@@ -10,7 +10,7 @@ import { editMode, NO_MODE } from '../canvas/edit-mode.ts';
 import { Rulers } from '../canvas/rulers.tsx';
 import { DoorControl, Icon, useDoor } from '../doors/door.tsx';
 import { MenuButton } from '../doors/menu.tsx';
-import { doorSlots, slotsIn } from '../doors/placement.ts';
+import { GLYPHS, doorSlots, slotsIn } from '../doors/placement.ts';
 import { codeTabs } from '../explorer/file-tabs.ts';
 import { useEditorState, useStore } from '../store.ts';
 import { FIT_MARGIN, fitZoom, panOf, registerStage } from '../view/camera.ts';
@@ -221,7 +221,8 @@ function BreakpointBadge() {
   if (breakpoint.base) return null;
   return (
     <div className="canvas-breakpoint-badge" data-canvas-badge="breakpoint">
-      {t('canvas.badge.editingBreakpoint', { breakpoint: breakpointName(breakpoint, t), width: breakpoint.width })}
+      <Icon name={GLYPHS.warning} size="sm" />
+      <span>{t('canvas.badge.editingBreakpoint', { breakpoint: breakpointName(breakpoint, t), width: breakpoint.width })}</span>
     </div>
   );
 }
