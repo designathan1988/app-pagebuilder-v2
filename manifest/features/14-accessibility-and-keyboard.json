@@ -406,6 +406,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-insert",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "focus.next#key-arrow-right-in-toolbar",
               "args": {},
               "target": null,
@@ -466,6 +475,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-insert",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "focus.previous#key-arrow-left-in-toolbar",
               "args": {},

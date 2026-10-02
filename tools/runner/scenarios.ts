@@ -24,7 +24,7 @@ import { isFeatureBuilt } from '../../src/app/features.ts';
 import { shortcutRuns } from '../../src/editor/input/shortcut-rule.ts';
 import type { FeatureId } from '../../src/generated/ids.ts';
 import { EMPTY_FIXTURE, applyDiff, matchDocument, refusalCheck, resolveNode, type DiffOp } from '../../src/manifest/scenario.ts';
-import { barLabel, control, door as doorData, inQuickPanel, keys, modifiedControl, openCommandBar, openMenu, openQuickPanel, openStyleControl, openValueMenu, runDoor, standingControl, type Door } from '../../tests/e2e/door.ts';
+import { barLabel, control, door as doorData, focusContext, inQuickPanel, keys, modifiedControl, openCommandBar, openMenu, openQuickPanel, openStyleControl, openValueMenu, runDoor, standingControl, type Door } from '../../tests/e2e/door.ts';
 import { openEditor } from '../../tests/support/editor.ts';
 import { unzip } from './unzip.ts';
 import { COMPANION_KEY, startCompanion } from './companion.ts';
@@ -1095,9 +1095,11 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
   // absorbs the fields inside it, so a field's focus counts too: keymap.ts). The drawn panel is measured a frame
   // before it is placed, and a hidden panel can take no focus, so the focus arrives a frame after it opens.
   if (d.kind === 'shortcut' && d.context === QUICK_PANEL_CONTEXT) await expect.poll(async () => (await focusedContexts(page)).includes(QUICK_PANEL_CONTEXT), { message: `step ${ref}: the focus is in the quick panel`, intervals: POLL }).toBe(true);
-  // a key of the hand needs the focus on the canvas and an element in the hand, whose aim the canvas draws as a drop
+  // a key of the hand needs the focus where the hand was taken — the canvas, or the Layers tree (M on a row: the focus
+  // stays in the tree and the arrows aim, as in Chrome by hand) — and an element in the hand, whose aim the canvas
+  // draws as a drop
   if (d.kind === 'shortcut' && d.context === HAND_CONTEXT) {
-    expect((await focusedContexts(page))[0], `step ${ref}: the focus is on the canvas`).toBe('canvas');
+    expect(['canvas', 'layers-tree'], `step ${ref}: the focus is on the canvas or in the Layers tree`).toContain((await focusedContexts(page))[0]);
     await expect(page.locator('[data-chrome="drop"]'), `step ${ref}: the hand holds an element (the canvas draws its aim)`).toHaveCount(1);
   }
   // a key of the canvas acting on the element the step names, pressed while a control elsewhere holds the focus (the
@@ -1504,6 +1506,9 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
       if (d.context !== undefined && !chain.includes(d.context)) throw new Error(`step ${ref}: the focus is in ${chain[0] ?? 'nothing'}, the door waits in ${d.context}`);
     }
     if (d.chord === undefined) throw new Error(`shortcut ${ref} has no chord`);
+    // a key of a region of controls (a toolbar, a tab strip, the palette, the Layers tree) is pressed with the focus in
+    // that region, as a person puts it there first (tests/e2e/door.ts focusContext)
+    await focusContext(page, d.context);
     // the key the step holds with it (Shift+ArrowUp in a number field)
     const key = heldKey(step);
     await page.keyboard.press(key === undefined ? keys(d.chord) : `${key}+${keys(d.chord)}`);

@@ -4,9 +4,9 @@
     "built": 207,
     "commands": 360,
     "doors": 1315,
-    "scenarios": 1724,
+    "scenarios": 1725,
     "modules": 400,
-    "lines": 73525
+    "lines": 73537
   },
   "features": [
     {
@@ -302,7 +302,7 @@
         "selection.walkFirstChild"
       ],
       "doors": 4,
-      "scenarios": 9,
+      "scenarios": 10,
       "modules": [
         "src/core/selection/selection.ts"
       ]
@@ -4248,7 +4248,7 @@
     },
     {
       "path": "src/core/selection/selection.ts",
-      "lines": 229,
+      "lines": 241,
       "commands": [
         "selection.select",
         "selection.clear",

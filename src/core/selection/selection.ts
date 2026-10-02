@@ -185,20 +185,29 @@ export const toggleCommand = registerHandler('selection.toggle', ({ state }, { t
 // The walk of the tree with the arrow keys (spec keyboard-tree-walk): one level per key from the primary node, the
 // node reached alone becomes the selection and the status bar names it; at an end the selection stays and the status
 // bar says why. Siblings are the parent's children, hidden or locked included; the page root is reached from its
-// children and has no parent. Walking changes no document and records no history.
-function walkFrom(state: StoreState<never>): Location {
+// children and has no parent. With nothing selected any arrow starts the walk at the open page's root (jornada03
+// plan, stage 5: "setas sem seleção começam pela raiz"; they said "Select an element first."). Walking changes no
+// document and records no history.
+function walkFrom(state: StoreState<never>): Location | null {
   const primary = state.selection[0];
-  const found = primary === undefined ? null : locate(state.document, primary);
-  // the availability predicate (hasSelection) lets no door run without a selection; a selected node the document
-  // lacks is a defect of the store
+  if (primary === undefined) return null;
+  const found = locate(state.document, primary);
+  // a selected node the document lacks is a defect of the store
   if (!found) throw new Error('a walk of the tree: the selection names no node of the document');
   return found;
 }
 const reach = (node: DocNode): Outcome<never> => ({ kind: 'change', selection: [node.id], message: message('status.selected', { name: node.name }) });
+// the start of a walk with nothing selected: the open page's root
+function start(state: StoreState<never>): Outcome<never> {
+  const root = pageShown(state)?.tree;
+  if (root === undefined) throw new Error('a walk of the tree: the document has no page');
+  return reach(root);
+}
 
 // selection.walkNextSibling (ArrowRight): the next sibling; refused on the last child and on the page root
 export const walkNextSiblingCommand = registerHandler('selection.walkNextSibling', ({ state }) => {
   const at = walkFrom(state);
+  if (at === null) return start(state);
   const next = at.parent?.children[at.index + 1];
   if (next) return reach(next);
   return { kind: 'refused', message: message('status.walk.noNext', { parent: at.parent?.name ?? state.document.pages[at.page]?.name ?? '' }) };
@@ -207,6 +216,7 @@ export const walkNextSiblingCommand = registerHandler('selection.walkNextSibling
 // selection.walkPreviousSibling (ArrowLeft): the previous sibling; refused on the first child and on the page root
 export const walkPreviousSiblingCommand = registerHandler('selection.walkPreviousSibling', ({ state }) => {
   const at = walkFrom(state);
+  if (at === null) return start(state);
   const previous = at.index > 0 ? at.parent?.children[at.index - 1] : undefined;
   if (previous) return reach(previous);
   return { kind: 'refused', message: message('status.walk.noPrevious', { parent: at.parent?.name ?? state.document.pages[at.page]?.name ?? '' }) };
@@ -215,6 +225,7 @@ export const walkPreviousSiblingCommand = registerHandler('selection.walkPreviou
 // selection.walkParent (ArrowUp): the parent, the page root included (unlike Pager); refused at the page root
 export const walkParentCommand = registerHandler('selection.walkParent', ({ state }) => {
   const at = walkFrom(state);
+  if (at === null) return start(state);
   if (at.parent) return reach(at.parent);
   return { kind: 'refused', message: message('status.walk.atRoot') };
 });
@@ -222,6 +233,7 @@ export const walkParentCommand = registerHandler('selection.walkParent', ({ stat
 // selection.walkFirstChild (ArrowDown): the first child; refused on a node without children
 export const walkFirstChildCommand = registerHandler('selection.walkFirstChild', ({ state }) => {
   const at = walkFrom(state);
+  if (at === null) return start(state);
   const first = at.node.children[0];
   if (first) return reach(first);
   return { kind: 'refused', message: message('status.walk.noChildren', { name: at.node.name }) };

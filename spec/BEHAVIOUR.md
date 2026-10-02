@@ -3282,6 +3282,9 @@ This is the keyboard feature.
 
 1. **ArrowUp from a direct child of the Page says `Already at the root.`** and does not select the Page, while the Page can be selected by clicking. Required: ArrowUp selects the Page root; at the Page root it says `Already at the root.`
 2. **The walk does not reveal off-screen elements.** Required: walking to an element outside the canvas viewport scrolls it into view (nearest edge).
+3. **With nothing selected the arrows said "Select an element first."** (jornada03 plan, stage 5). Required: with nothing
+   selected, any of the four arrows selects the open page's root, the start of the walk (`Page selected.`); the next
+   ArrowDown goes on to its first child.
 
 ## layers-drag
 

@@ -472,8 +472,8 @@
       "introducedBy": "keyboard-tree-walk",
       "args": {},
       "availability": {
-        "predicate": "hasSelection",
-        "refusalKey": "refusal.nothingSelected"
+        "predicate": "always",
+        "refusalKey": null
       },
       "refusals": [
         "status.walk.noNext"
@@ -512,8 +512,8 @@
       "introducedBy": "keyboard-tree-walk",
       "args": {},
       "availability": {
-        "predicate": "hasSelection",
-        "refusalKey": "refusal.nothingSelected"
+        "predicate": "always",
+        "refusalKey": null
       },
       "refusals": [
         "status.walk.noPrevious"
@@ -552,8 +552,8 @@
       "introducedBy": "keyboard-tree-walk",
       "args": {},
       "availability": {
-        "predicate": "hasSelection",
-        "refusalKey": "refusal.nothingSelected"
+        "predicate": "always",
+        "refusalKey": null
       },
       "refusals": [
         "status.walk.atRoot"
@@ -592,8 +592,8 @@
       "introducedBy": "keyboard-tree-walk",
       "args": {},
       "availability": {
-        "predicate": "hasSelection",
-        "refusalKey": "refusal.nothingSelected"
+        "predicate": "always",
+        "refusalKey": null
       },
       "refusals": [
         "status.walk.noChildren"

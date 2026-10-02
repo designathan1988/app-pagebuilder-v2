@@ -305,6 +305,7 @@ export async function runDoor(page: Page, ref: string, options: { readonly args?
   }
   if (d.kind === 'shortcut') {
     if (d.chord === undefined) throw new Error(`shortcut ${ref} has no chord`);
+    await focusContext(page, d.context);
     await page.keyboard.press(keys(d.chord));
     return;
   }
@@ -337,6 +338,23 @@ export async function runDoor(page: Page, ref: string, options: { readonly args?
     return;
   }
   await control(page, ref, options).click(at);
+}
+
+// A key of a region of controls (a toolbar, a tab strip, the palette, the Layers tree) is pressed with the focus in
+// that region, as a person tabs or clicks into it first: a key pressed with the focus elsewhere went to another context
+// (the toolbar's ArrowRight reached the canvas's tree walk, which then refused without a selection, and the step proved
+// nothing). The focus already in the context stays where it is.
+const REGION_CONTEXTS: ReadonlySet<string> = new Set(['toolbar', 'tab-strip', 'palette', 'layers-tree']);
+export async function focusContext(page: Page, context: string | undefined): Promise<void> {
+  if (context === undefined || !REGION_CONTEXTS.has(context)) return;
+  await page.evaluate((wanted) => {
+    const inside = (el: Element | null) => el?.closest('[data-key-context]')?.getAttribute('data-key-context') === wanted;
+    if (inside(document.activeElement)) return;
+    const visible = (el: Element) => el.getClientRects().length > 0;
+    const region = [...document.querySelectorAll(`[data-key-context="${wanted}"]`)].find(visible);
+    const target = region === undefined ? null : [...region.querySelectorAll<HTMLElement>('button, [tabindex], input')].find((el) => visible(el) && !el.hasAttribute('disabled') && inside(el));
+    target?.focus();
+  }, context);
 }
 
 // Keyword buttons whose words do not fit their row are a keyword menu (spec inspector-panel, "Keyword buttons"): the
