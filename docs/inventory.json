@@ -6,7 +6,7 @@
     "doors": 1311,
     "scenarios": 1717,
     "modules": 400,
-    "lines": 73256
+    "lines": 73232
   },
   "features": [
     {
@@ -3621,7 +3621,7 @@
     },
     {
       "path": "src/core/export/authoring.ts",
-      "lines": 46,
+      "lines": 22,
       "commands": [],
       "features": []
     },
