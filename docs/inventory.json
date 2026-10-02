@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 209,
-    "built": 208,
-    "commands": 362,
-    "doors": 1317,
-    "scenarios": 1729,
+    "features": 210,
+    "built": 209,
+    "commands": 364,
+    "doors": 1319,
+    "scenarios": 1731,
     "modules": 401,
-    "lines": 73820
+    "lines": 73921
   },
   "features": [
     {
@@ -3200,12 +3200,25 @@
       "modules": [
         "src/core/design/site-colours.ts"
       ]
+    },
+    {
+      "id": "class-moves",
+      "built": true,
+      "commands": [
+        "classes.moveInto",
+        "classes.applyToSimilar"
+      ],
+      "doors": 2,
+      "scenarios": 2,
+      "modules": [
+        "src/core/design/classes.ts"
+      ]
     }
   ],
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 500,
+      "lines": 502,
       "commands": [],
       "features": []
     },
@@ -3217,7 +3230,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 250,
+      "lines": 251,
       "commands": [],
       "features": []
     },
@@ -3384,15 +3397,18 @@
     },
     {
       "path": "src/core/design/classes.ts",
-      "lines": 156,
+      "lines": 209,
       "commands": [
         "classes.create",
         "classes.apply",
         "classes.detach",
         "classes.rename",
-        "classes.delete"
+        "classes.delete",
+        "classes.moveInto",
+        "classes.applyToSimilar"
       ],
       "features": [
+        "class-moves",
         "command-bar-find",
         "settings-audit",
         "settings-class-management",
@@ -5790,7 +5806,7 @@
     },
     {
       "path": "src/editor/shell/class-bar.tsx",
-      "lines": 189,
+      "lines": 218,
       "commands": [],
       "features": []
     },
@@ -6329,13 +6345,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 619,
+      "lines": 622,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6329,
+      "lines": 6342,
       "commands": [],
       "features": []
     },

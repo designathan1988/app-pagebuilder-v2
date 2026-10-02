@@ -2379,6 +2379,16 @@
       "kind": "handler",
       "id": "design.colourToVariable",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "classes.moveInto",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "classes.applyToSimilar",
+      "status": "registered"
     }
   ]
 }

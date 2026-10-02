@@ -87,6 +87,8 @@ export const COMMAND_IDS = [
   "components.fillFromData",
   "design.replaceColour",
   "design.colourToVariable",
+  "classes.moveInto",
+  "classes.applyToSimilar",
   "element.setTag",
   "element.setAttribute",
   "assetPicker.open",
@@ -499,6 +501,8 @@ export const DOOR_IDS = [
   "components.fillFromData#explorer-fill-from-data",
   "design.replaceColour#styles-site-colour-replace",
   "design.colourToVariable#styles-site-colour-variable",
+  "classes.moveInto#inspector-class-move-into",
+  "classes.applyToSimilar#inspector-class-apply-similar",
   "element.setTag#inspector-tag",
   "element.setTag#quick-panel-tag",
   "element.setAttribute#inspector-title",
@@ -2427,6 +2431,7 @@ export const FEATURE_IDS = [
   "batch-rename",
   "command-bar-find",
   "site-colours",
+  "class-moves",
 ] as const;
 export type FeatureId = (typeof FEATURE_IDS)[number];
 
@@ -6324,5 +6329,13 @@ export const MESSAGE_IDS = [
   "status.siteColours.replaced",
   "status.siteColours.madeVariable",
   "feature.siteColours",
+  "command.classes.moveInto",
+  "command.classes.applyToSimilar",
+  "status.classes.unknown",
+  "status.classes.nothingToMove",
+  "status.classes.moved",
+  "status.classes.noSimilar",
+  "status.classes.appliedToSimilar",
+  "feature.classMoves",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

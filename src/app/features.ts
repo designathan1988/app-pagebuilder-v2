@@ -241,6 +241,7 @@ export const FEATURES = {
   'batch-rename': registerFeature('batch-rename'),
   'command-bar-find': registerFeature('command-bar-find'),
   'site-colours': registerFeature('site-colours'),
+  'class-moves': registerFeature('class-moves'),
 } as const satisfies FeatureTable;
 
 // Whether a feature is registered as built.

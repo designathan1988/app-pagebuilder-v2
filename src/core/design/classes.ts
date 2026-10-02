@@ -153,3 +153,56 @@ export const deleteClassCommand = registerHandler('classes.delete', ({ state, co
   ];
   return { kind: 'change', patches, message: message('status.classes.deleted', { name: className, count: uses.length }) };
 });
+
+// The styles of one styles object laid over another's (breakpoint → state → property): the over one's values win.
+function mergedStyles(under: StyleClass['styles'], over: StyleClass['styles']): StyleClass['styles'] {
+  const merged: Record<string, Record<string, Record<string, unknown>>> = JSON.parse(JSON.stringify(under ?? {}));
+  for (const [breakpoint, states] of Object.entries(over ?? {})) {
+    for (const [state, declarations] of Object.entries(states ?? {})) {
+      merged[breakpoint] = merged[breakpoint] ?? {};
+      merged[breakpoint][state] = { ...(merged[breakpoint][state] ?? {}), ...(declarations ?? {}) };
+    }
+  }
+  return merged as StyleClass['styles'];
+}
+
+// classes.moveInto (the plan's stage 7, "mover para classe existente"; journey D1): the primary selected element's own
+// styles go into a class the project has, laid over the class's (the element looked as it does, and now the class says
+// it), the element keeps none of its own and lists the class; one undo step. Every element listing the class takes the
+// moved styles with it, which is the point.
+export const moveIntoClassCommand = registerHandler('classes.moveInto', (context, { className }): Outcome<never> => {
+  const { state } = context;
+  const found = selectedNodes(context)[0];
+  if (found === undefined) return { kind: 'change' };
+  const index = classesOf(state.document).findIndex((c) => c.name === className);
+  if (index < 0) return { kind: 'refused', message: message('status.classes.unknown', { name: className }) };
+  if (Object.keys(found.node.styles).length === 0) return { kind: 'refused', message: message('status.classes.nothingToMove', { element: found.node.name }) };
+  const locked = firstLockRefusal(state.document, [found.node.id as NodeId], 'status.locked.edit');
+  if (locked !== null) return { kind: 'refused', message: locked };
+  const styleClass = classesOf(state.document)[index] as StyleClass;
+  const patches: Patch[] = [
+    { op: 'replace', path: ['classes', index, 'styles'], value: mergedStyles(styleClass.styles, found.node.styles) },
+    { op: 'replace', path: [...found.path, 'styles'], value: {} },
+  ];
+  if (!found.node.classes.includes(className)) patches.push({ op: 'replace', path: [...found.path, 'classes'], value: [...found.node.classes, className] });
+  return { kind: 'change', patches, message: message('status.classes.moved', { element: found.node.name, name: className }) };
+});
+
+// classes.applyToSimilar (the plan's stage 7, "aplicar a todos os parecidos"): the class goes on every element of the
+// project of the primary selected element's type that does not list it yet, on every page; one undo step. A locked one
+// refuses the whole change.
+export const applyToSimilarCommand = registerHandler('classes.applyToSimilar', (context, { className }): Outcome<never> => {
+  const { state } = context;
+  const found = selectedNodes(context)[0];
+  if (found === undefined) return { kind: 'change' };
+  if (!classesOf(state.document).some((c) => c.name === className)) return { kind: 'refused', message: message('status.classes.unknown', { name: className }) };
+  const without = state.document.pages.flatMap((page) => [...walk(page.tree)]).filter((node) => node.type === found.node.type && !node.classes.includes(className));
+  if (without.length === 0) return { kind: 'refused', message: message('status.classes.noSimilar', { name: className }) };
+  const locked = firstLockRefusal(state.document, without.map((node) => node.id as NodeId), 'status.locked.edit');
+  if (locked !== null) return { kind: 'refused', message: locked };
+  const patches = without.map((node): Patch => {
+    const at = locate(state.document, node.id) as NonNullable<ReturnType<typeof locate>>;
+    return { op: 'replace', path: [...at.path, 'classes'], value: [...node.classes, className] };
+  });
+  return { kind: 'change', patches, message: message('status.classes.appliedToSimilar', { name: className, count: without.length }) };
+});

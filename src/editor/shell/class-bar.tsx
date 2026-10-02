@@ -12,9 +12,9 @@ import { isFeatureBuilt } from '../../app/features.ts';
 import { classesOf, usesOfClass } from '../../core/design/classes.ts';
 import { locate } from '../../core/document/model.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
-import type { CommandId, FeatureId } from '../../generated/ids.ts';
+import type { CommandId, FeatureId, MessageId } from '../../generated/ids.ts';
 import type { DoorEntry } from '../../manifest/runtime.ts';
-import { DoorControl, Icon, useDoor } from '../doors/door.tsx';
+import { DoorControl, Icon, appliesNow, useDoor } from '../doors/door.tsx';
 import { doorSlots, drawnAsOf, partOf } from '../doors/placement.ts';
 import { afterGesture } from '../input/pointer.ts';
 import { styleClassOf } from '../inspector/style-target.ts';
@@ -28,6 +28,10 @@ const CHIP = DOORS.find((d) => drawnAsOf(d) === 'item' && 'target' in d.command.
 const REMOVE = CHIP ? partOf('inspector-selector-bar', CHIP) : null;
 const APPLY = DOORS.find((d) => drawnAsOf(d) === 'button' && 'className' in d.command.args);
 const SAVE = DOORS.find((d) => drawnAsOf(d) === 'icon-button' && 'name' in d.command.args);
+// under the "affects" line while a class is the target (spec class-moves): move the element's styles into it, apply it
+// to every element of the element's type
+const MOVE_INTO = DOORS.find((d) => d.door.kind === 'panel-control' && d.door.control === 'class-move-into');
+const APPLY_SIMILAR = DOORS.find((d) => d.door.kind === 'panel-control' && d.door.control === 'class-apply-similar');
 const ELEMENT = 'element';
 const CLASS = 'class';
 const SEPARATOR = '\n';
@@ -177,12 +181,37 @@ export function Affects() {
   const count = useEditorState((s) => (target === null ? 0 : usesOfClass(s.document, target)));
   if (target === null) return null;
   const selector = `.${target}`;
-  return <div className="affects">{count === 1 ? t('inspector.affects.one', { selector }) : t('inspector.affects.other', { selector, count })}</div>;
+  return (
+    <div className="affects">
+      <span>{count === 1 ? t('inspector.affects.one', { selector }) : t('inspector.affects.other', { selector, count })}</span>
+      <ClassMoves target={target} selector={selector} />
+    </div>
+  );
+}
+
+// Move this element's styles into the class, while it has styles of its own; apply the class to every element of its
+// type, while one lacks it (each drawn only while it can act: the door's command can run)
+function ClassMoves({ target, selector }: { readonly target: string; readonly selector: string }) {
+  const t = useT();
+  const primary = useEditorState((s) => (s.selection[0] === undefined ? null : (locate(s.document, s.selection[0])?.node ?? null)));
+  const store = useStore();
+  useEditorState((s) => s.document);
+  if (primary === null) return null;
+  const element = t(`element.${primary.type}.label` as MessageId);
+  const args = { className: target };
+  return (
+    <span className="affects__actions">
+      {MOVE_INTO !== undefined && appliesNow(MOVE_INTO, args, store) ? <DoorControl entry={MOVE_INTO} args={args} label={t(MOVE_INTO.door.labelKey as MessageId, { selector })} ready={ready(MOVE_INTO)} /> : null}
+      {APPLY_SIMILAR !== undefined && appliesNow(APPLY_SIMILAR, args, store) ? <DoorControl entry={APPLY_SIMILAR} args={args} label={t(APPLY_SIMILAR.door.labelKey as MessageId, { selector, element: element.toLowerCase() })} ready={ready(APPLY_SIMILAR)} /> : null}
+    </span>
+  );
 }
 
 // the control the selector bar draws for + Class and Save the styles as a class; undefined for any other door
 export function classBarControl(entry: DoorEntry): ReactNode | undefined {
   if (entry === APPLY) return <ApplyClass key={entry.ref} />;
   if (entry === SAVE) return <SaveAsClass key={entry.ref} />;
+  // drawn under the "affects" line (ClassMoves), never in the bar's row
+  if (entry === MOVE_INTO || entry === APPLY_SIMILAR) return null;
   return undefined;
 }

@@ -8812,3 +8812,22 @@ None: an entry that would not run (a class with nothing selected) is not offered
 
 A text that is no colour (`status.siteColours.invalid`), a colour no value uses (`status.siteColours.notUsed`), a
 variable name that is no name or is taken (the variables' own refusals).
+
+## class-moves
+
+### Our rule
+
+- While a class is the style target, under "affects N elements" (the plan's stage 7; journey D1, styles typed again
+  element by element):
+  - **Move this element's styles into .card** (`classes.moveInto`, while the selected element has styles of its own):
+    its own styles join the class's, laid over them (the element looks as it did, and every element listing the class
+    takes them), the element keeps none, and it lists the class; one undo step.
+  - **Apply .card to every article** (`classes.applyToSimilar`, while some element of its type lacks it): every element
+    of the project of the selected element's type lists the class; one undo step.
+
+### Refusals
+
+A class the project does not have (`status.classes.unknown`), an element with no styles of its own
+(`status.classes.nothingToMove`), no element of the type left without the class (`status.classes.noSimilar`), a locked
+element (`status.locked.edit`). The buttons are drawn only while their command can run, so a refusal is met through the
+command bar or a script, never a button that does nothing (src/core/design/classes.test.ts).

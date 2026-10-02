@@ -121,6 +121,8 @@ export interface CommandArgs {
   "components.fillFromData": { readonly path: string };
   "design.replaceColour": { readonly colour: string; readonly value: string };
   "design.colourToVariable": { readonly colour: string; readonly name: string };
+  "classes.moveInto": { readonly className: string };
+  "classes.applyToSimilar": { readonly className: string };
   "element.setTag": { readonly tag: string };
   "element.setAttribute": { readonly attribute: AttributeId; readonly value: JsonValue; readonly target?: NodeId };
   "assetPicker.open": { readonly attribute: string };
@@ -615,4 +617,5 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "batch-rename": ["element.renameMany","workspace.openDialog","contextMenu.open"],
   "command-bar-find": ["pages.switch","selection.select","classes.apply"],
   "site-colours": ["design.replaceColour","design.colourToVariable"],
+  "class-moves": ["classes.moveInto","classes.applyToSimilar"],
 };

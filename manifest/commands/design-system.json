@@ -1392,6 +1392,122 @@
           "args": {}
         }
       ]
+    },
+    {
+      "id": "classes.moveInto",
+      "labelKey": "command.classes.moveInto",
+      "owner": "src/core/design/classes.ts",
+      "introducedBy": "class-moves",
+      "args": {
+        "className": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "hasSelection",
+        "refusalKey": "refusal.nothingSelected"
+      },
+      "refusals": [
+        "status.classes.unknown",
+        "status.classes.nothingToMove",
+        "status.locked.edit"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "inspector-class-move-into",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "class-moves",
+          "panel": "inspector",
+          "control": "class-move-into",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.classes.moveInto",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-selector-bar",
+            "order": 20
+          },
+          "adapter": {
+            "selection": "primary",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "classes.applyToSimilar",
+      "labelKey": "command.classes.applyToSimilar",
+      "owner": "src/core/design/classes.ts",
+      "introducedBy": "class-moves",
+      "args": {
+        "className": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "hasSelection",
+        "refusalKey": "refusal.nothingSelected"
+      },
+      "refusals": [
+        "status.classes.unknown",
+        "status.classes.noSimilar",
+        "status.locked.edit"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "inspector-class-apply-similar",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "class-moves",
+          "panel": "inspector",
+          "control": "class-apply-similar",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.classes.applyToSimilar",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-selector-bar",
+            "order": 21
+          },
+          "adapter": {
+            "selection": "primary",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
     }
   ]
 }

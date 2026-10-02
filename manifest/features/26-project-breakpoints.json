@@ -2837,6 +2837,212 @@
           }
         }
       ]
+    },
+    {
+      "id": "class-moves",
+      "titleKey": "feature.classMoves",
+      "commands": [
+        "classes.moveInto",
+        "classes.applyToSimilar"
+      ],
+      "dependsOn": [],
+      "spec": "spec/BEHAVIOUR.md#class-moves",
+      "intent": {
+        "title": "Move styles into a class; apply a class to every similar element",
+        "steps": [
+          "Select an element with a class, make the class the style target, then press Move this element's styles into .card, or Apply .card to every article."
+        ],
+        "expected": [
+          "The element's own styles join the class and the element keeps none; or every element of its type lists the class."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "an-elements-styles-move-into-its-class",
+          "setup": {
+            "fixture": "cards-class",
+            "selection": [
+              "/Page/Plans/Grid/CardA"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "inspector.setStyleTarget#inspector-class-bar-target",
+              "args": {
+                "target": "class",
+                "className": "card"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "classes.moveInto#inspector-class-move-into",
+              "args": {
+                "className": "card"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "classes.moveInto#inspector-class-move-into"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@classes",
+                "value": [
+                  {
+                    "name": "card",
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "padding-top": "16px",
+                          "background-color": "#fff8f0"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Plans/Grid/CardA/@styles",
+                "value": {}
+              }
+            ],
+            "selection": [
+              "/Page/Plans/Grid/CardA"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Plans/Grid/CardB",
+                  "property": "background-color",
+                  "value": "rgb(255, 248, 240)"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.classes.moved",
+                  "params": {
+                    "element": "CardA",
+                    "name": "card"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-class-goes-on-every-similar-element",
+          "setup": {
+            "fixture": "cards-class",
+            "selection": [
+              "/Page/Plans/Grid/CardA"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "inspector.setStyleTarget#inspector-class-bar-target",
+              "args": {
+                "target": "class",
+                "className": "card"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "classes.applyToSimilar#inspector-class-apply-similar",
+              "args": {
+                "className": "card"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "classes.applyToSimilar#inspector-class-apply-similar"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Plans/Grid/CardD/@classes",
+                "value": [
+                  "card"
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Plans/Grid/CardA"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Plans/Grid/CardD",
+                  "property": "padding-top",
+                  "value": "16px"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.classes.appliedToSimilar",
+                  "params": {
+                    "name": "card",
+                    "count": "1"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        }
+      ]
     }
   ]
 }

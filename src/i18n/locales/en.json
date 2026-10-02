@@ -3364,5 +3364,13 @@
   "status.siteColours.invalid": "{value} is no colour.",
   "status.siteColours.replaced": "{colour} replaced by {value} in {count} values.",
   "status.siteColours.madeVariable": "Variable {name} made of {colour}, used by {count} values.",
-  "feature.siteColours": "Colours in use, replaced or made a variable across the site"
+  "feature.siteColours": "Colours in use, replaced or made a variable across the site",
+  "command.classes.moveInto": "Move this element’s styles into {selector}",
+  "command.classes.applyToSimilar": "Apply {selector} to every {element}",
+  "status.classes.unknown": "The project has no class .{name}.",
+  "status.classes.nothingToMove": "{element} has no styles of its own to move.",
+  "status.classes.moved": "The styles of {element} moved into .{name}.",
+  "status.classes.noSimilar": "Every element of this kind already has .{name}.",
+  "status.classes.appliedToSimilar": ".{name} applied to {count} more elements.",
+  "feature.classMoves": "Move styles into a class; apply a class to every similar element"
 }

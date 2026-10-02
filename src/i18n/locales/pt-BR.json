@@ -3364,5 +3364,13 @@
   "status.siteColours.invalid": "{value} não é uma cor.",
   "status.siteColours.replaced": "{colour} trocada por {value} em {count} valores.",
   "status.siteColours.madeVariable": "Variável {name} criada com {colour}, usada por {count} valores.",
-  "feature.siteColours": "Cores em uso, trocadas ou viradas variável em todo o site"
+  "feature.siteColours": "Cores em uso, trocadas ou viradas variável em todo o site",
+  "command.classes.moveInto": "Mover os estilos deste elemento para {selector}",
+  "command.classes.applyToSimilar": "Aplicar {selector} a todo {element}",
+  "status.classes.unknown": "O projeto não tem a classe .{name}.",
+  "status.classes.nothingToMove": "{element} não tem estilos próprios para mover.",
+  "status.classes.moved": "Os estilos de {element} foram para .{name}.",
+  "status.classes.noSimilar": "Todos os elementos deste tipo já têm .{name}.",
+  "status.classes.appliedToSimilar": ".{name} aplicada a mais {count} elementos.",
+  "feature.classMoves": "Mover estilos para uma classe; aplicar uma classe a todos os parecidos"
 }
