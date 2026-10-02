@@ -6,7 +6,7 @@
     "doors": 1307,
     "scenarios": 1709,
     "modules": 395,
-    "lines": 72709
+    "lines": 72715
   },
   "features": [
     {
@@ -5714,7 +5714,7 @@
     },
     {
       "path": "src/editor/shell/concept-row.tsx",
-      "lines": 63,
+      "lines": 69,
       "commands": [],
       "features": []
     },

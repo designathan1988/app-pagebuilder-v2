@@ -3,7 +3,8 @@
 // and what its details hold — and, while open, its details in a group under it. The disclosure is the door
 // inspector.toggleRow#inspector-row-disclosure; a native button, so Enter and Space open and close it.
 import { useId, useMemo, type ReactNode } from 'react';
-import { storedValue } from '../../core/style/set.ts';
+import { storedLayers, storedValue } from '../../core/style/set.ts';
+import { shadowCss } from '../../core/style/shadows.ts';
 import { doorSlots } from '../doors/placement.ts';
 import { DoorControl } from '../doors/door.tsx';
 import { detailProperties, type ConceptRow } from '../inspector/concept-rows.ts';
@@ -53,10 +54,15 @@ function useRowSummary(row: ConceptRow): string {
     const node = styleSource(s);
     if (node === null) return '';
     const rules = layeredRules(s);
+    // a structured value (a shadow's layers) is read as its layers and written as the CSS they make (J19: the Shadow
+    // row said none while the element held a shadow)
     return properties
-      .map((property) => storedValue(node, property, rules))
-      .filter((value): value is NonNullable<typeof value> => value !== undefined)
-      .map((value) => (typeof value === 'string' ? value : JSON.stringify(value)))
+      .map((property) => {
+        if (!rules.structures.has(property)) return storedValue(node, property, rules);
+        const layers = storedLayers(node, property, rules);
+        return layers.length === 0 ? undefined : shadowCss(layers, property, rules);
+      })
+      .filter((value): value is string => value !== undefined && value !== '')
       .join(', ');
   });
 }
