@@ -2374,6 +2374,10 @@ None (panels can only be moved with the pointer).
 1. **For Elements and Layers the edge hint is a 3 px line with no words.** Required: near the left or right edge a `Dock left` / `Dock right` hint appears, and release docks the panel there (manifest feature `floating-panels`), the same for every panel.
 2. **Two different panel-window implementations** with different thresholds (12 px vs 80 px edges), hints and limits. Required: one workspace owner and one drag behaviour for every panel.
 3. **Edge docking can create top and bottom docks** for Elements/Layers (12 px from the top or bottom edge), which the layout does not otherwise expect (the manifest intent lists left dock, right dock and the bottom workbench). Required: panels dock to the left dock, the right dock, or the bottom workbench, and nowhere else.
+4. **A floating panel had no way back but a drag to the edge** (jornada03 plan, stage 5: the floating window's header
+   with its name, a dock button and ×). Required: while a panel is away from its place (floating, or docked right), its
+   header draws **Put back in its place** before Close (`workspace.movePanel#panel-header-dock`, to the left dock: a
+   sidebar view or section returns to the sidebar, a dock panel to the dock's tabs); in its place the button is not drawn.
 
 ## gradient-editor
 

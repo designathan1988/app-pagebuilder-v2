@@ -96,19 +96,23 @@ const INSERT_TILE = requireDoor('insert', (d) => drawnAs(d) === 'item' && Object
 const INSERT_GROUP = requireDoor('insert', (d) => drawnAs(d) === 'disclosure');
 // a component's tile (components.insertInstance): the project's components, after the element groups
 const COMPONENT_TILE = requireDoor('insert', (d) => drawnAs(d) === 'item' && 'component' in d.command.args);
-// the panel header's doors (DESIGN.md `panel-header`: Close the panel), drawn in the title of each sidebar view
+// the panel header's doors (DESIGN.md `panel-header`: put the panel back in its place, close it), drawn in the title
+// of each sidebar view; the first only while the panel is away from its place (floating, or docked right)
 const PANEL_HEADER = doorSlots('panel-header');
+// (the door that names a place to move the panel to)
+const DOCK_BACK = PANEL_HEADER.find((entry) => 'to' in entry.door.args);
 
 // A sidebar view's title: its name, and the panel header's doors, each standing for the view it acts on. It is the
 // view's drag source too (spec floating-panels: a press on a panel's header moves the panel).
 export function ViewTitle({ panel, title }: { readonly panel: Panel; readonly title: string }) {
   // a view drawn inside a floating window carries the window's own drag too (spec floating-panels)
   const floating = useEditorState((state) => floatingOf(state.ui, panel) !== null);
+  const away = useEditorState((state) => floatingOf(state.ui, panel) !== null || (state.ui.layout.right ?? []).includes(panel));
   return (
     <div className="view__title" data-region="panel-header" data-panel-header={panel}>
       <span className="view__name">{title}</span>
       <PanelGrip panel={panel} floating={floating === true} />
-      {PANEL_HEADER.map((entry) => (
+      {PANEL_HEADER.filter((entry) => entry !== DOCK_BACK || away).map((entry) => (
         <DoorControl key={entry.ref} entry={entry} args={{ panel }} />
       ))}
     </div>
@@ -758,6 +762,7 @@ function LayersSection() {
   const t = useT();
   const layersOpen = useEditorState((s) => isPanelOpen(s.ui, 'layers'));
   const layersFloat = useEditorState((s) => floatingOf(s.ui, 'layers') !== null);
+  const layersAway = useEditorState((s) => floatingOf(s.ui, 'layers') !== null || (s.ui.layout.right ?? []).includes('layers'));
   const tree = useEditorState((s) => pageShown(s)?.tree);
   const collapsed = useEditorState((s) => s.ui.layers.collapsed);
   const query = useEditorState((s) => s.ui.layers.query);
@@ -851,6 +856,8 @@ function LayersSection() {
         ) : null}
         <span className="section-title__actions">
           <Slots region="explorer-layers" render={(slot) => (slot.kind === 'door' && slot.entry === LAYERS_HEADER ? null : undefined)} />
+          {/* away from the sidebar (floating, or docked right), the header puts the Layers back (spec floating-panels) */}
+          {layersAway && DOCK_BACK ? <DoorControl entry={DOCK_BACK} args={{ panel: 'layers' }} /> : null}
         </span>
       </div>
       {layersOpen && tree ? (

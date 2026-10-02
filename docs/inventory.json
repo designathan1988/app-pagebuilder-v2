@@ -3,10 +3,10 @@
     "features": 208,
     "built": 207,
     "commands": 360,
-    "doors": 1314,
-    "scenarios": 1723,
+    "doors": 1315,
+    "scenarios": 1724,
     "modules": 400,
-    "lines": 73470
+    "lines": 73479
   },
   "features": [
     {
@@ -2202,8 +2202,8 @@
       "commands": [
         "workspace.movePanel"
       ],
-      "doors": 6,
-      "scenarios": 4,
+      "doors": 7,
+      "scenarios": 5,
       "modules": [
         "src/editor/workspace/layout.ts"
       ]
@@ -2215,7 +2215,7 @@
         "workspace.movePanel",
         "workspace.setActiveTab"
       ],
-      "doors": 11,
+      "doors": 12,
       "scenarios": 3,
       "modules": [
         "src/editor/workspace/layout.ts"
@@ -2231,7 +2231,7 @@
         "workspace.movePanel",
         "inspector.toggleSection"
       ],
-      "doors": 16,
+      "doors": 17,
       "scenarios": 1,
       "modules": [
         "src/editor/inspector/sections.ts",
@@ -5976,7 +5976,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1149,
+      "lines": 1156,
       "commands": [],
       "features": []
     },
@@ -6311,7 +6311,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6309,
+      "lines": 6311,
       "commands": [],
       "features": []
     },

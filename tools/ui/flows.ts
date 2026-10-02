@@ -217,6 +217,16 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'floating-window',
+    about: 'stage 5: a panel dragged out by its header floats as a window with its name, a dock button and a close button',
+    steps: [
+      { door: 'workspace.movePanel#panel-drag-panel-header-canvas' },
+      { photo: 'explorer-floating' },
+      { door: 'workspace.movePanel#panel-header-dock' },
+      { photo: 'explorer-back' },
+    ],
+  },
+  {
     name: 'dock-strip',
     about: 'stage 5: the closed dock keeps its strip (Timeline, Checks with its count, Motion, the first issue); a tab opens it, show/hide folds it back',
     steps: [

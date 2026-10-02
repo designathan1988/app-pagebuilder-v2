@@ -1629,6 +1629,7 @@ export const DOOR_IDS = [
   "workspace.movePanel#panel-drag-floating-header-anywhere",
   "workspace.movePanel#panel-drag-panel-header-panel-upper-part",
   "workspace.movePanel#panel-drag-panel-header-panel-lower-part",
+  "workspace.movePanel#panel-header-dock",
   "quickPanel.setOffset#panel-drag-quick-panel-grip-canvas",
   "preferences.setLanguage#menu-language-pt-br",
   "preferences.setLanguage#menu-language-en",
@@ -6304,5 +6305,6 @@ export const MESSAGE_IDS = [
   "canvas.badge.editingBreakpoint",
   "layers.instanceOf",
   "assetPicker.search",
+  "panel.dockBack",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

@@ -447,7 +447,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "panel-header",
-            "order": 1
+            "order": 2
           },
           "adapter": {
             "selection": "none",
@@ -1548,6 +1548,34 @@
           },
           "args": {
             "to": "stack"
+          }
+        },
+        {
+          "id": "panel-header-dock",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "floating-panels",
+          "panel": "panel-header",
+          "control": "dock",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "panel.dockBack",
+          "faceLabelKey": null,
+          "icon": "arrow-left-to-line",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "panel-header",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "to": "dock-left"
           }
         }
       ]
