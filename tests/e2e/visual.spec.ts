@@ -17,6 +17,9 @@ async function aurora(page: Page, scheme: 'light' | 'dark'): Promise<void> {
   await page.emulateMedia({ colorScheme: scheme });
   await page.setViewportSize({ width: 1440, height: 900 });
   await openEditor(page);
+  // the theme chosen in the app (View › Theme): its default is dark (environment.json), so the browser's colour scheme
+  // alone left the "light" pictures dark and the light theme with no baseline at all
+  await runDoor(page, `preferences.setTheme#menu-theme-${scheme}`);
   const chooser = page.waitForEvent('filechooser');
   await runDoor(page, OPEN);
   await (await chooser).setFiles({ name: 'aurora.json', mimeType: 'application/json', buffer: fs.readFileSync(FIXTURE) });

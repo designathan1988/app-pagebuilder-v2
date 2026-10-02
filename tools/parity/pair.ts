@@ -8,6 +8,8 @@ import path from 'node:path';
 import { chromium, type Page } from '@playwright/test';
 
 const STATE = process.argv[2] ?? 'selection';
+// the theme both are shown in (third argument: dark, the default, or light)
+const THEME = process.argv[3] ?? 'dark';
 const APP = `http://localhost:${process.env.PORT ?? '5320'}/`;
 const CANON = 'http://localhost:5394/design/final/index.html';
 const out = path.join('.cache/logs', `parity-${new Date().toISOString().replace(/[:.]/g, '-')}`);
@@ -16,7 +18,7 @@ fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({ channel: 'chrome' });
 const canon = await browser.newPage({ viewport: { width: 1440, height: 900 }, locale: 'en-US' });
 // the design's state is its address's (#state=…; its own control reloads the page with it)
-await canon.goto(`${CANON}#state=${STATE}&theme=dark&lang=en`);
+await canon.goto(`${CANON}#state=${STATE}&theme=${THEME}&lang=en`);
 await canon.waitForTimeout(1500);
 await canon.evaluate(() => document.querySelector('.mock-ctl')?.remove());
 await canon.waitForTimeout(400);
@@ -32,6 +34,14 @@ await (await chooser).setFiles('manifest/features/fixtures/cards-class.json');
 await app.waitForTimeout(1500);
 await app.waitForLoadState('load');
 await app.locator('.workbench').waitFor();
+// the app's theme chosen as a person chooses it (View › Theme)
+if (THEME === 'light') {
+  await app.locator('[data-menu="view"]').click();
+  // Theme is a submenu: the pointer rests on it, then its Light item
+  await app.locator('[role="menuitem"]', { hasText: 'Theme' }).first().hover();
+  await app.locator('[data-door="preferences.setTheme#menu-theme-light"]').first().click();
+  await app.waitForTimeout(300);
+}
 if (STATE !== 'default') {
   await app.locator('[data-door="selection.select#layers-row"]', { hasText: 'CardA' }).first().click();
   await app.waitForTimeout(500);
@@ -118,13 +128,13 @@ for (const one of a) {
   const clip = (box: Box): Box => ({ x: Math.max(0, box.x), y: Math.max(0, box.y), width: Math.min(1440 - Math.max(0, box.x), box.width), height: Math.min(900 - Math.max(0, box.y), box.height) });
   // the two crops, side by side in name: <state>-<region>-canon.png above <state>-<region>-app.png (joined by
   // tools/parity/join.py)
-  const name = `${STATE}-${one.id.replace(/[:]/g, '_')}`;
+  const name = `${STATE}${THEME === 'dark' ? '' : `-${THEME}`}-${one.id.replace(/[:]/g, '_')}`;
   await canon.screenshot({ path: path.join(out, `${name}-canon.png`), clip: clip(one.box) });
   await app.screenshot({ path: path.join(out, `${name}-app.png`), clip: clip(other.box) });
 }
 for (const one of b) if (!a.some((x) => x.id === one.id)) lines.push(`${one.id}\n  canon NOT DRAWN\n  app   ${JSON.stringify(one.box)}`);
 fs.writeFileSync(path.join(out, 'report.txt'), lines.join('\n'));
-await canon.screenshot({ path: path.join(out, `${STATE}-whole-canon.png`) });
-await app.screenshot({ path: path.join(out, `${STATE}-whole-app.png`) });
+await canon.screenshot({ path: path.join(out, `${STATE}${THEME === 'dark' ? '' : `-${THEME}`}-whole-canon.png`) });
+await app.screenshot({ path: path.join(out, `${STATE}${THEME === 'dark' ? '' : `-${THEME}`}-whole-app.png`) });
 console.log(out);
 await browser.close();
