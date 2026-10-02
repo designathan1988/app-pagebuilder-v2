@@ -612,6 +612,13 @@
   outline-offset: -2px;
 }
 
+/* a group's title in the list (the canonical .pal-g) */
+.command-bar__group {
+  padding: var(--space-4) var(--space-5) var(--space-2);
+  color: var(--color-text-subtle);
+  font: var(--weight-semibold) var(--fs-caption) / var(--lh-caption) var(--font-ui);
+}
+
 /* the parts of a label the query matches (the canonical .pal-i mark) */
 .command-bar__match {
   background: none;

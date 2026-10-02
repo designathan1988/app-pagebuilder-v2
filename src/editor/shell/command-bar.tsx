@@ -8,7 +8,7 @@ import { isFeatureBuilt } from '../../app/features.ts';
 import type { CommandId, FeatureId, MessageId } from '../../generated/ids.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
 import { elementIcon, manifest } from '../../manifest/runtime.ts';
-import { BAR_DOORS, SCOPE_PILLS, askedSet, entryKey, matchedRanges, scopeOf, kindOf, namedProperties, recentEntries, remember, setEntryFor, shownEntries, type BarEntry, type NamedProperty } from '../command-bar/command-bar.ts';
+import { BAR_DOORS, SCOPE_PILLS, askedSet, entryKey, groupedEntries, matchedRanges, scopeOf, kindOf, namedProperties, recentEntries, remember, setEntryFor, shownEntries, type BarEntry, type NamedProperty } from '../command-bar/command-bar.ts';
 import { labelParamsOf } from '../doors/current.ts';
 import { DoorControl, Icon, appliesNow, isDoorBuilt } from '../doors/door.tsx';
 import { GLYPHS, doorSlots, menuOf } from '../doors/placement.ts';
@@ -197,11 +197,17 @@ function CommandBarDialog() {
           </p>
         ) : null}
         <ul className="command-bar__list" role="listbox" id={LIST_ID} ref={list} aria-label={t('command.commandBar')}>
-          {shown.map((e, i) => (
-            <li key={e.key} id={`${LIST_ID}-${i}`} role="option" aria-selected="false" className="command-bar__option" onClick={() => { remember(e.key); close(); }}>
-              <Entry e={e} query={query} />
-            </li>
-          ))}
+          {/* the entries under their groups' titles (the canonical palette: Commands, Panels); a title is no option */}
+          {groupedEntries(shown).flatMap((group) => [
+            <li key={`group-${group.title}`} role="presentation" className="command-bar__group">
+              {t(group.title as MessageId)}
+            </li>,
+            ...group.entries.map((e) => (
+              <li key={e.key} id={`${LIST_ID}-${shown.indexOf(e)}`} role="option" aria-selected="false" className="command-bar__option" onClick={() => { remember(e.key); close(); }}>
+                <Entry e={e} query={query} />
+              </li>
+            )),
+          ])}
         </ul>
         <p className="command-bar__hints">
           {KEY_DOORS.map((d) => (

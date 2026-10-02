@@ -29,6 +29,24 @@ const KIND_ORDER: readonly EntryKind[] = ['command', 'insert', 'open-panel', 'se
 // and @ the project's own things: its pages to go to, the open page's layers to select, its classes to apply (J12)
 const SCOPES: Readonly<Record<string, readonly EntryKind[]>> = { '>': ['command'], '+': ['insert'], '/': ['open-panel'], '#': ['set-property', 'edit-property'], '@': ['go-to-page', 'select-layer', 'apply-class'] };
 export const SCOPE_PREFIXES = Object.keys(SCOPES);
+// the title of the group an entry is listed under (the canonical palette: Commands, Panels), by the scope that keeps it
+const GROUP_TITLES: Readonly<Record<string, string>> = { '>': 'commandBar.group.commands', '+': 'commandBar.group.insert', '/': 'commandBar.group.panels', '#': 'commandBar.group.properties', '@': 'commandBar.group.find' };
+export function groupTitleOf(kind: EntryKind): string {
+  const prefix = Object.entries(SCOPES).find(([, kinds]) => kinds.includes(kind))?.[0] ?? '>';
+  return GROUP_TITLES[prefix] ?? 'commandBar.group.commands';
+}
+// The entries shown, under their groups: each group where its best entry stands, its entries in the order shown, so
+// the first entry stays the best match (the one Enter runs).
+export function groupedEntries<T extends { readonly entry: DoorEntry }>(shown: readonly T[]): readonly { readonly title: string; readonly entries: readonly T[] }[] {
+  const groups: { title: string; entries: T[] }[] = [];
+  for (const one of shown) {
+    const title = groupTitleOf(kindOf(one.entry));
+    const group = groups.find((g) => g.title === title);
+    if (group === undefined) groups.push({ title, entries: [one] });
+    else group.entries.push(one);
+  }
+  return groups;
+}
 // the scopes as the bar's pills name them (the canonical palette's scope pills), All first: no prefix
 export const SCOPE_PILLS: readonly { readonly prefix: string; readonly labelKey: string }[] = [
   { prefix: '', labelKey: 'commandBar.scope.all' },

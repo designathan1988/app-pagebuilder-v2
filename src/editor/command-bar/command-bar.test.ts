@@ -2,7 +2,7 @@
 // start of a word, anywhere or as initials; a scope prefix keeps one kind of entry; with no words the recently run
 // entries come first; at most commandBar.maxResults are shown.
 import { describe, expect, it } from 'vitest';
-import { BAR_DOORS, MAX_RESULTS, entryKey, kindOf, matchScore, matchedRanges, shownEntries, type BarEntry, scopeOf } from './command-bar.ts';
+import { BAR_DOORS, MAX_RESULTS, entryKey, groupedEntries, kindOf, matchScore, matchedRanges, shownEntries, type BarEntry, scopeOf } from './command-bar.ts';
 
 const command = BAR_DOORS.find((d) => kindOf(d) === 'command');
 const insert = BAR_DOORS.find((d) => kindOf(d) === 'insert');
@@ -44,6 +44,20 @@ describe('matchedRanges', () => {
     expect(matchedRanges('> seç', 'Seção nova')).toEqual([[0, 3]]);
     expect(matchedRanges('wiar', 'Wrap in a row')).toEqual([]);
     expect(matchedRanges('', 'Export')).toEqual([]);
+  });
+});
+
+describe('groupedEntries', () => {
+  it('lists the entries under the title of their scope, each group where its best entry stands, the best entry first', () => {
+    const of = (kind: string) => BAR_DOORS.find((d) => kindOf(d) === kind);
+    const command = of('command');
+    const insert = of('insert');
+    if (command === undefined || insert === undefined) throw new Error('the bar has a command entry and an insert entry');
+    const shown = [{ entry: command }, { entry: insert }, { entry: command }];
+    const groups = groupedEntries(shown);
+    expect(groups.map((g) => g.title)).toEqual(['commandBar.group.commands', 'commandBar.group.insert']);
+    expect(groups[0]?.entries).toEqual([shown[0], shown[2]]);
+    expect(groups[1]?.entries).toEqual([shown[1]]);
   });
 });
 
