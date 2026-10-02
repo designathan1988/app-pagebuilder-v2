@@ -6,7 +6,7 @@
     "doors": 1314,
     "scenarios": 1723,
     "modules": 400,
-    "lines": 73402
+    "lines": 73406
   },
   "features": [
     {
@@ -6024,7 +6024,7 @@
     },
     {
       "path": "src/editor/shell/variables.tsx",
-      "lines": 148,
+      "lines": 152,
       "commands": [],
       "features": []
     },

@@ -4,7 +4,7 @@
 // kinds: each item makes a variable of its kind with the next free name (the kind, a dash and a number) and its kind's
 // first value. A field keeps its text on Enter or when it is left, as the inspector's text fields do, for the variable
 // it was drawn for.
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
 import { isFeatureBuilt } from '../../app/features.ts';
 import { tokensOf, type Token } from '../../core/design/tokens.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
@@ -26,6 +26,8 @@ const DELETE = DOORS.find((d) => Object.keys(d.command.args).join() === 'token')
 // tokens.create's kinds, in their manifest order (a colour, a length, a font size), and a first value for each, the
 // value a new variable of the kind starts with, and the words of each kind's group
 const KINDS: readonly string[] = ADD?.command.args.kind?.values ?? [];
+// the colour kind: the first the manifest lists (tokens.create's kinds: colour, length, font size)
+const COLOUR_KIND = KINDS[0];
 const FIRST_VALUES: readonly string[] = ['#000000', '16px', '16px'];
 const GROUPS: readonly MessageId[] = ['styles.group.colours', 'styles.group.sizes', 'styles.group.fonts'];
 
@@ -132,7 +134,9 @@ export function Variables() {
           <div key={kind} className="variables__group" role="group" aria-label={t(GROUPS[i] ?? 'panel.variables')}>
             <div className="variables__group-title">{t(GROUPS[i] ?? 'panel.variables')}</div>
             {group.map((token) => (
-              <div key={token.name} className="variables__row">
+              <div key={token.name} className={`variables__row${kind === COLOUR_KIND ? ' variables__row--colour' : ''}`}>
+                {/* a colour variable wears its colour (the canonical Styles view's 14 px swatch) */}
+                {kind === COLOUR_KIND ? <span className="variables__swatch" style={{ '--swatch-colour': token.value } as CSSProperties} aria-hidden /> : null}
                 {RENAME !== undefined ? <VariableField key={`${token.name}-name`} entry={RENAME} token={token.name} filled="name" held={token.name} label={t('styles.variableName')} /> : null}
                 {UPDATE !== undefined ? <VariableField key={`${token.name}-value`} entry={UPDATE} token={token.name} filled="value" held={token.value} label={t('styles.variableValue')} /> : null}
                 {DELETE !== undefined ? <DoorControl entry={DELETE} args={{ token: token.name }} ready={isFeatureBuilt(DELETE.door.feature as FeatureId)} /> : null}

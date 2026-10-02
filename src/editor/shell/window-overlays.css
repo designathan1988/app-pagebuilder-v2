@@ -33,6 +33,21 @@
   padding: var(--space-1) var(--space-4);
 }
 
+/* a colour variable's row: its swatch, then its name and value (variables.tsx) */
+.variables__row--colour {
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) auto;
+}
+
+.variables__swatch {
+  /* the colour, set on each swatch (variables.tsx); none without it */
+  --swatch-colour: transparent;
+  width: var(--space-7);
+  height: var(--space-7);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-xs);
+  background: var(--swatch-colour);
+}
+
 .variables__kind {
   padding: var(--space-2) var(--space-4);
   border: 0;
