@@ -1104,7 +1104,6 @@
   "interactions.action.scrollTo": "Scroll to",
   "interactions.action.show": "Show",
   "interactions.action.toggleClass": "Toggle a class",
-  "interactions.canvasNote": "The editing canvas never runs interactions. Use Preview to see them run.",
   "interactions.field.action": "Action",
   "interactions.field.options": "Options",
   "interactions.field.target": "Target",
@@ -2666,7 +2665,7 @@
   "feature.motionPreview": "Preview a timeline and run the interactions on the canvas",
   "feature.motionTimeline": "Timeline in seconds: tracks, actions and markers",
   "featureGroup.motion": "Motion: interactions, timelines and behaviours",
-  "inspector.addMotion": "Interaction",
+  "inspector.addMotion": "Motion",
   "motion.action.animate": "Animate",
   "motion.action.attribute": "Set an attribute",
   "motion.action.class": "Add, remove or toggle a class",
@@ -2706,8 +2705,7 @@
   "motion.behaviours.add": "Add a behaviour",
   "motion.behaviours.title": "Behaviours",
   "motion.breakpoints.all": "Every breakpoint",
-  "motion.card.canvasNote": "The canvas runs interactions only while Run interactions is on. Preview runs them too.",
-  "motion.card.none": "This element has no interaction yet.",
+  "motion.card.none": "No motion on this element yet.",
   "motion.card.plays": "plays {timeline}",
   "motion.control.pause": "Pause",
   "motion.control.play": "Play",
@@ -3352,5 +3350,9 @@
   "layers.instanceOf": "An instance of the component {component}",
   "assetPicker.search": "Find an image",
   "panel.dockBack": "Put back in its place",
-  "quickPanel.key.image": "Image"
+  "quickPanel.key.image": "Image",
+  "interactions.section.events": "Events",
+  "interactions.none": "No event on this element yet.",
+  "motion.section.title": "Motion",
+  "interactions.runNote": "Run interactions plays the motion on the canvas; Preview runs the events and the motion."
 }

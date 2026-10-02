@@ -91,17 +91,18 @@ function Card({ node, interaction, index, timelines }: { readonly node: DocNode;
     );
   };
   return (
-    <article className={`motion-card${expanded ? ' is-expanded' : ''}`} data-motion-interaction={index}>
-      <header className="motion-card__head">
-        <button className="motion-card__summary" type="button" aria-expanded={expanded} onClick={() => setExpanded((was) => !was)}>
+    // drawn as the events' cards are (src/editor/shell/interactions.tsx; design/final .ix): one card anatomy in the tab
+    <article className={`interaction-card motion-card${expanded ? ' is-expanded' : ''}`} data-motion-interaction={index}>
+      <header className="interaction-card__head">
+        <button className="interaction-card__summary" type="button" aria-expanded={expanded} onClick={() => setExpanded((was) => !was)}>
           <Icon name="sparkles" size="sm" />
-          <span className="motion-card__trigger">{triggerWords(t)(interaction.trigger.kind)}</span>
-          <span className="motion-card__plays">→ {t('motion.card.plays', { timeline: interaction.timeline })}</span>
+          <span className="interaction-card__name">{triggerWords(t)(interaction.trigger.kind)}</span>
+          <span className="interaction-card__action">→ {t('motion.card.plays', { timeline: interaction.timeline })}</span>
         </button>
         <PanelButton entry={motionDoor(MOTION_DOORS.remove)} args={args} label={t('command.motion.remove')} icon={<Icon name="trash" size="sm" />} />
       </header>
       {expanded ? (
-        <div className="motion-card__fields">
+        <div className="interaction-card__fields">
           {field('scope')}
           {field('trigger')}
           {interactionFields(interaction).map(field)}
@@ -116,7 +117,7 @@ function Card({ node, interaction, index, timelines }: { readonly node: DocNode;
           {field('reducedMotion')}
         </div>
       ) : (
-        <p className="motion-card__note">{interaction.scope === undefined ? t('motion.scope.element') : t('motion.scope.classCount', { class: `.${interaction.scope}` })}</p>
+        <p className="interaction-card__note">{interaction.scope === undefined ? t('motion.scope.element') : t('motion.scope.classCount', { class: `.${interaction.scope}` })}</p>
       )}
     </article>
   );
@@ -171,6 +172,7 @@ export function MotionInteractions({ node }: { readonly node: DocNode | null }) 
   return (
     <div className="motion-interactions">
       <div className="motion-interactions__head">
+        <p className="interactions__title">{t('motion.section.title')}</p>
         <PanelButton entry={motionDoor(MOTION_DOORS.add)} label={t('command.motion.add')} icon={<Icon name="plus" size="sm" />} disabled={!single}>
           {t('inspector.addMotion')}
         </PanelButton>
@@ -178,7 +180,6 @@ export function MotionInteractions({ node }: { readonly node: DocNode | null }) 
       {node !== null && interactions.length === 0 ? <p className="motion-interactions__none">{t('motion.card.none')}</p> : null}
       {node === null ? null : interactions.map((interaction, index) => <Card key={interaction.id} node={node} interaction={interaction} index={index} timelines={timelines} />)}
       {node !== null ? <Behaviours node={node} /> : null}
-      <p className="motion-interactions__note">{t('motion.card.canvasNote')}</p>
     </div>
   );
 }

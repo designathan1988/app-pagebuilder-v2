@@ -6,7 +6,7 @@
     "doors": 1315,
     "scenarios": 1724,
     "modules": 400,
-    "lines": 73481
+    "lines": 73497
   },
   "features": [
     {
@@ -5630,7 +5630,7 @@
     },
     {
       "path": "src/editor/motion/ui/interactions.tsx",
-      "lines": 185,
+      "lines": 186,
       "commands": [],
       "features": []
     },
@@ -5898,7 +5898,7 @@
     },
     {
       "path": "src/editor/shell/interactions.tsx",
-      "lines": 186,
+      "lines": 199,
       "commands": [],
       "features": []
     },
@@ -6311,7 +6311,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6312,
+      "lines": 6314,
       "commands": [],
       "features": []
     },

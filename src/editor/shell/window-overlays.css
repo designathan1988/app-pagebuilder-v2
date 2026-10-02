@@ -870,12 +870,36 @@
 }
 
 .interactions__element {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   min-width: 0;
   overflow: hidden;
-  font: var(--weight-semibold) var(--fs-caption) / var(--lh-caption) var(--font-ui);
+  font: var(--weight-semibold) var(--fs-body) / var(--lh-body) var(--font-ui);
   color: var(--color-text);
-  text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.interactions__name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* the element's tag (design/final .ix-who .tag) */
+.interactions__tag {
+  color: var(--color-text-subtle);
+  font: var(--fw-caption) var(--fs-caption) / var(--lh-caption) var(--font-mono);
+}
+
+/* the title of each list of the tab: the events, then the motion */
+.interactions__title {
+  margin: 0;
+  padding: var(--space-4) var(--space-6) 0;
+  color: var(--color-text-muted);
+  font: var(--fw-overline) var(--fs-micro) / var(--lh-overline) var(--font-ui);
+  letter-spacing: var(--ls-overline);
+  text-transform: uppercase;
 }
 
 .interactions__head > .door {
@@ -1016,6 +1040,17 @@
    the rows around them), an empty scope saying what it means */
 .interaction-card .panel-field__text {
   font: var(--fw-input) var(--fs-caption) / var(--lh-caption) var(--font-ui);
+}
+
+/* a row with a switch (Only once, Open in a new tab) wears the same caption label and value size as its neighbours */
+.interaction-card .field-row > .field-row__label,
+.interaction-card .field-row > .door {
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+}
+
+.interaction-card .field-row > .door {
+  height: var(--size-control);
 }
 
 .interaction-card .panel-field__text::placeholder {

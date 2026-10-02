@@ -8254,7 +8254,15 @@ Pager has no motion of its own (see `events-actions`); this is the stage 10 mode
 
 ### Trigger
 
-The inspector's Interactions tab, under the element's legacy interactions: **Interaction** (`motion.add#inspector-motion-add`) adds one to the single selected element. A new interaction starts with the first trigger the element offers (click, which every element offers) and plays a **new timeline of the project named after the element and the trigger** ("Hero click"), holding one animation of the element itself, from 0 s for 0.6 s, eased out, keying nothing yet (as a new CSS animation's keyframes hold nothing).
+The Interactions tab holds two lists, each under its title (jornada03 plan, stage 5: the canonical card): **Events**
+(the element's events, spec events-actions, with Add in the tab's head: the element's icon, name and tag) and
+**Motion**, then the behaviours; each list says when it is empty ("No event on this element yet.", "No motion on this
+element yet."), and one note ends the tab with what runs where: Run interactions plays the motion on the canvas, Preview
+runs the events and the motion (the two notes it had contradicted each other). A motion card is drawn as an event's card
+(design/final `.ix`): its trigger and what it plays as the head, the trash as an icon, the fields in the 72 px label
+column.
+
+Under the events: **Motion** (`motion.add#inspector-motion-add`) adds one to the single selected element. A new interaction starts with the first trigger the element offers (click, which every element offers) and plays a **new timeline of the project named after the element and the trigger** ("Hero click"), holding one animation of the element itself, from 0 s for 0.6 s, eased out, keying nothing yet (as a new CSS animation's keyframes hold nothing).
 
 ### Hit zones and thresholds
 

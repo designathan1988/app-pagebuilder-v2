@@ -1104,7 +1104,6 @@
   "interactions.action.scrollTo": "Rolar até",
   "interactions.action.show": "Mostrar",
   "interactions.action.toggleClass": "Alternar uma classe",
-  "interactions.canvasNote": "A tela de edição não executa interações. Use Pré-visualizar para vê-las rodando.",
   "interactions.field.action": "Ação",
   "interactions.field.options": "Opções",
   "interactions.field.target": "Alvo",
@@ -2666,7 +2665,7 @@
   "feature.motionPreview": "Pré-visualizar uma linha do tempo e executar as interações no canvas",
   "feature.motionTimeline": "Linha do tempo em segundos: trilhas, ações e marcadores",
   "featureGroup.motion": "Movimento: interações, linhas do tempo e comportamentos",
-  "inspector.addMotion": "Interação",
+  "inspector.addMotion": "Movimento",
   "motion.action.animate": "Animar",
   "motion.action.attribute": "Definir um atributo",
   "motion.action.class": "Adicionar, remover ou alternar uma classe",
@@ -2706,8 +2705,7 @@
   "motion.behaviours.add": "Adicionar um comportamento",
   "motion.behaviours.title": "Comportamentos",
   "motion.breakpoints.all": "Todos os breakpoints",
-  "motion.card.canvasNote": "O canvas só executa as interações com Executar interações ligado. A pré-visualização também as executa.",
-  "motion.card.none": "Este elemento ainda não tem interação.",
+  "motion.card.none": "Este elemento ainda não tem movimento.",
   "motion.card.plays": "reproduz {timeline}",
   "motion.control.pause": "Pausar",
   "motion.control.play": "Reproduzir",
@@ -3352,5 +3350,9 @@
   "layers.instanceOf": "Uma instância do componente {component}",
   "assetPicker.search": "Procurar uma imagem",
   "panel.dockBack": "Devolver ao lugar",
-  "quickPanel.key.image": "Imagem"
+  "quickPanel.key.image": "Imagem",
+  "interactions.section.events": "Eventos",
+  "interactions.none": "Este elemento ainda não tem evento.",
+  "motion.section.title": "Movimento",
+  "interactions.runNote": "Executar interações roda o movimento na tela; Pré-visualizar roda os eventos e o movimento."
 }

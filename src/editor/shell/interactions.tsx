@@ -3,14 +3,15 @@
 // control is a door the manifest places in the inspector-interactions region: Add (interactions.add), the card's
 // fields (interactions.update, each fixing the `field` it edits), the target's picks (the canvas door and a Layers
 // row's) and Remove. The target is not typed: the field starts picking (src/editor/inspector/pick-target.ts, DESIGN's
-// data-local) and the next press on the canvas or on a Layers row gives it. The editing canvas never runs an
-// interaction: the note under the cards says so (interactions.canvasNote).
+// data-local) and the next press on the canvas or on a Layers row gives it. The tab holds two lists, each under its
+// title: these events (spec events-actions), then the element's motion (spec motion-interactions); one note at its end
+// says which runs where (interactions.runNote).
 import { isFeatureBuilt } from '../../app/features.ts';
 import { useState } from 'react';
 import { locate, type DocNode, type Interaction } from '../../core/document/model.ts';
 import { actionLabel, applicableActions, applicableTriggers, interactionsOf, needsAddress, needsAnimation, needsClassName, needsTarget, primaryNodeOf, triggerLabel } from '../../core/events/interactions.ts';
 import { animationsOf } from '../../core/animation/animation.ts';
-import type { DoorEntry } from '../../manifest/runtime.ts';
+import { elementIcon, type DoorEntry } from '../../manifest/runtime.ts';
 import { manifest } from '../../manifest/runtime.ts';
 import { Icon } from '../doors/door.tsx';
 import { PanelButton, PanelField } from './panel-field.tsx';
@@ -155,7 +156,18 @@ export function InteractionsTab() {
   return (
     <div className="inspector-tab inspector-tab--interactions" data-region="inspector-interactions">
       <div className="interactions__head">
-        <span className="interactions__element">{node === null ? t('inspector.nothingSelected') : `${node.name} · ${node.tag ?? ''}`}</span>
+        {/* the element, as the canonical head draws it: its icon, its name and its tag */}
+        <span className="interactions__element">
+          {node === null ? (
+            t('inspector.nothingSelected')
+          ) : (
+            <>
+              <Icon name={elementIcon(node.type) ?? 'box'} size="sm" />
+              <span className="interactions__name">{node.name}</span>
+              {node.tag === null ? null : <span className="interactions__tag">{node.tag}</span>}
+            </>
+          )}
+        </span>
         <button
           type="button"
           className={`door door--button${single && ADD !== null && isFeatureBuilt('events-actions' as FeatureId) ? '' : ' is-unavailable'}`}
@@ -171,10 +183,11 @@ export function InteractionsTab() {
           <span className="door__label">{t('inspector.addInteraction')}</span>
         </button>
       </div>
-      {node === null ? null : interactions.length === 0 ? <p className="interactions__none">{t('interactions.canvasNote')}</p> : null}
+      {node === null ? null : <p className="interactions__title">{t('interactions.section.events')}</p>}
+      {node === null ? null : interactions.length === 0 ? <p className="interactions__none">{t('interactions.none')}</p> : null}
       {node === null ? null : interactions.map((interaction, index) => <Card key={index} node={node} interaction={interaction} index={index} />)}
-      {node !== null && interactions.length > 0 ? <p className="interactions__note">{t('interactions.canvasNote')}</p> : null}
       <MotionInteractions node={node} />
+      <p className="interactions__note">{t('interactions.runNote')}</p>
     </div>
   );
 }

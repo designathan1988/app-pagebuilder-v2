@@ -4058,7 +4058,6 @@ export const MESSAGE_IDS = [
   "interactions.action.scrollTo",
   "interactions.action.show",
   "interactions.action.toggleClass",
-  "interactions.canvasNote",
   "interactions.field.action",
   "interactions.field.options",
   "interactions.field.target",
@@ -5660,7 +5659,6 @@ export const MESSAGE_IDS = [
   "motion.behaviours.add",
   "motion.behaviours.title",
   "motion.breakpoints.all",
-  "motion.card.canvasNote",
   "motion.card.none",
   "motion.card.plays",
   "motion.control.pause",
@@ -6307,5 +6305,9 @@ export const MESSAGE_IDS = [
   "assetPicker.search",
   "panel.dockBack",
   "quickPanel.key.image",
+  "interactions.section.events",
+  "interactions.none",
+  "motion.section.title",
+  "interactions.runNote",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

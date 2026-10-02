@@ -880,6 +880,21 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'interactions-card',
+    about: 'stage 5: the Interactions tab against the canonical card (On click → Play animation, Applies to, Trigger, Action, Target, Options)',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/motion.json'] } },
+      { door: 'selection.select#layers-row', labelled: 'Hero' },
+      { door: 'workspace.setActiveTab#inspector-tab-interactions' },
+      { photo: 'interactions-tab' },
+      { door: 'interactions.add#inspector-interaction-add' },
+      { photo: 'interaction-added' },
+      { door: 'motion.add#inspector-motion-add' },
+      { photo: 'motion-added' },
+    ],
+  },
+  {
     name: 'quick-panel-heading',
     about: 'stage 5: the quick panel of a heading, against the canonical anatomy (design/final)',
     steps: [
