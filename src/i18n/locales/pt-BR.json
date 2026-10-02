@@ -3347,5 +3347,6 @@
   "commandBar.selectLayer": "Selecionar {name}",
   "commandBar.applyClass": "Aplicar a classe .{className}",
   "commandBar.scope.find": "Páginas, camadas, classes @",
-  "feature.commandBarFind": "Páginas, camadas e classes na barra de comandos"
+  "feature.commandBarFind": "Páginas, camadas e classes na barra de comandos",
+  "canvas.badge.editingBreakpoint": "{breakpoint} · {width} px — as edições valem para esta tela e as mais estreitas"
 }

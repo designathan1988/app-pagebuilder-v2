@@ -3347,5 +3347,6 @@
   "commandBar.selectLayer": "Select {name}",
   "commandBar.applyClass": "Apply class .{className}",
   "commandBar.scope.find": "Pages, layers, classes @",
-  "feature.commandBarFind": "Pages, layers and classes in the command bar"
+  "feature.commandBarFind": "Pages, layers and classes in the command bar",
+  "canvas.badge.editingBreakpoint": "{breakpoint} · {width} px — edits apply to this screen and narrower ones"
 }

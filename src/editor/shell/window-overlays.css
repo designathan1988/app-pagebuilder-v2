@@ -373,6 +373,22 @@
   font: var(--fw-label) var(--fs-label) / var(--lh-label) var(--font-ui);
 }
 
+/* the breakpoint being edited, when it is not the base (canvas.tsx BreakpointBadge, J22): a band at the frame's top
+   left, in the breakpoint mode's colour */
+.canvas-breakpoint-badge {
+  position: absolute;
+  top: calc(var(--size-frame-tabs) + var(--space-2));
+  left: var(--space-2);
+  z-index: 2;
+  max-width: calc(100% - var(--space-4));
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-mode-breakpoint);
+  color: var(--color-on-mode-breakpoint);
+  font: var(--fw-label) var(--fs-label) / var(--lh-label) var(--font-ui);
+  pointer-events: none;
+}
+
 /* the preview (preview.tsx, spec preview-mode): the preview bar over the exported page, which keeps its width at 100 %,
    laid over the editor down to the status bar */
 .preview {

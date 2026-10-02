@@ -203,6 +203,19 @@ function StateBadge() {
   );
 }
 
+// While a breakpoint other than the base is edited (spec breakpoint-overrides; jornada03 J22), a band over the frame
+// says where the edits go: "Tablet · 834 px — edits apply to this screen and narrower ones".
+function BreakpointBadge() {
+  const t = useT();
+  const breakpoint = useEditorState((s) => activeBreakpoint(s));
+  if (breakpoint.base) return null;
+  return (
+    <div className="canvas-breakpoint-badge" data-canvas-badge="breakpoint">
+      {t('canvas.badge.editingBreakpoint', { breakpoint: breakpointName(breakpoint, t), width: breakpoint.width })}
+    </div>
+  );
+}
+
 export function CanvasColumn() {
   const stage = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -263,6 +276,7 @@ export function CanvasColumn() {
                         frame's edge instead of being cut or overlapping (the audit's A3.18) */}
                     <BreakpointTabs />
                     <StateBadge />
+                    <BreakpointBadge />
                     {/* the edge first: the page's overlay (its handles at the page's edge) is drawn over it */}
                     <FrameEdge width={pageWidth} />
                     <CanvasFrame width={pageWidth} screen={pageHeight} zoom={zoom} />
