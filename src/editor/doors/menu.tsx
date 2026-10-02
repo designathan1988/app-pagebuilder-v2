@@ -45,6 +45,8 @@ function MenuItem({ entry, onDone, keysIn = 'global' }: { readonly entry: DoorEn
       aria-disabled={door.available ? undefined : true}
       className={['menu__item', door.available ? '' : 'is-unavailable'].filter((c) => c !== '').join(' ')}
       data-door={entry.ref}
+      // what the item stands for, as every door's control says it (a dialog it opens)
+      data-args={Object.keys(entry.door.args).length > 0 ? JSON.stringify(entry.door.args) : undefined}
       title={door.title}
       onClick={() => {
         if (!door.available) return;

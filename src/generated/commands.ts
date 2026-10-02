@@ -238,6 +238,7 @@ export interface CommandArgs {
   "element.toggleLock": { readonly target?: NodeId };
   "element.toggleHidden": { readonly target?: NodeId };
   "element.setLayerColor": { readonly target: NodeId; readonly color: string };
+  "element.renameMany": { readonly pattern: string; readonly start: number };
   "page.openProperties": Record<string, never>;
   "page.setSetting": { readonly setting: AttributeId; readonly value: JsonValue };
   "project.newBlankPage": Record<string, never>;
@@ -354,7 +355,7 @@ export interface CommandArgs {
   "guides.toggleVisible": Record<string, never>;
   "snap.setEnabled": { readonly enabled: "toggle" | "on" | "off" };
   "snap.setSettings": { readonly targets: JsonValue; readonly distance: number };
-  "workspace.openDialog": { readonly dialog: "guides-grids" | "snap-settings" | "breakpoints" };
+  "workspace.openDialog": { readonly dialog: "guides-grids" | "snap-settings" | "breakpoints" | "batch-rename" };
   "view.setViewportWidth": { readonly width: number };
   "view.resizeViewport": { readonly size?: number; readonly distance: number };
   "view.toggleSideBySide": Record<string, never>;
@@ -608,4 +609,5 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "project-breakpoints": ["breakpoints.add","breakpoints.rename","breakpoints.setWidth","breakpoints.remove","workspace.openDialog","view.setBreakpoint","view.setViewportWidth","style.set","project.export"],
   "side-by-side-view": ["view.toggleSideBySide","view.setBreakpoint"],
   "project-language": ["project.setLanguage","project.setCodeLanguage","workspace.setActiveTab","project.export"],
+  "batch-rename": ["element.renameMany","workspace.openDialog","contextMenu.open"],
 };

@@ -212,6 +212,10 @@
       "area": "overlay"
     },
     {
+      "id": "batch-rename-dialog",
+      "area": "overlay"
+    },
+    {
       "id": "recovery-dialog",
       "area": "overlay"
     },

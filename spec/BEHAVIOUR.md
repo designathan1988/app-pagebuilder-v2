@@ -8696,3 +8696,18 @@ A Bézier whose x lies outside 0–1, or a point that is no number: Use this cur
 ### Refusals
 
 A text that is no language tag (`status.project.languageInvalid`), before any change.
+
+## batch-rename
+
+### Our rule
+
+- **Rename the selected…** (the context menu) opens a dialog: **Names**, a pattern where `{name}` is each element's
+  name and `{n}` its number, and **First number** (1 by default); it shows the names it will give, in the order
+  selected. **Rename them** (`element.renameMany`) names every selected element through the one renamer, one undo
+  step; the selection stays.
+- The dialog closes after the renaming; Escape or × closes it without one.
+
+### Refusals
+
+An empty pattern or a first number below 1 (`status.rename.patternInvalid`); the page root or a locked element among
+the selected refuses the whole batch with the renamer's own refusal, and nothing is renamed.

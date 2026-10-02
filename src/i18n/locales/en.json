@@ -3302,5 +3302,15 @@
   "status.project.languageSet": "The project is written in {language}.",
   "status.project.codeLanguageSet": "The exported code is named in {language}.",
   "status.project.languageInvalid": "“{value}” is not a language tag (en, pt-BR, es…).",
-  "feature.projectLanguage": "The project’s languages"
+  "feature.projectLanguage": "The project’s languages",
+  "command.renameMany": "Rename them",
+  "batchRename.open": "Rename the selected…",
+  "batchRename.title": "Rename the selected elements",
+  "batchRename.pattern": "Names",
+  "batchRename.patternHint": "{name} is each element’s name, {n} its number",
+  "batchRename.start": "First number",
+  "batchRename.preview": "They will be named: {names}",
+  "status.rename.many": "Renamed {count} elements.",
+  "status.rename.patternInvalid": "Type the names to give, and a first number of 1 or more.",
+  "feature.batchRename": "Renaming in batch"
 }

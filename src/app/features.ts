@@ -238,6 +238,7 @@ export const FEATURES = {
   'side-by-side-view': registerFeature('side-by-side-view'),
   'value-presets': registerFeature('value-presets'),
   'project-language': registerFeature('project-language'),
+  'batch-rename': registerFeature('batch-rename'),
 } as const satisfies FeatureTable;
 
 // Whether a feature is registered as built.

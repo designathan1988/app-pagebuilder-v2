@@ -33,6 +33,7 @@ import { ColorPicker } from './color.tsx';
 import { GuidesGridsDialog } from './guides-grids.tsx';
 import { SnapSettingsDialog } from './snap-settings.tsx';
 import { BreakpointsDialog } from './breakpoints-dialog.tsx';
+import { BatchRenameDialog } from './batch-rename.tsx';
 import { RecoveryDialog } from './recovery.tsx';
 import { TabGuardNotice } from './tab-guard.tsx';
 import { PreviewBar, PreviewPage } from './preview.tsx';
@@ -165,6 +166,7 @@ export function Shell() {
             <GuidesGridsDialog />
             <SnapSettingsDialog />
             <BreakpointsDialog />
+            <BatchRenameDialog />
             <RecoveryDialog />
             <HtmlImportDialog />
             <TabGuardNotice />

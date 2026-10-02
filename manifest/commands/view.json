@@ -2968,7 +2968,8 @@
           "values": [
             "guides-grids",
             "snap-settings",
-            "breakpoints"
+            "breakpoints",
+            "batch-rename"
           ],
           "optional": false
         }
@@ -3077,6 +3078,28 @@
           },
           "args": {
             "dialog": "breakpoints"
+          }
+        },
+        {
+          "id": "context-menu-batch-rename",
+          "kind": "context-menu",
+          "feature": "batch-rename",
+          "labelKey": "batchRename.open",
+          "faceLabelKey": null,
+          "icon": "text-cursor-input",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "context-menu",
+            "order": 33
+          },
+          "adapter": {
+            "selection": "all",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "dialog": "batch-rename"
           }
         }
       ]

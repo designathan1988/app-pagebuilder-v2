@@ -128,6 +128,7 @@ import { openCommandBar } from '../editor/command-bar/command-bar.ts';
 import { movePanel, resetWorkspace, resizeSplitter, setActiveTab, setWorkbenchState } from '../editor/workspace/layout.ts';
 import { collapseDocks, setPanelOpen, toggleDeveloperTools, toggleInspector, toggleLeftDock } from '../editor/workspace/panels.ts';
 import { setCodeLanguage, setProjectLanguage } from '../core/project/language.ts';
+import { renameManyCommand } from '../core/nodes/rename-many.ts';
 
 // the hand's commands, for the editor state that holds the hand
 const HAND = handCommands<EditorUi>();
@@ -315,6 +316,7 @@ export const COMMANDS = {
   'layers.startRename': startRename,
   'layers.cancelRename': cancelRename,
   'element.rename': renameCommand,
+  'element.renameMany': renameManyCommand,
   'element.toggleLock': toggleLockCommand,
   'element.toggleHidden': toggleHiddenCommand,
   'element.setLayerColor': setLayerColorCommand,

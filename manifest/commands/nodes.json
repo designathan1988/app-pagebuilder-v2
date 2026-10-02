@@ -553,6 +553,69 @@
           "args": {}
         }
       ]
+    },
+    {
+      "id": "element.renameMany",
+      "labelKey": "command.renameMany",
+      "owner": "src/core/nodes/rename-many.ts",
+      "introducedBy": "batch-rename",
+      "args": {
+        "pattern": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "start": {
+          "type": "integer",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "hasSelection",
+        "refusalKey": "refusal.nothingSelected"
+      },
+      "refusals": [
+        "status.rename.patternInvalid",
+        "status.rename.root",
+        "status.locked.rename"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "batch-rename-apply",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "batch-rename",
+          "panel": "batch-rename",
+          "control": "apply",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.renameMany",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "refusal.nothingSelected",
+          "placement": {
+            "region": "batch-rename-dialog",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "all",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
     }
   ]
 }

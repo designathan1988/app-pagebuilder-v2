@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 206,
-    "built": 205,
-    "commands": 358,
-    "doors": 1309,
-    "scenarios": 1714,
-    "modules": 398,
-    "lines": 73131
+    "features": 207,
+    "built": 206,
+    "commands": 359,
+    "doors": 1311,
+    "scenarios": 1717,
+    "modules": 400,
+    "lines": 73256
   },
   "features": [
     {
@@ -1815,7 +1815,7 @@
         "workspace.openDialog",
         "grid.toggleFolds"
       ],
-      "doors": 29,
+      "doors": 30,
       "scenarios": 11,
       "modules": [
         "src/core/page/grid.ts",
@@ -1882,7 +1882,7 @@
         "snap.setSettings",
         "workspace.openDialog"
       ],
-      "doors": 8,
+      "doors": 9,
       "scenarios": 9,
       "modules": [
         "src/editor/view/snap.ts",
@@ -3110,7 +3110,7 @@
         "style.set",
         "project.export"
       ],
-      "doors": 197,
+      "doors": 198,
       "scenarios": 15,
       "modules": [
         "src/core/export/export.ts",
@@ -3150,12 +3150,28 @@
         "src/core/project/language.ts",
         "src/editor/workspace/layout.ts"
       ]
+    },
+    {
+      "id": "batch-rename",
+      "built": true,
+      "commands": [
+        "element.renameMany",
+        "workspace.openDialog",
+        "contextMenu.open"
+      ],
+      "doors": 9,
+      "scenarios": 3,
+      "modules": [
+        "src/core/nodes/rename-many.ts",
+        "src/editor/menus/context-menu.ts",
+        "src/editor/workspace/dialogs.ts"
+      ]
     }
   ],
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 493,
+      "lines": 495,
       "commands": [],
       "features": []
     },
@@ -3167,7 +3183,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 247,
+      "lines": 248,
       "commands": [],
       "features": []
     },
@@ -3993,6 +4009,16 @@
       ],
       "features": [
         "rename-element"
+      ]
+    },
+    {
+      "path": "src/core/nodes/rename-many.ts",
+      "lines": 21,
+      "commands": [
+        "element.renameMany"
+      ],
+      "features": [
+        "batch-rename"
       ]
     },
     {
@@ -5073,7 +5099,7 @@
     },
     {
       "path": "src/editor/doors/menu.tsx",
-      "lines": 276,
+      "lines": 278,
       "commands": [],
       "features": []
     },
@@ -5437,6 +5463,7 @@
         "contextMenu.open"
       ],
       "features": [
+        "batch-rename",
         "context-menu",
         "quick-panel"
       ]
@@ -5682,6 +5709,12 @@
       "features": []
     },
     {
+      "path": "src/editor/shell/batch-rename.tsx",
+      "lines": 80,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/editor/shell/bodies.ts",
       "lines": 35,
       "commands": [],
@@ -5899,7 +5932,7 @@
     },
     {
       "path": "src/editor/shell/shell.tsx",
-      "lines": 184,
+      "lines": 186,
       "commands": [],
       "features": []
     },
@@ -6163,6 +6196,7 @@
         "workspace.openDialog"
       ],
       "features": [
+        "batch-rename",
         "project-breakpoints",
         "snap-toggle-settings",
         "workspace-settings-dialog"
@@ -6245,13 +6279,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 612,
+      "lines": 614,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6251,
+      "lines": 6266,
       "commands": [],
       "features": []
     },

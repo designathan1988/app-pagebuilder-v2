@@ -204,6 +204,7 @@ export const COMMAND_IDS = [
   "element.toggleLock",
   "element.toggleHidden",
   "element.setLayerColor",
+  "element.renameMany",
   "page.openProperties",
   "page.setSetting",
   "project.newBlankPage",
@@ -969,6 +970,7 @@ export const DOOR_IDS = [
   "element.toggleHidden#menu-element-actions",
   "element.toggleHidden#command-bar",
   "element.setLayerColor#layers-row-colour-dot",
+  "element.renameMany#batch-rename-apply",
   "page.openProperties#inspector-page-properties-button",
   "page.openProperties#command-bar",
   "page.setSetting#inspector-page-title",
@@ -1566,6 +1568,7 @@ export const DOOR_IDS = [
   "workspace.openDialog#menu-snap-snap-settings",
   "workspace.openDialog#menu-view-breakpoints",
   "workspace.openDialog#toolbar-breakpoints-manage",
+  "workspace.openDialog#context-menu-batch-rename",
   "view.setViewportWidth#viewport-width",
   "view.resizeViewport#panel-drag-frame-edge",
   "view.toggleSideBySide#toolbar-breakpoints-side-by-side",
@@ -2412,6 +2415,7 @@ export const FEATURE_IDS = [
   "project-breakpoints",
   "side-by-side-view",
   "project-language",
+  "batch-rename",
 ] as const;
 export type FeatureId = (typeof FEATURE_IDS)[number];
 
@@ -2467,6 +2471,7 @@ export const REGION_IDS = [
   "guides-grids-dialog",
   "snap-settings-dialog",
   "breakpoints-dialog",
+  "batch-rename-dialog",
   "recovery-dialog",
   "tab-guard",
   "toast",
@@ -6246,5 +6251,15 @@ export const MESSAGE_IDS = [
   "status.project.codeLanguageSet",
   "status.project.languageInvalid",
   "feature.projectLanguage",
+  "command.renameMany",
+  "batchRename.open",
+  "batchRename.title",
+  "batchRename.pattern",
+  "batchRename.patternHint",
+  "batchRename.start",
+  "batchRename.preview",
+  "status.rename.many",
+  "status.rename.patternInvalid",
+  "feature.batchRename",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

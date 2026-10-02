@@ -1089,3 +1089,11 @@
 .html-import__choice { display: grid; gap: var(--space-2); }
 .html-import__choice p { margin: 0; color: var(--color-text-muted); }
 .html-import li { overflow-wrap: anywhere; }
+
+/* The batch rename dialog (batch-rename.tsx, spec batch-rename): what the pattern means, and the names it gives */
+.batch-rename__hint,
+.batch-rename__preview {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+

@@ -2359,6 +2359,11 @@
       "kind": "handler",
       "id": "project.setCodeLanguage",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "element.renameMany",
+      "status": "registered"
     }
   ]
 }
