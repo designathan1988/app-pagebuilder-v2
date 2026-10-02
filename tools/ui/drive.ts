@@ -244,7 +244,7 @@ async function exportedFiles(): Promise<readonly string[]> {
 }
 
 async function runFlow(browser: Browser, flow: Flow): Promise<void> {
-  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, locale: 'en-US' });
   const page = await context.newPage();
   // the export downloads: kept as they arrive, so a step's expectation can read the last one
   downloads = [];
@@ -281,7 +281,7 @@ async function runFlow(browser: Browser, flow: Flow): Promise<void> {
 }
 
 async function runDoor(browser: Browser, door: string): Promise<void> {
-  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, locale: 'en-US' });
   const page = await context.newPage();
   page.on('console', (message: ConsoleMessage) => {
     if (message.type() === 'error') consoleErrors.push(message.text().slice(0, 300));

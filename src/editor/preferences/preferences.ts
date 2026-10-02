@@ -139,13 +139,28 @@ export const browserStorage: PreferenceStorage = {
   },
 };
 
-// The stored preferences, each one only when it is a value the manifest allows; the defaults otherwise.
-export function loadPreferences(storage: PreferenceStorage): Preferences {
+// The language the editor opens in before the person chose one (jornada03 J26): the first of the browser's languages
+// the editor speaks, exactly or by its main tag (pt-PT, pt → pt-BR), else the default.
+export function browserLocale(languages: readonly string[]): Locale {
+  for (const language of languages) {
+    const exact = LOCALES.find((one) => one.toLowerCase() === language.toLowerCase());
+    if (exact !== undefined) return exact;
+    const main = language.split('-')[0]?.toLowerCase() ?? '';
+    const near = LOCALES.find((one) => one.split('-')[0]?.toLowerCase() === main);
+    if (near !== undefined) return near;
+  }
+  return DEFAULT_LOCALE;
+}
+const browserLanguages = (): readonly string[] => (typeof navigator === 'undefined' ? [] : navigator.languages);
+
+// The stored preferences, each one only when it is a value the manifest allows; the defaults otherwise (the language:
+// the browser's, when the editor speaks it).
+export function loadPreferences(storage: PreferenceStorage, languages: readonly string[] = browserLanguages()): Preferences {
   const text = storage.read();
-  if (text === null) return INITIAL_PREFERENCES;
+  if (text === null) return { ...INITIAL_PREFERENCES, locale: browserLocale(languages) };
   try {
     const stored = JSON.parse(text) as Record<string, unknown>;
-    const locale = (LOCALES as readonly unknown[]).includes(stored.locale) ? (stored.locale as Locale) : INITIAL_PREFERENCES.locale;
+    const locale = (LOCALES as readonly unknown[]).includes(stored.locale) ? (stored.locale as Locale) : browserLocale(languages);
     const theme = isTheme(stored.theme) ? stored.theme : INITIAL_PREFERENCES.theme;
     // the sections of properties.json the list names, in their order; anything else is left out
     const listed: readonly unknown[] = Array.isArray(stored.collapsedSections) ? (stored.collapsedSections as unknown[]) : [];

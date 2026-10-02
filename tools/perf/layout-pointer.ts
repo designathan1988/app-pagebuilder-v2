@@ -19,7 +19,7 @@ const percentile = (values: readonly number[], p: number): number => {
 const round = (n: number): number => Math.round(n * 100) / 100;
 
 const browser = await chromium.launch({ channel: CHANNEL });
-const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, locale: 'en-US' });
 // the first listener of every pointer move (before the app's own) marks its start; the last one, added once the app
 // has installed its listeners, marks the end of its synchronous work
 await page.addInitScript(() => {

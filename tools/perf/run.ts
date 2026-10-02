@@ -63,7 +63,7 @@ body{margin:0;padding:var(--space-10);background:var(--color-bg-app);color:var(-
 fs.writeFileSync(path.join(output, 'report.html'), report);
 const browser = await chromium.launch({ channel: CHANNEL });
 try {
-  const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
+  const page = await browser.newPage({ viewport: { width: 1440, height: 1100 }, locale: 'en-US' });
   await page.goto(pathToFileURL(path.join(output, 'report.html')).href);
   await page.screenshot({ path: path.join(output, 'report.png'), fullPage: true });
   if (!previous) Object.assign(summary.environment, { chrome: browser.version() });

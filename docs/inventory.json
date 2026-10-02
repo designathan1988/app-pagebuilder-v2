@@ -6,7 +6,7 @@
     "doors": 1311,
     "scenarios": 1720,
     "modules": 400,
-    "lines": 73324
+    "lines": 73339
   },
   "features": [
     {
@@ -5665,7 +5665,7 @@
     },
     {
       "path": "src/editor/preferences/preferences.ts",
-      "lines": 246,
+      "lines": 261,
       "commands": [
         "preferences.setLanguage",
         "preferences.setTheme"

@@ -42,6 +42,8 @@ export default defineConfig({
     // the browser and the motion the contract names (manifest/environment.json, tools/runner/environment.ts)
     channel: CHANNEL,
     reducedMotion: REDUCED_MOTION,
+    // the browser's language is pinned: the editor opens in it (jornada03 J26), and the scenarios name their locale
+    locale: 'en-US',
     // no trace while testing: 'retain-on-failure' records every test and costs 38% of the suite's CPU; a failure is
     // diagnosed by running the failed tests again with their trace: npm run e2e:diagnose
     trace: 'off',
