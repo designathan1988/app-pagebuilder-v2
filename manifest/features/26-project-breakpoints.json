@@ -12,7 +12,9 @@
         "breakpoints.remove",
         "workspace.openDialog",
         "view.setBreakpoint",
-        "view.setViewportWidth"
+        "view.setViewportWidth",
+        "style.set",
+        "project.export"
       ],
       "dependsOn": [
         "breakpoints-switch"
@@ -1249,6 +1251,331 @@
             },
             "persistence": null,
             "export": null
+          }
+        },
+        {
+          "id": "breakpoints-made-at-1024-and-600-take-their-own-styles",
+          "setup": {
+            "fixture": "responsive-title",
+            "selection": [
+              "/Page/Title"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 50
+          },
+          "steps": [
+            {
+              "door": "view.setViewportWidth#viewport-width",
+              "args": {
+                "width": 1024
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.add#toolbar-breakpoint-add-here",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "view.setViewportWidth#viewport-width",
+              "args": {
+                "width": 600
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.add#toolbar-breakpoint-add-here",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.set#inspector-font-size",
+              "args": {
+                "property": "font-size",
+                "value": "20px"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "20\n"
+            }
+          ],
+          "doors": [
+            "style.set#inspector-font-size"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@breakpoints",
+                "value": [
+                  {
+                    "id": "desktop",
+                    "name": null,
+                    "width": 1440,
+                    "height": 900,
+                    "base": true
+                  },
+                  {
+                    "id": "laptop",
+                    "name": null,
+                    "width": 1180,
+                    "height": 800,
+                    "base": false
+                  },
+                  {
+                    "id": "screen-1024",
+                    "name": "Screen 1024",
+                    "width": 1024,
+                    "height": 800,
+                    "base": false
+                  },
+                  {
+                    "id": "tablet",
+                    "name": null,
+                    "width": 834,
+                    "height": 1194,
+                    "base": false
+                  },
+                  {
+                    "id": "screen-600",
+                    "name": "Screen 600",
+                    "width": 600,
+                    "height": 844,
+                    "base": false
+                  },
+                  {
+                    "id": "phone",
+                    "name": null,
+                    "width": 390,
+                    "height": 844,
+                    "base": false
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/screen-600/base/font-size",
+                "value": "20px"
+              }
+            ],
+            "selection": [
+              "/Page/Title"
+            ],
+            "history": {
+              "undoSteps": 3,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Title",
+                  "property": "font-size",
+                  "value": "20px"
+                }
+              ],
+              "geometry": [],
+              "feedback": []
+            },
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          }
+        },
+        {
+          "id": "the-export-writes-the-media-queries-of-made-breakpoints",
+          "setup": {
+            "fixture": "responsive-title",
+            "selection": [
+              "/Page/Title"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 50
+          },
+          "steps": [
+            {
+              "door": "view.setViewportWidth#viewport-width",
+              "args": {
+                "width": 1024
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.add#toolbar-breakpoint-add-here",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "view.setViewportWidth#viewport-width",
+              "args": {
+                "width": 600
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.add#toolbar-breakpoint-add-here",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.set#inspector-font-size",
+              "args": {
+                "property": "font-size",
+                "value": "20px"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "20\n"
+            },
+            {
+              "door": "project.export#toolbar-top-bar-export",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.export#toolbar-top-bar-export"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@breakpoints",
+                "value": [
+                  {
+                    "id": "desktop",
+                    "name": null,
+                    "width": 1440,
+                    "height": 900,
+                    "base": true
+                  },
+                  {
+                    "id": "laptop",
+                    "name": null,
+                    "width": 1180,
+                    "height": 800,
+                    "base": false
+                  },
+                  {
+                    "id": "screen-1024",
+                    "name": "Screen 1024",
+                    "width": 1024,
+                    "height": 800,
+                    "base": false
+                  },
+                  {
+                    "id": "tablet",
+                    "name": null,
+                    "width": 834,
+                    "height": 1194,
+                    "base": false
+                  },
+                  {
+                    "id": "screen-600",
+                    "name": "Screen 600",
+                    "width": 600,
+                    "height": 844,
+                    "base": false
+                  },
+                  {
+                    "id": "phone",
+                    "name": null,
+                    "width": 390,
+                    "height": 844,
+                    "base": false
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/screen-600/base/font-size",
+                "value": "20px"
+              }
+            ],
+            "selection": [
+              "/Page/Title"
+            ],
+            "history": {
+              "undoSteps": 3,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": []
+            },
+            "editor": null,
+            "persistence": null,
+            "export": {
+              "files": [
+                {
+                  "path": "css/styles.css",
+                  "present": [
+                    "@media (max-width: 600px) {",
+                    "font-size: 20px;"
+                  ],
+                  "absent": [
+                    "@media (max-width: 1024px)"
+                  ]
+                }
+              ]
+            }
           }
         }
       ]

@@ -4,7 +4,7 @@
     "built": 203,
     "commands": 356,
     "doors": 1304,
-    "scenarios": 1703,
+    "scenarios": 1705,
     "modules": 393,
     "lines": 72314
   },
@@ -3092,11 +3092,15 @@
         "breakpoints.remove",
         "workspace.openDialog",
         "view.setBreakpoint",
-        "view.setViewportWidth"
+        "view.setViewportWidth",
+        "style.set",
+        "project.export"
       ],
-      "doors": 21,
-      "scenarios": 13,
+      "doors": 195,
+      "scenarios": 15,
       "modules": [
+        "src/core/export/export.ts",
+        "src/core/style/set.ts",
         "src/editor/view/breakpoint-table.ts",
         "src/editor/view/breakpoints.ts",
         "src/editor/workspace/dialogs.ts"
@@ -3595,7 +3599,8 @@
         "export-zip",
         "html-import-roundtrip",
         "page-seo-meta",
-        "preview-mode"
+        "preview-mode",
+        "project-breakpoints"
       ]
     },
     {
@@ -4497,6 +4502,7 @@
         "elements-svg-shapes",
         "inspector-number-fields",
         "multi-select-edit",
+        "project-breakpoints",
         "props-background",
         "props-border-outline",
         "props-display",

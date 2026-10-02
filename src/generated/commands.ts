@@ -602,6 +602,6 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "data-binding": ["data.bindElement","data.fill","data.unbind","data.setCell","data.select","workspace.setPanelOpen"],
   "data-pages": ["pages.fromNames","pages.fromCollection","pages.duplicate","workspace.setPanelOpen"],
   "shared-regions": ["regions.share","regions.detach","regions.stopSharing","text.set","pages.add","workspace.setPanelOpen"],
-  "project-breakpoints": ["breakpoints.add","breakpoints.rename","breakpoints.setWidth","breakpoints.remove","workspace.openDialog","view.setBreakpoint","view.setViewportWidth"],
+  "project-breakpoints": ["breakpoints.add","breakpoints.rename","breakpoints.setWidth","breakpoints.remove","workspace.openDialog","view.setBreakpoint","view.setViewportWidth","style.set","project.export"],
   "side-by-side-view": ["view.toggleSideBySide","view.setBreakpoint"],
 };
