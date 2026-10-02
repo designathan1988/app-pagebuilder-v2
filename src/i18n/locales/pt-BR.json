@@ -169,6 +169,7 @@
   "canvas.insert.intoLevel": "Inserir {element} · dentro de {path} · {levels}",
   "canvas.insert.last": "Inserir {element} · depois de {before} · {path}",
   "canvas.insert.lastLevel": "Inserir {element} · depois de {before} · {path} · {levels}",
+  "canvas.measure.hint": "Alt — medindo distâncias",
   "canvas.measure.distance": "{value}px",
   "canvas.measure.size": "{width} × {height}",
   "canvas.pickTarget": "Alvo: {name} · clique para escolher",

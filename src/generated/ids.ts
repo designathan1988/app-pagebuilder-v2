@@ -3154,6 +3154,7 @@ export const MESSAGE_IDS = [
   "canvas.insert.intoLevel",
   "canvas.insert.last",
   "canvas.insert.lastLevel",
+  "canvas.measure.hint",
   "canvas.measure.distance",
   "canvas.measure.size",
   "canvas.pickTarget",

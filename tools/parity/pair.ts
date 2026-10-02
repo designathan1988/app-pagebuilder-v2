@@ -105,8 +105,17 @@ if (STATE === 'interaction') {
     await app.waitForTimeout(400);
   }
 }
+if (STATE === 'hover') {
+  // CardA selected, the pointer over CardB with Alt held: the distance between them (the canonical measurement)
+  const other = await app.locator('.chrome__selection').first().boundingBox();
+  if (other !== null) {
+    await app.mouse.move(other.x + other.width / 2, other.y + other.height + 40);
+    await app.keyboard.down('Alt');
+    await app.waitForTimeout(400);
+  }
+}
 // the pointer rests where it hovers nothing (a menu stays open: the pointer leaving it does not close it)
-if (STATE !== 'palette') await app.mouse.move(1, 899);
+if (STATE !== 'palette' && STATE !== 'hover') await app.mouse.move(1, 899);
 
 type Box = { x: number; y: number; width: number; height: number };
 const regions = async (page: Page) =>

@@ -21,7 +21,7 @@ import { CodePane } from './code-pane.tsx';
 import { SideBySide } from './side-by-side.tsx';
 import { breakpointTabSlot } from './breakpoint-tabs.tsx';
 import { breakpointName } from '../../core/document/breakpoints.ts';
-import { drag, panState } from '../input/pointer.ts';
+import { drag, measuring, panState } from '../input/pointer.ts';
 import { isPanelOpen } from '../workspace/panels.ts';
 import { useT } from '../text.ts';
 import { ReportFitZoom, Slots, useFitZoom } from './slots.tsx';
@@ -99,7 +99,10 @@ function ModeHint() {
   const dragging = useSyncExternalStore(drag.subscribe, drag.get);
   // a text edited in place: its keys (the canonical toolbar's hint while text is edited)
   const editing = useEditorState((s) => s.ui.textEdit.node !== null);
+  const altMeasuring = useSyncExternalStore(measuring.subscribe, measuring.get);
   if (editing && dragging === null) return <span className="canvas-toolbar__hint" data-chrome="text-hint">{t('canvas.textEdit.hint')}</span>;
+  // Alt held over the canvas: the distances are measured (the canonical toolbar's hint)
+  if (altMeasuring && dragging === null) return <span className="canvas-toolbar__hint" data-chrome="measure-hint">{t('canvas.measure.hint')}</span>;
   if (mode === NO_MODE || dragging !== null) return null;
   return (
     <span className="canvas-toolbar__hint" data-chrome="mode-hint">
