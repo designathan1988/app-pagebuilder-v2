@@ -12,12 +12,13 @@ import type { NodeId } from '../../generated/commands.ts';
 import type { ModelRules } from '../../core/document/validate.ts';
 import type { EditorUi } from '../state.ts';
 import { activeFile } from '../explorer/file-tabs.ts';
-import { kindOf, type FileKind } from '../explorer/explorer.ts';
+import { SCRIPT_PATHS, generatedScripts, kindOf, type FileKind } from '../explorer/explorer.ts';
 
-// Whether the path is one the document generates (a page's file, the stylesheet): its text is rendered now, and its
-// path is fixed — the export writes it there (DESIGN.md, "Files, tabs and code").
+// Whether the path is one the document generates (a page's file, the stylesheet, a script the export writes and no
+// stored file holds): its text is rendered now, and its path is fixed — the export writes it there (DESIGN.md, "Files,
+// tabs and code").
 export function isGenerated(path: string, document: DocumentJson): boolean {
-  return document.pages.some((page) => page.file === path) || path === STYLESHEET;
+  return document.pages.some((page) => page.file === path) || path === STYLESHEET || (SCRIPT_PATHS.includes(path) && fileAt(document, path) === null);
 }
 
 // The text the pane shows for a path: a generated file rendered from the document, a project file's own bytes as
@@ -27,7 +28,8 @@ export function paneText(path: string, document: DocumentJson, rules: ModelRules
   if (page !== undefined) return siteFiles(document, rules, true, siteScripts).pages.find((one) => one.file === path)?.html ?? null;
   if (path === STYLESHEET) return siteFiles(document, rules, true, siteScripts).css;
   const file = fileAt(document, path);
-  if (file === null) return null;
+  // a script the export writes: the text it writes (explorer.ts generatedScripts)
+  if (file === null) return generatedScripts(document, rules).find((one) => one.path === path)?.text ?? null;
   return isText(path, file.type) ? new TextDecoder().decode(fileBytes(file)) : null;
 }
 

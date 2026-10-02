@@ -1,13 +1,15 @@
 // The Explorer's files (ARCHITECTURE.md, Command owners; the manifest's explorer-file-system and code-panel-view):
 // the rows the Files section lists — what the document generates (one .html per page, the stylesheet
-// css/styles.css, and js/interactions.js once the project has interactions) and the files the project holds
+// css/styles.css, and each script the export writes for what the project holds: js/interactions.js once it has
+// interactions, js/forms.js, js/motion.js, js/lottie.min.js) and the files the project holds
 // (document.files) — and the door that opens one in the code pane. One owner: the row list, the row's kind, and
 // files.open. Folders, renaming, moving and deleting are explorer-file-system's own work (not built yet).
 import { message, registerHandler } from '../../core/commands/registry.ts';
 import type { DocumentJson, Page, ProjectFile } from '../../core/document/model.ts';
 import { filesOf, folderOf, folderPaths } from '../../core/files/files.ts';
 import { isGenerated } from '../code-panel/code-panel.ts';
-import { STYLESHEET } from '../../core/export/export.ts';
+import { FORMS_SCRIPT, INTERACTIONS_SCRIPT, LOTTIE_SCRIPT, MOTION_SCRIPT, STYLESHEET, siteFiles } from '../../core/export/export.ts';
+import { siteScripts } from '../forms/script.ts';
 import type { ModelRules } from '../../core/document/validate.ts';
 import type { EditorUi } from '../state.ts';
 import { editorView } from '../view/editor-view.ts';
@@ -39,29 +41,42 @@ export function kindOf(path: string, type = ''): FileKind {
   return EXTENSIONS[ext] ?? 'other';
 }
 
-// Whether the project has anything for js/interactions.js to hold: the interactions group is not built yet, so there
-// is never one — the file appears with that feature (export-events-js is what writes it). One place to change.
-function hasInteractions(document: DocumentJson): boolean {
-  void document;
-  return false;
+// The scripts the export writes beside the pages and the stylesheet, by what the project holds now: the export's own
+// answer (siteFiles, the one writer of the site), each with the text it writes, so the Explorer lists the file, the
+// code pane shows that text and the archive holds it, never one without the others.
+const SCRIPTS = [
+  [INTERACTIONS_SCRIPT, 'interactions'],
+  [FORMS_SCRIPT, 'forms'],
+  [MOTION_SCRIPT, 'motion'],
+  [LOTTIE_SCRIPT, 'lottie'],
+] as const;
+// the paths the export may write a script at
+export const SCRIPT_PATHS: readonly string[] = SCRIPTS.map(([path]) => path);
+export function generatedScripts(document: DocumentJson, rules: ModelRules): readonly { readonly path: string; readonly text: string }[] {
+  const site = siteFiles(document, rules, true, siteScripts);
+  return SCRIPTS.flatMap(([path, part]) => {
+    const text = site[part];
+    return text === null ? [] : [{ path, text }];
+  });
 }
 
 // The Files section's rows, in the order it lists them: what the document generates (each page's file in the pages'
 // order, the stylesheet, the interactions script) and then the project's own files, each as it was uploaded.
 export function fileRows(document: DocumentJson, rules: ModelRules): readonly FileRow[] {
-  void rules;
   const generated: FileRow[] = [
     ...document.pages.map((page) => ({ path: page.file, kind: 'html' as const, generated: true, size: null })),
     { path: STYLESHEET, kind: 'css' as const, generated: true, size: null },
-    ...(hasInteractions(document) ? [{ path: 'js/interactions.js', kind: 'js' as const, generated: true, size: null }] : []),
+    ...generatedScripts(document, rules).map((script) => ({ path: script.path, kind: 'js' as const, generated: true, size: null })),
   ];
   const owned: FileRow[] = filesOf(document).map((file: ProjectFile) => ({ path: file.path, kind: kindOf(file.path, file.type), generated: false, size: Math.floor((file.bytes.length * 3) / 4) }));
   return [...generated, ...owned];
 }
 
 // The Explorer's tree, in the order it lists it: every folder at its path (a stored empty one too), and under it the
-// files and the pages' files that stand in it, one level deeper. A page's file is a row like any other (clicking it
-// opens the page's markup in the code pane), and it says which page it is.
+// files, the pages' files and the generated stylesheet and scripts that stand in it, one level deeper (spec
+// explorer-file-system: css/styles.css and js/interactions.js are listed; the stylesheet's folder showed empty). A
+// page's file is a row like any other (clicking it opens the page's markup in the code pane), and it says which page
+// it is.
 export interface TreeRow {
   readonly path: string;
   // the folder's own row, or a file's
@@ -74,12 +89,13 @@ export interface TreeRow {
 }
 
 export function treeRows(document: DocumentJson, rules: ModelRules): readonly TreeRow[] {
-  void rules;
   const rows: TreeRow[] = [];
   const folders = folderPaths(document);
   const under = (folder: string): readonly string[] => folders.filter((one) => folderOf(one) === folder).sort();
+  // the generated stylesheet and scripts: rows of no stored file and no page
+  const made = [STYLESHEET, ...generatedScripts(document, rules).map((script) => script.path)].map((path) => ({ path, file: null as ProjectFile | null, page: null as Page | null }));
   const filesIn = (folder: string): readonly { readonly path: string; readonly file: ProjectFile | null; readonly page: Page | null }[] =>
-    [...filesOf(document).map((file) => ({ path: file.path, file, page: null as Page | null })), ...document.pages.map((page) => ({ path: page.file, file: null as ProjectFile | null, page }))]
+    [...filesOf(document).map((file) => ({ path: file.path, file, page: null as Page | null })), ...document.pages.map((page) => ({ path: page.file, file: null as ProjectFile | null, page })), ...made]
       .filter((one) => folderOf(one.path) === folder)
       .sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0));
   const walk = (folder: string, depth: number): void => {
@@ -93,7 +109,7 @@ export function treeRows(document: DocumentJson, rules: ModelRules): readonly Tr
         folder: false,
         depth,
         kind: kindOf(one.path, one.file?.type ?? ''),
-        generated: one.page !== null || isGenerated(one.path, document),
+        generated: one.page !== null || (one.file === null && one.page === null) || isGenerated(one.path, document),
         page: one.page?.id ?? null,
         size: one.file === null ? null : Math.floor((one.file.bytes.length * 3) / 4),
       });

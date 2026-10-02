@@ -2206,7 +2206,7 @@ None in Pager.
 ### Problems in Pager
 
 1. **No file tree.** Required (manifest feature `explorer-file-system`):
-   - The Explorer shows the project's file tree (pages, CSS, JS, images, fonts) with folders: one .html per page, css/styles.css, js/interactions.js when the project has interactions, and every file the project holds.
+   - The Explorer shows the project's file tree (pages, CSS, JS, images, fonts) with folders: one .html per page, css/styles.css, js/interactions.js when the project has interactions (and js/forms.js, js/motion.js and js/lottie.min.js whenever the export writes them: the tree lists what the export's own writer writes, and opening one shows the text it writes), and every file the project holds.
    - Files and folders can be created, renamed, moved and deleted. Moving works by drag and drop and by a Move to… command. Names are unique per folder.
 2. **Generated files and pages.** Required:
    - css/styles.css and js/interactions.js are generated from the document and keep fixed paths: they cannot be renamed, moved or deleted, neither can a folder that holds one of them, and creating or moving another file to either path is refused, even before js/interactions.js exists.
