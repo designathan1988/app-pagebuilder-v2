@@ -230,8 +230,11 @@ export function longhandValues(property: string, value: Value, rules: ModelRules
 // What a text means for a property in the fields of the selection: read by its codec against what the property offers,
 // a bare number in the field's default unit (the codec's; Problems in Pager 4); null when it means nothing the
 // property takes or the browser does not take it.
-export function readValue<Ui>(context: HandlerContext<Ui>, property: string, text: string): ReadValue | null {
+export function readValue<Ui>(context: HandlerContext<Ui>, property: string, typedText: string): ReadValue | null {
   const { state, rules, css } = context;
+  // a variable named without var() ("--brand", as a person types it in any field; the plan's stage 3) is var(--brand)
+  const bare = new RegExp(`^\\s*--(${IDENTIFIER_SOURCE})\\s*$`, 'u').exec(typedText);
+  const text = bare === null ? typedText : `var(--${bare[1] ?? ''})`;
   // a design token of the project, named as a CSS variable, is kept as written (spec css-variables-tokens, Problems in
   // Pager 4); one the project does not have is no value
   const token = new RegExp(`^\\s*var\\(\\s*--(${IDENTIFIER_SOURCE})\\s*\\)\\s*$`, 'u').exec(text);

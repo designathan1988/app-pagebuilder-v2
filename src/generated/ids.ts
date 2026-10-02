@@ -6215,5 +6215,7 @@ export const MESSAGE_IDS = [
   "preset.borderRadius.medium",
   "preset.borderRadius.large",
   "preset.borderRadius.pill",
+  "status.style.resetMany",
+  "status.style.resetAllMany",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

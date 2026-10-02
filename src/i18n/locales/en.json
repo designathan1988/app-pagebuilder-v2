@@ -3277,5 +3277,7 @@
   "preset.borderRadius.small": "Small",
   "preset.borderRadius.medium": "Medium",
   "preset.borderRadius.large": "Large",
-  "preset.borderRadius.pill": "Pill"
+  "preset.borderRadius.pill": "Pill",
+  "status.style.resetMany": "{property} of {count} elements reset.",
+  "status.style.resetAllMany": "Every value of {count} elements reset."
 }

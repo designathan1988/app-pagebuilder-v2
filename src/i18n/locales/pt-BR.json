@@ -3277,5 +3277,7 @@
   "preset.borderRadius.small": "Pequeno",
   "preset.borderRadius.medium": "Médio",
   "preset.borderRadius.large": "Grande",
-  "preset.borderRadius.pill": "Pílula"
+  "preset.borderRadius.pill": "Pílula",
+  "status.style.resetMany": "{property} de {count} elementos redefinido.",
+  "status.style.resetAllMany": "Todos os valores de {count} elementos redefinidos."
 }

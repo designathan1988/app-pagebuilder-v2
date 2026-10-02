@@ -90,3 +90,15 @@ describe('a design token in a composite field', () => {
     });
   }
 });
+
+describe('a variable typed without var()', () => {
+  it('is the variable: --line in a colour field writes var(--line); a name the project lacks is refused', () => {
+    const document = doc();
+    const outcome = setStyleCommand.run(context(document, null), { property: 'color' as never, value: '--line' });
+    expect(outcome.kind).toBe('change');
+    const applied = applyPatches(document, outcome.kind === 'change' ? (outcome.patches ?? []) : []).document;
+    const base = (applied.pages[0]?.tree.children[0]?.styles as Record<string, Record<string, Record<string, unknown>>> | undefined)?.desktop?.base ?? {};
+    expect(base.color).toBe('var(--line)');
+    expect(setStyleCommand.run(context(doc(), null), { property: 'color' as never, value: '--missing' }).kind).toBe('refused');
+  });
+});

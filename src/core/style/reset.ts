@@ -35,6 +35,8 @@ export function removeStyle<Ui>(context: HandlerContext<Ui>, property: string): 
     }
     return writeDeclarations(held.node, held.path, rules.base, removed);
   });
+  // several elements are named by their count (J28)
+  if (holders.length > 1) return { kind: 'change', patches, message: message('status.style.resetMany', { property: propertyName(property, rules), count: holders.length }) };
   return { kind: 'change', patches, message: message('status.style.reset', { property: propertyName(property, rules), name: holders[0]?.name ?? primary.node.name }) };
 }
 
@@ -49,5 +51,6 @@ export const resetAllCommand = registerHandler('style.resetAll', (context) => {
   if (locked !== null) return { kind: 'refused', message: locked };
   const holders = styleHolders(context, nodes);
   const patches: Patch[] = holders.filter((held) => Object.keys(held.node.styles).length > 0).map((held) => ({ op: 'replace', path: [...held.path, 'styles'], value: {} }));
+  if (holders.length > 1) return { kind: 'change', patches, message: message('status.style.resetAllMany', { count: holders.length }) };
   return { kind: 'change', patches, message: message('status.style.resetAll', { name: holders[0]?.name ?? primary.node.name }) };
 });

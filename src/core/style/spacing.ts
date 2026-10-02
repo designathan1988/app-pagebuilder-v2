@@ -38,5 +38,7 @@ export const setSpacingCommand = registerHandler('style.setSpacing', (context, {
   const values = Object.fromEntries(properties.map((p) => [p, read.css]));
   const holders = styleHolders(context, nodes);
   const patches: Patch[] = holders.flatMap((held) => writeDeclarations(held.node, held.path, { breakpoint, state: base }, values));
-  return { kind: 'change', patches, message: message('status.spacing.set', { property: named, name: holders[0]?.name ?? primary.node.name, value: read.css }) };
+  // several elements are named by their count (J28: the message named the first one only)
+  const said = holders.length > 1 ? message('status.style.setMany', { property: named, count: holders.length, value: read.css }) : message('status.spacing.set', { property: named, name: holders[0]?.name ?? primary.node.name, value: read.css });
+  return { kind: 'change', patches, message: said };
 });

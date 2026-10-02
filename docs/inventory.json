@@ -6,7 +6,7 @@
     "doors": 1307,
     "scenarios": 1709,
     "modules": 395,
-    "lines": 72699
+    "lines": 72709
   },
   "features": [
     {
@@ -4496,7 +4496,7 @@
     },
     {
       "path": "src/core/style/reset.ts",
-      "lines": 54,
+      "lines": 57,
       "commands": [
         "style.reset",
         "style.resetAll"
@@ -4509,7 +4509,7 @@
     },
     {
       "path": "src/core/style/set.ts",
-      "lines": 389,
+      "lines": 392,
       "commands": [
         "style.set"
       ],
@@ -4561,7 +4561,7 @@
     },
     {
       "path": "src/core/style/spacing.ts",
-      "lines": 43,
+      "lines": 45,
       "commands": [
         "style.setSpacing"
       ],
@@ -6209,7 +6209,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6220,
+      "lines": 6222,
       "commands": [],
       "features": []
     },

@@ -1452,3 +1452,9 @@
   opacity: var(--preset-value);
 }
 
+/* A field that suggests values through a datalist draws one arrow, its own values button (J28): Chrome's indicator of
+   the list is hidden, the suggestions still show as the person types */
+.input-wrap input[list]::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+
