@@ -27,11 +27,14 @@ function OpenCaptureUrl({ run }: { readonly run: DoorEntry }) {
   const store = useStore();
   const door = useDoor(run, {}, undefined, isFeatureBuilt(run.door.feature as FeatureId));
   const [url, setUrl] = useState('');
+  const [pages, setPages] = useState('1');
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!door.available) return;
-    const typed = String(new FormData(event.currentTarget).get('url') ?? '');
-    afterGesture(() => (store.dispatch as (id: CommandId, a: unknown) => DispatchResult)(run.command.id as CommandId, { ...run.door.args, url: typed }));
+    const form = new FormData(event.currentTarget);
+    const typed = String(form.get('url') ?? '');
+    const count = String(form.get('pages') ?? '').trim();
+    afterGesture(() => (store.dispatch as (id: CommandId, a: unknown) => DispatchResult)(run.command.id as CommandId, { ...run.door.args, url: typed, pages: count === '' ? 1 : Number(count) }));
   };
   return (
     <ModalDialog region={REGION} titleKey="capture.title" className="capture-url">
@@ -40,6 +43,11 @@ function OpenCaptureUrl({ run }: { readonly run: DoorEntry }) {
           <span className="guides-grids__label">{t('capture.url')}</span>
           <input className="input" name="url" type="text" inputMode="url" placeholder={t('capture.placeholder')} spellCheck={false} value={url} data-autofocus data-key-context={DIALOG_KEYS} onChange={(event) => setUrl(event.target.value)} />
         </label>
+        <label className="guides-grids__field" title={t('capture.pagesHint')}>
+          <span className="guides-grids__label">{t('capture.pages')}</span>
+          <input className="input" name="pages" inputMode="numeric" value={pages} data-key-context={DIALOG_KEYS} onChange={(event) => setPages(event.target.value)} />
+        </label>
+        <p className="capture-url__hint">{t('capture.pagesHint')}</p>
         <p className="capture-url__notice">{t('capture.notice')}</p>
         <p className="capture-url__hint">{t('capture.companionHint')}</p>
         <footer className="dialog__footer">

@@ -4,9 +4,9 @@
     "built": 213,
     "commands": 368,
     "doors": 1324,
-    "scenarios": 1738,
+    "scenarios": 1739,
     "modules": 404,
-    "lines": 74532
+    "lines": 74548
   },
   "features": [
     {
@@ -3258,7 +3258,7 @@
         "workspace.openDialog"
       ],
       "doors": 7,
-      "scenarios": 2,
+      "scenarios": 3,
       "modules": [
         "src/editor/import/capture.ts",
         "src/editor/workspace/dialogs.ts"
@@ -5341,7 +5341,7 @@
     },
     {
       "path": "src/editor/import/capture.ts",
-      "lines": 98,
+      "lines": 103,
       "commands": [
         "project.captureUrl"
       ],
@@ -5880,7 +5880,7 @@
     },
     {
       "path": "src/editor/shell/capture-url.tsx",
-      "lines": 54,
+      "lines": 62,
       "commands": [],
       "features": []
     },
@@ -6432,7 +6432,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6385,
+      "lines": 6388,
       "commands": [],
       "features": []
     },

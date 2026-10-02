@@ -24,7 +24,11 @@ export const COMPANION = 'http://127.0.0.1:5410';
 export interface CaptureRequest {
   readonly url: string;
   readonly count: number;
+  // how many pages of the site to follow from the address (1: the page alone)
+  readonly pages?: number;
 }
+// the most pages one capture follows (tools/companion/capture.ts)
+export const MOST_PAGES = 30;
 
 // an address a person types: a bare host is read as https, but this machine's (localhost, an IP address) as http
 export function captureAddress(typed: string): string | null {
@@ -41,12 +45,13 @@ export function captureAddress(typed: string): string | null {
   }
 }
 
-export const captureUrlCommand = registerHandler<'project.captureUrl', EditorUi>('project.captureUrl', ({ state }, { url }) => {
+export const captureUrlCommand = registerHandler<'project.captureUrl', EditorUi>('project.captureUrl', ({ state }, { url, pages = 1 }) => {
   const address = captureAddress(url);
   if (address === null) return { kind: 'refused', message: message('status.capture.invalidUrl', { url: url.trim() }) };
+  if (!Number.isInteger(pages) || pages < 1 || pages > MOST_PAGES) return { kind: 'refused', message: message('status.capture.badPages', { pages: String(pages) }) };
   const { dialog: _dialog, ...ui } = state.ui;
   void _dialog;
-  return { kind: 'change', ui: { ...ui, capture: { url: address, count: (state.ui.capture?.count ?? 0) + 1 } }, message: message('status.capture.running', { url: address }) };
+  return { kind: 'change', ui: { ...ui, capture: { url: address, count: (state.ui.capture?.count ?? 0) + 1, pages } }, message: message('status.capture.running', { url: address }) };
 });
 
 interface Answer {
@@ -69,7 +74,7 @@ export function installCapture(store: EditorStore, companion = COMPANION): () =>
   const run = async (request: CaptureRequest) => {
     let answer: Answer;
     try {
-      const response = await fetch(`${companion}/capture`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: request.url }) });
+      const response = await fetch(`${companion}/capture`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: request.url, pages: request.pages ?? 1 }) });
       answer = (await response.json()) as Answer;
     } catch {
       if (alive) store.notice(message('status.capture.noCompanion'));

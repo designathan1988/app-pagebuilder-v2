@@ -804,6 +804,11 @@
           "type": "string",
           "values": [],
           "optional": false
+        },
+        "pages": {
+          "type": "integer",
+          "values": [],
+          "optional": true
         }
       },
       "availability": {
@@ -811,7 +816,8 @@
         "refusalKey": null
       },
       "refusals": [
-        "status.capture.invalidUrl"
+        "status.capture.invalidUrl",
+        "status.capture.badPages"
       ],
       "confirmation": null,
       "history": {

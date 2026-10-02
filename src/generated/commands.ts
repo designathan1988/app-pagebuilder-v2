@@ -258,7 +258,7 @@ export interface CommandArgs {
   "project.export": Record<string, never>;
   "project.setLanguage": { readonly language: string };
   "project.setCodeLanguage": { readonly language: string };
-  "project.captureUrl": { readonly url: string };
+  "project.captureUrl": { readonly url: string; readonly pages?: number };
   "selection.select": { readonly target: NodeId };
   "selection.clear": Record<string, never>;
   "selection.add": { readonly target: NodeId };

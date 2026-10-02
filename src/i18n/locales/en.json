@@ -3400,5 +3400,8 @@
   "status.capture.noCompanion": "The Builder Companion does not answer: run npm run companion, then capture again.",
   "status.capture.failed": "{url} could not be captured: {reason}",
   "feature.captureUrl": "Open any web address as a page of the project",
-  "status.import.released": "{count} links or labels named nothing the page holds and were released ({values})."
+  "status.import.released": "{count} links or labels named nothing the page holds and were released ({values}).",
+  "capture.pages": "Pages of the site",
+  "capture.pagesHint": "1 captures this page alone; more follow its links to other pages of the same site, up to 30.",
+  "status.capture.badPages": "{pages} is no number of pages: 1 to 30."
 }

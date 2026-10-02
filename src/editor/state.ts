@@ -81,7 +81,7 @@ export interface EditorUi {
   // the dialog open (workspace/dialogs.ts): Guides & Grids, Snap settings; absent while none is
   readonly dialog?: 'guides-grids' | 'snap-settings' | 'breakpoints' | 'batch-rename' | 'capture-url' | 'recovery' | 'html-import' | undefined;
   // the last web address asked to be captured, counted (import/capture.ts); absent until one is
-  readonly capture?: { readonly url: string; readonly count: number } | undefined;
+  readonly capture?: { readonly url: string; readonly count: number; readonly pages?: number } | undefined;
   readonly htmlImport?: { readonly files: readonly PickedFile[] } | undefined;
   // the saved versions the recovery dialog offers, the newest first, with their times (spec
   // autosave-corruption-recovery); absent when the saved work was read

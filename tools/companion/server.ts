@@ -1,7 +1,8 @@
 // The Builder Companion (the plan's stage 12; `npm run companion`): a local HTTP server, on this machine only
 // (127.0.0.1, COMPANION_PORT, 5410 by default), that the editor asks to capture a web address it cannot read itself.
 //   GET  /health  → { ok: true }
-//   POST /capture { url } → { title, files: [{ path, type, base64 }] }, or { error } with status 400 or 502
+//   POST /capture { url, pages? } → { title, files: [{ path, type, base64 }] }, or { error } with status 400 or 502
+//   (pages: how many pages of the site to follow, from the address, 1 by default)
 // The editor's page may call it from its own origin (CORS allows any origin: the server answers this machine only).
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
 import { capture, closeBrowser } from './capture.ts';
@@ -29,15 +30,17 @@ export function startCompanion(port = Number(process.env.COMPANION_PORT ?? '5410
       if (req.method === 'GET' && req.url === '/health') return json(res, 200, { ok: true });
       if (req.method !== 'POST' || req.url !== '/capture') return json(res, 404, { error: 'not found' });
       let url: string;
+      let pages = 1;
       try {
-        const parsed = JSON.parse(await bodyOf(req)) as { url?: unknown };
+        const parsed = JSON.parse(await bodyOf(req)) as { url?: unknown; pages?: unknown };
         if (typeof parsed.url !== 'string') throw new Error('no url');
         url = new URL(parsed.url).href;
+        if (typeof parsed.pages === 'number' && Number.isInteger(parsed.pages) && parsed.pages > 0) pages = parsed.pages;
       } catch {
         return json(res, 400, { error: 'the request names no address' });
       }
       try {
-        return json(res, 200, await capture(url));
+        return json(res, 200, await capture(url, { pages }));
       } catch (error) {
         return json(res, 502, { error: (error as Error).message.split('\n')[0] });
       }

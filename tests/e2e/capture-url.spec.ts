@@ -3,7 +3,7 @@
 // page shows an image; the editor's File › Open a web address… sends the address, and the page arrives through Import
 // HTML as its script left it, with its classes, colours, image and background files.
 import { createServer, type Server } from 'node:http';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { extname, join } from 'node:path';
 import type { Server as CompanionServer } from 'node:http';
 import { expect, test, type Page } from '../support/test.ts';
@@ -20,8 +20,10 @@ let companion: CompanionServer;
 
 test.beforeAll(async () => {
   site = createServer((req, res) => {
-    const file = join('tests/support/capture-site', req.url === '/' ? 'index.html' : (req.url ?? ''));
-    if (!existsSync(file)) {
+    // a folder's address is its index.html, as a web server serves it
+    const asked = (req.url ?? '/').split('?')[0] ?? '/';
+    const file = join('tests/support/capture-site', asked.endsWith('/') ? `${asked}index.html` : asked);
+    if (!existsSync(file) || !statSync(file).isFile()) {
       res.writeHead(404).end();
       return;
     }
@@ -64,6 +66,40 @@ test('a web address is captured as its script left it and imported as a page', r
   const doc = await read(page);
   expect((doc.files ?? []).filter((f) => f.path.startsWith('img/')).length).toBeGreaterThanOrEqual(2);
   await expect.poll(() => frame.locator('img').first().evaluate((el) => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+});
+
+test('two pages of the site are captured, the link between them written from one file to the other', runs('project.captureUrl#capture-url-run'), async ({ page }) => {
+  test.setTimeout(120_000);
+  await openEditor(page);
+  await runDoor(page, 'workspace.openDialog#menu-file-capture-url');
+  const dialog = page.locator('[data-region="capture-url-dialog"]');
+  await dialog.locator('input[name="url"]').fill(`127.0.0.1:${SITE_PORT}/`);
+  await dialog.locator('input[name="pages"]').fill('2');
+  await dialog.locator('[data-door="project.captureUrl#capture-url-run"]').click();
+  const destination = page.locator('[data-door="project.importHtml#destination-page"]');
+  await expect(destination).toBeVisible({ timeout: 60_000 });
+  await destination.click();
+  await expect.poll(async () => (await read(page)).pages.map((one) => one.file).sort()).toEqual(['index.html', 'plans/index.html']);
+  const frame = page.frameLocator('.frame__page');
+  await expect(frame.getByRole('link', { name: 'See the plans' })).toHaveAttribute('href', 'plans/index.html');
+  const plans = (await read(page)).pages.find((one) => one.file === 'plans/index.html');
+  await runDoor(page, 'pages.switch#explorer-page-row', { args: { page: (plans?.tree as { id: string }).id } });
+  await expect(frame.getByRole('heading', { name: 'Our plans' })).toBeVisible();
+  // the shared stylesheet reached the second page too
+  expect(await frame.getByRole('heading', { name: 'Our plans' }).evaluate((el) => getComputedStyle(el).color)).toBe('rgb(245, 230, 211)');
+  // the links between the two pages name the project's pages (the export writes them from each page's folder)
+  const hrefs = await page.evaluate(() => {
+    const port = (window as unknown as { __builderTestPort: { document(): { pages: { tree: unknown }[] } } }).__builderTestPort;
+    const found: Record<string, unknown> = {};
+    const walk = (n: { text?: string | null; attributes?: { href?: unknown }; children?: unknown[] }) => {
+      if (typeof n.text === 'string') found[n.text] = n.attributes?.href;
+      for (const child of n.children ?? []) walk(child as never);
+    };
+    for (const one of port.document().pages) walk(one.tree as never);
+    return found;
+  });
+  expect(hrefs['See the plans']).toBe('plans/index.html');
+  expect(hrefs['Back home']).toBe('index.html');
 });
 
 test('without the Companion the status bar says how to start it', runs('project.captureUrl#capture-url-run'), async ({ page }) => {

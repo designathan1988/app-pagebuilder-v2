@@ -8911,7 +8911,12 @@ instance (`status.locked.edit`).
   page that is no capture keeps none.
 - A link or a label that names no element of the captured page (one a script removed) is released, and the report
   says so (`status.import.released`), so the import is always a valid document.
-- Not captured: other pages of the site (links stay absolute), what a script draws live (canvas, WebGL), the content of
+- **Pages of the site** (1 by default, at most 30): with more than one, the Companion follows the links of the page to
+  other pages of the same site, breadth first, until it holds that many; each page lands at a path like its address
+  (`/` index.html, `/plans/` plans/index.html), a stylesheet or an asset shared by several is downloaded once, and a
+  link between two captured pages names the other page of the project. A count out of range is refused
+  (`status.capture.badPages`).
+- Not captured: pages beyond the count asked (their links stay absolute), what a script draws live (canvas, WebGL), the content of
   a frame from another origin, pages behind a login. The pixel-for-pixel corpus of the plan (20 sites, 98 %) is not
   met: a public site such as MDN arrives whole and editable, but its header and some layout differ (open).
 

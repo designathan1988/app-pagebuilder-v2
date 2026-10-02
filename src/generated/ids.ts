@@ -6380,5 +6380,8 @@ export const MESSAGE_IDS = [
   "status.capture.failed",
   "feature.captureUrl",
   "status.import.released",
+  "capture.pages",
+  "capture.pagesHint",
+  "status.capture.badPages",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];
