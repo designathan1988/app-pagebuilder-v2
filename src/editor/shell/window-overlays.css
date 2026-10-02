@@ -1108,6 +1108,33 @@
   padding: var(--space-3) var(--space-4) var(--space-4);
 }
 
+/* an event's fields are the canonical card's (design/final, the Interactions tab): no border, a soft fill, the value
+   set on the element in the colour of where it comes from (here), in the code face; its target picked on the canvas
+   wears the picking colour */
+.interaction-card .interaction-card__fields .panel-field__text,
+.interaction-card .interaction-card__fields .panel-field__text::placeholder {
+  border-color: transparent;
+  border-radius: var(--radius-sm);
+  background: var(--color-origin-here-soft);
+  color: var(--color-origin-here);
+  font: var(--weight-semibold) var(--fs-code) / var(--lh-code) var(--font-mono);
+}
+
+.interaction-card .interaction-card__fields .panel-field__text:hover:not(:disabled) {
+  border-color: var(--color-border-strong);
+}
+
+.interaction-card .interaction-card__fields .panel-field__text:focus:not(:disabled) {
+  border-color: var(--color-focus);
+}
+
+.interaction-card__target .door[aria-pressed='true'] {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--color-canvas-target) 18%, transparent);
+  color: var(--color-canvas-target);
+  font-weight: var(--weight-semibold);
+}
+
 .interaction-card__pick {
   justify-content: flex-start;
   width: 100%;

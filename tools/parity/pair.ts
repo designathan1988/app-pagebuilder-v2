@@ -85,6 +85,15 @@ if (STATE === 'text') {
 if (STATE === 'interaction') {
   await app.locator('[data-door$="#inspector-tab-interactions"]').first().click();
   await app.waitForTimeout(400);
+  // an event made on the element, as the canonical tab shows one (its first item: On click)
+  const add = app.locator('[data-region="inspector-interactions"] button', { hasText: 'Add' }).first();
+  if ((await add.count()) > 0) {
+    await add.click();
+    await app.waitForTimeout(300);
+    const first = app.locator('[role="menu"] [role^="menuitem"]').first();
+    if ((await first.count()) > 0) await first.click();
+    await app.waitForTimeout(400);
+  }
 }
 // the pointer rests where it hovers nothing (a menu stays open: the pointer leaving it does not close it)
 if (STATE !== 'palette') await app.mouse.move(1, 899);

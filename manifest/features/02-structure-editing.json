@@ -17335,13 +17335,13 @@
               "door": "style.set#inspector-height",
               "args": {
                 "property": "height",
-                "value": "640px"
+                "value": "606px"
               },
               "target": null,
               "drop": null,
               "action": false,
               "hold": false,
-              "type": "640\n"
+              "type": "606\n"
             },
             {
               "door": "selection.select#layers-row",
@@ -17437,7 +17437,7 @@
                           "padding-right": "40px",
                           "padding-bottom": "56px",
                           "padding-left": "40px",
-                          "height": "640px"
+                          "height": "606px"
                         }
                       }
                     },
@@ -17646,7 +17646,7 @@
               {
                 "op": "set",
                 "path": "/Page/Hero/@styles/desktop/base/height",
-                "value": "640px"
+                "value": "606px"
               },
               {
                 "op": "set",
