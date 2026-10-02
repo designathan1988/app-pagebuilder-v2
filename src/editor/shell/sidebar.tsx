@@ -20,14 +20,15 @@ import { fileAt, folderOf, folderPaths, nameOfPath, objectUrl, pathGenerated, si
 import { treeRows, type TreeRow } from '../explorer/explorer.ts';
 import { afterGesture, drag, modifierOf, pointerPressing } from '../input/pointer.ts';
 import { renamedNode } from '../layers/rename.ts';
-import { paletteDensity, paletteMatches } from '../palette/palette.ts';
+import { paletteDensity, paletteMatches, paletteRank } from '../palette/palette.ts';
 import { isExpanded, rowDetailsOf, searchView, type SearchView } from '../layers/tree.ts';
 import { MODEL_RULES, useEditorState, useStore, type EditorState } from '../store.ts';
 import { atPlace, isPanelOpen, panelName, stackedSections, type Panel } from '../workspace/panels.ts';
 import { SPLITTERS, combinationAt, splitterSize, type SplitterId } from '../workspace/layout.ts';
 import { PanelArea, PanelGrip } from '../workspace/windows.tsx';
 import { floatingOf } from '../workspace/layout.ts';
-import { useT } from '../text.ts';
+import { useLocale, useT } from '../text.ts';
+import { hasText, translate, type Locale } from '../../i18n/index.ts';
 import type { BodyTable } from './bodies.ts';
 import { Slots } from './slots.tsx';
 import { Variables } from './variables.tsx';
@@ -898,14 +899,34 @@ function InsertDestination() {
   );
 }
 
+// The other words a palette entry answers to: its English name, and the synonyms the catalogues give it in the person's
+// language and in English (palette.keywords.<entry>), where they have them
+function alsoNamed(locale: Locale, entry: string, labelKey: string): readonly string[] {
+  const key = `palette.keywords.${entry}`;
+  const words = [translate('en', labelKey as MessageId)];
+  if (hasText(locale, key)) words.push(translate(locale, key as MessageId));
+  if (locale !== 'en' && hasText('en', key)) words.push(translate('en', key as MessageId));
+  return words;
+}
+
 function Insert() {
   const t = useT();
+  const locale = useLocale();
   const density = useEditorState((s) => paletteDensity(s.ui));
   const collapsed = useEditorState((s) => s.ui.preferences.collapsedGroups ?? NO_GROUPS);
   // what the search field holds: the panel's own view (a filter, not a command)
   const [query, setQuery] = useState('');
   const searching = query.trim() !== '';
-  const groups = manifest.elements.palette.map((g) => ({ group: g, entries: g.entries.filter((e) => paletteMatches(query, t(e.labelKey as MessageId), tagOfElement(e.element))) }));
+  // the entries that answer the search, the best answers first (palette.ts paletteRank): the name in the person's
+  // language, then its English name and its synonyms (palette.keywords.<entry>, where the catalogue has them)
+  const groups = manifest.elements.palette.map((g) => ({
+    group: g,
+    entries: g.entries
+      .map((e) => ({ e, rank: paletteRank(query, t(e.labelKey as MessageId), tagOfElement(e.element), alsoNamed(locale, e.id, e.labelKey)) }))
+      .filter((one): one is { e: (typeof g.entries)[number]; rank: number } => one.rank !== null)
+      .sort((a, b) => a.rank - b.rank)
+      .map((one) => one.e),
+  }));
   const matches = groups.reduce((n, g) => n + g.entries.length, 0);
   return (
     <section className="view" aria-label={t('activity.insert')} data-region="insert">

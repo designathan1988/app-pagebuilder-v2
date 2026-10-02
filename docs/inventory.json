@@ -6,7 +6,7 @@
     "doors": 1311,
     "scenarios": 1720,
     "modules": 400,
-    "lines": 73261
+    "lines": 73324
   },
   "features": [
     {
@@ -5635,7 +5635,7 @@
     },
     {
       "path": "src/editor/palette/palette.ts",
-      "lines": 50,
+      "lines": 63,
       "commands": [
         "palette.toggleGroup",
         "palette.setDensity"
@@ -5957,7 +5957,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1118,
+      "lines": 1139,
       "commands": [],
       "features": []
     },
@@ -6292,7 +6292,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6268,
+      "lines": 6297,
       "commands": [],
       "features": []
     },

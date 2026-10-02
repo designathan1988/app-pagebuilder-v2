@@ -40,10 +40,23 @@ export const setDensity: RegisteredHandler<'palette.setDensity', EditorUi> = reg
 // the densities the panel offers: the values of the density argument of palette.setDensity (the manifest's)
 export const PALETTE_DENSITIES: readonly string[] = commandOf(setDensity.command).args.density?.values ?? [];
 
-// Whether a palette entry matches what the search field holds: its label or its tag contains the text, ignoring case
-// and the spaces around it; everything matches an empty search.
-export function paletteMatches(query: string, label: string, tag: string | null): boolean {
-  const q = query.trim().toLowerCase();
-  if (q === '') return true;
-  return label.toLowerCase().includes(q) || (tag ?? '').toLowerCase().includes(q);
+// How well a palette entry answers what the search field holds (spec palette-search-groups; jornada03 J11, J12): null
+// when it does not, else a rank, lower first — the name itself, a name that starts with the text, a word of the name
+// that does, a name that holds it, then the words that also name it (its English name, the synonyms of the person's
+// language: "texto" finds Paragraph, "botao" Button), then its tag. Case, accents and the spaces around the text aside;
+// everything answers an empty search, in its own order.
+const folded = (text: string): string => text.normalize('NFD').replace(/\p{M}/gu, '').trim().toLocaleLowerCase();
+export function paletteRank(query: string, label: string, tag: string | null, also: readonly string[] = []): number | null {
+  const q = folded(query);
+  if (q === '') return 0;
+  const name = folded(label);
+  if (name === q) return 0;
+  if (name.startsWith(q)) return 1;
+  if (name.split(/\s+/).some((word) => word.startsWith(q))) return 2;
+  if (name.includes(q)) return 3;
+  if (also.some((words) => folded(words).split(/\s+/).some((word) => word.startsWith(q)))) return 4;
+  return (tag ?? '').toLowerCase().includes(q) ? 5 : null;
 }
+
+// Whether a palette entry answers the search at all.
+export const paletteMatches = (query: string, label: string, tag: string | null, also: readonly string[] = []): boolean => paletteRank(query, label, tag, also) !== null;
