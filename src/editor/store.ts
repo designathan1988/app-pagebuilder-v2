@@ -31,6 +31,7 @@ import { keyframeTarget } from './timeline/playhead.ts';
 import { browserStorage, loadPreferences, persistPreferences, type PreferenceStorage } from './preferences/preferences.ts';
 import { browserWorkspace, persistWorkspace, readWorkspace, type WorkspaceStorage } from './workspace/persist.ts';
 import { initialEditorUi, type EditorUi } from './state.ts';
+import { siteScripts } from './forms/script.ts';
 
 export type EditorStore = Store<EditorUi>;
 export type EditorState = StoreState<EditorUi>;
@@ -95,6 +96,7 @@ export function createEditorStore(options: EditorStoreOptions = {}): EditorStore
     commands: new Map(manifest.commands.map((c) => [c.id as CommandId, c])),
     constants: new Map(manifest.interactions.constants.map((c) => [c.id as ConstantId, c.value])),
     rules,
+    siteScripts,
     clock: options.clock ?? systemClock,
     ids,
     words: (ui, key, params) => translate(ui.preferences.locale, key, params),

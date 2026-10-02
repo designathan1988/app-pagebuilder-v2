@@ -9,6 +9,7 @@ import type { DocumentJson, NodeId, Selection } from '../document/model.ts';
 import type { ModelRules } from '../document/validate.ts';
 import type { Patch } from '../history/transaction.ts';
 import type { Clock } from '../ports/clock.ts';
+import type { SiteScripts } from '../ports/site-scripts.ts';
 import type { ClipboardWrite } from '../ports/clipboard.ts';
 import type { CssSupport } from '../ports/css.ts';
 import type { DownloadFile } from '../ports/download.ts';
@@ -62,6 +63,7 @@ export type Outcome<Ui> =
   | { readonly kind: 'confirm'; readonly params?: Readonly<Record<string, string | number>> };
 
 export interface HandlerContext<Ui> {
+  readonly siteScripts?: SiteScripts;
   readonly state: StoreState<Ui>;
   readonly clock: Clock;
   readonly ids: IdGenerator;

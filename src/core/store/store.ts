@@ -128,6 +128,7 @@ export interface Store<Ui> {
 }
 
 export interface StoreOptions<Ui> {
+  readonly siteScripts?: HandlerContext<Ui>['siteScripts'];
   readonly table: CommandTable<Ui>;
   readonly predicates: PredicateTable<Ui>;
   // the manifest's commands: availability and history of each
@@ -301,6 +302,7 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
       state,
       clock,
       ids,
+      ...(options.siteScripts === undefined ? {} : { siteScripts: options.siteScripts }),
       rules: layered,
       words: (key, params) => options.words(ui, key, params),
       layout: options.layout ?? noLayout,

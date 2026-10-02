@@ -5,6 +5,7 @@
 // sandboxed, never the editing canvas. No selection, guides, handles, docks or rulers are drawn.
 import { useEffect, useMemo } from 'react';
 import { previewPage } from '../../core/export/export.ts';
+import { siteScripts } from '../forms/script.ts';
 import { openedPage } from '../../core/project/pages.ts';
 import { viewportWidth } from '../view/breakpoints.ts';
 import { MODEL_RULES, useEditorState } from '../store.ts';
@@ -26,7 +27,7 @@ export function PreviewPage() {
   // the page the editor has open, never the project's first: previewing a second page must show that page (the
   // interface audit F03), and the memo re-runs when the open page changes
   const page = useEditorState((s) => openedPage(s));
-  const html = useMemo(() => withKeyRelay(previewPage(document, MODEL_RULES, page)), [document, page]);
+  const html = useMemo(() => withKeyRelay(previewPage(document, MODEL_RULES, page, siteScripts)), [document, page]);
   // a key the page relays (KEY_RELAY) is pressed again on the preview bar, in the preview's key context, so the keymap
   // runs its door as if the editor had the focus
   useEffect(() => {

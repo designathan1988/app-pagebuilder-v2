@@ -19,8 +19,9 @@ import { Hints, useSingleNode } from '../inspector/selection.tsx';
 import { useT } from '../text.ts';
 import { ID_REF, KeptTextField, TextField, keepAfterGesture, keptTextOf } from './field.tsx';
 import './settings.css';
+import { FormsInspector } from '../forms/inspector.tsx';
 
-const SETTINGS_FIELDS = doorSlots('inspector-settings').filter((d) => d.door.kind === 'inspector-field' && d.door.attribute !== null);
+const SETTINGS_FIELDS = doorSlots('inspector-settings').filter((d) => d.door.kind === 'inspector-field' && d.door.attribute !== null && !d.door.control.startsWith('forms-'));
 // the toggles of a table's parts (caption, head, foot; core/elements/parts.ts), drawn while the selection is in a table
 const TABLE_PART_DOORS = doorSlots('inspector-settings').filter((d) => d.door.kind === 'panel-control' && d.door.drawnAs === 'toggle');
 // the parts editor (core/elements/parts.ts): the buttons that add a part of a type (their door fixes the type), and the
@@ -352,6 +353,7 @@ export function SettingsTab() {
             </section>
           );
         })}
+        {node !== null ? <FormsInspector node={node} /> : null}
       </div>
     </div>
   );

@@ -2134,6 +2134,43 @@
       "elements": "all",
       "command": "element.setAttribute",
       "global": true
+    },
+    {
+      "id": "formField",
+      "html": "data-form-field",
+      "labelKey": "attribute.formField.label",
+      "valueType": "text",
+      "keywords": [],
+      "elements": [
+        "input",
+        "textarea",
+        "select"
+      ],
+      "command": "element.setAttribute"
+    },
+    {
+      "id": "formSubmit",
+      "html": "data-form-submit",
+      "labelKey": "attribute.formSubmit.label",
+      "valueType": "text",
+      "keywords": [],
+      "elements": [
+        "form"
+      ],
+      "command": "element.setAttribute"
+    },
+    {
+      "id": "formConfigurationError",
+      "html": "data-form-configuration-error",
+      "labelKey": "attribute.formConfigurationError.label",
+      "valueType": "text",
+      "keywords": [],
+      "elements": [
+        "input",
+        "textarea",
+        "select"
+      ],
+      "command": "element.setAttribute"
     }
   ],
   "autocompleteTokens": [

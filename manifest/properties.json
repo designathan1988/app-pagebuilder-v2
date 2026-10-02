@@ -376,6 +376,26 @@
       "labelKey": "styleState.after",
       "pseudo": "::after",
       "elements": null
+    },
+    {
+      "id": "user-invalid",
+      "labelKey": "styleState.userInvalid",
+      "pseudo": ":user-invalid",
+      "elements": [
+        "input",
+        "textarea",
+        "select"
+      ]
+    },
+    {
+      "id": "user-valid",
+      "labelKey": "styleState.userValid",
+      "pseudo": ":user-valid",
+      "elements": [
+        "input",
+        "textarea",
+        "select"
+      ]
     }
   ],
   "structures": [

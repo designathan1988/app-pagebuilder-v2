@@ -1371,6 +1371,54 @@
           "args": {
             "state": "after"
           }
+        },
+        {
+          "id": "menu-style-state-user-invalid",
+          "kind": "menu",
+          "feature": "state-styles",
+          "menu": "style-state",
+          "checked": "radio",
+          "labelKey": "styleState.userInvalid",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "menu:style-state",
+            "order": 14
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "state": "user-invalid"
+          }
+        },
+        {
+          "id": "menu-style-state-user-valid",
+          "kind": "menu",
+          "feature": "state-styles",
+          "menu": "style-state",
+          "checked": "radio",
+          "labelKey": "styleState.userValid",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "menu:style-state",
+            "order": 15
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "state": "user-valid"
+          }
         }
       ]
     },

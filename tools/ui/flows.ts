@@ -54,6 +54,41 @@ const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as cons
 
 export const FLOWS: readonly Flow[] = [
   {
+    name: 'forms-submission',
+    about: 'configure a service destination without altering the native action implicitly',
+    steps: [
+      INSERT_PANEL,
+      { click: `[data-door="element.insert#elements-tile"][data-args='{"entry":"form"}']` },
+      { door: 'workspace.setActiveTab#inspector-tab-settings' },
+      { click: '[data-door="element.setAttribute#forms-submission-destination"] input' },
+      { photo: 'native-submission' },
+      { type: { at: '[data-door="element.setAttribute#forms-submission-endpoint"] input', text: 'https://example.com/forms' } },
+      { type: { at: '[data-door="element.setAttribute#forms-submission-destination"] input', text: 'webhook' } },
+      { type: { at: '[data-door="element.setAttribute#forms-submission-method"] input', text: 'POST' } },
+      { type: { at: '[data-door="element.setAttribute#forms-submission-encoding"] input', text: 'json' } },
+      { type: { at: '[data-door="element.setAttribute#forms-submission-honeypot"] input', text: 'website' } },
+      { photo: 'configured-service' },
+    ],
+  },
+  {
+    name: 'forms-mask',
+    about: 'configure a field mask and trial a valid and invalid value',
+    steps: [
+      INSERT_PANEL,
+      { door: 'element.insert#elements-tile', labelled: 'Text' },
+      { door: 'workspace.setActiveTab#inspector-tab-settings' },
+      { click: '[data-door="element.setAttribute#forms-mask-kind"] input' },
+      { photo: 'field-without-mask' },
+      { type: { at: '[data-door="element.setAttribute#forms-mask-kind"] input', text: 'Preset' } },
+      { type: { at: '[data-door="element.setAttribute#forms-preview-input"] input', text: '52998224725' } },
+      { click: '[data-region="forms-settings"] output' },
+      { photo: 'cpf-valid' },
+      { type: { at: '[data-door="element.setAttribute#forms-preview-input"] input', text: '52998224726' } },
+      { click: '[data-region="forms-settings"] output' },
+      { photo: 'cpf-invalid' },
+    ],
+  },
+  {
     name: 'bare-radius',
     about: 'a radius accepts the same bare lengths and arithmetic as other length fields',
     steps: [

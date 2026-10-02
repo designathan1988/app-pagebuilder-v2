@@ -27015,6 +27015,5145 @@
           "refusals": []
         }
       ]
+    },
+    {
+      "id": "forms-masks-validation",
+      "titleKey": "feature.formsMasksValidation",
+      "commands": [
+        "element.setAttribute"
+      ],
+      "dependsOn": [
+        "elements-form-inputs-rules",
+        "export-zip"
+      ],
+      "spec": "spec/BEHAVIOUR.md#forms-masks-validation",
+      "intent": {
+        "title": "Configure professional masks, validation and submission with one attribute owner",
+        "steps": [
+          "Choose a field mask, trial value, validation rules and localized messages.",
+          "Configure native or service submission, result elements and opt-in postal lookup.",
+          "Preview, save, reopen and export the page."
+        ],
+        "expected": [
+          "The same masks and accessible validation run in preview and the exported site.",
+          "Invalid configurations refuse before a document patch; undo restores each accepted configuration.",
+          "The editor canvas never runs site submission handlers."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "a-field-mask-is-kept-in-the-document-and-exported",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-insert",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.insert#elements-tile",
+              "args": {
+                "entry": "input-text"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-kind",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"preset\",\"preset\":\"cpf\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Preset\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-kind"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/@children",
+                "value": [
+                  {
+                    "type": "input",
+                    "name": "Input",
+                    "tag": "input",
+                    "attributes": {
+                      "inputType": "text",
+                      "formField": "{\"mask\":{\"kind\":\"preset\",\"preset\":\"cpf\"}}"
+                    },
+                    "classes": [],
+                    "styles": {},
+                    "text": null,
+                    "children": []
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Input"
+            ],
+            "history": {
+              "undoSteps": 2,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-kind",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-kind",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"preset\",\"preset\":\"cpf\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Preset\n"
+            },
+            {
+              "door": "element.setAttribute#forms-preview-input",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"preset\",\"preset\":\"cpf\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "52998224725\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-kind"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"preset\",\"preset\":\"cpf\"}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-preset",
+          "setup": {
+            "fixture": "forms-proof-field-c819a7b45f7c",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-preset",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"preset\",\"preset\":\"cnpj\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "cnpj\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-preset"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"preset\",\"preset\":\"cnpj\"}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-pattern",
+          "setup": {
+            "fixture": "forms-proof-field-ba5f720adfbd",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-pattern",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"fixed\",\"pattern\":\"(00) 00000-0000\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "(00) 00000-0000\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-pattern"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"fixed\",\"pattern\":\"(00) 00000-0000\"}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-alternative-pattern",
+          "setup": {
+            "fixture": "forms-proof-field-523874b0efc9",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-alternative-pattern",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"dynamic\",\"alternatives\":[{\"pattern\":\"00-00\",\"maxLength\":4}]}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "00-00\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-alternative-pattern"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"dynamic\",\"alternatives\":[{\"pattern\":\"00-00\",\"maxLength\":4}]}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-alternative-max-length",
+          "setup": {
+            "fixture": "forms-proof-field-523874b0efc9",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-alternative-max-length",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"dynamic\",\"alternatives\":[{\"pattern\":\"0000\",\"maxLength\":5}]}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "5\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-alternative-max-length"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"dynamic\",\"alternatives\":[{\"pattern\":\"0000\",\"maxLength\":5}]}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-alternative-add",
+          "setup": {
+            "fixture": "forms-proof-field-523874b0efc9",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-alternative-add",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"dynamic\",\"alternatives\":[{\"pattern\":\"0000\",\"maxLength\":4},{\"pattern\":\"0000\",\"maxLength\":4}]}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-alternative-add"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"dynamic\",\"alternatives\":[{\"pattern\":\"0000\",\"maxLength\":4},{\"pattern\":\"0000\",\"maxLength\":4}]}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-alternative-remove",
+          "setup": {
+            "fixture": "forms-proof-field-0f8625f6d452",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-alternative-remove",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"dynamic\",\"alternatives\":[{\"pattern\":\"000000\",\"maxLength\":6}]}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-alternative-remove"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"dynamic\",\"alternatives\":[{\"pattern\":\"000000\",\"maxLength\":6}]}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-block-pattern",
+          "setup": {
+            "fixture": "forms-proof-field-002669b5e834",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-block-pattern",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"custom\",\"pattern\":\"0000\",\"blocks\":{\"prefix\":\"AAA\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "AAA\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-block-pattern"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"custom\",\"pattern\":\"0000\",\"blocks\":{\"prefix\":\"AAA\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-block-remove",
+          "setup": {
+            "fixture": "forms-proof-field-002669b5e834",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-block-remove",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"custom\",\"pattern\":\"0000\",\"blocks\":{}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-block-remove"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"custom\",\"pattern\":\"0000\",\"blocks\":{}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-block-add",
+          "setup": {
+            "fixture": "forms-proof-field-7186b242462b",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-block-name",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"custom\",\"pattern\":\"0000\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "prefix\n"
+            },
+            {
+              "door": "element.setAttribute#forms-mask-block-add",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"custom\",\"pattern\":\"0000\",\"blocks\":{\"prefix\":\"00\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-block-add"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"custom\",\"pattern\":\"0000\",\"blocks\":{\"prefix\":\"00\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-locale",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-locale",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"none\",\"locale\":\"en-US\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "en-US\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-locale"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"none\",\"locale\":\"en-US\"}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-currency",
+          "setup": {
+            "fixture": "forms-proof-field-327063b98df3",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-currency",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"number\",\"currency\":\"USD\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "USD\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-currency"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"number\",\"currency\":\"USD\"}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-precision",
+          "setup": {
+            "fixture": "forms-proof-field-327063b98df3",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-precision",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"number\",\"precision\":3}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "3\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-precision"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"number\",\"precision\":3}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-minimum",
+          "setup": {
+            "fixture": "forms-proof-field-327063b98df3",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-minimum",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"number\",\"minimum\":-100}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "-100\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-minimum"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"number\",\"minimum\":-100}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-maximum",
+          "setup": {
+            "fixture": "forms-proof-field-327063b98df3",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-maximum",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"number\",\"maximum\":100}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "100\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-maximum"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"number\",\"maximum\":100}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-suffix",
+          "setup": {
+            "fixture": "forms-proof-field-327063b98df3",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-suffix",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"number\",\"suffix\":\"kg\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "kg\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-suffix"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"number\",\"suffix\":\"kg\"}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-negative",
+          "setup": {
+            "fixture": "forms-proof-field-327063b98df3",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-negative",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"number\",\"negative\":false}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-negative"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"number\",\"negative\":false}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-format",
+          "setup": {
+            "fixture": "forms-proof-field-d39d55d1d55f",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-format",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"date\",\"format\":\"YYYY-MM-DD\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "YYYY-MM-DD\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-format"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"date\",\"format\":\"YYYY-MM-DD\"}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-autocorrect",
+          "setup": {
+            "fixture": "forms-proof-field-d39d55d1d55f",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-autocorrect",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"date\",\"autocorrect\":true}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-autocorrect"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"date\",\"autocorrect\":true}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-mask-submit",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-mask-submit",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"mask\":{\"kind\":\"none\",\"submit\":\"raw\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "raw\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-mask-submit"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"mask\":{\"kind\":\"none\",\"submit\":\"raw\"}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-when",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-when",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"when\":\"input\"}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "input\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-when"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"when\":\"input\"}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-required",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-required",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"required\":true}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-required"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"required\":true}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-type",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-type",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"type\":\"email\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "email\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-type"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"type\":\"email\"}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-pattern",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-pattern",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"pattern\":\"[A-Z]{3}\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "[A-Z]{3}\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-pattern"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"pattern\":\"[A-Z]{3}\"}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-min-length",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-min-length",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"minLength\":3}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "3\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-min-length"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"minLength\":3}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-max-length",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-max-length",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"maxLength\":30}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "30\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-max-length"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"maxLength\":30}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-minimum",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-minimum",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"minimum\":1}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "1\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-minimum"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"minimum\":1}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-maximum",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-maximum",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"maximum\":100}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "100\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-maximum"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"maximum\":100}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-step",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-step",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"step\":0.5}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "0.5\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-step"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"step\":0.5}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-equal-to",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-equal-to",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"equalTo\":\"confirmation\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "confirmation\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-equal-to"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"equalTo\":\"confirmation\"}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-date-minimum",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-date-minimum",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"dateMinimum\":\"today-1d\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "today-1d\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-date-minimum"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"dateMinimum\":\"today-1d\"}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-date-maximum",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-date-maximum",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"dateMaximum\":\"today+30d\"}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "today+30d\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-date-maximum"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"dateMaximum\":\"today+30d\"}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-allowed-values-one-per-line",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-allowed",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"allowed\":[\"gold\",\"silver\"]}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "gold silver\t"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-allowed"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"allowed\":[\"gold\",\"silver\"]}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-password-enabled",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-password-enabled",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"password\":{\"minLength\":8}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-password-enabled"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"password\":{\"minLength\":8}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-password-min-length",
+          "setup": {
+            "fixture": "forms-proof-field-8a5f4f78a309",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-password-min-length",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"password\":{\"minLength\":12}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "12\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-password-min-length"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"password\":{\"minLength\":12}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-password-uppercase",
+          "setup": {
+            "fixture": "forms-proof-field-8a5f4f78a309",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-password-uppercase",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"password\":{\"minLength\":8,\"uppercase\":true}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-password-uppercase"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"password\":{\"minLength\":8,\"uppercase\":true}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-password-lowercase",
+          "setup": {
+            "fixture": "forms-proof-field-8a5f4f78a309",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-password-lowercase",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"password\":{\"minLength\":8,\"lowercase\":true}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-password-lowercase"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"password\":{\"minLength\":8,\"lowercase\":true}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-password-digit",
+          "setup": {
+            "fixture": "forms-proof-field-8a5f4f78a309",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-password-digit",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"password\":{\"minLength\":8,\"digit\":true}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-password-digit"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"password\":{\"minLength\":8,\"digit\":true}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-password-symbol",
+          "setup": {
+            "fixture": "forms-proof-field-8a5f4f78a309",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-password-symbol",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"password\":{\"minLength\":8,\"symbol\":true}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-password-symbol"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"password\":{\"minLength\":8,\"symbol\":true}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-file-accept",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-file-accept",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"file\":{\"accept\":[\"image/*\",\".pdf\"]}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "image/* .pdf\t"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-file-accept"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"file\":{\"accept\":[\"image/*\",\".pdf\"]}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-file-max-bytes",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-file-max-bytes",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"file\":{\"maxBytes\":1048576}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "1048576\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-file-max-bytes"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"file\":{\"maxBytes\":1048576}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-rules-file-max-total-bytes",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-rules-file-max-total-bytes",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"rules\":{\"file\":{\"maxTotalBytes\":5242880}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "5242880\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-rules-file-max-total-bytes"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"rules\":{\"file\":{\"maxTotalBytes\":5242880}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-error-id",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-error-id",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"errorId\":\"field-error\"}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "field-error\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-error-id"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"errorId\":\"field-error\"}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-required",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-locale",
+              "args": {
+                "attribute": "formField",
+                "value": "{}"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "pt-BR\n"
+            },
+            {
+              "door": "element.setAttribute#forms-messages-required",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"pt-BR\":{\"required\":\"Preencha este campo.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Preencha este campo.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-required"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"pt-BR\":{\"required\":\"Preencha este campo.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-type",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-type",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"type\":\"Custom type message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom type message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-type"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"type\":\"Custom type message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-pattern",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-pattern",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"pattern\":\"Custom pattern message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom pattern message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-pattern"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"pattern\":\"Custom pattern message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-too-short",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-too-short",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"tooShort\":\"Custom tooShort message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom tooShort message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-too-short"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"tooShort\":\"Custom tooShort message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-too-long",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-too-long",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"tooLong\":\"Custom tooLong message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom tooLong message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-too-long"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"tooLong\":\"Custom tooLong message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-minimum",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-minimum",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"minimum\":\"Custom minimum message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom minimum message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-minimum"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"minimum\":\"Custom minimum message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-maximum",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-maximum",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"maximum\":\"Custom maximum message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom maximum message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-maximum"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"maximum\":\"Custom maximum message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-step",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-step",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"step\":\"Custom step message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom step message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-step"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"step\":\"Custom step message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-preset",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-preset",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"preset\":\"Custom preset message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom preset message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-preset"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"preset\":\"Custom preset message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-equal-to",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-equal-to",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"equalTo\":\"Custom equalTo message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom equalTo message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-equal-to"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"equalTo\":\"Custom equalTo message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-password",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-password",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"password\":\"Custom password message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom password message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-password"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"password\":\"Custom password message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-allowed",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-allowed",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"allowed\":\"Custom allowed message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom allowed message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-allowed"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"allowed\":\"Custom allowed message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-date-minimum",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-date-minimum",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"dateMinimum\":\"Custom dateMinimum message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom dateMinimum message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-date-minimum"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"dateMinimum\":\"Custom dateMinimum message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-date-maximum",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-date-maximum",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"dateMaximum\":\"Custom dateMaximum message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom dateMaximum message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-date-maximum"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"dateMaximum\":\"Custom dateMaximum message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-file-type",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-file-type",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"fileType\":\"Custom fileType message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom fileType message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-file-type"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"fileType\":\"Custom fileType message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-file-size",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-file-size",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"fileSize\":\"Custom fileSize message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom fileSize message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-file-size"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"fileSize\":\"Custom fileSize message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-messages-configuration",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-messages-configuration",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"messages\":{\"en\":{\"configuration\":\"Custom configuration message.\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Custom configuration message.\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-messages-configuration"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"messages\":{\"en\":{\"configuration\":\"Custom configuration message.\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-address-enabled",
+          "setup": {
+            "fixture": "forms-proof-field-3a925b9d62b0",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-address-enabled",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"address\":{\"endpoint\":\"https://viacep.com.br/ws/{cep}/json/\",\"fields\":{}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-address-enabled"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"address\":{\"endpoint\":\"https://viacep.com.br/ws/{cep}/json/\",\"fields\":{}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-address-endpoint",
+          "setup": {
+            "fixture": "forms-proof-field-9bcb9304791a",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-address-endpoint",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"address\":{\"endpoint\":\"https://example.org/postal/{cep}\",\"fields\":{}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "https://example.org/postal/{cep}\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-address-endpoint"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"address\":{\"endpoint\":\"https://example.org/postal/{cep}\",\"fields\":{}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-address-add",
+          "setup": {
+            "fixture": "forms-proof-field-9bcb9304791a",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-address-key",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"address\":{\"endpoint\":\"https://viacep.com.br/ws/{cep}/json/\",\"fields\":{}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "street\n"
+            },
+            {
+              "door": "element.setAttribute#forms-address-add",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"address\":{\"endpoint\":\"https://viacep.com.br/ws/{cep}/json/\",\"fields\":{\"street\":\"primary\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-address-add"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"address\":{\"endpoint\":\"https://viacep.com.br/ws/{cep}/json/\",\"fields\":{\"street\":\"primary\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-address-field",
+          "setup": {
+            "fixture": "forms-proof-field-5013d023922f",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-address-field",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"address\":{\"endpoint\":\"https://viacep.com.br/ws/{cep}/json/\",\"fields\":{\"street\":\"street\"}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "street\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-address-field"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"address\":{\"endpoint\":\"https://viacep.com.br/ws/{cep}/json/\",\"fields\":{\"street\":\"street\"}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-address-remove",
+          "setup": {
+            "fixture": "forms-proof-field-5013d023922f",
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-address-remove",
+              "args": {
+                "attribute": "formField",
+                "value": "{\"address\":{\"endpoint\":\"https://viacep.com.br/ws/{cep}/json/\",\"fields\":{}}}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-address-remove"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/Primary/@attributes/formField",
+                "value": "{\"address\":{\"endpoint\":\"https://viacep.com.br/ws/{cep}/json/\",\"fields\":{}}}"
+              }
+            ],
+            "selection": [
+              "/Page/Form/Primary"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-submission-endpoint",
+          "setup": {
+            "fixture": "forms-proof-submission-9e06675db147",
+            "selection": [
+              "/Page/Form"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-submission-endpoint",
+              "args": {
+                "attribute": "formSubmit",
+                "value": "{\"destination\":\"native\",\"endpoint\":\"https://example.org/contact\"}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "https://example.org/contact\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-submission-endpoint"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/@attributes/formSubmit",
+                "value": "{\"destination\":\"native\",\"endpoint\":\"https://example.org/contact\"}"
+              }
+            ],
+            "selection": [
+              "/Page/Form"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-submission-destination",
+          "setup": {
+            "fixture": "forms-proof-submission-c1ff366ad4cb",
+            "selection": [
+              "/Page/Form"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-submission-destination",
+              "args": {
+                "attribute": "formSubmit",
+                "value": "{\"destination\":\"webhook\",\"endpoint\":\"https://example.org/contact\"}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "webhook\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-submission-destination"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/@attributes/formSubmit",
+                "value": "{\"destination\":\"webhook\",\"endpoint\":\"https://example.org/contact\"}"
+              }
+            ],
+            "selection": [
+              "/Page/Form"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-submission-method",
+          "setup": {
+            "fixture": "forms-proof-submission-9e06675db147",
+            "selection": [
+              "/Page/Form"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-submission-method",
+              "args": {
+                "attribute": "formSubmit",
+                "value": "{\"destination\":\"native\",\"method\":\"POST\"}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "POST\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-submission-method"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/@attributes/formSubmit",
+                "value": "{\"destination\":\"native\",\"method\":\"POST\"}"
+              }
+            ],
+            "selection": [
+              "/Page/Form"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-submission-encoding",
+          "setup": {
+            "fixture": "forms-proof-submission-9e06675db147",
+            "selection": [
+              "/Page/Form"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-submission-encoding",
+              "args": {
+                "attribute": "formSubmit",
+                "value": "{\"destination\":\"native\",\"encoding\":\"json\"}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "json\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-submission-encoding"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/@attributes/formSubmit",
+                "value": "{\"destination\":\"native\",\"encoding\":\"json\"}"
+              }
+            ],
+            "selection": [
+              "/Page/Form"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-submission-success-id",
+          "setup": {
+            "fixture": "forms-proof-submission-9e06675db147",
+            "selection": [
+              "/Page/Form"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-submission-success-id",
+              "args": {
+                "attribute": "formSubmit",
+                "value": "{\"destination\":\"native\",\"successId\":\"form-success\"}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "form-success\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-submission-success-id"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/@attributes/formSubmit",
+                "value": "{\"destination\":\"native\",\"successId\":\"form-success\"}"
+              }
+            ],
+            "selection": [
+              "/Page/Form"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-submission-error-id",
+          "setup": {
+            "fixture": "forms-proof-submission-9e06675db147",
+            "selection": [
+              "/Page/Form"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-submission-error-id",
+              "args": {
+                "attribute": "formSubmit",
+                "value": "{\"destination\":\"native\",\"errorId\":\"form-error\"}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "form-error\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-submission-error-id"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/@attributes/formSubmit",
+                "value": "{\"destination\":\"native\",\"errorId\":\"form-error\"}"
+              }
+            ],
+            "selection": [
+              "/Page/Form"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-submission-honeypot",
+          "setup": {
+            "fixture": "forms-proof-submission-9e06675db147",
+            "selection": [
+              "/Page/Form"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-submission-honeypot",
+              "args": {
+                "attribute": "formSubmit",
+                "value": "{\"destination\":\"native\",\"honeypot\":\"website\"}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "website\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-submission-honeypot"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/@attributes/formSubmit",
+                "value": "{\"destination\":\"native\",\"honeypot\":\"website\"}"
+              }
+            ],
+            "selection": [
+              "/Page/Form"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "configure-submission-redirect",
+          "setup": {
+            "fixture": "forms-proof-submission-9e06675db147",
+            "selection": [
+              "/Page/Form"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setAttribute#forms-submission-redirect",
+              "args": {
+                "attribute": "formSubmit",
+                "value": "{\"destination\":\"native\",\"redirect\":\"https://example.org/thanks\"}"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "https://example.org/thanks\n"
+            }
+          ],
+          "doors": [
+            "element.setAttribute#forms-submission-redirect"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Form/@attributes/formSubmit",
+                "value": "{\"destination\":\"native\",\"redirect\":\"https://example.org/thanks\"}"
+              }
+            ],
+            "selection": [
+              "/Page/Form"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        }
+      ]
     }
   ]
 }

@@ -14,9 +14,10 @@
 import type { NodeId } from '../../generated/commands.ts';
 import { message, registerHandler, type Outcome } from '../commands/registry.ts';
 import { allNodes, locate, walk, type DocNode, type DocumentJson, type Location } from '../document/model.ts';
+import { formAttributeIssue } from '../forms/config.ts';
 import { customAttributeRefusal, reservedAttributeOwner, type ModelRules } from '../document/validate.ts';
 import { missingClassDefinitions, validClassName } from '../design/classes.ts';
-import { inputTypeOf } from './inputs.ts';
+import { hasIncompatibleMask, inputTypeOf } from './inputs.ts';
 import type { Patch } from '../history/transaction.ts';
 import { lockRefusal } from '../nodes/flags.ts';
 import { readAddress } from './address.ts';
@@ -73,6 +74,7 @@ function validDateValue(type: string, value: string): boolean {
 // The value and its relationships to other fields are checked in one place before the patch is made.
 function invalidForNode(at: Location, attribute: string, stored: string | number | true | undefined, rules: ModelRules): boolean {
   if (stored === undefined || stored === true) return false;
+  if (formAttributeIssue(attribute, stored) !== null) return true;
   const text = String(stored);
   const attrs = at.node.attributes;
   const next = { ...attrs, [attribute]: stored };
@@ -208,6 +210,8 @@ export const setAttributeCommand = registerHandler('element.setAttribute', ({ st
       stored = read.value;
     } else stored = typed;
   }
+  if (stored !== undefined && formAttributeIssue(attribute, stored) !== null) return { kind: 'refused', message: message('status.forms.invalid') };
+  if (attribute === 'formField' && stored !== undefined && hasIncompatibleMask({ ...at.node, attributes: { ...at.node.attributes, formField: String(stored) } })) return { kind: 'refused', message: message('status.forms.requiresText') };
   if (invalidForNode(at, attribute, stored, rules)) return invalid(String(value));
   const patch = attributePatch(at, attribute, stored);
   const exclusive: Patch[] = [];
@@ -227,7 +231,9 @@ export const setAttributeCommand = registerHandler('element.setAttribute', ({ st
     }
   }
   const shown = stored === undefined ? '' : stored === true ? '✓' : String(stored);
-  const said = message(stored === undefined ? 'status.attribute.removed' : 'status.attribute.set', { attribute: label, name: at.node.name, value: shown });
+  const said = stored !== undefined && (attribute === 'formField' || attribute === 'formSubmit')
+    ? message('status.forms.configured', { name: at.node.name })
+    : message(stored === undefined ? 'status.attribute.removed' : 'status.attribute.set', { attribute: label, name: at.node.name, value: shown });
   const patches = [...exclusive, ...(patch === null ? [] : [patch])];
   return patches.length === 0 ? { kind: 'change', message: said } : { kind: 'change', patches, message: said };
 });

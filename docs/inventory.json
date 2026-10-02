@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 188,
-    "built": 187,
+    "features": 189,
+    "built": 188,
     "commands": 264,
-    "doors": 1032,
-    "scenarios": 1364,
-    "modules": 267,
-    "lines": 51502
+    "doors": 1111,
+    "scenarios": 1440,
+    "modules": 276,
+    "lines": 52813
   },
   "features": [
     {
@@ -956,7 +956,7 @@
         "element.setId",
         "element.setClasses"
       ],
-      "doors": 59,
+      "doors": 136,
       "scenarios": 11,
       "modules": [
         "src/core/elements/attributes.ts",
@@ -1304,7 +1304,7 @@
         "element.setTag",
         "element.setAttribute"
       ],
-      "doors": 63,
+      "doors": 140,
       "scenarios": 10,
       "modules": [
         "src/core/elements/attributes.ts",
@@ -1320,7 +1320,7 @@
         "element.removeCustomAttribute",
         "element.setAttribute"
       ],
-      "doors": 59,
+      "doors": 136,
       "scenarios": 8,
       "modules": [
         "src/core/elements/attributes.ts"
@@ -1349,7 +1349,7 @@
         "element.insert",
         "element.setAttribute"
       ],
-      "doors": 61,
+      "doors": 138,
       "scenarios": 26,
       "modules": [
         "src/core/elements/attributes.ts",
@@ -1381,7 +1381,7 @@
         "parts.move",
         "parts.remove"
       ],
-      "doors": 72,
+      "doors": 149,
       "scenarios": 13,
       "modules": [
         "src/core/elements/attributes.ts",
@@ -1397,7 +1397,7 @@
         "element.setAttribute",
         "parts.add"
       ],
-      "doors": 69,
+      "doors": 146,
       "scenarios": 9,
       "modules": [
         "src/core/elements/attributes.ts",
@@ -1413,7 +1413,7 @@
         "element.setAttribute",
         "parts.add"
       ],
-      "doors": 69,
+      "doors": 146,
       "scenarios": 14,
       "modules": [
         "src/core/elements/attributes.ts",
@@ -1448,7 +1448,7 @@
         "element.insert",
         "element.setAttribute"
       ],
-      "doors": 61,
+      "doors": 138,
       "scenarios": 4,
       "modules": [
         "src/core/elements/attributes.ts",
@@ -1511,7 +1511,7 @@
         "classes.rename",
         "classes.delete"
       ],
-      "doors": 68,
+      "doors": 145,
       "scenarios": 26,
       "modules": [
         "src/core/design/classes.ts",
@@ -1519,6 +1519,18 @@
         "src/core/elements/inputs.ts",
         "src/core/elements/tag.ts",
         "src/editor/canvas/text-edit.ts"
+      ]
+    },
+    {
+      "id": "forms-masks-validation",
+      "built": true,
+      "commands": [
+        "element.setAttribute"
+      ],
+      "doors": 133,
+      "scenarios": 74,
+      "modules": [
+        "src/core/elements/attributes.ts"
       ]
     },
     {
@@ -1943,8 +1955,8 @@
         "view.setBreakpoint",
         "view.setStyleState"
       ],
-      "doors": 191,
-      "scenarios": 14,
+      "doors": 193,
+      "scenarios": 16,
       "modules": [
         "src/core/style/set.ts",
         "src/editor/view/breakpoints.ts",
@@ -2213,7 +2225,7 @@
         "view.setBreakpoint",
         "view.setStyleState"
       ],
-      "doors": 27,
+      "doors": 29,
       "scenarios": 2,
       "modules": [
         "src/core/selection/selection.ts",
@@ -2657,7 +2669,7 @@
         "assetPicker.open",
         "assetPicker.close"
       ],
-      "doors": 60,
+      "doors": 137,
       "scenarios": 3,
       "modules": [
         "src/core/elements/attributes.ts",
@@ -2820,7 +2832,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 226,
+      "lines": 227,
       "commands": [],
       "features": []
     },
@@ -2877,7 +2889,7 @@
     },
     {
       "path": "src/core/commands/registry.ts",
-      "lines": 197,
+      "lines": 199,
       "commands": [
         "<id>"
       ],
@@ -2971,7 +2983,7 @@
     },
     {
       "path": "src/core/document/validate.ts",
-      "lines": 570,
+      "lines": 573,
       "commands": [],
       "features": []
     },
@@ -2983,7 +2995,7 @@
     },
     {
       "path": "src/core/elements/attributes.ts",
-      "lines": 274,
+      "lines": 280,
       "commands": [
         "element.setId",
         "element.setClasses",
@@ -3001,6 +3013,7 @@
         "elements-media-images",
         "explorer-assets-use",
         "export-bem-css",
+        "forms-masks-validation",
         "props-attributes",
         "settings-audit",
         "settings-class-management"
@@ -3024,7 +3037,7 @@
     },
     {
       "path": "src/core/elements/inputs.ts",
-      "lines": 122,
+      "lines": 129,
       "commands": [
         "element.setInputType",
         "element.setLabelTarget"
@@ -3136,7 +3149,7 @@
     },
     {
       "path": "src/core/export/export.ts",
-      "lines": 410,
+      "lines": 420,
       "commands": [
         "project.export"
       ],
@@ -3204,6 +3217,30 @@
     {
       "path": "src/core/files/values.ts",
       "lines": 40,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/forms/catalog.ts",
+      "lines": 30,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/forms/config.ts",
+      "lines": 75,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/forms/engine.ts",
+      "lines": 265,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/forms/types.ts",
+      "lines": 65,
       "commands": [],
       "features": []
     },
@@ -3475,6 +3512,12 @@
       "features": []
     },
     {
+      "path": "src/core/ports/site-scripts.ts",
+      "lines": 5,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/core/project/archive.ts",
       "lines": 75,
       "commands": [
@@ -3596,7 +3639,7 @@
     },
     {
       "path": "src/core/store/store.ts",
-      "lines": 541,
+      "lines": 543,
       "commands": [],
       "features": []
     },
@@ -4196,7 +4239,7 @@
     },
     {
       "path": "src/editor/code-panel/code-panel.ts",
-      "lines": 159,
+      "lines": 160,
       "commands": [
         "codePanel.setPane",
         "codePanel.copyPane",
@@ -4328,6 +4371,30 @@
         "keyboard-panel-navigation",
         "layers-keyboard-navigation"
       ]
+    },
+    {
+      "path": "src/editor/forms/inspector.tsx",
+      "lines": 124,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/forms/runtime.ts",
+      "lines": 304,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/forms/script.ts",
+      "lines": 9,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/forms/settings.tsx",
+      "lines": 140,
+      "commands": [],
+      "features": []
     },
     {
       "path": "src/editor/import/html-import.ts",
@@ -4803,7 +4870,7 @@
     },
     {
       "path": "src/editor/shell/inspector-settings.tsx",
-      "lines": 359,
+      "lines": 361,
       "commands": [],
       "features": []
     },
@@ -4857,7 +4924,7 @@
     },
     {
       "path": "src/editor/shell/preview.tsx",
-      "lines": 60,
+      "lines": 61,
       "commands": [],
       "features": []
     },
@@ -4941,7 +5008,7 @@
     },
     {
       "path": "src/editor/store.ts",
-      "lines": 146,
+      "lines": 148,
       "commands": [],
       "features": []
     },
@@ -5171,13 +5238,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 500,
+      "lines": 501,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 4653,
+      "lines": 4909,
       "commands": [],
       "features": []
     },

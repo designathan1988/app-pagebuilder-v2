@@ -3,6 +3,7 @@
 // is what the export writes for it (core/export/export.ts, never a second serializer), a project file's is its stored
 // bytes — so the pane, Copy and Download all read the same text. Which file is open is explorer/file-tabs.ts's.
 import { message, registerHandler } from '../../core/commands/registry.ts';
+import { siteScripts } from '../forms/script.ts';
 import type { DocumentJson } from '../../core/document/model.ts';
 import { fileAt, fileBytes } from '../../core/files/files.ts';
 import { pageLines, siteFiles, STYLESHEET, type CodeLine } from '../../core/export/export.ts';
@@ -23,8 +24,8 @@ export function isGenerated(path: string, document: DocumentJson): boolean {
 // text, and null for a file that is neither (an image, a font): the pane shows its name and type instead.
 export function paneText(path: string, document: DocumentJson, rules: ModelRules): string | null {
   const page = document.pages.find((one) => one.file === path);
-  if (page !== undefined) return siteFiles(document, rules).pages.find((one) => one.file === path)?.html ?? null;
-  if (path === STYLESHEET) return siteFiles(document, rules).css;
+  if (page !== undefined) return siteFiles(document, rules, true, siteScripts).pages.find((one) => one.file === path)?.html ?? null;
+  if (path === STYLESHEET) return siteFiles(document, rules, true, siteScripts).css;
   const file = fileAt(document, path);
   if (file === null) return null;
   return isText(path, file.type) ? new TextDecoder().decode(fileBytes(file)) : null;
@@ -107,7 +108,7 @@ export function paneLines(ui: EditorUi, document: DocumentJson, rules: ModelRule
     const at = document.pages.findIndex((page) => page.file === shown.path);
     if (at >= 0) return pageLines(document, at, rules).html;
   }
-  if (shown.kind === 'css' && shown.path === STYLESHEET) return siteFiles(document, rules).cssLines;
+  if (shown.kind === 'css' && shown.path === STYLESHEET) return siteFiles(document, rules, true, siteScripts).cssLines;
   return shown.text.split('\n').map((text) => ({ text, node: null }));
 }
 

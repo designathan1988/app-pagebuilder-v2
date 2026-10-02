@@ -4,6 +4,8 @@
 // It never repairs or changes anything. The HTML content model (which element may sit in which) is owned by
 // src/core/elements/content-model.ts; the rules carry it for the commands that place an element, and validation
 // checks it once nesting-grammar completes it.
+import { formAttributeIssue } from '../forms/config.ts';
+import { hasIncompatibleMask } from '../elements/inputs.ts';
 import { IDENTIFIER_SOURCE, isIdentifier } from '../text/identifier.ts';
 import type { ElementType, MessageId } from '../../generated/ids.ts';
 import { boxSizeOf, outputModelFromManifest, type OutputModel } from '../render/output.ts';
@@ -246,6 +248,7 @@ export function attributeValueRefusal(name: string, value: unknown, rules: Model
 // Why the pairs a control cannot hold at once break the model, or null, with the attribute the reason stands at: an
 // input's least above its most, a value outside its own range. The node's attributes read as a whole, once.
 function attributePairRefusal(node: DocNode, rules: ModelRules): { readonly attribute: string; readonly message: string } | null {
+  if (hasIncompatibleMask(node)) return { attribute: 'formField', message: 'A text mask requires a text-compatible input or textarea' };
   const attributes: Readonly<Record<string, unknown>> = node.attributes;
   const idOf = (html: string): string | undefined => Object.keys(attributes).find((key) => rules.attributeValues.get(key)?.html === html);
   const number = (id: string | undefined): number | null => {
@@ -523,7 +526,7 @@ function validateNode(
       if (!['string', 'number', 'boolean'].includes(typeof value)) bad(`${at}/attributes/${name}`, 'an attribute value is a string, a number or a boolean');
       // the value itself, by what the tag and the input's type allow (the audit's A3.1 and A3.44: one owner for the
       // rules, which the fields, File › Open and a paste all ask)
-      const refused = attributeValueRefusal(name, value, rules);
+      const refused = attributeValueRefusal(name, value, rules) ?? formAttributeIssue(name, value);
       if (refused !== null) bad(`${at}/attributes/${name}`, refused);
     }
     // the pairs the node's attributes cannot hold at once, read once, at the attribute the reason stands at

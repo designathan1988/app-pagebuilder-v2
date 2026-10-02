@@ -111,6 +111,7 @@ export const FEATURES = {
   'shared-style-classes': registerFeature('shared-style-classes'),
   'elements-form-inputs': registerFeature('elements-form-inputs'),
   'elements-form-inputs-rules': registerFeature('elements-form-inputs-rules'),
+  'forms-masks-validation': registerFeature('forms-masks-validation'),
   'elements-form-controls': registerFeature('elements-form-controls'),
   'elements-media-images': registerFeature('elements-media-images'),
   'elements-media-embeds': registerFeature('elements-media-embeds'),

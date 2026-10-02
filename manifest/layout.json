@@ -306,6 +306,10 @@
     {
       "id": "html-import",
       "area": "overlay"
+    },
+    {
+      "id": "forms-settings",
+      "area": "right"
     }
   ],
   "menus": [

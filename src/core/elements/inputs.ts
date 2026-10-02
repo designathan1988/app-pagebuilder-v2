@@ -12,8 +12,14 @@ import { message, registerHandler, type Outcome } from '../commands/registry.ts'
 import { allNodes, locate, type DocNode, type DocumentJson, type Location } from '../document/model.ts';
 import type { Patch } from '../history/transaction.ts';
 import { lockRefusal } from '../nodes/flags.ts';
+import { readFieldConfig } from '../forms/config.ts';
 
 const TEXTUAL = ['text', 'email', 'password', 'tel', 'url', 'search'];
+export const acceptsTextMask = (node: DocNode): boolean => node.tag === 'textarea' || (node.tag === 'input' && TEXTUAL.includes(inputTypeOf(node)));
+export function hasIncompatibleMask(node: DocNode): boolean {
+  const mask = readFieldConfig(node.attributes.formField)?.mask;
+  return mask !== undefined && mask.kind !== 'none' && !acceptsTextMask(node);
+}
 const RANGED = ['number', 'range', 'date', 'datetime-local', 'month', 'week', 'time'];
 // attribute (elements.json id) → the input types that take it (HTML, "input type=..." applicability); an attribute
 // listed in neither table applies to every input type
@@ -76,6 +82,7 @@ export const setInputTypeCommand = registerHandler('element.setInputType', ({ st
   const said = message('status.input.typeSet', { name: at.node.name, type: nextType });
   if (inputTypeOf(at.node) === nextType) return { kind: 'change', message: said };
   const switched: DocNode = { ...at.node, attributes: { ...at.node.attributes, inputType: nextType } };
+  if (hasIncompatibleMask(switched)) return { kind: 'refused', message: message('status.forms.requiresText') };
   const dropped = new Set(droppedInputAttributes(at.node, nextType));
   const kept = Object.fromEntries(Object.entries(switched.attributes).filter(([name]) => !dropped.has(name)));
   return { kind: 'change', patches: [{ op: 'replace', path: [...at.path, 'attributes'], value: kept }], message: said };

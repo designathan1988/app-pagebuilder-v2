@@ -36,12 +36,15 @@ import type { InlineRun } from '../text/inline.ts';
 import { animationsOf, keyframesCss, playedClassDeclarations, playedClassName, animationDeclarations } from '../animation/animation.ts';
 import { addressedNodes, playedAnimations } from '../events/interactions.ts';
 import { interactionsJs, isModalTemplate, isTabsTemplate, pageNeedsScript } from '../events/script.ts';
+import type { SiteScripts } from '../ports/site-scripts.ts';
 
 export const SITE_ARCHIVE = 'site.zip';
 export const STYLESHEET = 'css/styles.css';
 // the site's interactions script (spec export-events-js): written when the project holds interactions, linked with
 // <script defer> from every page that uses them
 export const INTERACTIONS_SCRIPT = 'js/interactions.js';
+export const FORMS_SCRIPT = 'js/forms.js';
+const pageUsesForms = (tree: DocNode): boolean => [...walk(tree)].some(node => node.attributes.formField !== undefined || node.attributes.formSubmit !== undefined);
 // the page setting that is the page's title (elements.json), written in the head rather than as an attribute
 const TITLE_SETTING = 'pageTitle';
 
@@ -303,6 +306,7 @@ export function pageLines(document: DocumentJson, pageIndex: number, rules: Mode
     ...headLines(document, page.tree, rules, from),
     `  <link rel="stylesheet" href="${escapeAttribute(relativePath(from, STYLESHEET))}">`,
     ...(usesInteractions ? [`  <script defer src="${escapeAttribute(relativePath(from, INTERACTIONS_SCRIPT))}"></script>`] : []),
+    ...(pageUsesForms(page.tree) ? [`  <script defer src="${escapeAttribute(relativePath(from, FORMS_SCRIPT))}"></script>`] : []),
     '</head>',
   ].map((text) => ({ text, node: null }));
   const html: CodeLine[] = [...head, ...body, { text: '</html>', node: null }, { text: '', node: null }];
@@ -321,7 +325,11 @@ export function siteFiles(
   document: DocumentJson,
   rules: ModelRules,
   relative = true,
-): { readonly pages: readonly { readonly file: string; readonly html: string }[]; readonly css: string; readonly cssLines: readonly CodeLine[]; readonly interactions: string | null } {
+  scripts?: SiteScripts,
+): { readonly pages: readonly { readonly file: string; readonly html: string }[]; readonly css: string; readonly cssLines: readonly CodeLine[]; readonly interactions: string | null; readonly forms: string | null } {
+  const usesForms = document.pages.some(page => pageUsesForms(page.tree));
+  if (usesForms && scripts === undefined) throw new Error('Configured forms require the site script writer');
+  const forms = usesForms && scripts !== undefined ? scripts.forms() : null;
   const classes = newShared(document);
   const pages = document.pages.map((page, i) => ({ page, code: pageLines(document, i, rules, classes, relative) }));
   // the project's base style first (core/render/base.ts: the same text the canvas writes), then the design tokens'
@@ -350,15 +358,15 @@ export function siteFiles(
     }
   }
   const interactions = interactionsJs(document, (id) => selectorById.get(id) ?? '.');
-  return { pages: pages.map(({ page, code }) => ({ file: page.file, html: code.html.map((line) => line.text).join('\n') })), css, cssLines, interactions };
+  return { pages: pages.map(({ page, code }) => ({ file: page.file, html: code.html.map((line) => line.text).join('\n') })), css, cssLines, interactions, forms };
 }
 
 // A page as the preview shows it (spec preview-mode): the exported page itself, its stylesheet written in its head in
 // place of the link (the preview has no files to load), and links and forms opening in a new tab, never in the editor.
-export function previewPage(document: DocumentJson, rules: ModelRules, pageIndex = 0): string {
+export function previewPage(document: DocumentJson, rules: ModelRules, pageIndex = 0, scripts?: SiteScripts): string {
   // the preview writes the paths as the document holds them, then draws each through its data URL: its frame has an
   // opaque origin, where a blob: URL of the editor's origin does not load (files.ts dataUrl)
-  const site = siteFiles(document, rules, false);
+  const site = siteFiles(document, rules, false, scripts);
   let html = site.pages[pageIndex]?.html ?? '';
   for (const file of filesOf(document)) html = html.replaceAll(`"${file.path}"`, `"${dataUrl(file)}"`);
   // A linked script of the project runs from its own text: the preview's frame has an opaque origin, and a blob: URL
@@ -391,18 +399,20 @@ export function previewPage(document: DocumentJson, rules: ModelRules, pageIndex
     html = html.replace(`  <script defer src="${relativePath(page?.file ?? '', INTERACTIONS_SCRIPT)}"></script>`, inline);
   }
   const link = `  <link rel="stylesheet" href="${STYLESHEET}">`;
+  if (site.forms !== null) html = html.replace(`  <script defer src="${FORMS_SCRIPT}"></script>`, () => `  <script>document.addEventListener('DOMContentLoaded', function () {\n${site.forms}\n});</script>`);
   return html.replace(link, `  <base target="_blank">\n  <style>\n${css}  </style>`);
 }
 
-export const exportProject = registerHandler('project.export', ({ state, rules }) => {
+export const exportProject = registerHandler('project.export', ({ state, rules, siteScripts }) => {
   const encoder = new TextEncoder();
-  const site = siteFiles(state.document, rules);
+  const site = siteFiles(state.document, rules, true, siteScripts);
   // every file of the project at its path (spec export-assets): an image an element uses is in the archive, so the
   // exported page shows it
   const assets = filesOf(state.document).map((file) => ({ path: file.path, bytes: fileBytes(file) }));
   // the interactions' script, at the path the pages link it by, while the project holds interactions (spec
   // export-events-js)
   const script = site.interactions === null ? [] : [{ path: INTERACTIONS_SCRIPT, bytes: encoder.encode(site.interactions) }];
+  if (site.forms !== null) script.push({ path: FORMS_SCRIPT, bytes: encoder.encode(site.forms) });
   const entries = [...site.pages.map(({ file, html }) => ({ path: file, bytes: encoder.encode(html) })), { path: STYLESHEET, bytes: encoder.encode(site.css) }, ...script, ...assets];
   const bytes = zip(entries, FIXED_TIME);
   return { kind: 'change' as const, message: message('status.export.done', { file: SITE_ARCHIVE }), download: { name: SITE_ARCHIVE, type: 'application/zip', bytes } };

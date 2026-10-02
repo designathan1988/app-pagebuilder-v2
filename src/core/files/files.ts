@@ -230,7 +230,7 @@ export const uploadCommand = registerHandler('files.upload', ({ state }, { files
 // The paths the document generates, whatever the tree holds: the stylesheet every page links and the interactions
 // script (spec explorer-file-system, Problems 2). They are fixed: nothing else may take their path, and no command
 // renames, moves or deletes them; a folder that holds one of them is as fixed as the file it holds.
-export const GENERATED_PATHS: readonly string[] = ['css/styles.css', 'js/interactions.js'];
+export const GENERATED_PATHS: readonly string[] = ['css/styles.css', 'js/interactions.js', 'js/forms.js'];
 
 // whether a path IS one of the generated files: its path is taken, and no file may be made there
 export function pathGenerated(path: string): boolean {
