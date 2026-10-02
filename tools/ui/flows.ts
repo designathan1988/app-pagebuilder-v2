@@ -74,7 +74,71 @@ const draw = (from: readonly [number, number], to: readonly [number, number], mo
 const EXPORTED: readonly Step[] = [{ click: '[data-door="project.export#toolbar-top-bar-export"]' }, { wait: 800 }, { expect: { exportLacks: ['layout-composer', 'authoring', 'data-layout'] } }];
 const HEADER_BODY: readonly Step[] = [...COMPOSE, draw([40, 40], [1400, 140]), draw([40, 170], [1400, 700])];
 
+// The Data panel's doors (manifest/commands/content.json) and the files the jornada03 study handed its people.
+const DATA_PANEL = { door: 'workspace.setPanelOpen#toolbar-activity-bar-data' } as const;
+const CARLA_CSV = 'jornada03/00-frame/targets/carla/cardapio.csv';
+const CARLA_PHOTOS = ['jornada03/00-frame/targets/marina/assets/graos.png', 'jornada03/00-frame/targets/marina/assets/xicara.png', 'jornada03/00-frame/targets/marina/assets/loja.png'];
+// a part of the card in Connect fields, by what it shows
+const part = (to: string) => `[data-door="data.bindElement#data-bind-field"][data-args*='"to":"${to}"'] select`;
+
 export const FLOWS: readonly Flow[] = [
+  {
+    name: 'data-c4',
+    about: "jornada03 C4 with Carla's original files: upload the photos, import cardapio.csv as it is, connect the card's photo, name and price, and fill it",
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/content-card.json'] } },
+      { door: 'workspace.setPanelOpen#toolbar-activity-bar-explorer' },
+      { files: { at: '[data-door="files.upload#explorer-upload"]', paths: CARLA_PHOTOS } },
+      { expect: { files: ['img/graos.png', 'img/xicara.png', 'img/loja.png'] } },
+      DATA_PANEL,
+      { files: { at: '[data-door="data.preview#data-import"]', paths: [CARLA_CSV] } },
+      { photo: 'csv-preview' },
+      { type: { at: 'form:has([data-door="data.importNew#data-import-new"]) input[name="name"]', text: 'Cardapio', enter: false } },
+      { door: 'data.importNew#data-import-new' },
+      { expect: { message: 'Imported 12 items into Cardapio.' } },
+      { door: 'selection.select#layers-row', labelled: 'Card' },
+      { type: { at: part('image'), text: 'foto' } },
+      { type: { at: part('text'), text: 'nome' } },
+      { type: { at: `[data-door="data.bindElement#data-bind-field"][data-args*='"to":"text"'] >> nth=1 >> select`, text: 'preco' } },
+      { photo: 'mapping' },
+      { door: 'data.fill#data-fill' },
+      { expect: { message: 'Card repeats 12 items of Cardapio.' } },
+      { photo: 'filled' },
+    ],
+  },
+  {
+    name: 'data-c2',
+    about: 'jornada03 C2: two pages made from the open page and a list of names, the first opened',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/content-site.json'] } },
+      DATA_PANEL,
+      { type: { at: 'form:has([data-door="pages.fromNames#data-pages-from-names"]) textarea', text: 'Unidade Centro\nUnidade Norte', enter: false } },
+      { door: 'pages.fromNames#data-pages-from-names' },
+      { expect: { message: 'Made 2 pages from Home.' } },
+      { photo: 'pages-made' },
+    ],
+  },
+  {
+    name: 'data-c3',
+    about: 'jornada03 C3/H13: the header shared with every page, its menu changed once',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/content-site.json'] } },
+      { door: 'selection.select#layers-row', labelled: 'Header' },
+      DATA_PANEL,
+      { door: 'regions.share#data-share' },
+      { expect: { message: 'Header is shared with 2 pages.' } },
+      { door: 'selection.select#layers-row', labelled: 'About link' },
+      { door: 'workspace.setActiveTab#inspector-tab-settings' },
+      { type: { at: '[data-door="text.set#inspector-text"] textarea, [data-door="text.set#inspector-text"] input', text: 'Sobre' } },
+      { expect: { message: 'Saved the text of About link.' } },
+      { door: 'workspace.setPanelOpen#toolbar-activity-bar-explorer' },
+      { door: 'pages.switch#explorer-page-row', labelled: 'About' },
+      { photo: 'about-shows-the-change' },
+    ],
+  },
   {
     name: 'layout-01-header-sidebar-content',
     about: 'draw a header band and a body, cut a sidebar off it while the preview shows the cut, fix its width',

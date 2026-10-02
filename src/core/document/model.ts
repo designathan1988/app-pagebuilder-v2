@@ -5,6 +5,7 @@ import type { NodeId } from '../../generated/commands.ts';
 import type { AttributeId, BreakpointId, ElementType, PropertyId, StateId } from '../../generated/ids.ts';
 import type { IdGenerator } from '../ports/ids.ts';
 import type { InlineRun } from '../text/inline.ts';
+import type { Bound, Collection, DataItem, DataList, SharedRegion } from '../data/model.ts';
 import type { Behaviour, MotionInteraction, MotionTimeline } from '../motion/model.ts';
 import type { Authoring } from './authoring.ts';
 
@@ -69,6 +70,15 @@ export interface DocNode {
   // while none is set. Never exported.
   readonly layerColors?: readonly LayerColor[];
 
+  // what the element shows of an item of a collection (core/data/bindings.ts, spec content-data): a field and the part
+  // it fills (the text, an image's source or alternative text, a link's address); absent while it shows none
+  readonly bind?: readonly Bound[];
+  // the element whose children repeat the items of a collection (core/data/materialize.ts): the collection, the
+  // component of the repeated items and the query; absent on any other element
+  readonly dataList?: DataList;
+  // a page's root only: the item of a collection the page was made for (core/data/commands.ts pages.fromCollection);
+  // absent on any other page
+  readonly dataItem?: DataItem;
   // the animations of the element (core/animation/animation.ts, group 18), in the order they were made; absent while it
   // has none
   readonly animations?: readonly Animation[];
@@ -172,6 +182,9 @@ export interface DocumentJson {
   // The project's motion timelines (core/motion, spec motion-timeline): named, reusable timelines of actions that the
   // elements' interactions play by name. Absent while the project holds none.
   readonly motionTimelines?: readonly MotionTimeline[];
+  // the project's collections, in the order they were made: typed fields and items, which bound lists and item pages
+  // show (core/data/collections.ts, spec content-data); absent while none is
+  readonly collections?: readonly Collection[];
 }
 
 // An uploaded file (spec explorer-assets): its bytes as base64 at its path in the project ("img/logo.png"), the MIME
@@ -187,6 +200,9 @@ export interface ProjectFile {
 export interface ComponentDefinition {
   readonly name: string;
   readonly tree: DocNode;
+  // a shared region (core/data/regions.ts, spec shared-regions): its instances hold the same content on every page,
+  // and the pages made later receive it when it says so; absent on any other component
+  readonly shared?: SharedRegion;
 }
 
 export interface StyleClass {

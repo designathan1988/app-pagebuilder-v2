@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "id": "home",
+      "name": "Home",
+      "file": "index.html",
+      "tree": {
+        "id": "home-root",
+        "type": "page",
+        "name": "Page",
+        "tag": "body",
+        "attributes": {},
+        "classes": [],
+        "styles": {},
+        "text": null,
+        "children": [
+          {
+            "id": "menu",
+            "type": "section",
+            "name": "Menu",
+            "tag": "section",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": [
+              {
+                "id": "menu-heading",
+                "type": "heading",
+                "name": "Our menu",
+                "tag": "h2",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": "Our menu",
+                "children": []
+              },
+              {
+                "id": "card",
+                "type": "article",
+                "name": "Card",
+                "tag": "article",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": null,
+                "children": [
+                  {
+                    "id": "card-photo",
+                    "type": "image",
+                    "name": "Photo",
+                    "tag": "img",
+                    "attributes": {
+                      "src": "img/graos.png",
+                      "alt": ""
+                    },
+                    "classes": [],
+                    "styles": {},
+                    "text": null,
+                    "children": []
+                  },
+                  {
+                    "id": "card-title",
+                    "type": "heading",
+                    "name": "Title",
+                    "tag": "h3",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Product",
+                    "children": []
+                  },
+                  {
+                    "id": "card-price",
+                    "type": "paragraph",
+                    "name": "Price",
+                    "tag": "p",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Price",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

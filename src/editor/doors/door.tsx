@@ -23,6 +23,7 @@ import { opensEmptyPanel } from '../workspace/panels.ts';
 import { readClipboard } from '../clipboard.ts';
 import { isCurrent, labelParamsOf } from './current.ts';
 import { GLYPHS } from './placement.ts';
+import { readPickedDataFile } from '../data/read-file.ts';
 
 export function Icon({ name, size = 'md' }: { readonly name: string; readonly size?: 'xs' | 'sm' | 'md' | 'lg' }) {
   return (
@@ -112,6 +113,17 @@ export function useDoor(entry: DoorEntry, args: Readonly<Record<string, unknown>
     }
     // a command that stores the files themselves (Upload files, an image file dropped on the canvas) reads them as an
     // asset: the bytes and, for an image, its intrinsic size (spec explorer-assets)
+    // a command that imports a data file (the Data panel's Import) reads its sheets first: CSV, TSV, JSON or XLSX
+    // (src/editor/data/read-file.ts), handed over as JSON; a file it cannot read is handed with its problem, which the
+    // command says
+    if (file !== undefined && entry.door.adapter.fileReading === 'data') {
+      void chooseFiles().then(async (chosen) => {
+        const one = chosen[0];
+        if (one === undefined) return;
+        dispatch(entry.command.id, { ...given, [file]: await readPickedDataFile(one) });
+      });
+      return;
+    }
     if (file !== undefined && entry.door.adapter.fileReading === 'upload') {
       void chooseFiles().then(async (chosen) => {
         if (chosen.length === 0) return;

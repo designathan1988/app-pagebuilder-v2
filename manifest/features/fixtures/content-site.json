@@ -1,0 +1,232 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "id": "home",
+      "name": "Home",
+      "file": "index.html",
+      "tree": {
+        "id": "home-root",
+        "type": "page",
+        "name": "Page",
+        "tag": "body",
+        "attributes": {},
+        "classes": [],
+        "styles": {},
+        "text": null,
+        "children": [
+          {
+            "id": "header",
+            "type": "header",
+            "name": "Header",
+            "tag": "header",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": [
+              {
+                "id": "header-brand",
+                "type": "paragraph",
+                "name": "Brand",
+                "tag": "p",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": "Grão Norte",
+                "children": []
+              },
+              {
+                "id": "header-nav",
+                "type": "nav",
+                "name": "Nav",
+                "tag": "nav",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": null,
+                "children": [
+                  {
+                    "id": "header-home",
+                    "type": "link",
+                    "name": "Home link",
+                    "tag": "a",
+                    "attributes": {
+                      "href": "index.html"
+                    },
+                    "classes": [],
+                    "styles": {},
+                    "text": "Home",
+                    "children": []
+                  },
+                  {
+                    "id": "header-about",
+                    "type": "link",
+                    "name": "About link",
+                    "tag": "a",
+                    "attributes": {
+                      "href": "about.html"
+                    },
+                    "classes": [],
+                    "styles": {},
+                    "text": "About",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "home-main",
+            "type": "main",
+            "name": "Home main",
+            "tag": "main",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": [
+              {
+                "id": "home-heading",
+                "type": "heading",
+                "name": "Home heading",
+                "tag": "h1",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": "Home",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "footer",
+            "type": "footer",
+            "name": "Footer",
+            "tag": "footer",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": [
+              {
+                "id": "footer-text",
+                "type": "paragraph",
+                "name": "Footer text",
+                "tag": "p",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": "© Grão Norte",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "about",
+      "name": "About",
+      "file": "about.html",
+      "tree": {
+        "id": "about-root",
+        "type": "page",
+        "name": "About page",
+        "tag": "body",
+        "attributes": {},
+        "classes": [],
+        "styles": {},
+        "text": null,
+        "children": [
+          {
+            "id": "about-main",
+            "type": "main",
+            "name": "About main",
+            "tag": "main",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": [
+              {
+                "id": "about-heading",
+                "type": "heading",
+                "name": "About heading",
+                "tag": "h1",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": "About",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "contact",
+      "name": "Contact",
+      "file": "contact.html",
+      "tree": {
+        "id": "contact-root",
+        "type": "page",
+        "name": "Contact page",
+        "tag": "body",
+        "attributes": {},
+        "classes": [],
+        "styles": {},
+        "text": null,
+        "children": [
+          {
+            "id": "contact-main",
+            "type": "main",
+            "name": "Contact main",
+            "tag": "main",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": [
+              {
+                "id": "contact-heading",
+                "type": "heading",
+                "name": "Contact heading",
+                "tag": "h1",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": "Contact",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "img/graos.png",
+      "type": "image/png",
+      "bytes": "iVBORw0KGgoAAAANSUhEUgAAAGAAAABACAIAAABqVuVZAAAAcklEQVR42u3QQREAIAgAMBpZwAZEsYG97EcDHvjd3RIs3t00QoEgQYIECRIkSBCCBAkSJEiQIEEIEiRIkCBBggQhSJAgQYIECRIkCEGCBAkSJEiQIAQJEiRIkCBBghAk6Dfo5KIhSJAgQYIECRIkCEETBeTW4RJ3Y8T+AAAAAElFTkSuQmCC",
+      "width": 96,
+      "height": 64
+    },
+    {
+      "path": "img/xicara.png",
+      "type": "image/png",
+      "bytes": "iVBORw0KGgoAAAANSUhEUgAAAGAAAABACAIAAABqVuVZAAAAcklEQVR42u3QQREAIAgAMBpZwAZEsYG97EcDHvjd3RIs3t00QoEgQYIECRIkSBCCBAkSJEiQIEEIEiRIkCBBggQhSJAgQYIECRIkCEGCBAkSJEiQIAQJEiRIkCBBghAk6Dfo5KIhSJAgQYIECRIkCEETBeTW4RJ3Y8T+AAAAAElFTkSuQmCC",
+      "width": 96,
+      "height": 64
+    },
+    {
+      "path": "img/loja.png",
+      "type": "image/png",
+      "bytes": "iVBORw0KGgoAAAANSUhEUgAAAGAAAABACAIAAABqVuVZAAAAcklEQVR42u3QQREAIAgAMBpZwAZEsYG97EcDHvjd3RIs3t00QoEgQYIECRIkSBCCBAkSJEiQIEEIEiRIkCBBggQhSJAgQYIECRIkCEGCBAkSJEiQIAQJEiRIkCBBghAk6Dfo5KIhSJAgQYIECRIkCEETBeTW4RJ3Y8T+AAAAAElFTkSuQmCC",
+      "width": 96,
+      "height": 64
+    }
+  ]
+}

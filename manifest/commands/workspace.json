@@ -23,7 +23,8 @@
             "document",
             "canvas-tools",
             "assistant",
-            "layout-composer"
+            "layout-composer",
+            "data"
           ],
           "optional": false
         },
@@ -657,6 +658,32 @@
           "args": {
             "panel": "layout-composer",
             "open": "open"
+          }
+        },
+        {
+          "id": "toolbar-activity-bar-data",
+          "kind": "toolbar",
+          "drawnAs": "icon-button",
+          "pressed": true,
+          "feature": "data-collections",
+          "labelKey": "panel.data",
+          "faceLabelKey": null,
+          "icon": "database",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "activity-bar",
+            "order": 4
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "panel": "data",
+            "open": "open",
+            "focus": true
           }
         }
       ]

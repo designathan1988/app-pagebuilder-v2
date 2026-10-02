@@ -43,6 +43,9 @@ export type Press =
   // a press on a row of the Explorer's file tree (spec explorer-file-system): its move door and the path the row
   // stands for; the release moves it into the folder row the pointer is over
   | { readonly on: 'explorer'; readonly entry: DoorEntry; readonly args: Readonly<Record<string, unknown>>; readonly path: string }
+  // a press on a column of the Data panel (spec content-data, "binding"): its drag door and the field it stands for; the
+  // release binds the element's part the pointer is over to that field
+  | { readonly on: 'column'; readonly entry: DoorEntry; readonly args: Readonly<Record<string, unknown>>; readonly field: string }
   // a press on the timeline's ruler or on a keyframe of its track (specs timeline-preview, timeline-keyframes): the
   // drag's door, the arguments the keyframe stands for (its animation and offset), and the track's box
   | { readonly on: 'playhead'; readonly entry: DoorEntry; readonly args: Readonly<Record<string, unknown>>; readonly track: { readonly left: number; readonly width: number } }

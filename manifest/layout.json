@@ -322,6 +322,34 @@
     {
       "id": "layout-composer-panel",
       "area": "left"
+    },
+    {
+      "id": "data-panel",
+      "area": "left"
+    },
+    {
+      "id": "data-preview",
+      "area": "left"
+    },
+    {
+      "id": "data-collection",
+      "area": "left"
+    },
+    {
+      "id": "data-grid",
+      "area": "left"
+    },
+    {
+      "id": "data-mapping",
+      "area": "left"
+    },
+    {
+      "id": "data-pages",
+      "area": "left"
+    },
+    {
+      "id": "data-shared",
+      "area": "left"
     }
   ],
   "menus": [
@@ -651,6 +679,13 @@
     "layout-composer": {
       "icon": "layout-freeform",
       "labelKey": "panel.layoutComposer",
+      "place": "sidebar",
+      "in": null,
+      "open": false
+    },
+    "data": {
+      "icon": "database",
+      "labelKey": "panel.data",
       "place": "sidebar",
       "in": null,
       "open": false

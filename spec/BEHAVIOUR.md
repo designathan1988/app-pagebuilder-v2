@@ -2209,6 +2209,8 @@ None in Pager.
 ## explorer-pages
 
 The project's pages: the Explorer's Pages list (add, rename, duplicate, delete, switch) and the top bar's page switcher.
+A duplicate opens at once and its name field takes the focus with the name selected, as a page the + adds does
+(jornada03 J20). Pages made from a page and a list of names, or one per item of a collection: spec data-pages.
 The manifest's feature `explorer-pages` holds the scenarios; this section holds what the switcher must do.
 
 ### Problems in Pager
@@ -6159,7 +6161,7 @@ Read from Pager's source (`reference/Pager`, run from `.cache/pager-run`); refer
   - The selected element and its subtree become the definition of a new component, named after the element. A name the project already has a component of takes a number: "CardA 2".
   - The element itself becomes its first instance.
   - One undo step, `status.components.created`.
-  - The page root is refused (`status.components.root`). So is an instance, or an element inside one (`status.components.inInstance`), and a locked element (`status.locked.edit`).
+  - The page root is refused (`status.components.root`). So is an instance, or an element inside one (`status.components.inInstance`), an element that holds an instance (`status.components.holdsInstance`: an instance never lies inside another), and a locked element (`status.locked.edit`).
 - **Place a component** (`components.insertInstance`) inserts a new instance of the component.
   - The Insert view shows a tile per component, in a Components group after the element groups (DESIGN.md `insert` 7).
   - The tile's click places it where element.insert places a tile: into the selected container, after a selected leaf, else at the end of the page. The tile's drag places it where it is dropped, as a palette tile's creation drag does.
@@ -6233,7 +6235,9 @@ In the Arrange menu, Repeat stands alone after a separator (layout.json breaks),
 
 - **Fill the selected repeated items with this data** (`components.fillFromData`): the action on the row of a project
   data file in the Explorer (a JSON list, of objects or of lists, or the one list an object holds; or a CSV whose first
-  line names the columns), drawn on JSON and CSV rows only, available while a repeated item (an instance) is selected.
+  line names the columns; a TSV the same with tabs), drawn as a labelled button (its face says Fill, shown without a
+  hover: jornada03 J13) on JSON, CSV and TSV rows only, available while a repeated item (an instance) is selected. The
+  Data panel's Fill (spec data-binding) fills from a collection, with each element's field chosen.
 - The items are the instances of the selected item's component in its parent, in order; item *n* takes row *n*. Each
   field of an item, in document order — an element that holds text, an image's source — takes the column named like
   the definition element it comes from (any case: a `PlanTitle` column fills every item's title), else the next column
@@ -8452,3 +8456,128 @@ File › Export (and the preview) of a project whose pages hold an interaction o
 ### Result in the document
 
 The archive holds `js/motion.js`: the runtime and the site's motion data (every interaction with the selector of its element — the class the export gave it, or the person's id — and the timelines they play, with the ones those control); `js/lottie.min.js` only when a timeline plays a Lottie animation. Each page holding motion links them (`<script defer src="js/lottie.min.js">` first, then `<script defer src="js/motion.js">`); a page without motion links neither. No editor id and no data attribute address an element.
+
+## data-collections
+
+The project holds collections (the Data panel, an activity of the sidebar): each a unique name, a schema of fields and a
+list of items. A field has a key that never changes (made from its first label, without accents, numbered when taken),
+a label a person reads and renames, and a type: text, rich text, image, number, date, link or yes/no. An item has an
+id that never changes while it lives, and a value for each field it fills; an empty value is absent. Every value is
+stored in its type's canonical form: trimmed text; a finite number (a decimal comma reads as a point: "42,5" is 42.5);
+yes/no (true, yes, 1, sim, verdadeiro and their opposites); a real calendar date written YYYY-MM-DD; a link the link
+rule allows (the same rule as the link picker: no javascript:, data:, blob: or file:); an image named by a project
+path, a project image's file name, or a web address. The validator refuses a document whose values are not canonical,
+whose collections share a name (accents and case aside) or whose fields share a label.
+
+The panel lists the collections as tabs (data.select), makes a new one with one text field (data.createCollection,
+"Collection", "Collection 2"…), renames one — every list and item page that shows it follows the new name — and
+deletes one after asking how many lists and pages show it; those keep what they show as ordinary content. Under the
+name, the fields: each label and type is a field of its own (data.setField), each can be removed, and a form adds one
+(data.addField). A field changes type only when every value it holds reads as the new type: otherwise the change is
+refused at the first row that does not, naming the row, the column, the value and the type; nothing is converted
+silently or dropped. A field that a binding, a filter or a sort uses cannot be removed (status.data.fieldInUse, with
+how many places use it).
+
+The grid shows the items as the query chooses and orders them: one filter (a field, an operator — contains, is, is
+not, less, at most, more, at least, empty, filled — and the text compared, read as the field's type), the order by up
+to two fields (A to Z or Z to A; empty values last either way; equal items keep the collection's order), an offset and
+a limit. The query is the panel's (editor state), and it is what Fill repeats. Each cell is a field that keeps what is
+typed, on Enter or when it loses the focus (data.setCell): a value its type cannot hold is refused naming the row and
+the column, and the cell shows the stored value again. Rows are added (data.addItem), moved up and down
+(data.moveItem) and deleted (data.deleteItems). Every change of a collection is one undo step, and every list and item
+page that shows it follows in that same step (spec data-binding).
+
+## data-import
+
+Import a data file (data.preview) reads a CSV, a TSV, a JSON list of objects (or the one list an object holds) or an
+XLSX workbook, in the browser, before anything changes: its sheets (one for CSV, TSV and JSON), each with its columns
+(the header row's names) and rows. CSV and TSV are read by the project's one CSV parser (core/design/data.ts, quotes
+holding delimiters, doubled quotes and line breaks); a byte-order mark is skipped. A workbook is read through the
+project's ZIP reader and the browser's XML parser: shared and inline strings, numbers, booleans, sparse rows (a skipped
+cell is empty), dates by their number format (built-in and custom, 1900 and 1904 date systems, never the fictitious
+29 February 1900); a formula's saved value is read and a formula is never run. Refused before any change, each naming
+the file and where: a file that is not CSV, TSV, JSON or XLSX, no rows, a column without a name or two with one name,
+a row with more cells than columns, a quote opened and never closed, text that is not UTF-8, JSON that is not a list of
+objects, a spreadsheet that cannot be read, a formula saved without its value, a cell holding an error, a sheet read
+from outside the file, more than 32 MB (128 MB unpacked, 100,000 rows, 10,000 archive entries) or a path that climbs
+out of the archive. A sheet of a workbook that cannot be read keeps its problem and the others stay importable.
+
+The preview shows the file's name, a segment per sheet (data.previewSheet), the problem of the sheet shown, and its
+columns, each with the type it will take — guessed from its filled cells (yes/no, number, date, image file names,
+web addresses, else text) and changed in its menu (data.previewType) — and its first five rows. Import as a new
+collection (data.importNew) makes a collection named as typed (the file's name without its extension when nothing is),
+a field per column (its label the column's name) and an item per row; a value its column's type cannot hold refuses
+the whole import, naming the row, the column and the value. Into the collection the panel shows, the rows go after its
+items (data.importInto, append), in place of them (replace), or updating the items whose first matched field holds the
+row's value there (update by the file's first column; a row with a new value is added; an empty or repeated key
+refuses the whole import naming the row). A column fills the field labelled like it (accents and case aside), else
+the field whose key it is; the preview says which columns fill which fields and which are left out. Each import is one
+undo step; the preview closes and the panel shows the collection. The Explorer's Upload keeps CSV, TSV, JSON and XLSX
+files in files/ too (jornada03 J13), where Fill from data reads JSON, CSV and TSV.
+
+## data-binding
+
+An element shows a field of an item through a binding, a mark it carries: the field and the part it fills — the text of
+an element that holds text and no children, an image's source or alternative text, a link's address, or the address of
+the item's own page (spec data-pages). Connect fields lists the parts of the element to repeat — the element selected,
+or the repeated item (an instance) it lies in — each with a menu of the fields that fit it (an image's source takes an
+image or a link field; a link's address a link field or the item's page; a text and an alternative text any field).
+Choosing a field binds the part (data.bindElement); dragging a column of the panel onto the part does the same through
+the pointer owner (input/pointer.ts, the data-column drag): one undo step, Escape binds nothing. A binding inside a
+repeated item belongs to its component, as a style does: the definition and every instance carry it. A part that
+cannot show the target is refused (status.data.cannotShow), a locked element too.
+
+A preview under the parts shows what the first three items of the query would show, a project image as its thumbnail,
+and in place of a value the problem it would meet (an image no project file answers to, an address a link cannot
+take). Fill (data.fill, a labelled button: its face says Fill without a hover) repeats the element for every item the
+query shows, inside its parent: an element that is not an instance yet becomes a component named after it (as a
+repeat makes one) and the first repeated item; its parent becomes the bound list (its dataList mark: collection,
+component, query). The n-th repeated item shows the n-th item: an item past the last repeated one gets a new instance
+after it (named as a repeat names it), a repeated item past the last item goes (with every reference to it released),
+and the parent's other children stay where they are. Refused before any change, naming what is at fault: the page's
+root, an element with no binding, a binding to a field the collection does not have, an element inside another
+instance, a parent that repeats another collection, a locked element, and a value an element cannot show — an image
+cell that names no project file by its path or its file name (any case, with or without the extension) and no web
+address (status.data.imageNotFound, the row, the column and the cell), an address a link cannot take.
+
+A bound list follows its collection from then on, in the same transaction as every change: an edited cell, an added,
+moved or deleted item, another type or a changed query show at once, and one undo takes the change and what followed
+back. An element's bound part edited directly on the canvas or in Settings writes its new value to the item (the
+canvas is one more way to edit the collection), which every other place showing the item then shows; a value the
+field cannot hold refuses the edit, naming the row and the column. A link bound to the item's page is refused there:
+its address follows the page. Unbind (data.unbind) stops the list following its collection; its items stay ordinary
+instances. The repeated items follow the collection alone: a command that adds, removes or moves one itself (a card
+duplicated, deleted or dragged while the collection stays as it was) is refused (status.data.listOwned), saying to add,
+delete or move rows instead. A selection that named a repeated item the collection took away loses it. A binding
+whose element can no longer show its part (a link made a button) is dropped with the change that made it so. Exported pages are plain HTML with the values in place: no data runtime, no binding in the markup.
+
+## data-pages
+
+Pages from this page: names typed one per line (pages.fromNames) make one page per name, each a copy of the open page
+— every node with its own id and styles, HTML ids and references repaired — named and filed as a duplicate is ("Unidade
+Centro", unidade-centro.html; a name taken is numbered, never an existing file overwritten), placed after it in their
+order; the first opens. A page per item (pages.fromCollection) makes one copy of the open page for every item of the
+collection the panel shows that has no page yet, named by the item's first text field, its root marked with the item
+(dataItem): every binding of the page shows that item, and a link bound to the item's page leads to it. An item with
+its page keeps it: its file never changes when the item does, so links to it never break; a page whose item is deleted
+keeps its content and loses its mark. An empty name refuses the whole operation naming the row; a page made for an item
+is never a template. Each operation is one undo step, and pages made later receive the shared regions that ask for it.
+Duplicating a page opens the copy and gives its name field the focus with the name selected, as the + does (jornada03
+J20). A page made by duplicating an item page is an ordinary page (two pages never claim one item).
+
+## shared-regions
+
+A shared region is a header, a footer or a menu (an element directly inside a page's root) shown on several pages and
+edited once. Share (regions.share, the selected element and the pages ticked, all others by default, and "Pages made
+later") makes the element a component when it is not one (named after it), marks the definition shared, and places an
+instance on each chosen page that has none: first among the root's children when the element stands in the first half
+of its page, else last. Every change to one instance — a text, an attribute, an element added, moved or removed —
+reaches the definition and every other instance in the same transaction (each keeping its own ids and names, and its
+own hidden and locked flags, which are the person's choice on each page); styles already reach them all through the
+component. An element that holds an instance cannot be shared (status.components.holdsInstance: an instance never
+lies inside another; components.create refuses it the same way). Two instances changed differently in one command refuse it
+(status.regions.conflict); a locked instance that would have to follow refuses it naming its page. A page made later
+(added, made from names or items) receives the region when it was shared with new pages; a duplicated page carries its
+copy. Detach on a page (regions.detach) leaves that page an ordinary copy that no longer follows; Stop sharing
+(regions.stopSharing) leaves every page an instance of an ordinary component. Each is one undo step. The export writes
+each page's copy as ordinary markup (one CSS class per element, as for any component).

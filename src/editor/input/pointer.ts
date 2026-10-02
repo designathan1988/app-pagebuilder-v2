@@ -401,6 +401,9 @@ const SPLITTER_DRAGS = manifest.doors.filter((d) => d.door.kind === 'panel-drag'
 // The Explorer's file tree (spec explorer-file-system): the panel drag doors pressed on a row of the tree, released on
 // a folder row — the file lands in that folder (files.move)
 const EXPLORER_DRAGS = manifest.doors.filter((d) => d.door.kind === 'panel-drag' && d.door.source === 'explorer-row');
+// The Data panel's columns (spec content-data, "binding"): the panel drag doors pressed on a column, released on an
+// element's part in Connect fields, which they bind to the column's field
+const COLUMN_DRAGS = manifest.doors.filter((d) => d.door.kind === 'panel-drag' && d.door.source === 'data-column');
 // The timeline (specs timeline-preview, timeline-keyframes): the panel drag pressed on the ruler (the playhead) and the
 // one pressed on a keyframe's marker (its animation and offset stand in the control's arguments).
 const PLAYHEAD_DRAGS = manifest.doors.filter((d) => d.door.kind === 'panel-drag' && d.door.source === 'playhead');
@@ -551,6 +554,11 @@ function pressAt(event: MouseEvent, isRoot: (node: string) => boolean, under: Ev
     const args: unknown = JSON.parse(control.getAttribute('data-args') ?? '{}');
     const stands = args !== null && typeof args === 'object' ? (args as Record<string, unknown>) : {};
     if (typeof stands.path === 'string' && stands.path !== '') return { on: 'explorer', entry, args: stands, path: stands.path };
+  }
+  if (control instanceof HTMLElement && entry && COLUMN_DRAGS.includes(entry) && isFeatureBuilt(entry.door.feature as FeatureId)) {
+    const args: unknown = JSON.parse(control.getAttribute('data-args') ?? '{}');
+    const stands = args !== null && typeof args === 'object' ? (args as Record<string, unknown>) : {};
+    if (typeof stands.field === 'string' && stands.field !== '') return { on: 'column', entry, args: stands, field: stands.field };
   }
   if (control instanceof HTMLElement && entry && PANEL_DRAGS.includes(entry) && control.getAttribute('aria-disabled') !== 'true') {
     const args: unknown = JSON.parse(control.getAttribute('data-args') ?? '{}');
@@ -748,6 +756,24 @@ export function installPointer(store: EditorStore, target: Window = window): () 
   // pointer is over, marked while the drag goes on; the release moves the file there through the row's move door, one
   // undo step, and Escape moves nothing
   let exploring: { readonly press: Extract<Press, { on: 'explorer' }>; over: string | null } | null = null;
+  // The drag of a column of the Data panel (spec content-data, "binding"): its press and the element's part the pointer
+  // is over (the node and the part a [data-data-target] stands for), marked while the drag goes on; the release binds
+  // that part to the column's field through the drag door, one undo step, and Escape binds nothing
+  let columning: { readonly press: Extract<Press, { on: 'column' }>; over: { readonly node: string; readonly to: string } | null } | null = null;
+  const partUnder = (at: Point): HTMLElement | null => {
+    const under = document.elementFromPoint(at.x, at.y);
+    return under instanceof Element ? under.closest<HTMLElement>('[data-data-target]') : null;
+  };
+  const moveColumn = (at: Point): void => {
+    if (columning === null) return;
+    const part = partUnder(at);
+    const stands: unknown = part === null ? null : JSON.parse(part.getAttribute('data-args') ?? 'null');
+    const over = stands !== null && typeof stands === 'object' && typeof (stands as { node?: unknown }).node === 'string' && typeof (stands as { to?: unknown }).to === 'string' ? { node: (stands as { node: string }).node, to: (stands as { to: string }).to } : null;
+    if (JSON.stringify(over) === JSON.stringify(columning.over)) return;
+    columning = { ...columning, over };
+    document.querySelectorAll('[data-data-target].is-over').forEach((el) => el.classList.remove('is-over'));
+    part?.classList.add('is-over');
+  };
   // The timeline: the drag of the playhead along the ruler and the drag of a keyframe along the track (specs
   // timeline-preview, timeline-keyframes). Each follows the pointer from the press on, dispatching its command in a
   // gesture of its own opened anew at every move (so Escape puts the playhead, or what the keyframe held, back).
@@ -924,6 +950,8 @@ export function installPointer(store: EditorStore, target: Window = window): () 
       if (press.on === 'grip') gripping = { press, start: machine.start };
       // a press on a row of the Explorer's tree starts its drag; the moves mark the folder under the pointer
       if (press.on === 'explorer') exploring = { press, over: null };
+      // a press on a column of the Data panel starts its drag; the moves mark the element's part under the pointer
+      if (press.on === 'column') columning = { press, over: null };
       // a press on a splitter starts its drag, which the moves run; the size it shows now is the one Escape puts back
       if (press.on === 'splitter') {
         const from = splitterSize(store.getState().ui, String(press.args.splitter ?? ''));
@@ -1032,6 +1060,10 @@ export function installPointer(store: EditorStore, target: Window = window): () 
         document.querySelectorAll('[data-folder].is-over').forEach((el) => el.classList.remove('is-over'));
       }
       exploring = null;
+      // a column released over an element's part binds the part to its field; released anywhere else, nothing
+      if (columning !== null && effect === 'commit' && columning.over !== null) closing?.dispatch(columning.press.entry.command.id as CommandId, { ...columning.press.entry.door.args, field: columning.press.field, node: columning.over.node, to: columning.over.to } as never);
+      if (columning !== null) document.querySelectorAll('[data-data-target].is-over').forEach((el) => el.classList.remove('is-over'));
+      columning = null;
       lighting = null;
       gripping = null;
       splitting = null;
@@ -1708,6 +1740,8 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     if (layering !== null && machine.phase !== 'idle' && event.pointerId === machine.pointer) moveLayer(at);
     // a row of the Explorer's tree marks the folder the pointer is over (spec explorer-file-system)
     if (exploring !== null && machine.phase !== 'idle' && event.pointerId === machine.pointer) moveExplorer(at);
+    // a column of the Data panel marks the element's part the pointer is over (spec content-data)
+    if (columning !== null && machine.phase !== 'idle' && event.pointerId === machine.pointer) moveColumn(at);
     // the quick panel follows every move of its pointer, from the press on
     if (gripping !== null && machine.phase !== 'idle' && event.pointerId === machine.pointer) moveGrip(at);
     // a splitter follows every move of its pointer, from the press on (no threshold)
@@ -1877,7 +1911,7 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     // press did. A dragged panel is let go of too (spec floating-panels: Escape cancels the drag and the panel stays
     // where it was), and a dragged panel's press moved nothing, so cancelling is what leaves it where it was.
     const effect: Effect =
-      marquee !== null || scrubbing !== null || stopping !== null || lighting !== null || gripping !== null || exploring !== null || playheading !== null || keyframing !== null || panelling !== null
+      marquee !== null || scrubbing !== null || stopping !== null || lighting !== null || gripping !== null || exploring !== null || columning !== null || playheading !== null || keyframing !== null || panelling !== null
         ? 'cancel'
         : 'commit';
     stopDragTimers();

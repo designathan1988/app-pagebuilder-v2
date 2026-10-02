@@ -21,10 +21,10 @@ export interface DocumentPath {
 
 // the fields of a node a path may name; id is generated, so never named. locked, hidden (true, absent when off) and
 // inline (the runs of inline marks) arrive with the lock, hide and inline formatting features of group 02.
-export const NODE_FIELDS = ['type', 'name', 'tag', 'attributes', 'classes', 'styles', 'text', 'children', 'locked', 'hidden', 'inline', 'customAttributes', 'component', 'componentPart', 'guides', 'grid', 'layerColors', 'animations', 'interactions', 'motions', 'behaviours', 'authoring'] as const;
+export const NODE_FIELDS = ['type', 'name', 'tag', 'attributes', 'classes', 'styles', 'text', 'children', 'locked', 'hidden', 'inline', 'customAttributes', 'component', 'componentPart', 'guides', 'grid', 'layerColors', 'animations', 'interactions', 'motions', 'behaviours', 'authoring', 'bind', 'dataList', 'dataItem'] as const;
 // the fields of the project itself a diff names with no node path ("/@swatches"): the saved colours and the design
 // tokens, and the project's document and code languages (model.ts)
-export const DOCUMENT_FIELDS = ['pages', 'swatches', 'tokens', 'classes', 'components', 'files', 'folders', 'motionTimelines', 'language', 'codeLanguage'] as const;
+export const DOCUMENT_FIELDS = ['pages', 'swatches', 'tokens', 'classes', 'components', 'files', 'folders', 'motionTimelines', 'language', 'codeLanguage', 'collections'] as const;
 
 // The id a fixture file names: manifest/features/fixtures/<id>.json. "empty" has no file.
 export const EMPTY_FIXTURE = 'empty';
@@ -187,6 +187,11 @@ export function withStandInIds(document: unknown): unknown {
     }
   // a component's definition is a tree of nodes too (spec reusable-components)
   for (const component of Array.isArray(doc.components) ? doc.components : []) if (isObject(component)) visit(component.tree ?? null);
+  // an item of a collection is identified by an id the store generates too (spec data-collections): an expected item
+  // omits it, and takes a stand-in
+  for (const collection of Array.isArray(doc.collections) ? doc.collections : []) {
+    for (const item of isObject(collection) && Array.isArray(collection.items) ? collection.items : []) if (isObject(item) && !('id' in item)) item.id = `~new-item-${String(++next)}`;
+  }
   // a value that names a node by its path ("@/Page/Label/Input": a reference is stored by the node id, the audit's
   // A3.4) becomes that node's id here, so the model can check the document the diff makes
   const cite = (node: Json): void => {

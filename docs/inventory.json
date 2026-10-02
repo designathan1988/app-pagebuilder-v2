@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 197,
-    "built": 196,
-    "commands": 324,
-    "doors": 1252,
-    "scenarios": 1638,
-    "modules": 365,
-    "lines": 67419
+    "features": 202,
+    "built": 201,
+    "commands": 350,
+    "doors": 1291,
+    "scenarios": 1687,
+    "modules": 385,
+    "lines": 71315
   },
   "features": [
     {
@@ -15,7 +15,7 @@
       "commands": [
         "workspace.setPanelOpen"
       ],
-      "doors": 24,
+      "doors": 25,
       "scenarios": 3,
       "modules": [
         "src/editor/workspace/panels.ts"
@@ -36,7 +36,7 @@
         "element.insert",
         "workspace.setPanelOpen"
       ],
-      "doors": 29,
+      "doors": 30,
       "scenarios": 6,
       "modules": [
         "src/core/structure/insert.ts",
@@ -64,7 +64,7 @@
         "layers.setExpanded",
         "workspace.setPanelOpen"
       ],
-      "doors": 32,
+      "doors": 33,
       "scenarios": 5,
       "modules": [
         "src/core/selection/selection.ts",
@@ -507,7 +507,7 @@
         "focus.nextMenu",
         "focus.previousMenu"
       ],
-      "doors": 108,
+      "doors": 109,
       "scenarios": 21,
       "modules": [
         "src/core/clipboard/clipboard.ts",
@@ -1164,7 +1164,7 @@
         "tokens.delete",
         "workspace.setPanelOpen"
       ],
-      "doors": 28,
+      "doors": 29,
       "scenarios": 11,
       "modules": [
         "src/core/design/tokens.ts",
@@ -1762,7 +1762,7 @@
         "view.toggleZones",
         "workspace.setPanelOpen"
       ],
-      "doors": 26,
+      "doors": 27,
       "scenarios": 3,
       "modules": [
         "src/editor/view/overlays.ts",
@@ -2015,7 +2015,7 @@
         "workspace.toggleInspector",
         "workspace.collapseDocks"
       ],
-      "doors": 30,
+      "doors": 31,
       "scenarios": 12,
       "modules": [
         "src/editor/workspace/panels.ts"
@@ -2075,7 +2075,7 @@
         "commandBar.open",
         "components.startCreate"
       ],
-      "doors": 227,
+      "doors": 228,
       "scenarios": 56,
       "modules": [
         "src/core/clipboard/clipboard.ts",
@@ -2142,7 +2142,7 @@
       "commands": [
         "workspace.setPanelOpen"
       ],
-      "doors": 24,
+      "doors": 25,
       "scenarios": 1,
       "modules": [
         "src/editor/workspace/panels.ts"
@@ -2157,7 +2157,7 @@
         "workspace.setWorkbenchState",
         "workspace.setActiveTab"
       ],
-      "doors": 32,
+      "doors": 33,
       "scenarios": 10,
       "modules": [
         "src/editor/workspace/layout.ts",
@@ -2242,7 +2242,7 @@
         "selection.select",
         "workspace.setPanelOpen"
       ],
-      "doors": 30,
+      "doors": 31,
       "scenarios": 1,
       "modules": [
         "src/core/selection/selection.ts",
@@ -2416,7 +2416,7 @@
         "view.setEditorView",
         "codePanel.setPane"
       ],
-      "doors": 31,
+      "doors": 32,
       "scenarios": 5,
       "modules": [
         "src/editor/code-panel/code-panel.ts",
@@ -2483,7 +2483,7 @@
         "animation.delete",
         "timeline.show"
       ],
-      "doors": 28,
+      "doors": 29,
       "scenarios": 3,
       "modules": [
         "src/core/animation/animation.ts",
@@ -2588,7 +2588,7 @@
         "pages.switch",
         "workspace.setPanelOpen"
       ],
-      "doors": 31,
+      "doors": 32,
       "scenarios": 11,
       "modules": [
         "src/core/project/pages.ts",
@@ -2838,7 +2838,7 @@
         "assistant.update",
         "workspace.setPanelOpen"
       ],
-      "doors": 40,
+      "doors": 41,
       "scenarios": 15,
       "modules": [
         "src/editor/assistant/state.ts",
@@ -2865,7 +2865,7 @@
         "layout.trace",
         "workspace.setPanelOpen"
       ],
-      "doors": 60,
+      "doors": 61,
       "scenarios": 34,
       "modules": [
         "src/editor/workspace/panels.ts",
@@ -2910,7 +2910,7 @@
         "motion.removeMarker",
         "workspace.setPanelOpen"
       ],
-      "doors": 61,
+      "doors": 62,
       "scenarios": 57,
       "modules": [
         "src/core/motion/commands.ts",
@@ -2977,12 +2977,114 @@
         "src/core/export/export.ts",
         "src/editor/view/preview.ts"
       ]
+    },
+    {
+      "id": "data-collections",
+      "built": true,
+      "commands": [
+        "data.select",
+        "data.setQuery",
+        "data.createCollection",
+        "data.renameCollection",
+        "data.deleteCollection",
+        "data.addField",
+        "data.setField",
+        "data.removeField",
+        "data.addItem",
+        "data.setCell",
+        "data.deleteItems",
+        "data.moveItem",
+        "workspace.setPanelOpen"
+      ],
+      "doors": 46,
+      "scenarios": 25,
+      "modules": [
+        "src/core/data/commands.ts",
+        "src/editor/data/state.ts",
+        "src/editor/workspace/panels.ts"
+      ]
+    },
+    {
+      "id": "data-import",
+      "built": true,
+      "commands": [
+        "data.preview",
+        "data.previewSheet",
+        "data.previewType",
+        "data.closePreview",
+        "data.importNew",
+        "data.importInto",
+        "data.select",
+        "workspace.setPanelOpen"
+      ],
+      "doors": 34,
+      "scenarios": 10,
+      "modules": [
+        "src/editor/data/state.ts",
+        "src/editor/workspace/panels.ts"
+      ]
+    },
+    {
+      "id": "data-binding",
+      "built": true,
+      "commands": [
+        "data.bindElement",
+        "data.fill",
+        "data.unbind",
+        "data.setCell",
+        "data.select",
+        "workspace.setPanelOpen"
+      ],
+      "doors": 31,
+      "scenarios": 6,
+      "modules": [
+        "src/core/data/commands.ts",
+        "src/editor/data/state.ts",
+        "src/editor/workspace/panels.ts"
+      ]
+    },
+    {
+      "id": "data-pages",
+      "built": true,
+      "commands": [
+        "pages.fromNames",
+        "pages.fromCollection",
+        "pages.duplicate",
+        "workspace.setPanelOpen"
+      ],
+      "doors": 28,
+      "scenarios": 3,
+      "modules": [
+        "src/core/data/commands.ts",
+        "src/core/project/pages.ts",
+        "src/editor/workspace/panels.ts"
+      ]
+    },
+    {
+      "id": "shared-regions",
+      "built": true,
+      "commands": [
+        "regions.share",
+        "regions.detach",
+        "regions.stopSharing",
+        "text.set",
+        "pages.add",
+        "workspace.setPanelOpen"
+      ],
+      "doors": 35,
+      "scenarios": 5,
+      "modules": [
+        "src/core/data/commands.ts",
+        "src/core/project/pages.ts",
+        "src/core/text/text.ts",
+        "src/editor/workspace/panels.ts"
+      ]
     }
   ],
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 453,
+      "lines": 482,
       "commands": [],
       "features": []
     },
@@ -2994,7 +3096,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 237,
+      "lines": 243,
       "commands": [],
       "features": []
     },
@@ -3070,6 +3172,96 @@
       "features": []
     },
     {
+      "path": "src/core/data/bindings.ts",
+      "lines": 145,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/data/collections.ts",
+      "lines": 406,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/data/commands.ts",
+      "lines": 481,
+      "commands": [
+        "data.createCollection",
+        "data.renameCollection",
+        "data.deleteCollection",
+        "data.addField",
+        "data.setField",
+        "data.removeField",
+        "data.addItem",
+        "data.setCell",
+        "data.deleteItems",
+        "data.moveItem",
+        "data.bindElement",
+        "data.fill",
+        "data.unbind",
+        "pages.fromNames",
+        "pages.fromCollection",
+        "regions.share",
+        "regions.detach",
+        "regions.stopSharing"
+      ],
+      "features": [
+        "data-binding",
+        "data-collections",
+        "data-pages",
+        "shared-regions"
+      ]
+    },
+    {
+      "path": "src/core/data/derive.ts",
+      "lines": 215,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/data/materialize.ts",
+      "lines": 137,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/data/model.ts",
+      "lines": 98,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/data/patches.ts",
+      "lines": 75,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/data/readers.ts",
+      "lines": 304,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/data/regions.ts",
+      "lines": 217,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/data/targets.ts",
+      "lines": 28,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/data/validate.ts",
+      "lines": 124,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/core/design/classes.ts",
       "lines": 156,
       "commands": [
@@ -3098,7 +3290,7 @@
     },
     {
       "path": "src/core/design/components.ts",
-      "lines": 361,
+      "lines": 362,
       "commands": [
         "components.create",
         "components.insertInstance",
@@ -3114,7 +3306,7 @@
     },
     {
       "path": "src/core/design/data.ts",
-      "lines": 78,
+      "lines": 86,
       "commands": [],
       "features": []
     },
@@ -3151,7 +3343,7 @@
     },
     {
       "path": "src/core/document/model.ts",
-      "lines": 278,
+      "lines": 294,
       "commands": [],
       "features": []
     },
@@ -3163,7 +3355,7 @@
     },
     {
       "path": "src/core/document/validate.ts",
-      "lines": 582,
+      "lines": 585,
       "commands": [],
       "features": []
     },
@@ -3376,7 +3568,7 @@
     },
     {
       "path": "src/core/files/files.ts",
-      "lines": 546,
+      "lines": 556,
       "commands": [
         "files.upload",
         "files.createFolder",
@@ -3827,7 +4019,7 @@
     },
     {
       "path": "src/core/project/pages.ts",
-      "lines": 179,
+      "lines": 195,
       "commands": [
         "pages.add",
         "pages.rename",
@@ -3836,8 +4028,10 @@
         "pages.switch"
       ],
       "features": [
+        "data-pages",
         "explorer-pages",
-        "export-multi-page"
+        "export-multi-page",
+        "shared-regions"
       ]
     },
     {
@@ -3940,7 +4134,7 @@
     },
     {
       "path": "src/core/store/store.ts",
-      "lines": 614,
+      "lines": 629,
       "commands": [],
       "features": []
     },
@@ -4337,6 +4531,12 @@
       "features": []
     },
     {
+      "path": "src/core/testing/workbook.ts",
+      "lines": 151,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/core/text/fold.ts",
       "lines": 10,
       "commands": [],
@@ -4362,6 +4562,7 @@
       ],
       "features": [
         "inspector-panel",
+        "shared-regions",
         "text-edit-inline"
       ]
     },
@@ -4681,6 +4882,67 @@
       "features": []
     },
     {
+      "path": "src/editor/data/controls.tsx",
+      "lines": 143,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/data/grid.tsx",
+      "lines": 164,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/data/mapping.tsx",
+      "lines": 148,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/data/pages.tsx",
+      "lines": 101,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/data/panel.tsx",
+      "lines": 92,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/data/preview.tsx",
+      "lines": 99,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/data/read-file.ts",
+      "lines": 26,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/data/state.ts",
+      "lines": 246,
+      "commands": [
+        "data.select",
+        "data.setQuery",
+        "data.preview",
+        "data.previewSheet",
+        "data.previewType",
+        "data.closePreview",
+        "data.importNew",
+        "data.importInto"
+      ],
+      "features": [
+        "data-binding",
+        "data-collections",
+        "data-import"
+      ]
+    },
+    {
       "path": "src/editor/doors/current.ts",
       "lines": 25,
       "commands": [],
@@ -4688,7 +4950,7 @@
     },
     {
       "path": "src/editor/doors/door.tsx",
-      "lines": 316,
+      "lines": 328,
       "commands": [],
       "features": []
     },
@@ -4842,13 +5104,13 @@
     },
     {
       "path": "src/editor/input/pointer.ts",
-      "lines": 2046,
+      "lines": 2080,
       "commands": [],
       "features": []
     },
     {
       "path": "src/editor/input/pointer/machine.ts",
-      "lines": 86,
+      "lines": 89,
       "commands": [],
       "features": []
     },
@@ -5514,7 +5776,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1113,
+      "lines": 1115,
       "commands": [],
       "features": []
     },
@@ -5562,13 +5824,13 @@
     },
     {
       "path": "src/editor/state.ts",
-      "lines": 138,
+      "lines": 141,
       "commands": [],
       "features": []
     },
     {
       "path": "src/editor/store.ts",
-      "lines": 152,
+      "lines": 155,
       "commands": [],
       "features": []
     },
@@ -5775,6 +6037,10 @@
         "code-panel-view",
         "command-bar",
         "css-variables-tokens",
+        "data-binding",
+        "data-collections",
+        "data-import",
+        "data-pages",
         "dock-toggles",
         "editor-shell",
         "explorer-pages",
@@ -5782,6 +6048,7 @@
         "layout-composer",
         "motion-timeline",
         "palette-click-insert",
+        "shared-regions",
         "shortcuts-panel",
         "timeline-animations",
         "workbench-panel",
@@ -5802,13 +6069,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 569,
+      "lines": 600,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 5813,
+      "lines": 6111,
       "commands": [],
       "features": []
     },
@@ -5862,13 +6129,13 @@
     },
     {
       "path": "src/manifest/scenario.ts",
-      "lines": 270,
+      "lines": 275,
       "commands": [],
       "features": []
     },
     {
       "path": "src/manifest/schema.ts",
-      "lines": 1303,
+      "lines": 1304,
       "commands": [],
       "features": []
     },

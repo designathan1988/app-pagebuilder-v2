@@ -736,6 +736,7 @@
       "refusals": [
         "status.components.root",
         "status.components.inInstance",
+        "status.components.holdsInstance",
         "status.locked.edit"
       ],
       "confirmation": null,
@@ -805,6 +806,7 @@
       "refusals": [
         "status.components.root",
         "status.components.inInstance",
+        "status.components.holdsInstance",
         "status.locked.edit"
       ],
       "confirmation": null,
@@ -1078,6 +1080,7 @@
       "refusals": [
         "status.components.root",
         "status.components.inInstance",
+        "status.components.holdsInstance",
         "status.locked.edit",
         "status.locked.byAncestor",
         "status.refused.onlyAccepts",
@@ -1217,7 +1220,7 @@
         {
           "id": "explorer-fill-from-data",
           "kind": "panel-control",
-          "drawnAs": "icon-button",
+          "drawnAs": "button",
           "pressed": false,
           "feature": "repeat-element",
           "panel": "explorer",
@@ -1225,7 +1228,7 @@
           "modifier": null,
           "gesture": null,
           "labelKey": "command.components.fillFromData",
-          "faceLabelKey": null,
+          "faceLabelKey": "data.fillFace",
           "icon": "table",
           "disabledReasonKey": "status.components.notInstance",
           "placement": {

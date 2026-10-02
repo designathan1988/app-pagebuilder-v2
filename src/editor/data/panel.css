@@ -1,0 +1,219 @@
+/* The Data panel (spec content-data): a sidebar view (.view scrolls it) of sections, each a title and its controls.
+   Its tables scroll sideways inside the panel, never the panel itself; every value comes from the tokens. */
+
+.data-panel__body,
+.data-panel__section > :not(.section-title) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-6);
+}
+
+.data-panel__actions,
+.data-panel__tabs,
+.data-preview__sheets,
+.data-collection__head,
+.data-fields__row,
+.data-query,
+.data-preview__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.data-panel__note {
+  margin: 0;
+  color: var(--color-text-muted);
+  font: var(--fw-caption) var(--fs-caption) / var(--lh-caption) var(--font-ui);
+  overflow-wrap: anywhere;
+}
+
+.data-panel__problem {
+  margin: 0;
+  color: var(--color-danger);
+  font: var(--fw-caption) var(--fs-caption) / var(--lh-caption) var(--font-ui);
+  overflow-wrap: anywhere;
+}
+
+/* a field, a menu or a form keeps its control on one line and gives it what the row leaves */
+.data-field,
+.data-form {
+  display: flex;
+  flex: 1 1 var(--size-tag-field);
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.data-field .input,
+.data-form .input {
+  flex: 1;
+  min-width: 0;
+}
+
+.data-form textarea.input {
+  resize: vertical;
+}
+
+.data-preview__file,
+.data-shared__name,
+.data-target__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text);
+}
+
+/* the tables: a grid of fields that scrolls sideways within the panel */
+.data-grid {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.data-grid__table {
+  border-collapse: collapse;
+  min-width: 100%;
+}
+
+.data-grid__table th,
+.data-grid__table td {
+  padding: var(--space-1) var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  text-align: start;
+  vertical-align: middle;
+  font: var(--fw-body) var(--fs-body) / var(--lh-body) var(--font-ui);
+  white-space: nowrap;
+}
+
+.data-grid__table td .input {
+  min-width: var(--size-tag-field);
+}
+
+.data-grid__number {
+  color: var(--color-text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.data-grid__actions {
+  display: flex;
+  gap: var(--space-1);
+}
+
+/* a column: the handle a column is dragged by onto an element (the pointer owner runs the drag) */
+.data-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.data-column {
+  display: inline-flex;
+  flex-direction: column;
+  padding: var(--space-1) var(--space-2);
+  color: var(--color-text);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: grab;
+}
+
+.data-column__type {
+  color: var(--color-text-subtle);
+  font: var(--fw-micro) var(--fs-micro) / var(--lh-micro) var(--font-ui);
+}
+
+/* an element's part that shows a value: the place a column is dropped on, marked while a column is over it */
+.data-targets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.data-target {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--size-row);
+  padding: 0 var(--space-2);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.data-target.is-over {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.data-preview__image {
+  display: block;
+  width: var(--size-control-lg);
+  height: var(--size-control-lg);
+  object-fit: cover;
+  border-radius: var(--radius-xs);
+}
+
+.data-preview__empty {
+  color: var(--color-text-subtle);
+}
+
+.data-preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-surface-sunken);
+  border-radius: var(--radius-md);
+}
+
+.data-shared__pages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.data-shared__pages legend {
+  padding: 0;
+  color: var(--color-text-muted);
+  font: var(--fw-caption) var(--fs-caption) / var(--lh-caption) var(--font-ui);
+}
+
+.data-check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.data-shared__list,
+.data-shared__places {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.data-shared__region {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.data-shared__place {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}

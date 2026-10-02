@@ -9,7 +9,7 @@ import type { CommandId, ConstantId, MessageId } from '../../generated/ids.ts';
 import type { Command } from '../../manifest/schema.ts';
 import { isBuilt, message, type CommandTable, type HandlerContext, type KeyframeTarget, type Message, type Outcome, type PredicateTable } from '../commands/registry.ts';
 import type { MotionEditorContext } from '../motion/record.ts';
-import type { DocumentJson, Selection } from '../document/model.ts';
+import { locate, type DocumentJson, type Selection } from '../document/model.ts';
 import { validateDocument, type Invalid, type ModelRules } from '../document/validate.ts';
 import { EMPTY_HISTORY, LAST_CHANGE, record, redo, redone, undo, undone, type HistoryState, type Restorable } from '../history/history.ts';
 import { applyPatches, deepEqual, type Patch, type Transaction } from '../history/transaction.ts';
@@ -175,6 +175,9 @@ export interface StoreOptions<Ui> {
   readonly downloads?: Downloads;
   // where what a command copies goes (the system clipboard in the editor); nowhere when absent
   readonly clipboard?: ClipboardWriter;
+  // what follows a change in the same transaction (core/data/derive.ts: the content bound to collections and the
+  // shared regions): the patches that join the command's own, or the refusal that stops it; nothing follows when absent
+  readonly derive?: (before: DocumentJson, after: DocumentJson, context: HandlerContext<Ui>) => { readonly patches: readonly Patch[] } | { readonly refused: Message };
   // the first message too, when the start has something to say (the work recovered after a crash)
   readonly initial: { readonly document: DocumentJson; readonly selection?: Selection; readonly ui: Ui; readonly message?: Message | null };
   // deep-freeze every committed state (development and tests)
@@ -410,11 +413,23 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     }
 
     const before = state;
-    const applied = applyPatches(before.document, outcome.patches ?? []);
+    const own = applyPatches(before.document, outcome.patches ?? []);
+    // what follows the change (options.derive) is computed from the document the handler's patches make and joins
+    // them in one transaction, before the whole is validated and recorded: one undo takes both back. A refusal there
+    // is the command's own, said before anything changes.
+    const derived = own.applied.length > 0 && options.derive !== undefined ? options.derive(before.document, own.document, handlerContext(confirmed)) : null;
+    if (derived !== null && 'refused' in derived) {
+      publish(commit({ ...state, message: derived.refused, refusal: { command: id, args, message: derived.refused }, refused: true }, id));
+      return { status: 'refused', message: derived.refused };
+    }
+    const followed = derived === null || derived.patches.length === 0 ? null : applyPatches(own.document, derived.patches);
+    const applied = followed === null ? own : { document: followed.document, applied: [...own.applied, ...followed.applied], inverses: [...followed.inverses, ...own.inverses] };
     const documentChanged = applied.applied.length > 0 && !deepEqual(before.document, applied.document);
     if (!documentChanged && (outcome.patches ?? []).some(structural)) reportEmptyChange(id, outcome.message === undefined ? null : JSON.stringify(outcome.message));
     if (documentChanged && !command.history.undoable) throw new Error(`${id} is not undoable in the manifest but changed the document`);
-    const selection = outcome.selection ?? before.selection;
+    // a node the derivation took away (a repeated item whose item went) leaves the selection with it
+    const chosen = outcome.selection ?? before.selection;
+    const selection = followed === null ? chosen : chosen.filter((node) => locate(applied.document, node) !== null);
     let history = before.history;
     if (documentChanged && gesture) {
       gesture.command ??= id;

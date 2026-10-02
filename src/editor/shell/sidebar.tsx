@@ -1,5 +1,6 @@
 import { MODULE_SIDEBAR_VIEWS } from '../../app/modules-view.ts';
 import { AssistantPanel } from '../assistant/panel.tsx';
+import { DataPanel } from '../data/panel.tsx';
 // The activity bar and the sidebar (DESIGN.md "Regions"): Explorer (Pages, Files, Layers), Insert (the element grid
 // of elements.json's palette) and Styles (classes and variables). Rows and tiles are the doors of their regions, one
 // per page, node or palette entry; a section's actions are the region's controls before its first item.
@@ -99,7 +100,7 @@ const PANEL_HEADER = doorSlots('panel-header');
 
 // A sidebar view's title: its name, and the panel header's doors, each standing for the view it acts on. It is the
 // view's drag source too (spec floating-panels: a press on a panel's header moves the panel).
-function ViewTitle({ panel, title }: { readonly panel: Panel; readonly title: string }) {
+export function ViewTitle({ panel, title }: { readonly panel: Panel; readonly title: string }) {
   // a view drawn inside a floating window carries the window's own drag too (spec floating-panels)
   const floating = useEditorState((state) => floatingOf(state.ui, panel) !== null);
   return (
@@ -173,7 +174,8 @@ function PageNameField({ page }: { readonly page: Page }) {
   }, [page.name, said]);
   // the page pages.add just made takes the focus with its name selected, so what is typed next names it (spec
   // explorer-pages, Problems 3: the journey "site" typed "Sobre" after the + and the name stayed "Page")
-  const added = said?.key === 'status.pages.added' && said.params.file === page.file && shown;
+  // so does a page pages.duplicate just made (jornada03 J20)
+  const added = (said?.key === 'status.pages.added' || said?.key === 'status.pages.duplicated') && said.params.file === page.file && shown;
   useEffect(() => {
     if (added && input.current !== null) {
       input.current.focus();
@@ -1031,7 +1033,7 @@ function ClassNameField({ entry, name }: { readonly entry: DoorEntry; readonly n
 // The body of each sidebar view the editor draws; a view without one says "not available yet" and the doors that
 // only open it are not available yet (bodies.ts).
 // (the views of the installed modules join them: app/modules-view.ts)
-export const SIDEBAR_VIEWS: BodyTable = { assistant: AssistantPanel, explorer: Explorer, elements: Insert, variables: Styles, ...MODULE_SIDEBAR_VIEWS };
+export const SIDEBAR_VIEWS: BodyTable = { assistant: AssistantPanel, data: DataPanel, explorer: Explorer, elements: Insert, variables: Styles, ...MODULE_SIDEBAR_VIEWS };
 
 // The body of each section that belongs to no view, drawn in the sidebar's stack below the view (bodies.ts)
 export const SIDEBAR_SECTIONS: BodyTable = { layers: LayersSection };

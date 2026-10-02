@@ -2189,6 +2189,136 @@
       "kind": "handler",
       "id": "motion.removeBehaviour",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.select",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.setQuery",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.createCollection",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.renameCollection",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.deleteCollection",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.addField",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.setField",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.removeField",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.addItem",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.setCell",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.deleteItems",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.moveItem",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.preview",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.previewSheet",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.previewType",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.closePreview",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.importNew",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.importInto",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.bindElement",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.fill",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "data.unbind",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "pages.fromNames",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "pages.fromCollection",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "regions.share",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "regions.detach",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "regions.stopSharing",
+      "status": "registered"
     }
   ]
 }

@@ -228,6 +228,12 @@ export const FEATURES = {
   // 21 layout and structure
   'layout-actions': registerFeature('layout-actions'),
   'canvas-grid-editor': registerFeature('canvas-grid-editor'),
+  // 23 content and data
+  'data-collections': registerFeature('data-collections'),
+  'data-import': registerFeature('data-import'),
+  'data-binding': registerFeature('data-binding'),
+  'data-pages': registerFeature('data-pages'),
+  'shared-regions': registerFeature('shared-regions'),
 } as const satisfies FeatureTable;
 
 // Whether a feature is registered as built.

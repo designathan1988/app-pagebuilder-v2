@@ -562,8 +562,9 @@ const adapterSchema = z.strictObject({
   // the command reads as text, File › Open), "upload" (the file's bytes and, for an image, its intrinsic size, which
   // core/project/files.ts readUploadFile reads; spec explorer-assets) or "folder" (a whole folder, File › Open folder:
   // the browser's directory picker, every file with the path it holds inside the folder; spec explorer-open-folder).
+  // "data": a data file the Data panel imports, read into its sheets (src/editor/data/read-file.ts; spec content-data).
   // One chooser, one reader per kind, never two for one.
-  fileReading: z.enum(['text', 'upload', 'folder']).optional(),
+  fileReading: z.enum(['text', 'upload', 'folder', 'data']).optional(),
 });
 
 // A region of the interface DESIGN.md names (layout.json lists them); a menu's own region is "menu:<menu>".

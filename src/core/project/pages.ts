@@ -12,11 +12,11 @@
 // page holds neither (so a file a link points at is never taken silently), and a name another page already holds is
 // refused.
 // pages.duplicate: a copy right after the page, every node with an id and a styles record of its own, "About 2" when
-// "About" is taken.
+// "About" is taken; the copy opens and its name field takes the focus, as a page the + adds (jornada03 J20).
 // pages.delete: the page goes; the home page (index.html, what the project opens on) cannot be deleted, and a project
 // keeps at least one page.
 import { message, registerHandler } from '../commands/registry.ts';
-import type { DocNode, Page } from '../document/model.ts';
+import type { DocNode, DocumentJson, Page } from '../document/model.ts';
 import { refreshCopiedIdentities } from '../document/clone.ts';
 import type { Patch } from '../history/transaction.ts';
 import { walk, type NodeId } from '../document/model.ts';
@@ -113,21 +113,37 @@ export const renamePageCommand = registerHandler('pages.rename', ({ state }, { p
   return { kind: 'change' as const, patches, message: message('status.pages.renamed', { name: typed }) };
 });
 
-export const duplicatePageCommand = registerHandler('pages.duplicate', ({ state, ids }, { page }) => {
-  const document = state.document;
-  const at = pageIndex(document.pages, page);
-  const source = document.pages[at];
-  if (source === undefined) throw new Error(`pages.duplicate: the document has no page ${String(page)}`);
+// A copy of a page, as pages.duplicate and the pages made from a page make one (core/data/commands.ts): every node
+// with an id and a styles record of its own, its HTML ids and references repaired, named from `base` ("About 2" when
+// "About" is taken), its file and its root's name following its name. A copy is never the page made for an item: that
+// mark stays with the page it was made on.
+export function copyPage(document: DocumentJson, source: Page, base: string, next: () => NodeId): Page {
   // every node of the copy gets an id of its own and its own styles record; the rest of the node is data
-  const copy = (node: DocNode): DocNode => ({ ...node, id: ids.next(), classes: [...node.classes], styles: structuredClone(node.styles), children: node.children.map(copy) });
-  // a copy of "About 2" is "About 3", never "About 2 2": the number a copy took is not part of the name
-  const { name, file } = fresh(document.pages.map((p) => p.name), document.pages.map((p) => p.file), source.name.replace(/ \d+$/, ''));
+  const copy = (node: DocNode): DocNode => ({ ...node, id: next(), classes: [...node.classes], styles: structuredClone(node.styles), children: node.children.map(copy) });
+  const { name, file } = fresh(document.pages.map((p) => p.name), document.pages.map((p) => p.file), base);
   const plainCopy = copy(source.tree);
   const tree = refreshCopiedIdentities(document, [{ source: source.tree, copy: plainCopy }])[0];
-  if (tree === undefined) throw new Error('pages.duplicate: the copied tree is missing');
-  const made: Page = { id: ids.next(), name, file, tree: { ...tree, name: rootName(document.pages, name) } };
-  return { kind: 'change' as const, patches: [{ op: 'add', path: ['pages', at + 1], value: made }], message: message('status.pages.duplicated', { name: source.name, copy: name }) };
-});
+  if (tree === undefined) throw new Error('pages: the copied tree is missing');
+  const { dataItem: _item, ...root } = tree;
+  void _item;
+  return { id: next(), name, file, tree: { ...root, name: rootName(document.pages, name) } };
+}
+
+export function duplicatePageCommandFor<Ui extends WithPage>() {
+  return registerHandler<'pages.duplicate', Ui>('pages.duplicate', ({ state, ids }, { page }) => {
+    const document = state.document;
+    const at = pageIndex(document.pages, page);
+    const source = document.pages[at];
+    if (source === undefined) throw new Error(`pages.duplicate: the document has no page ${String(page)}`);
+    // a copy of "About 2" is "About 3", never "About 2 2": the number a copy took is not part of the name
+    const made = copyPage(document, source, source.name.replace(/ \d+$/, ''), () => ids.next() as NodeId);
+    // the copy opens (the selection goes with the page left), and its name field takes the focus (sidebar.tsx)
+    return { kind: 'change' as const, patches: [{ op: 'add', path: ['pages', at + 1], value: made }], ui: { ...state.ui, page: made.id }, selection: [], message: message('status.pages.duplicated', { name: source.name, copy: made.name, file: made.file }) };
+  });
+}
+
+// the command for a caller that holds no editor state (the core's tests)
+export const duplicatePageCommand = duplicatePageCommandFor<never>();
 
 export const deletePageCommand = registerHandler('pages.delete', ({ state, confirmed }, { page }) => {
   const document = state.document;

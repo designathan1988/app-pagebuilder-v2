@@ -519,6 +519,16 @@
   opacity: 1;
 }
 
+/* a row's labelled action (a data file's Fill, spec repeat-element) shows at rest: its words say what it does without a
+   hover (jornada03 J13), over the row's meta */
+.row__actions .door--button {
+  opacity: 1;
+}
+
+.row:has(.row__actions .door--button) .row__meta {
+  visibility: hidden;
+}
+
 .row:hover .row__meta,
 .row:has(.row__actions .door:focus-visible) .row__meta {
   visibility: hidden;

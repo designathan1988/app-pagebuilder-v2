@@ -1,0 +1,199 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "id": "home",
+      "name": "Home",
+      "file": "index.html",
+      "tree": {
+        "id": "home-root",
+        "type": "page",
+        "name": "Page",
+        "tag": "body",
+        "attributes": {},
+        "classes": [],
+        "styles": {},
+        "text": null,
+        "children": [
+          {
+            "id": "menu",
+            "type": "section",
+            "name": "Menu",
+            "tag": "section",
+            "attributes": {},
+            "classes": [],
+            "styles": {},
+            "text": null,
+            "children": [
+              {
+                "id": "menu-heading",
+                "type": "heading",
+                "name": "Our menu",
+                "tag": "h2",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": "Our menu",
+                "children": []
+              },
+              {
+                "id": "card",
+                "type": "article",
+                "name": "Card",
+                "tag": "article",
+                "attributes": {},
+                "classes": [],
+                "styles": {},
+                "text": null,
+                "children": [
+                  {
+                    "id": "card-photo",
+                    "type": "image",
+                    "name": "Photo",
+                    "tag": "img",
+                    "attributes": {
+                      "src": "img/graos.png",
+                      "alt": ""
+                    },
+                    "classes": [],
+                    "styles": {},
+                    "text": null,
+                    "children": [],
+                    "bind": [
+                      {
+                        "field": "foto",
+                        "to": "image"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "card-title",
+                    "type": "heading",
+                    "name": "Title",
+                    "tag": "h3",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Product",
+                    "children": [],
+                    "bind": [
+                      {
+                        "field": "nome",
+                        "to": "text"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "card-price",
+                    "type": "paragraph",
+                    "name": "Price",
+                    "tag": "p",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Price",
+                    "children": [],
+                    "bind": [
+                      {
+                        "field": "preco",
+                        "to": "text"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "card-more",
+                    "type": "link",
+                    "name": "More",
+                    "tag": "a",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "See more",
+                    "children": [],
+                    "bind": [
+                      {
+                        "field": "@page",
+                        "to": "link"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "img/graos.png",
+      "type": "image/png",
+      "bytes": "iVBORw0KGgoAAAANSUhEUgAAAGAAAABACAIAAABqVuVZAAAAcklEQVR42u3QQREAIAgAMBpZwAZEsYG97EcDHvjd3RIs3t00QoEgQYIECRIkSBCCBAkSJEiQIEEIEiRIkCBBggQhSJAgQYIECRIkCEGCBAkSJEiQIAQJEiRIkCBBghAk6Dfo5KIhSJAgQYIECRIkCEETBeTW4RJ3Y8T+AAAAAElFTkSuQmCC",
+      "width": 96,
+      "height": 64
+    },
+    {
+      "path": "img/xicara.png",
+      "type": "image/png",
+      "bytes": "iVBORw0KGgoAAAANSUhEUgAAAGAAAABACAIAAABqVuVZAAAAcklEQVR42u3QQREAIAgAMBpZwAZEsYG97EcDHvjd3RIs3t00QoEgQYIECRIkSBCCBAkSJEiQIEEIEiRIkCBBggQhSJAgQYIECRIkCEGCBAkSJEiQIAQJEiRIkCBBghAk6Dfo5KIhSJAgQYIECRIkCEETBeTW4RJ3Y8T+AAAAAElFTkSuQmCC",
+      "width": 96,
+      "height": 64
+    },
+    {
+      "path": "img/loja.png",
+      "type": "image/png",
+      "bytes": "iVBORw0KGgoAAAANSUhEUgAAAGAAAABACAIAAABqVuVZAAAAcklEQVR42u3QQREAIAgAMBpZwAZEsYG97EcDHvjd3RIs3t00QoEgQYIECRIkSBCCBAkSJEiQIEEIEiRIkCBBggQhSJAgQYIECRIkCEGCBAkSJEiQIAQJEiRIkCBBghAk6Dfo5KIhSJAgQYIECRIkCEETBeTW4RJ3Y8T+AAAAAElFTkSuQmCC",
+      "width": 96,
+      "height": 64
+    }
+  ],
+  "collections": [
+    {
+      "name": "Cardapio",
+      "fields": [
+        {
+          "key": "nome",
+          "label": "nome",
+          "type": "text"
+        },
+        {
+          "key": "preco",
+          "label": "preco",
+          "type": "text"
+        },
+        {
+          "key": "foto",
+          "label": "foto",
+          "type": "image"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "values": {
+            "nome": "Espresso Grão Norte",
+            "preco": "R$ 42",
+            "foto": "graos.png"
+          }
+        },
+        {
+          "id": "item-2",
+          "values": {
+            "nome": "Filtrado Sul de Minas",
+            "preco": "R$ 46",
+            "foto": "xicara.png"
+          }
+        },
+        {
+          "id": "item-3",
+          "values": {
+            "nome": "Descafeinado",
+            "preco": "R$ 44",
+            "foto": "loja.png"
+          }
+        }
+      ]
+    }
+  ]
+}

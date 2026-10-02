@@ -878,6 +878,10 @@ async function fillForm(page: Page, button: Locator, args: Record<string, unknow
       }
     } else {
       const field = inputs.first();
+      if ((await field.evaluate((el) => el.tagName)) === 'SELECT') {
+        await field.selectOption(String(value));
+        continue;
+      }
       await field.click();
       await page.keyboard.press('Control+A');
       await page.keyboard.press('Backspace');
@@ -1536,6 +1540,12 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
     if (text !== null && (kept === undefined || (typeof value !== 'string' && typeof value !== 'number') || typeof step.type === 'string')) throw new Error(`step ${ref}: a panel field keeps the one text argument its control does not stand for, typed into it, and takes no \`type\`; none of ${JSON.stringify(Object.fromEntries(text))} is`);
     const field = text === null || kept === undefined ? control(page, ref) : standing(kept[0]);
     await expect(field, `step ${ref}: its control is drawn`).toBeVisible();
+    const menu = field.locator('select');
+    if ((await menu.count()) > 0 && (typeof value === 'string' || typeof value === 'number')) {
+      await expect(menu.first(), `step ${ref}: its menu takes a choice`).toBeEnabled();
+      await menu.first().selectOption(String(value));
+      return;
+    }
     const editable = field.locator('input, textarea, [contenteditable="true"], [contenteditable="plaintext-only"]');
     const typedInto = (await editable.count()) > 0 ? editable.first() : field;
     // a field that takes nothing now (disabled: its gradient not there yet) fails the step on an assertion, never on
@@ -1644,6 +1654,19 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
     await page.keyboard.type(barLabel(d, { ...d.args, ...own }));
     await expect(control(page, ref, { args: own }), `step ${ref}: the command bar offers it`).toBeVisible();
     await control(page, ref, { args: own }).click();
+  } else if (d.kind === 'panel-drag' && d.source === 'data-column') {
+    // A column of the Data panel dragged onto an element's part in Connect fields (spec content-data, "binding"):
+    // pressed on the column the step's field names, moved onto the part its node and target stand for, released there.
+    const from = await controlPoint(page, ref, { field: args.field });
+    const part = page.locator(`[data-data-target][data-args='${JSON.stringify({ node: args.node, to: args.to })}']`);
+    await expect(part, `step ${ref}: the part the column is dropped on is drawn`).toHaveCount(1);
+    await part.scrollIntoViewIfNeeded();
+    const box = await part.boundingBox();
+    if (box === null) throw new Error(`step ${ref}: the part the column is dropped on is not laid out`);
+    await page.mouse.move(Math.round(from.x), Math.round(from.y));
+    await page.mouse.down();
+    await page.mouse.move(Math.round(box.x + box.width / 2), Math.round(box.y + box.height / 2), { steps: 12 });
+    await page.mouse.up();
   } else if (d.kind === 'panel-drag') {
     // A panel drag (a number field's label scrubbed): pressed at the middle of the control that stands for the step's
     // arguments (rounded to whole pixels, so its travel is exact), moved `distance` screen pixels to the right (left

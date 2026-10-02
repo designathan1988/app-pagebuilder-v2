@@ -13,11 +13,12 @@ const text = (file: ProjectFile): string => new TextDecoder().decode(fileBytes(f
 const cell = (value: unknown): string => (value === null || value === undefined ? '' : typeof value === 'object' ? JSON.stringify(value) : String(value));
 
 // a file is data when it is JSON or CSV, by its type or its name
-export const isDataFile = (file: Pick<ProjectFile, 'path' | 'type'>): boolean => /\.(json|csv)$/i.test(file.path) || file.type === 'application/json' || file.type === 'text/csv';
+export const isDataFile = (file: Pick<ProjectFile, 'path' | 'type'>): boolean => /\.(json|csv|tsv)$/i.test(file.path) || file.type === 'application/json' || file.type === 'text/csv' || file.type === 'text/tab-separated-values';
 
 // The lines of a CSV, each its cells: commas between cells, a cell in double quotes may hold commas, line breaks and
 // doubled quotes; a blank line is no row.
-export function csvLines(source: string): string[][] {
+// A TSV is the same with tabs between its cells (the delimiter); the Data panel's reader takes both (core/data/readers.ts).
+export function csvLines(source: string, delimiter: ',' | '\t' = ','): string[][] {
   const lines: string[][] = [];
   let line: string[] = [];
   let cellText = '';
@@ -31,7 +32,7 @@ export function csvLines(source: string): string[][] {
       } else if (char === '"') quoted = false;
       else cellText += char;
     } else if (char === '"') quoted = true;
-    else if (char === ',') {
+    else if (char === delimiter) {
       line.push(cellText);
       cellText = '';
     } else if (char === '\n' || char === '\r') {
@@ -47,6 +48,12 @@ export function csvLines(source: string): string[][] {
   return lines;
 }
 
+// The rows a JSON file holds: the list it is, or the one list an object holds (a "rows" or "items" key); undefined for
+// anything else. The Data panel's reader takes the same rule (core/data/readers.ts).
+export function jsonRowList(parsed: unknown): readonly unknown[] | undefined {
+  return Array.isArray(parsed) ? parsed : parsed !== null && typeof parsed === 'object' ? Object.values(parsed).find(Array.isArray) : undefined;
+}
+
 export function dataRows(file: ProjectFile): readonly DataRow[] | null {
   let source: string;
   try {
@@ -54,8 +61,9 @@ export function dataRows(file: ProjectFile): readonly DataRow[] | null {
   } catch {
     return null;
   }
-  if (/\.csv$/i.test(file.path) || file.type === 'text/csv') {
-    const [head, ...body] = csvLines(source);
+  const tabs = /\.tsv$/i.test(file.path) || file.type === 'text/tab-separated-values';
+  if (tabs || /\.csv$/i.test(file.path) || file.type === 'text/csv') {
+    const [head, ...body] = csvLines(source, tabs ? '\t' : ',');
     if (head === undefined || body.length === 0) return null;
     return body.map((values) => ({ names: head.map((name) => name.trim()), values: head.map((_, i) => values[i] ?? '') }));
   }
@@ -66,7 +74,7 @@ export function dataRows(file: ProjectFile): readonly DataRow[] | null {
     return null;
   }
   // an object holding one array (a "rows" or "items" key) reads as that array
-  const list = Array.isArray(parsed) ? parsed : parsed !== null && typeof parsed === 'object' ? Object.values(parsed).find(Array.isArray) : undefined;
+  const list = jsonRowList(parsed);
   if (!Array.isArray(list) || list.length === 0) return null;
   const rows = list.map((item): DataRow | null => {
     if (Array.isArray(item)) return { names: item.map(() => ''), values: item.map(cell) };

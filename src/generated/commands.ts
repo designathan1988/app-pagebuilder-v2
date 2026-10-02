@@ -70,6 +70,32 @@ export interface CommandArgs {
   "clipboard.cut": Record<string, never>;
   "clipboard.copyStyle": Record<string, never>;
   "clipboard.pasteStyle": { readonly clipboard: ClipboardContent };
+  "data.select": { readonly collection: string };
+  "data.setQuery": { readonly part: "filterField" | "filterOperator" | "filterValue" | "sortFirst" | "sortSecond" | "offset" | "limit" | "clear"; readonly value?: string };
+  "data.createCollection": { readonly name?: string };
+  "data.renameCollection": { readonly collection: string; readonly name: string };
+  "data.deleteCollection": { readonly collection: string };
+  "data.addField": { readonly label: string; readonly type: "text" | "richtext" | "image" | "number" | "date" | "link" | "boolean" };
+  "data.setField": { readonly collection: string; readonly field: string; readonly label?: string; readonly type?: "text" | "richtext" | "image" | "number" | "date" | "link" | "boolean" };
+  "data.removeField": { readonly collection: string; readonly field: string };
+  "data.addItem": { readonly collection: string };
+  "data.setCell": { readonly collection: string; readonly item: string; readonly field: string; readonly value: string };
+  "data.deleteItems": { readonly collection: string; readonly items: JsonValue };
+  "data.moveItem": { readonly collection: string; readonly item: string; readonly to: number };
+  "data.preview": { readonly file: string };
+  "data.previewSheet": { readonly sheet: string };
+  "data.previewType": { readonly column: string; readonly type: "text" | "richtext" | "image" | "number" | "date" | "link" | "boolean" };
+  "data.closePreview": Record<string, never>;
+  "data.importNew": { readonly name: string };
+  "data.importInto": { readonly collection: string; readonly mode: "append" | "replace" | "update" };
+  "data.bindElement": { readonly node: NodeId; readonly field: string; readonly to: "text" | "image" | "alt" | "link" };
+  "data.fill": { readonly node: NodeId; readonly collection: string; readonly query: JsonValue };
+  "data.unbind": { readonly node: NodeId };
+  "pages.fromNames": { readonly names: string };
+  "pages.fromCollection": { readonly collection: string; readonly nameField: string };
+  "regions.share": { readonly pages: JsonValue };
+  "regions.detach": { readonly node: NodeId };
+  "regions.stopSharing": { readonly component: string };
   "colors.saveSwatch": { readonly color: string };
   "colors.removeSwatch": { readonly index: number };
   "tokens.create": { readonly kind: "color" | "length" | "font-size"; readonly name: string; readonly value: string };
@@ -324,7 +350,7 @@ export interface CommandArgs {
   "snap.setSettings": { readonly targets: JsonValue; readonly distance: number };
   "workspace.openDialog": { readonly dialog: "guides-grids" | "snap-settings" };
   "view.setViewportWidth": { readonly width: number };
-  "workspace.setPanelOpen": { readonly panel: "elements" | "layers" | "inspector" | "explorer" | "timeline" | "motion" | "variables" | "checks" | "workbench" | "shortcuts" | "document" | "canvas-tools" | "assistant" | "layout-composer"; readonly open: "open" | "close" | "toggle"; readonly focus?: boolean };
+  "workspace.setPanelOpen": { readonly panel: "elements" | "layers" | "inspector" | "explorer" | "timeline" | "motion" | "variables" | "checks" | "workbench" | "shortcuts" | "document" | "canvas-tools" | "assistant" | "layout-composer" | "data"; readonly open: "open" | "close" | "toggle"; readonly focus?: boolean };
   "workspace.toggleLeftDock": Record<string, never>;
   "workspace.toggleInspector": Record<string, never>;
   "workspace.collapseDocks": Record<string, never>;
@@ -565,4 +591,9 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "motion-preview": ["motion.preview","motion.toggleRun"],
   "motion-behaviours": ["motion.setBehaviour","motion.removeBehaviour"],
   "export-motion-js": ["view.enterPreview","project.export"],
+  "data-collections": ["data.select","data.setQuery","data.createCollection","data.renameCollection","data.deleteCollection","data.addField","data.setField","data.removeField","data.addItem","data.setCell","data.deleteItems","data.moveItem","workspace.setPanelOpen"],
+  "data-import": ["data.preview","data.previewSheet","data.previewType","data.closePreview","data.importNew","data.importInto","data.select","workspace.setPanelOpen"],
+  "data-binding": ["data.bindElement","data.fill","data.unbind","data.setCell","data.select","workspace.setPanelOpen"],
+  "data-pages": ["pages.fromNames","pages.fromCollection","pages.duplicate","workspace.setPanelOpen"],
+  "shared-regions": ["regions.share","regions.detach","regions.stopSharing","text.set","pages.add","workspace.setPanelOpen"],
 };

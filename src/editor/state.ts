@@ -1,5 +1,6 @@
 import type { PickedFile } from '../generated/commands.ts';
 import type { AssistantState } from './assistant/state.ts';
+import type { DataUi } from './data/state.ts';
 // The editor's part of the store state: panel visibility (workspace/panels.ts), the workspace layout
 // (workspace/layout.ts), the preferences (preferences/preferences.ts), the keyboard focus requests (focus/focus.ts),
 // the overlays' dismissals (menus/overlays.ts), the context menu's opening (menus/context-menu.ts), the folded
@@ -33,6 +34,8 @@ import type { MotionUiState } from './motion/state.ts';
 
 export interface EditorUi {
   readonly assistant?: AssistantState;
+  // the Data panel: the collection it shows, its query and the data file being imported (data/state.ts); absent until used
+  readonly data?: DataUi;
   readonly panels: PanelsState;
   readonly layout: LayoutState;
   readonly preferences: Preferences;

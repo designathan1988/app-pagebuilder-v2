@@ -103,7 +103,9 @@ import { setBreakpoint, setViewportWidth } from '../editor/view/breakpoints.ts';
 import { setStyleState } from '../editor/view/style-state.ts';
 import { enterPreview, exitPreview } from '../editor/view/preview.ts';
 import { newBlankPage } from '../core/project/project.ts';
-import { addPageCommand, deletePageCommand, duplicatePageCommand, renamePageCommand, switchPageCommand } from '../core/project/pages.ts';
+import { addPageCommand, deletePageCommand, duplicatePageCommandFor, renamePageCommand, switchPageCommand } from '../core/project/pages.ts';
+import { addFieldCommand, addItemCommand, bindElementCommand, createCollectionCommand, deleteCollectionCommand, deleteItemsCommand, detachRegionCommand, fillCommand, moveItemCommand, pagesFromCollectionCommand, pagesFromNamesCommand, removeFieldCommand, renameCollectionCommand, setCellCommand, setFieldCommand, shareRegionCommand, stopSharingCommand, unbindCommand } from '../core/data/commands.ts';
+import { choosePreviewSheet, closePreview, importInto, importNew, previewFile, selectCollection, setPreviewType, setQuery } from '../editor/data/state.ts';
 import { restoreVersion } from '../core/project/recovery.ts';
 import { takeOverEditing } from '../core/project/tab-guard.ts';
 import { setSnapEnabled, setSnapSettings } from '../editor/view/snap.ts';
@@ -134,6 +136,33 @@ const MOTION_UPDATE_ACTION = updateActionCommand<EditorUi>({ makePicking: makeMo
 const SWITCH_PAGE = switchPageCommand<EditorUi>();
 
 export const COMMANDS = {
+  // 23 content and data (spec content-data): the Data panel's collections, import, bindings, pages and shared regions
+  'data.select': selectCollection,
+  'data.setQuery': setQuery,
+  'data.createCollection': createCollectionCommand<EditorUi>(),
+  'data.renameCollection': renameCollectionCommand<EditorUi>(),
+  'data.deleteCollection': deleteCollectionCommand<EditorUi>(),
+  'data.addField': addFieldCommand<EditorUi>(),
+  'data.setField': setFieldCommand,
+  'data.removeField': removeFieldCommand,
+  'data.addItem': addItemCommand,
+  'data.setCell': setCellCommand,
+  'data.deleteItems': deleteItemsCommand,
+  'data.moveItem': moveItemCommand,
+  'data.preview': previewFile,
+  'data.previewSheet': choosePreviewSheet,
+  'data.previewType': setPreviewType,
+  'data.closePreview': closePreview,
+  'data.importNew': importNew,
+  'data.importInto': importInto,
+  'data.bindElement': bindElementCommand,
+  'data.fill': fillCommand,
+  'data.unbind': unbindCommand,
+  'pages.fromNames': pagesFromNamesCommand<EditorUi>(),
+  'pages.fromCollection': pagesFromCollectionCommand<EditorUi>(),
+  'regions.share': shareRegionCommand,
+  'regions.detach': detachRegionCommand,
+  'regions.stopSharing': stopSharingCommand,
   'assistant.setModel': setAssistantModel,
   'assistant.setPreferences': setAssistantPreferences,
   'assistant.attachReference': attachAssistantReference,
@@ -244,7 +273,7 @@ export const COMMANDS = {
   'motion.removeBehaviour': removeBehaviourCommand,
   'pages.add': addPageCommand<EditorUi>(),
   'pages.rename': renamePageCommand,
-  'pages.duplicate': duplicatePageCommand,
+  'pages.duplicate': duplicatePageCommandFor<EditorUi>(),
   'pages.delete': deletePageCommand,
   'pages.switch': SWITCH_PAGE,
   'files.createFolder': createFolderCommand,

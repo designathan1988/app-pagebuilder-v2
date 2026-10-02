@@ -7,7 +7,8 @@
 //
 // files.upload: the files a chooser handed over, stored at their paths, in the folder the door names or the one their
 // type belongs to (img/ for an image, fonts/ for a font, files/ otherwise). A name already taken gets a numeric
-// suffix, so nothing is overwritten; a file whose type is neither an image nor a font is refused
+// suffix, so nothing is overwritten; a file that is neither an image, a font nor a data file (CSV, TSV, JSON, XLSX, which
+// go to files/: spec content-data) is refused
 // (status.files.unsupportedType). One undo step, the status naming the files.
 import { message, registerHandler } from '../commands/registry.ts';
 import type { DocumentJson, Page, ProjectFile } from '../document/model.ts';
@@ -185,6 +186,8 @@ const FILE_TYPES: readonly { readonly type: string; readonly extensions: readonl
   { type: 'text/html', extensions: ['html', 'htm'] },
   { type: 'application/json', extensions: ['json'] },
   { type: 'text/csv', extensions: ['csv'] },
+  { type: 'text/tab-separated-values', extensions: ['tsv'] },
+  { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', extensions: ['xlsx'] },
 ];
 export function typeOfFile(name: string, fallback = 'application/octet-stream'): string {
   const extension = name.slice(name.lastIndexOf('.') + 1).toLowerCase();
@@ -212,10 +215,17 @@ export function usedPaths(document: DocumentJson): ReadonlySet<string> {
   return used;
 }
 
+// A data file a collection imports (spec content-data): by its name, whatever type the browser gave it (a CSV often
+// comes as application/vnd.ms-excel or with no type at all), or by its type.
+const DATA_UPLOAD = /\.(csv|tsv|json|xlsx)$/i;
+const DATA_TYPES = ['text/csv', 'text/tab-separated-values', 'application/json', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+export const isDataUpload = (file: Pick<UploadedFile, 'name' | 'type'>): boolean => DATA_UPLOAD.test(file.name) || DATA_TYPES.includes(file.type.toLowerCase());
+
 export const uploadCommand = registerHandler('files.upload', ({ state }, { files, folder }) => {
   const list = fileList(files).filter((f) => f !== null && typeof f === 'object');
   if (list.length === 0) throw new Error('files.upload: no file');
-  const wrong = unsupported(list);
+  // the Explorer's upload keeps data files too (jornada03 J13); an image dropped on the canvas still takes images only
+  const wrong = list.find((f) => !supportedType(f.type) && !isDataUpload(f));
   if (wrong !== undefined) return { kind: 'refused' as const, message: message('status.files.unsupportedType', { name: wrong.name }) };
   const records = recordsFor(state.document, list, folder as string | undefined);
   return {

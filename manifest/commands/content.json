@@ -1,0 +1,2064 @@
+{
+  "domain": "content",
+  "commands": [
+    {
+      "id": "data.select",
+      "labelKey": "command.data.select",
+      "owner": "src/editor/data/state.ts",
+      "introducedBy": "data-collections",
+      "args": {
+        "collection": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "data-collection-tab",
+          "kind": "panel-control",
+          "drawnAs": "tab",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "collection-tab",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.select",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-panel",
+            "order": 3
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.setQuery",
+      "labelKey": "command.data.setQuery",
+      "owner": "src/editor/data/state.ts",
+      "introducedBy": "data-collections",
+      "args": {
+        "part": {
+          "type": "enum",
+          "values": [
+            "filterField",
+            "filterOperator",
+            "filterValue",
+            "sortFirst",
+            "sortSecond",
+            "offset",
+            "limit",
+            "clear"
+          ],
+          "optional": false
+        },
+        "value": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.noCollection",
+        "status.data.unknownField",
+        "status.data.badCount",
+        "status.data.noFilter",
+        "status.data.badOperator"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "data-filter-field",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "filter-field",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "data.filterField",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 10
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "part": "filterField"
+          }
+        },
+        {
+          "id": "data-filter-operator",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "filter-operator",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "data.filterOperator",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 11
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "part": "filterOperator"
+          }
+        },
+        {
+          "id": "data-filter-value",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "filter-value",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "data.filterValue",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 12
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "part": "filterValue"
+          }
+        },
+        {
+          "id": "data-sort-first",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "sort-first",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "data.sortFirst",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 13
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "part": "sortFirst"
+          }
+        },
+        {
+          "id": "data-sort-second",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "sort-second",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "data.sortSecond",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 14
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "part": "sortSecond"
+          }
+        },
+        {
+          "id": "data-offset",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "offset",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "data.offset",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 15
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "part": "offset"
+          }
+        },
+        {
+          "id": "data-limit",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "limit",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "data.limit",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 16
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "part": "limit"
+          }
+        },
+        {
+          "id": "data-query-clear",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "query-clear",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "data.queryClear",
+          "faceLabelKey": null,
+          "icon": "x",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 17
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "part": "clear"
+          }
+        }
+      ]
+    },
+    {
+      "id": "data.createCollection",
+      "labelKey": "command.data.createCollection",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-collections",
+      "args": {
+        "name": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.nameTaken",
+        "status.data.nameEmpty"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-new-collection",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "new-collection",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.createCollection",
+          "faceLabelKey": "data.newCollectionFace",
+          "icon": "plus",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-panel",
+            "order": 2
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.renameCollection",
+      "labelKey": "command.data.renameCollection",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-collections",
+      "args": {
+        "collection": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "name": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.nameTaken",
+        "status.data.nameEmpty"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-collection-name",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "collection-name",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.renameCollection",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.deleteCollection",
+      "labelKey": "command.data.deleteCollection",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-collections",
+      "args": {
+        "collection": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": {
+        "messageKey": "dialog.deleteCollection.message",
+        "confirmKey": "dialog.delete",
+        "cancelKey": "dialog.cancel"
+      },
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-collection-delete",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "collection-delete",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.deleteCollection",
+          "faceLabelKey": null,
+          "icon": "trash",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 2
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.addField",
+      "labelKey": "command.data.addField",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-collections",
+      "args": {
+        "label": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "type": {
+          "type": "enum",
+          "values": [
+            "text",
+            "richtext",
+            "image",
+            "number",
+            "date",
+            "link",
+            "boolean"
+          ],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.noCollection",
+        "status.data.fieldLabelEmpty",
+        "status.data.fieldLabelTaken"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-field-add",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "field-add",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.addField",
+          "faceLabelKey": "data.addFieldFace",
+          "icon": "plus",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 6
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.setField",
+      "labelKey": "command.data.setField",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-collections",
+      "args": {
+        "collection": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "field": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "label": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        },
+        "type": {
+          "type": "enum",
+          "values": [
+            "text",
+            "richtext",
+            "image",
+            "number",
+            "date",
+            "link",
+            "boolean"
+          ],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.fieldLabelEmpty",
+        "status.data.fieldLabelTaken",
+        "status.data.badValue",
+        "status.data.imageNotFound",
+        "status.data.badLink",
+        "status.data.pageLink",
+        "status.data.locked",
+        "status.data.listOwned",
+        "status.regions.conflict",
+        "status.regions.locked"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-field-label",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "field-label",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "data.fieldLabel",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 3
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "data-field-type",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "field-type",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "data.fieldType",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 4
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.removeField",
+      "labelKey": "command.data.removeField",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-collections",
+      "args": {
+        "collection": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "field": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.fieldInUse",
+        "status.data.noFields"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-field-remove",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "field-remove",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.removeField",
+          "faceLabelKey": null,
+          "icon": "trash",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-collection",
+            "order": 5
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.addItem",
+      "labelKey": "command.data.addItem",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-collections",
+      "args": {
+        "collection": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.badValue",
+        "status.data.imageNotFound",
+        "status.data.badLink",
+        "status.data.pageLink",
+        "status.data.locked",
+        "status.data.listOwned",
+        "status.regions.conflict",
+        "status.regions.locked"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-item-add",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "item-add",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.addItem",
+          "faceLabelKey": "data.addItemFace",
+          "icon": "plus",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-grid",
+            "order": 5
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.setCell",
+      "labelKey": "command.data.setCell",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-collections",
+      "args": {
+        "collection": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "item": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "field": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "value": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.badValue",
+        "status.data.imageNotFound",
+        "status.data.badLink",
+        "status.data.pageLink",
+        "status.data.locked",
+        "status.data.listOwned",
+        "status.regions.conflict",
+        "status.regions.locked"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-cell",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "cell",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.setCell",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-grid",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.deleteItems",
+      "labelKey": "command.data.deleteItems",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-collections",
+      "args": {
+        "collection": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "items": {
+          "type": "json",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.badValue",
+        "status.data.imageNotFound",
+        "status.data.badLink",
+        "status.data.pageLink",
+        "status.data.locked",
+        "status.data.listOwned",
+        "status.regions.conflict",
+        "status.regions.locked"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-item-delete",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "item-delete",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.deleteItems",
+          "faceLabelKey": null,
+          "icon": "trash",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-grid",
+            "order": 4
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.moveItem",
+      "labelKey": "command.data.moveItem",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-collections",
+      "args": {
+        "collection": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "item": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "to": {
+          "type": "integer",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.badValue",
+        "status.data.imageNotFound",
+        "status.data.badLink",
+        "status.data.pageLink",
+        "status.data.locked",
+        "status.data.listOwned",
+        "status.regions.conflict",
+        "status.regions.locked"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-item-up",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "item-up",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "data.moveUpLabel",
+          "faceLabelKey": null,
+          "icon": "arrow-up",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-grid",
+            "order": 2
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "data-item-down",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "data-collections",
+          "panel": "data",
+          "control": "item-down",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "data.moveDownLabel",
+          "faceLabelKey": null,
+          "icon": "arrow-down",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-grid",
+            "order": 3
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.preview",
+      "labelKey": "command.data.preview",
+      "owner": "src/editor/data/state.ts",
+      "introducedBy": "data-import",
+      "args": {
+        "file": {
+          "type": "file",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.fileType",
+        "status.data.fileEmpty",
+        "status.data.fileHeaderBlank",
+        "status.data.fileHeaderTaken",
+        "status.data.fileWide",
+        "status.data.fileQuote",
+        "status.data.fileJson",
+        "status.data.fileSheet",
+        "status.data.fileFormula",
+        "status.data.fileCellError",
+        "status.data.fileTooLarge",
+        "status.data.fileExternal",
+        "status.data.fileEncoding"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "data-import",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "data-import",
+          "panel": "data",
+          "control": "import",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.preview",
+          "faceLabelKey": "data.importFace",
+          "icon": "upload",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-panel",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": [],
+            "fileReading": "data"
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.previewSheet",
+      "labelKey": "command.data.previewSheet",
+      "owner": "src/editor/data/state.ts",
+      "introducedBy": "data-import",
+      "args": {
+        "sheet": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "data-preview-sheet",
+          "kind": "panel-control",
+          "drawnAs": "segment",
+          "pressed": false,
+          "feature": "data-import",
+          "panel": "data",
+          "control": "preview-sheet",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.previewSheet",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-preview",
+            "order": 2
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.previewType",
+      "labelKey": "command.data.previewType",
+      "owner": "src/editor/data/state.ts",
+      "introducedBy": "data-import",
+      "args": {
+        "column": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "type": {
+          "type": "enum",
+          "values": [
+            "text",
+            "richtext",
+            "image",
+            "number",
+            "date",
+            "link",
+            "boolean"
+          ],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "data-preview-type",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "data-import",
+          "panel": "data",
+          "control": "preview-type",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.previewType",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-preview",
+            "order": 3
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.closePreview",
+      "labelKey": "command.data.closePreview",
+      "owner": "src/editor/data/state.ts",
+      "introducedBy": "data-import",
+      "args": {},
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [],
+      "confirmation": null,
+      "history": {
+        "undoable": false
+      },
+      "entryPoints": [
+        {
+          "id": "data-preview-close",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "data-import",
+          "panel": "data",
+          "control": "preview-close",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.closePreview",
+          "faceLabelKey": null,
+          "icon": "x",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-preview",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.importNew",
+      "labelKey": "command.data.importNew",
+      "owner": "src/editor/data/state.ts",
+      "introducedBy": "data-import",
+      "args": {
+        "name": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.noPreview",
+        "status.data.nameTaken",
+        "status.data.nameEmpty",
+        "status.data.fieldLabelTaken",
+        "status.data.fileType",
+        "status.data.fileEmpty",
+        "status.data.fileHeaderBlank",
+        "status.data.fileHeaderTaken",
+        "status.data.fileWide",
+        "status.data.fileQuote",
+        "status.data.fileJson",
+        "status.data.fileSheet",
+        "status.data.fileFormula",
+        "status.data.fileCellError",
+        "status.data.fileTooLarge",
+        "status.data.fileExternal",
+        "status.data.fileEncoding",
+        "status.data.badValue",
+        "status.data.imageNotFound",
+        "status.data.badLink",
+        "status.data.pageLink",
+        "status.data.locked",
+        "status.data.listOwned",
+        "status.regions.conflict",
+        "status.regions.locked"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-import-new",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "data-import",
+          "panel": "data",
+          "control": "import-new",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.importNew",
+          "faceLabelKey": "data.importNewFace",
+          "icon": "table",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-preview",
+            "order": 4
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.importInto",
+      "labelKey": "command.data.importInto",
+      "owner": "src/editor/data/state.ts",
+      "introducedBy": "data-import",
+      "args": {
+        "collection": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "mode": {
+          "type": "enum",
+          "values": [
+            "append",
+            "replace",
+            "update"
+          ],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.noPreview",
+        "status.data.noColumnMatches",
+        "status.data.keyNeeded",
+        "status.data.keyEmpty",
+        "status.data.keyRepeated",
+        "status.data.fileType",
+        "status.data.fileEmpty",
+        "status.data.fileHeaderBlank",
+        "status.data.fileHeaderTaken",
+        "status.data.fileWide",
+        "status.data.fileQuote",
+        "status.data.fileJson",
+        "status.data.fileSheet",
+        "status.data.fileFormula",
+        "status.data.fileCellError",
+        "status.data.fileTooLarge",
+        "status.data.fileExternal",
+        "status.data.fileEncoding",
+        "status.data.badValue",
+        "status.data.imageNotFound",
+        "status.data.badLink",
+        "status.data.pageLink",
+        "status.data.locked",
+        "status.data.listOwned",
+        "status.regions.conflict",
+        "status.regions.locked"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-import-append",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "data-import",
+          "panel": "data",
+          "control": "import-append",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.importAppend",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-preview",
+            "order": 5
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "mode": "append"
+          }
+        },
+        {
+          "id": "data-import-replace",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "data-import",
+          "panel": "data",
+          "control": "import-replace",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.importReplace",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-preview",
+            "order": 6
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "mode": "replace"
+          }
+        },
+        {
+          "id": "data-import-update",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "data-import",
+          "panel": "data",
+          "control": "import-update",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.importUpdate",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-preview",
+            "order": 7
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "mode": "update"
+          }
+        }
+      ]
+    },
+    {
+      "id": "data.bindElement",
+      "labelKey": "command.data.bindElement",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-binding",
+      "args": {
+        "node": {
+          "type": "node",
+          "values": [],
+          "optional": false
+        },
+        "field": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "to": {
+          "type": "enum",
+          "values": [
+            "text",
+            "image",
+            "alt",
+            "link"
+          ],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.cannotShow",
+        "status.locked.edit",
+        "status.locked.byAncestor",
+        "status.data.badValue",
+        "status.data.imageNotFound",
+        "status.data.badLink",
+        "status.data.pageLink",
+        "status.data.locked",
+        "status.data.listOwned",
+        "status.regions.conflict",
+        "status.regions.locked"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-gesture",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-bind-field",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "data-binding",
+          "panel": "data",
+          "control": "bind-field",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.bindElement",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-mapping",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "panel-drag-data-column",
+          "kind": "panel-drag",
+          "feature": "data-binding",
+          "source": "data-column",
+          "zone": "data-target",
+          "gesture": "data-column-drag",
+          "labelKey": "command.data.bindElement",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.fill",
+      "labelKey": "command.data.fill",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-binding",
+      "args": {
+        "node": {
+          "type": "node",
+          "values": [],
+          "optional": false
+        },
+        "collection": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "query": {
+          "type": "json",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.fillRoot",
+        "status.data.noBindings",
+        "status.data.unknownField",
+        "status.data.otherList",
+        "status.data.badCount",
+        "status.components.root",
+        "status.components.inInstance",
+        "status.components.holdsInstance",
+        "status.locked.edit",
+        "status.locked.byAncestor",
+        "status.data.badValue",
+        "status.data.imageNotFound",
+        "status.data.badLink",
+        "status.data.pageLink",
+        "status.data.locked",
+        "status.data.listOwned",
+        "status.regions.conflict",
+        "status.regions.locked"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-fill",
+          "kind": "panel-control",
+          "drawnAs": "primary",
+          "pressed": false,
+          "feature": "data-binding",
+          "panel": "data",
+          "control": "fill-list",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.fill",
+          "faceLabelKey": "data.fillFace",
+          "icon": "table",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-mapping",
+            "order": 2
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "data.unbind",
+      "labelKey": "command.data.unbind",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-binding",
+      "args": {
+        "node": {
+          "type": "node",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.notList",
+        "status.locked.edit",
+        "status.locked.byAncestor"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-unbind",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "data-binding",
+          "panel": "data",
+          "control": "unbind",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.data.unbind",
+          "faceLabelKey": null,
+          "icon": "unlink",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-mapping",
+            "order": 3
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "pages.fromNames",
+      "labelKey": "command.pages.fromNames",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-pages",
+      "args": {
+        "names": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.pages.noNames",
+        "status.data.badValue",
+        "status.data.imageNotFound",
+        "status.data.badLink",
+        "status.data.pageLink",
+        "status.data.locked",
+        "status.data.listOwned",
+        "status.regions.conflict",
+        "status.regions.locked"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-pages-from-names",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "data-pages",
+          "panel": "data",
+          "control": "pages-from-names",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.pages.fromNames",
+          "faceLabelKey": "data.fromNamesFace",
+          "icon": "files",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-pages",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "pages.fromCollection",
+      "labelKey": "command.pages.fromCollection",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "data-pages",
+      "args": {
+        "collection": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        },
+        "nameField": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.data.emptyName",
+        "status.data.templateIsItemPage",
+        "status.data.badValue",
+        "status.data.imageNotFound",
+        "status.data.badLink",
+        "status.data.pageLink",
+        "status.data.locked",
+        "status.data.listOwned",
+        "status.regions.conflict",
+        "status.regions.locked"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-pages-from-collection",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "data-pages",
+          "panel": "data",
+          "control": "pages-from-collection",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.pages.fromCollection",
+          "faceLabelKey": null,
+          "icon": "files",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-pages",
+            "order": 2
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "regions.share",
+      "labelKey": "command.regions.share",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "shared-regions",
+      "args": {
+        "pages": {
+          "type": "json",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "singleSelection",
+        "refusalKey": "status.needsSingleSelection"
+      },
+      "refusals": [
+        "status.regions.notTopLevel",
+        "status.regions.noPages",
+        "status.components.holdsInstance",
+        "status.locked.edit",
+        "status.locked.insert",
+        "status.locked.byAncestor",
+        "status.data.badValue",
+        "status.data.imageNotFound",
+        "status.data.badLink",
+        "status.data.pageLink",
+        "status.data.locked",
+        "status.data.listOwned",
+        "status.regions.conflict",
+        "status.regions.locked"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-share",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "shared-regions",
+          "panel": "data",
+          "control": "share",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.regions.share",
+          "faceLabelKey": "data.shareFace",
+          "icon": "share",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-shared",
+            "order": 1
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "regions.detach",
+      "labelKey": "command.regions.detach",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "shared-regions",
+      "args": {
+        "node": {
+          "type": "node",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.regions.notShared",
+        "status.locked.edit",
+        "status.locked.byAncestor"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-shared-detach",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "shared-regions",
+          "panel": "data",
+          "control": "shared-detach",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.regions.detach",
+          "faceLabelKey": null,
+          "icon": "unlink",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-shared",
+            "order": 2
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "regions.stopSharing",
+      "labelKey": "command.regions.stopSharing",
+      "owner": "src/core/data/commands.ts",
+      "introducedBy": "shared-regions",
+      "args": {
+        "component": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.regions.notShared"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "data-shared-stop",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "shared-regions",
+          "panel": "data",
+          "control": "shared-stop",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.regions.stopSharing",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "data-shared",
+            "order": 3
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    }
+  ]
+}

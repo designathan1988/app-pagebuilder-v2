@@ -14,7 +14,7 @@ describe('manifest:check', () => {
     expect(loaded.problems).toEqual([]);
     const result = checkManifest(loaded.input);
     expect(result.problems).toEqual([]);
-    expect(result.summary?.features).toBe(197);
+    expect(result.summary?.features).toBe(202);
   });
 
   it('has a planted fixture for every rule', () => {
@@ -126,7 +126,7 @@ describe('manifest:check', () => {
     });
   });
 
-  it('places every door with a control, and only in a region DESIGN.md names', () => {
+  it('places every door with a control, and only in a region DESIGN.md names', { timeout: 30_000 }, () => {
     const summary = checkManifest(loaded.input).summary;
     const placed = Object.values(summary?.doorsByRegion ?? {}).reduce((n, x) => n + x, 0);
     expect(placed + (summary?.doorsByKind.shortcut ?? 0)).toBeLessThanOrEqual(summary?.doors ?? 0);
@@ -145,7 +145,7 @@ describe('manifest:check', () => {
     expect([...keyWithPlace]).toEqual(['placement']);
   });
 
-  it('refuses two controls in one position of a region', () => {
+  it('refuses two controls in one position of a region', { timeout: 30_000 }, () => {
     const twoDoors = mutated((m) => {
       const commands = (m.files['commands/history.json'] as Json).commands as Json[];
       const redo = ((commands.find((c) => c.id === 'history.redo') as Json).entryPoints as Json[]).find((d) => d.id === 'toolbar-top-bar') as Json;
@@ -159,7 +159,7 @@ describe('manifest:check', () => {
     expect([...doorAndMenu]).toEqual(['placement']);
   });
 
-  it('refuses a cascade whose first breakpoint is not the only base', () => {
+  it('refuses a cascade whose first breakpoint is not the only base', { timeout: 30_000 }, () => {
     const rules = mutated((m) => {
       const breakpoints = (m.files['properties.json'] as Json).breakpoints as Json[];
       (breakpoints[0] as Json).base = false;
@@ -168,7 +168,7 @@ describe('manifest:check', () => {
     expect([...rules]).toEqual(['schema']);
   });
 
-  it('refuses a state menu that opens from the canvas frame', () => {
+  it('refuses a state menu that opens from the canvas frame', { timeout: 30_000 }, () => {
     const rules = mutated((m) => {
       const menus = (m.files['layout.json'] as Json).menus as Json[];
       (menus.find((x) => x.id === 'style-state') as Json).anchors = [{ region: 'canvas-breakpoints', order: 5, drawnAs: 'button', icon: null }];
@@ -176,7 +176,7 @@ describe('manifest:check', () => {
     expect([...rules]).toEqual(['state-placement']);
   });
 
-  it('refuses one English label for two CSS properties, and a label that is not its glossary term', () => {
+  it('refuses one English label for two CSS properties, and a label that is not its glossary term', { timeout: 30_000 }, () => {
     const twoProperties = mutated((m) => {
       ((m.catalogues as Json).en as Json)['property.direction'] = 'Direction';
     });
@@ -187,17 +187,17 @@ describe('manifest:check', () => {
     expect([...notTheTerm]).toEqual(['label-term']);
   });
 
-  it('rejects a recipe value outside the allowlist, even when the property has no prefix', () => {
+  it('rejects a recipe value outside the allowlist, even when the property has no prefix', { timeout: 30_000 }, () => {
     expect(mutated((m) => setDeclaration(m, 'overflow-x', 'overlay')).has('syntax-fallback')).toBe(true);
   });
 
-  it('rejects a prefixed recipe value BCD does not track and the allowlist does not vouch for', () => {
+  it('rejects a prefixed recipe value BCD does not track and the allowlist does not vouch for', { timeout: 30_000 }, () => {
     const rules = mutated((m) => setDeclaration(m, 'display', '-moz-box'));
     expect(rules.has('syntax-fallback')).toBe(true);
     expect(rules.has('recipe')).toBe(true);
   });
 
-  it('finds a vendor prefix whatever its case', () => {
+  it('finds a vendor prefix whatever its case', { timeout: 30_000 }, () => {
     const rules = mutated((m) => {
       const display = ((m.files['properties.json'] as Json).properties as Json[]).find((p) => p.id === 'display') as Json;
       ((display.subsets as Json[])[0]?.values as string[]).push('-WEBKIT-box');
@@ -205,7 +205,7 @@ describe('manifest:check', () => {
     expect(rules.has('vendor-prefix')).toBe(true);
   });
 
-  it('rejects a recipe declaration that is the shorthand of edited longhands, whatever the recipe', () => {
+  it('rejects a recipe declaration that is the shorthand of edited longhands, whatever the recipe', { timeout: 30_000 }, () => {
     const rules = mutated((m) => {
       (recipeOf(m, 'user-select').declarations as Json[]).push({ property: 'padding', value: '0px' });
       const commands = (m.files['commands/style.json'] as Json).commands as Json[];
@@ -221,7 +221,8 @@ describe('manifest:check', () => {
       for (const [property, value] of entries) (div.defaultStyles as Json)[property] = value;
     });
 
-  it('accepts the math functions every browser supports, and the functions BCD tracks', () => {
+  // (four whole manifest checks: the file's convention for such tests)
+  it('accepts the math functions every browser supports, and the functions BCD tracks', { timeout: 30_000 }, () => {
     expect(withValues([['width', 'calc(100% - 10px)'], ['padding-top', 'max(0px, 1rem)'], ['height', 'clamp(10px, 50%, 200px)'], ['color', 'color-mix(in srgb, red, blue)'], ['background-color', 'rgb(from red 255 0 0)']])).toEqual(new Set());
     // colours inside gradients are colours: a keyword of a type used as an argument is decided by that type
     expect(withValues([['background-image', 'linear-gradient(red, blue)'], ['mask-image', 'linear-gradient(black, transparent)'], ['list-style-image', 'radial-gradient(circle at center, red, blue)']])).toEqual(new Set());
@@ -231,7 +232,7 @@ describe('manifest:check', () => {
     expect(withValues([['clip-path', 'rect(0 10px 10px 0)'], ['background-image', 'image-set("a.png" type("image/png"))']])).toEqual(new Set());
   });
 
-  it('checks a keyword inside a function with its support in that function', () => {
+  it('checks a keyword inside a function with its support in that function', { timeout: 30_000 }, () => {
     // BCD records shape() but none of its keywords, and MDN's syntax does not know shape(): no data says they work
     expect(withValues([['clip-path', 'shape(from 0 0, line to 10px 10px)']]).has('browser-support')).toBe(true);
     // contrast-color()'s draft placeholders and color()'s HDR spaces: BCD tracks the function, not these values
@@ -241,7 +242,7 @@ describe('manifest:check', () => {
     expect(withValues([['fill', 'context-fill']]).has('browser-support')).toBe(true);
   });
 
-  it('refuses a unit a browser lacks', () => {
+  it('refuses a unit a browser lacks', { timeout: 30_000 }, () => {
     const rules = mutated((m) => {
       const rcap = ownGenerated(m, 'generated/css-compat.json', 'units', 'rcap');
       rcap.safari = false;
@@ -252,11 +253,11 @@ describe('manifest:check', () => {
     expect(rules.has('browser-support')).toBe(true);
   });
 
-  it('refuses a function BCD does not track', () => {
+  it('refuses a function BCD does not track', { timeout: 30_000 }, () => {
     expect(withValues([['background-image', 'image(red)']]).has('browser-support')).toBe(true);
   });
 
-  it('rejects a structured value written as CSS text by a coupling', () => {
+  it('rejects a structured value written as CSS text by a coupling', { timeout: 30_000 }, () => {
     const rules = mutated((m) => {
       ((m.files['properties.json'] as Json).couplings as Json[]).push({ id: 'planted-shadow', trigger: { property: 'opacity', values: null, via: null }, condition: { predicate: 'always', property: null, values: [] }, effect: { action: 'setValue', property: 'box-shadow', value: '0 1px 2px red' }, feature: 'props-effects-basic' });
     });

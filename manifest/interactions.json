@@ -1905,6 +1905,11 @@
           "meaning": "no-snap"
         }
       ]
+    },
+    {
+      "id": "data-column-drag",
+      "source": "spec/BEHAVIOUR.md#data-binding",
+      "modifiers": []
     }
   ],
   "checks": {

@@ -23,7 +23,7 @@
 //    definition's element and the same element of every instance of the component, in every page.
 import type { NodeId } from '../../generated/commands.ts';
 import { message, registerHandler, registerPredicate, type Message, type Outcome } from '../commands/registry.ts';
-import { lineage, locate, type ComponentDefinition, type DocNode, type DocumentJson } from '../document/model.ts';
+import { lineage, locate, walk, type ComponentDefinition, type DocNode, type DocumentJson } from '../document/model.ts';
 import type { ModelRules } from '../document/validate.ts';
 import { refreshCopiedIdentities } from '../document/clone.ts';
 import { placementRefusal } from '../elements/content-model.ts';
@@ -46,7 +46,7 @@ export function instanceRootOf(document: DocumentJson, id: NodeId): DocNode | nu
 
 // An element of a tree as the elements of an instance: its part given, its children's after it; the root names the
 // component.
-function marked(node: DocNode, part: readonly number[], component: string | null): DocNode {
+export function marked(node: DocNode, part: readonly number[], component: string | null): DocNode {
   const { component: _c, componentPart: _p, ...plain } = node;
   void _c;
   void _p;
@@ -54,7 +54,7 @@ function marked(node: DocNode, part: readonly number[], component: string | null
 }
 
 // An element of an instance as an ordinary element: no component, no part, down its subtree.
-function unmarked(node: DocNode): DocNode {
+export function unmarked(node: DocNode): DocNode {
   const { component: _c, componentPart: _p, ...plain } = node;
   void _c;
   void _p;
@@ -68,6 +68,7 @@ export function createRefusal(document: DocumentJson, id: NodeId): Message | nul
   if (found === null) return null;
   if (found.parent === null) return message('status.components.root');
   if (instanceRootOf(document, found.node.id as NodeId) !== null) return message('status.components.inInstance', { name: found.node.name });
+  if ([...walk(found.node)].some((inner) => inner !== found.node && inner.component !== undefined)) return message('status.components.holdsInstance', { name: found.node.name });
   return lockRefusal(document, found.node.id as NodeId, 'status.locked.edit');
 }
 
@@ -75,7 +76,7 @@ export function createRefusal(document: DocumentJson, id: NodeId): Message | nul
 // the name a duplicate's copy takes (core/structure/duplicate.ts copyName: a name that ends in a number counts on, so
 // "Button 4" copies to "Button 5" and never to "Button 4 2" — the user's real-use audit, item A3.12). The root's name
 // is the caller's (an instance is named after its component): `root` leaves it for the caller to set.
-function copied(node: DocNode, next: () => NodeId, make: NodeMaker | null, root = false): DocNode {
+export function copied(node: DocNode, next: () => NodeId, make: NodeMaker | null, root = false): DocNode {
   const plain = unmarked(node);
   const name = make === null || root ? plain.name : copyName(plain.name, make.taken);
   if (make !== null && !root) make.taken.add(name);
@@ -84,7 +85,7 @@ function copied(node: DocNode, next: () => NodeId, make: NodeMaker | null, root 
 }
 
 // the next free component name: the base, else the base and the first free number from 2
-function componentName(document: DocumentJson, base: string): string {
+export function componentName(document: DocumentJson, base: string): string {
   const taken = new Set(componentsOf(document).map((c) => c.name));
   if (!taken.has(base)) return base;
   let n = 2;
