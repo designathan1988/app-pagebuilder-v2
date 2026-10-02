@@ -318,8 +318,14 @@
   background: none;
 }
 
+/* a name keeps its room before the row's details and ends in an ellipsis where the row is too narrow for it (a page's
+   long file name ran over the badge and the size; the whole name stays in the row's tooltip and its field) */
 .row__name {
-  flex: none;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* a row's name while its node is renamed (spec rename-element): a field in the name's place, as wide as the row lets it */
@@ -346,6 +352,12 @@
 .row--page .row__main .row__meta {
   position: absolute;
   right: var(--space-3);
+  /* never wider than the room the name leaves it (.row__page-name's margin): a long file name ends in an ellipsis
+     instead of running back over the page's name (jornada03 plan, stage 5: row__meta) */
+  max-width: calc(var(--space-10) * 2 + var(--space-3));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .row--page .row__page-name {
   margin-right: calc(var(--space-10) * 2 + var(--space-3));
@@ -708,6 +720,8 @@
 
 /* the file row's icon (or tag) is the door that opens the file: it hugs what it shows, the row's gap after it */
 .row__main > .row__open-icon.door {
+  /* the kind's badge keeps its size beside a long name (it shrank under the name's first letters) */
+  flex: none;
   min-width: 0;
   height: auto;
   padding: 0;

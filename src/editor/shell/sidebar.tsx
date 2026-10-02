@@ -151,7 +151,7 @@ function PageRow({ page }: { readonly page: Page }) {
     <div className="row row--page">
       <DoorControl entry={PAGE_ROW} args={{ page: page.tree.id }} className="row__main">
         <Icon name={elementIcon('page') ?? GLYPHS.folder} size="sm" />
-        <span className="row__meta">{page.file}</span>
+        <span className="row__meta" title={page.file}>{page.file}</span>
       </DoorControl>
       <PageNameField page={page} />
       <span className="row__actions">
@@ -709,7 +709,7 @@ function TreeRow({ row, doors }: { readonly row: TreeRow; readonly doors: TreeDo
           />
         </form>
       ) : (
-        <span className="row__name">{name}</span>
+        <span className="row__name" title={name}>{name}</span>
       )}
       {/* a file the editor writes says so, its tooltip why it cannot be deleted (the canonical .gen pill) */}
       {row.generated && !row.folder ? <span className="row__gen" title={t(row.kind === 'js' ? 'files.generatedJsTip' : 'files.generatedTip')}>{t('files.generated')}</span> : null}
