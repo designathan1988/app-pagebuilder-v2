@@ -27,10 +27,10 @@ export function GridOverlay() {
   const dots = useEditorState((s) => gridShown(s, 'gridDots'));
   const folds = useEditorState((s) => gridShown(s, 'foldLines'));
   // the screen the fold lines go by: the breakpoint in view (properties.json, item 2.3)
-  const screen = useEditorState((s) => activeBreakpoint(s.ui).height);
+  const screen = useEditorState((s) => activeBreakpoint(s).height);
   const root = useEditorState((s) => pageShown(s)?.tree.id ?? null);
   // each grid's settings now (one text, so the hook's answer is stable)
-  const breakpoint = useEditorState((s) => activeBreakpoint(s.ui).id);
+  const breakpoint = useEditorState((s) => activeBreakpoint(s).id);
   const settings = useEditorState((s) => JSON.stringify({ columns: columnsOf(s.document, breakpoint), rows: rowsOf(s.document, breakpoint), dots: dotsOf(s.document, breakpoint) }));
   const { columns: grid, rows: bands, dots: spots } = JSON.parse(settings) as { columns: ReturnType<typeof columnsOf>; rows: ReturnType<typeof rowsOf>; dots: ReturnType<typeof dotsOf> };
   const { height: rowHeight, gutter: rowGutter } = bands;

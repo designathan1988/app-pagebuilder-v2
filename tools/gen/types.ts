@@ -68,8 +68,9 @@ function argType(arg: Command['args'][string]): string {
       return 'StyleTargetId';
     case 'attribute':
       return 'AttributeId';
+    // a project's own breakpoints are the document's (core/document/breakpoints.ts): any id, read at run time
     case 'breakpoint':
-      return 'BreakpointId';
+      return 'string';
     case 'state':
       return 'StateId';
     case 'point':
@@ -136,7 +137,7 @@ export function generateTypes(root: string): { file: string; content: string }[]
       return `  ${q(c.id)}: ${fields.length === 0 ? 'Record<string, never>' : `{ ${fields.join('; ')} }`};`;
     })
     .join('\n');
-  const commandTypes = `${HEADER}import type { AttributeId, BreakpointId, CommandId, FeatureId, PaletteEntryId, StateId, StyleTargetId } from './ids.ts';
+  const commandTypes = `${HEADER}import type { AttributeId, CommandId, FeatureId, PaletteEntryId, StateId, StyleTargetId } from './ids.ts';
 
 export type NodeId = string;
 export type JsonValue = string | number | boolean | null | readonly JsonValue[] | { readonly [key: string]: JsonValue };

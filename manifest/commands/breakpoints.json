@@ -1,0 +1,273 @@
+{
+  "domain": "view",
+  "commands": [
+    {
+      "id": "breakpoints.add",
+      "labelKey": "command.breakpoints.add",
+      "owner": "src/editor/view/breakpoint-table.ts",
+      "introducedBy": "project-breakpoints",
+      "args": {
+        "width": {
+          "type": "number",
+          "values": [],
+          "optional": true
+        },
+        "name": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.breakpoints.widthRange",
+        "status.breakpoints.widthTaken",
+        "status.breakpoints.nameTaken"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "toolbar-breakpoint-add-here",
+          "kind": "toolbar",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "project-breakpoints",
+          "labelKey": "command.breakpoints.add",
+          "faceLabelKey": null,
+          "icon": "plus",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "canvas-breakpoints",
+            "order": 6
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "breakpoints-dialog-add",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "project-breakpoints",
+          "panel": "breakpoints",
+          "control": "add",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.breakpoints.add",
+          "faceLabelKey": null,
+          "icon": "plus",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "breakpoints-dialog",
+            "order": 10
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "breakpoints.rename",
+      "labelKey": "command.breakpoints.rename",
+      "owner": "src/editor/view/breakpoint-table.ts",
+      "introducedBy": "project-breakpoints",
+      "args": {
+        "breakpoint": {
+          "type": "breakpoint",
+          "values": [],
+          "optional": false
+        },
+        "name": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.breakpoints.unknown",
+        "status.breakpoints.nameEmpty",
+        "status.breakpoints.nameTaken"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "breakpoints-dialog-name",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "project-breakpoints",
+          "panel": "breakpoints",
+          "control": "name",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.breakpoints.rename",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "breakpoints-dialog",
+            "order": 2
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "breakpoints.setWidth",
+      "labelKey": "command.breakpoints.setWidth",
+      "owner": "src/editor/view/breakpoint-table.ts",
+      "introducedBy": "project-breakpoints",
+      "args": {
+        "breakpoint": {
+          "type": "breakpoint",
+          "values": [],
+          "optional": false
+        },
+        "width": {
+          "type": "number",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.breakpoints.unknown",
+        "status.breakpoints.widthOrder"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "breakpoints-dialog-width",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "project-breakpoints",
+          "panel": "breakpoints",
+          "control": "width",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.breakpoints.setWidth",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "breakpoints-dialog",
+            "order": 3
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "breakpoints.remove",
+      "labelKey": "command.breakpoints.remove",
+      "owner": "src/editor/view/breakpoint-table.ts",
+      "introducedBy": "project-breakpoints",
+      "args": {
+        "breakpoint": {
+          "type": "breakpoint",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.breakpoints.unknown",
+        "status.breakpoints.baseStays",
+        "status.breakpoints.usedByMotion"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "breakpoints-dialog-remove",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "project-breakpoints",
+          "panel": "breakpoints",
+          "control": "remove",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.breakpoints.remove",
+          "faceLabelKey": null,
+          "icon": "trash",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "breakpoints-dialog",
+            "order": 4
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    }
+  ]
+}

@@ -204,6 +204,10 @@
       "area": "overlay"
     },
     {
+      "id": "breakpoints-dialog",
+      "area": "overlay"
+    },
+    {
       "id": "recovery-dialog",
       "area": "overlay"
     },

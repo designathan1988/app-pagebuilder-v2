@@ -31,6 +31,7 @@ import { HEIGHT, WIDTH } from '../geometry/keys.ts';
 import { materialize } from './materialize.ts';
 import { NAMESPACE, markerOf, recordOf, withAuthoring, type ContainerRecord } from './record.ts';
 import { composerOf, withComposer, type ComposerState } from './state.ts';
+import { breakpointWords } from '../../../core/document/breakpoints.ts';
 
 type Context = HandlerContext<EditorUi>;
 
@@ -185,7 +186,7 @@ export const enterLayout = registerHandler<'layout.enter', EditorUi>('layout.ent
     const held = recordOf(at.node);
     // the height composed in: the container's own, else room to draw — the screen's for the page's root, the empty
     // height for any other container (interactions.json layout.emptyHeight)
-    const room = at.parent === null ? activeBreakpoint(context.state.ui).height : EMPTY_HEIGHT;
+    const room = at.parent === null ? activeBreakpoint(context.state).height : EMPTY_HEIGHT;
     const start: LayoutIntent = held === null ? emptyIntent(box.width, Math.max(box.height, room)) : namesFromElements(at.node, held.intent);
     const adopted = adopt(context, at.node, start);
     const record: ContainerRecord = { role: 'container', version: 1, intent: adopted.graph, owns: held?.owns ?? {} };
@@ -208,7 +209,7 @@ export const leaveLayout = registerHandler<'layout.leave', EditorUi>('layout.lea
 // canvas previews a stroke with the same radius (interaction/tool.ts), so the preview and the command read it alike.
 export const hitRadius = (ui: EditorUi): number => HIT_RADIUS / (ui.preferences.zoom === undefined ? 1 : ui.preferences.zoom / 100);
 
-const drawAtBase = (): Outcome<EditorUi> => ({ kind: 'refused', message: message('layout.respond.drawAtBase', { breakpoint: { key: BASE_BREAKPOINT.labelKey as MessageId } }) });
+const drawAtBase = (): Outcome<EditorUi> => ({ kind: 'refused', message: message('layout.respond.drawAtBase', { breakpoint: breakpointWords(BASE_BREAKPOINT) }) });
 
 const isPoint = (p: unknown): p is Point => typeof p === 'object' && p !== null && Number.isFinite((p as Point).x) && Number.isFinite((p as Point).y);
 
@@ -222,7 +223,7 @@ export const strokeLayout = registerHandler<'layout.stroke', EditorUi>('layout.s
     const reading = readStroke(record.intent, { points, mode: mode as StrokeMode, handle: handle === undefined ? null : handleOf(handle), radius: hitRadius(context.state.ui) }, naming(context));
     if (reading.selection !== null) return { kind: 'change', ui: withComposer(context.state.ui, { ...state, selection: reading.selection }) };
     // the regions are drawn at the base screen size; a narrower one says what changes there (layout.respond)
-    if (!activeBreakpoint(context.state.ui).base) return drawAtBase();
+    if (!activeBreakpoint(context.state).base) return drawAtBase();
     if (reading.operation === null || reading.result === null) return refusedWith(reading.problems);
     if (!reading.result.ok) return refusedWith(reading.result.problems);
     const graph = reading.result.graph;
@@ -255,7 +256,7 @@ export const deleteLayout = registerHandler<'layout.delete', EditorUi>('layout.d
   guarded(context, () => {
     const { state } = composed(context);
     if (state.selection.length === 0) return refusedWith([{ code: 'nothing-selected', params: {} }]);
-    if (!activeBreakpoint(context.state.ui).base) return drawAtBase();
+    if (!activeBreakpoint(context.state).base) return drawAtBase();
     return operate(context, { kind: 'delete', ids: state.selection }, []);
   }),
 );
@@ -350,7 +351,7 @@ export const interpretLayout = registerHandler<'layout.interpret', EditorUi>('la
 // hide or show. The drawing itself belongs to the base screen size, where nothing of this applies.
 export const respondLayout = registerHandler<'layout.respond', EditorUi>('layout.respond', (context, { edit, value }) =>
   guarded(context, () => {
-    const breakpoint = activeBreakpoint(context.state.ui);
+    const breakpoint = activeBreakpoint(context.state);
     if (breakpoint.base) return { kind: 'refused', message: message('layout.respond.base') };
     const { parent, record } = groupOf(context);
     let change: ResponsiveEdit;
@@ -363,7 +364,7 @@ export const respondLayout = registerHandler<'layout.respond', EditorUi>('layout
       change = { kind: 'columns', parent, columns };
     }
     const outcome = operate(context, responsiveEdit(record.intent, breakpoint.width, change));
-    return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.responded', { breakpoint: context.words(breakpoint.labelKey as MessageId) }) } : outcome;
+    return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.responded', { breakpoint: breakpointWords(breakpoint) }) } : outcome;
   }),
 );
 

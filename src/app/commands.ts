@@ -100,6 +100,7 @@ import { resizeCommand } from '../core/geometry/resize.ts';
 import { toggleEqualSpacing, toggleGuidesVisible, toggleOutlines, toggleRulers, toggleSmartGuides, toggleZones } from '../editor/view/overlays.ts';
 import { openDialog } from '../editor/workspace/dialogs.ts';
 import { setBreakpoint, setViewportWidth } from '../editor/view/breakpoints.ts';
+import { addBreakpoint, removeBreakpoint, renameBreakpoint, setBreakpointWidth } from '../editor/view/breakpoint-table.ts';
 import { setStyleState } from '../editor/view/style-state.ts';
 import { enterPreview, exitPreview } from '../editor/view/preview.ts';
 import { newBlankPage } from '../core/project/project.ts';
@@ -419,6 +420,10 @@ export const COMMANDS = {
   'view.pan': pan,
   'view.setBreakpoint': setBreakpoint,
   'view.setViewportWidth': setViewportWidth,
+  'breakpoints.add': addBreakpoint,
+  'breakpoints.rename': renameBreakpoint,
+  'breakpoints.setWidth': setBreakpointWidth,
+  'breakpoints.remove': removeBreakpoint,
   'view.setEditorView': setEditorView,
   'view.setStyleState': setStyleState,
   'view.enterPreview': enterPreview,

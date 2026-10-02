@@ -14,7 +14,7 @@ import { styleClassOf } from '../inspector/style-target.ts';
 import { locate } from '../../core/document/model.ts';
 import { layeredRules, useEditorState } from '../store.ts';
 import { useT } from '../text.ts';
-import { BREAKPOINTS } from '../view/breakpoints.ts';
+import { breakpointById, breakpointName as nameOf } from '../../core/document/breakpoints.ts';
 import { STATES } from '../view/style-state.ts';
 
 // whether the focus is inside the field whose door is this one (the focus is the page's, not the store's)
@@ -38,18 +38,18 @@ export function FieldOrigin({ entry, target }: { readonly entry: DoorEntry; read
   // the origin as one text, so the hook's answer is stable while nothing changes
   const said = useEditorState((s) => {
     if (target === null) return '';
-    const origin = valueOrigin(s, editedProperties(target), layeredRules(s.ui));
+    const origin = valueOrigin(s, editedProperties(target), layeredRules(s));
     if (origin === null) return '';
     if (origin.kind === 'class') return `class|${origin.name}`;
     if (origin.kind === 'inherited') return `inherited|${origin.from}`;
     if (origin.kind === 'default') return 'default';
-    const rules = layeredRules(s.ui);
+    const rules = layeredRules(s);
     const atBase = origin.kind === 'here' && rules.base.breakpoint === rules.baseLayer.breakpoint && rules.base.state === rules.baseLayer.state;
     return atBase ? 'own' : `${origin.kind}|${origin.breakpoint}|${origin.state}`;
   });
   // where typing writes: the target and the edited layer
   const writes = useEditorState((s) => {
-    const rules = layeredRules(s.ui);
+    const rules = layeredRules(s);
     const cls = styleClassOf(s);
     const primary = s.selection[0];
     const name = cls !== null ? `.${cls}` : primary === undefined ? '' : (locate(s.document, primary)?.node.name ?? '');
@@ -57,7 +57,11 @@ export function FieldOrigin({ entry, target }: { readonly entry: DoorEntry; read
   });
   const focused = useFocusWithin(entry.ref);
   const [kind = '', first = '', second = ''] = said.split('|');
-  const breakpointName = (id: string) => t((BREAKPOINTS.find((b) => b.id === id)?.labelKey ?? 'breakpoint.desktop') as MessageId);
+  const table = useEditorState((s) => s.document.breakpoints);
+  const breakpointName = (id: string) => {
+    const found = breakpointById({ breakpoints: table }, id);
+    return found === undefined ? id : nameOf(found, t);
+  };
   const stateName = (id: string) => {
     const key = STATES.find((x) => x.id === id)?.labelKey;
     return key === undefined ? id : t(key as MessageId);

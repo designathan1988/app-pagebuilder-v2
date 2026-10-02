@@ -68,7 +68,7 @@ export function styleSource(state: State): DocNode | null {
   if (node === null) return null;
   const at = keyframeAtPlayhead(state);
   if (at !== null && at.node.id === node.id) {
-    const layer = activeLayer(state.ui);
+    const layer = activeLayer(state);
     return { ...node, styles: { [layer.breakpoint]: { [layer.state]: at.keyframe.declarations } } };
   }
   const target = classTarget(state.document, state.selection, state.ui.styleTarget ?? null);

@@ -714,7 +714,9 @@
         "predicate": "always",
         "refusalKey": null
       },
-      "refusals": [],
+      "refusals": [
+        "status.breakpoints.unknown"
+      ],
       "confirmation": null,
       "history": {
         "undoable": false
@@ -817,6 +819,28 @@
           }
         },
         {
+          "id": "toolbar-breakpoint-tabs-project",
+          "kind": "toolbar",
+          "drawnAs": "tab",
+          "pressed": false,
+          "feature": "project-breakpoints",
+          "labelKey": "breakpoints.projectTab",
+          "faceLabelKey": null,
+          "icon": "ruler-dimension-line",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "canvas-breakpoints",
+            "order": 5
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
           "id": "toolbar-preview-bar-desktop",
           "kind": "toolbar",
           "drawnAs": "tab",
@@ -911,6 +935,28 @@
           "args": {
             "breakpoint": "phone"
           }
+        },
+        {
+          "id": "toolbar-preview-bar-project",
+          "kind": "toolbar",
+          "drawnAs": "tab",
+          "pressed": false,
+          "feature": "project-breakpoints",
+          "labelKey": "breakpoints.projectTab",
+          "faceLabelKey": null,
+          "icon": "ruler-dimension-line",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "preview-bar",
+            "order": 5
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
         }
       ]
     },
@@ -1591,7 +1637,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "preview-bar",
-            "order": 5
+            "order": 6
           },
           "adapter": {
             "selection": "none",
@@ -2899,7 +2945,8 @@
           "type": "enum",
           "values": [
             "guides-grids",
-            "snap-settings"
+            "snap-settings",
+            "breakpoints"
           ],
           "optional": false
         }
@@ -2960,6 +3007,54 @@
           },
           "args": {
             "dialog": "snap-settings"
+          }
+        },
+        {
+          "id": "menu-view-breakpoints",
+          "kind": "menu",
+          "feature": "project-breakpoints",
+          "menu": "view",
+          "checked": null,
+          "labelKey": "breakpoints.manage",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "menu:view",
+            "order": 20
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "dialog": "breakpoints"
+          }
+        },
+        {
+          "id": "toolbar-breakpoints-manage",
+          "kind": "toolbar",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "project-breakpoints",
+          "labelKey": "breakpoints.manage",
+          "faceLabelKey": null,
+          "icon": "sliders-horizontal",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "canvas-breakpoints",
+            "order": 7
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "dialog": "breakpoints"
           }
         }
       ]

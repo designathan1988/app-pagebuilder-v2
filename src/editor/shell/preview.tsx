@@ -11,11 +11,12 @@ import { viewportWidth } from '../view/breakpoints.ts';
 import { MODEL_RULES, useEditorState } from '../store.ts';
 import { useT } from '../text.ts';
 import { Slots } from './slots.tsx';
+import { breakpointTabSlot, PreviewBreakpointTab } from './breakpoint-tabs.tsx';
 
 export function PreviewBar() {
   return (
     <header className="preview-bar" data-region="preview-bar" data-key-context="preview">
-      <Slots region="preview-bar" />
+      <Slots region="preview-bar" render={(slot) => breakpointTabSlot('preview-bar', slot, (entry, breakpoint, args) => <PreviewBreakpointTab key={`${entry.ref}:${breakpoint.id}`} entry={entry} breakpoint={breakpoint} args={args} />)} />
     </header>
   );
 }
@@ -23,7 +24,7 @@ export function PreviewBar() {
 export function PreviewPage() {
   const t = useT();
   const document = useEditorState((s) => s.document);
-  const width = useEditorState((s) => viewportWidth(s.ui));
+  const width = useEditorState((s) => viewportWidth(s));
   // the page the editor has open, never the project's first: previewing a second page must show that page (the
   // interface audit F03), and the memo re-runs when the open page changes
   const page = useEditorState((s) => openedPage(s));

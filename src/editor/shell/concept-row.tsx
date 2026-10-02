@@ -52,7 +52,7 @@ function useRowSummary(row: ConceptRow): string {
     // the element, or the class while a class is the target (style-target.ts)
     const node = styleSource(s);
     if (node === null) return '';
-    const rules = layeredRules(s.ui);
+    const rules = layeredRules(s);
     return properties
       .map((property) => storedValue(node, property, rules))
       .filter((value): value is NonNullable<typeof value> => value !== undefined)

@@ -87,7 +87,7 @@ export function templateElement(make: NodeMaker, spec: TemplateNode, rootNameKey
   const nameKey = (spec.nameKey as MessageId | undefined) ?? rootNameKey;
   const base = newElement(make, spec.element, spec.children === undefined ? startingParts(spec.element) : (m) => (spec.children ?? []).map((child) => templateElement(m, child)), nameKey);
   const wrapper = spec.wrapper === undefined ? undefined : rules.wrappers.get(spec.wrapper as WrapperId);
-  const perChild = wrapper?.perChildTracks === true ? tracksForChildren(base.children.length) : null;
+  const perChild = wrapper?.perChildTracks === true ? tracksForChildren(base.children.length, rules) : null;
   const styles = { ...(rules.elements.get(spec.element as ElementType)?.defaultStyles ?? {}), ...(wrapper?.styles ?? {}), ...(spec.styles ?? {}), ...(perChild === null ? {} : { [perChild.property]: perChild.columns }) };
   const layer = (held: Readonly<Record<string, string>>): Record<string, Readonly<Record<string, string>>> => ({ [rules.baseLayer.state]: held });
   const all = {

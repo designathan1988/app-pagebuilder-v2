@@ -2319,6 +2319,26 @@
       "kind": "handler",
       "id": "regions.stopSharing",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "breakpoints.add",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "breakpoints.rename",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "breakpoints.setWidth",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "breakpoints.remove",
+      "status": "registered"
     }
   ]
 }

@@ -649,7 +649,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "preview-bar",
-            "order": 6
+            "order": 7
           },
           "adapter": {
             "selection": "none",

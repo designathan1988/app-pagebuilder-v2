@@ -27,6 +27,7 @@ import { messageText, useLocale, useT } from '../text.ts';
 import { ZoomValue } from './canvas.tsx';
 import { Slots } from './slots.tsx';
 import { previewing } from '../view/preview.ts';
+import { breakpointName } from '../../core/document/breakpoints.ts';
 
 
 export function StatusBar() {
@@ -40,7 +41,7 @@ export function StatusBar() {
   const tree = document.pages[shownPage]?.tree;
   const count = tree === undefined ? 0 : [...walk(tree)].length;
   // the breakpoint the canvas shows and its width (spec breakpoints-switch), and the state being edited (view/setStyleState)
-  const breakpoint = useEditorState((s) => activeBreakpoint(s.ui));
+  const breakpoint = useEditorState((s) => activeBreakpoint(s));
   const state = useEditorState((s) => activeState(s.ui));
   // while a drag goes on (pointer.ts), an element's or a palette tile's, the message is the drop's own words, as its
   // label reads them on the canvas, or, off the page, that releasing cancels (spec palette-drag-insert, Problems in
@@ -77,7 +78,7 @@ export function StatusBar() {
                 <Breadcrumb key="breadcrumb" entry={slot.entry} />,
                 <SelectionSize key="size" />,
                 <span key="context" className="status-bar__item status-bar__context">
-                  {t('statusBar.context', { breakpoint: t(breakpoint.labelKey as MessageId), state: t(state.labelKey as MessageId) })}
+                  {t('statusBar.context', { breakpoint: breakpointName(breakpoint, t), state: t(state.labelKey as MessageId) })}
                 </span>,
                 <span key="count" className="status-bar__item">
                   {t(`status.elementCount.${pluralForm(locale, count)}`, { count })}

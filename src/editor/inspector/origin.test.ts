@@ -43,7 +43,7 @@ describe('the origin of the value a Style field shows (inspector/origin.ts)', ()
   it('names the larger breakpoint a value comes from, the edited one when it is set there, and the default when nothing sets it', () => {
     const s = store();
     s.dispatch('view.setBreakpoint', { breakpoint: 'tablet' });
-    const tablet = layeredRules(s.getState().ui);
+    const tablet = layeredRules(s.getState());
     const desktopOnly = documentWith({ 'n-intro': { desktop: { base: { color: '#aa0000' } } } });
     expect(valueOrigin(stateOf(desktopOnly, 'n-intro'), ['color'], tablet)).toEqual({ kind: 'breakpoint', breakpoint: 'desktop', state: 'base' });
     const atTablet = documentWith({ 'n-intro': { desktop: { base: { color: '#aa0000' } }, tablet: { base: { color: '#00aa00' } } } });

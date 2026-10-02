@@ -1,24 +1,29 @@
 // The compact resting face of a real field. The input keeps its full CSS value and its existing command wiring;
 // this presentation separates the number, unit and origin without squeezing the editable value in paired rows.
 import type { ReactNode } from 'react';
-import type { MessageId } from '../../generated/ids.ts';
 import { formatColor, parseColor } from '../../core/style/color.ts';
 import { valueOrigin } from '../inspector/origin.ts';
 import { layeredRules, useEditorState } from '../store.ts';
-import { BREAKPOINTS } from '../view/breakpoints.ts';
+import { breakpointById, breakpointName } from '../../core/document/breakpoints.ts';
 import { useT } from '../text.ts';
 
 export function useFieldAppearance(properties: readonly string[], mixed = false) {
   const t = useT();
   const source = useEditorState((state) => {
-    const origin = valueOrigin(state, properties, layeredRules(state.ui));
+    const origin = valueOrigin(state, properties, layeredRules(state));
     if (origin === null) return '';
-    if (origin.kind === 'breakpoint') return `${origin.kind}|${origin.breakpoint}`;
+    if (origin.kind === 'breakpoint') {
+      const found = breakpointById(state.document, origin.breakpoint);
+      return `${origin.kind}|${found === undefined ? origin.breakpoint : breakpointName(found, t)}`;
+    }
     return origin.kind;
   });
-  const [kind = '', breakpoint = ''] = source.split('|');
+  // the kind, then the breakpoint's name (which may hold any character)
+  const cut = source.indexOf('|');
+  const kind = cut < 0 ? source : source.slice(0, cut);
+  const breakpoint = cut < 0 ? '' : source.slice(cut + 1);
   const label = kind === 'inherited' ? t('inspector.legend.inherited')
-    : kind === 'breakpoint' ? t((BREAKPOINTS.find((one) => one.id === breakpoint)?.labelKey ?? 'breakpoint.desktop') as MessageId)
+    : kind === 'breakpoint' ? breakpoint
     : null;
   return { kind: mixed ? 'mixed' : kind, label: mixed ? null : label };
 }

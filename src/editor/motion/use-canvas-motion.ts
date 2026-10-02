@@ -39,7 +39,7 @@ function start(store: EditorStore, view: Window | null): MotionController | null
     store.notice(message(`motion.runtime.${camel(problem.code)}` as MessageId, { detail: problem.detail }));
     if (problem.code === ACTION_FAILED) reportError(`motion ${problem.code}`, problem.detail);
   };
-  const rules = layeredRules(state.ui);
+  const rules = layeredRules(state);
   if (motion.running === true) return runOnCanvas(view, state.document, rules, report);
   if (motion.previewing !== true) return null;
   const controller = previewOnCanvas(view, state.document, rules, report);

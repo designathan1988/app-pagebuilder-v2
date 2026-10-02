@@ -36,7 +36,7 @@ export function isGradientControl(entry: DoorEntry): boolean {
 function useGradient(property: string): { readonly gradient: Gradient | null; readonly selected: boolean } {
   const held = useEditorState((s) => {
     const node = styleSource(s);
-    return node ? storedValue(node, property, layeredRules(s.ui)) : undefined;
+    return node ? storedValue(node, property, layeredRules(s)) : undefined;
   });
   const selected = useEditorState((s) => s.selection.length > 0);
   // the gradient layer of the value (an image under it stays: A3.34)

@@ -55,6 +55,7 @@ import { rootCss } from '../design/tokens.ts';
 import { filesOf, objectUrl, resolvedSource } from '../files/files.ts';
 import { fontFaceCss } from '../files/fonts.ts';
 import { animationsOf, keyframesCss, previewDeclarations } from '../animation/animation.ts';
+import { outputForTable } from '../document/breakpoint-rules.ts';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 export const NODE_ATTRIBUTE = 'data-node';
@@ -222,10 +223,12 @@ export class PageRenderer {
   // as the file's object URL, as the source attributes are (files.ts), since the canvas holds the bytes and has no
   // folder to fetch a path from — a background image the person uploaded draws on the canvas as it does in the export.
   private doc: DocumentJson | null = null;
+  private model: RenderModel;
 
   constructor(
     private readonly target: Document,
-    private readonly model: RenderModel,
+    // the manifest's model; the one the page is written with takes the project's breakpoints (core/document/breakpoints.ts)
+    private readonly manifestModel: RenderModel,
     private readonly page = 0,
     // the breakpoint's screen the canvas resolves vh, svh, dvh and lvh against (item 2.3); null in the export's own
     // writing, which keeps the units the person typed
@@ -233,7 +236,9 @@ export class PageRenderer {
     // how a stored attribute value is written (core/files/values.ts): the canvas hands a source that names a project
     // file over as its object URL and a reference as the target's id attribute; null writes nothing
     private readonly address: (name: string, value: string) => string | null = (_name, value) => value,
-  ) {}
+  ) {
+    this.model = manifestModel;
+  }
 
   // The element that renders a node, or null.
   element(id: NodeId): Element | null {
@@ -498,6 +503,7 @@ export class PageRenderer {
   // Builds the whole page: once, and when the rendered page itself is replaced.
   mount(doc: DocumentJson): void {
     this.doc = doc;
+    this.model = outputForTable(this.manifestModel, doc.breakpoints);
     // the style elements of every node, also those a previous renderer of this document left
     for (const sheet of [...this.target.head.querySelectorAll(`style[${NODE_STYLE_ATTRIBUTE}], style[${EDITOR_STYLE_ATTRIBUTE}], style[${TOKENS_STYLE_ATTRIBUTE}], style[${CLASSES_STYLE_ATTRIBUTE}], style[${FONTS_STYLE_ATTRIBUTE}], style[${BASE_STYLE_ATTRIBUTE}]`)]) sheet.remove();
     for (const sheet of [
@@ -549,6 +555,8 @@ export class PageRenderer {
   // Applies a change's patches to the page: `before` is the document the page shows, `after` the one the patches
   // make of it.
   apply(before: DocumentJson, after: DocumentJson, patches: readonly Patch[]): void {
+    // the project's breakpoints changed: every media query is written again
+    if (before.breakpoints !== after.breakpoints) return this.mount(after);
     this.doc = after;
     if (patches.some((patch) => patch.path[0] === TOKENS_FIELD)) this.writeTokens(after);
     if (patches.some((patch) => patch.path[0] === CLASSES_FIELD)) this.writeClasses(after);

@@ -108,7 +108,7 @@ function wrap(id: WrapperId, { state, ids, rules, words, confirmed }: HandlerCon
   const tag = element.tags[0] ?? null;
 
   // the wrapper's styles at the base layer, and the tracks a per-child grid lays (A1.4) over them
-  const perChild = wrapper.perChildTracks === true ? tracksForChildren(selected.length) : null;
+  const perChild = wrapper.perChildTracks === true ? tracksForChildren(selected.length, rules) : null;
   const baseStyles: Readonly<Record<string, string>> = perChild === null ? wrapper.styles : { ...wrapper.styles, [perChild.property]: perChild.columns };
   const base = rules.baseLayer;
   const layer = (styles: Readonly<Record<string, string>>): Record<string, Readonly<Record<string, string>>> => ({ [base.state]: styles });

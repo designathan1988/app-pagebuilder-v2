@@ -7,7 +7,7 @@
 // across, the camera's pan; down, a scroll of the page the frame carries out (the page's scroll is the frame's).
 // The pivot and Fit need the stage's place and size, a measure of the layout read from the stage element the canvas
 // registers (registerStage), when a command runs; the handlers never read the page.
-import { viewportWidth, BASE_BREAKPOINT } from './breakpoints.ts';
+import { viewportWidth, BASE_BREAKPOINT, type Shown } from './breakpoints.ts';
 import { message, registerHandler, type Outcome } from '../../core/commands/registry.ts';
 import type { StoreState } from '../../core/store/store.ts';
 import { numberConstant } from '../../manifest/runtime.ts';
@@ -57,14 +57,14 @@ function measure(): Stage {
 export const fitZoom = (width: number, page: number = BASE_BREAKPOINT.width): number => (width > 0 && page > 0 ? Math.min(1, ZOOM_MAX / 100, Math.max(ZOOM_MIN / 100, (width - 2 * FIT_MARGIN) / page)) : 1);
 
 // the zoom the canvas shows, as a factor: the chosen one, or the one that fits the stage
-export const zoomOf = (ui: EditorUi, width: number = measure().width): number => (ui.preferences.zoom !== undefined ? ui.preferences.zoom / 100 : fitZoom(width, viewportWidth(ui)));
+export const zoomOf = (shown: Shown, width: number = measure().width): number => (shown.ui.preferences.zoom !== undefined ? shown.ui.preferences.zoom / 100 : fitZoom(width, viewportWidth(shown)));
 
 // The frame's offset from the fit margin at a zoom: a page narrower than the stage is centred in it; a wider one keeps
 // the camera's offset, held so that neither edge of the page leaves a gap on the stage.
-export function panOf(ui: EditorUi, zoom: number, width: number = measure().width): number {
-  const room = width - 2 * FIT_MARGIN - viewportWidth(ui) * zoom;
+export function panOf(shown: Shown, zoom: number, width: number = measure().width): number {
+  const room = width - 2 * FIT_MARGIN - viewportWidth(shown) * zoom;
   if (room >= 0) return room / 2;
-  return Math.min(0, Math.max(room, ui.camera.panX));
+  return Math.min(0, Math.max(room, shown.ui.camera.panX));
 }
 
 const clamp = (percent: number): number => Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, Math.round(percent)));
@@ -73,18 +73,18 @@ const clamp = (percent: number): number => Math.min(ZOOM_MAX, Math.max(ZOOM_MIN,
 // kept there
 function zoomTo(state: StoreState<EditorUi>, percent: number, pivot: { readonly x: number; readonly y: number } | null = null): Outcome<EditorUi> {
   const stage = measure();
-  const before = zoomOf(state.ui, stage.width);
+  const before = zoomOf(state, stage.width);
   const after = percent / 100;
   const at = pivot !== null ? pivot.x - stage.left : stage.width / 2;
-  const pageX = (at - FIT_MARGIN - panOf(state.ui, before)) / before;
+  const pageX = (at - FIT_MARGIN - panOf(state, before)) / before;
   const camera = { ...state.ui.camera, panX: at - FIT_MARGIN - pageX * after, pivot };
   const ui: EditorUi = { ...state.ui, preferences: { ...state.ui.preferences, zoom: percent }, camera };
-  return { kind: 'change', ui: { ...ui, camera: { ...camera, panX: panOf(ui, after) } }, message: message('status.zoom.set', { zoom: percent }) };
+  return { kind: 'change', ui: { ...ui, camera: { ...camera, panX: panOf({ ...state, ui }, after) } }, message: message('status.zoom.set', { zoom: percent }) };
 }
 
 // one step in or out, from the zoom shown (Fit's included); at the limit the step is refused and says so
 function step(state: StoreState<EditorUi>, by: number): Outcome<EditorUi> {
-  const now = Math.round(zoomOf(state.ui) * 100);
+  const now = Math.round(zoomOf(state) * 100);
   const next = clamp(now + by);
   if (next === now) return { kind: 'refused', message: message('status.zoom.limit') };
   return zoomTo(state, next);
@@ -107,14 +107,14 @@ export const zoomFit = registerHandler<'view.zoomFit', EditorUi>(
   ({ state }) => {
     const { zoom: _chosen, ...rest } = state.ui.preferences;
     void _chosen;
-    return { kind: 'change', ui: { ...state.ui, preferences: rest, camera: { ...state.ui.camera, panX: 0, pivot: null } }, message: message('status.zoom.fitted', { zoom: Math.round(fitZoom(measure().width, viewportWidth(state.ui)) * 100) }) };
+    return { kind: 'change', ui: { ...state.ui, preferences: rest, camera: { ...state.ui.camera, panX: 0, pivot: null } }, message: message('status.zoom.fitted', { zoom: Math.round(fitZoom(measure().width, viewportWidth(state)) * 100) }) };
   },
   (state) => state.ui.preferences.zoom === undefined,
 );
 
 // Ctrl+wheel: the zoom times the wheel's factor, around the pointer; a notch past the limit is refused and says so
 export const zoomAt = registerHandler<'view.zoomAt', EditorUi>('view.zoomAt', ({ state }, { factor, point }) => {
-  const now = zoomOf(state.ui) * 100;
+  const now = zoomOf(state) * 100;
   const next = clamp(now * factor);
   if (next === Math.round(now)) return (factor > 1 && next === ZOOM_MAX) || (factor < 1 && next === ZOOM_MIN) ? { kind: 'refused', message: message('status.zoom.limit') } : { kind: 'change' };
   return zoomTo(state, next, point);
@@ -123,9 +123,9 @@ export const zoomAt = registerHandler<'view.zoomAt', EditorUi>('view.zoomAt', ({
 // the page moved by (dx, dy) screen px: across by the camera's pan (held so the page never leaves a gap), down by a
 // scroll of the page the frame carries out
 export const pan = registerHandler<'view.pan', EditorUi>('view.pan', ({ state }, { dx, dy }) => {
-  const zoom = zoomOf(state.ui);
-  const across: EditorUi = { ...state.ui, camera: { ...state.ui.camera, panX: panOf(state.ui, zoom) + dx } };
+  const zoom = zoomOf(state);
+  const across: EditorUi = { ...state.ui, camera: { ...state.ui.camera, panX: panOf(state, zoom) + dx } };
   const { scroll } = state.ui.camera;
-  const camera = { ...across.camera, panX: panOf(across, zoom), scroll: dy !== 0 ? { by: -dy / zoom, count: scroll.count + 1 } : scroll };
+  const camera = { ...across.camera, panX: panOf({ ...state, ui: across }, zoom), scroll: dy !== 0 ? { by: -dy / zoom, count: scroll.count + 1 } : scroll };
   return { kind: 'change', ui: { ...state.ui, camera } };
 });

@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "breakpoints": [
+    {
+      "id": "desktop",
+      "name": null,
+      "width": 1440,
+      "height": 900,
+      "base": true
+    },
+    {
+      "id": "laptop",
+      "name": null,
+      "width": 1180,
+      "height": 800,
+      "base": false
+    },
+    {
+      "id": "screen-900",
+      "name": "Screen 900",
+      "width": 900,
+      "height": 1194,
+      "base": false
+    },
+    {
+      "id": "tablet",
+      "name": null,
+      "width": 834,
+      "height": 1194,
+      "base": false
+    },
+    {
+      "id": "phone",
+      "name": null,
+      "width": 390,
+      "height": 844,
+      "base": false
+    }
+  ],
+  "pages": [
+    {
+      "id": "p-home",
+      "name": "Home",
+      "file": "index.html",
+      "tree": {
+        "id": "n-page",
+        "type": "page",
+        "name": "Page",
+        "tag": "body",
+        "attributes": {},
+        "classes": [],
+        "styles": {},
+        "text": null,
+        "children": [
+          {
+            "id": "n-title",
+            "type": "heading",
+            "name": "Title",
+            "tag": "h1",
+            "attributes": {},
+            "classes": [],
+            "styles": {
+              "desktop": {
+                "base": {
+                  "font-size": "48px"
+                }
+              },
+              "tablet": {
+                "base": {
+                  "font-size": "32px"
+                }
+              },
+              "phone": {
+                "base": {
+                  "font-size": "24px"
+                }
+              }
+            },
+            "text": "Fresh coffee",
+            "children": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -193,6 +193,37 @@
   gap: var(--space-3);
 }
 
+/* The Breakpoints dialog (src/editor/shell/breakpoints-dialog.tsx, spec project-breakpoints): a row per breakpoint,
+   its name, its width and its trash in three columns */
+.breakpoints-dialog__hint {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.breakpoints-dialog__table {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.breakpoints-dialog__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--size-tag-field) var(--size-control);
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.breakpoints-dialog__row--head {
+  color: var(--color-text-subtle);
+}
+
+.breakpoints-dialog__cell {
+  display: contents;
+}
+
+.breakpoints-dialog__base {
+  color: var(--color-text-subtle);
+}
+
 /* A snap line (src/editor/canvas/snap-lines.tsx, spec snap-while-moving; item 4.5): snap.lineWidth wide, in its own
    colour of the canvas snap token, from the moving element to the target it snapped to, the target outlined, with the
    distance it stands from it */

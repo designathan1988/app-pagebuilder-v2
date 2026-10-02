@@ -45,7 +45,7 @@ const layerDragOf = (property: string): DoorEntry | undefined => manifest.doors.
 function useLayers(property: string): { readonly layers: readonly StructuredLayer[]; readonly selected: boolean } {
   const layers = useEditorState((s) => {
     const node = styleSource(s);
-    return node ? storedLayers(node, property, layeredRules(s.ui)) : null;
+    return node ? storedLayers(node, property, layeredRules(s)) : null;
   });
   return { layers: layers ?? [], selected: layers !== null };
 }

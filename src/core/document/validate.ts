@@ -20,6 +20,7 @@ import { authoringProblems } from './authoring.ts';
 import { settingOf } from '../page/grid-settings.ts';
 import { canonical, hasMarks, parseInline, plainText } from '../text/inline.ts';
 import { DOCUMENT_VERSION, walk, type DocNode, type DocumentJson, type Selection } from './model.ts';
+import { breakpointProblems, rulesForDocument, type ProjectBreakpoint } from './breakpoint-rules.ts';
 
 export interface ElementRules {
   // its tag first, then its alternative tags
@@ -86,6 +87,9 @@ export interface ModelRules {
   // availability predicates that read one value of the primary selected element (properties.json valuePredicates)
   readonly valuePredicates: ReadonlyMap<string, { readonly property: string; readonly values: readonly string[] }>;
   readonly breakpoints: ReadonlySet<string>;
+  // the breakpoints themselves, widest first: the project's (core/document/breakpoints.ts rulesForDocument), else the
+  // default table, with what names them in a message
+  readonly breakpointTable: readonly ProjectBreakpoint[];
   readonly states: ReadonlySet<string>;
   // state id → the element types it stands on (null for every one): a rule a browser ignores is refused (A3.36)
   readonly stateElements: ReadonlyMap<string, readonly string[] | null>;
@@ -150,6 +154,7 @@ export function rulesFromManifest(elements: ElementsFile, properties: Properties
     couplings: properties.couplings,
     valuePredicates: new Map(properties.valuePredicates.map((p) => [p.id, { property: p.property, values: p.values }] as const)),
     breakpoints: new Set(properties.breakpoints.map((b) => b.id)),
+    breakpointTable: properties.breakpoints.map(({ id, width, height, base }) => ({ id, name: null, width, height, base })),
     states: new Set(properties.states.map((s) => s.id)),
     stateElements: new Map(properties.states.map((s) => [s.id, s.elements] as const)),
     breakpointWidths: new Map(properties.breakpoints.map((b) => [b.id, b.width] as const)),
@@ -316,9 +321,15 @@ function stateElementAllows(state: string, type: string, rules: ModelRules): boo
   return elements === undefined || elements === null || elements.includes(type);
 }
 
-export function validateDocument(doc: DocumentJson, selection: Selection, rules: ModelRules): Invalid[] {
+// the default breakpoints' ids: only those go without a name of the person's
+const defaultIds = (rules: ModelRules): readonly string[] => rules.breakpointTable.map((b) => b.id);
+
+export function validateDocument(doc: DocumentJson, selection: Selection, manifestRules: ModelRules): Invalid[] {
   const problems: Invalid[] = [];
   const bad = (path: string, message: string) => problems.push({ path, message });
+  // the project's breakpoints, when it has its own table: the styles are checked against those (breakpoints.ts)
+  if (doc.breakpoints !== undefined) for (const problem of breakpointProblems(doc.breakpoints, defaultIds(manifestRules))) bad(problem.path, problem.message);
+  const rules = doc.breakpoints !== undefined && breakpointProblems(doc.breakpoints, defaultIds(manifestRules)).length === 0 ? rulesForDocument(manifestRules, doc) : manifestRules;
   const ids = new Map<string, string>();
   const claim = (id: unknown, path: string) => {
     if (typeof id !== 'string' || id === '') return bad(path, 'an id is a non-empty string');

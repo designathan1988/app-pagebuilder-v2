@@ -13,14 +13,14 @@
 import type { NodeId  } from '../../generated/commands.ts';
 import type { CommandId } from '../../generated/ids.ts';
 import { message, registerHandler, type MessageParam, type Outcome } from '../commands/registry.ts';
-import type { MessageId } from '../../generated/ids.ts';
 import { locate, type DocNode, type StoredValue } from '../document/model.ts';
 import type { ModelRules } from '../document/validate.ts';
 import type { Patch } from '../history/transaction.ts';
-import { commandOf, manifest } from '../../manifest/runtime.ts';
+import { commandOf } from '../../manifest/runtime.ts';
 import { firstLockRefusal } from '../nodes/flags.ts';
 import { storedValue, styleHolders, writeDeclarations, writeStyle } from './set.ts';
 import { tracksForChildren } from './tracks.ts';
+import { breakpointWords, type ProjectBreakpoint } from '../document/breakpoints.ts';
 
 // the arguments a command's own doors carry, as text (the manifest's data)
 const doorArgs = (command: CommandId): Readonly<Record<string, string>> => {
@@ -73,10 +73,9 @@ function laysOut(node: DocNode, rules: ModelRules): { readonly property: string;
 
 // The narrowest breakpoint of the page (properties.json lists the cascade widest first; the Phone is its last): where
 // element.stackOnPhone writes, whatever breakpoint the editor edits.
-function narrowest(rules: ModelRules): { readonly id: string; readonly labelKey: string } {
-  const known = manifest.properties.breakpoints.filter((b) => rules.breakpoints.has(b.id));
-  const last = known.reduce<typeof known[number] | null>((narrow, b) => (narrow === null || b.width < narrow.width ? b : narrow), null);
-  if (last === null) throw new Error('properties.json names no breakpoint to stack at');
+function narrowest(rules: ModelRules): ProjectBreakpoint {
+  const last = rules.breakpointTable.at(-1);
+  if (last === undefined) throw new Error('the project names no breakpoint to stack at');
   return last;
 }
 
@@ -84,7 +83,7 @@ function narrowest(rules: ModelRules): { readonly id: string; readonly labelKey:
 // one owner of them)
 function stackOf(node: DocNode, rules: ModelRules): { readonly property: string; readonly value: string } {
   const display = storedValue(node, DISPLAY, rules) ?? '';
-  return display.includes('grid') ? { property: STACK.tracks ?? '', value: tracksForChildren(1).columns } : { property: STACK.axis ?? '', value: 'column' };
+  return display.includes('grid') ? { property: STACK.tracks ?? '', value: tracksForChildren(1, rules).columns } : { property: STACK.axis ?? '', value: 'column' };
 }
 
 // The value a node holds for a property at one breakpoint and state, its own only (nothing inherited): the layer a
@@ -108,7 +107,7 @@ export const stackOnPhoneCommand = registerHandler('element.stackOnPhone', (cont
     if (heldAt(holder.node, asked.property, layer.breakpoint, layer.state) === asked.value) continue;
     patches.push(...writeDeclarations(holder.node, holder.path, layer, { [asked.property]: asked.value }));
   }
-  const breakpoint: MessageParam = { key: at.labelKey as MessageId };
+  const breakpoint: MessageParam = breakpointWords(at);
   return {
     kind: 'change',
     patches,

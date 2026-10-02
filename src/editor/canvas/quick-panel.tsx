@@ -33,6 +33,7 @@ import { KeptTextField, TextField, keptTextOf, useSelectionContext } from '../sh
 import { useEditorState, useStore } from '../store.ts';
 import { useT } from '../text.ts';
 import { canvasFrame, nodeBox } from './coordinates.ts';
+import { breakpointWords, wordsOf } from '../../core/document/breakpoints.ts';
 
 const REGION = 'quick-panel';
 // the panel's chip: the control of the panel that opens and closes it (a panel-control door of its own region; its
@@ -338,8 +339,8 @@ export function QuickPanel({ stage }: { readonly stage: RefObject<HTMLDivElement
     return state.id === BASE_STATE.id ? null : state.labelKey;
   });
   const contextBreakpoint = useEditorState((s) => {
-    const breakpoint = activeBreakpoint(s.ui);
-    return breakpoint.base === true ? null : breakpoint.labelKey;
+    const breakpoint = activeBreakpoint(s);
+    return breakpoint.base === true ? null : JSON.stringify(breakpointWords(breakpoint));
   });
   const node = useEditorState((s) => {
     const at = s.selection[0] === undefined ? null : locate(s.document, s.selection[0]);
@@ -422,7 +423,7 @@ export function QuickPanel({ stage }: { readonly stage: RefObject<HTMLDivElement
     return CHIP_DOOR === null ? null : <Chip entry={CHIP_DOOR} open={false} at={at} measuring={measuring} buttonRef={chip} />;
   }
   // the context of the writes (A3.8): the class the style target names, the state and the breakpoint in view
-  const contextLabel = [contextTarget === null ? null : `.${contextTarget}`, contextState === null ? null : t(contextState as MessageId), contextBreakpoint === null ? null : t(contextBreakpoint as MessageId)].filter((part) => part !== null).join(' · ');
+  const contextLabel = [contextTarget === null ? null : `.${contextTarget}`, contextState === null ? null : t(contextState as MessageId), contextBreakpoint === null ? null : wordsOf(JSON.parse(contextBreakpoint) as ReturnType<typeof breakpointWords>, t)].filter((part) => part !== null).join(' · ');
   const actions = FIELDS.filter((entry) => isAction(entry) && applicable.split(' ').includes(entry.ref));
   const fields = FIELDS.filter((entry) => {
     if (isAction(entry)) return false;

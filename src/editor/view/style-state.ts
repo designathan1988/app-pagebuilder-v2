@@ -6,7 +6,7 @@ import { message, registerHandler } from '../../core/commands/registry.ts';
 import type { MessageId } from '../../generated/ids.ts';
 import { manifest } from '../../manifest/runtime.ts';
 import type { EditorUi } from '../state.ts';
-import { activeBreakpoint } from './breakpoints.ts';
+import { activeBreakpoint, type Shown } from './breakpoints.ts';
 
 export const STATES = manifest.properties.states;
 const BASE = STATES[0];
@@ -17,7 +17,7 @@ export const BASE_STATE = BASE;
 export const activeState = (ui: EditorUi): (typeof STATES)[number] => STATES.find((s) => s.id === ui.styleState) ?? BASE;
 
 // the layer style writes go to and the fields read: the active breakpoint and the active state
-export const activeLayer = (ui: EditorUi): { readonly breakpoint: string; readonly state: string } => ({ breakpoint: activeBreakpoint(ui).id, state: activeState(ui).id });
+export const activeLayer = (shown: Shown): { readonly breakpoint: string; readonly state: string } => ({ breakpoint: activeBreakpoint(shown).id, state: activeState(shown.ui).id });
 
 // Whether a state stands on an element of this type (elements.json ids; null for every element): the State menu
 // hides the ones it does not, and no field edit or export writes a rule a browser would ignore (A3.36).

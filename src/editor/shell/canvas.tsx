@@ -18,6 +18,8 @@ import { activeBreakpoint, viewportWidth } from '../view/breakpoints.ts';
 import { activeState } from '../view/style-state.ts';
 import { editorView } from '../view/editor-view.ts';
 import { CodePane } from './code-pane.tsx';
+import { breakpointTabSlot } from './breakpoint-tabs.tsx';
+import { breakpointName } from '../../core/document/breakpoints.ts';
 import { drag, panState } from '../input/pointer.ts';
 import { isPanelOpen } from '../workspace/panels.ts';
 import { useT } from '../text.ts';
@@ -25,7 +27,6 @@ import { ReportFitZoom, Slots, useFitZoom } from './slots.tsx';
 import { QuickPanel } from '../canvas/quick-panel.tsx';
 import { AnchorTabs } from '../canvas/anchor-tabs.tsx';
 
-const BREAKPOINTS = manifest.properties.breakpoints;
 const PAGE_ICON = manifest.elements.elements.find((e) => e.tag === 'body')?.icon ?? null;
 const NO_CODE: readonly string[] = [];
 
@@ -136,7 +137,7 @@ function CanvasToolbar() {
 
 function ViewportWidth({ entry }: { readonly entry: DoorEntry }) {
   const store = useStore();
-  const width = useEditorState((s) => viewportWidth(s.ui));
+  const width = useEditorState((s) => viewportWidth(s));
   const door = useDoor(entry);
   const [draft, setDraft] = useState<string | null>(null);
   const keep = () => {
@@ -154,7 +155,6 @@ function ViewportWidth({ entry }: { readonly entry: DoorEntry }) {
 
 function BreakpointTabs() {
   const t = useT();
-  const byId = new Map(BREAKPOINTS.map((b) => [b.id, b]));
   return (
     <div className="frame-tabs" data-region="canvas-breakpoints" role="tablist">
       <Slots
@@ -162,11 +162,9 @@ function BreakpointTabs() {
         render={(slot) => {
           if (slot.kind !== 'door') return undefined;
           if (slot.entry.door.kind === 'panel-control' && slot.entry.door.control === 'viewport-width') return <ViewportWidth key={slot.entry.ref} entry={slot.entry} />;
-          const breakpoint = byId.get(String(slot.entry.door.args.breakpoint));
-          if (!breakpoint) return undefined;
-          return (
-            <DoorControl key={slot.entry.ref} entry={slot.entry} className="frame-tab">
-              <span className="door__label">{t(breakpoint.labelKey as MessageId)}</span>
+          return breakpointTabSlot('canvas-breakpoints', slot, (entry, breakpoint, args) => (
+            <DoorControl key={`${entry.ref}:${breakpoint.id}`} entry={entry} args={args} className="frame-tab">
+              <span className="door__label">{breakpointName(breakpoint, t)}</span>
               <span className="frame-tab__width">{breakpoint.width}</span>
               {breakpoint.base ? (
                 <span className="frame-tab__base" title={t('canvas.baseTip')}>
@@ -174,7 +172,7 @@ function BreakpointTabs() {
                 </span>
               ) : null}
             </DoorControl>
-          );
+          ));
         }}
       />
     </div>
@@ -219,11 +217,11 @@ export function CanvasColumn() {
   // sides; the stage's width is reported to the camera, whose handlers pivot and fit on it
   const chosen = useEditorState((s) => s.ui.preferences.zoom);
   // the page's width: the active breakpoint's (view/breakpoints.ts)
-  const pageWidth = useEditorState((s) => viewportWidth(s.ui));
+  const pageWidth = useEditorState((s) => viewportWidth(s));
   // the breakpoint's screen height: what vh measures in the page and where the fold lines fall (item 2.3)
-  const pageHeight = useEditorState((s) => activeBreakpoint(s.ui).height);
+  const pageHeight = useEditorState((s) => activeBreakpoint(s).height);
   const zoom = chosen !== undefined ? chosen / 100 : fitZoom(size.width, pageWidth);
-  const pan = useEditorState((s) => panOf(s.ui, zoom, size.width));
+  const pan = useEditorState((s) => panOf(s, zoom, size.width));
   useLayoutEffect(() => registerStage(stage.current), [stageShown]);
   const report = useContext(ReportFitZoom);
   useLayoutEffect(() => report(zoom), [report, zoom]);

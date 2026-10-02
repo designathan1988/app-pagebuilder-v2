@@ -8,6 +8,7 @@ import { isEditing, takeOver } from './persistence/tab-guard.ts';
 import { activeLayer } from './view/style-state.ts';
 import { createEmptyDocument, type DocumentJson, type Selection } from '../core/document/model.ts';
 import { rulesFromManifest, type ModelRules } from '../core/document/validate.ts';
+import { rulesForDocument } from '../core/document/breakpoints.ts';
 import { systemClock, type Clock } from '../core/ports/clock.ts';
 import { randomIds, type IdGenerator } from '../core/ports/ids.ts';
 import { createStore, type Store, type StoreState } from '../core/store/store.ts';
@@ -69,15 +70,22 @@ function recoveryUi(ui: EditorUi, recovery: EditorStoreOptions['recovery']): Edi
 // The model rules whose layer (rules.base) is the one the editor edits: the active breakpoint and style state (spec
 // breakpoint-overrides, state-styles), for the readers of the editor (the fields, the handles), as the store hands
 // them to handlers. One object per layer, so a reader that compares what it read sees no change.
-const layeredByKey = new Map<string, ModelRules>();
-export function layeredRules(ui: EditorUi): ModelRules {
-  const layer = activeLayer(ui);
-  if (layer.breakpoint === MODEL_RULES.base.breakpoint && layer.state === MODEL_RULES.base.state) return MODEL_RULES;
+// The project's own breakpoints (core/document/breakpoints.ts) are part of those rules: one object per table and layer.
+const layeredByKey = new WeakMap<ModelRules, Map<string, ModelRules>>();
+export function layeredRules(shown: { readonly document: DocumentJson; readonly ui: EditorUi }): ModelRules {
+  const project = rulesForDocument(MODEL_RULES, shown.document);
+  const layer = activeLayer(shown);
+  if (layer.breakpoint === project.base.breakpoint && layer.state === project.base.state) return project;
+  let byLayer = layeredByKey.get(project);
+  if (byLayer === undefined) {
+    byLayer = new Map();
+    layeredByKey.set(project, byLayer);
+  }
   const key = `${layer.breakpoint}|${layer.state}`;
-  let rules = layeredByKey.get(key);
+  let rules = byLayer.get(key);
   if (rules === undefined) {
-    rules = { ...MODEL_RULES, base: layer };
-    layeredByKey.set(key, rules);
+    rules = { ...project, base: layer };
+    byLayer.set(key, rules);
   }
   return rules;
 }

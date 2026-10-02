@@ -9,6 +9,7 @@ const REPEAT = /^repeat\(\s*(\d+)\s*,\s*([\s\S]+)\s*\)$/i;
 
 import { message, registerHandler } from '../commands/registry.ts';
 import { locate } from '../document/model.ts';
+import type { ModelRules } from '../document/validate.ts';
 import { commandOf, manifest, numberConstantAt } from '../../manifest/runtime.ts';
 import { propertyName, readValue, shownText, storedValue, writeStyle } from './set.ts';
 
@@ -82,11 +83,11 @@ export const FIRST_TRACK = DEFAULT_TRACK;
 // children, and no override where the number does not differ from the base one. The one owner of the responsive grid:
 // the grid wrapper's wrap command and the template that names it both write what this gives, and the property the
 // columns are written as is the one the track editor's own doors carry (the manifest's data).
-export function tracksForChildren(count: number): { readonly property: string; readonly columns: string; readonly layers: Readonly<Record<string, string>> } {
+export function tracksForChildren(count: number, rules: Pick<ModelRules, 'breakpoints'>): { readonly property: string; readonly columns: string; readonly layers: Readonly<Record<string, string>> } {
   const tracks = (n: number): string => tracksToValue(Array.from({ length: Math.max(1, n) }, () => DEFAULT_TRACK));
   const layers: Record<string, string> = {};
   for (const breakpoint of manifest.properties.breakpoints) {
-    if (breakpoint.base) continue;
+    if (breakpoint.base || !rules.breakpoints.has(breakpoint.id)) continue;
     const named = numberConstantAt('layout.gridTracks', breakpoint.id);
     if (named !== undefined && named < count) layers[breakpoint.id] = tracks(named);
   }

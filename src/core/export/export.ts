@@ -43,6 +43,7 @@ import { interactionsJs, isModalTemplate, isTabsTemplate, pageNeedsScript } from
 import type { SiteScripts } from '../ports/site-scripts.ts';
 import { addressedMotionNodes, treeUsesMotion } from '../motion/document.ts';
 import { motionConfig, siteUsesLottie } from '../motion/export.ts';
+import { rulesForDocument } from '../document/breakpoint-rules.ts';
 
 export const SITE_ARCHIVE = 'site.zip';
 export const STYLESHEET = 'css/styles.css';
@@ -220,7 +221,9 @@ function runsOn(node: DocNode, inner: readonly DocNode[], rules: ModelRules): bo
   return !(base !== undefined && LAYOUTS.has(base) && displays.every((d) => LAYOUTS.has(d as string)));
 }
 
-export function pageLines(document: DocumentJson, pageIndex: number, rules: ModelRules, shared: SharedClasses = newShared(document), relative = true): PageCode {
+export function pageLines(document: DocumentJson, pageIndex: number, manifestRules: ModelRules, shared: SharedClasses = newShared(document), relative = true): PageCode {
+  // the project's breakpoints: its media queries (core/document/breakpoints.ts)
+  const rules = rulesForDocument(manifestRules, document);
   const page = document.pages[pageIndex];
   if (page === undefined) throw new Error(`export: the document has no page ${pageIndex}`);
   // the elements an interaction addresses, and every element that holds an animation: both take a class, so the script
@@ -344,10 +347,11 @@ const FIXED_TIME = Date.UTC(1980, 0, 1);
 // code pane follows the selection with; the base style, the tokens and the classes are lines no node was written for.
 export function siteFiles(
   document: DocumentJson,
-  rules: ModelRules,
+  manifestRules: ModelRules,
   relative = true,
   scripts?: SiteScripts,
 ): { readonly pages: readonly { readonly file: string; readonly html: string }[]; readonly css: string; readonly cssLines: readonly CodeLine[]; readonly interactions: string | null; readonly forms: string | null; readonly motion: string | null; readonly lottie: string | null } {
+  const rules = rulesForDocument(manifestRules, document);
   const usesForms = document.pages.some(page => pageUsesForms(page.tree));
   if (usesForms && scripts === undefined) throw new Error('Configured forms require the site script writer');
   const forms = usesForms && scripts !== undefined ? scripts.forms() : null;

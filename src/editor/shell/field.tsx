@@ -129,7 +129,7 @@ export function useEffectiveText(property: string, parts: readonly string[], own
   const cascaded = useEditorState((s) => {
     const node = own ? null : styleSource(s);
     if (!node) return undefined;
-    const values = parts.map((p) => shownText(node, p, layeredRules(s.ui)));
+    const values = parts.map((p) => shownText(node, p, layeredRules(s)));
     return values.every((v) => v === undefined) ? undefined : composedText(property, values.map((v) => v ?? ''), MODEL_RULES);
   });
   const computed = usePageValues(own || cascaded !== undefined ? null : primary, parts);
@@ -147,7 +147,7 @@ export function useEffectiveText(property: string, parts: readonly string[], own
 // (style.reset). With a class as the style target, the class is the one holder.
 export function useAnyStored(properties: readonly string[]): boolean {
   return useEditorState((s) => {
-    const rules = layeredRules(s.ui);
+    const rules = layeredRules(s);
     const holds = (node: DocNode | null | undefined) => node != null && properties.some((p) => storedValue(node, p, rules) !== undefined);
     if (styleClassOf(s) !== null || s.selection.length < 2) return holds(styleSource(s));
     return s.selection.some((id) => holds(locate(s.document, id)?.node));
@@ -162,7 +162,7 @@ export function useMixed(properties: readonly string[]): boolean {
       : JSON.stringify(
           s.selection.map((id) => {
             const node = locate(s.document, id)?.node;
-            return node ? properties.map((p) => storedValue(node, p, layeredRules(s.ui)) ?? null) : null;
+            return node ? properties.map((p) => storedValue(node, p, layeredRules(s)) ?? null) : null;
           }),
         ),
   );
@@ -439,7 +439,7 @@ export function NumberField({ entry, door, property, label, bare = false, labell
   const measured = usePrimarySize(measurement === undefined ? null : primary);
   const stored = useEditorState((s) => {
     const node = styleSource(s);
-    return node ? storedValue(node, property, layeredRules(s.ui)) : undefined;
+    return node ? storedValue(node, property, layeredRules(s)) : undefined;
   });
   const properties = useMemo(() => [property], [property]);
   const effective = useEffectiveText(property, properties, stored !== undefined);
@@ -616,19 +616,19 @@ export function TextStyleField({
   const storedText = useEditorState((s) => {
     const node = styleSource(s);
     if (!node) return undefined;
-    const values = parts.map((p) => storedValue(node, p, layeredRules(s.ui)));
+    const values = parts.map((p) => storedValue(node, p, layeredRules(s)));
     if (values.every((v) => v === undefined)) return undefined;
     return composedText(property, values.map((v) => v ?? ''), MODEL_RULES);
   });
   const effective = useEffectiveText(property, parts, storedText !== undefined);
   const held = useEditorState((s) => {
     const node = styleSource(s);
-    return node ? storedValue(node, property, layeredRules(s.ui)) : undefined;
+    return node ? storedValue(node, property, layeredRules(s)) : undefined;
   });
   // the layers of a structured value it holds (a shadow), counted
   const storedLayersOf = useEditorState((s) => {
     const node = styleSource(s);
-    return node ? storedLayers(node, property, layeredRules(s.ui)).length : 0;
+    return node ? storedLayers(node, property, layeredRules(s)).length : 0;
   });
   // several elements with different values: no value, and Mixed as the field's placeholder (spec multi-select-edit)
   const mixed = useMixed(parts);
@@ -933,7 +933,7 @@ export function KeywordButtons({ entry, door, property, values, icons, label }: 
   const primary = useEditorState((s) => s.selection[0] ?? null);
   const stored = useEditorState((s) => {
     const node = styleSource(s);
-    return node ? storedValue(node, property, layeredRules(s.ui)) : undefined;
+    return node ? storedValue(node, property, layeredRules(s)) : undefined;
   });
   const properties = useMemo(() => [property], [property]);
   const effective = useEffectiveText(property, properties, stored !== undefined);

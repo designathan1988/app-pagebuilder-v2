@@ -1,12 +1,12 @@
 {
   "totals": {
-    "features": 202,
-    "built": 201,
-    "commands": 350,
-    "doors": 1291,
-    "scenarios": 1687,
-    "modules": 385,
-    "lines": 71315
+    "features": 203,
+    "built": 202,
+    "commands": 354,
+    "doors": 1300,
+    "scenarios": 1698,
+    "modules": 390,
+    "lines": 71998
   },
   "features": [
     {
@@ -1801,7 +1801,7 @@
         "workspace.openDialog",
         "grid.toggleFolds"
       ],
-      "doors": 27,
+      "doors": 29,
       "scenarios": 11,
       "modules": [
         "src/core/page/grid.ts",
@@ -1868,7 +1868,7 @@
         "snap.setSettings",
         "workspace.openDialog"
       ],
-      "doors": 6,
+      "doors": 8,
       "scenarios": 9,
       "modules": [
         "src/editor/view/snap.ts",
@@ -1925,7 +1925,7 @@
         "page.setSetting",
         "view.setViewportWidth"
       ],
-      "doors": 19,
+      "doors": 21,
       "scenarios": 11,
       "modules": [
         "src/core/page/grid.ts",
@@ -1941,7 +1941,7 @@
         "style.reset",
         "view.setBreakpoint"
       ],
-      "doors": 179,
+      "doors": 181,
       "scenarios": 5,
       "modules": [
         "src/core/style/reset.ts",
@@ -1957,7 +1957,7 @@
         "view.setBreakpoint",
         "view.setStyleState"
       ],
-      "doors": 193,
+      "doors": 195,
       "scenarios": 16,
       "modules": [
         "src/core/style/set.ts",
@@ -1974,7 +1974,7 @@
         "view.exitPreview",
         "project.export"
       ],
-      "doors": 19,
+      "doors": 21,
       "scenarios": 11,
       "modules": [
         "src/core/export/export.ts",
@@ -2227,7 +2227,7 @@
         "view.setBreakpoint",
         "view.setStyleState"
       ],
-      "doors": 29,
+      "doors": 31,
       "scenarios": 2,
       "modules": [
         "src/core/selection/selection.ts",
@@ -3079,12 +3079,32 @@
         "src/core/text/text.ts",
         "src/editor/workspace/panels.ts"
       ]
+    },
+    {
+      "id": "project-breakpoints",
+      "built": true,
+      "commands": [
+        "breakpoints.add",
+        "breakpoints.rename",
+        "breakpoints.setWidth",
+        "breakpoints.remove",
+        "workspace.openDialog",
+        "view.setBreakpoint",
+        "view.setViewportWidth"
+      ],
+      "doors": 20,
+      "scenarios": 11,
+      "modules": [
+        "src/editor/view/breakpoint-table.ts",
+        "src/editor/view/breakpoints.ts",
+        "src/editor/workspace/dialogs.ts"
+      ]
     }
   ],
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 482,
+      "lines": 487,
       "commands": [],
       "features": []
     },
@@ -3096,7 +3116,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 243,
+      "lines": 244,
       "commands": [],
       "features": []
     },
@@ -3330,6 +3350,18 @@
       "features": []
     },
     {
+      "path": "src/core/document/breakpoint-rules.ts",
+      "lines": 114,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/document/breakpoints.ts",
+      "lines": 156,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/core/document/clone.ts",
       "lines": 67,
       "commands": [],
@@ -3343,7 +3375,7 @@
     },
     {
       "path": "src/core/document/model.ts",
-      "lines": 294,
+      "lines": 298,
       "commands": [],
       "features": []
     },
@@ -3355,7 +3387,7 @@
     },
     {
       "path": "src/core/document/validate.ts",
-      "lines": 585,
+      "lines": 596,
       "commands": [],
       "features": []
     },
@@ -3528,7 +3560,7 @@
     },
     {
       "path": "src/core/export/export.ts",
-      "lines": 461,
+      "lines": 465,
       "commands": [
         "project.export"
       ],
@@ -3918,7 +3950,7 @@
     },
     {
       "path": "src/core/page/grid.ts",
-      "lines": 133,
+      "lines": 136,
       "commands": [
         "grid.toggleColumns",
         "grid.toggleRows",
@@ -4097,7 +4129,7 @@
     },
     {
       "path": "src/core/render/render.ts",
-      "lines": 796,
+      "lines": 804,
       "commands": [],
       "features": []
     },
@@ -4134,7 +4166,7 @@
     },
     {
       "path": "src/core/store/store.ts",
-      "lines": 629,
+      "lines": 635,
       "commands": [],
       "features": []
     },
@@ -4352,7 +4384,7 @@
     },
     {
       "path": "src/core/style/direction.ts",
-      "lines": 121,
+      "lines": 120,
       "commands": [
         "element.swapDirection",
         "element.stackOnPhone"
@@ -4497,7 +4529,7 @@
     },
     {
       "path": "src/core/style/tracks.ts",
-      "lines": 142,
+      "lines": 143,
       "commands": [
         "style.setGridTracks"
       ],
@@ -4687,7 +4719,7 @@
     },
     {
       "path": "src/editor/canvas/chrome.tsx",
-      "lines": 960,
+      "lines": 961,
       "commands": [],
       "features": []
     },
@@ -4771,7 +4803,7 @@
     },
     {
       "path": "src/editor/canvas/quick-panel.tsx",
-      "lines": 488,
+      "lines": 489,
       "commands": [],
       "features": []
     },
@@ -5338,7 +5370,7 @@
     },
     {
       "path": "src/editor/motion/canvas.ts",
-      "lines": 39,
+      "lines": 40,
       "commands": [],
       "features": []
     },
@@ -5571,8 +5603,20 @@
       "features": []
     },
     {
+      "path": "src/editor/shell/breakpoint-tabs.tsx",
+      "lines": 72,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/shell/breakpoints-dialog.tsx",
+      "lines": 136,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/editor/shell/canvas.tsx",
-      "lines": 274,
+      "lines": 272,
       "commands": [],
       "features": []
     },
@@ -5644,13 +5688,13 @@
     },
     {
       "path": "src/editor/shell/field-face.tsx",
-      "lines": 47,
+      "lines": 52,
       "commands": [],
       "features": []
     },
     {
       "path": "src/editor/shell/field-origin.tsx",
-      "lines": 93,
+      "lines": 97,
       "commands": [],
       "features": []
     },
@@ -5698,7 +5742,7 @@
     },
     {
       "path": "src/editor/shell/inspector.tsx",
-      "lines": 774,
+      "lines": 775,
       "commands": [],
       "features": []
     },
@@ -5746,7 +5790,7 @@
     },
     {
       "path": "src/editor/shell/preview.tsx",
-      "lines": 61,
+      "lines": 62,
       "commands": [],
       "features": []
     },
@@ -5764,7 +5808,7 @@
     },
     {
       "path": "src/editor/shell/shell.tsx",
-      "lines": 182,
+      "lines": 184,
       "commands": [],
       "features": []
     },
@@ -5794,7 +5838,7 @@
     },
     {
       "path": "src/editor/shell/status-bar.tsx",
-      "lines": 205,
+      "lines": 206,
       "commands": [],
       "features": []
     },
@@ -5830,7 +5874,7 @@
     },
     {
       "path": "src/editor/store.ts",
-      "lines": 155,
+      "lines": 163,
       "commands": [],
       "features": []
     },
@@ -5878,8 +5922,21 @@
       ]
     },
     {
+      "path": "src/editor/view/breakpoint-table.ts",
+      "lines": 82,
+      "commands": [
+        "breakpoints.add",
+        "breakpoints.rename",
+        "breakpoints.setWidth",
+        "breakpoints.remove"
+      ],
+      "features": [
+        "project-breakpoints"
+      ]
+    },
+    {
       "path": "src/editor/view/breakpoints.ts",
-      "lines": 53,
+      "lines": 60,
       "commands": [
         "view.setViewportWidth",
         "view.setBreakpoint"
@@ -5888,6 +5945,7 @@
         "breakpoint-overrides",
         "breakpoints-switch",
         "preview-mode",
+        "project-breakpoints",
         "state-styles",
         "status-bar"
       ]
@@ -5989,6 +6047,7 @@
         "workspace.openDialog"
       ],
       "features": [
+        "project-breakpoints",
         "snap-toggle-settings",
         "workspace-settings-dialog"
       ]
@@ -6069,13 +6128,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 600,
+      "lines": 605,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6111,
+      "lines": 6153,
       "commands": [],
       "features": []
     },
@@ -6099,7 +6158,7 @@
     },
     {
       "path": "src/manifest/check.ts",
-      "lines": 2328,
+      "lines": 2329,
       "commands": [],
       "features": []
     },
@@ -6219,7 +6278,7 @@
     },
     {
       "path": "src/modules/layout-composer/host/handlers.ts",
-      "lines": 458,
+      "lines": 459,
       "commands": [
         "layout.enter",
         "layout.leave",
@@ -6344,7 +6403,7 @@
     },
     {
       "path": "src/modules/layout-composer/ui/panel.tsx",
-      "lines": 279,
+      "lines": 281,
       "commands": [],
       "features": []
     },

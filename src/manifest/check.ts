@@ -2149,8 +2149,9 @@ export function checkManifest(input: ManifestInput): CheckResult {
           return text !== null && (propertyById.has(text) || compositeById.has(text) || recipeById.has(text)) ? null : 'is a property, composite or recipe of properties.json';
         case 'attribute':
           return text !== null && attributeById.has(text) ? null : 'is an attribute of elements.json';
+        // a project makes breakpoints of its own (spec project-breakpoints): a step may name one by its id
         case 'breakpoint':
-          return text !== null && breakpointIds.has(text) ? null : 'is a breakpoint of properties.json';
+          return text !== null && (breakpointIds.has(text) || /^[a-z0-9]+(-[a-z0-9]+)*$/.test(text)) ? null : 'is a breakpoint id: one of properties.json or one the project makes';
         case 'state':
           return text !== null && stateIds.has(text) ? null : 'is a state of properties.json';
         case 'point':

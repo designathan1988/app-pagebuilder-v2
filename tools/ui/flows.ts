@@ -121,6 +121,27 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'breakpoints',
+    about: 'stage 2: a breakpoint made at the width the canvas shows, renamed and resized in the Breakpoints dialog, then removed',
+    steps: [
+      { click: '[data-menu="file"]' },
+      { files: { at: '[data-door="project.open#menu-file"]', paths: ['manifest/features/fixtures/responsive-title.json'] } },
+      { type: { at: '[data-door="view.setViewportWidth#viewport-width"] input.viewport-width__value', text: '900' } },
+      { door: 'breakpoints.add#toolbar-breakpoint-add-here' },
+      { expect: { message: 'Added the breakpoint Screen 900 at 900 px.' } },
+      { photo: 'made-at-900' },
+      { door: 'workspace.openDialog#toolbar-breakpoints-manage' },
+      { type: { at: '[data-door="breakpoints.rename#breakpoints-dialog-name"][data-args*="screen-900"]', text: 'Small tablet' } },
+      { expect: { message: 'Renamed the breakpoint to Small tablet.' } },
+      { type: { at: '[data-door="breakpoints.setWidth#breakpoints-dialog-width"][data-args*="screen-900"]', text: '960' } },
+      { expect: { message: 'Small tablet now holds screens up to 960 px.' } },
+      { photo: 'dialog-renamed-and-resized' },
+      { click: `[data-door="breakpoints.remove#breakpoints-dialog-remove"][data-args*='"tablet"']` },
+      { expect: { message: 'Removed the breakpoint Tablet and the styles set at it.' } },
+      { photo: 'tablet-removed' },
+    ],
+  },
+  {
     name: 'data-c3',
     about: 'jornada03 C3/H13: the header shared with every page, its menu changed once',
     steps: [

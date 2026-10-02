@@ -76,10 +76,10 @@ export function useDoor(entry: DoorEntry, args: Readonly<Record<string, unknown>
   // the predicate reads the layer the editor shows, as the store does when the command runs
   // the door's own arguments with the ones its place adds (the row it stands for): what the command would run with
   const runArgs = { ...entry.door.args, ...args };
-  const available = useEditorState((s) => built && (predicate?.test(s, layeredRules(s.ui), runArgs) ?? true));
+  const available = useEditorState((s) => built && (predicate?.test(s, layeredRules(s), runArgs) ?? true));
   // why it is not available now: its predicate's own refusal when it names one (Distribute: three elements, or
   // positioned ones; the audit's A3.23), else the door's reason (disabledReasonKey); one JSON text, stable between renders
-  const refused = useEditorState((s) => (built && !available && predicate?.refusal !== undefined ? JSON.stringify(predicate.refusal(s, layeredRules(s.ui), runArgs)) : null));
+  const refused = useEditorState((s) => (built && !available && predicate?.refusal !== undefined ? JSON.stringify(predicate.refusal(s, layeredRules(s), runArgs)) : null));
   // the words the label fills in for the state now (the command's labelParams), as one JSON text so the hook's value
   // is stable between renders
   const params = useEditorState((s) => (built ? JSON.stringify(labelParamsOf(entry, s)) : '{}'));
@@ -161,7 +161,7 @@ export function appliesNow(entry: DoorEntry, args: Readonly<Record<string, unkno
   const given = { ...entry.door.args, ...args };
   const readsAtRun = Object.entries(entry.command.args).some(([name, arg]) => (arg.type === 'file' || arg.type === 'files' || arg.type === 'clipboard') && !arg.optional && !(name in given));
   if (!readsAtRun) return store.canRun(entry.command.id, given as never);
-  return (PREDICATES as PredicateTable<EditorUi>)[entry.command.availability.predicate as PredicateId]?.test(store.getState(), layeredRules(store.getState().ui)) ?? true;
+  return (PREDICATES as PredicateTable<EditorUi>)[entry.command.availability.predicate as PredicateId]?.test(store.getState(), layeredRules(store.getState())) ?? true;
 }
 
 function chooseFile(): Promise<Uint8Array | null> {

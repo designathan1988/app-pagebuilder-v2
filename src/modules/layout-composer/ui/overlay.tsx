@@ -72,7 +72,7 @@ export function LayoutOverlay() {
   const layer = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState<Box | null>(null);
   // at a screen size narrower than the drawing, the regions as the page lays them out there, by region id (layer px)
-  const base = useEditorState((s) => activeBreakpoint(s.ui).base);
+  const base = useEditorState((s) => activeBreakpoint(s).base);
   const [measured, setMeasured] = useState<Readonly<Record<string, Measured>> | null>(null);
   const elements = useMemo(() => (container === null ? [] : markedElements(container)), [container]);
   const held = useSyncExternalStore(preview.subscribe, preview.get);

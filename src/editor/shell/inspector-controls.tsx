@@ -222,7 +222,7 @@ export function GridItemField({ entry, half }: { readonly entry: DoorEntry; read
   const appearance = useFieldAppearance(MODEL_RULES.compositeFacts.get(property)?.longhands ?? [property]);
   const place = (s: Parameters<typeof styleSource>[0]) => {
     const node = styleSource(s);
-    return node ? storedPlace(node, property, layeredRules(s.ui)) : null;
+    return node ? storedPlace(node, property, layeredRules(s)) : null;
   };
   const start = useEditorState((s) => place(s)?.start ?? null);
   const span = useEditorState((s) => place(s)?.span ?? 1);
@@ -291,7 +291,7 @@ export function GridTracks({ entry }: { readonly entry: DoorEntry }) {
   // breakpoint that inherits two columns shows those two, with the origin its row says, never "0 tracks" (J10)
   const value = useEditorState((s) => {
     const node = styleSource(s);
-    return node ? (storedValue(node, property, layeredRules(s.ui)) ?? shownText(node, property, layeredRules(s.ui))) : undefined;
+    return node ? (storedValue(node, property, layeredRules(s)) ?? shownText(node, property, layeredRules(s))) : undefined;
   });
   const tracks = tracksOf(value);
   const control = (d: DoorEntry) => (d.door.kind === 'panel-control' ? d.door.control : null);
@@ -409,7 +409,7 @@ function SpacingField({ entry, box, sides, properties, where, label }: { readonl
   const stored = useEditorState((st) => {
     const node = styleSource(st);
     if (!node) return undefined;
-    const values = properties.map((p) => storedValue(node, p, layeredRules(st.ui)));
+    const values = properties.map((p) => storedValue(node, p, layeredRules(st)));
     return values.some((v) => v === undefined) ? undefined : new Set(values).size === 1 ? values[0] : '';
   });
   // the document's value, else nothing; the effective value (one the sides share) is the placeholder (spec
@@ -494,7 +494,7 @@ export function BoxModel({ doors }: { readonly doors: readonly DoorEntry[] }) {
   const boxes = doors.filter((d) => d.door.kind === 'inspector-field' && d.door.composite !== null);
   // the boxes linked for the element the tab edits (inspector/spacing.ts, J27), as one text so the selector's answer
   // stays the same while nothing changes
-  const linkedText = useEditorState((st) => boxes.map((d) => targetOf(d)?.id ?? '').filter((id) => id !== '' && isLinked(st, id, layeredRules(st.ui))).join(' '));
+  const linkedText = useEditorState((st) => boxes.map((d) => targetOf(d)?.id ?? '').filter((id) => id !== '' && isLinked(st, id, layeredRules(st))).join(' '));
   const links = linkedText === '' ? NO_LINKS : linkedText.split(' ');
   const sideField = (css: string | undefined) => doors.find((d) => d.door.kind === 'inspector-field' && d.door.property === css);
   const draw = (level: number): ReactNode => {

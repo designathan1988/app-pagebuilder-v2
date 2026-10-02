@@ -7,8 +7,9 @@ import { openedPage, pageShown } from '../project/pages.ts';
 import { message, registerHandler, type Outcome } from '../commands/registry.ts';
 import type { DocumentJson } from '../document/model.ts';
 import type { MessageId } from '../../generated/ids.ts';
-import { manifest, numberConstant, numberConstantAt, pairConstant } from '../../manifest/runtime.ts';
+import { numberConstant, numberConstantAt, pairConstant } from '../../manifest/runtime.ts';
 import { settingOf, settingsOf, type GridName } from './grid-settings.ts';
+import { baseBreakpointOf, breakpointName } from '../document/breakpoints.ts';
 
 export type Grid = 'gridColumns' | 'gridRows' | 'gridDots' | 'foldLines';
 
@@ -75,8 +76,9 @@ function heldIn(document: DocumentJson, page: number, grid: GridName, setting: s
   const value = typeof at?.[setting] === 'number' ? at[setting] : flat;
   return typeof value === 'number' ? value : undefined;
 }
-// the breakpoint the base styles live at (properties.json): where a document's flat grid settings read from
-const baseBreakpointId = (): string => manifest.properties.breakpoints.find((b) => b.base === true)?.id ?? '';
+// the breakpoint the base styles live at (the base is the same in every project's table): where a document's flat grid
+// settings read from
+const baseBreakpointId = (): string => baseBreakpointOf({}).id;
 
 export const setGridSettings = registerHandler('grid.setSettings', ({ state, rules, words }, { grid, setting, value }): Outcome<never> => {
   // the write lands at the breakpoint in force, as every style write does (A3.8; A1.6)
@@ -89,7 +91,8 @@ export const setGridSettings = registerHandler('grid.setSettings', ({ state, rul
   const next = setting === 'count' ? Math.round(value) : value;
   if (!Number.isFinite(next) || next < min || next > max) return { kind: 'refused', message: message('status.grid.outOfRange', { setting: label, min, max }) };
   const breakpoint = rules.base.breakpoint;
-  const said = breakpoint === baseBreakpointId() ? message('status.grid.set', { setting: label, value: next }) : message('status.grid.setAt', { setting: label, value: next, breakpoint: words(manifest.properties.breakpoints.find((b) => b.id === breakpoint)?.labelKey as MessageId) });
+  const shown = rules.breakpointTable.find((b) => b.id === breakpoint);
+  const said = breakpoint === rules.baseLayer.breakpoint || shown === undefined ? message('status.grid.set', { setting: label, value: next }) : message('status.grid.setAt', { setting: label, value: next, breakpoint: breakpointName(shown, words) });
   if (page === null) throw new Error('grid: the document has no page');
   const held = page.tree.grid;
   const at = (held?.[grid] as Readonly<Record<string, Readonly<Record<string, number>>>> | undefined)?.[breakpoint];

@@ -125,7 +125,7 @@ function GridField({ entry, grid, setting, labelKey }: { readonly entry: DoorEnt
   const run = useRun();
   const label = t(labelKey as MessageId);
   // the field shows the setting at the breakpoint in force (A1.6), which its write also lands at
-  const value = useEditorState((s) => gridSetting(s.document, grid, setting, activeBreakpoint(s.ui).id));
+  const value = useEditorState((s) => gridSetting(s.document, grid, setting, activeBreakpoint(s).id));
   const door = useDoor(entry, { grid, setting }, label, ready(entry));
   // what is typed, until Enter keeps it or the field is left (a field's draft, not editor state)
   const [draft, setDraft] = useState<string | null>(null);

@@ -8,6 +8,7 @@ import type { InlineRun } from '../text/inline.ts';
 import type { Bound, Collection, DataItem, DataList, SharedRegion } from '../data/model.ts';
 import type { Behaviour, MotionInteraction, MotionTimeline } from '../motion/model.ts';
 import type { Authoring } from './authoring.ts';
+import type { ProjectBreakpoint } from './breakpoint-rules.ts';
 
 export type { NodeId };
 
@@ -157,6 +158,9 @@ export interface Page {
 }
 
 export interface DocumentJson {
+  // the project's own breakpoints, widest first (core/document/breakpoints.ts, spec project-breakpoints); absent while
+  // the project uses the default table of properties.json
+  readonly breakpoints?: readonly ProjectBreakpoint[];
   readonly language?: string;
   readonly codeLanguage?: string;
   readonly version: typeof DOCUMENT_VERSION;

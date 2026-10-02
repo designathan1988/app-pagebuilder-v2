@@ -520,7 +520,8 @@ the same store-owned width continuously. The current cascade is the narrowest no
 width includes the viewport, or the base above all media queries. The frame, Fit zoom, camera and preview use the
 temporary width; fields edit the matching cascade. No document change or undo entry is created. Choosing a breakpoint
 tab clears the temporary width. Reload restores the selected breakpoint at its reference width. Invalid or non-finite
-widths are refused without changing the viewport. Project-defined breakpoints are a subsequent stage 2 delivery.
+widths are refused without changing the viewport. A project may define its own breakpoints (see project-breakpoints);
+the tabs, the cascade and the media queries then read the project's table.
 
 Read from Pager's source (`reference/Pager`); references are `path:line` inside Pager.
 
@@ -8581,3 +8582,37 @@ lies inside another; components.create refuses it the same way). Two instances c
 copy. Detach on a page (regions.detach) leaves that page an ordinary copy that no longer follows; Stop sharing
 (regions.stopSharing) leaves every page an instance of an ordinary component. Each is one undo step. The export writes
 each page's copy as ordinary markup (one CSS class per element, as for any component).
+
+## project-breakpoints
+
+### Our rule
+
+- A project starts with the default table of properties.json (Desktop 1440 as the base, Laptop 1180, Tablet 834,
+  Phone 390). Its first change writes the project's own table into the document (`breakpoints`), widest first: the
+  base, then every other breakpoint by descending width, each width once. A document without a table uses the
+  default, so a project saved before this opens unchanged.
+- A breakpoint is an id (stable: the styles are stored under it), a name (a default's follows the person's language
+  until it is renamed), the widest screen it holds (a `max-width` media query), and the screen height the canvas shows
+  it at (the nearest breakpoint's when it is made). The base holds every width above the others.
+- **Create a breakpoint here** (`breakpoints.add`, the + after the frame's tabs and the Breakpoints dialog's Add):
+  a breakpoint at the width the canvas shows, named "Screen 900" (a fresh name when it is taken). It is shown at once,
+  gets its own tab (the tabs follow the table's order, widest first, in the frame's bar and in the preview bar) and
+  its own media query in the export.
+- **Breakpoints dialog** (View ▸ Breakpoints…, and the sliders button after the tabs): one row per breakpoint with
+  its name and its width; Enter or leaving a field keeps it (`breakpoints.rename`, `breakpoints.setWidth`); the
+  trash removes it (`breakpoints.remove`). The base has no trash.
+- A width stays between the neighbours' (the cascade's order never changes, so every style keeps its meaning).
+- Removing a breakpoint removes every style set at it (elements, classes, components) and its grid settings; a motion
+  listing it forgets it. The breakpoint shown gives way to the base when it is the one removed.
+- Each change is one undo step; undo restores the table and every removed style.
+- The tabs, the status bar, the inspector's origin badges, the Layout Composer and every message name a breakpoint by
+  its name; the canvas, the preview, the export and the import read the project's table.
+
+### Refusals
+
+- A width the table already has (`status.breakpoints.widthTaken`), outside 240 px to the base's width minus one
+  (`status.breakpoints.widthRange`), or past a neighbour's (`status.breakpoints.widthOrder`, naming the range).
+- An empty name (`status.breakpoints.nameEmpty`) or one another breakpoint shows (`status.breakpoints.nameTaken`).
+- Removing the base (`status.breakpoints.baseStays`), or a breakpoint a motion runs only at or starts on
+  (`status.breakpoints.usedByMotion`).
+- A breakpoint the project does not have (`status.breakpoints.unknown`).

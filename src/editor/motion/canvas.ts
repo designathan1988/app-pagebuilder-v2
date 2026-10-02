@@ -16,12 +16,13 @@ import { motionConfig, type RuntimeConfig } from '../../core/motion/export.ts';
 import type { RuntimeProblem } from './runtime/kit.ts';
 import { startOn } from './runtime/compose.ts';
 import type { MotionController } from './runtime/start.ts';
+import { rulesForDocument } from '../../core/document/breakpoints.ts';
 
 // the canvas's own mark of a rendered node (core/render/render.ts writes data-node on every element it draws)
 export const canvasSelector = (node: NodeId): string => `[data-node="${node.replaceAll('\\', '\\\\').replaceAll('"', '\\"')}"]`;
 
 export function canvasMotionConfig(document: DocumentJson, rules: ModelRules, everyTimeline = false): RuntimeConfig | null {
-  return motionConfig(document, { selectorOf: canvasSelector, breakpoints: rules.output.breakpoints.map(({ id, width, base }) => ({ id, width, base })), playedClassName, everyTimeline });
+  return motionConfig(document, { selectorOf: canvasSelector, breakpoints: rulesForDocument(rules, document).output.breakpoints.map(({ id, width, base }) => ({ id, width, base })), playedClassName, everyTimeline });
 }
 
 // Run mode: every interaction bound on the canvas's page. Null when the document holds none.

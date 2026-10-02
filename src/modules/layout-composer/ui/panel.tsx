@@ -12,7 +12,8 @@ import { DoorControl, Icon, useDoor } from '../../../editor/doors/door.tsx';
 import { markFieldKept, recordFieldInput } from '../../../editor/input/drafts.ts';
 import { useEditorState, useStore } from '../../../editor/store.ts';
 import { useT } from '../../../editor/text.ts';
-import { BREAKPOINTS, activeBreakpoint } from '../../../editor/view/breakpoints.ts';
+import { activeBreakpoint } from '../../../editor/view/breakpoints.ts';
+import { breakpointName, breakpointsOf } from '../../../core/document/breakpoints.ts';
 import { imageFiles } from '../../../core/files/files.ts';
 import type { DocumentJson, ProjectFile } from '../../../core/document/model.ts';
 import { STROKE_MODES } from '../gestures/recognize.ts';
@@ -148,7 +149,8 @@ export function LayoutPanel(): ReactNode {
   const t = useT();
   const composer = useEditorState((s) => composerOf(s.ui));
   const container = useEditorState((s) => (composer === null ? null : (locate(s.document, composer.target)?.node ?? null)));
-  const breakpoint = useEditorState((s) => activeBreakpoint(s.ui));
+  const breakpoint = useEditorState((s) => activeBreakpoint(s));
+  const table = useEditorState((s) => breakpointsOf(s.document));
   // the project's images: read from the files list the document holds, so the panel redraws only when it changes
   const files = useEditorState((s) => s.document.files);
   const images = useMemo(() => imageFiles({ files } as DocumentJson), [files]);
@@ -172,7 +174,7 @@ export function LayoutPanel(): ReactNode {
   const offered = suggestions(record.intent);
   const reference = record.intent.reference;
   // the widths check (spec "Layout Stress Testing"): the widest width at which a fixed region no longer fits
-  const widths = stressWidths(record.intent.viewport.width, BREAKPOINTS.map((b) => b.width), NARROWEST);
+  const widths = stressWidths(record.intent.viewport.width, table.map((b) => b.width), NARROWEST);
   const issues = stress(record.intent, widths.map((width) => ({ width, scale: 1, content: {} })));
   const breaking = issues.length === 0 ? null : issues.reduce((a, b) => (b.viewport > a.viewport ? b : a));
   return (
@@ -199,7 +201,7 @@ export function LayoutPanel(): ReactNode {
           <p className="layout-panel__text">{t('layout.respond.base')}</p>
         ) : (
           <>
-            <p className="layout-panel__text">{t('layout.respond.at', { breakpoint: t(breakpoint.labelKey as MessageId), width: breakpoint.width })}</p>
+            <p className="layout-panel__text">{t('layout.respond.at', { breakpoint: breakpointName(breakpoint, t), width: breakpoint.width })}</p>
             <div className="layout-panel__actions">
               {RESPONDS.map((entry) => (
                 <DoorControl key={entry.ref} entry={entry} />

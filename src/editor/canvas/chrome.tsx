@@ -55,6 +55,7 @@ import { ViewOverlays } from './view-overlays.tsx';
 import { GridOverlay } from './grid-overlay.tsx';
 // where a label and a resize handle may be drawn (canvas/placement.ts): the rules moved out of this file, which draws
 import { controlBoxes, handleHitBox, placeLabel, visibleCanvas, type Box, type Placement } from './placement.ts';
+import { breakpointName } from '../../core/document/breakpoints.ts';
 
 // the entries this module published before the placement rules moved out stay published here: consumers need not change
 export { controlBoxes, handleHitBox, placeLabel, visibleCanvas } from './placement.ts';
@@ -661,7 +662,7 @@ export function CanvasChrome() {
   const state = useEditorState((s) => activeState(s.ui));
   // the class the style target names (null for the element itself) and the breakpoint in view (A3.8)
   const styleClass = useEditorState((s) => styleClassOf(s));
-  const breakpoint = useEditorState((s) => activeBreakpoint(s.ui));
+  const breakpoint = useEditorState((s) => activeBreakpoint(s));
   const targetsText = useEditorState((s) => drawnTargets(s.document, s.selection));
   const targets = useMemo(() => JSON.parse(targetsText) as NodeId[], [targetsText]);
   // the drag in progress (pointer.ts): the drop indicator is drawn, the selection's label hides and its outline turns
@@ -948,7 +949,7 @@ export function CanvasChrome() {
                 </small>
               ) : null}
               {state.id !== BASE_STATE.id ? <small className="chrome__state">{t(state.labelKey as MessageId)}</small> : null}
-              {breakpoint.base !== true ? <small className="chrome__breakpoint">{t(breakpoint.labelKey as MessageId)}</small> : null}
+              {breakpoint.base !== true ? <small className="chrome__breakpoint">{breakpointName(breakpoint, t)}</small> : null}
             </>
           )}
         </div>

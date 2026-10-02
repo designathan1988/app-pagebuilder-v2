@@ -78,7 +78,7 @@ function targetLines(state: EditorState, node: NodeId): SnapLine[] {
   if (targets.includes(GUIDES) && state.ui.preferences.guidesHidden !== true)
     for (const guide of guidesOf(state.document)) lines.push({ axis: guide.axis === 'vertical' ? 'x' : 'y', at: guide.at, source: 'guide', target: guide.id, span: null });
   if (targets.includes(GRID) && pageBox !== null) {
-    const breakpoint = activeBreakpoint(state.ui).id;
+    const breakpoint = activeBreakpoint(state).id;
     if (gridShown(state, 'gridColumns')) {
       for (const band of columnBands(pageBox.width, columnsOf(state.document, breakpoint, openedPage(state))))
         for (const at of [band.x, band.x + band.width]) lines.push({ axis: 'x', at: pageBox.x + at, source: 'grid', target: null, span: null });

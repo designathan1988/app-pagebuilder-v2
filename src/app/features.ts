@@ -234,6 +234,7 @@ export const FEATURES = {
   'data-binding': registerFeature('data-binding'),
   'data-pages': registerFeature('data-pages'),
   'shared-regions': registerFeature('shared-regions'),
+  'project-breakpoints': registerFeature('project-breakpoints'),
 } as const satisfies FeatureTable;
 
 // Whether a feature is registered as built.

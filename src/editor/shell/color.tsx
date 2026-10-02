@@ -263,7 +263,7 @@ function Picker({ property, previous }: { readonly property: string; readonly pr
   const primary = useEditorState((s) => s.selection[0] ?? null);
   const stored = useEditorState((s) => {
     const node = styleSource(s);
-    return node ? storedValue(node, property, layeredRules(s.ui)) : undefined;
+    return node ? storedValue(node, property, layeredRules(s)) : undefined;
   });
   const properties = useMemo(() => [property], [property]);
   // the page's value too: a named colour the element holds (rebeccapurple) is read as the rgb() the page computes

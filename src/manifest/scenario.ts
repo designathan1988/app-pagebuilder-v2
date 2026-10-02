@@ -24,7 +24,7 @@ export interface DocumentPath {
 export const NODE_FIELDS = ['type', 'name', 'tag', 'attributes', 'classes', 'styles', 'text', 'children', 'locked', 'hidden', 'inline', 'customAttributes', 'component', 'componentPart', 'guides', 'grid', 'layerColors', 'animations', 'interactions', 'motions', 'behaviours', 'authoring', 'bind', 'dataList', 'dataItem'] as const;
 // the fields of the project itself a diff names with no node path ("/@swatches"): the saved colours and the design
 // tokens, and the project's document and code languages (model.ts)
-export const DOCUMENT_FIELDS = ['pages', 'swatches', 'tokens', 'classes', 'components', 'files', 'folders', 'motionTimelines', 'language', 'codeLanguage', 'collections'] as const;
+export const DOCUMENT_FIELDS = ['pages', 'swatches', 'tokens', 'classes', 'components', 'files', 'folders', 'motionTimelines', 'language', 'codeLanguage', 'collections', 'breakpoints'] as const;
 
 // The id a fixture file names: manifest/features/fixtures/<id>.json. "empty" has no file.
 export const EMPTY_FIXTURE = 'empty';

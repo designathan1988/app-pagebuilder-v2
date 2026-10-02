@@ -1,0 +1,1029 @@
+{
+  "group": "project-breakpoints",
+  "titleKey": "featureGroup.projectBreakpoints",
+  "features": [
+    {
+      "id": "project-breakpoints",
+      "titleKey": "feature.projectBreakpoints",
+      "commands": [
+        "breakpoints.add",
+        "breakpoints.rename",
+        "breakpoints.setWidth",
+        "breakpoints.remove",
+        "workspace.openDialog",
+        "view.setBreakpoint",
+        "view.setViewportWidth"
+      ],
+      "dependsOn": [
+        "breakpoints-switch"
+      ],
+      "spec": "spec/BEHAVIOUR.md#project-breakpoints",
+      "intent": {
+        "title": "The project's own breakpoints",
+        "steps": [
+          "Drag the canvas to a width and make a breakpoint there.",
+          "Open Breakpoints and rename one, give it another width, or remove it."
+        ],
+        "expected": [
+          "A made breakpoint gets its tab, is shown, and the export writes its media query.",
+          "A width stays between its neighbours; a removed breakpoint takes the styles set at it along; every change is one undo step."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "a-breakpoint-is-made-at-the-width-the-canvas-shows",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "view.setViewportWidth#viewport-width",
+              "args": {
+                "width": 900
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.add#toolbar-breakpoint-add-here",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "breakpoints.add#toolbar-breakpoint-add-here"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@breakpoints",
+                "value": [
+                  {
+                    "id": "desktop",
+                    "name": null,
+                    "width": 1440,
+                    "height": 900,
+                    "base": true
+                  },
+                  {
+                    "id": "laptop",
+                    "name": null,
+                    "width": 1180,
+                    "height": 800,
+                    "base": false
+                  },
+                  {
+                    "id": "screen-900",
+                    "name": "Screen 900",
+                    "width": 900,
+                    "height": 1194,
+                    "base": false
+                  },
+                  {
+                    "id": "tablet",
+                    "name": null,
+                    "width": 834,
+                    "height": 1194,
+                    "base": false
+                  },
+                  {
+                    "id": "phone",
+                    "name": null,
+                    "width": 390,
+                    "height": 844,
+                    "base": false
+                  }
+                ]
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.breakpoints.added",
+                  "params": {
+                    "name": "Screen 900",
+                    "width": 900
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-width-a-breakpoint-already-has-is-refused",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "view.setViewportWidth#viewport-width",
+              "args": {
+                "width": 834
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.add#toolbar-breakpoint-add-here",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "breakpoints.add#toolbar-breakpoint-add-here"
+          ],
+          "refusals": [
+            {
+              "key": "status.breakpoints.widthTaken",
+              "document": "unchanged"
+            }
+          ],
+          "expect": {
+            "document": [],
+            "selection": [],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.breakpoints.widthTaken",
+                  "params": {
+                    "width": 834,
+                    "name": "Tablet"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "the-dialog-adds-a-breakpoint-at-the-width-shown",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "view.setViewportWidth#viewport-width",
+              "args": {
+                "width": 900
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "workspace.openDialog#toolbar-breakpoints-manage",
+              "args": {
+                "dialog": "breakpoints"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.add#breakpoints-dialog-add",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "breakpoints.add#breakpoints-dialog-add"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@breakpoints",
+                "value": [
+                  {
+                    "id": "desktop",
+                    "name": null,
+                    "width": 1440,
+                    "height": 900,
+                    "base": true
+                  },
+                  {
+                    "id": "laptop",
+                    "name": null,
+                    "width": 1180,
+                    "height": 800,
+                    "base": false
+                  },
+                  {
+                    "id": "screen-900",
+                    "name": "Screen 900",
+                    "width": 900,
+                    "height": 1194,
+                    "base": false
+                  },
+                  {
+                    "id": "tablet",
+                    "name": null,
+                    "width": 834,
+                    "height": 1194,
+                    "base": false
+                  },
+                  {
+                    "id": "phone",
+                    "name": null,
+                    "width": 390,
+                    "height": 844,
+                    "base": false
+                  }
+                ]
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.breakpoints.added",
+                  "params": {
+                    "name": "Screen 900",
+                    "width": 900
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-breakpoint-is-renamed",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.openDialog#toolbar-breakpoints-manage",
+              "args": {
+                "dialog": "breakpoints"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.rename#breakpoints-dialog-name",
+              "args": {
+                "breakpoint": "tablet",
+                "name": "Tablet portrait"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "breakpoints.rename#breakpoints-dialog-name"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@breakpoints",
+                "value": [
+                  {
+                    "id": "desktop",
+                    "name": null,
+                    "width": 1440,
+                    "height": 900,
+                    "base": true
+                  },
+                  {
+                    "id": "laptop",
+                    "name": null,
+                    "width": 1180,
+                    "height": 800,
+                    "base": false
+                  },
+                  {
+                    "id": "tablet",
+                    "name": "Tablet portrait",
+                    "width": 834,
+                    "height": 1194,
+                    "base": false
+                  },
+                  {
+                    "id": "phone",
+                    "name": null,
+                    "width": 390,
+                    "height": 844,
+                    "base": false
+                  }
+                ]
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.breakpoints.renamed",
+                  "params": {
+                    "name": "Tablet portrait"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-name-another-breakpoint-shows-is-refused",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.openDialog#toolbar-breakpoints-manage",
+              "args": {
+                "dialog": "breakpoints"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.rename#breakpoints-dialog-name",
+              "args": {
+                "breakpoint": "tablet",
+                "name": "Phone"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "breakpoints.rename#breakpoints-dialog-name"
+          ],
+          "refusals": [
+            {
+              "key": "status.breakpoints.nameTaken",
+              "document": "unchanged"
+            }
+          ],
+          "expect": {
+            "document": [],
+            "selection": [],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.breakpoints.nameTaken",
+                  "params": {
+                    "name": "Phone"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-breakpoint-takes-another-width-between-its-neighbours",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.openDialog#toolbar-breakpoints-manage",
+              "args": {
+                "dialog": "breakpoints"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.setWidth#breakpoints-dialog-width",
+              "args": {
+                "breakpoint": "tablet",
+                "width": 800
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "breakpoints.setWidth#breakpoints-dialog-width"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@breakpoints",
+                "value": [
+                  {
+                    "id": "desktop",
+                    "name": null,
+                    "width": 1440,
+                    "height": 900,
+                    "base": true
+                  },
+                  {
+                    "id": "laptop",
+                    "name": null,
+                    "width": 1180,
+                    "height": 800,
+                    "base": false
+                  },
+                  {
+                    "id": "tablet",
+                    "name": null,
+                    "width": 800,
+                    "height": 1194,
+                    "base": false
+                  },
+                  {
+                    "id": "phone",
+                    "name": null,
+                    "width": 390,
+                    "height": 844,
+                    "base": false
+                  }
+                ]
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.breakpoints.resized",
+                  "params": {
+                    "name": "Tablet",
+                    "width": 800
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-width-past-a-neighbour-is-refused",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.openDialog#toolbar-breakpoints-manage",
+              "args": {
+                "dialog": "breakpoints"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.setWidth#breakpoints-dialog-width",
+              "args": {
+                "breakpoint": "tablet",
+                "width": 1200
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "breakpoints.setWidth#breakpoints-dialog-width"
+          ],
+          "refusals": [
+            {
+              "key": "status.breakpoints.widthOrder",
+              "document": "unchanged"
+            }
+          ],
+          "expect": {
+            "document": [],
+            "selection": [],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.breakpoints.widthOrder",
+                  "params": {
+                    "name": "Tablet",
+                    "min": 391,
+                    "max": 1179
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-breakpoint-is-removed-with-the-styles-set-at-it",
+          "setup": {
+            "fixture": "responsive-title",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.openDialog#toolbar-breakpoints-manage",
+              "args": {
+                "dialog": "breakpoints"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.remove#breakpoints-dialog-remove",
+              "args": {
+                "breakpoint": "tablet"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "breakpoints.remove#breakpoints-dialog-remove"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@breakpoints",
+                "value": [
+                  {
+                    "id": "desktop",
+                    "name": null,
+                    "width": 1440,
+                    "height": 900,
+                    "base": true
+                  },
+                  {
+                    "id": "laptop",
+                    "name": null,
+                    "width": 1180,
+                    "height": 800,
+                    "base": false
+                  },
+                  {
+                    "id": "phone",
+                    "name": null,
+                    "width": 390,
+                    "height": 844,
+                    "base": false
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles",
+                "value": {
+                  "desktop": {
+                    "base": {
+                      "font-size": "48px"
+                    }
+                  },
+                  "phone": {
+                    "base": {
+                      "font-size": "24px"
+                    }
+                  }
+                }
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.breakpoints.removed",
+                  "params": {
+                    "name": "Tablet"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-made-breakpoint-has-its-own-tab",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "view.setViewportWidth#viewport-width",
+              "args": {
+                "width": 900
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "breakpoints.add#toolbar-breakpoint-add-here",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "view.setBreakpoint#toolbar-breakpoint-tabs-desktop",
+              "args": {
+                "breakpoint": "desktop"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "view.setBreakpoint#toolbar-breakpoint-tabs-project",
+              "args": {
+                "breakpoint": "screen-900"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "view.setBreakpoint#toolbar-breakpoint-tabs-project"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@breakpoints",
+                "value": [
+                  {
+                    "id": "desktop",
+                    "name": null,
+                    "width": 1440,
+                    "height": 900,
+                    "base": true
+                  },
+                  {
+                    "id": "laptop",
+                    "name": null,
+                    "width": 1180,
+                    "height": 800,
+                    "base": false
+                  },
+                  {
+                    "id": "screen-900",
+                    "name": "Screen 900",
+                    "width": 900,
+                    "height": 1194,
+                    "base": false
+                  },
+                  {
+                    "id": "tablet",
+                    "name": null,
+                    "width": 834,
+                    "height": 1194,
+                    "base": false
+                  },
+                  {
+                    "id": "phone",
+                    "name": null,
+                    "width": 390,
+                    "height": 844,
+                    "base": false
+                  }
+                ]
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.breakpointActive",
+                  "params": {
+                    "breakpoint": "Screen 900"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "the-preview-shows-a-made-breakpoint",
+          "setup": {
+            "fixture": "project-breakpoints",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "view.enterPreview#key-ctrl-p-in-global",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "view.setBreakpoint#toolbar-preview-bar-project",
+              "args": {
+                "breakpoint": "screen-900"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "view.setBreakpoint#toolbar-preview-bar-project"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [],
+            "selection": [],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.breakpointPreviewed",
+                  "params": {
+                    "breakpoint": "Screen 900"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "the-breakpoints-dialog-opens-from-the-view-menu",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.openDialog#menu-view-breakpoints",
+              "args": {
+                "dialog": "breakpoints"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "workspace.openDialog#menu-view-breakpoints",
+            "workspace.openDialog#toolbar-breakpoints-manage"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [],
+            "selection": [],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": {
+              "regions": [
+                {
+                  "region": "breakpoints-dialog",
+                  "measure": "width",
+                  "relation": "greater-than",
+                  "value": 200,
+                  "reference": null
+                }
+              ],
+              "computed": []
+            },
+            "persistence": null,
+            "export": null
+          }
+        }
+      ]
+    }
+  ]
+}

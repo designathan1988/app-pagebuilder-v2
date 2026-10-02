@@ -49,6 +49,7 @@ import { SettingsTab } from './inspector-settings.tsx';
 import { Hints, useSingleNode } from '../inspector/selection.tsx';
 import { Affects, TargetChips, classBarControl } from './class-bar.tsx';
 import { Popover, usePopover } from './popover.tsx';
+import { breakpointName } from '../../core/document/breakpoints.ts';
 
 const SECTIONS = manifest.properties.sections;
 
@@ -99,7 +100,7 @@ const STYLE_SECTIONS = SECTIONS.filter((s) => (SECTION_DOORS.get(s.id) ?? []).le
 // field in that section. Its marks stay visible when the section is closed.
 function SectionOrigin({ section }: { readonly section: SectionId }) {
   const kinds = useEditorState((s) => {
-    const found = new Set(sectionProperties(section).map((property) => valueOrigin(s, [property], layeredRules(s.ui))?.kind));
+    const found = new Set(sectionProperties(section).map((property) => valueOrigin(s, [property], layeredRules(s))?.kind));
     return ['here', 'breakpoint', 'state', 'class', 'inherited'].filter((kind) => found.has(kind as 'here' | 'breakpoint' | 'state' | 'class' | 'inherited')).join(' ');
   });
   return <>{kinds.split(' ').filter(Boolean).map((kind) => <span key={kind} className="inspector-section__origin" data-origin={kind} aria-hidden="true" />)}</>;
@@ -131,7 +132,7 @@ function StyleSections() {
   const borderValuesText = useEditorState((state) => {
     const id = state.selection.length === 1 ? state.selection[0] : undefined;
     const selected = id === undefined ? null : locate(state.document, id)?.node ?? null;
-    return selected === null ? null : JSON.stringify(declaredBorderValues(state.document, selected, layeredRules(state.ui)));
+    return selected === null ? null : JSON.stringify(declaredBorderValues(state.document, selected, layeredRules(state)));
   });
   const borderValues = useMemo(() => borderValuesText === null ? null : JSON.parse(borderValuesText) as Readonly<Record<string, string>>, [borderValuesText]);
   const node = useSingleNode();
@@ -730,7 +731,7 @@ function SelectorBar() {
   const none = useEditorState((s) => s.selection.length === 0);
   // the state and the breakpoint the editor edits (view/style-state.ts, view/breakpoints.ts)
   const state = useEditorState((s) => activeState(s.ui));
-  const breakpoint = useEditorState((s) => activeBreakpoint(s.ui));
+  const breakpoint = useEditorState((s) => activeBreakpoint(s));
   const breakpointIcon = doorSlots('canvas-breakpoints').find((d) => d.door.args.breakpoint === breakpoint.id)?.door.icon ?? null;
   if (none) return <div className="selector-bar selector-bar--empty" data-region="inspector-selector-bar"><SelectedElement /></div>;
   return (
@@ -764,7 +765,7 @@ function SelectorBar() {
         />
         <span className="active-breakpoint" data-variant={breakpoint.id !== MODEL_RULES.baseLayer.breakpoint ? 'true' : undefined} title={t('inspector.activeBreakpoint')}>
           {breakpointIcon !== null ? <Icon name={breakpointIcon} size="sm" /> : null}
-          <span>{t(breakpoint.labelKey as MessageId)}</span>
+          <span>{breakpointName(breakpoint, t)}</span>
           <span className="active-breakpoint__width">{breakpoint.width}</span>
         </span>
       </div>

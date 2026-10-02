@@ -20,6 +20,7 @@ import type { Downloads } from '../ports/download.ts';
 import { reportEmptyChange, reportError, reportInvariantBreach } from '../incidents.ts';
 import type { IdGenerator } from '../ports/ids.ts';
 import { noLayout, type Layout } from '../ports/layout.ts';
+import { rulesForDocument } from '../document/breakpoint-rules.ts';
 
 export interface StoreState<Ui> {
   readonly document: DocumentJson;
@@ -168,7 +169,7 @@ export interface StoreOptions<Ui> {
   readonly readOnly?: () => boolean;
   // the layer style writes go to: the breakpoint and the state the editor edits (spec breakpoint-overrides,
   // state-styles); the base layer without it. Handlers read it as rules.base, the layer they write.
-  readonly layer?: (ui: Ui) => { readonly breakpoint: string; readonly state: string };
+  readonly layer?: (state: { readonly document: DocumentJson; readonly ui: Ui }) => { readonly breakpoint: string; readonly state: string };
   // the editing lock of the project (the tab-guard port, src/editor/persistence/tab-guard.ts): taken from another tab
   readonly editing?: { takeOver(): void };
   // where a file a command hands out goes (the browser's downloads in the editor); nowhere when absent
@@ -305,11 +306,16 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
 
   // what a handler reads: the state now, the ports, the words of the person's language, and whether the person
   // confirmed this run
-  // the rules of the layer the editor shows (the breakpoint and state picked): what a handler writes into and what a
-  // predicate reads, the same layer (an element made absolute at Phone is positioned there: the audit's A3.23)
+  // the rules of the project (its own breakpoints: core/document/breakpoints.ts), and of the layer the editor shows (the
+  // breakpoint and state picked): what a handler writes into and what a predicate reads. A breakpoint the project does
+  // not have (one removed, a preference from another project) is its base.
   const layeredNow = (): ModelRules => {
-    const layer = options.layer?.(state.ui);
-    return layer === undefined || (layer.breakpoint === rules.base.breakpoint && layer.state === rules.base.state) ? rules : { ...rules, base: layer };
+    const project = rulesForDocument(rules, state.document);
+    // the same layer for a predicate and a handler (an element made absolute at Phone is positioned there: A3.23)
+    const picked = options.layer?.(state);
+    if (picked === undefined) return project;
+    const layer = project.breakpoints.has(picked.breakpoint) ? picked : { ...picked, breakpoint: project.base.breakpoint };
+    return layer.breakpoint === project.base.breakpoint && layer.state === project.base.state ? project : { ...project, base: layer };
   };
   const handlerContext = (confirmed = false): HandlerContext<Ui> => {
     const ui = state.ui;
