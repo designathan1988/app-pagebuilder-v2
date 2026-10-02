@@ -8649,8 +8649,9 @@ None.
 ### Our rule
 
 - A property or composite of properties.json may offer ready-made values (`presets`: a name in the catalogues and
-  the CSS text it writes): today Shadow (Soft, Medium, Strong, Inner), Radius (Square, Small, Medium, Large, Pill)
-  and Opacity (Faint, Half, Mostly, Full).
+  the CSS text it writes): today Shadow (Soft, Medium, Strong, Inner), Radius (Square, Small, Medium, Large, Pill),
+  Opacity (Faint, Half, Mostly, Full), Border (Thin, Medium, Thick, Dashed) and Filter (Soft blur, Blur, Strong blur,
+  Greyscale).
 - They are drawn under the property's first field as thumbnails of themselves — a square wearing the shadow, the
   radius or the opacity — each named, its value in its tooltip.
 - A click writes the value on every selected element, one undo step, as typing it would: `style.set`, or a shadow's

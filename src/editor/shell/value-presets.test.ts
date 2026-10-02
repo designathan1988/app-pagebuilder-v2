@@ -12,7 +12,7 @@ const presetDoors = manifest.doors.filter((d) => d.door.kind === 'panel-control'
 
 describe('value presets', () => {
   it('offers some, each named', () => {
-    expect(targets.map((t) => t.id).sort()).toEqual(['border-radius', 'box-shadow', 'opacity']);
+    expect(targets.map((t) => t.id).sort()).toEqual(['border', 'border-radius', 'box-shadow', 'filter', 'opacity']);
   });
   for (const target of targets) {
     for (const preset of target.presets ?? []) {

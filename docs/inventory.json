@@ -4,9 +4,9 @@
     "built": 204,
     "commands": 356,
     "doors": 1307,
-    "scenarios": 1709,
+    "scenarios": 1710,
     "modules": 396,
-    "lines": 72865
+    "lines": 72873
   },
   "features": [
     {
@@ -1071,7 +1071,7 @@
         "style.setShadows"
       ],
       "doors": 203,
-      "scenarios": 3,
+      "scenarios": 4,
       "modules": [
         "src/core/style/set.ts",
         "src/core/style/shadows.ts"
@@ -6215,7 +6215,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6229,
+      "lines": 6237,
       "commands": [],
       "features": []
     },

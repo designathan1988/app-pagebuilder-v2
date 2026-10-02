@@ -3286,5 +3286,13 @@
   "easing.use": "Usar {easing}",
   "easing.bezier": "Sua própria curva",
   "easing.point": "Ponto de controle {point}",
-  "easing.apply": "Usar esta curva"
+  "easing.apply": "Usar esta curva",
+  "preset.filter.soft": "Desfoque leve",
+  "preset.filter.blur": "Desfoque",
+  "preset.filter.strong": "Desfoque forte",
+  "preset.filter.grey": "Tons de cinza",
+  "preset.border.thin": "Fino",
+  "preset.border.medium": "Médio",
+  "preset.border.thick": "Grosso",
+  "preset.border.dashed": "Tracejado"
 }

@@ -3741,7 +3741,29 @@
         "style.setFilter#inspector-filter-filter-remove",
         "style.setFilter#quick-panel-effects"
       ],
-      "subsets": []
+      "subsets": [],
+      "presets": [
+        {
+          "id": "soft",
+          "labelKey": "preset.filter.soft",
+          "value": "blur(2px)"
+        },
+        {
+          "id": "blur",
+          "labelKey": "preset.filter.blur",
+          "value": "blur(6px)"
+        },
+        {
+          "id": "strong",
+          "labelKey": "preset.filter.strong",
+          "value": "blur(12px)"
+        },
+        {
+          "id": "grey",
+          "labelKey": "preset.filter.grey",
+          "value": "grayscale(1)"
+        }
+      ]
     },
     {
       "id": "backdrop-filter",
@@ -4338,7 +4360,29 @@
         "style.setBorder#quick-panel-border"
       ],
       "subsets": [],
-      "essential": true
+      "essential": true,
+      "presets": [
+        {
+          "id": "thin",
+          "labelKey": "preset.border.thin",
+          "value": "1px solid currentcolor"
+        },
+        {
+          "id": "medium",
+          "labelKey": "preset.border.medium",
+          "value": "2px solid currentcolor"
+        },
+        {
+          "id": "thick",
+          "labelKey": "preset.border.thick",
+          "value": "4px solid currentcolor"
+        },
+        {
+          "id": "dashed",
+          "labelKey": "preset.border.dashed",
+          "value": "2px dashed currentcolor"
+        }
+      ]
     },
     {
       "id": "border-width",

@@ -6224,5 +6224,13 @@ export const MESSAGE_IDS = [
   "easing.bezier",
   "easing.point",
   "easing.apply",
+  "preset.filter.soft",
+  "preset.filter.blur",
+  "preset.filter.strong",
+  "preset.filter.grey",
+  "preset.border.thin",
+  "preset.border.medium",
+  "preset.border.thick",
+  "preset.border.dashed",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

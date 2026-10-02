@@ -1446,6 +1446,17 @@
   border-radius: var(--preset-value);
 }
 
+.value-preset[data-preset-of="border"] .value-preset__thumb {
+  border: var(--preset-value);
+  color: var(--color-text);
+}
+
+.value-preset[data-preset-of="filter"] .value-preset__thumb {
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-danger));
+  filter: var(--preset-value);
+}
+
 .value-preset[data-preset-of="opacity"] .value-preset__thumb {
   border-color: transparent;
   background: var(--color-text);

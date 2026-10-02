@@ -3286,5 +3286,13 @@
   "easing.use": "Use {easing}",
   "easing.bezier": "Your own curve",
   "easing.point": "Control point {point}",
-  "easing.apply": "Use this curve"
+  "easing.apply": "Use this curve",
+  "preset.filter.soft": "Soft blur",
+  "preset.filter.blur": "Blur",
+  "preset.filter.strong": "Strong blur",
+  "preset.filter.grey": "Greyscale",
+  "preset.border.thin": "Thin",
+  "preset.border.medium": "Medium",
+  "preset.border.thick": "Thick",
+  "preset.border.dashed": "Dashed"
 }

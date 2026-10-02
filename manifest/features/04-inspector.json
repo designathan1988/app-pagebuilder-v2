@@ -41265,6 +41265,70 @@
             "persistence": null,
             "export": null
           }
+        },
+        {
+          "id": "a-blur-is-chosen-by-its-thumbnail",
+          "setup": {
+            "fixture": "responsive-title",
+            "selection": [
+              "/Page/Title"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "style.set#inspector-value-preset",
+              "args": {
+                "property": "filter",
+                "value": "blur(6px)"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "style.set#inspector-value-preset"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/desktop/base/filter",
+                "value": "blur(6px)"
+              }
+            ],
+            "selection": [
+              "/Page/Title"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Title",
+                  "property": "filter",
+                  "value": "blur(6px)"
+                }
+              ],
+              "geometry": [],
+              "feedback": []
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
         }
       ]
     }
