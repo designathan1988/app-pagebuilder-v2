@@ -52,3 +52,38 @@ describe('the residual stylesheet of a captured page', () => {
     expect(capturedPageCss(document, home)).toBe('');
   });
 });
+
+describe('a state an element does not take', () => {
+  it('is reported, and the import stays a valid document', () => {
+    const markup = '<!doctype html><html><head><style>a:visited { color: red; }</style></head><body><a href="https://example.com/"><div>Card</div></a></body></html>';
+    const ran = runHandler(importHtmlCommand, documentOf({ pages: [] }), { files: [file('index.html', 'text/html', markup)] }, { confirmed: true });
+    expect(ran.outcome.kind).toBe('change');
+    expect(ran.problems).toEqual([]);
+  });
+});
+
+describe('what the importer keeps of a page', () => {
+  const run = (markup: string) => {
+    const ran = runHandler(importHtmlCommand, documentOf({ pages: [] }), { files: [file('index.html', 'text/html', markup)] }, { confirmed: true });
+    if (ran.outcome.kind !== 'change') throw new Error(JSON.stringify(ran.outcome));
+    expect(ran.problems).toEqual([]);
+    return ran.document.pages[0]?.tree;
+  };
+  it('keeps what an unknown element holds, in its place', () => {
+    const tree = run('<!doctype html><html><body><main><x-card><p>Kept</p></x-card></main></body></html>');
+    expect(JSON.stringify(tree)).toContain('"text":"Kept"');
+  });
+  it('takes the hidden attribute as the element hidden', () => {
+    const tree = run('<!doctype html><html><body><div hidden><p>Closed</p></div></body></html>');
+    expect(tree?.children[0]?.hidden).toBe(true);
+  });
+  it('ranks a class above any number of types, as CSS does', () => {
+    const tree = run('<!doctype html><html><head><style>.lead { color: rgb(1, 2, 3); } main p { color: rgb(9, 9, 9); }</style></head><body><main><p class="lead">A</p></main></body></html>');
+    expect(JSON.stringify(tree)).toContain('rgb(1, 2, 3)');
+    expect(JSON.stringify(tree)).not.toContain('rgb(9, 9, 9)');
+  });
+  it('matches a descendant rule on a class the element’s own rule took', () => {
+    const tree = run('<!doctype html><html><head><style>.box { padding: 4px; } .box p { color: rgb(4, 5, 6); }</style></head><body><div class="box"><p>B</p></div></body></html>');
+    expect(JSON.stringify(tree)).toContain('rgb(4, 5, 6)');
+  });
+});

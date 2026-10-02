@@ -13,7 +13,16 @@
 <img class="cup" src="assets/cup.svg" alt="A cup">
 <div class="band"></div>
 <a class="more" href="/plans/">See the plans</a>
+<x-badge class="badge">Fresh</x-badge>
 </main>
+<script>
+customElements.define('x-badge', class extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' }).innerHTML = '<style>:host { display: block; } p { color: rgb(185, 81, 42); }</style><p><slot></slot> beans</p>';
+  }
+});
+</script>
 <script>document.querySelector('.lead').insertAdjacentHTML('afterend', '<p class="late">Added by a script</p>');</script>
 </body>
 </html>

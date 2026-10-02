@@ -477,6 +477,7 @@ function build(child: MarkupChild, builder: Builder, ancestors: readonly string[
     for (const grand of child.children) {
       const made = build(grand, builder, ancestors);
       if ('node' in made) inner.push(made.node);
+      else if ('nodes' in made) inner.push(...made.nodes);
     }
     return { nodes: inner };
   }
@@ -502,8 +503,15 @@ function build(child: MarkupChild, builder: Builder, ancestors: readonly string[
     if (builder.mode === 'import') builder.report.attributes.push(line);
     else builder.dropped.attributes += 1;
   }
+  // the HTML hidden attribute is the editor's own Hide (spec hide-element): the element stays in the document and in
+  // Layers, the canvas does not draw it, and the export writes it hidden again (a captured page's closed dropdown)
+  let hiddenFlag = false;
   for (const [html, value] of child.attributes) {
     if (html === 'class') continue;
+    if (html === 'hidden') {
+      hiddenFlag = true;
+      continue;
+    }
     // the inline style is read with the stylesheet's rules (the styles pass), not as an attribute
     if (html === 'style') {
       if (builder.mode === 'import') inlineStyle = value;
@@ -536,6 +544,7 @@ function build(child: MarkupChild, builder: Builder, ancestors: readonly string[
     ...start,
     attributes: attributes as DocNode['attributes'],
     ...(Object.keys(customAttributes).length === 0 ? {} : { customAttributes }),
+    ...(hiddenFlag ? { hidden: true as const } : {}),
   };
   builder.lines.set(made.id, line);
   if (inlineStyle !== null) builder.inline.set(made.id, styleDeclarations(builder, inlineStyle, line));
@@ -584,6 +593,8 @@ function buildChildren(children: readonly MarkupChild[], parentTag: string, ance
     flushPhrasing();
     const inner = build(grand, builder, ancestors);
     if ('node' in inner) place(inner.node, parentTag, ancestors, out, builder);
+    // an unknown element unwrapped (a custom element): its children take its place (they were dropped)
+    else if ('nodes' in inner) for (const one of inner.nodes) place(one, parentTag, ancestors, out, builder);
   }
   flushPhrasing();
   return out;
@@ -867,7 +878,9 @@ function applyStyles(tree: DocNode, builder: Builder, sources: readonly SheetSou
     kept.set(node.id, classes);
     const facts: Facts = {
       tag: node.tag,
-      classes,
+      // every class the markup gave it, the export's own among them: a descendant rule (.card p) names it whether the
+      // element keeps it or its rule becomes the element's own styles
+      classes: node.classes,
       id: typeof node.attributes.id === 'string' ? node.attributes.id : null,
       attributes: cssAttributes(node, rules),
     };
@@ -888,10 +901,19 @@ function applyStyles(tree: DocNode, builder: Builder, sources: readonly SheetSou
       // list); every other rule applies where the matcher says it does
       const ownRule = one.classRule !== null && one.classRule === generated;
       if (!ownRule && !matches(one.bare, facts, ancestors)) continue;
+      // a state the element's type does not take (:visited on a block that is a link) is no layer of it: the rule is
+      // reported, never written where the document cannot hold it
+      const takes = rules.stateElements.get(one.state);
+      if (one.state !== rules.baseLayer.state && takes !== undefined && takes !== null && !takes.includes(node.type)) {
+        add(builder.report.unmapped, one.source, one.rule.line);
+        continue;
+      }
       const layer = layerOf(one.media.breakpoint ?? rules.baseLayer.breakpoint, one.state);
       for (const declaration of one.rule.declarations) {
         for (const [property, value] of storedDeclarations(builder, declaration.text, declaration.line, one.source)) {
-          const rank = [declaration.important ? 1 : 0, 0, one.bare.specificity[0], one.bare.specificity[1] + one.bare.specificity[2], one.order];
+          // importance, the style attribute, then ids, classes and types, each counted apart (as CSS ranks them: one class
+          // outweighs any number of types), then source order
+          const rank = [declaration.important ? 1 : 0, 0, one.bare.specificity[0], one.bare.specificity[1], one.bare.specificity[2], one.order];
           const held = layer.own.get(property);
           if (held === undefined || higher(rank, held.rank)) layer.own.set(property, { value, rank });
         }
@@ -900,7 +922,7 @@ function applyStyles(tree: DocNode, builder: Builder, sources: readonly SheetSou
     // the element's own style attribute: above any selector, below an !important declaration (as CSS has it)
     const base = layerOf(rules.baseLayer.breakpoint, rules.baseLayer.state);
     for (const [property, value] of builder.inline.get(node.id) ?? []) {
-      const rank = [0, 1, 0, 0, order + 1];
+      const rank = [0, 1, 0, 0, 0, order + 1];
       const held = base.own.get(property);
       if (held === undefined || higher(rank, held.rank)) base.own.set(property, { value, rank });
     }
@@ -923,7 +945,7 @@ function applyStyles(tree: DocNode, builder: Builder, sources: readonly SheetSou
       byLayer.set(layerKey, own);
       for (const declaration of one.rule.declarations) {
         for (const [property, value] of storedDeclarations(builder, declaration.text, declaration.line, one.source)) {
-          const rank = [declaration.important ? 1 : 0, 0, 0, 0, one.order];
+          const rank = [declaration.important ? 1 : 0, 0, 0, 0, 0, one.order];
           const held = own.get(property);
           if (held === undefined || higher(rank, held.rank)) own.set(property, { value, rank });
         }
@@ -1029,6 +1051,7 @@ export function nodesFromMarkup(markup: string, make: NodeMaker, context: Handle
     const made = build(child, builder, []);
     if (builder.problem !== null) return builder.problem;
     if ('node' in made) place(made.node, null, [], nodes, builder);
+    else if ('nodes' in made) for (const one of made.nodes) place(one, null, [], nodes, builder);
     if (builder.problem !== null) return builder.problem;
   }
   return { nodes, dropped: builder.dropped };
@@ -1390,5 +1413,26 @@ export function residualCss(text: string, from: string, at: string, context: Han
       }
       return [];
     });
-  return ast.type === 'StyleSheet' ? rulesOf(ast.children.toArray(), false).join('\n') : '';
+  const residual = ast.type === 'StyleSheet' ? rulesOf(ast.children.toArray(), false).join('\n') : '';
+  return residual === '' ? '' : byCaptureClass(residual);
+}
+
+// A captured element keeps the classes its markup gave it in data-capture-class (the Companion writes it), whatever the
+// import did with them (a class it made the element's own styles is dropped from the element): the residual's class
+// selectors name that attribute instead ([data-capture-class~="name"], the same specificity), so they still match.
+function byCaptureClass(css: string): string {
+  let ast: CssTreeNode;
+  try {
+    ast = parseCssTree(css);
+  } catch {
+    return css;
+  }
+  walkCssTree(ast, {
+    visit: 'ClassSelector',
+    enter(node, item, list) {
+      if (list === null || item === null) return;
+      list.replace(item, list.createItem({ type: 'AttributeSelector', name: { type: 'Identifier', name: 'data-capture-class' }, matcher: '~=', value: { type: 'String', value: node.name }, flags: null }));
+    },
+  });
+  return generateCssTree(ast);
 }

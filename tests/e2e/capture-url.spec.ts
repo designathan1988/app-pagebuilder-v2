@@ -59,6 +59,9 @@ test('a web address is captured as its script left it and imported as a page', r
   await expect(frame.getByRole('heading', { name: 'Grão Norte' })).toBeVisible();
   // what the site's script added after load is there
   await expect(frame.getByText('Added by a script')).toBeVisible();
+  // a web component's shadow DOM is flattened: its slot holds the light text, its own text and style come with it
+  await expect(frame.getByText('Fresh beans')).toBeVisible();
+  expect(await frame.getByText('Fresh beans').evaluate((el) => getComputedStyle(el).color)).toBe('rgb(185, 81, 42)');
   // the stylesheet's rules, as classes: the brand colour, the lead's colour of the <style>
   expect(await frame.getByRole('heading', { name: 'Grão Norte' }).evaluate((el) => getComputedStyle(el).color)).toBe('rgb(245, 230, 211)');
   expect(await frame.getByText('Fresh coffee, roasted every week.').evaluate((el) => getComputedStyle(el).color)).toBe('rgb(122, 62, 29)');

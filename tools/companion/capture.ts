@@ -8,6 +8,7 @@
 // two captured pages written from one file to the other: the files File › Import HTML takes (src/core/import/import.ts).
 import type { Browser, Page } from '@playwright/test';
 import { chromium } from '@playwright/test';
+import { generate as generateCss, parse as parseCss, walk as walkCss, type CssNode } from 'css-tree';
 
 export interface CapturedFile {
   readonly path: string;
@@ -68,6 +69,40 @@ const pageKey = (url: string): string => {
 };
 // a project path written from a page's own folder (img/a.png from about/index.html is ../img/a.png)
 const fromPage = (page: string, target: string): string => '../'.repeat(page.split('/').length - 1) + target;
+// A sheet's rules with its custom elements' tags written as the class their divs wear (mdn-dropdown is
+// .ce-mdn-dropdown), and, for a shadow root's sheet (`scope`, its host's tag), every rule kept within its host: :host is
+// the host itself, ::slotted(x) an x inside it, any other selector a descendant of it. A sheet that does not parse is
+// kept as it is.
+export function scopeCss(text: string, scope: string | null, custom: ReadonlySet<string>): string {
+  if (scope === null && custom.size === 0) return text;
+  let ast: CssNode;
+  try {
+    ast = parseCss(text);
+  } catch {
+    return text;
+  }
+  walkCss(ast, {
+    visit: 'Rule',
+    enter(rule) {
+      if (rule.prelude.type !== 'SelectorList' || (this.atrule !== null && /keyframes$/i.test(this.atrule.name))) return;
+      const selectors = rule.prelude.children.toArray().map((selector) => {
+        let out = generateCss(selector).replace(/(^|[\s>+~(,])([a-z][a-z0-9]*-[a-z0-9-]*)(?=[\s>+~.#:[)]|$)/g, (all, before: string, tag: string) => (custom.has(tag) ? `${before}.ce-${tag}` : all));
+        if (scope !== null) {
+          out = out.replace(/::slotted\(([^)]*)\)/g, '$1');
+          out = /:host\b/.test(out) ? out.replace(/:host\(([^)]*)\)/g, `.ce-${scope}$1`).replace(/:host\b/g, `.ce-${scope}`) : `.ce-${scope} ${out}`;
+        }
+        return out;
+      });
+      try {
+        rule.prelude = parseCss(selectors.join(','), { context: 'selectorList' }) as typeof rule.prelude;
+      } catch {
+        // a selector the rewrite could not keep leaves the rule as it was
+      }
+    },
+  });
+  return generateCss(ast);
+}
+
 // a link between two pages of the project, written from one's folder to the other
 function between(from: string, to: string): string {
   const base = from.split('/').slice(0, -1);
@@ -89,6 +124,8 @@ export async function capture(address: string, options: { readonly width?: numbe
     const files: CapturedFile[] = [];
     const assets = new Map<string, string>();
     const sheetPaths = new Map<string, string>();
+    // the custom elements the pages met so far (each a div wearing ce-<tag>)
+    const customTags = new Set<string>();
     // one asset of the site downloaded once, under its folder, by the order it was met
     const fetchAsset = async (url: string, folder: string): Promise<string | null> => {
       const known = assets.get(url);
@@ -152,22 +189,81 @@ export async function capture(address: string, options: { readonly width?: numbe
       // what the page holds now: its markup (scripts and the settle style left out), its sheets in order, its images,
       // and its links to other pages of the site, each marked until the crawl knows which pages it took
       const read = await page.evaluate((origin) => {
-        const sheets: { readonly href: string | null; readonly text: string | null }[] = [];
+        const sheets: { readonly href: string | null; readonly text: string | null; readonly scope: string | null }[] = [];
         for (const el of document.querySelectorAll('link[rel~="stylesheet"][href], style')) {
-          if (el instanceof HTMLLinkElement) sheets.push({ href: el.href, text: null });
-          else if (el.textContent !== null && !el.textContent.includes('animation-play-state:paused!important')) sheets.push({ href: null, text: el.textContent });
+          if (el instanceof HTMLLinkElement) sheets.push({ href: el.href, text: null, scope: null });
+          else if (el.textContent !== null && !el.textContent.includes('animation-play-state:paused!important')) sheets.push({ href: null, text: el.textContent, scope: null });
         }
-        const clone = document.documentElement.cloneNode(true) as HTMLElement;
-        for (const el of clone.querySelectorAll('script, noscript, link[rel~="stylesheet"], style, link[rel="preload"], link[rel="modulepreload"]')) el.remove();
+        // the custom elements met (a tag with a dash): each becomes a div wearing the class ce-<tag>, which the page's and
+        // the shadow roots' rules are rewritten to (scopeCss), so the import keeps it as an element instead of
+        // unwrapping it, and a shadow root's rules stay within their host
+        const custom = new Set<string>();
+        // The page as it is drawn, shadow DOM flattened (the plan's stage 12): a host's open shadow root stands in its
+        // place, a <slot> holds the nodes assigned to it (its own fallback when none is), and the host's light children
+        // that no slot takes are not drawn, so they go; a shadow root's styles join the page's sheets, :host written as
+        // the host's own tag. An image is marked with the source the browser chose for it (its currentSrc).
         const images: { readonly index: number; readonly src: string }[] = [];
-        clone.querySelectorAll('img').forEach((img, index) => {
-          const live = document.querySelectorAll('img')[index];
-          const src = (live as HTMLImageElement | undefined)?.currentSrc || img.getAttribute('src') || '';
-          img.removeAttribute('srcset');
-          img.removeAttribute('loading');
-          img.setAttribute('src', `__capture_image_${index}__`);
-          if (src !== '') images.push({ index, src: new URL(src, document.baseURI).href });
-        });
+        // `shadowed`: the node lies in a shadow tree or is slotted into one, where the rules that hide it (a closed
+        // dropdown's slot, :host(:not([open]))) do not survive the flattening: an element the page does not draw there
+        // comes hidden (kept, not drawn), as the page showed it
+        const flat = (node: Node, shadowed = false): Node | null => {
+          if (!(node instanceof Element)) return node.cloneNode(false);
+          let copy = node.cloneNode(false) as Element;
+          const undrawn = shadowed && getComputedStyle(node).display === 'none';
+          if (node.localName.includes('-')) {
+            custom.add(node.localName);
+            copy = document.createElement('div');
+            for (const attribute of node.attributes) copy.setAttribute(attribute.name, attribute.value);
+            copy.classList.add(`ce-${node.localName}`);
+          }
+          if (undrawn) copy.setAttribute('hidden', '');
+          // the classes the markup gave it, kept apart: the import may make a class the element's own styles and drop it,
+          // and the residual stylesheet's rules name these (core/import residualCss)
+          if (copy.getAttribute('class')) copy.setAttribute('data-capture-class', copy.getAttribute('class') as string);
+          if (node instanceof HTMLImageElement) {
+            const src = node.currentSrc || node.getAttribute('src') || '';
+            const index = images.length;
+            copy.removeAttribute('srcset');
+            copy.removeAttribute('loading');
+            copy.setAttribute('src', `__capture_image_${index}__`);
+            images.push({ index, src: src === '' ? '' : new URL(src, document.baseURI).href });
+            return copy;
+          }
+          const root = node.shadowRoot;
+          if (root !== null) {
+            const tag = node.localName;
+            for (const style of root.querySelectorAll('style')) if (style.textContent !== null) sheets.push({ href: null, text: style.textContent, scope: tag });
+            for (const sheet of root.adoptedStyleSheets) {
+              try {
+                sheets.push({ href: null, text: [...sheet.cssRules].map((rule) => rule.cssText).join('\n'), scope: tag });
+              } catch {
+                // a sheet whose rules cannot be read is left out
+              }
+            }
+          }
+          const children = root === null ? [...node.childNodes] : [...root.childNodes];
+          for (const child of children) {
+            if (child instanceof HTMLStyleElement && root !== null) continue;
+            if (child instanceof HTMLSlotElement) {
+              const assigned = child.assignedNodes({ flatten: true });
+              // a slot the page does not draw draws none of what it holds
+              const shut = getComputedStyle(child).display === 'none';
+              for (const one of assigned.length > 0 ? assigned : [...child.childNodes]) {
+                const made = flat(one, true);
+                if (made instanceof Element && shut) made.setAttribute('hidden', '');
+                if (made !== null && (!shut || made instanceof Element)) copy.append(made);
+              }
+              continue;
+            }
+            const made = flat(child, shadowed || root !== null);
+            if (made !== null) copy.append(made);
+          }
+          return copy;
+        };
+        const clone = flat(document.documentElement) as HTMLElement;
+        for (const el of clone.querySelectorAll('script, noscript, link[rel~="stylesheet"], style, link[rel="preload"], link[rel="modulepreload"]')) el.remove();
+        // an image with no source keeps none (its mark is cleared once the sources are written)
+        const sourced = images.filter((one) => one.src !== '');
         const links: string[] = [];
         clone.querySelectorAll('a[href]').forEach((a) => {
           const raw = a.getAttribute('href') ?? '';
@@ -180,10 +276,18 @@ export async function capture(address: string, options: { readonly width?: numbe
           a.setAttribute('href', `__capture_link__${at.origin}${at.pathname}__${at.hash}__`);
           links.push(`${at.origin}${at.pathname}`);
         });
-        return { title: document.title, html: `<!doctype html>\n${clone.outerHTML}`, sheets, images, links };
+        return { title: document.title, html: `<!doctype html>\n${clone.outerHTML}`, sheets, images: sourced, links, custom: [...custom] };
       }, start.origin);
       if (title === '') title = read.title;
       const sheetLinks: string[] = [];
+      for (const tag of read.custom) customTags.add(tag);
+      // a custom element is inline unless a rule says otherwise, as the browser draws one; the div it became is not
+      if (read.custom.length > 0) {
+        inline += 1;
+        const at = `css/inline-${inline}.css`;
+        files.push({ path: at, type: 'text/css', base64: Buffer.from(read.custom.map((tag) => `.ce-${tag}{display:inline}`).join('\n'), 'utf8').toString('base64') });
+        sheetLinks.push(`<link rel="stylesheet" href="${fromPage(path, at)}">`);
+      }
       for (const sheet of read.sheets) {
         let at: string | undefined;
         if (sheet.href !== null) {
@@ -193,12 +297,12 @@ export async function capture(address: string, options: { readonly width?: numbe
             if (got === null || !got.ok()) continue;
             at = `css/style-${sheetPaths.size + 1}.css`;
             sheetPaths.set(sheet.href, at);
-            files.push({ path: at, type: 'text/css', base64: Buffer.from(await localSheet(await got.text(), sheet.href), 'utf8').toString('base64') });
+            files.push({ path: at, type: 'text/css', base64: Buffer.from(await localSheet(scopeCss(await got.text(), null, customTags), sheet.href), 'utf8').toString('base64') });
           }
         } else if (sheet.text !== null) {
           inline += 1;
           at = `css/inline-${inline}.css`;
-          files.push({ path: at, type: 'text/css', base64: Buffer.from(await localSheet(sheet.text, base), 'utf8').toString('base64') });
+          files.push({ path: at, type: 'text/css', base64: Buffer.from(await localSheet(scopeCss(sheet.text, sheet.scope, customTags), base), 'utf8').toString('base64') });
         }
         if (at !== undefined) sheetLinks.push(`<link rel="stylesheet" href="${fromPage(path, at)}">`);
       }

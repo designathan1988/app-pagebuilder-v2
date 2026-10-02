@@ -8911,6 +8911,13 @@ instance (`status.locked.edit`).
   page that is no capture keeps none.
 - A link or a label that names no element of the captured page (one a script removed) is released, and the report
   says so (`status.import.released`), so the import is always a valid document.
+- Shadow DOM is flattened: a host's open shadow root stands in its place, a slot holds the nodes assigned to it, and
+  what the page does not draw there (a closed dropdown) comes hidden. A custom element (a tag with a dash) becomes a
+  `div` wearing the class `ce-<tag>`; the page's rules for the tag and a shadow root's own rules are rewritten to that
+  class, a shadow root's rules kept within their host (`:host` is the host, another selector a descendant of it).
+- The import keeps the content of an element it does not know (it was dropped), takes the HTML `hidden` attribute as
+  the element hidden (spec hide-element), ranks a rule by ids, then classes, then types (a class outweighs any number of
+  types), and matches a descendant rule on every class the markup gave an element.
 - **Pages of the site** (1 by default, at most 30): with more than one, the Companion follows the links of the page to
   other pages of the same site, breadth first, until it holds that many; each page lands at a path like its address
   (`/` index.html, `/plans/` plans/index.html), a stylesheet or an asset shared by several is downloaded once, and a
