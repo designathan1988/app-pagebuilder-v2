@@ -59,7 +59,10 @@ export type ProblemCode =
   // (or would be lost), a declaration the browser does not take
   | 'container'
   | 'content-missing'
-  | 'declaration';
+  | 'declaration'
+  // a property the person set: a page element keeps its own tag; a value that is not one of the property's
+  | 'content-semantic'
+  | 'value';
 
 export interface LayoutProblem {
   readonly code: ProblemCode;

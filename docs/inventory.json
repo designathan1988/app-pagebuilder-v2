@@ -2,11 +2,11 @@
   "totals": {
     "features": 191,
     "built": 190,
-    "commands": 284,
-    "doors": 1145,
-    "scenarios": 1469,
+    "commands": 287,
+    "doors": 1158,
+    "scenarios": 1482,
     "modules": 331,
-    "lines": 59304
+    "lines": 59634
   },
   "features": [
     {
@@ -2853,10 +2853,13 @@
         "layout.select",
         "layout.delete",
         "layout.view",
+        "layout.configure",
+        "layout.interpret",
+        "layout.respond",
         "workspace.setPanelOpen"
       ],
-      "doors": 38,
-      "scenarios": 14,
+      "doors": 51,
+      "scenarios": 27,
       "modules": [
         "src/editor/workspace/panels.ts",
         "src/modules/layout-composer/host/handlers.ts"
@@ -5441,13 +5444,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 523,
+      "lines": 526,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 5194,
+      "lines": 5260,
       "commands": [],
       "features": []
     },
@@ -5591,14 +5594,17 @@
     },
     {
       "path": "src/modules/layout-composer/host/handlers.ts",
-      "lines": 237,
+      "lines": 356,
       "commands": [
         "layout.enter",
         "layout.leave",
         "layout.stroke",
         "layout.select",
         "layout.delete",
-        "layout.view"
+        "layout.view",
+        "layout.configure",
+        "layout.interpret",
+        "layout.respond"
       ],
       "features": [
         "layout-composer"
@@ -5606,7 +5612,7 @@
     },
     {
       "path": "src/modules/layout-composer/host/materialize.ts",
-      "lines": 124,
+      "lines": 125,
       "commands": [],
       "features": []
     },
@@ -5642,7 +5648,7 @@
     },
     {
       "path": "src/modules/layout-composer/intent/problems.ts",
-      "lines": 87,
+      "lines": 90,
       "commands": [],
       "features": []
     },
@@ -5666,7 +5672,7 @@
     },
     {
       "path": "src/modules/layout-composer/interaction/tool.ts",
-      "lines": 102,
+      "lines": 107,
       "commands": [],
       "features": []
     },
@@ -5696,13 +5702,13 @@
     },
     {
       "path": "src/modules/layout-composer/ui/overlay.tsx",
-      "lines": 143,
+      "lines": 191,
       "commands": [],
       "features": []
     },
     {
       "path": "src/modules/layout-composer/ui/panel.tsx",
-      "lines": 82,
+      "lines": 167,
       "commands": [],
       "features": []
     },

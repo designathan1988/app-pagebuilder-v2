@@ -4,14 +4,15 @@
 // stroke held now with what its release would do. Measured from the page on every animation frame, like the rest of
 // the canvas chrome; drawn in the chrome, never in the page.
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from 'react';
-import { locate, type NodeId } from '../../../core/document/model.ts';
+import { locate, type DocNode, type NodeId } from '../../../core/document/model.ts';
 import type { MessageId } from '../../../generated/ids.ts';
 import { manifest, type DoorEntry } from '../../../manifest/runtime.ts';
-import { canvasFrame, nodeBox } from '../../../editor/canvas/coordinates.ts';
+import { canvasFrame, geometryOf, nodeBox } from '../../../editor/canvas/coordinates.ts';
 import { useEditorState } from '../../../editor/store.ts';
 import { useT } from '../../../editor/text.ts';
+import { activeBreakpoint } from '../../../editor/view/breakpoints.ts';
 import type { HandleKind } from '../gestures/recognize.ts';
-import { recordOf } from '../host/record.ts';
+import { markerOf, recordOf } from '../host/record.ts';
 import { composerOf } from '../host/state.ts';
 import { preview } from '../interaction/preview.ts';
 import { scene, type Words } from './scene.ts';
@@ -38,12 +39,41 @@ function useWords(): (words: Words) => string {
   return (words) => t(words.key as MessageId, Object.fromEntries(Object.entries(words.params).map(([name, value]) => [name, WORDS.has(name) && typeof value === 'string' && !value.endsWith('px') ? t(`layout.word.${value}` as MessageId) : value])));
 }
 
+// the spatial lens's label, which says a region's size: narrower than the drawing, the size the page gives it there
+const SIZE_LABEL = 'layout.label.size';
+
+// a region where the page lays it out: its box in the layer's px, and its size in the page's px
+interface Measured extends Box {
+  readonly page: { readonly width: number; readonly height: number };
+}
+
+const same = (a: Box, b: Box): boolean => a.x === b.x && a.y === b.y && a.width === b.width && a.height === b.height;
+
+// Every element of the container the composer wrote or placed, by the region (or group) key its marker names.
+function markedElements(container: DocNode): readonly (readonly [string, NodeId])[] {
+  const found: [string, NodeId][] = [];
+  const visit = (node: DocNode) => {
+    for (const child of node.children) {
+      const marker = markerOf(child);
+      if (marker === null) continue;
+      found.push([marker.key, child.id]);
+      if (marker.kind === 'structural') visit(child);
+    }
+  };
+  visit(container);
+  return found;
+}
+
 export function LayoutOverlay() {
   const composer = useEditorState((s) => composerOf(s.ui));
   const container = useEditorState((s) => (composer === null ? null : (locate(s.document, composer.target)?.node ?? null)));
   const record = container === null ? null : recordOf(container);
   const layer = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState<Box | null>(null);
+  // at a screen size narrower than the drawing, the regions as the page lays them out there, by region id (layer px)
+  const base = useEditorState((s) => activeBreakpoint(s.ui).base);
+  const [measured, setMeasured] = useState<Readonly<Record<string, Measured>> | null>(null);
+  const elements = useMemo(() => (container === null ? [] : markedElements(container)), [container]);
   const held = useSyncExternalStore(preview.subscribe, preview.get);
   const say = useWords();
   const t = useT();
@@ -55,12 +85,20 @@ export function LayoutOverlay() {
       const origin = layer.current?.parentElement?.getBoundingClientRect();
       const found = frame === null || origin === undefined ? null : nodeBox(frame, composer.target as NodeId);
       const next = found === null || origin === undefined ? null : { x: found.x - origin.x, y: found.y - origin.y, width: found.width, height: found.height };
-      setBox((before) => (before !== null && next !== null && before.x === next.x && before.y === next.y && before.width === next.width && before.height === next.height ? before : next));
+      setBox((before) => (before !== null && next !== null && same(before, next) ? before : next));
+      const boxes: Record<string, Measured> = {};
+      const zoom = frame === null ? 1 : (geometryOf(frame)?.zoom ?? 1);
+      if (!base && frame !== null && origin !== undefined && next !== null)
+        for (const [key, id] of elements) {
+          const b = nodeBox(frame, id);
+          if (b !== null && b.width > 0 && b.height > 0) boxes[key] = { x: b.x - origin.x - next.x, y: b.y - origin.y - next.y, width: b.width, height: b.height, page: { width: Math.round(b.width / zoom), height: Math.round(b.height / zoom) } };
+        }
+      setMeasured((before) => (base ? null : before !== null && Object.keys(before).length === Object.keys(boxes).length && Object.entries(boxes).every(([k, b]) => before[k] !== undefined && same(before[k] as Box, b) && before[k]?.page.width === b.page.width) ? before : boxes));
       request = requestAnimationFrame(measure);
     };
     request = requestAnimationFrame(measure);
     return () => cancelAnimationFrame(request);
-  }, [composer]);
+  }, [composer, base, elements]);
   // entering the composer puts the keyboard on its stage: its keys (Escape leaves, Delete deletes the selected regions)
   // work at once, whatever control opened it
   const stage = useRef<HTMLDivElement>(null);
@@ -71,8 +109,14 @@ export function LayoutOverlay() {
   }, [composing, placed]);
   const drawn = useMemo(() => (record === null || composer === null ? null : scene(held?.reading?.result?.ok === true ? held.reading.result.graph : record.intent, composer.selection, composer.lens)), [record, composer, held]);
   if (composer === null || record === null || box === null || drawn === null || STAGE === undefined) return <div ref={layer} className="layout-composer" hidden />;
+  // at the base screen size the intent is drawn to the container's scale; narrower, each region where the page has it
   const scale = box.width / drawn.viewport.width;
   const at = (b: Box): CSSProperties => ({ left: b.x * scale, top: b.y * scale, width: b.width * scale, height: b.height * scale });
+  const placedAt = (id: string, b: Box): CSSProperties | null => {
+    if (measured === null) return at(b);
+    const m = measured[id];
+    return m === undefined ? null : { left: m.x, top: m.y, width: m.width, height: m.height };
+  };
   const reading = held?.reading ?? null;
   const refused = reading !== null && (reading.problems.length > 0 || reading.result?.ok === false);
   const problem = reading === null ? null : (reading.problems[0] ?? (reading.result?.ok === false ? reading.result.problems[0] : undefined) ?? null);
@@ -89,20 +133,24 @@ export function LayoutOverlay() {
         data-viewport-width={drawn.viewport.width}
         data-viewport-height={drawn.viewport.height}
         data-cursor={reading?.cursor ?? 'crosshair'}
-        style={{ left: box.x, top: box.y, width: box.width, height: drawn.viewport.height * scale }}
+        data-measured={measured === null ? undefined : ''}
+        style={{ left: box.x, top: box.y, width: box.width, height: measured === null ? drawn.viewport.height * scale : box.height }}
       >
-        {drawn.regions.map((region) => (
+        {drawn.regions.map((region) => {
+          const place = placedAt(region.id, region.box);
+          return place === null ? null : (
           <div
             key={region.id}
             className={['layout-composer__region', region.selected ? 'is-selected' : '', region.content ? 'is-content' : '', region.hidden ? 'is-hidden' : '', reading?.visited.includes(region.id) === true ? 'is-visited' : ''].filter((c) => c !== '').join(' ')}
             data-layout-region={region.id}
             data-door={REGION_CLICK?.ref}
             data-depth={region.depth}
-            style={{ ...at(region.box), borderRadius: region.radius * scale, ...(region.polygon === null ? {} : { clipPath: `polygon(${region.polygon.map((p) => `${(p.x - region.box.x) * scale}px ${(p.y - region.box.y) * scale}px`).join(', ')})` }) }}
+            style={{ ...place, borderRadius: region.radius * scale, ...(region.polygon === null ? {} : { clipPath: `polygon(${region.polygon.map((p) => `${(p.x - region.box.x) * scale}px ${(p.y - region.box.y) * scale}px`).join(', ')})` }) }}
           >
-            <span className="layout-composer__label">{say(region.label)}</span>
+            <span className="layout-composer__label">{measured?.[region.id] === undefined || region.label.key !== SIZE_LABEL ? say(region.label) : say({ key: SIZE_LABEL, params: { ...region.label.params, ...measured[region.id]?.page } })}</span>
           </div>
-        ))}
+          );
+        })}
         {reading?.area == null ? null : <div className="layout-composer__area" data-layout-preview="area" style={at(reading.area)}><span className="layout-composer__measure">{t('layout.preview.size', { width: Math.round(reading.area.width), height: Math.round(reading.area.height) })}</span></div>}
         {held === null || held.points.length < 2 ? null : (
           <svg className="layout-composer__stroke" width={box.width} height={box.height} aria-hidden="true">
@@ -115,7 +163,7 @@ export function LayoutOverlay() {
             <line x1={relation.from.x * scale} y1={relation.from.y * scale} x2={relation.to.x * scale} y2={relation.to.y * scale} />
           </svg>
         ))}
-        {held !== null
+        {held !== null || measured !== null
           ? null
           : drawn.handles.map((handle) => {
               const door = HANDLE_DOORS[handle.kind];

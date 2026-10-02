@@ -162,6 +162,11 @@ async function runStep(page: Page, step: Step): Promise<string> {
     for (const point of rest) await page.mouse.move(point.x, point.y, { steps: 8 });
     await page.mouse.up();
     if (step.stroke.modifier !== undefined) await page.keyboard.up(step.stroke.modifier);
+  } else if ('wheel' in step) {
+    const box = await page.locator(step.wheel.at).first().boundingBox();
+    if (box === null) throw new Error(`the wheel's target is not drawn: ${step.wheel.at}`);
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.wheel(0, step.wheel.dy);
   } else if ('wait' in step) {
     await page.waitForTimeout(step.wait ?? 200);
   }

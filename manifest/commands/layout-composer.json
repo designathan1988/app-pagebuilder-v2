@@ -189,7 +189,8 @@
         "layout.inactive",
         "layout.noContainer",
         "status.locked.edit",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "layout.respond.drawAtBase"
       ],
       "confirmation": null,
       "history": {
@@ -425,7 +426,8 @@
         "layout.inactive",
         "layout.noContainer",
         "status.locked.edit",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "layout.respond.drawAtBase"
       ],
       "confirmation": null,
       "history": {
@@ -586,6 +588,502 @@
             "fields": []
           },
           "args": {}
+        }
+      ]
+    },
+    {
+      "id": "layout.configure",
+      "labelKey": "layout.command.configure",
+      "owner": "src/modules/layout-composer/host/handlers.ts",
+      "introducedBy": "layout-composer",
+      "args": {
+        "field": {
+          "type": "enum",
+          "values": [
+            "name",
+            "semantic",
+            "width",
+            "height",
+            "padding",
+            "alignment",
+            "distribution"
+          ],
+          "optional": false
+        },
+        "value": {
+          "type": "string",
+          "values": [],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "layoutComposing",
+        "refusalKey": "layout.inactive"
+      },
+      "refusals": [
+        "layout.refused",
+        "layout.inactive",
+        "layout.noContainer",
+        "status.locked.edit",
+        "status.locked.byAncestor"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "layout-name",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-name",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.name",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 10
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "name"
+          }
+        },
+        {
+          "id": "layout-semantic",
+          "kind": "panel-control",
+          "drawnAs": "segment",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-semantic",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.semantic",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 11
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "semantic"
+          }
+        },
+        {
+          "id": "layout-width",
+          "kind": "panel-control",
+          "drawnAs": "segment",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-width",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.width",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 12
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "width"
+          }
+        },
+        {
+          "id": "layout-height",
+          "kind": "panel-control",
+          "drawnAs": "segment",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-height",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.height",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 13
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "height"
+          }
+        },
+        {
+          "id": "layout-padding",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-padding",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.padding",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 14
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "padding"
+          }
+        },
+        {
+          "id": "layout-alignment",
+          "kind": "panel-control",
+          "drawnAs": "segment",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-alignment",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.alignment",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 15
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "alignment"
+          }
+        },
+        {
+          "id": "layout-distribution",
+          "kind": "panel-control",
+          "drawnAs": "segment",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-distribution",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.distribution",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 16
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "distribution"
+          }
+        }
+      ]
+    },
+    {
+      "id": "layout.interpret",
+      "labelKey": "layout.command.interpret",
+      "owner": "src/modules/layout-composer/host/handlers.ts",
+      "introducedBy": "layout-composer",
+      "args": {
+        "strategy": {
+          "type": "enum",
+          "values": [
+            "auto",
+            "grid",
+            "flex",
+            "fixed",
+            "proportional",
+            "masonry"
+          ],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "layoutComposing",
+        "refusalKey": "layout.inactive"
+      },
+      "refusals": [
+        "layout.refused",
+        "layout.inactive",
+        "layout.noContainer",
+        "status.locked.edit",
+        "status.locked.byAncestor"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "layout-strategy",
+          "kind": "panel-control",
+          "drawnAs": "segment",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-strategy",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.strategy",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 20
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        }
+      ]
+    },
+    {
+      "id": "layout.respond",
+      "labelKey": "layout.command.respond",
+      "owner": "src/modules/layout-composer/host/handlers.ts",
+      "introducedBy": "layout-composer",
+      "args": {
+        "edit": {
+          "type": "enum",
+          "values": [
+            "stack",
+            "unstack",
+            "columns",
+            "hide",
+            "show"
+          ],
+          "optional": false
+        },
+        "value": {
+          "type": "string",
+          "values": [],
+          "optional": true
+        }
+      },
+      "availability": {
+        "predicate": "layoutComposing",
+        "refusalKey": "layout.inactive"
+      },
+      "refusals": [
+        "layout.refused",
+        "layout.inactive",
+        "layout.noContainer",
+        "status.locked.edit",
+        "status.locked.byAncestor",
+        "layout.respond.base"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "layout-stack",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-stack",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.stack",
+          "faceLabelKey": null,
+          "icon": "rows-3",
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 30
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "edit": "stack"
+          }
+        },
+        {
+          "id": "layout-unstack",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-unstack",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.unstack",
+          "faceLabelKey": null,
+          "icon": "columns-3",
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 31
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "edit": "unstack"
+          }
+        },
+        {
+          "id": "layout-columns",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-columns",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.columns",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 32
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "edit": "columns"
+          }
+        },
+        {
+          "id": "layout-hide",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-hide",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.hide",
+          "faceLabelKey": null,
+          "icon": "eye-off",
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 33
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "edit": "hide"
+          }
+        },
+        {
+          "id": "layout-show",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "layout-composer",
+          "panel": "layout-composer",
+          "control": "layout-show",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "layout.door.show",
+          "faceLabelKey": null,
+          "icon": "eye",
+          "disabledReasonKey": "layout.inactive",
+          "placement": {
+            "region": "layout-composer-panel",
+            "order": 34
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "edit": "show"
+          }
         }
       ]
     }

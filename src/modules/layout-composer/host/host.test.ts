@@ -115,3 +115,52 @@ describe('Layout Composer host (host/handlers.ts)', () => {
     expect(locate(store.getState().document, root().children[0]?.id as NodeId)).not.toBeNull();
   });
 });
+
+describe('Layout Composer properties and screen sizes (layout.configure, layout.interpret, layout.respond)', () => {
+  const twoColumns = () => {
+    const made = composer();
+    made.store.dispatch('layout.enter', {});
+    stroke(made.store, [{ x: 40, y: 40 }, { x: 1400, y: 400 }]);
+    stroke(made.store, [{ x: 500, y: 20 }, { x: 500, y: 420 }]);
+    return made;
+  };
+  const styles = (node: DocNode | undefined) => JSON.stringify(node?.styles ?? {});
+
+  it('sets the meaning, the sizing and the inner space of the selected region, one undo step each', () => {
+    const { store, root } = twoColumns();
+    const steps = store.getState().history.past.length;
+    expect(store.dispatch('layout.configure', { field: 'semantic', value: 'aside' } as never).status).toBe('done');
+    expect(root().children.some((c) => c.tag === 'aside')).toBe(true);
+    expect(store.dispatch('layout.configure', { field: 'padding', value: '24px' } as never).status).toBe('done');
+    expect(root().children.some((c) => styles(c).includes('"padding-top":"24px"'))).toBe(true);
+    expect(store.dispatch('layout.configure', { field: 'width', value: 'fill-available' } as never).status).toBe('done');
+    expect(store.getState().history.past.length).toBe(steps + 3);
+    expect(store.getState().message).toEqual({ key: 'layout.status.configured', params: { names: 'Region 2', property: 'width' } });
+  });
+
+  it('refuses a value the property does not take, and a meaning for an element of the page, changing nothing', () => {
+    const { store, root } = twoColumns();
+    const before = root();
+    expect(store.dispatch('layout.configure', { field: 'semantic', value: 'banner' } as never).status).toBe('refused');
+    expect(store.dispatch('layout.configure', { field: 'padding', value: 'wide' } as never).status).toBe('refused');
+    expect(root()).toBe(before);
+  });
+
+  it('arranges the top level as a grid when asked', () => {
+    const { store, root } = twoColumns();
+    store.dispatch('layout.select', { regions: [], mode: 'replace' } as never);
+    expect(store.dispatch('layout.interpret', { strategy: 'grid' } as never).status).toBe('done');
+    expect(styles(root())).toContain('"display":"grid"');
+  });
+
+  it('changes nothing of the screen sizes at the base one, and stacks the group at the tablet', () => {
+    const { store, root } = twoColumns();
+    expect(store.dispatch('layout.respond', { edit: 'stack' } as never)).toEqual({ status: 'refused', message: { key: 'layout.respond.base', params: {} } });
+    store.dispatch('view.setBreakpoint', { breakpoint: 'tablet' } as never);
+    store.dispatch('layout.select', { regions: [], mode: 'replace' } as never);
+    expect(store.dispatch('layout.respond', { edit: 'stack' } as never).status).toBe('done');
+    expect(JSON.stringify((root().styles as Record<string, unknown>).tablet)).toContain('"flex-direction":"column"');
+    // drawing belongs to the base screen size
+    expect(stroke(store, [{ x: 40, y: 500 }, { x: 400, y: 700 }]).status).toBe('refused');
+  });
+});

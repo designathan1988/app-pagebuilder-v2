@@ -101,7 +101,8 @@ export function materialize<Ui>(context: HandlerContext<Ui>, container: DocNode,
       return withAuthoring({ ...held, styles }, { role: 'node', key: compiled.key, owns });
     }
     const element = held ?? newElement(ports.make, ports.regionType);
-    const named = held === undefined ? { ...element, name: freshName(ports.make, compiled.name ?? element.name) } : element;
+    // the element a region stands for carries the region's name (a wrapper keeps its own); a new one a free name
+    const named = held === undefined ? { ...element, name: freshName(ports.make, compiled.name ?? element.name) } : compiled.name !== null && compiled.region !== null ? { ...element, name: compiled.name } : element;
     const tag = compiled.tag ?? named.tag;
     const marker = held === undefined ? null : markerOf(held);
     const { styles, owns } = rewriteStyles(context, held === undefined ? {} : held.styles, marker?.owns ?? {}, compiled, ports.breakpoints);

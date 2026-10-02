@@ -63,6 +63,7 @@ export const layoutTool: CanvasTool = {
     const record = container === undefined ? null : recordOf(container);
     if (record === null) return null;
     const box = stage.getBoundingClientRect();
+    const measured = stage.hasAttribute('data-measured');
     const scale = box.width / record.intent.viewport.width;
     if (!(scale > 0)) return null;
     const local = (p: ToolPoint): Point => rounded({ x: (p.x - box.left) / scale, y: (p.y - box.top) / scale });
@@ -79,6 +80,8 @@ export const layoutTool: CanvasTool = {
         if (!travelled && Math.hypot(next.x - at.x, next.y - at.y) < CLICK_TRAVEL) return;
         travelled = true;
         points.push(local(next));
+        // narrower than the drawing the page lays the regions out its own way: no preview, the command says why
+        if (measured) return;
         preview.set({ points: [...points], reading: read(handle === null ? modeOf(next, composer.tool) : 'auto') });
       },
       release(next: ToolPoint, gesture: Gesture) {
@@ -86,7 +89,9 @@ export const layoutTool: CanvasTool = {
         if (!travelled && handle === null) {
           const point = points[0] as Point;
           const mode = next.alt ? 'cycle' : next.shift ? 'add' : 'replace';
-          const picked = mode === 'cycle' ? cycleSelection(record.intent, point, composer.selection.at(-1) ?? null) : (hitRegions(record.intent.regions, point)[0]?.id ?? null);
+          // narrower than the drawing, the region is the one drawn under the pointer where the page lays it out
+          const under = target.closest('[data-layout-region]')?.getAttribute('data-layout-region') ?? null;
+          const picked = measured ? under : mode === 'cycle' ? cycleSelection(record.intent, point, composer.selection.at(-1) ?? null) : (hitRegions(record.intent.regions, point)[0]?.id ?? null);
           gesture.dispatch(SELECT as never, { regions: picked === null ? [] : [picked], mode } as never);
           return;
         }

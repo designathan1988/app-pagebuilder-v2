@@ -12,17 +12,18 @@ import { nodeMaker } from '../../../core/structure/insert.ts';
 import type { MessageId } from '../../../generated/ids.ts';
 import { manifest, numberConstant } from '../../../manifest/runtime.ts';
 import type { EditorUi } from '../../../editor/state.ts';
-import { activeBreakpoint } from '../../../editor/view/breakpoints.ts';
+import { BASE_BREAKPOINT, activeBreakpoint } from '../../../editor/view/breakpoints.ts';
 import { propertyVocabulary } from '../adapters/properties.ts';
 import { compile, type CompilerPorts } from '../compiler/compile.ts';
-import { execute, type Naming, type Operation } from '../gestures/operations.ts';
+import { execute, type Naming, type Operation, type RegionValues } from '../gestures/operations.ts';
 import { handleOf, readStroke, type StrokeMode } from '../gestures/recognize.ts';
 import { nextSelection, type SelectionMode } from '../gestures/structural.ts';
 import { nextRegionId } from '../intent/ids.ts';
-import { emptyIntent, findRegion, region as newRegion, type LayoutIntent, type Point, type Region } from '../intent/model.ts';
+import { ALIGNMENTS, DISTRIBUTIONS, SEMANTICS, SIZINGS, childrenOf, emptyIntent, findRegion, region as newRegion, type LayoutIntent, type LayoutStrategy, type Point, type Region } from '../intent/model.ts';
 import { LayoutRefusal, problemKey, type LayoutProblem } from '../intent/problems.ts';
-import { mapBreakpoints } from '../responsive/continuum.ts';
+import { mapBreakpoints, responsiveEdit, type ResponsiveEdit } from '../responsive/continuum.ts';
 import { validateIntent } from '../topology/topology.ts';
+import { HEIGHT, WIDTH } from '../geometry/keys.ts';
 import { materialize } from './materialize.ts';
 import { NAMESPACE, markerOf, recordOf, withAuthoring, type ContainerRecord } from './record.ts';
 import { composerOf, withComposer, type ComposerState } from './state.ts';
@@ -73,7 +74,24 @@ function composed(context: Context): { readonly state: ComposerState; readonly c
   if (at === null) throw new LayoutRefusal('container');
   const record = recordOf(at.node);
   if (record === null) throw new LayoutRefusal('container');
-  return { state, container: at.node, path: at.path, record };
+  return { state, container: at.node, path: at.path, record: { ...record, intent: namesFromElements(at.node, record.intent) } };
+}
+
+// A region the composer made is the element the Layers name: a name given there since (a rename) is the region's
+// name too, so the next change keeps it rather than writing the region's old name back.
+function namesFromElements(container: DocNode, intent: LayoutIntent): LayoutIntent {
+  const names = new Map<string, string>();
+  const visit = (node: DocNode) => {
+    for (const child of node.children) {
+      const marker = markerOf(child);
+      if (marker?.kind !== 'structural') continue;
+      names.set(marker.key, child.name);
+      visit(child);
+    }
+  };
+  visit(container);
+  if (!intent.regions.some((r) => names.has(r.id) && names.get(r.id) !== r.name)) return intent;
+  return { ...intent, regions: intent.regions.map((r) => (names.has(r.id) && names.get(r.id) !== r.name ? { ...r, name: names.get(r.id) as string } : r)) };
 }
 
 // The intent's changed graph written into the container: compiled and materialized in this one command.
@@ -162,7 +180,7 @@ export const enterLayout = registerHandler<'layout.enter', EditorUi>('layout.ent
     // the height composed in: the container's own, else room to draw — the screen's for the page's root, the empty
     // height for any other container (interactions.json layout.emptyHeight)
     const room = at.parent === null ? activeBreakpoint(context.state.ui).height : EMPTY_HEIGHT;
-    const start: LayoutIntent = held?.intent ?? emptyIntent(box.width, Math.max(box.height, room));
+    const start: LayoutIntent = held === null ? emptyIntent(box.width, Math.max(box.height, room)) : namesFromElements(at.node, held.intent);
     const adopted = adopt(context, at.node, start);
     const record: ContainerRecord = { role: 'container', version: 1, intent: adopted.graph, owns: held?.owns ?? {} };
     return {
@@ -184,6 +202,8 @@ export const leaveLayout = registerHandler<'layout.leave', EditorUi>('layout.lea
 // canvas previews a stroke with the same radius (interaction/tool.ts), so the preview and the command read it alike.
 export const hitRadius = (ui: EditorUi): number => HIT_RADIUS / (ui.preferences.zoom === undefined ? 1 : ui.preferences.zoom / 100);
 
+const drawAtBase = (): Outcome<EditorUi> => ({ kind: 'refused', message: message('layout.respond.drawAtBase', { breakpoint: { key: BASE_BREAKPOINT.labelKey as MessageId } }) });
+
 const isPoint = (p: unknown): p is Point => typeof p === 'object' && p !== null && Number.isFinite((p as Point).x) && Number.isFinite((p as Point).y);
 
 // layout.stroke: one gesture on the canvas, in the container's coordinates, read by the one tool (or the tool chosen,
@@ -195,6 +215,8 @@ export const strokeLayout = registerHandler<'layout.stroke', EditorUi>('layout.s
     if (!Array.isArray(points) || !points.every(isPoint)) throw new Error('layout.stroke: a door hands the stroke as points');
     const reading = readStroke(record.intent, { points, mode: mode as StrokeMode, handle: handle === undefined ? null : handleOf(handle), radius: hitRadius(context.state.ui) }, naming(context));
     if (reading.selection !== null) return { kind: 'change', ui: withComposer(context.state.ui, { ...state, selection: reading.selection }) };
+    // the regions are drawn at the base screen size; a narrower one says what changes there (layout.respond)
+    if (!activeBreakpoint(context.state.ui).base) return drawAtBase();
     if (reading.operation === null || reading.result === null) return refusedWith(reading.problems);
     if (!reading.result.ok) return refusedWith(reading.result.problems);
     const made = reading.result.affected.filter((id) => findRegion(record.intent, id) === undefined && findRegion(reading.result?.ok === true ? reading.result.graph : record.intent, id) !== undefined);
@@ -218,6 +240,7 @@ export const deleteLayout = registerHandler<'layout.delete', EditorUi>('layout.d
   guarded(context, () => {
     const { state } = composed(context);
     if (state.selection.length === 0) return refusedWith([{ code: 'nothing-selected', params: {} }]);
+    if (!activeBreakpoint(context.state.ui).base) return drawAtBase();
     return operate(context, { kind: 'delete', ids: state.selection }, []);
   }),
 );
@@ -230,6 +253,102 @@ export const viewLayout = registerHandler<'layout.view', EditorUi>('layout.view'
     // what the canvas now draws and reads, in the person's words
     const said = tool !== undefined ? message('layout.status.tool', { tool: context.words(`layout.tool.${next.tool}` as MessageId) }) : message('layout.status.lens', { lens: context.words(`layout.lens.${next.lens}` as MessageId) });
     return { kind: 'change', ui: withComposer(context.state.ui, next), message: said };
+  }),
+);
+
+// The regions a property or a screen-size change applies to: the selected ones.
+function selected(context: Context): { readonly state: ComposerState; readonly record: ContainerRecord; readonly regions: readonly Region[] } {
+  const { state, record } = composed(context);
+  const regions = state.selection.map((id) => findRegion(record.intent, id)).filter((r): r is Region => r !== undefined);
+  if (regions.length === 0) throw new LayoutRefusal('nothing-selected');
+  return { state, record, regions };
+}
+
+const oneOf = <T extends string>(values: readonly T[], value: string, property: string): T => {
+  if (!(values as readonly string[]).includes(value)) throw new LayoutRefusal('value', { value, property });
+  return value as T;
+};
+
+// a length in px as the person types it: "24" or "24px"
+const PX = /^\s*\d+(\.\d+)?\s*(px)?\s*$/;
+
+// What a property's value means for one region (refused when it is not one of the property's values).
+function valuesOf(region: Region, field: string, value: string): RegionValues {
+  switch (field) {
+    case 'name':
+      if (value.trim() === '') throw new LayoutRefusal('value', { value, property: field });
+      return { name: value.trim() };
+    case 'semantic':
+      if (region.kind === 'content') throw new LayoutRefusal('content-semantic');
+      return { semantic: oneOf(SEMANTICS, value, field) };
+    case WIDTH:
+    case HEIGHT:
+      return { [field]: { ...region[field], mode: oneOf(SIZINGS, value, field) } };
+    case 'padding':
+      if (!PX.test(value)) throw new LayoutRefusal('value', { value, property: field });
+      return { layout: { ...region.layout, padding: Number.parseFloat(value) } };
+    case 'alignment':
+      return { layout: { ...region.layout, alignment: oneOf(ALIGNMENTS, value, field) } };
+    case 'distribution':
+      return { layout: { ...region.layout, distribution: oneOf(DISTRIBUTIONS, value, field) } };
+    default:
+      throw new LayoutRefusal('value', { value, property: field });
+  }
+}
+
+// layout.configure: a property of every selected region (spec "Intent Inspector"): its name, its meaning (the tag it
+// compiles to), how its width and height behave, the room inside it and how its children sit there.
+export const configureLayout = registerHandler<'layout.configure', EditorUi>('layout.configure', (context, { field, value }) =>
+  guarded(context, () => {
+    const { state, record, regions } = selected(context);
+    const operations: Operation[] = regions.map((r) => ({ kind: 'configure', id: r.id, values: valuesOf(r, field, value) }));
+    const result = execute(record.intent, operations.length === 1 ? (operations[0] as Operation) : { kind: 'compose', operations }, naming(context));
+    if (!result.ok) return refusedWith(result.problems);
+    const outcome = written(context, result.graph, state.selection);
+    const names = regions.map((r) => (field === 'name' ? value.trim() : r.name)).join(', ');
+    return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.configured', { names, property: context.words(`layout.field.${field}` as MessageId) }) } : outcome;
+  }),
+);
+
+// The group an arrangement or a screen-size change is about: the one selected region's children when it holds some,
+// else the group the selection sits in, else the container's top level.
+function groupOf(context: Context): { readonly parent: string | null; readonly record: ContainerRecord } {
+  const { state, record } = composed(context);
+  const first = state.selection.length === 0 ? undefined : findRegion(record.intent, state.selection[0] as string);
+  if (first === undefined) return { parent: null, record };
+  if (state.selection.length === 1 && childrenOf(record.intent, first.id).length > 0) return { parent: first.id, record };
+  return { parent: first.parent, record };
+}
+
+// layout.interpret: how a group's regions are arranged when the drawing reads more than one way (spec "Ambiguity
+// Engine"): a grid, rows and columns, fixed or proportional sizes, masonry, or the compiler's own choice.
+export const interpretLayout = registerHandler<'layout.interpret', EditorUi>('layout.interpret', (context, { strategy }) =>
+  guarded(context, () => {
+    const { parent } = groupOf(context);
+    const outcome = operate(context, { kind: 'interpret', parent, strategy: strategy as LayoutStrategy });
+    return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.interpreted', { strategy: context.words(`layout.strategy.${strategy}` as MessageId) }) } : outcome;
+  }),
+);
+
+// layout.respond: what changes at the screen size the canvas shows and every narrower one (spec "Responsive
+// Continuum"): the group stacks, keeps its drawn arrangement, flows in a number of columns, or the selected regions
+// hide or show. The drawing itself belongs to the base screen size, where nothing of this applies.
+export const respondLayout = registerHandler<'layout.respond', EditorUi>('layout.respond', (context, { edit, value }) =>
+  guarded(context, () => {
+    const breakpoint = activeBreakpoint(context.state.ui);
+    if (breakpoint.base) return { kind: 'refused', message: message('layout.respond.base') };
+    const { parent, record } = groupOf(context);
+    let change: ResponsiveEdit;
+    if (edit === 'stack') change = { kind: 'stack', parent };
+    else if (edit === 'unstack') change = { kind: 'unstack', parent };
+    else if (edit === 'hide' || edit === 'show') change = { kind: edit, ids: selected(context).regions.map((r) => r.id) };
+    else {
+      const columns = Number(value);
+      if (!Number.isInteger(columns) || columns < 1 || columns > 12) throw new LayoutRefusal('value', { value: value ?? '', property: context.words('layout.door.columns' as MessageId) });
+      change = { kind: 'columns', parent, columns };
+    }
+    const outcome = operate(context, responsiveEdit(record.intent, breakpoint.width, change));
+    return outcome.kind === 'change' ? { ...outcome, message: message('layout.status.responded', { breakpoint: context.words(breakpoint.labelKey as MessageId) }) } : outcome;
   }),
 );
 

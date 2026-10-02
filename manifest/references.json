@@ -1989,6 +1989,21 @@
       "kind": "predicate",
       "id": "layoutComposing",
       "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.configure",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.interpret",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
+      "id": "layout.respond",
+      "status": "registered"
     }
   ]
 }
