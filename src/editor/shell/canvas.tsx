@@ -97,6 +97,9 @@ function ModeHint() {
   const t = useT();
   const mode = useEditorState((s) => editMode(s.ui));
   const dragging = useSyncExternalStore(drag.subscribe, drag.get);
+  // a text edited in place: its keys (the canonical toolbar's hint while text is edited)
+  const editing = useEditorState((s) => s.ui.textEdit.node !== null);
+  if (editing && dragging === null) return <span className="canvas-toolbar__hint" data-chrome="text-hint">{t('canvas.textEdit.hint')}</span>;
   if (mode === NO_MODE || dragging !== null) return null;
   return (
     <span className="canvas-toolbar__hint" data-chrome="mode-hint">

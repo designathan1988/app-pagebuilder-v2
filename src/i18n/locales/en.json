@@ -110,6 +110,7 @@
   "canvas.base": "base",
   "canvas.baseTip": "The base breakpoint: the others inherit from it",
   "canvas.drag.duplicating": "Duplicate",
+  "canvas.textEdit.hint": "Enter or Esc keeps the text · Ctrl+Z takes it back",
   "canvas.drag.hint": "↑↓ level · Esc cancels · Alt duplicates · Ctrl no snapping · Shift wraps the other way",
   "canvas.drop.between": "Between {before} and {after} · {path}",
   "canvas.drop.betweenLevel": "Between {before} and {after} · {path} · {levels}",

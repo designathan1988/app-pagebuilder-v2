@@ -72,6 +72,20 @@ if (STATE === 'state') {
   await app.locator('[data-door$="#menu-style-state-hover"]').first().click();
   await app.waitForTimeout(400);
 }
+if (STATE === 'text') {
+  // the card's title edited in place: selected, then a double-click on its words (the selection's box the canvas
+  // draws), as a person starts editing its text
+  await card('CardATitle').click();
+  await app.waitForTimeout(400);
+  const words = await app.locator('.chrome__selection').first().boundingBox();
+  if (words === null) throw new Error('the card title is not drawn selected');
+  await app.mouse.dblclick(words.x + Math.min(words.width / 2, 20), words.y + words.height / 2);
+  await app.waitForTimeout(500);
+}
+if (STATE === 'interaction') {
+  await app.locator('[data-door$="#inspector-tab-interactions"]').first().click();
+  await app.waitForTimeout(400);
+}
 // the pointer rests where it hovers nothing (a menu stays open: the pointer leaving it does not close it)
 if (STATE !== 'palette') await app.mouse.move(1, 899);
 
