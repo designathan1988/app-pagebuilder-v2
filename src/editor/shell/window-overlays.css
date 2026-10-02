@@ -414,20 +414,38 @@
   font: var(--fw-label) var(--fs-label) / var(--lh-label) var(--font-ui);
 }
 
-/* the breakpoint being edited, when it is not the base (canvas.tsx BreakpointBadge, J22): a band at the frame's top
-   left, in the breakpoint mode's colour */
+/* the breakpoint being edited, when it is not the base (canvas.tsx BreakpointBadge, J22): the canonical band
+   (design/final .bpband) across the whole frame, under its tabs and over the page, in the breakpoint mode's colour */
 .canvas-breakpoint-badge {
-  position: absolute;
-  top: calc(var(--size-frame-tabs) + var(--space-2));
-  left: var(--space-2);
-  z-index: 2;
-  max-width: calc(100% - var(--space-4));
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-pill);
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-3);
+  height: var(--size-target-min);
+  padding: 0 var(--space-4);
+  overflow: hidden;
   background: var(--color-mode-breakpoint);
   color: var(--color-on-mode-breakpoint);
-  font: var(--fw-label) var(--fs-label) / var(--lh-label) var(--font-ui);
+  font: var(--weight-semibold) var(--fs-body) / var(--lh-body) var(--font-ui);
+  text-overflow: ellipsis;
+  white-space: nowrap;
   pointer-events: none;
+}
+
+/* while a breakpoint other than the base is edited, the frame wears its colour: the page's outline and the tab of
+   the breakpoint in view (the canonical .frame-view and .bpt.is-bp) */
+.frame:has(.canvas-breakpoint-badge) .frame__view {
+  outline: 2px solid var(--color-mode-breakpoint);
+}
+
+.frame:has(.canvas-breakpoint-badge) .frame-tab.is-current {
+  border-color: var(--color-mode-breakpoint);
+  background: var(--color-mode-breakpoint);
+  color: var(--color-on-mode-breakpoint);
+}
+
+.frame:has(.canvas-breakpoint-badge) .frame-tab.is-current .frame-tab__width {
+  color: var(--color-on-mode-breakpoint);
 }
 
 /* the preview (preview.tsx, spec preview-mode): the preview bar over the exported page, which keeps its width at 100 %,
