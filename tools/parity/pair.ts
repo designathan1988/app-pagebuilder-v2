@@ -146,7 +146,7 @@ for (const one of a) {
   if (!other) continue;
   const clip = (box: Box): Box => ({ x: Math.max(0, box.x), y: Math.max(0, box.y), width: Math.min(1440 - Math.max(0, box.x), box.width), height: Math.min(900 - Math.max(0, box.y), box.height) });
   // the two crops, side by side in name: <state>-<region>-canon.png above <state>-<region>-app.png (joined by
-  // tools/parity/join.py)
+  // tools/parity/join.ts)
   const name = `${STATE}${THEME === 'dark' ? '' : `-${THEME}`}-${one.id.replace(/[:]/g, '_')}`;
   await canon.screenshot({ path: path.join(out, `${name}-canon.png`), clip: clip(one.box) });
   await app.screenshot({ path: path.join(out, `${name}-app.png`), clip: clip(other.box) });

@@ -4831,7 +4831,7 @@
       ]
     },
     {
-      "path": "src/editor/App.tsx",
+      "path": "src/editor/app.tsx",
       "lines": 11,
       "commands": [],
       "features": []

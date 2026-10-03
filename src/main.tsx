@@ -16,7 +16,7 @@ import './editor/shell/panel-editors.css';
 import './editor/shell/canvas-editing.css';
 import './editor/shell/window-overlays.css';
 import sprite from './ui/icons.svg?raw';
-import { App } from './editor/App.tsx';
+import { App } from './editor/app.tsx';
 import { currentWorkRevision, readSavedWork, readVersions, restoredWork, startAutosave } from './editor/persistence/autosave.ts';
 import { claimEditing, isEditing } from './editor/persistence/tab-guard.ts';
 import { startDrafts } from './editor/persistence/drafts.ts';

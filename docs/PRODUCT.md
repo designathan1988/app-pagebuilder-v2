@@ -441,7 +441,7 @@ QA-LOG left open. Severity: 4 blocks or loses work, 3 grave, 2 nuisance, 1 cosme
 | DEC-32 | `layout/` and `motion/` are the sole module candidates (R5) | 2026-10-01 | — | `b662713`, `docs/archive/history/module-ownership.md` |
 | DEC-33 | Variables are left out of the command bar | 2026-10-02 | — | QA 88 |
 | DEC-34 | `hover-measure` stays unregistered (no scenario can hover) | design-system chapter | contradicted by active code (AUD-17) | `docs/archive/STATUS.md` |
-| DEC-35 | Kebab-case for every file name, no exception; tools in TypeScript (`join.py` → `join.ts`, `App.tsx` → `app.tsx`) | the audit, 2026-10-02 | — | section 7 |
+| DEC-35 | Kebab-case file names, with the exceptions listed in section 7; tools in TypeScript (`join.py` → `join.ts`, `App.tsx` → `app.tsx`) | the audit, 2026-10-02 | — | section 7 |
 | DEC-36 | This document structure: one product document, generated feature states, superseded documents archived | the audit, 2026-10-02 | supersedes PROJECT.md, STATUS.md, PAIRING-2.md as sources | section 0 table |
 | DEC-37 | The assistant's default model is `claude-opus-5-5`, the person's own key, kept encrypted locally | stage 14 | — | QA 50 |
 
@@ -598,8 +598,17 @@ journeys of the 19 study tasks, the limits, the accessibility probe, the export 
   the fixtures' contents, Carla's `cardapio.csv`, Marina's texts); the study's evidence under `jornada03/` (personas'
   quotes in its JSON, already reported in English); user quotes kept verbatim inside English documents where the exact
   words are the record (QA-LOG rows quote the user, e.g. "nem o quickpanel coloridinho bonito fez").
-- File names are kebab-case, no exception (DEC-35): `src/editor/App.tsx` became `src/editor/app.tsx`. Tools are
-  TypeScript: `tools/parity/join.py` became `tools/parity/join.ts`.
+- File names are kebab-case (DEC-35): `src/editor/App.tsx` became `src/editor/app.tsx`. Tools are TypeScript:
+  `tools/parity/join.py` became `tools/parity/join.ts` (it composes the two crops on a canvas in the installed Chrome,
+  so the repository needs no Python). The exceptions, each for a reason outside the code's style:
+  - the documents named in capitals by convention, which tools and readers look for by that name: `README.md`,
+    `AGENTS.md`, `CLAUDE.md`, and the documents under `docs/`, `spec/`, `design/history/` and `jornada03/`;
+  - a language tag, which is spelled as BCP 47 spells it: `src/i18n/locales/pt-BR.json` and the canonical design's
+    shots named with `pt-BR`;
+  - the study's evidence, kept as recorded: the folder `jornada03/`, its task data named by task code
+    (`jornada03/data/marina-M1.json` …) and its shell scripts (`jornada03/scripts/*.sh`);
+  - test data whose name is the data: the import fixtures `cardapio.csv`, `cardapio.tsv`, `cardapio.xlsx`;
+  - files owned by a tool: `.claude/scheduled_tasks.lock`.
 
 ## 8. Glossary
 
