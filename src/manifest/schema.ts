@@ -1058,6 +1058,19 @@ export const scenarioSchema = z.strictObject({
         feedback: z.array(z.strictObject({ key: i18nKey, params: z.record(z.string(), z.union([z.string(), z.number()])) })),
       })
       .nullable(),
+    // The pointer resting on a node once the steps are done (spec hover-measure): the browser runner moves the mouse to
+    // the node on the canvas (its centre, or a point inside its top-left corner, in the padding its children leave free:
+    // an ancestor's own area), holding Alt when `alt`, and a region of the canvas chrome shows each text (a
+    // message, as the status bar's feedback is named); the fast runner, which lays nothing out, leaves it to the browser.
+    // Optional: absent is no hover.
+    hover: z
+      .strictObject({
+        node: nodeRef,
+        at: z.enum(['centre', 'corner']),
+        alt: z.boolean(),
+        shows: z.array(z.strictObject({ region: regionId, key: i18nKey, params: z.record(z.string(), z.union([z.string(), z.number()])) })).min(1),
+      })
+      .optional(),
     // The editor itself: the geometry and the computed style of its regions (layout.json).
     editor: z
       .strictObject({

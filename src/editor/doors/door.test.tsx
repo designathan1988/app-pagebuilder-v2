@@ -41,13 +41,12 @@ describe('how a door is drawn', () => {
   });
 
   it('draws a door whose feature is not registered as disabled, saying not available yet', () => {
-    // No door today carries a feature that is not registered (the two features left, hover-measure and
-    // shortcuts-e2e-sweep, bring no command and so no door), and every command of the manifest is built: the rule is
-    // exercised on an entry that names one of those features, which is exactly what a door of a feature still to come
-    // will be.
+    // Every feature of the manifest is registered today (hover-measure was the last, QA 167): the rule is exercised on
+    // an entry that names a feature no table registers, which is exactly what a door of a feature still to come will be.
     const real = manifest.doors.find((entry) => isDoorBuilt(entry)) as DoorEntry;
-    expect(isFeatureBuilt('hover-measure' as FeatureId)).toBe(false);
-    const awaited: DoorEntry = { ...real, door: { ...real.door, feature: 'hover-measure' } };
+    const toCome = 'a-feature-still-to-come' as FeatureId;
+    expect(isFeatureBuilt(toCome)).toBe(false);
+    const awaited: DoorEntry = { ...real, door: { ...real.door, feature: toCome } };
     expect(isDoorBuilt(awaited)).toBe(false);
     const state = drawnState(awaited);
     expect(state.disabled).toBe(true);

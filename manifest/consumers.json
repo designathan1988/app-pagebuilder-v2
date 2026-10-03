@@ -1377,6 +1377,38 @@
       "reader": "tools/runner/scenarios.ts"
     },
     {
+      "field": "features:features[].scenarios[].expect.hover",
+      "reader": "tools/runner/scenarios.ts"
+    },
+    {
+      "field": "features:features[].scenarios[].expect.hover.node",
+      "reader": "tools/runner/scenarios.ts"
+    },
+    {
+      "field": "features:features[].scenarios[].expect.hover.at",
+      "reader": "tools/runner/scenarios.ts"
+    },
+    {
+      "field": "features:features[].scenarios[].expect.hover.alt",
+      "reader": "tools/runner/scenarios.ts"
+    },
+    {
+      "field": "features:features[].scenarios[].expect.hover.shows",
+      "reader": "tools/runner/scenarios.ts"
+    },
+    {
+      "field": "features:features[].scenarios[].expect.hover.shows[].region",
+      "reader": "tools/runner/scenarios.ts"
+    },
+    {
+      "field": "features:features[].scenarios[].expect.hover.shows[].key",
+      "reader": "tools/runner/scenarios.ts"
+    },
+    {
+      "field": "features:features[].scenarios[].expect.hover.shows[].params",
+      "reader": "tools/runner/scenarios.ts"
+    },
+    {
       "field": "features:features[].scenarios[].expect.editor",
       "reader": "tools/runner/scenarios.ts"
     },

@@ -65,6 +65,8 @@ interface Scenario {
       geometry: { node: string; measure: Measure; relation: Relation; value: number; reference: string | null }[];
       feedback: { key: string; params: Record<string, string | number> }[];
     } | null;
+    // the pointer resting on a node once the steps are done (spec hover-measure; schema.ts)
+    hover?: { node: string; at: 'centre' | 'corner'; alt: boolean; shows: { region: string; key: string; params: Record<string, string | number> }[] };
     editor: { regions: { region: string; measure: Measure; relation: Relation; value: number; reference: string | null }[]; computed: { region: string; property: string; value: string }[] } | null;
     persistence: { document: 'same' | null; preferences: 'same' | null; selection?: 'same' | null } | null;
     // the files inside the archive the action step handed out: each holds every `present` text and no `absent` one
@@ -2038,6 +2040,23 @@ export function registerScenarioTests(): void {
               const value = await page.locator(`[data-region="${c.region}"]`).first().evaluate((el, p) => getComputedStyle(el).getPropertyValue(p), c.property);
               expect(value, `${c.region} ${c.property}`).toBe(c.value);
             }
+          }
+
+          // the pointer resting on a node (spec hover-measure): the mouse on it (its centre or inside its top-left corner), Alt held when the
+          // scenario says, and each text a region of the chrome then shows, in the language the scenario expects
+          const hovering = s.expect.hover;
+          if (hovering !== undefined) {
+            // a point of the node itself on the zoomed canvas (nodePoint: the iframe's CSS zoom applied, never a child's)
+            const point = await nodePoint(page, idOf(after.document, hovering.node), false, hovering.node, hovering.at === 'corner' ? 'start' : 'centre');
+            if (hovering.alt) await page.keyboard.down('Alt');
+            await page.mouse.move(point.x, point.y, { steps: 4 });
+            for (const show of hovering.shows) {
+              const wanted = await text(page, localeAfter(s, door), show.key, show.params);
+              const exactly = new RegExp(`^\\s*${wanted.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`);
+              await expect(page.locator(`[data-region="${show.region}"]`).filter({ hasText: exactly }), `${show.region} shows "${wanted}"`).not.toHaveCount(0);
+            }
+            if (hovering.alt) await page.keyboard.up('Alt');
+            await page.mouse.move(0, 0);
           }
 
           // the files inside the archive the action step handed out (File › Save project, the export), read as any unzip

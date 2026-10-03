@@ -55,6 +55,23 @@ for (const command of declaredOwners) {
   if (command.owner !== actual) problems.push(`${command.id} says it belongs to ${command.owner}, but ${actual} registers it`);
 }
 
+// A feature that is not built has no code that runs: for a feature without commands of its own, its code is the module
+// its tooth proof names (manifest toothProof), and no source may import that module while the feature is not built
+// (the audit's AUD-17: hover-measure drew its sizes and distances while the contract said "not available yet").
+const importsOf = (file: string): string[] => {
+  const text = fs.readFileSync(at(file), 'utf8');
+  return [...text.matchAll(/from\s+'(\.{1,2}\/[^']+)'/g)].map((match) => path.posix.normalize(path.posix.join(path.posix.dirname(file), match[1] ?? '')));
+};
+const sources = expected.modules.map((module) => module.path);
+const toothModules = Object.entries(loaded.input.files)
+  .filter(([file]) => file.startsWith('features/'))
+  .flatMap(([, data]) => ((data as { features?: { id: string; toothProof?: string }[] }).features ?? []).flatMap((feature) => (feature.toothProof === undefined ? [] : [[feature.id, feature.toothProof] as const])));
+for (const [id, module] of toothModules) {
+  if (expected.features.find((feature) => feature.id === id)?.built !== false) continue;
+  const importers = sources.filter((file) => importsOf(file).includes(module));
+  if (importers.length > 0) problems.push(`feature "${id}" is not built, but its code ${module} runs: ${importers.join(', ')} import${importers.length === 1 ? 's' : ''} it`);
+}
+
 if (problems.length === 0) {
   console.log(`inventory:check: ${expected.totals.features} features, ${expected.totals.commands} commands, ${expected.totals.modules} modules — the files match and every built feature has its code.`);
   process.exit(0);

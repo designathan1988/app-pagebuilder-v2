@@ -358,6 +358,16 @@ export function nodeBox(iframe: HTMLIFrameElement, id: string): { x: number; y: 
   return element ? screenBox(iframe, element) : null;
 }
 
+// A node's size in the page's own CSS px: its box as the page lays it out, whatever the canvas's zoom (spec
+// hover-measure: the size a hover shows is the measured geometry in the iframe at any zoom; the screen box divided by
+// the zoom drifts by a pixel with the zoom's rounding).
+export function nodeSize(iframe: HTMLIFrameElement, id: string): { readonly width: number; readonly height: number } | null {
+  const element = iframe.contentDocument?.querySelector(nodeSelector(id as NodeId));
+  if (!element) return null;
+  const box = element.getBoundingClientRect();
+  return { width: box.width, height: box.height };
+}
+
 // a CSS length in px as the page computes it, 0 for none
 const cssPx = (value: string): number => parseFloat(value) || 0;
 

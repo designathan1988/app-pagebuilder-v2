@@ -14042,7 +14042,319 @@
           "Measuring never changes the selection or the document JSON."
         ]
       },
-      "scenarios": []
+      "scenarios": [
+        {
+          "id": "hovering-an-element-shows-its-size-and-keeps-the-selection",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "selection.select#layers-row",
+              "args": {
+                "target": "/Page/Hero/Actions"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.set#inspector-height",
+              "args": {
+                "property": "height",
+                "value": "120"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "120\n"
+            },
+            {
+              "door": "selection.select#layers-row",
+              "args": {
+                "target": "/Page/Hero/Intro"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "selection.select#layers-row"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/Actions/@styles/desktop/base/height",
+                "value": "120px"
+              }
+            ],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "hover": {
+              "node": "/Page/Hero/Actions",
+              "at": "centre",
+              "alt": false,
+              "shows": [
+                {
+                  "region": "canvas-hover-size",
+                  "key": "canvas.measure.size",
+                  "params": {
+                    "width": 1360,
+                    "height": 120
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "alt-over-a-sibling-measures-the-gap-between-them",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "selection.select#layers-row",
+              "args": {
+                "target": "/Page/Hero/Title"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "selection.select#layers-row"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Hero/Title"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "hover": {
+              "node": "/Page/Hero/Intro",
+              "at": "centre",
+              "alt": true,
+              "shows": [
+                {
+                  "region": "canvas-distance",
+                  "key": "canvas.measure.distance",
+                  "params": {
+                    "value": 19
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "alt-over-the-parent-measures-to-its-inner-edges",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "selection.select#layers-row",
+              "args": {
+                "target": "/Page/Hero/Title"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "selection.select#layers-row"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Hero/Title"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "hover": {
+              "node": "/Page/Hero",
+              "at": "corner",
+              "alt": true,
+              "shows": [
+                {
+                  "region": "canvas-distance",
+                  "key": "canvas.measure.distance",
+                  "params": {
+                    "value": 56
+                  }
+                },
+                {
+                  "region": "canvas-distance",
+                  "key": "canvas.measure.distance",
+                  "params": {
+                    "value": 40
+                  }
+                },
+                {
+                  "region": "canvas-distance",
+                  "key": "canvas.measure.distance",
+                  "params": {
+                    "value": 155
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "the-size-is-in-css-px-at-half-zoom",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 50
+          },
+          "steps": [
+            {
+              "door": "selection.select#layers-row",
+              "args": {
+                "target": "/Page/Hero/Actions"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.set#inspector-height",
+              "args": {
+                "property": "height",
+                "value": "120"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "120\n"
+            },
+            {
+              "door": "selection.select#layers-row",
+              "args": {
+                "target": "/Page/Hero/Intro"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "selection.select#layers-row"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/Actions/@styles/desktop/base/height",
+                "value": "120px"
+              }
+            ],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "hover": {
+              "node": "/Page/Hero/Actions",
+              "at": "centre",
+              "alt": false,
+              "shows": [
+                {
+                  "region": "canvas-hover-size",
+                  "key": "canvas.measure.size",
+                  "params": {
+                    "width": 1360,
+                    "height": 120
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        }
+      ],
+      "toothProof": "src/editor/canvas/hover-measure.ts"
     }
   ]
 }

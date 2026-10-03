@@ -2539,6 +2539,8 @@ export const REGION_IDS = [
   "ruler-selection",
   "canvas-outlines",
   "canvas-zones",
+  "canvas-hover-size",
+  "canvas-distance",
   "canvas-folds",
   "grid-columns",
   "grid-rows",

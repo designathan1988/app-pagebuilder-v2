@@ -42,7 +42,7 @@ import { band, drag, duplicating, ghostReturn, hover, lastDrop, measuring, resiz
 import { MODEL_RULES, useEditorState, useStore } from '../store.ts';
 import { openedPage } from '../../core/project/pages.ts';
 import { useT } from '../text.ts';
-import { canvasFrame, contentBoxes, flowAxis, flowReversed, holdsNode, innerBox, nodeBox, pageAnimating, resizeBasis, elementRotation } from './coordinates.ts';
+import { canvasFrame, contentBoxes, flowAxis, flowReversed, holdsNode, innerBox, nodeBox, nodeSize, pageAnimating, resizeBasis, elementRotation } from './coordinates.ts';
 import { onPageChange } from './page-clock.ts';
 import { TextToolbar } from './text-toolbar.tsx';
 import { GridEditor } from './grid-editor.tsx';
@@ -56,6 +56,8 @@ import { ViewOverlays } from './view-overlays.tsx';
 import { GridOverlay } from './grid-overlay.tsx';
 // where a label and a resize handle may be drawn (canvas/placement.ts): the rules moved out of this file, which draws
 import { controlBoxes, handleHitBox, overlaps as overlapsBox, placeLabel, visibleCanvas, type Box, type Placement } from './placement.ts';
+import { distancesOf, type Distance } from './distances.ts';
+import { altDistances, hoverSizeOf, type HoverSize } from './hover-measure.ts';
 import { breakpointName } from '../../core/document/breakpoints.ts';
 
 // the entries this module published before the placement rules moved out stay published here: consumers need not change
@@ -236,7 +238,7 @@ interface Layout {
   // the element's own rotation in degrees (0 when it holds none): the outline and the handles turn with it (item 4.4)
   readonly rotation: number;
   // the hovered element's size in CSS px, drawn below its hover outline (spec hover-measure)
-  readonly hoverSize: { readonly x: number; readonly y: number; readonly width: number; readonly height: number; readonly end: boolean } | null;
+  readonly hoverSize: HoverSize | null;
   // while Alt is held, the distances from the selection to the hovered element, each a line and its length in CSS px
   readonly distances: readonly Distance[];
   // the boxes of the one selected element's neighbouring siblings, in the chrome layer's pixels: a resize handle
@@ -247,15 +249,6 @@ interface Layout {
   readonly handleSize: number;
 }
 
-interface Distance {
-  readonly box: Box;
-  readonly value: number;
-}
-
-// The distances Alt measures (spec hover-measure, Problems in Pager 2), in the chrome's screen px, each with its length
-// in CSS px (screen px divided by the zoom): over an ancestor of the selection, from the selection to the ancestor's
-// inner edges (its padding box); over any other element, between the nearest edges of the two on each axis where they
-// do not overlap, at the middle of what they share on the other axis, else of the selection.
 // The distances a resize in flow measures (item 4.5): the gap from the box being resized to its nearest sibling
 // along each axis the handle drags, drawn as the Alt measurement is. A flow resize moves against its neighbours, and
 // the number says where it stands from them.
@@ -285,30 +278,6 @@ function resizeDistances(iframe: HTMLIFrameElement, drawn: DocumentJson, id: str
   return out;
 }
 
-function distancesOf(selected: Box, other: Box, inner: Box | null, zoom: number): Distance[] {
-  const css = (px: number) => Math.round(px / zoom);
-  const midX = selected.x + selected.width / 2;
-  const midY = selected.y + selected.height / 2;
-  if (inner !== null) {
-    const right = selected.x + selected.width;
-    const bottom = selected.y + selected.height;
-    return [
-      { box: { x: midX, y: inner.y, width: 0, height: selected.y - inner.y }, value: css(selected.y - inner.y) },
-      { box: { x: midX, y: bottom, width: 0, height: inner.y + inner.height - bottom }, value: css(inner.y + inner.height - bottom) },
-      { box: { x: inner.x, y: midY, width: selected.x - inner.x, height: 0 }, value: css(selected.x - inner.x) },
-      { box: { x: right, y: midY, width: inner.x + inner.width - right, height: 0 }, value: css(inner.x + inner.width - right) },
-    ].filter((d) => d.value > 0);
-  }
-  const shared = (a0: number, a1: number, b0: number, b1: number, fallback: number) => (Math.max(a0, b0) < Math.min(a1, b1) ? (Math.max(a0, b0) + Math.min(a1, b1)) / 2 : fallback);
-  const out: Distance[] = [];
-  const y = shared(selected.y, selected.y + selected.height, other.y, other.y + other.height, midY);
-  if (other.x >= selected.x + selected.width) out.push({ box: { x: selected.x + selected.width, y, width: other.x - selected.x - selected.width, height: 0 }, value: css(other.x - selected.x - selected.width) });
-  else if (other.x + other.width <= selected.x) out.push({ box: { x: other.x + other.width, y, width: selected.x - other.x - other.width, height: 0 }, value: css(selected.x - other.x - other.width) });
-  const x = shared(selected.x, selected.x + selected.width, other.x, other.x + other.width, midX);
-  if (other.y >= selected.y + selected.height) out.push({ box: { x, y: selected.y + selected.height, width: 0, height: other.y - selected.y - selected.height }, value: css(other.y - selected.y - selected.height) });
-  else if (other.y + other.height <= selected.y) out.push({ box: { x, y: other.y + other.height, width: 0, height: selected.y - other.y - other.height }, value: css(selected.y - other.y - other.height) });
-  return out;
-}
 
 // The rotation zone's place (spec rotation-handle; item 4.4: one zone outside each of the four corners): a fixed
 // screen distance outside the corner, held inside the canvas (the chrome is clipped to it): inside the corner on a
@@ -799,7 +768,8 @@ export function CanvasChrome() {
         const chipSize = { width: chip?.offsetWidth ?? 0, height: chip?.offsetHeight ?? 0 };
         const atStart = hoveredBox === null ? null : { x: hoveredBox.x, y: hoveredBox.y + hoveredBox.height, ...chipSize };
         const meetsLabel = atStart !== null && placed !== null && overlapsBox(atStart, placed.box);
-        const hoverSize = hoveredBox === null ? null : { x: meetsLabel ? hoveredBox.x + hoveredBox.width : hoveredBox.x, y: hoveredBox.y + hoveredBox.height, width: Math.round(hoveredBox.width / zoom), height: Math.round(hoveredBox.height / zoom), end: meetsLabel };
+        // the hover measure's own module draws the chip and the Alt distances (hover-measure.ts), nothing when it says none
+        const hoverSize = hoverSizeOf(hoveredBox, hovered === null ? null : nodeSize(iframe, hovered), meetsLabel) ?? null;
         // the selected element's own size in CSS px (the label's chip); with several, their union's (the canonical
         // "3 elements selected 1248 × 390")
         const sized = union ?? single;
@@ -808,7 +778,7 @@ export function CanvasChrome() {
         const inner = ancestor && hovered !== null ? local(innerBox(iframe, hovered)) : null;
         // a resize in flow draws the distances to its neighbours; Alt over an element draws the ones to it
         const measured = resizing !== null && selection[0] !== undefined ? resizeDistances(iframe, documentNow, selection[0], resizing.handle, zoom, local) : [];
-        const distances = measured.length > 0 ? measured : altHeld && hoveredBox !== null && single !== undefined ? distancesOf(single, hoveredBox, inner, zoom) : [];
+        const distances = measured.length > 0 ? measured : (altDistances(altHeld, single, hoveredBox, inner, zoom) ?? []);
         // the neighbouring siblings of the one selected element, for the resize handles' hit areas (handleHitBox)
         const picked = selection.length === 1 ? selection[0] : undefined;
         const list = picked === undefined ? [] : (locate(documentNow, picked)?.parent?.children ?? []);
@@ -863,12 +833,12 @@ export function CanvasChrome() {
       <ViewOverlays />
       {shown.hovered ? <div className="chrome__hover" data-chrome="hover" style={at(shown.hovered)} /> : null}
       {shown.hoverSize ? (
-        <div className={`chrome__size${shown.hoverSize.end ? ' chrome__size--end' : ''}`} data-chrome="hover-size" style={{ left: shown.hoverSize.x, top: shown.hoverSize.y }}>
+        <div className={`chrome__size${shown.hoverSize.end ? ' chrome__size--end' : ''}`} data-chrome="hover-size" data-region="canvas-hover-size" style={{ left: shown.hoverSize.x, top: shown.hoverSize.y }}>
           {t('canvas.measure.size', { width: shown.hoverSize.width, height: shown.hoverSize.height })}
         </div>
       ) : null}
       {shown.distances.map((d, i) => (
-        <div key={i} className={`chrome__distance chrome__distance--${d.box.width === 0 ? 'down' : 'across'}`} data-chrome="distance" data-value={d.value} style={at(d.box)}>
+        <div key={i} className={`chrome__distance chrome__distance--${d.box.width === 0 ? 'down' : 'across'}`} data-chrome="distance" data-region="canvas-distance" data-value={d.value} style={at(d.box)}>
           <span className="chrome__distance-label">{t('canvas.measure.distance', { value: d.value })}</span>
         </div>
       ))}

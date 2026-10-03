@@ -886,6 +886,7 @@ export function checkManifest(input: ManifestInput): CheckResult {
         if (g.reference !== null) ref(regionIds.has(g.reference), f.file, `${at}.regions[${gi}].reference`, `unknown region "${g.reference}" of layout.json`);
       });
       editor?.computed.forEach((c, ci) => ref(regionIds.has(c.region), f.file, `${at}.computed[${ci}].region`, `unknown region "${c.region}" of layout.json`));
+      s.expect.hover?.shows.forEach((show, hi) => ref(regionIds.has(show.region), f.file, `${f.path}.scenarios[${si}].expect.hover.shows[${hi}].region`, `unknown region "${show.region}" of layout.json`));
     }
   }
 
@@ -996,6 +997,7 @@ export function checkManifest(input: ManifestInput): CheckResult {
     for (const [si, s] of f.feature.scenarios.entries()) {
       s.refusals.forEach((r, i) => noteKey(r.key, `${f.file} ${f.path}.scenarios[${si}].refusals[${i}]`));
       s.expect.render?.feedback.forEach((fb, i) => noteKey(fb.key, `${f.file} ${f.path}.scenarios[${si}].expect.render.feedback[${i}]`));
+      s.expect.hover?.shows.forEach((show, i) => noteKey(show.key, `${f.file} ${f.path}.scenarios[${si}].expect.hover.shows[${i}]`));
     }
   }
   p.elements.elements.forEach((e, i) => {
@@ -1832,7 +1834,7 @@ export function checkManifest(input: ManifestInput): CheckResult {
       const render = s.expect.render;
       const renders = render !== null && render.computed.length + render.geometry.length + render.feedback.length > 0;
       const editor = s.expect.editor;
-      const measuresEditor = editor !== null && editor.regions.length + editor.computed.length > 0;
+      const measuresEditor = (editor !== null && editor.regions.length + editor.computed.length > 0) || s.expect.hover !== undefined;
       const persistence = s.expect.persistence;
       const persists = persistence !== null && (persistence.document !== null || persistence.preferences !== null || (persistence.selection ?? null) !== null);
       if (!renders && !measuresEditor && !persists && s.expect.export === null) {
@@ -2274,6 +2276,7 @@ export function checkManifest(input: ManifestInput): CheckResult {
           report('document-path', f.file, `${at}.expect.document`, `after the diff the document breaks the model at ${problem.path}: ${problem.message}`);
         }
         s.expect.selection.forEach((nodePath, i) => armCheck(after, f.file, `${at}.expect.selection[${i}]`, nodePath, 'after the diff'));
+        if (s.expect.hover !== undefined) armCheck(after, f.file, `${at}.expect.hover.node`, s.expect.hover.node, 'after the diff');
         s.expect.render?.computed.forEach((c, i) => armCheck(after, f.file, `${at}.expect.render.computed[${i}].node`, c.node, 'after the diff'));
         s.expect.render?.geometry.forEach((g, i) => {
           armCheck(after, f.file, `${at}.expect.render.geometry[${i}].node`, g.node, 'after the diff');

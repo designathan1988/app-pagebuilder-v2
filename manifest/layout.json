@@ -280,6 +280,14 @@
       "area": "component"
     },
     {
+      "id": "canvas-hover-size",
+      "area": "component"
+    },
+    {
+      "id": "canvas-distance",
+      "area": "component"
+    },
+    {
       "id": "canvas-folds",
       "area": "centre"
     },

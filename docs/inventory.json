@@ -1,12 +1,12 @@
 {
   "totals": {
     "features": 214,
-    "built": 213,
+    "built": 214,
     "commands": 371,
     "doors": 1343,
-    "scenarios": 1762,
-    "modules": 418,
-    "lines": 77623
+    "scenarios": 1766,
+    "modules": 420,
+    "lines": 77694
   },
   "features": [
     {
@@ -1929,10 +1929,10 @@
     },
     {
       "id": "hover-measure",
-      "built": false,
+      "built": true,
       "commands": [],
       "doors": 0,
-      "scenarios": 0,
+      "scenarios": 4,
       "modules": []
     },
     {
@@ -3285,7 +3285,7 @@
     },
     {
       "path": "src/app/features.ts",
-      "lines": 255,
+      "lines": 258,
       "commands": [],
       "features": []
     },
@@ -4977,13 +4977,19 @@
     },
     {
       "path": "src/editor/canvas/chrome.tsx",
-      "lines": 1008,
+      "lines": 978,
       "commands": [],
       "features": []
     },
     {
       "path": "src/editor/canvas/coordinates.ts",
-      "lines": 533,
+      "lines": 543,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/canvas/distances.ts",
+      "lines": 38,
       "commands": [],
       "features": []
     },
@@ -5052,6 +5058,12 @@
       "features": [
         "radius-border-gap-handles"
       ]
+    },
+    {
+      "path": "src/editor/canvas/hover-measure.ts",
+      "lines": 32,
+      "commands": [],
+      "features": []
     },
     {
       "path": "src/editor/canvas/page-clock.ts",
@@ -6517,7 +6529,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6493,
+      "lines": 6495,
       "commands": [],
       "features": []
     },
@@ -6541,7 +6553,7 @@
     },
     {
       "path": "src/manifest/check.ts",
-      "lines": 2362,
+      "lines": 2365,
       "commands": [],
       "features": []
     },
@@ -6577,7 +6589,7 @@
     },
     {
       "path": "src/manifest/schema.ts",
-      "lines": 1340,
+      "lines": 1353,
       "commands": [],
       "features": []
     },

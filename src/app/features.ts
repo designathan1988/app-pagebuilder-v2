@@ -4,7 +4,7 @@
 // brings (a palette entry), are usable only while it is registered (DESIGN.md "Build order"); the census fails a
 // registered feature with no scenario, or one of whose scenarios cannot run or fails. Plain data: the runner and the
 // census read it in Node.
-import { NOT_AVAILABLE_YET, isRegistered, registerFeature, type FeatureTable } from '../core/commands/registry.ts';
+import { isRegistered, registerFeature, type FeatureTable } from '../core/commands/registry.ts';
 import type { FeatureId } from '../generated/ids.ts';
 
 export const FEATURES = {
@@ -154,7 +154,7 @@ export const FEATURES = {
   'snap-toggle-settings': registerFeature('snap-toggle-settings'),
   'snap-while-moving': registerFeature('snap-while-moving'),
   'smart-guides': registerFeature('smart-guides'),
-  'hover-measure': NOT_AVAILABLE_YET,
+  'hover-measure': registerFeature('hover-measure'),
   // 11 responsive and states
   'breakpoints-switch': registerFeature('breakpoints-switch'),
   'breakpoint-overrides': registerFeature('breakpoint-overrides'),
@@ -250,5 +250,8 @@ export const FEATURES = {
 
 // Whether a feature is registered as built.
 export function isFeatureBuilt(feature: FeatureId): boolean {
-  return isRegistered<FeatureId>(FEATURES[feature]);
+  // an id the table does not hold is no feature built (a door's data names only the manifest's, which manifest:check
+  // proves; a stand-in names none)
+  const entry = (FEATURES as Partial<typeof FEATURES>)[feature];
+  return entry !== undefined && isRegistered<FeatureId>(entry);
 }

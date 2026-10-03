@@ -2731,6 +2731,7 @@ Ctrl is the modifier; there is no keyboard way to pick the measured element.
 4. **The hovered element's size chip was drawn over the selection's label** (jornada03 J16: a button's label below it and
    its section's "1440 × 246" one over the other). Required: where the chip under the hovered element's bottom-left
    corner would meet the selection's label, it stands under the bottom-right corner instead.
+5. **The measure ran while the contract said "not available yet"** (the audit's AUD-17, 2026-10-02: the canvas drew the hover size and Alt's distances, and the feature had no scenario and no tooth proof). Required: hover-measure is built, its code its own module (`src/editor/canvas/hover-measure.ts`, the tooth proof's `toothProof`); the size a hover shows is the page's own layout of the element in CSS px, rounded (coordinates.ts `nodeSize`, never the screen box divided by the zoom, which drifts by a pixel with the zoom); its scenarios rest the real pointer on a node (`expect.hover`: its centre or inside its top-left corner, Alt held or not) and read the chip and the distances (regions `canvas-hover-size`, `canvas-distance`), at 100 % and 50 %; and inventory:check fails while a feature that is not built has a module the app imports.
 
 ## html-import
 

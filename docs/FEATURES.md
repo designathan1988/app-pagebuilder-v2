@@ -5,7 +5,7 @@ the last complete browser run on a clean tree (`docs/feature-results.json`, writ
 hand. `npm run inventory:check` fails while this file is out of step. The requirements these features answer, and the
 open problems, are in `docs/PRODUCT.md`.
 
-214 features (213 built), 371 commands, 1343 doors, 1762 scenarios.
+214 features (214 built), 371 commands, 1343 doors, 1766 scenarios.
 
 No complete browser run on a clean tree has been recorded yet: the next one writes `docs/feature-results.json`.
 
@@ -194,7 +194,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `snap-toggle-settings` | Snap on/off and snap settings | yes | 9 | 7 | [snap-toggle-settings](../spec/BEHAVIOUR.md#snap-toggle-settings) | 4 | — |
 | `snap-while-moving` | Snapping while resizing and moving positioned elements | yes | 6 | 2 | [snap-while-moving](../spec/BEHAVIOUR.md#snap-while-moving) | 4 | — |
 | `smart-guides` | Smart alignment and equal spacing guides | yes | 3 | 3 | [smart-guides](../spec/BEHAVIOUR.md#smart-guides) | 3 | — |
-| `hover-measure` | Measure sizes and distances on the canvas | not yet | 0 | 0 | [hover-measure](../spec/BEHAVIOUR.md#hover-measure) | 4 | not built |
+| `hover-measure` | Measure sizes and distances on the canvas | yes | 4 | 1 | [hover-measure](../spec/BEHAVIOUR.md#hover-measure) | 5 | — |
 
 ## 11-responsive-and-states
 
