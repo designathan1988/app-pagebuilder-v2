@@ -83,8 +83,8 @@ export const setFieldUnit = registerHandler('field.setUnit', (context, { propert
   return again === null ? refused : writeStyle(context, property, again.css);
 });
 
-// A length in another unit, the same size, for the units the page measures (the user's real-use audit, item 5.3): rem is
-// the root's font size, and em and % — on a font size, where both are relative to what the parent computes — the
+// A length in another unit, the same size, for the units the page measures (the user's real-use audit, item 5.3): rem
+// is the root's font size, and em and % — on a font size, where both are relative to what the parent computes — the
 // parent's; the port measures them (Layout.fontPx), so the size on the page does not change. The value converted may
 // itself stand on those (a length in rem becomes em through the pixels it is). null for a unit or a property the page
 // does not measure (a width in % needs the parent's width, which the audit does not ask for yet).

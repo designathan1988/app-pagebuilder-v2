@@ -1,8 +1,8 @@
 // The trust boundary of the motion model (spec motion-interactions, "Result in the document"): every timeline,
 // interaction and behaviour the document holds is read here from unknown JSON â€” a file opened, a paste, an import, a
-// command's own result â€” field by field, strictly (an unknown field is refused, as the manifest's schemas refuse one).
-// The validator (core/document/validate.ts) asks it for every document the store would publish, and the commands ask it
-// before they write, so a predictable invalid value is refused before any patch exists.
+// command's own result â€” field by field, strictly (an unknown field is refused, as the manifest's schemas refuse
+// one). The validator (core/document/validate.ts) asks it for every document the store would publish, and the commands
+// ask it before they write, so a predictable invalid value is refused before any patch exists.
 //
 // What is not checked here is what another owner may change without telling motion: a class, a component, a
 // breakpoint, a project file or a CSS animation named by an action. Those may disappear; the runtime then finds

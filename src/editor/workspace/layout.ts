@@ -154,8 +154,9 @@ export const setWorkbenchState = registerHandler<'workspace.setWorkbenchState', 
   (state, args) => (args.state === 'toggle-max' ? state.ui.layout.dock === 'max' : state.ui.layout.dock !== 'collapsed'),
 );
 
-// ---------------------------------------------------------------- floating panels and combining (specs floating-panels,
-// panel-combine-tabs): which panels left their place, where they are now, and the command that moves them.
+// ---------------------------------------------------------------- floating panels and combining (specs
+// floating-panels, panel-combine-tabs): which panels left their place, where they are now, and the command that moves
+// them.
 const withLayout = (ui: EditorUi, layout: LayoutState): EditorUi => ({ ...ui, layout });
 
 // the panel a name stands for, or a defect of the door

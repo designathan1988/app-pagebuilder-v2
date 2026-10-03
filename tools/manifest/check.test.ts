@@ -497,7 +497,8 @@ describe('generated web data', () => {
     expect(keyword('color', 'mark')).toMatchObject({ bcd: 'css.types.color.system-color.mark', safari: false });
     // every keyword the syntax names is recorded, not only those valid alone
     expect(keyword('box-shadow', 'inset').bcd).toBe('css.properties.box-shadow.inset');
-    // a prefixed value BCD does not track has no support, and a prefixed property's keywords follow the prefixed property
+    // a prefixed value BCD does not track has no support, and a prefixed property's keywords follow the prefixed
+    // property
     expect(all(keyword('display', '-moz-box'))).toEqual([false, false, false]);
     expect(all(keyword('-webkit-line-clamp', 'none'))).toEqual([true, true, true]);
     // a type's entry stands for its values only when the browser syntax names them

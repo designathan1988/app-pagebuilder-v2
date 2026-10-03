@@ -47,8 +47,8 @@ const drawnRegions = (): Element[] => REGION_ROOTS.map((one) => document.querySe
 // (a region that takes the focus keeps the focus ring of its own).
 function focusRegion(region: Element): void {
   // the canvas is entered on the page itself, never on the frame's breakpoint tabs (the audit's AUD-13, jornada03 J12):
-  // the stage takes the focus, its key context the canvas's (input/keymap.ts), so the tree walk and every canvas key act
-  // at once, and it draws the focus ring; it gives the tabindex back when the focus leaves it
+  // the stage takes the focus, its key context the canvas's (input/keymap.ts), so the tree walk and every canvas key
+  // act at once, and it draws the focus ring; it gives the tabindex back when the focus leaves it
   if (region.matches(STAGE)) {
     const stage = region as HTMLElement;
     stage.setAttribute('tabindex', '-1');
@@ -66,9 +66,9 @@ function focusRegion(region: Element): void {
       return;
     }
   }
-  // a control that is a key context of its own (a canvas handle, a guide) is not where a region is entered: F6 is no key
-  // of it, and the walk would stop there (the audit's U-029); a panel is entered on its content, its header's controls
-  // (Close the panel) only when it has none
+  // a control that is a key context of its own (a canvas handle, a guide) is not where a region is entered: F6 is no
+  // key of it, and the walk would stop there (the audit's U-029); a panel is entered on its content, its header's
+  // controls (Close the panel) only when it has none
   // (a region nested in it, the Layers in the sidebar, is a stop of its own: none of its controls enters this one)
   const nested = drawnRegions().filter((one) => one !== region && region.contains(one));
   const enterable = [...region.querySelectorAll<HTMLElement>(FOCUSABLE)].filter((el) => el.getClientRects().length > 0 && !el.hasAttribute('disabled') && el.tabIndex >= 0 && !el.hasAttribute('data-key-context') && !nested.some((one) => one.contains(el)));
@@ -190,8 +190,8 @@ export function carryOut(move: FocusMove, focused: Element | null): void {
         // (data-panel-focus: the inspector, a dock tab; data-panel-area would make it a place a dragged panel combines
         // with, panel-drag.ts)
         const region = document.querySelector(`[data-panel-area="${move.slice(6)}"], [data-panel-window="${move.slice(6)}"], [data-panel-focus="${move.slice(6)}"]`);
-        // a control the person reached inside the panel in these two frames keeps the focus (FL2: a tile focused at once
-        // lost it to the panel's search field, so its Escape cleared the field instead of closing the panel)
+        // a control the person reached inside the panel in these two frames keeps the focus (FL2: a tile focused at
+        // once lost it to the panel's search field, so its Escape cleared the field instead of closing the panel)
         if (region && !region.contains(document.activeElement)) focusRegion(region);
       }),
     );

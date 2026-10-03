@@ -26,7 +26,12 @@ const withoutEmpty = (value: Values): Values => Object.fromEntries(Object.entrie
 const strings = (value: string): string[] => value.split('\n').map((item) => item.trim()).filter(Boolean);
 const choiceValues = (ports: FormsSettingsPorts, stem: string, values: readonly string[]) => values.map((value) => ({ value, label: ports.t(`${stem}.${value}`) }));
 
-export function FieldFormSettings({ config, onChange: commit, ports, maskAllowed = true }: { readonly config: FieldConfig; readonly onChange: (next: FieldConfig) => void; readonly ports: FormsSettingsPorts; readonly maskAllowed?: boolean }): ReactNode {
+export function FieldFormSettings({ config, onChange: commit, ports, maskAllowed = true }: {
+  readonly config: FieldConfig;
+  readonly onChange: (next: FieldConfig) => void;
+  readonly ports: FormsSettingsPorts;
+  readonly maskAllowed?: boolean
+}): ReactNode {
   const onChange = (next: FieldConfig): FieldConfig => next;
   const [trial, setTrial] = useState('');
   const [locale, setLocale] = useState(ports.locales[0] ?? 'en');
@@ -47,20 +52,30 @@ export function FieldFormSettings({ config, onChange: commit, ports, maskAllowed
   const field = (path: string, kind: 'text' | 'number' | 'boolean' | 'select' | 'textarea', value: string | number | boolean | undefined, changed: ((value: string) => FieldConfig | undefined) | ((value: string) => void), options?: readonly { readonly value: string; readonly label: string }[]) => {
     const local = ['preview.input', 'messages.locale', 'mask.block.name', 'address.key'].includes(path);
     return ports.field({ door: `forms.${path}`, labelKey: `forms.${path}`, kind, value: value ?? '',
-      onChange: value => { const next = changed(value); if (next !== undefined) commit(next); },
+      onChange: value => { const next = changed(value);
+        if (next !== undefined) commit(next);
+      },
       ...(!local ? { configurationFor: (value: string) => changed(value) ?? undefined } : {}), ...(options ? { options } : {}),
     });
   };
-  const button = (door: string, labelKey: string, next: FieldConfig, after?: () => void) => ports.button({ door, labelKey, configuration: next, onClick: () => { commit(next); after?.(); } });
+  const button = (door: string, labelKey: string, next: FieldConfig, after?: () => void) => ports.button({ door, labelKey, configuration: next, onClick: () => {
+    commit(next);
+    after?.();
+  } });
   const numberMask = (property: 'precision' | 'minimum' | 'maximum') => field(`mask.${property}`, 'number', mask[property], (value) => changeMask({ [property]: value === '' ? undefined : Number(value) }));
   const numberRule = (property: 'minLength' | 'maxLength' | 'minimum' | 'maximum' | 'step') => field(`rules.${property}`, 'number', rules[property], (value) => changeRules({ [property]: value === '' ? undefined : Number(value) }));
   let preview: string;
-  try { const result = createFormsEngine(systemClock.now).mask(trial, mask); preview = `${result.formatted} · ${ports.t('forms.preview.raw')}: ${result.raw} · ${ports.t(result.valid ? 'forms.preview.valid' : 'forms.preview.invalid')}`; }
+  try {
+    const result = createFormsEngine(systemClock.now).mask(trial, mask);
+    preview = `${result.formatted} · ${ports.t('forms.preview.raw')}: ${result.raw} · ${ports.t(result.valid ? 'forms.preview.valid' : 'forms.preview.invalid')}`;
+  }
   catch { preview = ports.t('forms.validation.configuration'); }
   return <section className="inspector-section" aria-label={ports.t('forms.title')}>
     {maskAllowed && <>
     {field('mask.kind', 'select', mask.kind, (kind) => onChange({ ...config, mask: chooseMask(kind as MaskConfig['kind']) }), choiceValues(ports, 'forms.mask.kind', ['none', 'preset', 'fixed', 'dynamic', 'custom', 'number', 'currency', 'percent', 'date', 'time', 'regex', 'uppercase', 'lowercase']))}
-    {mask.kind === 'preset' && field('mask.preset', 'select', mask.preset, (preset) => { const found = presetCatalogue.find((one) => one.id === preset); if (found) return onChange({ ...config, mask: { ...found.mask, ...(mask.submit ? { submit: mask.submit } : {}) } }); }, presetCatalogue.map((one) => ({ value: one.id, label: ports.t(`forms.preset.${one.id}`) })))}
+    {mask.kind === 'preset' && field('mask.preset', 'select', mask.preset, (preset) => { const found = presetCatalogue.find((one) => one.id === preset);
+      if (found) return onChange({ ...config, mask: { ...found.mask, ...(mask.submit ? { submit: mask.submit } : {}) } });
+    }, presetCatalogue.map((one) => ({ value: one.id, label: ports.t(`forms.preset.${one.id}`) })))}
     {['fixed', 'custom', 'regex'].includes(mask.kind) && field('mask.pattern', 'text', mask.pattern, (pattern) => changeMask({ pattern }))}
     {mask.kind === 'dynamic' && <div>
       {(mask.alternatives ?? []).map((alternative, index) => <div key={index}>

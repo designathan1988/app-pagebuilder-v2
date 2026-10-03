@@ -1,6 +1,6 @@
 // npm run gen:check (first step of verify:fast)
-// Regenerates manifest/generated/, src/ui/tokens.css and src/generated/ and fails when git sees any difference: a generated
-// file that was edited by hand, or is stale because a source (a package, design/final/tokens.json) changed,
+// Regenerates manifest/generated/, src/ui/tokens.css and src/generated/ and fails when git sees any difference: a
+// generated file that was edited by hand, or is stale because a source (a package, design/final/tokens.json) changed,
 // or was never added to git.
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';

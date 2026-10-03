@@ -5,7 +5,8 @@
 // fonts and backgrounds they name, downloaded. With `pages` above one it follows the links to other pages of the same
 // site, breadth first, up to that many pages. It hands back the files of a static copy — each page at a path like its
 // address (index.html, about/index.html), css/, img/, fonts/ — every reference rewritten to them, and a link between
-// two captured pages written from one file to the other: the files File › Import HTML takes (src/core/import/import.ts).
+// two captured pages written from one file to the other: the files File › Import HTML takes
+// (src/core/import/import.ts).
 import type { Browser, Page } from '@playwright/test';
 import { chromium } from '@playwright/test';
 import { generate as generateCss, parse as parseCss, walk as walkCss, type CssNode } from 'css-tree';
@@ -70,9 +71,9 @@ const pageKey = (url: string): string => {
 // a project path written from a page's own folder (img/a.png from about/index.html is ../img/a.png)
 const fromPage = (page: string, target: string): string => '../'.repeat(page.split('/').length - 1) + target;
 // A sheet's rules with its custom elements' tags written as the class their divs wear (mdn-dropdown is
-// .ce-mdn-dropdown), and, for a shadow root's sheet (`scope`, its host's tag), every rule kept within its host: :host is
-// the host itself, ::slotted(x) an x inside it, any other selector a descendant of it. A sheet that does not parse is
-// kept as it is.
+// .ce-mdn-dropdown), and, for a shadow root's sheet (`scope`, its host's tag), every rule kept within its host: :host
+// is the host itself, ::slotted(x) an x inside it, any other selector a descendant of it. A sheet that does not parse
+// is kept as it is.
 export function scopeCss(text: string, scope: string | null, custom: ReadonlySet<string>): string {
   if (scope === null && custom.size === 0) return text;
   let ast: CssNode;
@@ -194,8 +195,8 @@ export async function capture(address: string, options: { readonly width?: numbe
           if (el instanceof HTMLLinkElement) sheets.push({ href: el.href, text: null, scope: null });
           else if (el.textContent !== null && !el.textContent.includes('animation-play-state:paused!important')) sheets.push({ href: null, text: el.textContent, scope: null });
         }
-        // the custom elements met (a tag with a dash): each becomes a div wearing the class ce-<tag>, which the page's and
-        // the shadow roots' rules are rewritten to (scopeCss), so the import keeps it as an element instead of
+        // the custom elements met (a tag with a dash): each becomes a div wearing the class ce-<tag>, which the page's
+        // and the shadow roots' rules are rewritten to (scopeCss), so the import keeps it as an element instead of
         // unwrapping it, and a shadow root's rules stay within their host
         const custom = new Set<string>();
         // The page as it is drawn, shadow DOM flattened (the plan's stage 12): a host's open shadow root stands in its
@@ -217,8 +218,8 @@ export async function capture(address: string, options: { readonly width?: numbe
             copy.classList.add(`ce-${node.localName}`);
           }
           if (undrawn) copy.setAttribute('hidden', '');
-          // the classes the markup gave it, kept apart: the import may make a class the element's own styles and drop it,
-          // and the residual stylesheet's rules name these (core/import residualCss)
+          // the classes the markup gave it, kept apart: the import may make a class the element's own styles and drop
+          // it, and the residual stylesheet's rules name these (core/import residualCss)
           if (copy.getAttribute('class')) copy.setAttribute('data-capture-class', copy.getAttribute('class') as string);
           if (node instanceof HTMLImageElement) {
             const src = node.currentSrc || node.getAttribute('src') || '';

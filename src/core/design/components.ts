@@ -1,7 +1,8 @@
 // The project's components (INVENTORY.md, owners; spec reusable-components): a component is a named
 // definition, a tree of elements kept with the project (the document's `components`), whose instances are real
-// subtrees of pages. An instance's root names its component (`component`); each of its elements records the place of the
-// definition element it comes from (`componentPart`, the child indexes from the definition's root). The one owner of:
+// subtrees of pages. An instance's root names its component (`component`); each of its elements records the place of
+// the definition element it comes from (`componentPart`, the child indexes from the definition's root). The one owner
+// of:
 //  - components.create: the one selected element and its subtree become a new component's definition (new ids), named
 //    after the element (numbered when the project has a component of that name); the element becomes its first
 //    instance. The page root (status.components.root), an instance or an element inside one
@@ -224,7 +225,8 @@ function fieldsOf(definition: ComponentDefinition, rules: ModelRules): readonly 
 }
 
 // What a cell names as an image: a file of the project by its path, a project image by its file name (any case, with
-// or without its extension: "graos.png" or "graos" for img/graos.png), or an address of the web; null for anything else.
+// or without its extension: "graos.png" or "graos" for img/graos.png), or an address of the web; null for anything
+// else.
 const IMAGE_NAME = /\.(png|jpe?g|gif|webp|avif|svg|bmp|ico)$/iu;
 const WEB_ADDRESS = /^https?:\/\//iu;
 export function imageSource(document: DocumentJson, value: string): string | null {

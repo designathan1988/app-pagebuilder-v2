@@ -35,9 +35,10 @@ export function reportInvariantBreach(source: string, problems: readonly Invalid
   record({ kind: 'invariant', what: `commit "${source}" left a document the model refuses`, detail: problems.map((p) => `${p.path}: ${p.message}`).join('\n') });
 }
 
-// A command that answered with structural patches (an addition, a removal, a collection replaced) that left the document
-// exactly as it was: it claims a change it did not make (a delete that deleted nothing, a move that moved nothing) — a
-// bug the person cannot see, since the status says it happened. Setting a value to the one already held is not this:
+// A command that answered with structural patches (an addition, a removal, a collection replaced) that left the
+// document exactly as it was: it claims a change it did not make (a delete that deleted nothing, a move that moved
+// nothing) — a bug the person cannot see, since the status says it happened. Setting a value to the one already held is
+// not this:
 // only structural patches count.
 export function reportEmptyChange(command: string, said: string | null): void {
   record({ kind: 'empty-change', what: `command "${command}" claimed a structural change and the document is unchanged`, detail: said ?? '(no message)' });

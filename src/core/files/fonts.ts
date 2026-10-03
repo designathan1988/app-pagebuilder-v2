@@ -28,8 +28,8 @@ export function fontFiles(document: DocumentJson): readonly ProjectFile[] {
   return filesOf(document).filter(isFontFile);
 }
 
-// The family a project font is known by: its file's name without the folder or the extension ("fonts/Heading Bold.woff2"
-// -> "Heading Bold"), so a file dropped in any folder is one family, named as the person named the file.
+// The family a project font is known by: its file's name without the folder or the extension ("fonts/Heading
+// Bold.woff2" -> "Heading Bold"), so a file dropped in any folder is one family, named as the person named the file.
 export function familyOf(file: ProjectFile): string {
   const name = file.path.slice(file.path.lastIndexOf('/') + 1);
   const at = name.lastIndexOf('.');

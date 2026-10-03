@@ -368,9 +368,10 @@ type TsRuleDefinition<MessageIds extends string> = RuleDefinition<{
 }>;
 
 // builder/pointer-owner: pointer, mouse and drag input belongs to the pointer owner (src/editor/input/pointer.ts and
-// the OS file drop it owns, input/file-drop.ts), the files the configuration exempts. A listener of such an event (addEventListener, removeEventListener, an
-// on… property) and a React prop of one (onPointer…, onMouse…, onDrag…, onDrop, the pointer capture props) are
-// refused anywhere else; a control's onClick is not a gesture on the canvas and stays with the control.
+// the OS file drop it owns, input/file-drop.ts), the files the configuration exempts. A listener of such an event
+// (addEventListener, removeEventListener, an on… property) and a React prop of one (onPointer…, onMouse…, onDrag…,
+// onDrop, the pointer capture props) are refused anywhere else; a control's onClick is not a gesture on the canvas and
+// stays with the control.
 const POINTER_EVENT = /^(pointer|mouse|drag|drop|gotpointercapture|lostpointercapture)/i;
 const POINTER_PROP = /^on(Pointer|Mouse|Drag|Drop|GotPointerCapture|LostPointerCapture)/;
 const pointerOwner: TsRuleDefinition<'listener' | 'prop'> = {
@@ -427,9 +428,9 @@ const gestureOwner: TsRuleDefinition<'gesture'> = {
 
 // builder/frame-owner: only the renderer (src/core/render/render.ts, which the configuration exempts) writes the
 // canvas iframe's DOM and CSS. The frame's document is reached (contentDocument, contentWindow, frames) only by the
-// frame's readers, the canvas frame, a side frame (side-frame.tsx, spec side-by-side-view) and the coordinates module, which never write to a DOM or a stylesheet; every
-// other module learns nodes and boxes from coordinates' nodeAt and nodeBox, never its elements (elementAt,
-// screenBox).
+// frame's readers, the canvas frame, a side frame (side-frame.tsx, spec side-by-side-view) and the coordinates module,
+// which never write to a DOM or a stylesheet; every other module learns nodes and boxes from coordinates' nodeAt and
+// nodeBox, never its elements (elementAt, screenBox).
 const FRAME_READERS = ['src/editor/canvas/frame.tsx', 'src/editor/canvas/coordinates.ts', 'src/editor/canvas/side-frame.tsx'];
 const REACH = new Set(['contentDocument', 'contentWindow', 'frames']);
 const ELEMENT_GIVERS = new Set(['elementAt', 'screenBox']);

@@ -6,15 +6,34 @@ export const presetIds = ['cpf', 'cnpj', 'cpf-cnpj', 'cep', 'phone-br', 'phone-i
 const ruleIds = ['required', 'type', 'pattern', 'tooShort', 'tooLong', 'minimum', 'maximum', 'step', 'preset', 'equalTo', 'password', 'allowed', 'dateMinimum', 'dateMaximum', 'fileType', 'fileSize', 'configuration'] as const;
 const finite = z.number().finite();
 const length = z.number().int().min(0).max(1000000);
-const pattern = z.string().max(2048).refine((value) => { try { new RegExp(`^(?:${value})$`, 'u'); return true; } catch { return false; } }, 'Invalid regular expression');
+const pattern = z.string().max(2048).refine((value) => {
+  try {
+    new RegExp(`^(?:${value})$`, 'u');
+    return true;
+  } catch {
+    return false;
+  }
+}, 'Invalid regular expression');
 const dateBoundary = z.string().regex(/^(?:\d{4}-\d{2}-\d{2}|today(?:[+-]\d{1,5}d)?)$/);
-const address = z.string().max(2048).refine((value) => { try { const url = new URL(value, 'https://builder.invalid/'); return ['http:', 'https:'].includes(url.protocol) && !url.username && !url.password; } catch { return false; } }, 'Use an HTTP or HTTPS destination without embedded credentials');
+const address = z.string().max(2048).refine((value) => {
+  try {
+    const url = new URL(value, 'https://builder.invalid/');
+    return ['http:', 'https:'].includes(url.protocol) && !url.username && !url.password;
+  } catch {
+    return false;
+  }
+}, 'Use an HTTP or HTTPS destination without embedded credentials');
 export const maskSchema = z.strictObject({
   kind: z.enum(['none', 'fixed', 'dynamic', 'number', 'currency', 'percent', 'date', 'time', 'regex', 'uppercase', 'lowercase', 'custom', 'preset']),
   preset: z.enum(presetIds).optional(), pattern: z.string().max(2048).optional(),
   alternatives: z.array(z.strictObject({ pattern: z.string().max(2048), maxLength: z.number().int().positive().max(256) })).min(1).max(32).optional(),
   blocks: z.record(z.string().regex(/^[A-Za-z][A-Za-z0-9]*$/), z.string().max(256)).optional(),
-  locale: z.string().max(64).refine((value) => { try { return Intl.NumberFormat.supportedLocalesOf([value]).length === 1; } catch { return false; } }).optional(),
+  locale: z.string().max(64).refine((value) => { try {
+      return Intl.NumberFormat.supportedLocalesOf([value]).length === 1;
+    } catch {
+      return false;
+    }
+  }).optional(),
   currency: z.string().regex(/^[A-Z]{3}$/).optional(), precision: z.number().int().min(0).max(20).optional(),
   minimum: finite.optional(), maximum: finite.optional(), negative: z.boolean().optional(),
   format: z.string().max(64).optional(), autocorrect: z.boolean().optional(), suffix: z.string().max(32).optional(), submit: z.enum(['raw', 'formatted']).optional(),
@@ -58,11 +77,21 @@ export const formConfigSchema = z.strictObject({
 
 export function readFieldConfig(value: unknown): FieldConfig | null {
   if (typeof value !== 'string' || value.length > 100000) return null;
-  try { const result = fieldConfigSchema.safeParse(JSON.parse(value)); return result.success ? result.data as FieldConfig : null; } catch { return null; }
+  try {
+    const result = fieldConfigSchema.safeParse(JSON.parse(value));
+    return result.success ? result.data as FieldConfig : null;
+  } catch {
+    return null;
+  }
 }
 export function readFormConfig(value: unknown): FormConfig | null {
   if (typeof value !== 'string' || value.length > 100000) return null;
-  try { const result = formConfigSchema.safeParse(JSON.parse(value)); return result.success ? result.data as FormConfig : null; } catch { return null; }
+  try {
+    const result = formConfigSchema.safeParse(JSON.parse(value));
+    return result.success ? result.data as FormConfig : null;
+  } catch {
+    return null;
+  }
 }
 
 /** Reuse attributes.set's patches/history; these are its pre-patch guards and import validators. */

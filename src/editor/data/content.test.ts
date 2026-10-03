@@ -1,7 +1,8 @@
 // @vitest-environment happy-dom
 // The content commands on the editor's own store (spec data-import, data-binding, data-pages, shared-regions): every
 // command through the real command table, the derivation the store runs after each change, the validator on every
-// commit, and one undo step for each whole change. jornada03 C4 runs here with Carla's original CSV as the door reads it.
+// commit, and one undo step for each whole change. jornada03 C4 runs here with Carla's original CSV as the door reads
+// it.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import type { CommandId } from '../../generated/ids.ts';

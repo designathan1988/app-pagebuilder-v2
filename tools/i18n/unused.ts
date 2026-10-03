@@ -1,6 +1,6 @@
 // The keys of the English catalogue no code, manifest, tool or test names (the audit's M-06: 43 keys nobody read, the
-// words of surfaces that were never drawn). A key counts as named when it stands as a token in a source, its plural stem
-// does (a key's .one / .other forms), or a template or a concatenation builds it from one of its prefixes
+// words of surfaces that were never drawn). A key counts as named when it stands as a token in a source, its plural
+// stem does (a key's .one / .other forms), or a template or a concatenation builds it from one of its prefixes
 // (`canvas.drop.${where}`, 'interactions.trigger.' + id). src/generated is left out: it lists every key. The sources
 // are read once into two sets, so the check stays quick.
 import { readdirSync, readFileSync, statSync } from 'node:fs';

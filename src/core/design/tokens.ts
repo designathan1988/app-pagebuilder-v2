@@ -2,8 +2,8 @@
 // name, a kind (a colour, a length, a font size: tokens.create's kinds) and a value, kept with the project (the
 // document's `tokens`, in the order they were made) and named in a style value as var(--name). The one owner of:
 //  - tokens.create, tokens.update, tokens.rename, tokens.delete, one undo step each. A name is a CSS custom property's
-//    without its dashes (a letter, then letters, digits and "-"), unique in the project; a value is one the browser takes
-//    for the kind (read as the property the kind names reads it: color for a colour, font-size for a font size, a
+//    without its dashes (a letter, then letters, digits and "-"), unique in the project; a value is one the browser
+//    takes for the kind (read as the property the kind names reads it: color for a colour, font-size for a font size, a
 //    length-percentage property for a length). A rename renames every var(--name) that uses it, wherever a value lives
 //    (Problems in Pager 2); a variable in use is not deleted, the refusal counting the elements that use it and, when
 //    only a shared holder does, saying so (Problems in Pager 3).

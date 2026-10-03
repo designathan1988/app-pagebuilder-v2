@@ -8,7 +8,10 @@ await page.goto(`http://localhost:${process.env.PORT ?? '5320'}/`);
 await page.waitForTimeout(1500);
 await page.locator('[data-door="workspace.setPanelOpen#toolbar-activity-bar-insert"]').click();
 await page.waitForTimeout(500);
-console.log('focus', await page.evaluate(() => { const el = document.activeElement; return el ? `${el.tagName}.${el.className} ctx=${el.getAttribute('data-key-context')}` : 'none'; }));
+console.log('focus', await page.evaluate(() => {
+  const el = document.activeElement;
+  return el ? `${el.tagName}.${el.className} ctx=${el.getAttribute('data-key-context')}` : 'none';
+}));
 await page.keyboard.press('Control+b');
 await page.waitForTimeout(300);
 console.log('sidebar after Ctrl+B', await page.locator('.sidebar').count());

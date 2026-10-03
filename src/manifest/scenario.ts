@@ -206,9 +206,15 @@ export function withStandInIds(document: unknown): unknown {
         // label's "inicio"), never to the node id the document keeps
         const target = typeof found === 'string' ? null : (found.node as JsonObject);
         // a link's anchor is stored as the fragment with the node id; a label's for as the resolved id attribute
-        if (fragment) { attributes[name] = target === null ? held : `#${String((target as JsonObject).id)}`; continue; }
+        if (fragment) {
+          attributes[name] = target === null ? held : `#${String((target as JsonObject).id)}`;
+          continue;
+        }
         const own = target === null ? undefined : (target.attributes as JsonObject | undefined)?.id;
-        if (own === undefined || own === null) { attributes[name] = held; continue; }
+        if (own === undefined || own === null) {
+          attributes[name] = held;
+          continue;
+        }
         attributes[name] = name === 'href' ? `#${String(own)}` : String(own);
       }
     }

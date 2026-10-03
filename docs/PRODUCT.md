@@ -401,7 +401,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-29 | 1 | 16 targets under 24 × 24 px | audit | done (QA 181; the splitters: TS1) |
 | AUD-30 | 1 | Documents and comments that contradict the application; 347 comments citing deleted documents (now archived) | audit | done (QA 182) |
 | AUD-31 | 1 | The `forms-mask` flow broken since `87eb183` | audit | done (QA 183) |
-| AUD-32 | 1 | Minified-style source in the assistant and some tests | audit | open |
+| AUD-32 | 1 | Minified-style source in the assistant and some tests | audit | done (QA 186) |
 | AUD-33 | 1 | 11 controls outside the manifest (`data-local`) | audit | open |
 | AUD-34 | 1 | A test edited per new feature; misfiled manifest group | audit | open |
 | AUD-35 | 1 | Weak tests and thinly covered features | audit | open |

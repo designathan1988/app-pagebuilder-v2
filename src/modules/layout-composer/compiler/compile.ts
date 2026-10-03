@@ -111,7 +111,8 @@ function partitions(regions: readonly Region[], axis: Axis): Region[][] {
   return groups;
 }
 
-// A slicing along an axis is valid only when every slice fills the whole span across it: a hole has to stay a grid cell.
+// A slicing along an axis is valid only when every slice fills the whole span across it: a hole has to stay a grid
+// cell.
 function slicing(regions: readonly Region[], axis: Axis): Region[][] | null {
   const groups = partitions(regions, axis);
   if (groups.length < 2) return null;
@@ -159,8 +160,8 @@ function keysOf(n: CompiledNode, into: Set<string> = new Set()): Set<string> {
   return into;
 }
 
-// The cost of a structure (spec "Stable Compilation"): every node the page does not hold yet, and every wrapper of these
-// regions the page holds that the structure would drop, costs most; then each node (fewer wrappers), then each
+// The cost of a structure (spec "Stable Compilation"): every node the page does not hold yet, and every wrapper of
+// these regions the page holds that the structure would drop, costs most; then each node (fewer wrappers), then each
 // declaration (lower CSS complexity).
 function cost(n: CompiledNode, previous: ReadonlySet<string> | undefined, held: readonly string[] = []): number {
   if (previous === undefined || previous.size === 0) return nodeCount(n) * 10 + cssCount(n);

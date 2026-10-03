@@ -6,7 +6,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import builder, { builderCss } from './tools/lint/plugin.ts';
 
-// The generated tokens (ARCHITECTURE.md, Tokens): the one stylesheet that writes colours, spacing, sizes, radii,
+// The generated tokens (PRODUCT.md §5, Tokens): the one stylesheet that writes colours, spacing, sizes, radii,
 // shadows and font values.
 const TOKENS = 'src/ui/tokens.css';
 
@@ -33,6 +33,18 @@ export default defineConfig(
     extends: [reactHooks.configs.flat.recommended],
   },
   {
+    // Source reads as source (the audit's AUD-32: minified-style files held several statements a line and lines past
+    // 200 characters): one statement a line, a comment within 120 characters, a line of code within 250 (a ceiling
+    // that later work lowers). Strings, templates, regular expressions, addresses and a test environment's options (a
+    // JSON object that must stay on its line) are left as written. These are ESLint's own rules, deprecated in favour
+    // of @stylistic's and kept until ESLint 11.
+    files: ['src/**/*.{ts,tsx}', 'tools/**/*.ts'],
+    rules: {
+      'max-statements-per-line': ['error', { max: 1 }],
+      'max-len': ['error', { code: 250, comments: 120, ignoreUrls: true, ignoreStrings: true, ignoreTemplateLiterals: true, ignoreRegExpLiterals: true, ignorePattern: String.raw`^\s*// (\{|@vitest-environment-options)` }],
+    },
+  },
+  {
     files: ['*.config.{js,ts}', 'tests/**/*.ts', 'tools/**/*.ts', 'companion/**/*.mjs'],
     languageOptions: { globals: globals.node },
   },
@@ -45,14 +57,14 @@ export default defineConfig(
     },
   },
   {
-    // The time is read only through the Clock port and ids come only from the IdGenerator port (ARCHITECTURE.md).
+    // The time is read only through the Clock port and ids come only from the IdGenerator port (PRODUCT.md §5).
     files: ['src/**/*.{ts,tsx}'],
     ignores: ['src/core/ports/clock.ts', 'src/core/ports/ids.ts'],
     plugins: { builder },
     rules: { 'builder/use-ports': 'error' },
   },
   {
-    // Pointer, mouse and drag input belongs to the pointer owner (ARCHITECTURE.md, Pointer input): the pointer
+    // Pointer, mouse and drag input belongs to the pointer owner (PRODUCT.md §5, Pointer input): the pointer
     // machine and the OS file drop it owns (input/file-drop.ts, split out of it).
     files: ['src/**/*.{ts,tsx}'],
     // the motion runtime is the page's own script (spec motion-runtime): its triggers listen to the page's pointer
@@ -69,7 +81,7 @@ export default defineConfig(
     rules: { 'builder/gesture-owner': 'error' },
   },
   {
-    // Keys belong to the keymap, which runs the manifest's shortcut doors (ARCHITECTURE.md, Keymap).
+    // Keys belong to the keymap, which runs the manifest's shortcut doors (PRODUCT.md §5, Keymap).
     files: ['src/**/*.{ts,tsx}'],
     // the motion runtime is the page's own script (spec motion-runtime): its key trigger listens to the page's keys
     ignores: ['src/editor/input/keymap.ts', 'src/editor/motion/runtime/**'],
@@ -86,7 +98,7 @@ export default defineConfig(
     rules: { 'builder/no-manifest-id': 'error' },
   },
   {
-    // Only the renderer writes the canvas iframe's page (ARCHITECTURE.md, Renderer); its tests build pages of their own.
+    // Only the renderer writes the canvas iframe's page (PRODUCT.md §5, Renderer); its tests build pages of their own.
     files: ['src/**/*.{ts,tsx}'],
     ignores: ['src/core/render/render.ts', 'src/**/*.test.ts'],
     plugins: { builder },

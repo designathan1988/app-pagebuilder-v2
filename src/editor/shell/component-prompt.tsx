@@ -25,7 +25,9 @@ export function ComponentPrompt() {
   const document = useEditorState((s) => s.document);
   const field = useRef<HTMLInputElement>(null);
   const panel = useRef<HTMLDivElement>(null);
-  const close = () => { if (CLOSE) (store.dispatch as (id: string, args: unknown) => unknown)(CLOSE.command.id, {}); };
+  const close = () => {
+    if (CLOSE) (store.dispatch as (id: string, args: unknown) => unknown)(CLOSE.command.id, {});
+  };
   useOutsideLayer(panel, open !== null, close);
   useEffect(() => {
     field.current?.focus();

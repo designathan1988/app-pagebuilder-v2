@@ -247,7 +247,11 @@ function QuickField({ entry, node, context, twoColumn }: { readonly entry: DoorE
   const part = partOf(entry, property);
   if (part !== null) return <TextStyleField entry={entry} door={door} property={property} longhands={null} label={door.label} part={part} keepOnLeave={false} prefix={keyOf(t, entry, false)} />;
   // a command of its own that takes the value (Gradient: style.setBackgroundImage) keeps it with its own form
-  return <TextStyleField entry={entry} door={door} property={property} longhands={null} label={door.label} colour={COLOUR.has(property)} ownCommand={!keptByFieldEnter(entry)} keepOnLeave={false} prefix={keyOf(t, entry, twoColumn && COLOUR.has(property))} />;
+  return <TextStyleField entry={entry} door={door} property={property} longhands={null} label={door.label} colour={COLOUR.has(property)} ownCommand={!keptByFieldEnter(entry)} keepOnLeave={false} prefix={keyOf(
+    t,
+    entry,
+    twoColumn && COLOUR.has(property)
+  )} />;
 }
 
 // The chip: the panel's own control (manifest, the region's chip door). Collapsed it stands beside the selection's
@@ -283,8 +287,8 @@ function Chip({ entry, open, at, measuring, buttonRef }: { readonly entry: DoorE
   );
 }
 
-// The grip: pressed and moved, it drags the panel (the pointer owner runs quickPanel.setOffset from the offset the panel
-// is drawn at now); it stands for the element.
+// The grip: pressed and moved, it drags the panel (the pointer owner runs quickPanel.setOffset from the offset the
+// panel is drawn at now); it stands for the element.
 function Grip({ entry, node, offset }: { readonly entry: DoorEntry; readonly node: DocNode; readonly offset: Offset | null }) {
   const args = { target: node.id };
   const door = useDoor(entry, args, undefined, isFeatureBuilt(entry.door.feature as FeatureId));
@@ -306,7 +310,8 @@ function Grip({ entry, node, offset }: { readonly entry: DoorEntry; readonly nod
 }
 
 interface Placed {
-  // the element it was placed for, and whether open: a placing for another element, or the chip's for the panel, is none
+  // the element it was placed for, and whether open: a placing for another element, or the chip's for the panel, is
+  // none
   readonly id: string;
   readonly open: boolean;
   readonly box: Box;
@@ -379,11 +384,15 @@ export function QuickPanel({ stage }: { readonly stage: RefObject<HTMLDivElement
         // the chip beside the selection's label; the open panel where placeQuickPanel puts it
         const at = label?.getBoundingClientRect();
         const beside = !open && at ? placeChip({ x: at.x - origin.x, y: at.y - origin.y, width: at.width, height: at.height }, size, whole, gap) : null;
-        // it never covers the selection's rotation handle (spec rotation-handle), which a narrow element's label reaches:
+        // it never covers the selection's rotation handle (spec rotation-handle), which a narrow element's label
+        // reaches:
         // it steps past it, to its right
         const handle = area.querySelector('[data-rotate-handle]')?.getBoundingClientRect();
         const turn = handle ? { x: handle.x - origin.x, y: handle.y - origin.y, width: handle.width, height: handle.height } : null;
-        const chipBox = beside !== null && turn !== null && beside.x < turn.x + turn.width && turn.x < beside.x + beside.width && beside.y < turn.y + turn.height && turn.y < beside.y + beside.height ? { ...beside, x: turn.x + turn.width + gap } : beside;
+        const chipBox = beside !== null && turn !== null && beside.x < turn.x + turn.width && turn.x < beside.x + beside.width && beside.y < turn.y + turn.height && turn.y < beside.y + beside.height ? {
+          ...beside,
+          x: turn.x + turn.width + gap
+        } : beside;
         // the chip waits for the label to be placed: until then it is not drawn where it would cover the page
         const next = !open && chipBox === null ? null : { id, open, box: chipBox ?? placeQuickPanel(element, size, whole, spacing, offset), element, widest: Math.max(0, origin.width - 2 * spacing.inset) };
         setPlaced((before) => (JSON.stringify(before) === JSON.stringify(next) ? before : next));

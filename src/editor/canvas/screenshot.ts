@@ -13,7 +13,11 @@ export async function captureCanvasPng(document: DocumentJson): Promise<{ data: 
   const height = Math.ceil(Math.max(frame.clientHeight, page.documentElement.scrollHeight));
   if (width <= 0 || height <= 0 || width * height > 32_000_000) throw new Error('assistant.canvasTooLarge');
   for (const image of page.querySelectorAll('img')) {
-    try { await image.decode(); } catch { throw new Error('assistant.canvasResourceFailed'); }
+    try {
+      await image.decode();
+    } catch {
+      throw new Error('assistant.canvasResourceFailed');
+    }
     if (image.naturalWidth === 0) throw new Error('assistant.canvasResourceFailed');
   }
   const { toSvg } = await import('html-to-image');

@@ -14,9 +14,9 @@
 // A feature runs once it is registered as built in the feature table (src/app/features.ts); the others are reported
 // as not built by the status reporter (tools/runner/status.ts), which derives each feature's status from the results.
 // A registered feature must have scenarios, every command it lists built (a registered handler) and every door its
-// scenarios' setups, steps and Undo and Redo run working (`blockers`): the census fails one that does not. The tooth proof (tools/runner/tooth.ts) runs a feature's tests
-// with its handlers, or the module it names, made no-ops (tools/runner/tooth-plugin.ts) and requires every one of
-// them to fail on an assertion.
+// scenarios' setups, steps and Undo and Redo run working (`blockers`): the census fails one that does not. The tooth
+// proof (tools/runner/tooth.ts) runs a feature's tests with its handlers, or the module it names, made no-ops
+// (tools/runner/tooth-plugin.ts) and requires every one of them to fail on an assertion.
 import fs from 'node:fs';
 import path from 'node:path';
 import { expect, test, type Download, type Locator, type Page } from '../../tests/support/test.ts';
@@ -145,7 +145,8 @@ const WHEEL_FACTOR = Number(interactions.constants.find((c) => c.id === 'zoom.wh
 // how far inside a child's edge the runner points to reach its escape band: half the band's floor, in screen pixels
 const ESCAPE_FLOOR = interactions.constants.find((c) => c.id === 'drop.escapeBandFloor')?.value;
 const EDGE_INSET = typeof ESCAPE_FLOOR === 'number' ? ESCAPE_FLOOR / 2 : 3;
-// the least extent an empty container is aimed at through, in screen pixels (spec drag-drop-inside, Problems in Pager 5)
+// the least extent an empty container is aimed at through, in screen pixels (spec drag-drop-inside, Problems in Pager
+// 5)
 const EMPTY_AIM = Number(interactions.constants.find((c) => c.id === 'drop.emptyAimMin')?.value);
 const commandOf = (ref: string) => ref.split('#')[0] ?? '';
 const argTypes = (ref: string) => COMMANDS.find((c) => c.id === commandOf(ref))?.args ?? {};
@@ -153,7 +154,8 @@ const argTypes = (ref: string) => COMMANDS.find((c) => c.id === commandOf(ref))?
 // the browser answers later, and runs the command then
 const readsClipboard = (ref: string) => Object.values(argTypes(ref)).some((arg) => arg.type === 'clipboard');
 
-// the first door of a command whose own arguments set `arg` to `value` (the breakpoint tab of Tablet, the zoom item 200)
+// the first door of a command whose own arguments set `arg` to `value` (the breakpoint tab of Tablet, the zoom item
+// 200)
 function settingDoor(command: string, arg: string, value: unknown): string {
   const found = COMMANDS.find((c) => c.id === command)?.entryPoints.find((d) => d.args[arg] === value);
   if (!found) throw new Error(`no door of ${command} sets ${arg} ${String(value)}`);
@@ -279,9 +281,9 @@ const port = (page: Page) =>
 
 // The preferences the editor applies, read from what it draws: its language (the document element's lang), its theme
 // (data-theme, absent while it follows the system), the inspector sections it draws collapsed, the canvas zoom and
-// what the Layers rows show beside their names (layers-row-details). Comparing these before and after a reload proves the editor
-// restores its preferences; comparing the stored text with itself would not (the editor writes the preferences only
-// when a command changes them).
+// what the Layers rows show beside their names (layers-row-details). Comparing these before and after a reload proves
+// the editor restores its preferences; comparing the stored text with itself would not (the editor writes the
+// preferences only when a command changes them).
 const SECTION_TOGGLE = 'inspector.toggleSection';
 const appliedPreferences = (page: Page) =>
   page.evaluate(
@@ -323,8 +325,8 @@ interface Node {
 // the node at a path of the document the port reads
 // A scenario names a file its steps hand over by the scheme the chooser and the drop use ("png:photo.png"); what the
 // document stores is the bytes the runner handed over, so an expected document names the file and never base64 text.
-// the bytes an expected document names: the runner's own PNG or font, or a file of tests/support/folders ("file:<id>/<path>",
-// what a folder the steps opened holds; spec explorer-open-folder)
+// the bytes an expected document names: the runner's own PNG or font, or a file of tests/support/folders
+// ("file:<id>/<path>", what a folder the steps opened holds; spec explorer-open-folder)
 function expectedBytes(value: string): string {
   if (value.startsWith('png:')) return PNG_4x3.toString('base64');
   if (value.startsWith('woff2:')) return WOFF2_TEST.toString('base64');
@@ -497,8 +499,8 @@ function canvasPoint(page: Page, query: CanvasQuery): Promise<Point | string> {
     if (q.placement === 'before' || q.placement === 'after') {
       along = shownBefore ? start + band / 2 : start + size - band / 2;
       // A container: just inside its edge, whatever its content covers there — that is the one point that reads as
-      // before or after the container itself (its escape band; drag-reorder-canvas, "Hit zones": the escape ladder). The
-      // band inside it reads as a drop into it at the end instead.
+      // before or after the container itself (its escape band; drag-reorder-canvas, "Hit zones": the escape ladder).
+      // The band inside it reads as a drop into it at the end instead.
       if (q.container) along = shownBefore ? start + q.edgeInset / zoom : start + size - q.edgeInset / zoom;
     } else if (!q.container) return 'a leaf takes nothing inside';
     else if (kids.length === 0) along = start + size / 2;
@@ -977,8 +979,8 @@ async function focusControlFor(page: Page, ref: string, args: Record<string, unk
       for (let i = 0; i < 400 && (await inTree()) && !(await atWanted()); i += 1) await page.keyboard.press('ArrowUp');
     }
   }
-  // A tile of the palette: Tab reaches its group (a group's tiles are one Tab stop, its first tile), and the arrows walk
-  // the group to it, as a person does
+  // A tile of the palette: Tab reaches its group (a group's tiles are one Tab stop, its first tile), and the arrows
+  // walk the group to it, as a person does
   if (!(await focused()) && (await target.evaluate((el) => el.closest('[data-key-context="palette"]') !== null && (el as HTMLElement).tabIndex < 0))) {
     const inGroup = () => target.evaluate((el) => el.parentElement?.contains(document.activeElement) === true);
     for (let i = 0; i < 400 && !(await inGroup()); i += 1) await page.keyboard.press('Tab');
@@ -1067,7 +1069,8 @@ interface ChosenFile {
   readonly name: string;
   readonly mimeType: string;
   readonly buffer: Buffer;
-  // a whole folder (File › Open folder): the directory the chooser is handed instead of a file (spec explorer-open-folder)
+  // a whole folder (File › Open folder): the directory the chooser is handed instead of a file (spec
+  // explorer-open-folder)
   readonly folder?: string;
 }
 
@@ -1236,9 +1239,9 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
     await page.mouse.up();
     held.current = null;
   } else if (d.kind === 'canvas-handle' && EDIT_GESTURES.includes(d.gesture ?? '')) {
-    // a spacing band of the Edit on canvas mode (canvas/edit-handles.tsx), drawn once per side: pressed at its middle and
-    // dragged along the way that grows it (its data-normal) by the travel that makes the step's value from the value
-    // it starts from (its data-start), times the zoom, with the step's key held (Shift: all four sides; Alt: the
+    // a spacing band of the Edit on canvas mode (canvas/edit-handles.tsx), drawn once per side: pressed at its middle
+    // and dragged along the way that grows it (its data-normal) by the travel that makes the step's value from the
+    // value it starts from (its data-start), times the zoom, with the step's key held (Shift: all four sides; Alt: the
     // opposite too), and released. A step that types (and names no value to drag to) clicks the band, which opens its
     // typed field, and types there.
     if (step.hold === true || step.drop !== null) throw new Error(`step ${ref}: a band's drag is whole: it neither drops nor holds`);
@@ -1363,7 +1366,8 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
     const dx = width === null ? 0 : side.includes('e') ? width - basis.width : side.includes('w') ? basis.width - width : 0;
     const dy = height === null ? 0 : side.includes('s') ? height - basis.height : side.includes('n') ? basis.height - height : 0;
     const from = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
-    // the key the step holds (Ctrl: no snapping) is pressed once the handle is taken, as a person holds it during the drag
+    // the key the step holds (Ctrl: no snapping) is pressed once the handle is taken, as a person holds it during the
+    // drag
     const key = heldKey(step);
     await page.mouse.move(from.x, from.y);
     await page.mouse.down();
@@ -1425,7 +1429,13 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
         const f = iframe.getBoundingClientRect();
         const style = getComputedStyle(iframe);
         const zoom = iframe.currentCSSZoom;
-        return { left: f.left + (parseFloat(style.borderLeftWidth) + parseFloat(style.paddingLeft)) * zoom, top: f.top + (parseFloat(style.borderTopWidth) + parseFloat(style.paddingTop)) * zoom, zoom, scrollX: iframe.contentWindow.scrollX, scrollY: iframe.contentWindow.scrollY };
+        return {
+          left: f.left + (parseFloat(style.borderLeftWidth) + parseFloat(style.paddingLeft)) * zoom,
+          top: f.top + (parseFloat(style.borderTopWidth) + parseFloat(style.paddingTop)) * zoom,
+          zoom,
+          scrollX: iframe.contentWindow.scrollX,
+          scrollY: iframe.contentWindow.scrollY
+        };
       });
       if (facts === null) throw new Error(`step ${ref}: the canvas has no page`);
       const middle = async (selector: string) => {
@@ -1476,9 +1486,9 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
       if (key !== undefined) await page.keyboard.up(key);
     } else {
       if (step.drop === null) throw new Error(`step ${ref}: a drag names its drop`);
-      // a drop onto the canvas is aimed as a person aims it: the place it lands is scrolled into view first when it lies
-      // in the band along the frame's top or bottom edge where a held drag scrolls the page (drop.autoscrollZone), so
-      // the drag does not scroll the page from under the pointer; a step that waits at an edge wants that scroll
+      // a drop onto the canvas is aimed as a person aims it: the place it lands is scrolled into view first when it
+      // lies in the band along the frame's top or bottom edge where a held drag scrolls the page (drop.autoscrollZone),
+      // so the drag does not scroll the page from under the pointer; a step that waits at an edge wants that scroll
       if (step.drop.on !== 'layers-row' && d.kind !== 'layers-drag' && step.wait === undefined) await keepAwayFromEdges(page, nodeAt(document, step.drop.reference).id);
       const from =
         d.source === 'palette-tile'
@@ -1504,7 +1514,8 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
               ? await sideDropPoint(page, document, step.drop)
               : await canvasDropPoint(page, document, step.drop, typeof step.args.index === 'number' ? step.args.index : null);
       // a gesture's modifier stands for the mode the step asks (the marquee's Shift adds to the selection); a gesture
-      // whose modifier is held for the whole drag (a meaning "held-…": the duplicate's Alt, spec drag-duplicate) holds it
+      // whose modifier is held for the whole drag (a meaning "held-…": the duplicate's Alt, spec drag-duplicate) holds
+      // it
       const gesture = interactions.gestures.find((g) => g.id === d.gesture);
       const mode = typeof step.args.mode === 'string' ? step.args.mode : null;
       const modifier = mode === null ? (gesture?.modifiers.find((m) => m.meaning.startsWith('held-'))?.key ?? null) : (gesture?.modifiers.find((m) => m.meaning.startsWith(`${mode}-`))?.key ?? null);
@@ -1541,7 +1552,15 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
     // (asserted above) acts on the field: its arguments (the node, the text) are what the field holds
     // (a key held with it, the step's modifier, is no argument a control stands for)
     const standsFor = withoutGestureArgs(own);
-    if (d.context !== EDIT_CONTEXT && d.context !== HAND_CONTEXT && d.context !== FIELD_TEXT_CONTEXT && d.context !== NUMBER_FIELD_CONTEXT && d.context !== SPACING_FIELD_CONTEXT && d.context !== COMMAND_FIELD_CONTEXT && Object.keys(standsFor).length > 0) {
+    if (
+      d.context !== EDIT_CONTEXT &&
+      d.context !== HAND_CONTEXT &&
+      d.context !== FIELD_TEXT_CONTEXT &&
+      d.context !== NUMBER_FIELD_CONTEXT &&
+      d.context !== SPACING_FIELD_CONTEXT &&
+      d.context !== COMMAND_FIELD_CONTEXT &&
+      Object.keys(standsFor).length > 0
+    ) {
       await focusControlFor(page, ref, standsFor);
       // the control the key acts on lies in the door's key context (a palette tile in the palette's)
       const chain = await focusedContexts(page);
@@ -1560,11 +1579,11 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
     // arguments are what it acts on (the selection, by its adapter) and what the step types, which the document diff
     // checks. A panel field is drawn once per node (a Layers row's name field, while its node is renamed): its control
     // stands for every argument of the step but the one text argument it keeps (its data-args name the others: a
-    // custom attribute's value field stands for its name, the add field for the empty value it adds). A field not shown (a tab not chosen, a node not renamed)
-    // fails the step on an assertion. The runner clicks the field's editable element (an input, a text area, an
-    // editable element; the control itself when it is one) and selects what it holds with Control+A (a field keeps its
-    // own keys). An inspector field then takes the step's `type` below ("\n" is Enter); a panel field takes the text
-    // argument it keeps, typed in place of what it held and kept with Enter.
+    // custom attribute's value field stands for its name, the add field for the empty value it adds). A field not shown
+    // (a tab not chosen, a node not renamed) fails the step on an assertion. The runner clicks the field's editable
+    // element (an input, a text area, an editable element; the control itself when it is one) and selects what it holds
+    // with Control+A (a field keeps its own keys). An inspector field then takes the step's `type` below ("\n" is
+    // Enter); a panel field takes the text argument it keeps, typed in place of what it held and kept with Enter.
     if (step.hold === true || step.drop !== null) throw new Error(`step ${ref}: a field neither drops nor holds`);
     // an inspector field drawn as one button per value (keyword buttons: text-align) with nothing to type: the button
     // that stands for the step's value is clicked
@@ -1622,8 +1641,8 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
     const clicked = modifiedControl(ref)?.drawn ?? ref;
     // (a Layers row's control is drawn on every row: it stands for the row's node too, whatever else it stands for)
     const plain = d.kind === 'panel-control' && d.panel === 'layers' && target !== null ? { ...withoutGestureArgs(own), target: target.id } : withoutGestureArgs(own);
-    // an area (the colour picker's) stands for part of its step's arguments: the press gives the rest (the colour at the
-    // point runDoor presses), which the document diff checks
+    // an area (the colour picker's) stands for part of its step's arguments: the press gives the rest (the colour at
+    // the point runDoor presses), which the document diff checks
     // the colour picker's eyedropper stands for its property: the colour is the one the browser's EyeDropper answers,
     // which the runner makes the step's value, as a person picks it on the screen (the browser's own eyedropper waits
     // for a pointer the test does not move)
@@ -1649,7 +1668,8 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
     // arguments are set first, as a person sets them, in the form's inputs named after them (a list: the checkboxes
     // whose values it holds ticked, the others not; a number or a text typed in place of what the field held), then the
     // button is clicked.
-    // (a travel `distance` is a panel drag's gesture, never a form's: the arguments are the step's own but its held key)
+    // (a travel `distance` is a panel drag's gesture, never a form's: the arguments are the step's own but its held
+    // key)
     if (d.kind === 'panel-control' && d.drawnAs === 'button' && (await fillForm(page, control(page, clicked), Object.fromEntries(Object.entries(own).filter(([name]) => name !== MODIFIER_ARG))))) {
       await control(page, clicked).click();
       return;
@@ -1678,8 +1698,8 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
       // a Layers row below the tree's fold is not drawn (A3.28: the tree draws only the rows in its window): the tree
       // is scrolled to it, as a person scrolls to reach it, before the step's control is looked for
       if (d.kind === 'panel-control' && d.panel === 'layers' && target !== null && (await control(page, clicked, { args: standsFor }).count()) === 0) await scrollTreeTo(page, control(page, clicked, { args: standsFor }));
-      // a unit the menu keeps behind "More units" (the user's real-use audit, item 5.2): a person opens the rest, and so
-      // does the runner, before the step's own item is looked for
+      // a unit the menu keeps behind "More units" (the user's real-use audit, item 5.2): a person opens the rest, and
+      // so does the runner, before the step's own item is looked for
       if (d.kind === 'panel-control' && d.control === 'unit-menu' && (await control(page, clicked, { args: standsFor }).count()) === 0) {
         const more = page.locator('[data-menu-more]');
         if ((await more.count()) > 0) await more.first().click();
@@ -1688,8 +1708,8 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
       // a quick panel control that takes nothing now (an Edit on canvas mode with nothing to edit) fails the step on an
       // assertion, never on the click's timeout
       if (d.kind === 'quick-panel') await expect(control(page, clicked, { args: standsFor }), `step ${ref}: its control takes a click`).toBeEnabled();
-      // a toolbar or panel control drawn unavailable (a field's Reset with nothing to reset) fails the step on an assertion,
-      // never on the click's timeout
+      // a toolbar or panel control drawn unavailable (a field's Reset with nothing to reset) fails the step on an
+      // assertion, never on the click's timeout
       if (d.kind === 'toolbar' || d.kind === 'panel-control') await expect(control(page, clicked, { args: standsFor }), `step ${ref}: its control takes a click`).not.toHaveAttribute('aria-disabled', 'true');
       // the key the step holds with the click (Shift on a number field's step button)
       const key = heldKey(step);
@@ -1697,8 +1717,9 @@ async function runStep(page: Page, step: Step, ref: string, held: { current: Hel
       else await runDoor(page, ref, { args: standsFor });
     }
   } else if (d.kind === 'command-bar') {
-    // the bar opened with its shortcut, the entry's label typed and its row clicked (door.ts); an entry the bar does not
-    // offer now (its command cannot run on the selection) fails the step on an assertion, never on the click's timeout
+    // the bar opened with its shortcut, the entry's label typed and its row clicked (door.ts); an entry the bar does
+    // not offer now (its command cannot run on the selection) fails the step on an assertion, never on the click's
+    // timeout
     await openCommandBar(page);
     // an item of the project (a page, an element) is typed by the name it holds in the document (command-bar-find)
     const pages = (document as { pages: { name: string; tree: Node }[] }).pages;
@@ -2042,11 +2063,13 @@ export function registerScenarioTests(): void {
             }
           }
 
-          // the pointer resting on a node (spec hover-measure): the mouse on it (its centre or inside its top-left corner), Alt held when the
-          // scenario says, and each text a region of the chrome then shows, in the language the scenario expects
+          // the pointer resting on a node (spec hover-measure): the mouse on it (its centre or inside its top-left
+          // corner), Alt held when the scenario says, and each text a region of the chrome then shows, in the language
+          // the scenario expects
           const hovering = s.expect.hover;
           if (hovering !== undefined) {
-            // a point of the node itself on the zoomed canvas (nodePoint: the iframe's CSS zoom applied, never a child's)
+            // a point of the node itself on the zoomed canvas (nodePoint: the iframe's CSS zoom applied, never a
+            // child's)
             const point = await nodePoint(page, idOf(after.document, hovering.node), false, hovering.node, hovering.at === 'corner' ? 'start' : 'centre');
             if (hovering.alt) await page.keyboard.down('Alt');
             await page.mouse.move(point.x, point.y, { steps: 4 });
@@ -2059,8 +2082,8 @@ export function registerScenarioTests(): void {
             await page.mouse.move(0, 0);
           }
 
-          // the files inside the archive the action step handed out (File › Save project, the export), read as any unzip
-          // tool reads them: the first download after the action began, never one a step before it made
+          // the files inside the archive the action step handed out (File › Save project, the export), read as any
+          // unzip tool reads them: the first download after the action began, never one a step before it made
           const exported = s.expect.export;
           if (exported !== null) {
             await expect.poll(() => downloads.length, { message: 'the action downloaded a file', intervals: POLL }).toBeGreaterThan(downloadsBeforeAction);
@@ -2078,8 +2101,8 @@ export function registerScenarioTests(): void {
 
           // undo and redo restore the document through their doors
           if (s.expect.history.undoSteps > 0) {
-            // a modal dialog still open (Guides & Grids) keeps the top bar out of reach: a person closes it first, with its
-            // close button (closing it changes nothing in the document nor in the history)
+            // a modal dialog still open (Guides & Grids) keeps the top bar out of reach: a person closes it first, with
+            // its close button (closing it changes nothing in the document nor in the history)
             if ((await page.locator('[role="dialog"][aria-modal="true"]').count()) > 0) await runDoor(page, DIALOG_CLOSE_DOOR);
             for (let i = 0; i < s.expect.history.undoSteps; i += 1) await runDoor(page, UNDO_DOOR);
             expect(matchDocument((await port(page)).document, fixture), 'undo restores').toEqual([]);

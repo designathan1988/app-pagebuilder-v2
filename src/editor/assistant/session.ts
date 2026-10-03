@@ -17,26 +17,41 @@ export function createAssistantSession(ports: SessionPorts) {
   return {
     busy: () => active !== null,
     history: () => messages,
-    clear() { if (active) throw new Error('Assistant is busy'); messages = []; publish(); },
+    clear() {
+      if (active) throw new Error('Assistant is busy');
+      messages = [];
+      publish();
+    },
     cancel() { active?.abort(new Error('Assistant cancelled')); },
     async send(text: string, reference?: ReferenceImage): Promise<TurnResult> {
       if (active) throw new Error('Assistant is busy');
       if (!text.trim() && !reference) throw new Error('Assistant input is empty');
-      const controller = new AbortController(); active = controller; publish();
+      const controller = new AbortController();
+      active = controller;
+      publish();
       let release: (() => void) | undefined;
       try {
         release = ports.reserve?.();
-        const apiKey = await ports.vault.read(); controller.signal.throwIfAborted();
+        const apiKey = await ports.vault.read();
+        controller.signal.throwIfAborted();
         if (!apiKey) throw new Error('Assistant API key is required');
         const content = [{ type: 'text', text: text.trim() }, ...(reference ? [imageBlock(reference.bytes, reference.mime)] : [])];
         const result = await runTurn({ ...ports.settings(), apiKey }, [...messages, { role: 'user', content }], ports, controller.signal);
-        controller.signal.throwIfAborted(); messages = result.messages; active = null; publish(); return result;
+        controller.signal.throwIfAborted();
+        messages = result.messages;
+        active = null;
+        publish();
+        return result;
       } catch (error) {
         active = null;
         const unavailable = error instanceof Error && error.message === 'assistant.modelUnavailable';
-        publish(controller.signal.aborted ? 'assistant.cancelled' : unavailable ? 'assistant.modelUnavailable' : 'assistant.failed'); throw error;
+        publish(controller.signal.aborted ? 'assistant.cancelled' : unavailable ? 'assistant.modelUnavailable' : 'assistant.failed');
+        throw error;
       } finally { release?.(); }
     },
-    dispose() { active?.abort(new Error('Assistant cancelled')); ports.vault.close(); },
+    dispose() {
+      active?.abort(new Error('Assistant cancelled'));
+      ports.vault.close();
+    },
   };
 }

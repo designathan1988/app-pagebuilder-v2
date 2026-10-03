@@ -189,10 +189,10 @@ export const moveIntoClassCommand = registerHandler('classes.moveInto', (context
   return { kind: 'change', patches, message: message('status.classes.moved', { element: found.node.name, name: className }) };
 });
 
-// classes.applyToSimilar (the plan's stage 7, "aplicar a todos os parecidos"): the class goes on the elements of a scope
-// that do not list it yet, one undo step; a locked one refuses the whole change. The scope (the audit's AUD-19: the
-// three price cards' class went on the three benefit cards too): the elements of the primary selected element's type on
-// its page, the narrowest and the default; or on every page. The selected elements themselves take a class with
+// classes.applyToSimilar (the plan's stage 7, "aplicar a todos os parecidos"): the class goes on the elements of a
+// scope that do not list it yet, one undo step; a locked one refuses the whole change. The scope (the audit's AUD-19:
+// the three price cards' class went on the three benefit cards too): the elements of the primary selected element's
+// type on its page, the narrowest and the default; or on every page. The selected elements themselves take a class with
 // + Class (classes.apply), its one owner.
 export const applyToSimilarCommand = registerHandler('classes.applyToSimilar', (context, { className, scope }): Outcome<never> => {
   const { state } = context;

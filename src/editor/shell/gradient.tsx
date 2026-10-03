@@ -4,8 +4,8 @@
 //    colour the gradient has there): buttons whose door gives their edit;
 //  - Linear, Radial, Conic: one button per type, the angle the editor kept for that type with it (Problems in Pager 3);
 //  - the bar: the gradient over a checkerboard with its stops under it; a click on the bar adds a stop there; a stop
-//    pressed is chosen and dragged along the bar (the pointer owner's drag, src/editor/input/pointer.ts); a focused stop
-//    moves with the arrows and goes with Delete or Backspace (the keymap's gradient-stop keys);
+//    pressed is chosen and dragged along the bar (the pointer owner's drag, src/editor/input/pointer.ts); a focused
+//    stop moves with the arrows and goes with Delete or Backspace (the keymap's gradient-stop keys);
 //  - Stop colour, Stop position and Angle: text fields; Remove this stop removes the chosen stop.
 // The stop the fields edit and the angles kept are the editor's view (src/editor/inspector/gradient-view.ts).
 import { useSyncExternalStore, type CSSProperties, type MouseEvent } from 'react';

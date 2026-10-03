@@ -16,10 +16,10 @@
 // others as max-width queries in the cascade order of properties.json, the states as their pseudo-classes. A
 // recipe's stored value is written as the recipe's declarations. A markup element (embed) renders empty until its
 // feature sanitizes the markup. The project's design tokens are one style element of their own (data-tokens-style),
-// the :root rule of their variables, written again when they change. An SVG's markup (core/elements/svg.ts, kept sanitized) is drawn in a group after its
-// shapes, marked data-svg-markup (editor-only: the export writes the markup itself). The renderer adds no event
-// handler to the page and writes no event attribute: the page only renders, and every pointer input arrives on the
-// canvas overlay.
+// the :root rule of their variables, written again when they change. An SVG's markup (core/elements/svg.ts, kept
+// sanitized) is drawn in a group after its shapes, marked data-svg-markup (editor-only: the export writes the markup
+// itself). The renderer adds no event handler to the page and writes no event attribute: the page only renders, and
+// every pointer input arrives on the canvas overlay.
 //
 // Editor-only, never in the document nor in an export: every element of a container below the page root carries
 // data-container, and one style element of the editor (data-editor-style), first in the head, gives an empty one the
@@ -234,7 +234,8 @@ export class PageRenderer {
 
   constructor(
     private readonly target: Document,
-    // the manifest's model; the one the page is written with takes the project's breakpoints (core/document/breakpoints.ts)
+    // the manifest's model; the one the page is written with takes the project's breakpoints
+    // (core/document/breakpoints.ts)
     private readonly manifestModel: RenderModel,
     private readonly page = 0,
     // the breakpoint's screen the canvas resolves vh, svh, dvh and lvh against (item 2.3); null in the export's own
@@ -252,8 +253,8 @@ export class PageRenderer {
     return this.elements.get(id) ?? null;
   }
 
-  // Editor-only (spec elements-interactive): a closed <details> or <dialog> is drawn open while it, or a node inside it,
-  // is selected, so its content can be seen and edited; the document and the export keep its own open state.
+  // Editor-only (spec elements-interactive): a closed <details> or <dialog> is drawn open while it, or a node inside
+  // it, is selected, so its content can be seen and edited; the document and the export keep its own open state.
   reveal(doc: DocumentJson, selection: readonly NodeId[]): void {
     const wanted = new Set<NodeId>();
     for (const id of selection) {
@@ -506,7 +507,8 @@ export class PageRenderer {
     return [element, element.childNodes.length];
   }
 
-  // The page's nodes of runs: a text node for each line of a string with a <br> between lines, an element for each mark.
+  // The page's nodes of runs: a text node for each line of a string with a <br> between lines, an element for each
+  // mark.
   private runNodes(runs: readonly InlineRun[]): Node[] {
     return runs.flatMap((run): Node[] => {
       // an empty line makes no text node, so an emptied text leaves its element as empty as a fresh one

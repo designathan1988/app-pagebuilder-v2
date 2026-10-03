@@ -17,8 +17,8 @@
 // - Before and after are read as shown, along the parent's flow; where the parent shows its children against the
 //   document's order (a row-reverse or column-reverse flex), before a node as shown is after it in the document.
 // - Escape ladder: within min(drop.escapeBandMax, S / 2 − drop.escapeBandInset) screen pixels of an ancestor's edge,
-//   never less than drop.escapeBandFloor on an ancestor at least drop.escapeBandFloorExtent CSS pixels long (Problems in
-//   Pager 4), plus drop.escapeBandSlop, the drop is before or after that ancestor. Where several ancestors share the
+//   never less than drop.escapeBandFloor on an ancestor at least drop.escapeBandFloorExtent CSS pixels long (Problems
+//   in Pager 4), plus drop.escapeBandSlop, the drop is before or after that ancestor. Where several ancestors share the
 //   edge the innermost one wins: the level keys of drag-level-keys-escape climb further out (Problems in Pager 4).
 //   A band is at most a third of its ancestor's extent, slop included; a leaf a flex or a grid lays out never climbs
 //   the ladder: the drop stays in that flex or grid, by the leaf's halves (Problems in Pager 6).
@@ -334,7 +334,8 @@ export function offerSide(document: DocumentJson, dragged: readonly NodeId[], un
     const otherExtent = flow === 'vertical' ? box.height : box.width;
     // too short across its bands (a line of text, a button at a small zoom): no side drop (Problems in Pager 4)
     if (otherExtent < z.targetMinCross) return null;
-    // the other edges keep clear, by at most a quarter of the element, so a low element (a line of text) keeps its zones
+    // the other edges keep clear, by at most a quarter of the element, so a low element (a line of text) keeps its
+    // zones
     const clear = Math.min(z.edgeExclusion, otherExtent / 4);
     if (other < clear || other > otherExtent - clear || pos < 0 || pos > across) return null;
     const band = sideBand(across, z);

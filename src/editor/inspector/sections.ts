@@ -77,9 +77,9 @@ export function sectionHoldsValue(section: SectionId, held: ReadonlySet<string>)
 }
 
 // Whether the section holds a property the manifest marks as essential (properties.json): the ones the panel shows at
-// first (docs/PRODUCT.md, The interface contract), so a section that carries them stays open while the element has no value in it — the
-// essentials are what the person came for, and a panel whose every section is a closed strip shows nothing at all
-// (the user's correction, 2026-09-28).
+// first (docs/PRODUCT.md, The interface contract), so a section that carries them stays open while the element has no
+// value in it — the essentials are what the person came for, and a panel whose every section is a closed strip shows
+// nothing at all (the user's correction, 2026-09-28).
 export function sectionEssential(section: SectionId): boolean {
   return manifest.properties.properties.some((p) => p.section === section && p.essential === true);
 }
@@ -251,7 +251,8 @@ const SUMMARIES: Readonly<Record<SectionId, ((items: readonly Item[], words: Wor
   content: null,
   // the advanced values that say something, in the summary's own order (writing mode, containment, hyphenation), and
   // None while all of them stand at their initial value — the section's properties are rare, so the values themselves
-  // are what the header tells, and the fields' own count is already on the badge (the owner's call, the dogfooding pass)
+  // are what the header tells, and the fields' own count is already on the badge (the owner's call, the dogfooding
+  // pass)
   advanced: (items, words) => joined(items.map(first).filter((value) => value !== '' && !NEUTRAL_ADVANCED.has(value)), words),
   // the display, and the direction of a flex layout
   layout: ([display, direction], words) => (first(display).includes('flex') ? words('inspector.summary.pair', { first: first(display), second: first(direction) }) : first(display)),
@@ -327,8 +328,8 @@ export const searchInspector = registerHandler<'inspector.search', EditorUi>('in
   return { kind: 'change', ui: { ...rest, inspectorSearch: query }, message: message('status.inspector.searchFor', { query: typed }) };
 });
 
-// Whether a field or an editor control of the Style tab matches a query: the query (case and accents ignored) is part of
-// its label as shown, or of one of the CSS names it edits. An empty query matches everything.
+// Whether a field or an editor control of the Style tab matches a query: the query (case and accents ignored) is part
+// of its label as shown, or of one of the CSS names it edits. An empty query matches everything.
 export function searchMatches(query: string, label: string, cssNames: readonly string[]): boolean {
   const wanted = fold(query.trim());
   if (wanted === '') return true;

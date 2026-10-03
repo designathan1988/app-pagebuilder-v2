@@ -32,8 +32,8 @@ export function importDestination(context: HandlerContext<never>, parsed: Docume
     occupied.add(next);
     if (next !== name) imported = applyPatches(imported, renameClassPatches(imported, name, next)).document;
   }
-  // the imported variables beside the project's (AUD-05): one the project holds as it is, by name, kind and value, is the
-  // same and goes once; one whose name the project uses for another value takes a free name, and its uses follow it
+  // the imported variables beside the project's (AUD-05): one the project holds as it is, by name, kind and value, is
+  // the same and goes once; one whose name the project uses for another value takes a free name, and its uses follow it
   const held = current.tokens ?? [];
   const arriving: string[] = [];
   for (const token of imported.tokens ?? []) {
@@ -48,7 +48,8 @@ export function importDestination(context: HandlerContext<never>, parsed: Docume
   const reserved = new Set<string>();
   for (const path of [...imported.pages.map(page => page.file), ...(imported.files ?? []).map(file => file.path)]) {
     const next = uniqueFilePath(current, path, reserved);
-    reserved.add(next); paths.set(path, next);
+    reserved.add(next);
+    paths.set(path, next);
   }
   const addresses = new Set([...context.rules.attributeValues].filter(([, facts]) => facts.valueType === 'url' || facts.valueType === 'path-list' || facts.html === 'srcset').map(([name]) => name));
   imported = applyPatches(imported, followPaths(imported, path => paths.get(path) ?? path, undefined, addresses)).document;

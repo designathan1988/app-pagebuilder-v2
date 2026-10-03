@@ -427,7 +427,8 @@ export const pageLayout: Layout = {
     return { x: topLeft.x + left, y: topLeft.y + top, width: Math.max(0, r.width - left - right), height: Math.max(0, r.height - top - bottom) };
   },
   fontPx(id) {
-    // the root's font size for null (what rem stands on), the node's own otherwise (what its children's em and % stand on)
+    // the root's font size for null (what rem stands on), the node's own otherwise (what its children's em and % stand
+    // on)
     const document = current?.contentDocument;
     if (!document) return null;
     const element = id === null ? document.documentElement : document.querySelector(nodeSelector(id));
@@ -499,8 +500,8 @@ function readContentBoxes(iframe: HTMLIFrameElement): { x: number; y: number; wi
 // recipe's own id, such as line-clamp, whose declarations are prefixed ones) reads as nothing: the typed object model
 // throws on it. A line's width (a border side's, the outline's, the column rule's, with its style: `lines`,
 // core/style/set.ts lineStyles) is the exception (spec inspector-provenance-reset, Problems in Pager 4): it computes to
-// 0px under a style of none or hidden (CSS Backgrounds 3), and otherwise is the width the page declares (declaredWidth),
-// never the one the zoomed canvas computes (BW1).
+// 0px under a style of none or hidden (CSS Backgrounds 3), and otherwise is the width the page declares
+// (declaredWidth), never the one the zoomed canvas computes (BW1).
 const NO_LINE: readonly string[] = ['none', 'hidden'];
 export function computedValues(id: string, properties: readonly string[], lines: ReadonlyMap<string, string>): Readonly<Record<string, string>> | null {
   const element = current?.contentDocument?.querySelector(nodeSelector(id as NodeId));
@@ -549,8 +550,8 @@ function wins(a: Declared, b: Declared): boolean {
 // the page can say (BW1). The browser snaps a line's width to whole device pixels and reports it divided by the zoom
 // (css-values-4 "snap as a border width"; Mozilla bug 287624), so the zoomed canvas computes a 1 px border as 1.69014px
 // at 59 % and a 2 px one alike. The rules whose selector the browser matches on the element, inside the @media and
-// @supports blocks that hold now, are ranked as the cascade ranks them (wins; their specificity is import/selectors.ts's
-// specificityOf), and the winner's value is said in px when it is a keyword.
+// @supports blocks that hold now, are ranked as the cascade ranks them (wins; their specificity is
+// import/selectors.ts's specificityOf), and the winner's value is said in px when it is a keyword.
 function declaredWidth(element: Element, property: string): string | null {
   const view = element.ownerDocument.defaultView;
   if (view === null) return null;

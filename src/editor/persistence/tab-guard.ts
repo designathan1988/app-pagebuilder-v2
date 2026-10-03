@@ -23,8 +23,8 @@ function setRole(next: TabRole) {
 }
 export const isEditing = (): boolean => role === 'editing';
 
-// How long a tab that finds the lock held keeps asking before it is read-only: a reloaded tab's previous page lets go of
-// the lock a moment after the new one starts (the user's report: "this project is being edited in another tab" after
+// How long a tab that finds the lock held keeps asking before it is read-only: a reloaded tab's previous page lets go
+// of the lock a moment after the new one starts (the user's report: "this project is being edited in another tab" after
 // reloading the one tab), so a lock held that briefly is no other tab.
 const RETRY_EVERY_MS = 100;
 const RETRIES = 20;

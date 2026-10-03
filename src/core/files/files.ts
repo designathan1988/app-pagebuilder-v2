@@ -7,8 +7,8 @@
 //
 // files.upload: the files a chooser handed over, stored at their paths, in the folder the door names or the one their
 // type belongs to (img/ for an image, fonts/ for a font, files/ otherwise). A name already taken gets a numeric
-// suffix, so nothing is overwritten; a file that is neither an image, a font nor a data file (CSV, TSV, JSON, XLSX, which
-// go to files/: spec content-data) is refused
+// suffix, so nothing is overwritten; a file that is neither an image, a font nor a data file (CSV, TSV, JSON, XLSX,
+// which go to files/: spec content-data) is refused
 // (status.files.unsupportedType). One undo step, the status naming the files.
 import { message, registerHandler } from '../commands/registry.ts';
 import type { DocumentJson, Page, ProjectFile } from '../document/model.ts';

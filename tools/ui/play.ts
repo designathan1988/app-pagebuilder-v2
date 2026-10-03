@@ -55,7 +55,9 @@ async function pointFor(page: Page, at: string | { readonly x: number; readonly 
     if (iframe === null || doc === null) throw new Error('the canvas frame is missing');
     const port = (window as unknown as { __builderTestPort: Port }).__builderTestPort;
     const tree = port.document().pages[0]?.tree;
-    const named = tree === undefined ? [] : [tree, ...tree.children.flatMap(function walk(child: Node): readonly Node[] { return [child, ...child.children.flatMap(walk)]; })];
+    const named = tree === undefined ? [] : [tree, ...tree.children.flatMap(function walk(child: Node): readonly Node[] {
+      return [child, ...child.children.flatMap(walk)];
+    })];
     const wanted2 = String(wanted).trim().toLowerCase();
     const found = named.find((node) => node.id === wanted || node.name.trim().toLowerCase() === wanted2);
     const el = found === undefined ? null : doc.querySelector(`[data-node="${found.id}"]`);

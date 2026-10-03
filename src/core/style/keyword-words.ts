@@ -1,7 +1,7 @@
 // The CSS keywords a field shows and takes in the person's language (the plan's stage 3, "entrada inteligente":
-// "automático", "nenhum"): each has a catalogue text, keyword.<keyword>, which is the keyword itself in English. A field
-// shows a stored keyword as its word; a word typed in any case, with or without its accents, stands for the keyword
-// wherever the property offers that keyword. The document and the export keep the CSS keyword.
+// "automático", "nenhum"): each has a catalogue text, keyword.<keyword>, which is the keyword itself in English. A
+// field shows a stored keyword as its word; a word typed in any case, with or without its accents, stands for the
+// keyword wherever the property offers that keyword. The document and the export keep the CSS keyword.
 import type { MessageId } from '../../generated/ids.ts';
 
 // (keyword values, written as one list: some share their name with a property, which they are not)

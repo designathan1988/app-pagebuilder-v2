@@ -40,8 +40,8 @@ const withChildStyles = (rules: ModelRules, children: readonly DocNode[], childS
     return { ...child, styles: written as Styles };
   });
 };
-// The child styles of the wrapper definition a node was made by: a wrapper of that element type whose own styles the node
-// still holds at the base layer; none for any other node.
+// The child styles of the wrapper definition a node was made by: a wrapper of that element type whose own styles the
+// node still holds at the base layer; none for any other node.
 function wrapperChildStyles(rules: ModelRules, node: DocNode): Readonly<Record<string, string>> {
   const { breakpoint, state } = rules.baseLayer;
   const own = (node.styles as Record<string, Record<string, Record<string, StoredValue>> | undefined>)[breakpoint]?.[state] ?? {};
@@ -128,11 +128,13 @@ function wrap(id: WrapperId, { state, ids, rules, words, confirmed }: HandlerCon
     text: null,
     children: withChildStyles(rules, selected.map((l) => l.node), wrapper.childStyles),
   };
-  // the one rule of where elements may go (content-model.ts): the selection inside the wrapper, the wrapper in the parent
+  // the one rule of where elements may go (content-model.ts): the selection inside the wrapper, the wrapper in the
+  // parent
   const refused = placementRefusal(state.document, rules, parent.id, [node]) ?? (tag === null ? null : childrenRefusal(rules, tag, node.children));
   if (refused !== null) return { kind: 'refused', message: refused };
   const parentPath = at(parent.id).path;
-  // the roots leave their parent from the last one up, so each index still names its node; the wrapper takes the first's place
+  // the roots leave their parent from the last one up, so each index still names its node; the wrapper takes the
+  // first's place
   const patches: Patch[] = [...selected].reverse().map((l): Patch => ({ op: 'remove', path: [...parentPath, 'children', l.index] }));
   patches.push({ op: 'add', path: [...parentPath, 'children', first.index], value: node });
   const named = stylesText(baseStyles);
@@ -219,9 +221,9 @@ export const unwrapCommand = registerHandler('element.unwrap', ({ state, rules }
   return { kind: 'change', patches, selection: wrapper.node.children.map((c) => c.id), message: message('status.unwrapped', { name: wrapper.node.name }) };
 });
 
-// element.wrapBeside (feature drag-side-wrap; spec wrap-row-column, "Side drop during a drag" and Problems 2): a drop in
-// a side band of an element, once confirmed, puts what the drag brings beside it in a new Row (a target laid out in a
-// vertical flow) or Column (in a row flow), the wrapper's definition being the wrap commands' own. The wrapper takes
+// element.wrapBeside (feature drag-side-wrap; spec wrap-row-column, "Side drop during a drag" and Problems 2): a drop
+// in a side band of an element, once confirmed, puts what the drag brings beside it in a new Row (a target laid out in
+// a vertical flow) or Column (in a row flow), the wrapper's definition being the wrap commands' own. The wrapper takes
 // the target's place and holds the target and what arrives, in the order of the side: before it or after it. What
 // arrives is a new element of a palette entry (a tile's creation drag) or the selection's roots (an element drag),
 // which leave their places. The wrapper becomes the selection, in one undo step. A target that is the page root, a

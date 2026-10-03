@@ -19,7 +19,10 @@ console.log('band', JSON.stringify(again));
 if (again) {
   const x = again.x + again.width / 2;
   const y = again.y + again.height / 2;
-  console.log('at centre', await page.evaluate(([px, py]) => { const el = document.elementFromPoint(px, py); return el ? `${el.tagName}.${el.className} door=${el.closest('[data-door]')?.getAttribute('data-door')}` : 'none'; }, [x, y] as const));
+  console.log('at centre', await page.evaluate(([px, py]) => {
+    const el = document.elementFromPoint(px, py);
+    return el ? `${el.tagName}.${el.className} door=${el.closest('[data-door]')?.getAttribute('data-door')}` : 'none';
+  }, [x, y] as const));
   await page.mouse.move(x, y);
   await page.mouse.down();
   await page.mouse.move(1200, 700, { steps: 12 });

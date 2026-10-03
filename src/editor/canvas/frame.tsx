@@ -102,7 +102,8 @@ export function CanvasFrame({ width, screen, zoom }: { readonly width: number; r
       let lineBreaks = store.getState().ui.textEdit.lineBreaks;
       let selectAlls = store.getState().ui.textEdit.selectAlls;
       let changes = store.getState().ui.textEdit.changes;
-      // while the link prompt holds the focus, the text selection it acts on, as a range of the edited text's characters
+      // while the link prompt holds the focus, the text selection it acts on, as a range of the edited text's
+      // characters
       let prompting = false;
       let kept: TextRange | null = null;
       let stopKeys = () => {};
@@ -130,7 +131,10 @@ export function CanvasFrame({ width, screen, zoom }: { readonly width: number; r
         }
         if (edit.lineBreaks !== lineBreaks) {
           lineBreaks = edit.lineBreaks;
-          if (edit.node !== null) { renderer.insertLineBreak(); captureDraft(); }
+          if (edit.node !== null) {
+            renderer.insertLineBreak();
+            captureDraft();
+          }
         }
         if (edit.selectAlls !== selectAlls) {
           selectAlls = edit.selectAlls;

@@ -49,7 +49,10 @@ const contextOf = <Ui>(context: HandlerContext<Ui>): DataContext => ({ ids: cont
 
 // A content change as the store takes it: the patches from the document before to the one the change and its
 // derivation lead to; a DataRefusal thrown on the way is the command's refusal.
-export function contentChange<Ui>(context: HandlerContext<Ui>, compute: (document: DocumentJson, data: DataContext) => { readonly document: DocumentJson; readonly message: Message; readonly ui?: Ui; readonly selection?: readonly NodeId[] }): Outcome<Ui> {
+export function contentChange<Ui>(
+  context: HandlerContext<Ui>,
+  compute: (document: DocumentJson, data: DataContext) => { readonly document: DocumentJson; readonly message: Message; readonly ui?: Ui; readonly selection?: readonly NodeId[] }
+): Outcome<Ui> {
   try {
     const before = context.state.document;
     const data = contextOf(context);
@@ -399,8 +402,8 @@ export const unbindCommand = registerHandler('data.unbind', (context, { node }):
 
 const withPageAfter = (document: DocumentJson, after: number, made: readonly Page[]): DocumentJson => ({ ...document, pages: [...document.pages.slice(0, after + 1), ...made, ...document.pages.slice(after + 1)] });
 
-// pages.fromNames: one page per name (one per line), each a copy of the open page, named and filed as a duplicate is; the
-// first opens. Pages made later receive the shared regions that ask for it.
+// pages.fromNames: one page per name (one per line), each a copy of the open page, named and filed as a duplicate is;
+// the first opens. Pages made later receive the shared regions that ask for it.
 export function pagesFromNamesCommand<Ui extends WithPage>() {
   return registerHandler<'pages.fromNames', Ui>('pages.fromNames', (context, { names }) =>
     contentChange(context, (document, data) => {

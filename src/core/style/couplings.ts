@@ -1,8 +1,8 @@
 // Couplings (PRODUCT.md §5; properties.json couplings): a style write that triggers a coupling changes what it writes
 // in the same command and undo step. A coupling names its trigger (a property about to be written, optionally only some
-// of its values, optionally only when a composite writes it: `via`), its condition (a closed list of predicates over the
-// value the element, or its parent, holds for a property) and its effect (a closed list of actions on the declarations
-// about to be written). They run in the manifest's order, each on what the ones before it left.
+// of its values, optionally only when a composite writes it: `via`), its condition (a closed list of predicates over
+// the value the element, or its parent, holds for a property) and its effect (a closed list of actions on the
+// declarations about to be written). They run in the manifest's order, each on what the ones before it left.
 // The conditions and actions registered here are those the built features use; a coupling whose condition or action is
 // not registered yet does not run. absolute-free-drag's: parentValueIn (the value the parent shows), setParentValue
 // (the parent's declarations the same write makes) and keepVisualPlace (a property written from where the element lies
@@ -38,8 +38,8 @@ export const mirror = registerAction('mirror', (values, _trigger, effect) => {
 export const setParentValue = registerAction('setParentValue', (_values, _trigger, effect, scene) => {
   if (effect.value !== null && !(effect.property in scene.parent)) scene.parent[effect.property] = effect.value;
 });
-// the value that keeps the element where it is drawn: a value the write names wins; a fixed element is measured from the
-// viewport, any other from its parent's padding edge (its containing block, which setParentValue made relative)
+// the value that keeps the element where it is drawn: a value the write names wins; a fixed element is measured from
+// the viewport, any other from its parent's padding edge (its containing block, which setParentValue made relative)
 const FIXED = 'fixed';
 export const keepVisualPlace = registerAction('keepVisualPlace', (values, trigger, effect, scene) => {
   if (effect.property in values) return;

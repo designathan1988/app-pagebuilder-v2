@@ -1,9 +1,10 @@
 // The camera (INVENTORY.md, owners; spec zoom-keyboard-buttons): the canvas zoom and the page's horizontal
 // place on the stage. The zoom is a workspace preference (ui.preferences.zoom, in percent), restored after a reload;
-// absent, the canvas is in Fit mode: the zoom that fits the base breakpoint's width in the stage, with the fit margin on
-// both sides, following every change of the stage's size. Any explicit zoom leaves Fit mode until Fit is chosen again.
-// Zooming pivots on the middle of the stage (the keys, the buttons, the menu) or on the pointer (Ctrl+wheel, spec
-// zoom-wheel-pan): the page point there stays there. view.pan moves the page by the pointer's or the wheel's travel:
+// absent, the canvas is in Fit mode: the zoom that fits the base breakpoint's width in the stage, with the fit margin
+// on both sides, following every change of the stage's size. Any explicit zoom leaves Fit mode until Fit is chosen
+// again. Zooming pivots on the middle of the stage (the keys, the buttons, the menu) or on the pointer (Ctrl+wheel,
+// spec zoom-wheel-pan): the page point there stays there. view.pan moves the page by the pointer's or the wheel's
+// travel:
 // across, the camera's pan; down, a scroll of the page the frame carries out (the page's scroll is the frame's).
 // The pivot and Fit need the stage's place and size, a measure of the layout read from the stage element the canvas
 // registers (registerStage), when a command runs; the handlers never read the page.
@@ -20,7 +21,8 @@ export const ZOOM_MAX = numberConstant('zoom.max');
 export const FIT_MARGIN = numberConstant('zoom.fitMargin');
 
 export interface CameraState {
-  // the frame's horizontal offset from its place at the fit margin, in screen px, while the page is wider than the stage
+  // the frame's horizontal offset from its place at the fit margin, in screen px, while the page is wider than the
+  // stage
   readonly panX: number;
   // the screen point the last zoom pivoted on; null for the middle of the stage
   readonly pivot: { readonly x: number; readonly y: number } | null;

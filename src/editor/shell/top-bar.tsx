@@ -110,8 +110,8 @@ export function TopBar() {
           // the page switcher stands for the current page (an item), the palette's search is drawn as a field
           const drawn = drawnAsOf(slot.entry);
           const control = drawn === 'item' ? <PageSwitcher key={slot.entry.ref} entry={slot.entry} /> : drawn === 'field' ? <Search key={slot.entry.ref} entry={slot.entry} /> : <DoorControl key={slot.entry.ref} entry={slot.entry} />;
-          // a separator before each group the region's breaks start (layout.json); the save state stands before the last
-          // group (Preview, Export), after Undo and Redo, as the canonical bar draws it
+          // a separator before each group the region's breaks start (layout.json); the save state stands before the
+          // last group (Preview, Export), after Undo and Redo, as the canonical bar draws it
           const saved = slot.order === BREAKS.at(-1) ? [<TopBarSaveState key="saved" />] : [];
           return BREAKS.includes(slot.order) ? [...saved, <span key={`break-${slot.order}`} className="separator" />, control] : control;
         }}

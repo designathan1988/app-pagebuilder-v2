@@ -25,7 +25,7 @@ const controllers = new WeakMap<EditorStore, AssistantController>();
 export const assistantController = (store: EditorStore): AssistantController | undefined => controllers.get(store);
 
 export function installAssistant(store: EditorStore): () => void {
-  if (controllers.has(store)) return () => {};
+  if (controllers.has(store)) return () => { };
   let alive = true, secret = '', pairing: Pairing | null = null, disconnect: (() => void) | null = null;
   let vault: CredentialVault | null = null;
   let session: ReturnType<typeof createAssistantSession> | null = null;
@@ -33,10 +33,14 @@ export function installAssistant(store: EditorStore): () => void {
   const report = (value: Partial<AssistantState>) => {
     if (alive) store.dispatch(reportAssistant.command, { value: value as unknown as JsonValue });
   };
-  const notice = (key: MessageId) => { if (alive) store.notice(message(key)); };
+  const notice = (key: MessageId) => {
+    if (alive) store.notice(message(key));
+  };
   const httpBase = () => {
     if (!pairing) throw new Error('assistant.connectionRequired');
-    const address = new URL(pairing.url); address.protocol = 'http:'; address.pathname = '/';
+    const address = new URL(pairing.url);
+    address.protocol = 'http:';
+    address.pathname = '/';
     return address.href;
   };
   const commands = manifest.commands.filter(command => isBuilt(COMMANDS[command.id as CommandId]));
@@ -60,7 +64,10 @@ export function installAssistant(store: EditorStore): () => void {
   let replyId: string | null = null;
   let failure: MessageId | null = null;
   const ready = openCredentialVault(indexedDB, crypto, credentialNonce).then(value => {
-    if (!alive) { value.close(); return; }
+    if (!alive) {
+      value.close();
+      return;
+    }
     vault = value;
     return value.read().then(key => report({ hasKey: key !== null }));
   }).catch(() => notice('assistant.storageFailed'));
@@ -86,23 +93,54 @@ export function installAssistant(store: EditorStore): () => void {
         if (result.isError === true) notice('assistant.refused');
         replyId = null;
       },
-      onState: state => { report({ busy: state.busy }); if (state.error) { failure = state.error; notice(state.error); } },
+      onState: state => {
+        report({ busy: state.busy });
+        if (state.error) {
+          failure = state.error;
+          notice(state.error);
+        }
+      },
     });
     return session;
   };
   let model = store.getState().ui.preferences.assistantModel ?? DEFAULT_ASSISTANT_MODEL;
   async function execute(kind: string): Promise<void> {
-    if (kind === 'cancel') { session?.cancel(); return; }
-    if (kind === 'disconnect') { session?.cancel(); disconnect?.(); disconnect = null; pairing = null; return; }
+    if (kind === 'cancel') {
+      session?.cancel();
+      return;
+    }
+    if (kind === 'disconnect') {
+      session?.cancel();
+      disconnect?.();
+      disconnect = null;
+      pairing = null;
+      return;
+    }
     await ready;
     if (!alive) return;
     if (kind === 'save-key') {
-      const value = secret; secret = '';
-      if (!vault || !value.trim()) { notice('assistant.keyRequired'); return; }
-      await vault.save(value); report({ hasKey: true }); notice('assistant.keySaved'); return;
+      const value = secret;
+      secret = '';
+      if (!vault || !value.trim()) {
+        notice('assistant.keyRequired');
+        return;
+      }
+      await vault.save(value);
+      report({ hasKey: true });
+      notice('assistant.keySaved');
+      return;
     }
-    if (kind === 'delete-key') { session?.cancel(); await vault?.clear(); report({ hasKey: false }); notice('assistant.keyRemoved'); return; }
-    if (kind === 'clear-conversation') { session?.clear(); return; }
+    if (kind === 'delete-key') {
+      session?.cancel();
+      await vault?.clear();
+      report({ hasKey: false });
+      notice('assistant.keyRemoved');
+      return;
+    }
+    if (kind === 'clear-conversation') {
+      session?.clear();
+      return;
+    }
     if (kind === 'connect') {
       if (!pairing) throw new Error('assistant.invalidConnection');
       disconnect?.();
@@ -125,13 +163,16 @@ export function installAssistant(store: EditorStore): () => void {
       if (!pairing) throw new Error('assistant.connectionRequired');
       const response = await fetch(new URL('/session/select', httpBase()), { method: 'POST', headers: { 'content-type': 'application/json', authorization: `Bearer ${pairing.token}` }, body: JSON.stringify({ session: assistantOf(store.getState().ui).session }), redirect: 'error' });
       if (!response.ok) throw new Error('assistant.connectionFailed');
-      notice('assistant.sessionSelected'); return;
+      notice('assistant.sessionSelected');
+      return;
     }
     if (kind === 'send') {
       const current = assistantOf(store.getState().ui);
       const reference = current.reference;
       append('user', current.draft, false, reference ? `data:${reference.type};base64,${reference.bytes}` : undefined);
-      report({ draft: '' }); replyId = null; failure = null;
+      report({ draft: '' });
+      replyId = null;
+      failure = null;
       const active = session ?? buildSession();
       const result = await active.send(current.draft, reference ? { bytes: Uint8Array.from(atob(reference.bytes), char => char.charCodeAt(0)), mime: reference.type as 'image/png' } : undefined);
       report({ inputTokens: result.inputTokens, outputTokens: result.outputTokens });
@@ -147,14 +188,27 @@ export function installAssistant(store: EditorStore): () => void {
       if (candidate.version !== 1 || typeof candidate.url !== 'string' || typeof candidate.token !== 'string' || !/^ws:\/\/127\.0\.0\.1:\d+\/editor$/.test(candidate.url) || !/^[A-Za-z0-9_-]{32,128}$/.test(candidate.token)) throw new Error('assistant.invalidConnection');
       pairing = { url: candidate.url, token: candidate.token };
     },
-    dispose: () => { alive = false; secret = ''; pairing = null; session?.dispose(); if (!session) vault?.close(); disconnect?.(); controllers.delete(store); },
+    dispose: () => {
+      alive = false;
+      secret = '';
+      pairing = null;
+      session?.dispose();
+      if (!session) vault?.close();
+      disconnect?.();
+      controllers.delete(store);
+    },
   };
   controllers.set(store, controller);
-  const unwatchDocument = store.subscribeDocument(() => { revision++; });
+  const unwatchDocument = store.subscribeDocument(() => {
+    revision++;
+  });
   const unwatch = store.subscribe(() => {
     const ui = store.getState().ui, current = assistantOf(ui);
     const nextModel = ui.preferences.assistantModel ?? DEFAULT_ASSISTANT_MODEL;
-    if (nextModel !== model && !current.busy) { model = nextModel; session?.clear(); }
+    if (nextModel !== model && !current.busy) {
+      model = nextModel;
+      session?.clear();
+    }
     if (current.request === null || current.request.serial === lastRequest) return;
     lastRequest = current.request.serial;
     void execute(current.request.kind).catch(error => {
@@ -164,5 +218,9 @@ export function installAssistant(store: EditorStore): () => void {
       notice(failure ?? key);
     });
   });
-  return () => { unwatch(); unwatchDocument(); controller.dispose(); };
+  return () => {
+    unwatch();
+    unwatchDocument();
+    controller.dispose();
+  };
 }

@@ -49,8 +49,8 @@ export const toggleGuidesVisible: RegisteredHandler<'guides.toggleVisible', Edit
 );
 
 // The smart guides and equal spacing (spec smart-guides): on by default. Smart guides off, a free drag or a resize
-// draws no alignment line and no equal-spacing marker, and snap stays as it is (Problems in Pager 1); equal spacing off,
-// no gap is repeated nor marked. Each switch stands for its hints being on.
+// draws no alignment line and no equal-spacing marker, and snap stays as it is (Problems in Pager 1); equal spacing
+// off, no gap is repeated nor marked. Each switch stands for its hints being on.
 export const toggleSmartGuides: RegisteredHandler<'view.toggleSmartGuides', EditorUi> = registerHandler(
   'view.toggleSmartGuides',
   ({ state }) => flip(state.ui, 'smartGuidesOff', toggleSmartGuides.command),

@@ -1,6 +1,7 @@
-// The label rule (src/editor/canvas/placement.ts placeLabel): a label takes the first free place around its element, and
-// where none is free it covers the least it can and says so, so the selection's label then takes no press and a press
-// meant for the text under it reaches the text (jornada03 J16: a button's label over a card's price selected the button).
+// The label rule (src/editor/canvas/placement.ts placeLabel): a label takes the first free place around its element,
+// and where none is free it covers the least it can and says so, so the selection's label then takes no press and a
+// press meant for the text under it reaches the text (jornada03 J16: a button's label over a card's price selected the
+// button).
 import { describe, expect, it } from 'vitest';
 import { placeLabel, type Box } from './placement.ts';
 

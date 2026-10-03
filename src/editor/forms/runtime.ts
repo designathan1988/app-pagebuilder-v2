@@ -57,7 +57,10 @@ export function installFormsRuntime(target: Document, engine: FormsEngine, defau
   const controls = (form: HTMLFormElement): Control[] => [...form.elements].filter((element): element is Control => ['INPUT', 'TEXTAREA', 'SELECT'].includes(element.tagName));
   const locale = () => target.documentElement.lang || 'en';
   const nativeRules = (field: Control): ValidationRules => {
-    const number = (name: string) => { const value = field.getAttribute(name); return value !== null && value !== '' && Number.isFinite(Number(value)) ? Number(value) : undefined; };
+    const number = (name: string) => {
+      const value = field.getAttribute(name);
+      return value !== null && value !== '' && Number.isFinite(Number(value)) ? Number(value) : undefined;
+    };
     const minimum = number('min'), maximum = number('max'), minLength = number('minlength'), maxLength = number('maxlength'), step = number('step');
     const type = field.getAttribute('type');
     const pattern = field.getAttribute('pattern');
@@ -115,7 +118,9 @@ export function installFormsRuntime(target: Document, engine: FormsEngine, defau
       if (meaningfulBefore !== null) {
         let position = 0;
         while (position < result.formatted.length && size(result.formatted.slice(0, position)) < meaningfulBefore) position++;
-        try { input.setSelectionRange(position, position); } catch { /* Native number/date inputs do not expose a text selection. */ }
+        try {
+          input.setSelectionRange(position, position);
+        } catch { /* Native number/date inputs do not expose a text selection. */ }
       }
     } catch {
       state.touched = true;
@@ -155,11 +160,18 @@ export function installFormsRuntime(target: Document, engine: FormsEngine, defau
   const configured = target.querySelectorAll<Control>('[data-form-field]');
   for (const field of configured) {
     const parsed = configuration(field.getAttribute('data-form-field') ?? '{}', false);
-    if (!parsed) { field.setCustomValidity(field.getAttribute('data-form-configuration-error') || messageFor({}, 'configuration', 'Invalid form configuration')); continue; }
+    if (!parsed) {
+      field.setCustomValidity(field.getAttribute('data-form-configuration-error') || messageFor({}, 'configuration', 'Invalid form configuration'));
+      continue;
+    }
     const config = parsed as FieldConfig;
     const previous = config.errorId ? target.getElementById(config.errorId) : null;
     const error = previous ?? target.createElement('span');
-    if (!error.id) { do { error.id = `form-error-${++serial}`; } while (target.getElementById(error.id)); }
+    if (!error.id) {
+      do {
+        error.id = `form-error-${++serial}`;
+      } while (target.getElementById(error.id));
+    }
     const describedBy = field.getAttribute('aria-describedby');
     const tokens = new Set((describedBy ?? '').split(/\s+/).filter(Boolean));
     tokens.add(error.id);
@@ -169,8 +181,16 @@ export function installFormsRuntime(target: Document, engine: FormsEngine, defau
     if (!previous) field.insertAdjacentElement('afterend', error);
     fieldStates.set(field, { config, touched: false, composing: false, error, created: !previous, describedBy, invalid: field.getAttribute('aria-invalid'), validity: field.validationMessage, lookup: null });
     applyMask(field);
-    listen(field, 'compositionstart', () => { const state = fieldStates.get(field); if (state) state.composing = true; });
-    listen(field, 'compositionend', () => { const state = fieldStates.get(field); if (state) state.composing = false; applyMask(field); if (config.when === 'input') validate(field); });
+    listen(field, 'compositionstart', () => {
+      const state = fieldStates.get(field);
+      if (state) state.composing = true;
+    });
+    listen(field, 'compositionend', () => {
+      const state = fieldStates.get(field);
+      if (state) state.composing = false;
+      applyMask(field);
+      if (config.when === 'input') validate(field);
+    });
     listen(field, 'input', () => {
       const state = fieldStates.get(field);
       if (!state || state.composing) return;
@@ -181,29 +201,59 @@ export function installFormsRuntime(target: Document, engine: FormsEngine, defau
         if (related?.config.rules?.equalTo === field.name && related.touched) validate(other);
       }
     });
-    listen(field, 'blur', () => { const state = fieldStates.get(field); if (state) state.touched = true; if (config.when !== 'submit') validate(field); void lookup(field); });
+    listen(field, 'blur', () => {
+      const state = fieldStates.get(field);
+      if (state) state.touched = true;
+      if (config.when !== 'submit') validate(field);
+      void lookup(field);
+    });
   }
   const forms = new Set<HTMLFormElement>([...target.querySelectorAll<HTMLFormElement>('form[data-form-submit]'), ...[...configured].flatMap((field) => field.form ? [field.form] : [])]);
   for (const form of forms) {
     const parsed = configuration(form.getAttribute('data-form-submit') ?? '{"destination":"native"}', true);
     if (!parsed) {
-      listen(form, 'submit', (event) => { event.preventDefault(); form.dispatchEvent(new CustomEvent('forms:error', { bubbles: true })); });
+      listen(form, 'submit', (event) => {
+        event.preventDefault();
+        form.dispatchEvent(new CustomEvent('forms:error', { bubbles: true }));
+      });
       continue;
     }
     const config = parsed as FormConfig;
     const noValidate = form.noValidate;
     form.noValidate = true;
-    disposers.push(() => { form.noValidate = noValidate; });
+    disposers.push(() => {
+      form.noValidate = noValidate;
+    });
     let submitting = false;
     const show = (success: boolean) => {
-      if (config.successId) { const element = target.getElementById(config.successId); if (element) { element.hidden = !success; element.setAttribute('role', 'status'); } }
-      if (config.errorId) { const element = target.getElementById(config.errorId); if (element) { element.hidden = success; element.setAttribute('role', 'alert'); } }
+      if (config.successId) {
+        const element = target.getElementById(config.successId);
+        if (element) {
+          element.hidden = !success;
+          element.setAttribute('role', 'status');
+        }
+      }
+      if (config.errorId) {
+        const element = target.getElementById(config.errorId);
+        if (element) {
+          element.hidden = success;
+          element.setAttribute('role', 'alert');
+        }
+      }
       form.dispatchEvent(new CustomEvent(success ? 'forms:success' : 'forms:error', { bubbles: true }));
     };
-    for (const id of [config.successId, config.errorId]) { const element = id ? target.getElementById(id) : null; if (element) element.hidden = true; }
+    for (const id of [config.successId, config.errorId]) {
+      const element = id ? target.getElementById(id) : null;
+      if (element) element.hidden = true;
+    }
     if (config.honeypot && !controls(form).some((one) => one.name === config.honeypot)) {
       const honeypot = target.createElement('input');
-      honeypot.type = 'text'; honeypot.name = config.honeypot; honeypot.tabIndex = -1; honeypot.autocomplete = 'off'; honeypot.hidden = true; honeypot.setAttribute('aria-hidden', 'true');
+      honeypot.type = 'text';
+      honeypot.name = config.honeypot;
+      honeypot.tabIndex = -1;
+      honeypot.autocomplete = 'off';
+      honeypot.hidden = true;
+      honeypot.setAttribute('aria-hidden', 'true');
       form.append(honeypot);
       const created = honeypot;
       disposers.push(() => created.remove());
@@ -233,11 +283,19 @@ export function installFormsRuntime(target: Document, engine: FormsEngine, defau
       for (const field of controls(form)) {
         const state = fieldStates.get(field);
         if (!state) continue;
-        state.touched = false; state.error.hidden = true; state.error.textContent = ''; field.setCustomValidity(''); field.removeAttribute('aria-invalid'); field.removeAttribute('data-form-state');
+        state.touched = false;
+        state.error.hidden = true;
+        state.error.textContent = '';
+        field.setCustomValidity('');
+        field.removeAttribute('aria-invalid');
+        field.removeAttribute('data-form-state');
       }
     });
     listen(form, 'submit', ((event: SubmitEvent) => {
-      if (submitting) { event.preventDefault(); return; }
+      if (submitting) {
+        event.preventDefault();
+        return;
+      }
       const submitter = event.submitter as HTMLButtonElement | HTMLInputElement | null;
       if (!submitter?.formNoValidate) {
         let first: Control | undefined;
@@ -247,14 +305,23 @@ export function installFormsRuntime(target: Document, engine: FormsEngine, defau
           const valid = state ? validate(field) : field.checkValidity();
           if (!valid && !first) first = field;
         }
-        if (first) { event.preventDefault(); first.focus(); return; }
+        if (first) {
+          event.preventDefault();
+          first.focus();
+          return;
+        }
       }
-      if (config.honeypot && controls(form).some((field) => field.name === config.honeypot && field.value)) { event.preventDefault(); show(true); return; }
+      if (config.honeypot && controls(form).some((field) => field.name === config.honeypot && field.value)) {
+        event.preventDefault();
+        show(true);
+        return;
+      }
       if (config.destination === 'native') return;
       event.preventDefault();
       submitting = true;
       form.setAttribute('aria-busy', 'true');
-      const controller = new AbortController(); pending.add(controller);
+      const controller = new AbortController();
+      pending.add(controller);
       const buttons = [...form.querySelectorAll<HTMLButtonElement | HTMLInputElement>('button[type="submit"], button:not([type]), input[type="submit"]')].map((button) => ({ button, disabled: button.disabled }));
       // FormData captures the submitter before controls are disabled.
       const data = new FormData(form, submitter);
@@ -265,14 +332,18 @@ export function installFormsRuntime(target: Document, engine: FormsEngine, defau
           const method = config.method ?? (form.method.toUpperCase() === 'GET' ? 'GET' : 'POST');
           const url = new URL(endpoint);
           const init: RequestInit = { method, signal: controller.signal, credentials: 'omit' };
-          if (method === 'GET') { for (const [name, value] of data) url.searchParams.append(name, typeof value === 'string' ? value : value.name); }
+          if (method === 'GET') {
+            for (const [name, value] of data) url.searchParams.append(name, typeof value === 'string' ? value : value.name);
+          }
           else if (config.encoding === 'json') {
             const payload = Object.create(null) as Record<string, string | string[]>;
             for (const [name, value] of data) {
               if (typeof value !== 'string') throw new Error('JSON submission does not support files; select multipart form encoding');
-              const previous = payload[name]; payload[name] = previous === undefined ? value : Array.isArray(previous) ? [...previous, value] : [previous, value];
+              const previous = payload[name];
+              payload[name] = previous === undefined ? value : Array.isArray(previous) ? [...previous, value] : [previous, value];
             }
-            init.headers = { 'Content-Type': 'application/json' }; init.body = JSON.stringify(payload);
+            init.headers = { 'Content-Type': 'application/json' };
+            init.body = JSON.stringify(payload);
           } else init.body = data;
           const response = await fetch(url.href, init);
           if (!response.ok) throw new Error(`Form submission: ${response.status}`);
@@ -280,7 +351,11 @@ export function installFormsRuntime(target: Document, engine: FormsEngine, defau
           show(true);
           if (config.redirect) target.defaultView?.location.assign(safeAddress(config.redirect));
         } catch { if (!controller.signal.aborted) show(false); }
-        finally { pending.delete(controller); submitting = false; form.removeAttribute('aria-busy'); for (const { button, disabled } of buttons) button.disabled = disabled; }
+        finally { pending.delete(controller);
+          submitting = false;
+          form.removeAttribute('aria-busy');
+          for (const { button, disabled } of buttons) button.disabled = disabled;
+        }
       })();
     }) as EventListener);
   }
@@ -290,9 +365,12 @@ export function installFormsRuntime(target: Document, engine: FormsEngine, defau
     for (const [field, state] of fieldStates) {
       state.lookup?.abort();
       if (state.created) state.error.remove();
-      if (state.describedBy === null) field.removeAttribute('aria-describedby'); else field.setAttribute('aria-describedby', state.describedBy);
-      if (state.invalid === null) field.removeAttribute('aria-invalid'); else field.setAttribute('aria-invalid', state.invalid);
-      field.setCustomValidity(''); field.removeAttribute('data-form-state');
+      if (state.describedBy === null) field.removeAttribute('aria-describedby');
+      else field.setAttribute('aria-describedby', state.describedBy);
+      if (state.invalid === null) field.removeAttribute('aria-invalid');
+      else field.setAttribute('aria-invalid', state.invalid);
+      field.setCustomValidity('');
+      field.removeAttribute('data-form-state');
     }
     fieldStates.clear();
   };

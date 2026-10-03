@@ -60,8 +60,8 @@ function DocumentJson() {
 // The Checks panel (spec accessibility-checks): one row per element with issues (core/a11y/checks.ts, the one owner of
 // the list), its issues inside it in the list's order, each row the region's own door (selection.select) with the node
 // it is about, so pressing a row selects that element on the canvas and in the Layers (Problems 3: an image with no alt
-// and no source is one row, never two doors for one element). The list is read from the store, so it follows every command;
-// it never blocks editing or the export — a page with issues is a page like any other.
+// and no source is one row, never two doors for one element). The list is read from the store, so it follows every
+// command; it never blocks editing or the export — a page with issues is a page like any other.
 // the automatic fix of each rule that has one (checks.json fixes): its door of checks.applyFix, drawn beside the row (a
 // button inside the row's own button would be no button), with the element and the rule it fixes
 const FIXES = new Map(manifest.checks.fixes.flatMap((fix) => {

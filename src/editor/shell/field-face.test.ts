@@ -1,5 +1,5 @@
-// The resting face of a field (field-face.tsx; the audit's S-026): a colour reads as its hex, its opacity beside it when
-// it is not whole, the word transparent when it is none; a length parts into number and unit.
+// The resting face of a field (field-face.tsx; the audit's S-026): a colour reads as its hex, its opacity beside it
+// when it is not whole, the word transparent when it is none; a length parts into number and unit.
 import { describe, expect, it } from 'vitest';
 import { compactFieldValue } from './field-face.tsx';
 

@@ -1,7 +1,7 @@
-// The Select tool on a region the Layout tool drew (spec layout-composer, "With the Select tool"): a region is a cell of
-// the grid its container is laid out in, so a width written on it or its element moved among its siblings changes
-// nothing the person sees. While the Layout tool is off, a press on a region's element (or on a resize handle of the one
-// selected region) is this tool's: the drag runs layout.place at every move, through the gesture the pointer owner
+// The Select tool on a region the Layout tool drew (spec layout-composer, "With the Select tool"): a region is a cell
+// of the grid its container is laid out in, so a width written on it or its element moved among its siblings changes
+// nothing the person sees. While the Layout tool is off, a press on a region's element (or on a resize handle of the
+// one selected region) is this tool's: the drag runs layout.place at every move, through the gesture the pointer owner
 // opened, so the page follows the pointer and the release keeps one undo step; the region's box in the layout moves or
 // resizes, snapped as the Layout tool snaps, and the grid is laid out again from it. A press and release in place on a
 // region selects it as a click does. Any other press is the Select tool's own.

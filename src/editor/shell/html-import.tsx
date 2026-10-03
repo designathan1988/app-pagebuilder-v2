@@ -14,7 +14,9 @@ export function HtmlImportDialog() {
   const message = useEditorState(s => s.message);
   const t = useT();
   const choices = useRef<HTMLDivElement>(null);
-  useEffect(() => { if (request) choices.current?.querySelector<HTMLButtonElement>('[data-import-default] button')?.focus(); }, [request]);
+  useEffect(() => {
+    if (request) choices.current?.querySelector<HTMLButtonElement>('[data-import-default] button')?.focus();
+  }, [request]);
   if (!request) return null;
   return <ModalDialog region="html-import" titleKey="import.title" className="html-import">
     <div className="dialog__body">

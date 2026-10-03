@@ -13,7 +13,8 @@ export function choosingImport(owner: RegisteredHandler<'project.importHtml', Ed
     const outcome = owner.run(context, { ...args, files });
     if (outcome.kind !== 'change') return outcome;
     const { dialog: _dialog, htmlImport: _request, ...ui } = outcome.ui ?? context.state.ui;
-    void _dialog; void _request;
+    void _dialog;
+    void _request;
     return { ...outcome, ui };
   } };
 }

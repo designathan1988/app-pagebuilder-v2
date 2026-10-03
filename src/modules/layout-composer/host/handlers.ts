@@ -72,8 +72,8 @@ export const layoutComposing = registerPredicate<EditorUi>(
 
 // New regions are named in the person's language: "Region 3", "Header 2" (a split's second part).
 // The canvas previews a stroke with the same naming, through the editor's own words (interaction/tool.ts).
-// A part of a region named by its number alone ("Region 2") is a region of its own number ("Region 3"), not "Region 2 2";
-// a part of a region the person named keeps the name with the part's number ("Header 2").
+// A part of a region named by its number alone ("Region 2") is a region of its own number ("Region 3"), not "Region 2
+// 2"; a part of a region the person named keeps the name with the part's number ("Header 2").
 // Whether a name is still a region's number ("Region 3"), in the person's language.
 export const numberedWith = (words: (key: MessageId, params: Readonly<Record<string, number>>) => string): ((name: string) => boolean) => {
   const [before = '', after = ''] = words('layout.label.region' as MessageId, { n: 0 }).split('0');
@@ -473,8 +473,9 @@ export const strokeLayout = registerHandler<'layout.stroke', EditorUi>('layout.s
     const made = reading.result.affected.filter((id) => findRegion(record.intent, id) === undefined && findRegion(graph, id) !== undefined);
     const result = written(context, graph, made.length > 0 ? made : moving(reading, state.selection));
     const outcome = result.kind === 'change' ? { ...result, message: gestureSaid(reading.mode, record.intent, graph, reading.result.affected) } : result;
-    // a structural handle dragged (a boundary, a corner, a gap; a repeat adds items instead) says the sizes it gave the regions it moved
-    // a boundary, a corner, a gap or an edge dragged says the sizes it gave; a label dragged moved its region instead
+    // a structural handle dragged (a boundary, a corner, a gap; a repeat adds items instead) says the sizes it gave the
+    // regions it moved a boundary, a corner, a gap or an edge dragged says the sizes it gave; a label dragged moved its
+    // region instead
     const dragged = (handle !== undefined && reading.mode !== 'move' && reading.mode !== 'nest') || reading.mode === 'boundary' || reading.mode === 'edge';
     if (outcome.kind !== 'change' || !dragged || reading.mode === 'repeat') return outcome;
     const sizes = reading.result.affected

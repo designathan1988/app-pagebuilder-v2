@@ -91,7 +91,10 @@ describe("the content's part of the model", () => {
 });
 
 describe('the derivation after any change', () => {
-  const context = { ids: { next: (() => { let n = 0; return () => `d${++n}`; })() }, rules: RULES, words: (key: string) => key } as unknown as Parameters<typeof deriveData>[2];
+  const context = { ids: { next: (() => {
+    let n = 0;
+    return () => `d${++n}`;
+  })() }, rules: RULES, words: (key: string) => key } as unknown as Parameters<typeof deriveData>[2];
 
   it('derives nothing for a document without content', () => {
     expect(deriveData(doc(tree), doc({ ...tree, name: 'Renamed' }), context)).toEqual({ patches: [] });

@@ -17,7 +17,8 @@ export const isDataFile = (file: Pick<ProjectFile, 'path' | 'type'>): boolean =>
 
 // The lines of a CSV, each its cells: commas between cells, a cell in double quotes may hold commas, line breaks and
 // doubled quotes; a blank line is no row.
-// A TSV is the same with tabs between its cells (the delimiter); the Data panel's reader takes both (core/data/readers.ts).
+// A TSV is the same with tabs between its cells (the delimiter); the Data panel's reader takes both
+// (core/data/readers.ts).
 export function csvLines(source: string, delimiter: ',' | '\t' = ','): string[][] {
   const lines: string[][] = [];
   let line: string[] = [];

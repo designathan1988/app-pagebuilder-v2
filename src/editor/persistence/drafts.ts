@@ -40,7 +40,9 @@ let canvasCapture: (() => void) | null = null;
 
 export function registerDraftCapture(capture: () => void): () => void {
   canvasCapture = capture;
-  return () => { if (canvasCapture === capture) canvasCapture = null; };
+  return () => {
+    if (canvasCapture === capture) canvasCapture = null;
+  };
 }
 export function flushDraftCaret(): void {
   if (held?.kind === 'canvas') canvasCapture?.();
@@ -73,7 +75,10 @@ export function saveFieldDraft(field: Field): void {
   if (restoring || !store || !mayWrite()) return;
   const key = fieldKey(field);
   if (key === null || field.dataset.shown === undefined) return;
-  if (field.value === field.dataset.shown) { if (held?.kind === 'field' && held.key === key) persist(null); return; }
+  if (field.value === field.dataset.shown) {
+    if (held?.kind === 'field' && held.key === key) persist(null);
+    return;
+  }
   pending = false;
   persist({ ...context(), kind: 'field', key, shown: field.dataset.shown, value: field.value, range: fieldRange(field) });
 }
@@ -86,7 +91,11 @@ export function restoreFieldDraft(field: Field, restored: () => void): () => voi
     return () => {};
   }
   const draft = held;
-  if (draft.shown !== field.dataset.shown) { pending = false; persist(null); return () => {}; }
+  if (draft.shown !== field.dataset.shown) {
+    pending = false;
+    persist(null);
+    return () => {};
+  }
   let frame = 0;
   const apply = () => {
     if (!field.isConnected || held !== draft || !mayWrite()) return;
@@ -128,8 +137,11 @@ export function canvasDraft(node: NodeId): { runs: readonly InlineRun[]; range: 
 }
 
 export function startDrafts(owner: EditorStore, currentRevision: () => number, canWrite: () => boolean): () => void {
-  store = owner; revision = currentRevision; mayWrite = canWrite;
-  held = null; pending = false;
+  store = owner;
+  revision = currentRevision;
+  mayWrite = canWrite;
+  held = null;
+  pending = false;
   try {
     const parsed = schema.safeParse(JSON.parse(window.sessionStorage.getItem(KEY) ?? 'null'));
     if (parsed.success && canWrite() && parsed.data.revision === revision() && JSON.stringify(parsed.data.selection) === JSON.stringify(owner.getState().selection)) held = parsed.data;
@@ -149,17 +161,25 @@ export function startDrafts(owner: EditorStore, currentRevision: () => number, c
     }
     if (draft.kind === 'canvas') {
       const result = owner.dispatch(startEdit.command, {});
-      if (result.status === 'refused' || owner.getState().ui.textEdit.node !== draft.node) { pending = false; persist(null); }
+      if (result.status === 'refused' || owner.getState().ui.textEdit.node !== draft.node) {
+        pending = false;
+        persist(null);
+      }
     }
   } else persist(null);
   let last = owner.getState();
   const stop = owner.subscribe(() => {
     const next = owner.getState();
     if (held && (next.document !== last.document || next.selection !== last.selection || (held.kind === 'canvas' && next.ui.textEdit.node !== held.node) || (held.context.quick && next.ui.quickPanelOpen !== true))) {
-      pending = false; persist(null);
+      pending = false;
+      persist(null);
     }
     last = next;
   });
   document.addEventListener('selectionchange', flushDraftCaret);
-  return () => { stop(); document.removeEventListener('selectionchange', flushDraftCaret); store = null; };
+  return () => {
+    stop();
+    document.removeEventListener('selectionchange', flushDraftCaret);
+    store = null;
+  };
 }

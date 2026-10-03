@@ -28,7 +28,8 @@ describe('the keymap', () => {
 
   it('lets a context inherit only what interactions.json says: a field keeps its own keys but the workspace ones, text editing its own', () => {
     expect(bindingFor('canvas', 'Ctrl+B')?.command.id).toBe('workspace.toggleLeftDock');
-    // the workspace's keys act from a plain text field too (the user's decision of 2026-10-02); its other keys are its own
+    // the workspace's keys act from a plain text field too (the user's decision of 2026-10-02); its other keys are its
+    // own
     expect(bindingFor('field', 'Ctrl+B')?.command.id).toBe('workspace.toggleLeftDock');
     expect(bindingFor('field', 'Ctrl+Z')).toBeNull();
     // while editing text Ctrl+B is Bold, never the sidebar
@@ -76,7 +77,8 @@ describe('the keymap', () => {
     const shortcuts = manifest.doors.filter((d) => d.door.kind === 'shortcut');
     const groups = bindingGroups();
     const listed = groups.flatMap((group) => group.bindings.map((binding) => binding.ref));
-    // every binding of the manifest is listed once, and the groups come in the order interactions.json declares the contexts
+    // every binding of the manifest is listed once, and the groups come in the order interactions.json declares the
+    // contexts
     expect([...listed].sort()).toEqual(shortcuts.map((entry) => entry.ref).sort());
     const ids = manifest.interactions.keyContexts.map((context) => context.id as string);
     const order = groups.map((group) => ids.indexOf(group.context));

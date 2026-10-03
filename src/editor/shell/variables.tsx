@@ -193,7 +193,9 @@ function KeptField({ entry, args, filled, held, label }: { readonly entry: DoorE
     afterGesture(() => (store.dispatch as (id: CommandId, a: unknown) => DispatchResult)(entry.command.id as CommandId, { ...entry.door.args, ...args, [filled]: text }));
   };
   return (
-    <form className={`variables__field${door.available ? '' : ' is-unavailable'}`} data-door={entry.ref} data-args={JSON.stringify(args)} title={door.title} onSubmit={(event: FormEvent) => { event.preventDefault(); keep(); }}>
+    <form className={`variables__field${door.available ? '' : ' is-unavailable'}`} data-door={entry.ref} data-args={JSON.stringify(args)} title={door.title} onSubmit={(event: FormEvent) => { event.preventDefault();
+      keep();
+    }}>
       <input ref={input} className="input" aria-label={label} spellCheck={false} disabled={!door.available} onBlur={keep} />
     </form>
   );

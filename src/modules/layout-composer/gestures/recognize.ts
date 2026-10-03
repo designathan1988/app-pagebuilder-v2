@@ -402,8 +402,9 @@ export function readPlace(graph: LayoutIntent, id: string, edges: PlaceEdges, dx
   if (edges.includes('n')) y = Math.min(snap('y', b.y + dy, true), bottom - least);
   if (edges.includes('s')) bottom = Math.max(snap('y', bottom + dy, false), y + least);
   const box: Box = { x, y, width: right - x, height: bottom - y };
-  // a neighbour the grown edge runs into gives way: its facing edge moves along, keeping the gap there was between them,
-  // as the line two regions share does when it is dragged; one that would get thinner than the least size stops it
+  // a neighbour the grown edge runs into gives way: its facing edge moves along, keeping the gap there was between
+  // them, as the line two regions share does when it is dragged; one that would get thinner than the least size stops
+  // it
   const pushed: Operation[] = [];
   for (const other of childrenOf(graph, region.parent)) {
     if (other.id === region.id || intersection(other.box, box) === null) continue;

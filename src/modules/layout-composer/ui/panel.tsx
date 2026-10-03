@@ -108,7 +108,9 @@ function DoorField({ entry, value, type = 'text', arg = 'value' }: { readonly en
     markFieldKept(input, input.value);
   };
   return (
-    <form className="layout-panel__field" data-door={entry.ref} data-args={JSON.stringify(entry.door.args)} title={door.title} onSubmit={(event) => { event.preventDefault(); keep(); }}>
+    <form className="layout-panel__field" data-door={entry.ref} data-args={JSON.stringify(entry.door.args)} title={door.title} onSubmit={(event) => { event.preventDefault();
+      keep();
+    }}>
       <label className="layout-panel__label">{label}</label>
       <input ref={field} className="input" type={type} min={type === 'number' ? 1 : undefined} defaultValue={value} aria-label={label} disabled={!door.available} spellCheck={false} onBlur={keep} onInput={(event) => recordFieldInput(event.currentTarget, event.nativeEvent)} data-key-context="command-field" />
     </form>

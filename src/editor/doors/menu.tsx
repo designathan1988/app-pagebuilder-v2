@@ -192,7 +192,10 @@ export function useMenuLayer(button: RefObject<HTMLButtonElement | null>, list?:
   }, [open, list]);
   const close = grouped ? group.close : () => setOpenedAt(null);
   const fallback = useRef<HTMLElement>(null);
-  useOutsideLayer(list ?? fallback, open && list !== undefined, () => { options?.onOutside?.(); close(); }, button, true, returnFocus);
+  useOutsideLayer(list ?? fallback, open && list !== undefined, () => {
+    options?.onOutside?.();
+    close();
+  }, button, true, returnFocus);
   return {
     open,
     toggle: grouped ? () => group.toggle(menu) : () => setOpenedAt(open ? null : dismissals),

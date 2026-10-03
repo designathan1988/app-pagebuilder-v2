@@ -35,7 +35,10 @@ export function installPerformanceProbe(): void {
     const listener = (event: Event) => sample(event, target.performance);
     target.addEventListener('pointerdown', listener, true);
     target.addEventListener('keydown', listener, true);
-    return () => { target.removeEventListener('pointerdown', listener, true); target.removeEventListener('keydown', listener, true); };
+    return () => {
+      target.removeEventListener('pointerdown', listener, true);
+      target.removeEventListener('keydown', listener, true);
+    };
   });
   let observer: PerformanceObserver | undefined;
   // Native Event Timing is supplementary: samples below 16ms are censored, durations are rounded to 8ms.

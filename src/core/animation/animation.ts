@@ -7,8 +7,8 @@
 //    animation, so two elements may not share one. A taken name is refused (status.animation.nameTaken), a text that is
 //    no name too (status.animation.nameInvalid).
 //  - A new animation holds a 1 s duration, no delay, one iteration, direction normal, fill mode both, a linear timing
-//    function and play state running (linear, so what the timeline scrubs is what the keyframes say), with a keyframe at
-//    0% and one at 100%, both holding nothing until a value is set.
+//    function and play state running (linear, so what the timeline scrubs is what the keyframes say), with a keyframe
+//    at 0% and one at 100%, both holding nothing until a value is set.
 //  - An offset is a whole percent from 0 to 100 (interactions.json timeline.offsetRange); the keyframes are kept in
 //    offset order and no two share one (status.animation.keyframeTaken, status.animation.offsetOutOfRange).
 //  - A setting's value is read by the property's codec (the one reader of a typed style value) against what the

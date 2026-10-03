@@ -58,8 +58,8 @@ const JOURNAL = 'work-journal';
 export type SaveState = 'notSaved' | 'saving' | 'saved' | 'recoveryRequired';
 let state: SaveState = 'notSaved';
 // why the last write was refused (the browser's words), while it was; null otherwise
-// why the last write was refused: the browser's own words, or the editor's own reason as a message of the catalogue (the
-// audit's AUD-24: "IndexedDB is not available" stood in English inside the translated "Not saved: {reason}")
+// why the last write was refused: the browser's own words, or the editor's own reason as a message of the catalogue
+// (the audit's AUD-24: "IndexedDB is not available" stood in English inside the translated "Not saved: {reason}")
 export type SaveRefusal = string | { readonly key: MessageId };
 const NO_DATABASE: SaveRefusal = { key: 'status.save.noDatabase' };
 let refusal: SaveRefusal | null = null;

@@ -79,7 +79,9 @@ export function MappingView({ collection, query, selected }: { readonly collecti
     ...(fieldFits(to, ITEM_PAGE) ? [{ value: ITEM_PAGE, label: t('data.itemPage') }] : []),
   ];
   // the preview makes nothing: it reads values, so it needs no id
-  const context: DataContext = { ids: { next: () => { throw new Error('the preview makes no node'); } }, rules: MODEL_RULES, words: (key) => t(key) };
+  const context: DataContext = { ids: { next: () => {
+    throw new Error('the preview makes no node');
+  } }, rules: MODEL_RULES, words: (key) => t(key) };
   const pages = itemPagesOf(document);
   const rows = queryItems(collection, query).slice(0, PREVIEWED);
   const bound = targets.flatMap(({ node, to }) => (node.bind ?? []).filter((b) => b.to === to).map((b) => ({ node, bound: b })));

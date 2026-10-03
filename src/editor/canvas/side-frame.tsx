@@ -1,5 +1,5 @@
-// A side frame (spec side-by-side-view; drawn by shell/side-by-side.tsx): one of the project's other breakpoints, a live
-// page at its width scaled to its column. Its own renderer (core/render/render.ts) is mounted in its own frame and
+// A side frame (spec side-by-side-view; drawn by shell/side-by-side.tsx): one of the project's other breakpoints, a
+// live page at its width scaled to its column. Its own renderer (core/render/render.ts) is mounted in its own frame and
 // follows every change of the document, so it shows the page through its own media queries; the renderer outlines
 // the selection in it. Nothing in it is edited in place: a click on it, or on its head, makes its breakpoint the one
 // the canvas edits (view.setBreakpoint). Like the canvas frame, it reaches its page only to hand it to the renderer.

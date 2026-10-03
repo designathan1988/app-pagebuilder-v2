@@ -1,10 +1,10 @@
 // A Style field's detailed origin note (spec inspector-provenance-reset, Problems in Pager 6): shown under the focused
 // field, while field-face.tsx carries the compact badge at rest. The note's legend colour and source come from the one
 // rule of inspector/origin.ts: set at the edited breakpoint (away from the base layer), from a larger breakpoint or the
-// base state, from a class, inherited from an ancestor (named). Nothing for a value of the target's own at the base layer
-// nor for the default, whose placeholder already wears the Default colour. While the field holds the focus and its value
-// comes from elsewhere, a second line says where typing writes: the target (the element, or the class while it is the
-// target) at the edited breakpoint and state.
+// base state, from a class, inherited from an ancestor (named). Nothing for a value of the target's own at the base
+// layer nor for the default, whose placeholder already wears the Default colour. While the field holds the focus and
+// its value comes from elsewhere, a second line says where typing writes: the target (the element, or the class while
+// it is the target) at the edited breakpoint and state.
 import { useEffect, useState } from 'react';
 import type { MessageId } from '../../generated/ids.ts';
 import type { DoorEntry } from '../../manifest/runtime.ts';

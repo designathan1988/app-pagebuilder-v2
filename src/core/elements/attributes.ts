@@ -8,8 +8,8 @@
 //  - Classes are the words of the text, each a CSS class name (status.attribute.invalid names the first that is not),
 //    kept once each in their order.
 //  - An attribute's value follows its value type (elements.json): a text as typed; a URL through the one rule of a
-//    resource address (core/elements/address.ts: status.url.unsafe, status.url.malformed); a number as a number; a keyword one of
-//    its keywords; a boolean true or absent (status.attribute.invalid for anything else).
+//    resource address (core/elements/address.ts: status.url.unsafe, status.url.malformed); a number as a number; a
+//    keyword one of its keywords; a boolean true or absent (status.attribute.invalid for anything else).
 //  - A locked element, or one inside a locked element, keeps its values (spec lock-element).
 import type { NodeId } from '../../generated/commands.ts';
 import { message, registerHandler, type Outcome } from '../commands/registry.ts';
@@ -83,7 +83,11 @@ function invalidForNode(at: Location, attribute: string, stored: string | number
   const type = at.node.type === 'input' ? inputTypeOf(at.node) : '';
   if (attribute === 'name' && /\s/.test(text)) return true;
   if (attribute === 'pattern') {
-    try { new RegExp(text, 'v'); } catch { return true; }
+    try {
+      new RegExp(text, 'v');
+    } catch {
+      return true;
+    }
   }
   // every word must be a token the manifest lists (a prefix, home or shipping, included): "shipping email"
   if (attribute === 'autocomplete' && text.split(/\s+/).some((word) => !rules.autocompleteTokens.includes(word))) return true;

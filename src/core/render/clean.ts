@@ -23,7 +23,8 @@ const read = (line: string): Declaration | null => {
 };
 
 const globalValue = /^(inherit|initial|unset|revert|revert-layer)$/i;
-// Substitution can expand to multiple tokens at computed-value time; shortening it can invalidate otherwise valid longhands.
+// Substitution can expand to multiple tokens at computed-value time; shortening it can invalidate otherwise valid
+// longhands.
 const substitution = /\b(?:var|env|attr)\(/i;
 
 export function fontComposite(): Composite {
@@ -42,7 +43,8 @@ export function compactDeclarations(lines: readonly string[], composites: readon
   for (const composite of [fontComposite(), ...composites]) {
     const compose = composite.compose ?? (composite.codec === 'axis-pair' ? (v: readonly string[]) => (v.length === 2 ? (v[0] === v[1] ? (v[0] ?? null) : v.join(' ')) : null) : undefined);
     if (compose === undefined || composite.longhands.length < 2) continue;
-    // Border resets the border-image family; font resets additional font longhands. A complete reset-aware plan must name all of them.
+    // Border resets the border-image family; font resets additional font longhands. A complete reset-aware plan must
+    // name all of them.
     const parsed = result.map(read);
     const resets = (resetRules as Readonly<Record<string, Readonly<Record<string, string>>>>)[composite.shorthand];
     const resetIndices = resets === undefined ? [] : Object.entries(resets).map(([property, value]) => parsed.findIndex((d) => d?.property === property && d.value === value));
@@ -57,7 +59,8 @@ export function compactDeclarations(lines: readonly string[], composites: readon
     const globals = selected.filter((d) => globalValue.test(d.value));
     if (globals.length > 0 && !selected.every((d) => d.value === selected[0]?.value)) continue;
     const family = composite.shorthand.split('-')[0] ?? '';
-    // A shorthand or logical property interleaved with physical sides can change cascade order. Keep every such family untouched.
+    // A shorthand or logical property interleaved with physical sides can change cascade order. Keep every such family
+    // untouched.
     const interleaved = parsed.some(
       (d) =>
         d !== null &&
@@ -174,8 +177,8 @@ export function cascadeOrder<T extends { readonly text: string; readonly node: s
   return [...base, ...blocks, ...tail];
 }
 
-// Merges the identical bodies of generated rules, after putting the lines in cascade order: a rule only ever merges into
-// one of its own block, so nothing crosses a breakpoint.
+// Merges the identical bodies of generated rules, after putting the lines in cascade order: a rule only ever merges
+// into one of its own block, so nothing crosses a breakpoint.
 export function mergeCssLines<T extends { readonly text: string; readonly node: string | null }>(input: readonly T[], exclusive: ReadonlySet<string>, media: readonly string[]): T[] {
   const lines = cascadeOrder(input, media);
   const blocks: { start: number; end: number; rule: ExclusiveRule; indent: string }[] = [];

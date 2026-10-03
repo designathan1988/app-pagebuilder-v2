@@ -231,7 +231,8 @@ const STEPPED: Readonly<Record<string, { readonly step: number; readonly shiftSt
 const SHIFT = 'Shift';
 // how soon after a letter another letter is typing rather than a shortcut (interactions.json)
 const TYPING_BURST = numberConstant('keys.typingBurst');
-// the contexts whose typed keys wait for the person to choose them (jornada03 J2), and the focus contexts they arrive in
+// the contexts whose typed keys wait for the person to choose them (jornada03 J2), and the focus contexts they arrive
+// in
 const CANVAS_CONTEXT = 'canvas' as KeyContextId;
 const LAYERS_CONTEXT = 'layers-tree' as KeyContextId;
 const CHOSEN_CONTEXTS: ReadonlySet<string> = new Set([CANVAS_CONTEXT, LAYERS_CONTEXT]);
@@ -314,10 +315,10 @@ export function installKeymap(store: EditorStore, target: Window = window): () =
     return true;
   };
 
-  // Words typed on the canvas are not shortcuts (the dogfooding pass: a title typed outside the text ran a wrap, a move,
-  // a grid… one letter at a time). Letters pressed within keys.typingBurst of each other are a burst; once a letter of
-  // the burst binds nothing (a vowel: the person is typing words), the single-letter shortcuts of the rest of the
-  // burst do not run. Shortcuts pressed in a row (R then S) still run; a click ends the burst.
+  // Words typed on the canvas are not shortcuts (the dogfooding pass: a title typed outside the text ran a wrap, a
+  // move, a grid… one letter at a time). Letters pressed within keys.typingBurst of each other are a burst; once a
+  // letter of the burst binds nothing (a vowel: the person is typing words), the single-letter shortcuts of the rest of
+  // the burst do not run. Shortcuts pressed in a row (R then S) still run; a click ends the burst.
   let lastLetterAt = Number.NEGATIVE_INFINITY;
   let typing = false;
   // The canvas's typed keys (its letters, digits and signs, with or without Shift) act only where the person chose the
@@ -396,9 +397,9 @@ export function installKeymap(store: EditorStore, target: Window = window): () =
       editedElement.ownerDocument.execCommand('insertText', false, ' ');
       return;
     }
-    // Space held over the canvas arms the pan, whatever has the focus but a field, the text edited in place or a control
-    // the keyboard focused that takes Space (spec zoom-wheel-pan, Problems in Pager 2); Escape during a pan puts the
-    // view back (the pointer owner's)
+    // Space held over the canvas arms the pan, whatever has the focus but a field, the text edited in place or a
+    // control the keyboard focused that takes Space (spec zoom-wheel-pan, Problems in Pager 2); Escape during a pan
+    // puts the view back (the pointer owner's)
     if (event.code === 'Space' && !FIELDS.includes(focused) && !typesText(event.target) && !spaceIsTheControls(event.target, focused, pointerFocused) && holdSpace(true)) {
       event.preventDefault();
       return;
@@ -425,8 +426,8 @@ export function installKeymap(store: EditorStore, target: Window = window): () =
     // while every selected element is absolute or fixed, the canvas's arrows nudge them (canvas-positioned)
     // while previewing, the keys are the preview's, wherever the focus is in the editor (spec preview-mode)
     const context = gesture?.context ?? (previewing(store.getState().ui) ? PREVIEW : hand !== null ? HAND : positionedContext(store, keyContextIn(store.getState().ui, focused)));
-    // a session's context (a gesture, the hand, the preview) replaces the focused one; otherwise a field inside a region
-    // that absorbs fields (the quick panel) runs the region's keys before its own (focusChain)
+    // a session's context (a gesture, the hand, the preview) replaces the focused one; otherwise a field inside a
+    // region that absorbs fields (the quick panel) runs the region's keys before its own (focusChain)
     const chain = gesture !== null || hand !== null || previewing(store.getState().ui) ? keyContextChain(context) : focusChain(event.target, context);
     // Confirmed fields, including inherited number/text contexts, use document history. Native undo remains with
     // pending typing; an unrelated field without the draft contract (such as search) never forwards these keys.

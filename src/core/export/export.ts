@@ -5,8 +5,8 @@
 //  - The page's HTML: <!DOCTYPE html>, <html> with the page's language and direction when its settings hold them, a
 //    head of <meta charset="utf-8">, the viewport, the title (its setting, else the page's name) and the stylesheet
 //    link, then the page root as the <body>. Each element is written with its tag and the attributes the page writes
-//    (render.ts elementAttributes, the canvas's rule); a hidden element carries the hidden attribute, its subtree in it.
-//    A text is escaped (& < > as entities, " too in an attribute), its marks as <strong>, <em> and <a href>, a line
+//    (render.ts elementAttributes, the canvas's rule); a hidden element carries the hidden attribute, its subtree in
+//    it. A text is escaped (& < > as entities, " too in an attribute), its marks as <strong>, <em> and <a href>, a line
 //    break as <br>; an embed's markup is written as it is. A void element has no end tag.
 //  - Classes (spec export-bem-css): an element with styles of its own gets a BEM class from its layer name (lower
 //    case, words joined by "-"): outside every styled element it is a block (Hero → hero); inside one it is an element
@@ -240,7 +240,8 @@ export function pageLines(document: DocumentJson, pageIndex: number, manifestRul
   if (page === undefined) throw new Error(`export: the document has no page ${pageIndex}`);
   // the elements an interaction addresses, and every element that holds an animation: both take a class, so the script
   // (and the animation's own rule) can name them
-  // the elements an interaction or a motion addresses take a class of their own (spec export-events-js, export-motion-js)
+  // the elements an interaction or a motion addresses take a class of their own (spec export-events-js,
+  // export-motion-js)
   const addressed = new Set<NodeId>([...addressedNodes(document), ...addressedMotionNodes(document)]);
   for (const page of document.pages) for (const node of walk(page.tree)) if (animationsOf(node).length > 0 || isModalTemplate(node) || isTabsTemplate(node)) addressed.add(node.id as NodeId);
   const classes = generatedClasses(page.tree, shared, addressed);
@@ -354,15 +355,24 @@ export function pageLines(document: DocumentJson, pageIndex: number, manifestRul
 // the time every entry of the archive carries: the ZIP format's first day, so the same document gives the same bytes
 const FIXED_TIME = Date.UTC(1980, 0, 1);
 
-// The site's files: each page's HTML, by its file, and the one stylesheet they link (the export writes them; the preview
-// shows them). `cssLines` is the same stylesheet line by line, each line of a page's rule carrying its node — what the
-// code pane follows the selection with; the base style, the tokens and the classes are lines no node was written for.
+// The site's files: each page's HTML, by its file, and the one stylesheet they link (the export writes them; the
+// preview shows them). `cssLines` is the same stylesheet line by line, each line of a page's rule carrying its node —
+// what the code pane follows the selection with; the base style, the tokens and the classes are lines no node was
+// written for.
 export function siteFiles(
   document: DocumentJson,
   manifestRules: ModelRules,
   relative = true,
   scripts?: SiteScripts,
-): { readonly pages: readonly { readonly file: string; readonly html: string }[]; readonly css: string; readonly cssLines: readonly CodeLine[]; readonly interactions: string | null; readonly forms: string | null; readonly motion: string | null; readonly lottie: string | null } {
+): {
+  readonly pages: readonly { readonly file: string; readonly html: string }[];
+  readonly css: string;
+  readonly cssLines: readonly CodeLine[];
+  readonly interactions: string | null;
+  readonly forms: string | null;
+  readonly motion: string | null;
+  readonly lottie: string | null
+} {
   const rules = rulesForDocument(manifestRules, document);
   const usesForms = document.pages.some(page => pageUsesForms(page.tree));
   if (usesForms && scripts === undefined) throw new Error('Configured forms require the site script writer');
@@ -422,7 +432,10 @@ export function previewPage(document: DocumentJson, rules: ModelRules, pageIndex
   if (page !== undefined) {
     const residual = fileAt(document, capturedPageStylePath(page));
     if (residual !== null) {
-      const capture = fileUrlsIn(capturedPageCss(document, page), address => { const file = fileAt(document, captureAssetPath(page, address)); return file === null ? address : dataUrl(file); });
+      const capture = fileUrlsIn(capturedPageCss(document, page), address => {
+        const file = fileAt(document, captureAssetPath(page, address));
+        return file === null ? address : dataUrl(file);
+      });
       html = html.replace(`  <link rel="stylesheet" href="${dataUrl(residual)}">`, () => `  <style>\n${capture.replace(/<\/style/gi, '<\\/style')}\n  </style>`);
     }
   }

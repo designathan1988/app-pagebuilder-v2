@@ -6,8 +6,9 @@
 //  - Add a guide (a door that takes an axis and a place) is one opener per axis, whose field takes the place typed and
 //    adds the guide on Enter;
 //  - the remove button (a door that takes a guide) is drawn once per guide of the page, after its axis and place;
-//  - a grid's settings (a door that takes a setting) are one field per setting of its grid (core/page/grid-settings.ts),
-//    showing the setting now; Enter keeps the number typed (grid.setSettings, which refuses one out of its range).
+//  - a grid's settings (a door that takes a setting) are one field per setting of its grid
+//    (core/page/grid-settings.ts), showing the setting now; Enter keeps the number typed (grid.setSettings, which
+//    refuses one out of its range).
 // Escape (the dialog key context) and its close button (ui.dismiss) close it, and the focus goes back where it was:
 // the control that opened it, or the button of the menu whose item did. Opening a field or the list is not a command
 // (archive/DESIGN.md "What is not a command").

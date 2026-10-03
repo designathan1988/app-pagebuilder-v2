@@ -51,7 +51,10 @@ export default class StatusReporter implements Reporter {
     // a complete run on a clean tree: every scenario test of every runnable feature ended, and nothing but the record
     // itself differs from the commit
     const expected = FEATURES.filter(runnable).map((f) => [f.id, f.scenarios.reduce((sum, s) => sum + s.doors.length, 0)] as const);
-    const complete = expected.every(([id, total]) => { const counts = this.results.get(id); return counts !== undefined && counts.passed + counts.failed === total; });
+    const complete = expected.every(([id, total]) => {
+      const counts = this.results.get(id);
+      return counts !== undefined && counts.passed + counts.failed === total;
+    });
     const record = path.posix.join(...FEATURE_RESULTS.split(path.sep));
     const changed = git('status', '--porcelain').split('\n').filter((l) => l !== '' && l.slice(3) !== record);
     if (complete && changed.length === 0) {

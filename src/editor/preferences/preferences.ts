@@ -55,12 +55,14 @@ export interface Preferences {
   // opening rule in src/editor/inspector/sections.ts); absent while the user opened none
   readonly expandedSections?: readonly SectionId[] | undefined;
   // the Style tab's concept rows the user closed although a detail holds more than the head shows, and those opened
-  // although none does (inspector.toggleRow; src/editor/inspector/concept-rows.ts), in the rows' order; absent while none
+  // although none does (inspector.toggleRow; src/editor/inspector/concept-rows.ts), in the rows' order; absent while
+  // none
   readonly collapsedRows?: readonly string[] | undefined;
   readonly expandedRows?: readonly string[] | undefined;
   // how the Elements panel lays its tiles out (palette.setDensity); absent while it is the default, two columns
   readonly paletteDensity?: PaletteDensity | undefined;
-  // the Elements panel's collapsed groups (palette.toggleGroup), in the palette's order; absent while every group is open
+  // the Elements panel's collapsed groups (palette.toggleGroup), in the palette's order; absent while every group is
+  // open
   readonly collapsedGroups?: readonly string[] | undefined;
   // what each Layers row shows beside its name (layers.setRowDetails), in the command's order; absent while it is the
   // default, the HTML tag alone
@@ -70,10 +72,11 @@ export interface Preferences {
   // the canvas's view switches (view.toggleOutlines, view.toggleZones; src/editor/view/overlays.ts); absent while off
   readonly outlines?: true | undefined;
   readonly zones?: true | undefined;
-  // the rulers and the manual guides hidden (view.toggleRulers, guides.toggleVisible; src/editor/view/overlays.ts); absent
-  // while they show
+  // the rulers and the manual guides hidden (view.toggleRulers, guides.toggleVisible; src/editor/view/overlays.ts);
+  // absent while they show
   readonly rulersHidden?: true | undefined;
-  // the other breakpoints shown next to the frame (view.toggleSideBySide; src/editor/shell/side-by-side.tsx); absent while off
+  // the other breakpoints shown next to the frame (view.toggleSideBySide; src/editor/shell/side-by-side.tsx); absent
+  // while off
   readonly sideBySide?: true | undefined;
   readonly guidesHidden?: true | undefined;
   // snapping on (snap.setEnabled), and the targets and distance Snap settings kept (snap.setSettings;

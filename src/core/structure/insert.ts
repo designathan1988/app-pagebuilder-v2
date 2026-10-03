@@ -107,9 +107,10 @@ export function templateElement(make: NodeMaker, spec: TemplateNode, rootNameKey
 // element.createNaturalChild (feature natural-child-command): a new natural child inside the one selected element
 // (elements.json naturalChild), where HTML's permitted order puts it (after the children that come before it or with
 // it, so the last of its kind): the first of its natural children that the element may hold only once and lacks (a
-// figure's caption), else the first it may hold many of (a list's item, a table body's row); refused when it has none (status.naturalChild.none) or holds every one it may hold once and no other
-// (status.naturalChild.present: a details' summary). One undo step; the new child becomes the selection; a locked
-// element refuses. The context menu's label names the tag it creates ("Create <li> inside").
+// figure's caption), else the first it may hold many of (a list's item, a table body's row); refused when it has none
+// (status.naturalChild.none) or holds every one it may hold once and no other (status.naturalChild.present: a details'
+// summary). One undo step; the new child becomes the selection; a locked element refuses. The context menu's label
+// names the tag it creates ("Create <li> inside").
 function naturalChildToCreate(state: { readonly document: DocumentJson; readonly selection: Selection }, rules: ModelRules): { readonly at: Location; readonly type: string | null } | null {
   const [only, ...others] = state.selection;
   if (only === undefined || others.length > 0) return null;
@@ -169,7 +170,14 @@ createNaturalChildCommand.labelParams = (state, rules) => {
 // owner), never of the project's first page: an insert with another page open lands on that page. A page block coming
 // in (`incoming`: a section, a header, a footer; elements.json pageBlock) lands right after the page block that is or
 // holds the selection, so a page is built by clicking its blocks in order (spec palette-click-insert, Problems 4).
-export function placement(state: { readonly document: DocumentJson; readonly ui?: unknown }, selection: Selection, rules: ModelRules, parent: NodeId | undefined, index: number | undefined, incoming?: DocNode): { readonly parent: Location; readonly index: number } | null {
+export function placement(
+  state: { readonly document: DocumentJson; readonly ui?: unknown },
+  selection: Selection,
+  rules: ModelRules,
+  parent: NodeId | undefined,
+  index: number | undefined,
+  incoming?: DocNode
+): { readonly parent: Location; readonly index: number } | null {
   const document = state.document;
   const root = pageShown(state)?.tree ?? null;
   if (parent !== undefined) {

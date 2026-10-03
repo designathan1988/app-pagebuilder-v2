@@ -12,7 +12,10 @@ import { budgetResult, summarize, type PerformanceRun } from './metrics.ts';
 const settings = JSON.parse(fs.readFileSync('tests/perf/budget.json', 'utf8')) as { runs: number; historical: { p50: number; p95: number }; target: { p50: number; p95: number } };
 const args = process.argv.slice(2);
 for (let index = 0; index < args.length; index += 1) {
-  if (args[index] === '--runs' || args[index] === '--render') { index += 1; if (!args[index] || args[index]?.startsWith('--')) throw new Error('An option value is missing'); }
+  if (args[index] === '--runs' || args[index] === '--render') {
+    index += 1;
+    if (!args[index] || args[index]?.startsWith('--')) throw new Error('An option value is missing');
+  }
   else if (args[index] !== '--enforce') throw new Error(`Unknown option ${args[index]}`);
 }
 const rendering = args.indexOf('--render');
@@ -48,7 +51,11 @@ const summary = {
   records,
 };
 const labels = JSON.parse(fs.readFileSync('src/i18n/locales/pt-BR.json', 'utf8')) as Record<string, string>;
-const label = (name: string) => { const value = labels[`perf.${name}`]; if (value === undefined) throw new Error(`Missing report label ${name}`); return value; };
+const label = (name: string) => {
+  const value = labels[`perf.${name}`];
+  if (value === undefined) throw new Error(`Missing report label ${name}`);
+  return value;
+};
 const html = (value: unknown) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const number = (value: number | null) => value === null ? '—' : new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 }).format(value);
 const tokens = pathToFileURL(path.resolve('src/ui/tokens.css')).href;

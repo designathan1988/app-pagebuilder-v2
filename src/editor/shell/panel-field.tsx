@@ -101,7 +101,8 @@ export function PanelField({
           // a value (a class, an address, a duration), never prose: the browser's spelling marks are noise on it, as on
           // the inspector's fields
           spellCheck={false}
-          // an empty value is nothing chosen yet: shown empty, never put into words (the placeholder says what it means)
+          // an empty value is nothing chosen yet: shown empty, never put into words (the placeholder says what it
+          // means)
           value={edited ? draft : display === undefined || value === '' ? value : display(value)}
           placeholder={placeholder}
           disabled={!ready}

@@ -2,9 +2,9 @@
 // place. Its state is the link picker's own (shell/link-picker.ts, ui.linkPicker); the view draws:
 //  - the five kinds as a segmented group (the doors of linkPicker.setKind, region "link-picker"): a web address, a page
 //    of the project, an element of this page (an anchor), an email address, a phone number;
-//  - the body of the kind: an address field (the href door, typed with the kind's own input type — url, email, tel), the
-//    pages of the project as items (element.setLink#link-picker-page-item, each standing for one page's file), or the
-//    elements of the page that carry an id as items (element.setLink#link-picker-anchor-item, each standing for one
+//  - the body of the kind: an address field (the href door, typed with the kind's own input type — url, email, tel),
+//    the pages of the project as items (element.setLink#link-picker-page-item, each standing for one page's file), or
+//    the elements of the page that carry an id as items (element.setLink#link-picker-anchor-item, each standing for one
 //    element) — the reference is kept by the element, so renaming its id follows (A3.4);
 //  - the close button, a click on the shield and Escape (the picker's own key context in keymap.ts).
 import { useEffect, useRef } from 'react';

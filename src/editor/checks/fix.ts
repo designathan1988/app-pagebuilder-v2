@@ -1,6 +1,6 @@
-// checks.applyFix (spec accessibility-checks 5; the plan's stage 6, the audit's AUD-16): the automatic fix a check offers
-// beside its issue, run on the element the issue is about by the owner of what it changes, as manifest/checks.json
-// declares it:
+// checks.applyFix (spec accessibility-checks 5; the plan's stage 6, the audit's AUD-16): the automatic fix a check
+// offers beside its issue, run on the element the issue is about by the owner of what it changes, as
+// manifest/checks.json declares it:
 //  - "insert": the palette entry at the end of the element (a form with no submit button takes a button, which the
 //    export writes as its submit; element.insert, with its placement, its lock and the content model's rules);
 //  - "next-level": a heading that skips a level takes the level after the heading before it (element.setTag);

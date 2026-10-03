@@ -238,13 +238,19 @@ function StyleSections() {
         };
         for (const d of doors) {
           if (shorthand.has(d.ref)) {
-            if (!shorthandDrawn.has(d.ref)) { units.push(<Fragment key={d.ref}>{drawer(d)}</Fragment>); unitItem.push(d.ref); }
+            if (!shorthandDrawn.has(d.ref)) {
+              units.push(<Fragment key={d.ref}>{drawer(d)}</Fragment>);
+              unitItem.push(d.ref);
+            }
             continue;
           }
           const target = editedTarget(d);
           const row = searching || target === null ? null : pairRowOf(target);
           if (row === null || rowDrawn.has(d.ref)) {
-            if (row === null) { units.push(<Fragment key={d.ref}>{drawer(d)}</Fragment>); unitItem.push(d.ref); }
+            if (row === null) {
+              units.push(<Fragment key={d.ref}>{drawer(d)}</Fragment>);
+              unitItem.push(d.ref);
+            }
             continue;
           }
           // the fields of the row this section draws, in the row's own order; a row with one field left keeps a row
@@ -256,7 +262,10 @@ function StyleSections() {
           }
           for (const m of members) rowDrawn.add(m.ref);
           const bulk = bulkOf(row);
-          const rowSet = members.some((m) => { const t2 = editedTarget(m); return t2 !== null && editedProperties(t2).some((p) => held.has(p)); });
+          const rowSet = members.some((m) => {
+            const t2 = editedTarget(m);
+            return t2 !== null && editedProperties(t2).some((p) => held.has(p));
+          });
           units.push(
             <Fragment key={row.id}>
               {/* The first column names the concept; compact prefixes distinguish the second value. */}
@@ -264,7 +273,17 @@ function StyleSections() {
                 <div className={`field-row field-row--pair${rowSet ? ' is-set' : ''}`} data-pair={row.id} data-number-field={rowSet || members.some((m) => targetOf(m)?.control === 'length-field') ? true : undefined}>
                   {members.map((m, index) => {
                     const prefixKey = rowPrefixKey(row, editedTarget(m) ?? '');
-                    return <Field key={m.ref} entry={m} bare labelled={index === 0} rowLabel={index === 0 ? row.labelKey : null} prefix={prefixKey === null ? null : t(prefixKey)} measurement={row.fields.find((field) => field.target === editedTarget(m))?.measurement} />;
+                    return (
+                      <Field
+                        key={m.ref}
+                        entry={m}
+                        bare
+                        labelled={index === 0}
+                        rowLabel={index === 0 ? row.labelKey : null}
+                        prefix={prefixKey === null ? null : t(prefixKey)}
+                        measurement={row.fields.find((field) => field.target === editedTarget(m))?.measurement}
+                      />
+                    );
                   })}
                 </div>
                 {bulk === undefined ? null : <div className="field-row__shorthand"><PairShorthand entry={bulk} /></div>}
@@ -274,9 +293,9 @@ function StyleSections() {
           );
           unitItem.push(pairItem(row.id));
         }
-        // The concept rows (concept-rows.ts): a row is drawn where its first unit stands, its head always and its details
-        // in place under it while it is open. While searching every row is drawn flat, so a match is never hidden; a row
-        // whose head the mode or the element leaves out draws its details flat too.
+        // The concept rows (concept-rows.ts): a row is drawn where its first unit stands, its head always and its
+        // details in place under it while it is open. While searching every row is drawn flat, so a match is never
+        // hidden; a row whose head the mode or the element leaves out draws its details flat too.
         const ordered: ReactNode[] = [];
         const rowsDrawn = new Set<string>();
         units.forEach((node, index) => {
@@ -355,9 +374,9 @@ function shownInEssentials(entry: DoorEntry, held: ReadonlySet<string>, revealed
 // The anchor control (spec absolute-anchors, Problems in Pager 2): per axis, the start edge, the centre, the end edge
 // and both edges, each the control's door standing for that edge set (position.setAnchors, mode set), the anchors held
 // drawn pressed; disabled while the selection is not positioned.
-// Whether a door of the Style tab is drawn for the selection (spec props-element-specific): a field of a kind of element
-// (a table's, a list's, a form control's, a medium's) only while every selected element is of that kind, and a field of
-// a layout the element is in (a flex container's, an item's) only while the page computes that layout for it.
+// Whether a door of the Style tab is drawn for the selection (spec props-element-specific): a field of a kind of
+// element (a table's, a list's, a form control's, a medium's) only while every selected element is of that kind, and a
+// field of a layout the element is in (a flex container's, an item's) only while the page computes that layout for it.
 function shownForSelection(entry: DoorEntry, kinds: readonly string[], contexts: readonly ElementContext[] | null): boolean {
   const target = editedTarget(entry);
   // a field names its property, composite or recipe; an editor control (the alignment matrix) is named by the manifest
@@ -373,8 +392,8 @@ function shownForSelection(entry: DoorEntry, kinds: readonly string[], contexts:
 // The Add a property button (spec inspector-add-property): it opens the list of the properties the Style tab does not
 // draw now (essentials mode), filtered by what is typed; choosing one reveals its field (inspector.reveal), which takes
 // the focus. The button and each item are the reveal door, the items standing for their property. The list closes as
-// every menu does (Problems in Pager 4): a dismissal newer than its opening (Escape in its filter or on an item, a press
-// on the backdrop drawn under it) closes it, and the focus goes back to the button.
+// every menu does (Problems in Pager 4): a dismissal newer than its opening (Escape in its filter or on an item, a
+// press on the backdrop drawn under it) closes it, and the focus goes back to the button.
 const REVEAL = doorSlots('inspector-style').find((d) => d.door.kind === 'panel-control' && d.door.control === 'add-property-item');
 function AddProperty() {
   const t = useT();
@@ -408,7 +427,8 @@ function AddProperty() {
   if (REVEAL === undefined) return null;
   // the properties the panel hides in essentials mode, listed in the catalogue's own order (properties.json): the
   // doors' placement order is the order the panel draws them, not the order a person reads a list of properties in
-  // (spec add-property-focus reads the list's first two entries, font-style and font-stretch, as the catalogue has them)
+  // (spec add-property-focus reads the list's first two entries, font-style and font-stretch, as the catalogue has
+  // them)
   const hiddenTargets = new Set(
     SECTIONS.flatMap((s) => SECTION_DOORS.get(s.id) ?? [])
       .filter((d) => shownForSelection(d, kinds, contexts) && !shownInEssentials(d, held, revealed))
@@ -433,7 +453,8 @@ function AddProperty() {
       {open ? (
         // a property chosen closes the list; its field takes the focus (inspector.reveal)
         <Popover onDismiss={() => setOpen(false)} anchor={button} className="add-property__menu" label={door.label} onClick={(event) => (event.target instanceof Element && event.target.closest('[data-door]') ? setOpen(false) : undefined)}>
-          {/* the filter is a combobox of the menu key context: the arrows move the marked property, Enter chooses it */}
+          {/* the filter is a combobox of the menu key context: the arrows move the marked property, Enter chooses
+              it */}
           <input
             ref={filter}
             className="input"
@@ -450,7 +471,8 @@ function AddProperty() {
             data-key-context="menu"
             data-autofocus
           />
-          {/* nothing hidden (All properties), or hidden properties none of which the filter matches: two different things */}
+          {/* nothing hidden (All properties), or hidden properties none of which the filter matches: two different
+             things */}
           {hidden.length === 0 ? <p className="add-property__none">{hiddenTargets.size === 0 || mode === 'all' ? t('inspector.addProperty.none') : t('inspector.addProperty.noMatch', { query: query.trim() })}</p> : null}
           <div id={listId} role="listbox" aria-label={door.label} className="add-property__list">
             {hidden.map((target, i) => (
@@ -574,7 +596,8 @@ function AlignmentMatrix({ entry, label }: { readonly entry: DoorEntry; readonly
   );
 }
 
-// an editor control of the Style tab that is not a property field (the alignment matrix, the anchors, the custom declarations)
+// an editor control of the Style tab that is not a property field (the alignment matrix, the anchors, the custom
+// declarations)
 function PanelField({ entry }: { readonly entry: DoorEntry }) {
   const door = useDoor(entry);
   return (

@@ -1,11 +1,11 @@
 // The canvas handles of the Edit on canvas modes (INVENTORY.md, owners; spec spacing-handles,
 // radius-border-gap-handles): the one owner of what a handle's door stands for, what value it drags and how that value
-// reaches its command, for the chrome that draws it (edit-handles.tsx), the pointer owner that drags it (pointer.ts) and
-// handle.step, the arrows of a focused handle.
+// reaches its command, for the chrome that draws it (edit-handles.tsx), the pointer owner that drags it (pointer.ts)
+// and handle.step, the arrows of a focused handle.
 //  - What a handle stands for (handleArgs), read from its door: a spacing band its box and side (padding-top: padding,
 //    top); the radius corner every corner (style.setRadius's first corners value, all); a border handle its side (its
-//    border-*-width longhand's place in border-width, a side of style.setBorder); a gap band the property it writes (the
-//    gap composite when it writes row-gap and column-gap, else its longhand).
+//    border-*-width longhand's place in border-width, a side of style.setBorder); a gap band the property it writes
+//    (the gap composite when it writes row-gap and column-gap, else its longhand).
 //  - The argument its value goes in (valueArg): its command's first text argument it does not stand for.
 //  - The shadow a shadow handle edits (shadowOf, spec shadow-handles): the first layer of the element's text shadow
 //    when it holds one (Problems in Pager 4), else of its box shadow; none when it holds neither.

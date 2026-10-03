@@ -55,7 +55,15 @@ function run(store: ReturnType<typeof useStore>, entry: DoorEntry, args: Record<
 }
 
 // a button of the editor: its row stands for the edit it runs
-function EditButton({ entry, door, args, ready, pressed = null, onDone }: { readonly entry: DoorEntry; readonly door: DoorState; readonly args: Record<string, unknown>; readonly ready: boolean; readonly pressed?: boolean | null; readonly onDone?: () => void }) {
+function EditButton({ entry, door, args, ready, pressed = null, onDone }: {
+  readonly entry: DoorEntry;
+  readonly door: DoorState;
+  readonly args: Record<string,
+  unknown>;
+  readonly ready: boolean;
+  readonly pressed?: boolean | null;
+  readonly onDone?: () => void
+}) {
   const store = useStore();
   const appearance = useFieldAppearance(typeof args.property === 'string' ? [args.property] : []);
   return (
@@ -183,8 +191,8 @@ export function ShadowControl({ entry, door }: { readonly entry: DoorEntry; read
   const control = entry.door.kind === 'inspector-field' ? entry.door.control : '';
   const editing = door.available && selected && layer !== undefined;
   const fixedEdit = entry.door.args.edit;
-  // the controls of a layer are drawn only while the value holds one (A3.34), and Remove every shadow only while there is
-  // one to remove: with no shadow the editor is its head row (Add a shadow, "No shadow yet.") and the CSS field
+  // the controls of a layer are drawn only while the value holds one (A3.34), and Remove every shadow only while there
+  // is one to remove: with no shadow the editor is its head row (Add a shadow, "No shadow yet.") and the CSS field
   if (layer === undefined && control !== 'shadow-add' && control !== 'shadow-css') return null;
   switch (control) {
     case 'shadow-add':

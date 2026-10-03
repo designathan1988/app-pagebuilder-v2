@@ -146,7 +146,9 @@ describe('the store', () => {
     const s = testStore();
     const sequence = s.store.sequence();
     const saved: unknown[] = [];
-    s.store.subscribe(() => { if (!s.store.sequenceOpen()) saved.push(s.store.getState().document); });
+    s.store.subscribe(() => {
+      if (!s.store.sequenceOpen()) saved.push(s.store.getState().document);
+    });
     sequence.dispatch('element.insert', { entry: 'container' });
     sequence.dispatch('element.insert', { entry: 'container' });
     expect(s.store.getState().history.past).toHaveLength(2);

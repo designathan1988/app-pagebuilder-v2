@@ -347,7 +347,10 @@ export function suggestions(graph: LayoutIntent): Suggestion[] {
     const children = childrenOf(graph, r.id);
     const only = children[0];
     const inert = children.length === 1 && only !== undefined && r.kind !== 'content' && r.layout === undefined && r.polygon === undefined && r.radius === undefined && r.semantic === 'div' && JSON.stringify(r.box) === JSON.stringify(only.box);
-    const referenced = graph.constraints.some((c) => c.regions.includes(r.id)) || (graph.morphs ?? []).some((m) => m.region === r.id) || graph.responsive.some((rule) => rule.hidden.includes(r.id) || rule.order?.includes(r.id) === true || rule.sizes?.[r.id] !== undefined);
+    const referenced =
+      graph.constraints.some((c) => c.regions.includes(r.id)) ||
+      (graph.morphs ?? []).some((m) => m.region === r.id) ||
+      graph.responsive.some((rule) => rule.hidden.includes(r.id) || rule.order?.includes(r.id) === true || rule.sizes?.[r.id] !== undefined);
     if (inert && !referenced) result.push({ id: `remove-wrapper:${r.id}`, kind: 'remove-wrapper', parent: r.parent, regions: [r.id, only.id], evidence: [1] });
   }
   return result;

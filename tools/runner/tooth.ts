@@ -1,12 +1,13 @@
 // The runner's tooth proof (npm run e2e:tooth [feature ids]): for each feature that runs (every command it lists is
 // built), its scenario tests are run again against a dev server whose feature is switched off by the tooth plugin
 // (tools/runner/tooth-plugin.ts): its command handlers made no-ops (with those of its scenarios' action doors), or,
-// for a feature without commands, the module it names (toothProof). Every one of its tests must fail on an assertion; a feature with a test that still passes, or
-// that only times out, has no tooth, and the run fails. The raw result of each run is printed.
-// A test whose action undoes what a step before it did (ArrowDown after ArrowUp, drag-level-keys-escape) passes with
-// both switched off, since neither then happens: a test that passes with every command off is run once more with the
-// commands its steps before the action run switched back on, every other one (the action's own among them) still off,
-// and it has a tooth when it fails then. A test with no such step keeps its first result.
+// for a feature without commands, the module it names (toothProof). Every one of its tests must fail on an assertion; a
+// feature with a test that still passes, or that only times out, has no tooth, and the run fails. The raw result of
+// each run is printed. A test whose action undoes what a step before it did (ArrowDown after ArrowUp,
+// drag-level-keys-escape) passes with both switched off, since neither then happens: a test that passes with every
+// command off is run once more with the commands its steps before the action run switched back on, every other one (the
+// action's own among them) still off, and it has a tooth when it fails then. A test with no such step keeps its first
+// result.
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { FEATURES, FEATURE_TAG, runnable } from './scenarios.ts';

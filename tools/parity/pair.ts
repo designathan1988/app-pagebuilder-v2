@@ -1,8 +1,8 @@
 // The pairing of the app with the canonical design (the plan's stage 0.4 and stage 5): both opened at 1440 × 900 in one
 // state, each region the two mark with the same data-region cropped from each, the canonical's above the app's, into
-// .cache/logs/parity-<time>/<state>-<region>-canon.png and -app.png, with what the region measures on each side (its box, its background,
-// its text colour) in report.txt. Run: node tools/parity/pair.ts [state], the design served on 5394 (launch.json
-// design-static) and the app on PORT (5320).
+// .cache/logs/parity-<time>/<state>-<region>-canon.png and -app.png, with what the region measures on each side (its
+// box, its background, its text colour) in report.txt. Run: node tools/parity/pair.ts [state], the design served on
+// 5394 (launch.json design-static) and the app on PORT (5320).
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium, type Page } from '@playwright/test';

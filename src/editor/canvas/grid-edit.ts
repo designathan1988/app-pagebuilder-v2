@@ -76,7 +76,10 @@ function itemOf(state: { readonly document: Parameters<typeof locate>[0]; readon
 
 // An edit of the tracks: the grid being edited takes the selection for the one owner of a grid's tracks (the write
 // acts on the selected element), so the keys change the grid the editor holds, whatever is selected in it.
-function tracksOn(context: { readonly state: { readonly document: Parameters<typeof locate>[0]; readonly selection: readonly NodeId[]; readonly ui: EditorUi }; readonly rules: ModelRules }, edit: { readonly property: string; readonly edit: { readonly add?: true; readonly remove?: true } }): Outcome<EditorUi> {
+function tracksOn(
+  context: { readonly state: { readonly document: Parameters<typeof locate>[0]; readonly selection: readonly NodeId[]; readonly ui: EditorUi }; readonly rules: ModelRules },
+  edit: { readonly property: string; readonly edit: { readonly add?: true; readonly remove?: true } }
+): Outcome<EditorUi> {
   const grid = gridOf(context.state, context.rules);
   if (grid === null) return { kind: 'change' };
   const aimed = { ...context, state: { ...context.state, selection: [grid.id as NodeId] } };

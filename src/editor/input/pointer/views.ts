@@ -70,9 +70,9 @@ export function setMenuOver(menu: string | null) {
   for (const listener of [...menuListeners]) listener();
 }
 
-// Whether Alt is held (spec hover-measure): while it is, the canvas draws the distances from the selection to the element
-// under the pointer. The keymap, the owner of keys, says when it goes down and up (holdAlt); nothing changes in the
-// document or the selection. Pointer state, for the canvas chrome.
+// Whether Alt is held (spec hover-measure): while it is, the canvas draws the distances from the selection to the
+// element under the pointer. The keymap, the owner of keys, says when it goes down and up (holdAlt); nothing changes in
+// the document or the selection. Pointer state, for the canvas chrome.
 let altDown = false;
 const altListeners = new Set<() => void>();
 export const measuring = {
@@ -312,7 +312,9 @@ const outsidePressListeners = new Set<(target: Node) => void>();
 export const outsidePress = {
   subscribe(listener: (target: Node) => void): () => void {
     outsidePressListeners.add(listener);
-    return () => { outsidePressListeners.delete(listener); };
+    return () => {
+      outsidePressListeners.delete(listener);
+    };
   },
 };
 export function publishOutsidePress(target: EventTarget | null): void {

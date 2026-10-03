@@ -5,7 +5,8 @@
 //  - the image field hands the text typed (`value`): none or one image address, bare or inside url() (the codec
 //    image-layers reads it and writes url("…")); an address with another scheme than a web address or a path inside the
 //    project is refused naming it (status.url.unsafe), text that is no image as any value a field does not take;
-//  - the gradient editor hands an edit (`edit`) of the gradient the primary selected element holds (core/style/gradient.ts):
+//  - the gradient editor hands an edit (`edit`) of the gradient the primary selected element holds
+//    (core/style/gradient.ts):
 //    a gradient to edit that is not there is refused (status.gradient.none), a stop removed below two too
 //    (status.gradient.minStops), a value the browser does not take as any value a field does not take.
 //    `reset` (Remove the gradient) takes the declaration away (removeStyle, reset.ts), never a background-image: none
@@ -43,7 +44,8 @@ export const setBackgroundImageCommand = registerHandler('style.setBackgroundIma
     if ('refused' in edited) {
       if (edited.refused === 'noGradient') return { kind: 'refused', message: message('status.gradient.none', { name: primary.node.name }) };
       if (edited.refused === 'minStops') return { kind: 'refused', message: message('status.gradient.minStops') };
-      // what the edit typed, quoted once as typed: not the stop it names (spec inspector-number-fields, Problems in Pager 3)
+      // what the edit typed, quoted once as typed: not the stop it names (spec inspector-number-fields, Problems in
+      // Pager 3)
       return { kind: 'refused', message: message('status.value.invalid', { property: propertyName(property, rules), value: typedText(Object.fromEntries(Object.entries(edit as Record<string, unknown>).filter(([name]) => name !== 'stop'))) }) };
     }
     text = edited.text;

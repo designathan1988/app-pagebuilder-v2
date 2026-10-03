@@ -1,7 +1,7 @@
-// The project's breakpoints (spec project-breakpoints; the plan's stage 2): the screen widths a project's styles cascade
-// through, wider to narrower. properties.json's table is the default every project starts with; a project that adds,
-// renames, resizes or removes a breakpoint keeps its own table in the document (DocumentJson.breakpoints) and every
-// reader takes that one: the validator, the cascade, the canvas, the export's media queries, the editor's tabs.
+// The project's breakpoints (spec project-breakpoints; the plan's stage 2): the screen widths a project's styles
+// cascade through, wider to narrower. properties.json's table is the default every project starts with; a project that
+// adds, renames, resizes or removes a breakpoint keeps its own table in the document (DocumentJson.breakpoints) and
+// every reader takes that one: the validator, the cascade, the canvas, the export's media queries, the editor's tabs.
 //  - A breakpoint is an id (stable: styles are stored under it), a name (null for a default, which is named in the
 //    person's language; a person's own name otherwise), a width (the widest screen it holds; the base holds every
 //    width above the others), a height (the screen the canvas shows it at) and whether it is the base.
@@ -70,7 +70,13 @@ export function widthRangeOf(table: readonly ProjectBreakpoint[], id: string): {
 
 // A breakpoint added at a width: placed by its width among the others, below the base, with the screen height of the
 // nearest one and a fresh id; `name` is the person's, else `named` (the catalogue's "Screen 834").
-export function addedTable(table: readonly ProjectBreakpoint[], width: number, name: string | null, named: string, words: (key: MessageId) => string): { readonly table: readonly ProjectBreakpoint[]; readonly added: ProjectBreakpoint } | TableRefusal {
+export function addedTable(
+  table: readonly ProjectBreakpoint[],
+  width: number,
+  name: string | null,
+  named: string,
+  words: (key: MessageId) => string
+): { readonly table: readonly ProjectBreakpoint[]; readonly added: ProjectBreakpoint } | TableRefusal {
   const base = table.find((b) => b.base) ?? table[0];
   if (base === undefined) throw new Error('breakpoints: the table has no base');
   const max = base.width - 1;

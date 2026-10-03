@@ -504,7 +504,13 @@ function DropIndicator({ view }: { readonly view: DropView }) {
 // stage or the page), so a creation drag never looks like the move of an element of the same name. Drawn over the
 // whole window (a portal on the body), never a pointer target; refused (off the page, or where the element is
 // refused) it wears the refusal's colour.
-function Ghost({ inserting, at, refused, note = null, ref }: { readonly inserting: Inserting; readonly at: { readonly x: number; readonly y: number }; readonly refused: boolean; readonly note?: GhostNote | null; readonly ref?: Ref<HTMLDivElement> }) {
+function Ghost({ inserting, at, refused, note = null, ref }: {
+  readonly inserting: Inserting;
+  readonly at: { readonly x: number; readonly y: number };
+  readonly refused: boolean;
+  readonly note?: GhostNote | null;
+  readonly ref?: Ref<HTMLDivElement>
+}) {
   const t = useT();
   const looked = insertingLook(inserting);
   if (looked === null) return null;
@@ -725,11 +731,11 @@ export function CanvasChrome() {
         const first = union ?? selected[0];
         const size = label.current ? { width: label.current.offsetWidth, height: label.current.offsetHeight } : null;
         const tools = editing && bar.current ? { width: bar.current.offsetWidth, height: bar.current.offsetHeight } : null;
-        // the chrome's controls the label keeps clear of: they appear and move with the mode and the selection, so their
-        // boxes are part of the key the label is placed again on (rounded: a sub-pixel move changes nothing)
+        // the chrome's controls the label keeps clear of: they appear and move with the mode and the selection, so
+        // their boxes are part of the key the label is placed again on (rounded: a sub-pixel move changes nothing)
         const controls = layer.current === null ? [] : controlBoxes(layer.current, { x: origin.x, y: origin.y });
-        // the label is placed again only when its element, its size or a control it must clear moved: reading the page's
-        // content is the slow part
+        // the label is placed again only when its element, its size or a control it must clear moved: reading the
+        // page's content is the slow part
         const key = JSON.stringify([first, size, tools, mode, controls.map((b) => [Math.round(b.x), Math.round(b.y), Math.round(b.width), Math.round(b.height)])]);
         if (first === undefined || size === null) {
           placed = null;
@@ -768,7 +774,8 @@ export function CanvasChrome() {
         const chipSize = { width: chip?.offsetWidth ?? 0, height: chip?.offsetHeight ?? 0 };
         const atStart = hoveredBox === null ? null : { x: hoveredBox.x, y: hoveredBox.y + hoveredBox.height, ...chipSize };
         const meetsLabel = atStart !== null && placed !== null && overlapsBox(atStart, placed.box);
-        // the hover measure's own module draws the chip and the Alt distances (hover-measure.ts), nothing when it says none
+        // the hover measure's own module draws the chip and the Alt distances (hover-measure.ts), nothing when it says
+        // none
         const hoverSize = hoverSizeOf(hoveredBox, hovered === null ? null : nodeSize(iframe, hovered), meetsLabel) ?? null;
         // the selected element's own size in CSS px (the label's chip); with several, their union's (the canonical
         // "3 elements selected 1248 × 390")
@@ -788,7 +795,22 @@ export function CanvasChrome() {
           const b = local(nodeBox(iframe, c.id));
           return b === null ? [] : [b];
         });
-        const next: Layout = { selected, union, hovered: hoveredBox, label: placed, toolbar: placedToolbar, band: local(drawnBand), rotate, starts: startsOf(iframe, selection.length === 1 ? selection[0] ?? null : null), size: ownSize, rotation: selection.length === 1 && selection[0] !== undefined ? elementRotation(iframe, selection[0]) : 0, hoverSize, distances, neighbours, handleSize: zone > 0 ? zone : 24 };
+        const next: Layout = {
+          selected,
+          union,
+          hovered: hoveredBox,
+          label: placed,
+          toolbar: placedToolbar,
+          band: local(drawnBand),
+          rotate,
+          starts: startsOf(iframe, selection.length === 1 ? selection[0] ?? null : null),
+          size: ownSize,
+          rotation: selection.length === 1 && selection[0] !== undefined ? elementRotation(iframe, selection[0]) : 0,
+          hoverSize,
+          distances,
+          neighbours,
+          handleSize: zone > 0 ? zone : 24
+        };
         const moved = last === null || !same(last, next);
         last = next;
         setLayout((before) => (same(before, next) ? before : next));
@@ -853,7 +875,14 @@ export function CanvasChrome() {
       ))}
       {dropping ? <DropIndicator view={dropping} /> : null}
       {dragging?.inserting != null ? <Ghost inserting={dragging.inserting} at={dragging.at} refused={dragging.side?.armed === true ? dragging.side.refusal !== null : dragging.proposal === null || dragging.refusal !== null} note={note} /> : null}
-      {dragging !== null && dragging.inserting === null && dragging.dragged.length > 0 ? <MovingGhost dragged={dragging.dragged} at={dragging.at} refused={dragging.side?.armed === true ? dragging.side.refusal !== null : dragging.proposal === null || dragging.proposal.refused} note={note} /> : null}
+      {dragging !== null && dragging.inserting === null && dragging.dragged.length > 0 ? (
+        <MovingGhost
+          dragged={dragging.dragged}
+          at={dragging.at}
+          refused={dragging.side?.armed === true ? dragging.side.refusal !== null : dragging.proposal === null || dragging.proposal.refused}
+          note={note}
+        />
+      ) : null}
       <DropFlash />
       {returning !== null && dragging === null ? <ReturningGhost key={returning.id} view={returning} /> : null}
       {shown.union && selection.length > 1 ? <div className="chrome__union" data-chrome="union" style={at(shown.union)} /> : null}
@@ -949,7 +978,8 @@ export function CanvasChrome() {
             <>
               <span className="chrome__name">{node.name}</span>
               <small className="chrome__tag">{node.tag ?? ''}</small>
-              {/* the context the writes land in is named on the label (A3.8, A3.36): "Heading 2 · .card2 · Hover · Tablet" */}
+              {/* the context the writes land in is named on the label (A3.8, A3.36): "Heading 2 · .card2 · Hover ·
+                 Tablet" */}
               {styleClass !== null ? <small className="chrome__target">{'.' + styleClass}</small> : null}
               {/* the angle the element holds, live while a rotate drag goes on (item 4.4) */}
               {shown.rotation !== 0 ? (
@@ -959,12 +989,14 @@ export function CanvasChrome() {
               ) : null}
               {/* the element's own size, live while a resize drag goes on (item 4.2) */}
               {shown.size !== null ? (
-                // a part of the label, after the name (the audit's U-004: the hover's absolutely placed size chip covered the name)
+                // a part of the label, after the name (the audit's U-004: the hover's absolutely placed size chip
+                // covered the name)
                 <small className="chrome__label-size" data-chrome="label-size">
                   {t('canvas.measure.size', { width: shown.size.width, height: shown.size.height })}
                 </small>
               ) : null}
-              {/* the state as its selector writes it (the canonical "Assinar agora · :hover"), its name in the tooltip */}
+              {/* the state as its selector writes it (the canonical "Assinar agora · :hover"), its name in the
+                 tooltip */}
               {state.id !== BASE_STATE.id ? <small className="chrome__state" title={t(state.labelKey as MessageId)}>{state.pseudo}</small> : null}
               {breakpoint.base !== true ? <small className="chrome__breakpoint">{breakpointName(breakpoint, t)}</small> : null}
             </>

@@ -613,7 +613,11 @@ export function checkManifest(input: ManifestInput): CheckResult {
   const structureOf = (name: string) => structureById.get(propertyById.get(name)?.valueType ?? '');
   // The lexer fallback allowlist: the entry that lets `value` of `property` through, written by `recipe`
   // (null outside a recipe). A recipe-scoped entry holds only for that recipe.
-  const fallbackEntry = (property: string, value: string, recipe: string | null): number => p.properties.syntaxFallbacks.findIndex((f) => f.property === property && (f.values === null || f.values.includes(value)) && (f.recipe === null || f.recipe === recipe));
+  const fallbackEntry = (
+    property: string,
+    value: string,
+    recipe: string | null
+  ): number => p.properties.syntaxFallbacks.findIndex((f) => f.property === property && (f.values === null || f.values.includes(value)) && (f.recipe === null || f.recipe === recipe));
   // a recipe's allowlist entry that names the value vouches for it where BCD does not track it
   const vouched = (property: string, value: string, recipe: string | null) => recipe !== null && p.properties.syntaxFallbacks.some((f) => f.property === property && f.values !== null && f.values.includes(value) && f.recipe === recipe);
 
@@ -890,7 +894,8 @@ export function checkManifest(input: ManifestInput): CheckResult {
     }
   }
 
-  // ---- door-unknown-command: a door reference, in a scenario's doors or its steps, names a command, then one of its doors
+  // ---- door-unknown-command: a door reference, in a scenario's doors or its steps, names a command, then one of its
+  // doors
   const checkDoorRef = (doorRef: string, file: string, path: string) => {
     const [commandPart = '', doorPart = ''] = doorRef.split('#');
     const command = commandById.get(commandPart);
@@ -1023,8 +1028,12 @@ export function checkManifest(input: ManifestInput): CheckResult {
   p.properties.properties.forEach((prop, i) => noteKey(prop.labelKey, `properties.json properties[${i}].labelKey`));
   p.properties.properties.forEach((prop, i) => (prop.presets ?? []).forEach((preset, pi) => noteKey(preset.labelKey, `properties.json properties[${i}].presets[${pi}].labelKey`)));
   p.properties.composites.forEach((c, i) => (c.presets ?? []).forEach((preset, pi) => noteKey(preset.labelKey, `properties.json composites[${i}].presets[${pi}].labelKey`)));
-  p.properties.rows.forEach((row, i) => row.fields.forEach((f, fi) => { if (f.prefixKey !== null) noteKey(f.prefixKey, `properties.json rows[${i}].fields[${fi}].prefixKey`); }));
-  p.properties.conceptRows.forEach((row, i) => { if (row.labelKey !== null) noteKey(row.labelKey, `properties.json conceptRows[${i}].labelKey`); });
+  p.properties.rows.forEach((row, i) => row.fields.forEach((f, fi) => {
+    if (f.prefixKey !== null) noteKey(f.prefixKey, `properties.json rows[${i}].fields[${fi}].prefixKey`);
+  }));
+  p.properties.conceptRows.forEach((row, i) => {
+    if (row.labelKey !== null) noteKey(row.labelKey, `properties.json conceptRows[${i}].labelKey`);
+  });
   p.properties.composites.forEach((c, i) => noteKey(c.labelKey, `properties.json composites[${i}].labelKey`));
   p.properties.recipes.forEach((r, i) => noteKey(r.labelKey, `properties.json recipes[${i}].labelKey`));
   p.interactions.keyContexts.forEach((k, i) => noteKey(k.labelKey, `interactions.json keyContexts[${i}].labelKey`));
@@ -1254,7 +1263,8 @@ export function checkManifest(input: ManifestInput): CheckResult {
     if (!fallbackUsed.has(i)) bad(`no value of ${f.property} needs the browser syntax${f.values !== null ? ` (${f.values.join(', ')})` : ''}: remove it from the allowlist`);
   }
 
-  // ---- browser-support: the editor edits, offers and writes only what Chrome, Firefox and Safari all support (css-compat.json)
+  // ---- browser-support: the editor edits, offers and writes only what Chrome, Firefox and Safari all support
+  // (css-compat.json)
   for (const [i, prop] of p.properties.properties.entries()) {
     const c = compat[prop.id];
     if (!c) report('browser-support', 'properties.json', `properties[${i}].id`, `${prop.id} has no entry in css-compat.json`);
@@ -1337,7 +1347,8 @@ export function checkManifest(input: ManifestInput): CheckResult {
     }
   }
 
-  // ---- vendor-prefix: prefixed properties and values appear only in a compatibility recipe, the writes of its doors and its allowlist entries
+  // ---- vendor-prefix: prefixed properties and values appear only in a compatibility recipe, the writes of its doors
+  // and its allowlist entries
   const recipeWrites = new Set(doors.filter(isRecipeDoor).map((d) => `${d.file}|${d.path}.adapter.writes`));
   const recipeFallbacks = new Set(p.properties.syntaxFallbacks.flatMap((f, i) => (f.recipe !== null ? [`syntaxFallbacks[${i}]`] : [])));
   problems.push(
@@ -1347,7 +1358,8 @@ export function checkManifest(input: ManifestInput): CheckResult {
     }),
   );
 
-  // ---- recipe: the declarations browsers need for one effect, written by one undoable command, working in every browser
+  // ---- recipe: the declarations browsers need for one effect, written by one undoable command, working in every
+  // browser
   for (const [i, r] of p.properties.recipes.entries()) {
     const path = `recipes[${i}]`;
     const bad = (at: string, message: string) => report('recipe', 'properties.json', at === '' ? path : `${path}.${at}`, message);
@@ -2203,7 +2215,8 @@ export function checkManifest(input: ManifestInput): CheckResult {
       scenarios.forEach((s, si) => {
         const at = `${f.path}.scenarios[${si}]`;
         const before = fixtureOf(f, si, s);
-        // step: exactly one action step, whose door is one of `doors`, and every door of `doors` is a door of its command
+        // step: exactly one action step, whose door is one of `doors`, and every door of `doors` is a door of its
+        // command
         const actions = s.steps.filter((step) => step.action);
         if (actions.length !== 1) report('step', f.file, `${at}.steps`, `scenario ${s.id} has ${actions.length} action steps: exactly one step is the action step`);
         const action = actions[0];
@@ -2344,7 +2357,14 @@ export function checkManifest(input: ManifestInput): CheckResult {
     recipeSources: p.properties.recipes.map((r) => `${r.id} (${r.source.spec}; BCD ${r.source.bcd})`),
     storedWhole: p.properties.storedWhole.map((w) => `${w.property}: ${w.reason}`),
     iconLibrary: `Lucide ${p.icons.$generated.from['lucide-static'] ?? ''} (${p.icons.icons.length} icons)`,
-    iconsNamed: new Set([...doors.map((d) => d.door.icon), ...p.elements.elements.map((e) => e.icon), ...p.layout.menus.flatMap((m) => m.anchors.map((a) => a.icon)), ...Object.values(p.layout.glyphs), ...Object.values(p.layout.panels).map((panel) => panel.icon), ...p.properties.properties.flatMap((prop) => Object.values(prop.icons))].filter((i) => i !== null)).size,
+    iconsNamed: new Set([
+      ...doors.map((d) => d.door.icon),
+      ...p.elements.elements.map((e) => e.icon),
+      ...p.layout.menus.flatMap((m) => m.anchors.map((a) => a.icon)),
+      ...Object.values(p.layout.glyphs),
+      ...Object.values(p.layout.panels).map((panel) => panel.icon),
+      ...p.properties.properties.flatMap((prop) => Object.values(prop.icons))
+    ].filter((i) => i !== null)).size,
     doorsWithIcon: doors.filter((d) => d.door.icon !== null).length,
     plannedReferences: p.references.references.filter((r) => r.status === 'planned').length,
     registeredReferences: p.references.references.filter((r) => r.status === 'registered').length,

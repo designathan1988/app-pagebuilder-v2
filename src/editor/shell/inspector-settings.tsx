@@ -31,8 +31,8 @@ const TABLE_PART_DOORS = doorSlots('inspector-settings').filter((d) => d.door.ki
 const ADD_PART_DOORS = doorSlots('inspector-settings').filter((d) => d.door.kind === 'panel-control' && d.door.drawnAs === 'button' && typeof d.door.args.type === 'string');
 const PART_DOORS = doorSlots('inspector-settings').filter((d) => d.door.kind === 'panel-control' && d.door.drawnAs === 'icon-button' && d.command.args.target?.type === 'node');
 // the person's own attributes (feature element-attributes-aria): the doors whose command takes an attribute's name
-// (and its value): in the manifest's order, the name field that adds one and the value field of each, both fields of the
-// command that sets a value; then the remove button
+// (and its value): in the manifest's order, the name field that adds one and the value field of each, both fields of
+// the command that sets a value; then the remove button
 const CUSTOM_DOORS = doorSlots('inspector-settings').filter((d) => d.door.kind === 'panel-control' && d.command.args.name?.type === 'string');
 const [CUSTOM_ADD, CUSTOM_VALUE] = CUSTOM_DOORS.filter((d) => d.door.kind === 'panel-control' && d.door.drawnAs === 'field' && 'value' in d.command.args);
 const CUSTOM_REMOVE = CUSTOM_DOORS.find((d) => d.door.kind === 'panel-control' && d.door.drawnAs === 'icon-button' && !('value' in d.command.args));
@@ -51,9 +51,9 @@ function toggleArgOf(entry: DoorEntry, attribute: AttributeId): { readonly args:
 }
 
 // A boolean attribute of the Settings tab (Open in a new tab, Required, Disabled…): a two-option segmented control,
-// Off | On (jornada02 GENERALISATION 1.3: the canonical has no checkbox), each option the door standing for its state of
-// the node, the one the node stores pressed; a press on the other runs the door's command with it, one undo step. One
-// Tab stop, the arrows between the two (a roving group).
+// Off | On (jornada02 GENERALISATION 1.3: the canonical has no checkbox), each option the door standing for its state
+// of the node, the one the node stores pressed; a press on the other runs the door's command with it, one undo step.
+// One Tab stop, the arrows between the two (a roving group).
 const TOGGLE_STATES = [false, true] as const;
 function ToggleField({ entry, node, attribute, label }: { readonly entry: DoorEntry; readonly node: DocNode; readonly attribute: AttributeId; readonly label: string }) {
   const store = useStore();
@@ -122,8 +122,8 @@ function PartsEditor({ node }: { readonly node: DocNode }) {
 
 // The person's own attributes of the selected element (aria-*, data-*, role…): each by name with its value field (kept
 // on Enter or on leaving it, one undo step) and its remove button; then a name field and the add button. The button
-// adds the typed name with an empty value or, with no name typed, puts the caret in the name field, where Enter adds it.
-// The name field's form is the add door's control: it stands for the empty value it adds and keeps the name typed.
+// adds the typed name with an empty value or, with no name typed, puts the caret in the name field, where Enter adds
+// it. The name field's form is the add door's control: it stands for the empty value it adds and keeps the name typed.
 const ADDED = { value: '' } as const;
 const ADDED_VALUE = JSON.stringify(ADDED);
 function CustomAttributes({ node, add: addEntry }: { readonly node: DocNode; readonly add: DoorEntry }) {
@@ -132,7 +132,9 @@ function CustomAttributes({ node, add: addEntry }: { readonly node: DocNode; rea
   const addDoor = useDoor(addEntry, {}, undefined, isFeatureBuilt(addEntry.door.feature as FeatureId));
   const refused = useSettingsRefusal(addEntry.command.id, undefined, node.id);
   const typedName = useRef<HTMLInputElement>(null);
-  useEffect(() => { if (typedName.current !== null) typedName.current.value = ''; }, [node.id]);
+  useEffect(() => {
+    if (typedName.current !== null) typedName.current.value = '';
+  }, [node.id]);
   const dispatch = store.dispatch as (id: CommandId, args: unknown) => DispatchResult;
   const add = () => {
     const field = typedName.current;

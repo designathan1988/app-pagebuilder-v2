@@ -14,15 +14,31 @@ const page=(id:string,file:string)=>({id,name:'Home',file,tree:node(`${id}-root`
 test('actual export owner shares semantic classes across pages and preserves language/button semantics',async()=>{
  const document={version:1,language:'pt-BR',codeLanguage:'en',pages:[page('one','index.html'),page('two','about.html')]} as DocumentJson;
  const files=siteFiles(document,rules);
- assert.ok(files.pages.every(p=>p.html.includes('<html lang="pt-BR">')));assert.ok(files.pages.every(p=>p.html.includes('class="hero__title"')));assert.doesNotMatch(files.css,/hero-2|titulo-3/);assert.equal((files.css.match(/padding: 80px 64px;/g)??[]).length,1);
- assert.match(files.pages[0]?.html??'',/<button type="button">Action<\/button>/);assert.match(files.pages[0]?.html??'',/<button type="submit">Action<\/button>/);
+ assert.ok(files.pages.every(p=>p.html.includes('<html lang="pt-BR">')));
+ assert.ok(files.pages.every(p=>p.html.includes('class="hero__title"')));
+ assert.doesNotMatch(files.css,/hero-2|titulo-3/);
+ assert.equal((files.css.match(/padding: 80px 64px;/g)??[]).length,1);
+ assert.match(files.pages[0]?.html??'',/<button type="button">Action<\/button>/);
+ assert.match(files.pages[0]?.html??'',/<button type="submit">Action<\/button>/);
  assert.deepEqual(siteFiles(document,rules),files);
  const validator=new HtmlValidate({extends:['html-validate:recommended']});
- for(const p of files.pages){const report=await validator.validateString(p.html);assert.equal(report.valid,true,JSON.stringify(report.results));}
+ for(const p of files.pages){
+   const report=await validator.validateString(p.html);
+   assert.equal(report.valid,true,JSON.stringify(report.results));
+ }
 });
-test('new project metadata does not make a fresh project nonempty',()=>{const names={page:'Início',root:'Página',language:'pt-BR'};const document=createEmptyDocument(sequentialIds('test'),names,rules.root);assert.equal(isEmptyProject(document),true);assert.equal((document as DocumentJson&{language?:string}).language,'pt-BR');});
+test('new project metadata does not make a fresh project nonempty',()=>{
+  const names={page:'Início',root:'Página',language:'pt-BR'};
+  const document=createEmptyDocument(sequentialIds('test'),names,rules.root);
+  assert.equal(isEmptyProject(document),true);
+  assert.equal((document as DocumentJson&{language?:string}).language,'pt-BR');
+});
 test('captured residual stylesheet keeps its cascade and resolves assets in preview',()=>{
  const document={version:1,pages:[page('one','folder/index.html')],files:[{path:'folder/index.capture.css',type:'text/css',bytes:btoa('.hero::before { content: "test"; background-image: url("../img/a.png"); }')},{path:'img/a.png',type:'image/png',bytes:btoa('image')}]} as DocumentJson;
- const html=siteFiles(document,rules).pages[0]?.html??'';assert.ok(html.indexOf('href="index.capture.css"')<html.indexOf('href="../css/styles.css"'));
- const preview=previewPage(document,rules);assert.match(preview,/data:image\/png;base64,/);assert.match(preview,/\.hero::before/);assert.doesNotMatch(preview,/href="data:text\/css/);
+ const html=siteFiles(document,rules).pages[0]?.html??'';
+ assert.ok(html.indexOf('href="index.capture.css"')<html.indexOf('href="../css/styles.css"'));
+ const preview=previewPage(document,rules);
+ assert.match(preview,/data:image\/png;base64,/);
+ assert.match(preview,/\.hero::before/);
+ assert.doesNotMatch(preview,/href="data:text\/css/);
 });

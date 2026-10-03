@@ -2,8 +2,8 @@
 // horizontal or vertical, kept on the page's root (its `guides`), never exported. Each is named by its axis and the
 // first number no guide of the page has (horizontal-1), so a person, a scenario and the keys name the same guide.
 //  - guides.create: a guide on an axis at a place (from 0, whole px).
-//  - guides.move: to a place, or by a step along the axis a key moves (`delta`, `along`: a horizontal guide moves up and
-//    down, a vertical one left and right; the keymap has made Shift's step the larger one); a locked guide refuses
+//  - guides.move: to a place, or by a step along the axis a key moves (`delta`, `along`: a horizontal guide moves up
+//    and down, a vertical one left and right; the keymap has made Shift's step the larger one); a locked guide refuses
 //    (status.guides.locked).
 //  - guides.delete, guides.toggleLock. One undo step each (a drag's creation, moves and delete are one gesture).
 // The guides of the page the canvas shows: the first page, as element.insert places elements.
@@ -40,7 +40,8 @@ function found(document: DocumentJson, id: string): Guide {
 }
 
 export const createGuideCommand = registerHandler('guides.create', ({ state }, { axis, at }): Outcome<never> => {
-  // a guide stands somewhere on its ruler (the audit's AUD-03: one created with no position was a guide the model refuses)
+  // a guide stands somewhere on its ruler (the audit's AUD-03: one created with no position was a guide the model
+  // refuses)
   if (typeof at !== 'number' || !Number.isFinite(at)) return { kind: 'refused', message: message('status.guides.noPosition') };
   const guide: Guide = { id: nextGuideId(state.document, axis), axis, at: place(at) };
   return { kind: 'change', patches: [guidesPatch(state.document, [...guidesOf(state.document), guide])], message: message('status.guides.at', { at: guide.at }) };

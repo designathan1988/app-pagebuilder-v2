@@ -1,9 +1,9 @@
 // Lottie in the motion runtime (plan stage 10: "Lottie só quando usado"; spec motion-runtime, Lottie): an action
 // plays, pauses, stops, seeks or plays a segment of a Lottie animation inside its target. The player is lottie-web
 // (MIT, vendored at src/editor/motion/vendor/), which the page loads only when a timeline it plays uses Lottie
-// (export: js/lottie.min.js before js/motion.js); the animation data comes with the motion data (core/motion/export.ts),
-// so nothing is fetched and the page plays from file:// too. One player per target and file, made at the first action
-// that needs it, destroyed with the runtime.
+// (export: js/lottie.min.js before js/motion.js); the animation data comes with the motion data
+// (core/motion/export.ts), so nothing is fetched and the page plays from file:// too. One player per target and file,
+// made at the first action that needs it, destroyed with the runtime.
 //
 // Self-contained: embedded as text in the page's motion script (self-contained.test.ts).
 import type { Effect } from '../../../core/motion/model.ts';

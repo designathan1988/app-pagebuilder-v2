@@ -12,7 +12,8 @@ import type { Inventory } from './generate.ts';
 export const FEATURES_MD = path.join('docs', 'FEATURES.md');
 export const FEATURE_RESULTS = path.join('docs', 'feature-results.json');
 
-// What the runner records after a complete run on a clean tree: the commit, its date, and each feature's scenario tests.
+// What the runner records after a complete run on a clean tree: the commit, its date, and each feature's scenario
+// tests.
 export interface FeatureResults {
   readonly commit: string;
   readonly date: string;

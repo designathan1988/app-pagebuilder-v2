@@ -27,7 +27,8 @@ describe('a timeline played on its source', () => {
     expect(master?.options).toMatchObject({ duration: 1200, fill: 'both' });
     expect(opacity?.keyframes).toEqual([{ offset: 0, opacity: '0', easing: 'ease-in' }, { offset: 1, opacity: '1', easing: 'linear' }]);
     expect(opacity?.options).toMatchObject({ delay: 200, duration: 600, endDelay: 400, easing: 'ease-out', fill: 'both', iterations: 1, direction: 'normal' });
-    // a property keyed only part way: its keyframes offsets inside the action, its own name in the camel case WAAPI reads
+    // a property keyed only part way: its keyframes offsets inside the action, its own name in the camel case WAAPI
+    // reads
     expect(colour?.keyframes).toEqual([{ offset: 0.5, backgroundColor: 'red', easing: 'linear' }]);
     expect(page.animations.every((one) => one.playState === 'paused' && one.currentTime === 0)).toBe(true);
   });

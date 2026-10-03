@@ -25,13 +25,18 @@ function AssistantField({ entry, value, multiline = false, live = false }: { rea
   const label = t(entry.door.labelKey as MessageId);
   const busy = useEditorState(state => assistantOf(state.ui).busy);
   const door = useDoor(entry, {}, label, isFeatureBuilt(entry.door.feature as FeatureId));
-  useEffect(() => { if (field.current && field.current.value !== value) field.current.value = value; }, [value]);
+  useEffect(() => {
+    if (field.current && field.current.value !== value) field.current.value = value;
+  }, [value]);
   const keep = () => {
     if (!field.current || busy) return;
     (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(entry.command.id, { value: field.current.value });
   };
   const props = { className: 'input', 'aria-label': label, disabled: busy || !door.available, defaultValue: value, onBlur: keep, onInput: live ? keep : undefined, 'data-key-context': multiline ? 'assistant-input' : 'command-field' };
-  return <form className="assistant-field" data-door={entry.ref} onSubmit={event => { event.preventDefault(); keep(); }}>
+  return <form className="assistant-field" data-door={entry.ref} onSubmit={event => {
+    event.preventDefault();
+    keep();
+  }}>
     <label>{label}</label>
     {multiline ? <textarea {...props} ref={field as React.RefObject<HTMLTextAreaElement>} rows={4} /> : <input {...props} ref={field as React.RefObject<HTMLInputElement>} />}
   </form>;
@@ -60,9 +65,13 @@ export function AssistantPanel(): ReactNode {
   };
   return <div className="view assistant-panel" data-region="assistant-panel">
     <input ref={connection} className="visually-hidden" type="file" accept="application/json,.json" tabIndex={-1} aria-hidden onChange={event => {
-      const file = event.currentTarget.files?.[0]; event.currentTarget.value = '';
+      const file = event.currentTarget.files?.[0];
+      event.currentTarget.value = '';
       if (!file) return;
-      void file.text().then(text => { assistantController(store)?.stageConnection(text); invoke(entryOf('assistant-bridge-connect')); }).catch(() => store.notice(message('assistant.invalidConnection')));
+      void file.text().then(text => {
+        assistantController(store)?.stageConnection(text);
+        invoke(entryOf('assistant-bridge-connect'));
+      }).catch(() => store.notice(message('assistant.invalidConnection')));
     }} />
     {state.preferences ? <>
       <AssistantPreferences model={model} hasKey={state.hasKey} keyDraft="" connected={state.connection === 'connected'} door={door} t={key => t(key as MessageId)} />

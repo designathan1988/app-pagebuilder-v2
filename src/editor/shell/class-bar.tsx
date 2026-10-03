@@ -4,7 +4,8 @@
 //    pressed; each class chip holds its × (classes.detach), which removes the class from the selected elements;
 //  - + Class (classes.apply): it opens the list of the project's classes the selected elements do not all list, then a
 //    field where a new name is typed; choosing a class, or Enter in the field, applies it;
-//  - Save the styles as a class (classes.create): it opens a name field; Enter keeps the name, leaving the field closes it;
+//  - Save the styles as a class (classes.create): it opens a name field; Enter keeps the name, leaving the field closes
+//    it;
 //  - below them, while a class is the target, how many elements the edit reaches (".card affects 3 elements").
 // The lists and fields are the doors' own popups: opening one is not a command (archive/DESIGN.md "What is not a
 // command").

@@ -26,8 +26,8 @@ function jsonFiles(dir: string): string[] {
 }
 
 // Code registers what the manifest names by id with registerHandler('<id>', ...),
-// registerPredicate (or registerCondition, a coupling's predicate), registerAction or registerCodec, with or without type arguments
-// (registerHandler<'<id>', EditorUi>('<id>', ...)). The ids found under src/ are "registered".
+// registerPredicate (or registerCondition, a coupling's predicate), registerAction or registerCodec, with or without
+// type arguments (registerHandler<'<id>', EditorUi>('<id>', ...)). The ids found under src/ are "registered".
 const REGISTER = /\bregister(Handler|Predicate|Condition|Action|Codec)\s*(?:<[^()]*?>)?\s*\(\s*['"]([^'"]+)['"]/g;
 
 export function registrationsIn(text: string): { kind: ReferenceKind; id: string }[] {

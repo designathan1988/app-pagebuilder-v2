@@ -4,12 +4,12 @@
 // without translate, which belongs to Move X/Y). The properties are the inset composite's longhands (top, right,
 // bottom, left), the margin composite's and the size section's (width, height), read from properties.json.
 //
-// position.setAnchors (predicate positionedSelection; one element) toggles an edge (the keys, the canvas's tabs) or sets
-// an axis's anchors (the inspector's control: an edge alone, the centre, both edges). Toggling off the only anchored
-// edge anchors the opposite one. The element never moves: the distances are measured where it lies now (the layout
-// port's place, from its parent's padding edges, the viewport's for a fixed element) and a size the axis loses (both
-// edges, the centre) is written as it is drawn; the other axis is never touched (Problems in Pager 4). One undo step;
-// the status bar says the anchors of both axes. A locked element refuses it.
+// position.setAnchors (predicate positionedSelection; one element) toggles an edge (the keys, the canvas's tabs) or
+// sets an axis's anchors (the inspector's control: an edge alone, the centre, both edges). Toggling off the only
+// anchored edge anchors the opposite one. The element never moves: the distances are measured where it lies now (the
+// layout port's place, from its parent's padding edges, the viewport's for a fixed element) and a size the axis loses
+// (both edges, the centre) is written as it is drawn; the other axis is never touched (Problems in Pager 4). One undo
+// step; the status bar says the anchors of both axes. A locked element refuses it.
 import type { NodeId } from '../../generated/commands.ts';
 import { message, registerHandler, type Message, type MessageParam } from '../commands/registry.ts';
 import { locate, type DocNode } from '../document/model.ts';
@@ -77,7 +77,8 @@ const words = (anchors: Anchors, axis: Axis): MessageParam => {
   return { key: anchors.sides.has('end') ? axis.words.end : axis.words.start };
 };
 
-// the anchors an edge argument leaves: a side toggled (the opposite one when none is left) or set alone, both, the centre
+// the anchors an edge argument leaves: a side toggled (the opposite one when none is left) or set alone, both, the
+// centre
 function nextAnchors(current: Anchors, side: Side | 'center' | 'both', mode: 'toggle' | 'set'): Anchors {
   if (side === 'center') return { kind: 'center' };
   if (side === 'both') return { kind: 'edges', sides: new Set<Side>(['start', 'end']) };

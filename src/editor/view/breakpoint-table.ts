@@ -57,8 +57,8 @@ export const setBreakpointWidth = registerHandler<'breakpoints.setWidth', Editor
   return { kind: 'change', patches: [tablePatch(state.document, table)], ...(shown ? { ui: rest } : {}), message: message('status.breakpoints.resized', { name: breakpointWords(held), width: rounded }) };
 });
 
-// Where a removed breakpoint's styles go: nowhere, or into the next wider or narrower breakpoint (the narrower keeps its
-// own look: it inherited them anyway)
+// Where a removed breakpoint's styles go: nowhere, or into the next wider or narrower breakpoint (the narrower keeps
+// its own look: it inherited them anyway)
 export const removeBreakpoint = registerHandler<'breakpoints.remove', EditorUi>('breakpoints.remove', ({ state }, { breakpoint, styles }) => {
   const held = breakpointById(state.document, breakpoint);
   if (held === undefined) return unknown();

@@ -76,7 +76,8 @@ export interface HandlerContext<Ui> {
   // and the fragments a message is composed of (the import report, core/import/import.ts), with their placeholders
   // filled
   words(key: MessageId, params?: Readonly<Record<string, string | number>>): string;
-  // where the canvas draws the nodes of the page it shows, for a handler that acts on what a gesture covers (the marquee)
+  // where the canvas draws the nodes of the page it shows, for a handler that acts on what a gesture covers (the
+  // marquee)
   readonly layout: Layout;
   // whether the browser takes a value for a property, for a handler that writes a value a person typed (style.set)
   readonly css: CssSupport;

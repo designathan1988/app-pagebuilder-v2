@@ -21,7 +21,8 @@ import { Popover, usePopover } from './popover.tsx';
 
 const REGION = 'breakpoints-dialog';
 const DIALOG = 'breakpoints';
-// the width of the screen the canvas shows, a control of its own (view.setViewportWidth); the table's doors are the others
+// the width of the screen the canvas shows, a control of its own (view.setViewportWidth); the table's doors are the
+// others
 const SHOWN = doorSlots(REGION).find((d) => d.door.kind === 'panel-control' && d.door.control === 'viewport-width');
 const DOORS = doorSlots(REGION).filter((d) => d !== SHOWN);
 // the fields: the argument each keeps besides the breakpoint, a text (the name) or a number (the width)

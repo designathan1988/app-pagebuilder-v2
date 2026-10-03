@@ -16,7 +16,8 @@ export interface ContextMenuState {
 
 export const INITIAL_CONTEXT_MENU: ContextMenuState = { opened: null };
 
-// the opening of the context menu while it is open, null while it is closed: a dismissal newer than the opening closes it
+// the opening of the context menu while it is open, null while it is closed: a dismissal newer than the opening closes
+// it
 export function openContextMenu(ui: EditorUi): ContextMenuState['opened'] {
   const { opened } = ui.contextMenu;
   return opened !== null && opened.dismissals === ui.overlays.dismissals ? opened : null;

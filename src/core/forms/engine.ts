@@ -63,10 +63,20 @@ export function createFormsEngine(now: () => number) {
     let optional = 0;
     for (let i = 0; i < expanded.length; i++) {
       let char = expanded[i] ?? '';
-      if (char === '[') { optional++; continue; }
-      if (char === ']') { if (!optional) throw new Error('Unbalanced mask'); optional--; continue; }
+      if (char === '[') {
+        optional++;
+        continue;
+      }
+      if (char === ']') {
+        if (!optional) throw new Error('Unbalanced mask');
+        optional--;
+        continue;
+      }
       const escaped = char === '\\';
-      if (escaped) { char = expanded[++i] ?? ''; if (!char) throw new Error('Invalid escape'); }
+      if (escaped) {
+        char = expanded[++i] ?? '';
+        if (!char) throw new Error('Invalid escape');
+      }
       const literal = escaped || !['0', 'A', '*'].includes(char);
       const repeat = expanded.slice(i + 1).match(/^\{(\d+)(?:,(\d+))?\}/);
       const minimum = repeat ? Number(repeat[1]) : 1;
@@ -86,11 +96,24 @@ export function createFormsEngine(now: () => number) {
     let pending = '';
     let complete = true;
     for (const slot of tokens) {
-      if (slot.literal) { pending += slot.token; if (text[cursor] === slot.token) cursor++; continue; }
+      if (slot.literal) {
+        pending += slot.token;
+        if (text[cursor] === slot.token) cursor++;
+        continue;
+      }
       const matcher = slot.token === '0' ? /\d/ : slot.token === 'A' ? /[A-Za-zÀ-ÿ]/ : /[A-Za-z0-9]/;
       let char = '';
-      while (cursor < text.length) { const next = text[cursor++] ?? ''; if (matcher.test(next)) { char = next; break; } }
-      if (!char) { if (!slot.optional) complete = false; continue; }
+      while (cursor < text.length) {
+        const next = text[cursor++] ?? '';
+        if (matcher.test(next)) {
+          char = next;
+          break;
+        }
+      }
+      if (!char) {
+        if (!slot.optional) complete = false;
+        continue;
+      }
       formatted += pending + char;
       pending = '';
       raw += char;
@@ -150,7 +173,10 @@ export function createFormsEngine(now: () => number) {
     const value = Number(raw);
     const valid = Number.isFinite(value) && extra.length === 0 && (config.minimum === undefined || value >= config.minimum) && (config.maximum === undefined || value <= config.maximum);
     const options: Intl.NumberFormatOptions = { minimumFractionDigits: fraction?.length ? Math.min(fraction.length, precision) : 0, maximumFractionDigits: precision };
-    if (config.kind === 'currency') { options.style = 'currency'; options.currency = config.currency ?? 'BRL'; }
+    if (config.kind === 'currency') {
+      options.style = 'currency';
+      options.currency = config.currency ?? 'BRL';
+    }
     let formatted = new Intl.NumberFormat(locale, options).format(value);
     if (fraction === '' && precision > 0) formatted += decimal;
     if (config.kind === 'percent') formatted += '%';
@@ -172,10 +198,17 @@ export function createFormsEngine(now: () => number) {
       case 'rg': return /^[A-Z0-9]{5,14}$/.test(value);
       case 'plate': return /^[A-Z]{3}(?:\d{4}|\d[A-Z]\d{2})$/.test(value);
       case 'card': return luhn(text);
-      case 'expiry': { const match = text.match(/^(\d{2})\/(\d{2})$/); return !!match && Number(match[1]) >= 1 && Number(match[1]) <= 12 && `20${match[2]}-${match[1]}` >= today.slice(0, 7); }
+      case 'expiry': { const match = text.match(/^(\d{2})\/(\d{2})$/);
+          return !!match && Number(match[1]) >= 1 && Number(match[1]) <= 12 && `20${match[2]}-${match[1]}` >= today.slice(0, 7);
+        }
       case 'cvv': return /^\d{3,4}$/.test(text);
       case 'email': return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text);
-      case 'url': try { const url = new URL(text); return ['http:', 'https:'].includes(url.protocol) && !!url.hostname; } catch { return false; }
+      case 'url': try {
+          const url = new URL(text);
+          return ['http:', 'https:'].includes(url.protocol) && !!url.hostname;
+        } catch {
+          return false;
+        }
       case 'date-br': return isoDate(text) !== null;
       case 'time': return /^(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?$/.test(text);
       case 'currency': case 'measurement': return text !== '';
@@ -196,7 +229,10 @@ export function createFormsEngine(now: () => number) {
     }
     if (config.kind === 'number' || config.kind === 'currency' || config.kind === 'percent') return numeric(text, config);
     if (config.kind === 'date' || config.kind === 'time') return calendar(text, config);
-    if (config.kind === 'regex') { const valid = new RegExp(`^(?:${config.pattern ?? ''})$`, 'u').test(text); return { formatted: text, raw: text, complete: valid, valid }; }
+    if (config.kind === 'regex') {
+      const valid = new RegExp(`^(?:${config.pattern ?? ''})$`, 'u').test(text);
+      return { formatted: text, raw: text, complete: valid, valid };
+    }
     const preset = config.preset ?? 'cpf';
     let result: MaskResult;
     const patterns: Partial<Record<Preset, string>> = { cpf: '000.000.000-00', cnpj: '**.***.***/****-00', cep: '00000-000', pis: '000.00000.00-0', voter: '0000 0000 0000', rg: '*{5,14}', expiry: '00/00', cvv: '0{3,4}' };
@@ -204,7 +240,10 @@ export function createFormsEngine(now: () => number) {
     if (preset === 'phone-br') result = fixed(text, digits(text).length > 10 ? '(00) 00000-0000' : '(00) 0000-0000');
     else if (preset === 'phone-international') result = fixed(text, '+0{7,15}');
     else if (preset === 'plate') result = fixed(text.toUpperCase(), /[A-Za-z]/.test(cleanId(text)[4] ?? '') ? 'AAA0A00' : 'AAA-0000');
-    else if (preset === 'card') { const brand = cardBrand(text); result = { ...fixed(text, brand === 'amex' ? '0000 000000 00000' : '0000 0000 0000 0{1,7}'), brand }; }
+    else if (preset === 'card') {
+      const brand = cardBrand(text);
+      result = { ...fixed(text, brand === 'amex' ? '0000 000000 00000' : '0000 0000 0000 0{1,7}'), brand };
+    }
     else if (preset === 'date-br' || preset === 'time') result = calendar(text, { ...config, kind: preset === 'time' ? 'time' : 'date' });
     else if (preset === 'currency' || preset === 'measurement') return numeric(text, { ...config, kind: preset === 'currency' ? 'currency' : 'number' });
     else if (patterns[preset]) result = fixed(text.toUpperCase(), patterns[preset]);
@@ -222,20 +261,34 @@ export function createFormsEngine(now: () => number) {
     if (rules.required && !text && !context.files?.length) add('required');
     if (!text && !context.files?.length) return violations;
     let result: MaskResult;
-    try { result = mask(text, config.mask); } catch { add('configuration'); return violations; }
+    try {
+      result = mask(text, config.mask);
+    } catch {
+      add('configuration');
+      return violations;
+    }
     if (!result.valid) add('preset');
     if (config.mask?.kind === 'preset' && config.mask.preset === 'expiry' && !checkPreset('expiry', text, context.today)) {
       if (!violations.some((one) => one.code === 'preset')) add('preset');
     }
     const raw = result.raw;
     if (rules.type === 'email' && !checkPreset('email', text) || rules.type === 'url' && !checkPreset('url', text) || rules.type === 'number' && !Number.isFinite(Number(raw))) add('type');
-    if (rules.pattern) { try { if (!new RegExp(`^(?:${rules.pattern})$`, 'u').test(text)) add('pattern'); } catch { add('configuration'); } }
+    if (rules.pattern) {
+      try {
+        if (!new RegExp(`^(?:${rules.pattern})$`, 'u').test(text)) add('pattern');
+      } catch {
+        add('configuration');
+      }
+    }
     if (rules.minLength !== undefined && text.length < rules.minLength) add('tooShort');
     if (rules.maxLength !== undefined && text.length > rules.maxLength) add('tooLong');
     const number = Number(raw);
     if (rules.minimum !== undefined && (!Number.isFinite(number) || number < rules.minimum)) add('minimum');
     if (rules.maximum !== undefined && (!Number.isFinite(number) || number > rules.maximum)) add('maximum');
-    if (rules.step !== undefined) { const quotient = (number - (rules.minimum ?? 0)) / rules.step; if (!(rules.step > 0) || !Number.isFinite(quotient) || Math.abs(quotient - Math.round(quotient)) > 1e-8) add('step'); }
+    if (rules.step !== undefined) {
+      const quotient = (number - (rules.minimum ?? 0)) / rules.step;
+      if (!(rules.step > 0) || !Number.isFinite(quotient) || Math.abs(quotient - Math.round(quotient)) > 1e-8) add('step');
+    }
     if (rules.equalTo !== undefined && text !== context.fields?.[rules.equalTo]) add('equalTo');
     const strength = rules.password;
     if (strength && (text.length < strength.minLength || strength.uppercase && !/[A-Z]/.test(text) || strength.lowercase && !/[a-z]/.test(text) || strength.digit && !/\d/.test(text) || strength.symbol && !/[^\p{L}\p{N}\s]/u.test(text))) add('password');

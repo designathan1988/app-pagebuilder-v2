@@ -9,6 +9,8 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const ROOTS = ['src', 'tools', 'tests'];
+// the configuration files at the root, which cite documents too
+const CONFIGS = fs.readdirSync('.').filter((name) => /\.config\.(js|ts|mjs)$/u.test(name));
 const SOURCE = /\.(ts|tsx|css|mjs|cjs)$/u;
 // a name ending in .md, with the folders written before it, not inside a longer word, path or quoted string
 const CITED = /(?<![\w/.'"`-])((?:\.{1,2}\/)*[\w./-]*[\w-]\.md)(?![\w])/gu;
@@ -28,7 +30,7 @@ const resolves = (file: string, name: string): boolean =>
 describe('the documents the sources cite', () => {
   it('exist where a reader looks for them', () => {
     const missing: string[] = [];
-    for (const file of ROOTS.flatMap(sources)) {
+    for (const file of [...ROOTS.flatMap(sources), ...CONFIGS]) {
       const lines = fs.readFileSync(file, 'utf8').split('\n');
       lines.forEach((line, index) => {
         for (const match of line.matchAll(CITED)) {

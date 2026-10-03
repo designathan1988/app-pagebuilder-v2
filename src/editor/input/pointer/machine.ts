@@ -32,8 +32,8 @@ export type Press =
   // a press on a shadow's light pad: the pad's drag door, the arguments the pad stands for (its property and layer) and
   // the pad's centre (spec shadow-editor)
   | { readonly on: 'pad'; readonly entry: DoorEntry; readonly args: Readonly<Record<string, unknown>>; readonly centre: Point; readonly element: HTMLElement }
-  // a press on the quick panel's grip: its drag door, the arguments the grip stands for (the element) and the offset the
-  // panel is drawn at now (spec quick-panel)
+  // a press on the quick panel's grip: its drag door, the arguments the grip stands for (the element) and the offset
+  // the panel is drawn at now (spec quick-panel)
   | { readonly on: 'grip'; readonly entry: DoorEntry; readonly args: Readonly<Record<string, unknown>>; readonly base: Point }
   // a press on a splitter: its drag door and the splitter it stands for (spec panel-resize)
   | { readonly on: 'splitter'; readonly entry: DoorEntry; readonly args: Readonly<Record<string, unknown>> }
@@ -43,8 +43,8 @@ export type Press =
   // a press on a row of the Explorer's file tree (spec explorer-file-system): its move door and the path the row
   // stands for; the release moves it into the folder row the pointer is over
   | { readonly on: 'explorer'; readonly entry: DoorEntry; readonly args: Readonly<Record<string, unknown>>; readonly path: string }
-  // a press on a column of the Data panel (spec content-data, "binding"): its drag door and the field it stands for; the
-  // release binds the element's part the pointer is over to that field
+  // a press on a column of the Data panel (spec content-data, "binding"): its drag door and the field it stands for;
+  // the release binds the element's part the pointer is over to that field
   | { readonly on: 'column'; readonly entry: DoorEntry; readonly args: Readonly<Record<string, unknown>>; readonly field: string }
   // a press on the timeline's ruler or on a keyframe of its track (specs timeline-preview, timeline-keyframes): the
   // drag's door, the arguments the keyframe stands for (its animation and offset), and the track's box

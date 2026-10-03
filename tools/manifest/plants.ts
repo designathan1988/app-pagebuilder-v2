@@ -421,8 +421,8 @@ export const PLANTS: Plant[] = [
     apply: (m) => {
       const keywords = ownGenerated(m, 'generated/css-compat.json', 'properties', 'text-align', 'keywords');
       for (const [name, k] of Object.entries(keywords)) keywords[name] = { ...obj(k), safari: false, why: { ...obj(obj(k).why), safari: 'planted' } };
-      // the door's own Essentials subset would be reported too (browser-support, all-properties): the plant is about the;
-      // generated list the buttons draw in All properties
+      // the door's own Essentials subset would be reported too (browser-support, all-properties): the plant is about
+      // the; generated list the buttons draw in All properties
       const align = list(obj(obj(m.files['properties.json']).properties)).find((p) => obj(p).id === 'text-align');
       if (align === undefined) throw new Error('plant: no text-align property');
       obj(align).subsets = [];
@@ -1076,8 +1076,8 @@ PLANTS.push(
   },
 );
 
-// The zoom doors' commands made unbuilt, as before zoom-keyboard-buttons: no handler registered, each reference planned,
-// and every scenario starting at Fit, as they all did then.
+// The zoom doors' commands made unbuilt, as before zoom-keyboard-buttons: no handler registered, each reference
+// planned, and every scenario starting at Fit, as they all did then.
 export const ZOOM_COMMANDS = ['view.zoomIn', 'view.zoomOut', 'view.zoomReset', 'view.zoomTo', 'view.zoomFit'];
 export function unbuildZoom(m: MutableInput): void {
   m.registered = { ...m.registered, handler: m.registered.handler.filter((id) => !ZOOM_COMMANDS.includes(id)) };

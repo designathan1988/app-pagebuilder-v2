@@ -8,12 +8,13 @@
 //  - The text is taken without the spaces around it. An empty one removes the setting (spec, Problems in Pager 5): the
 //    page then has none of its own.
 //  - A keyword setting (the direction) takes one of its keywords (elements.json), written in any case. The page's
-//    language (the setting whose HTML attribute is lang) takes a known BCP 47 language or a private-use tag. Anything else is refused with status.page.settingInvalid, which names the
-//    setting and the value, and nothing changes (Problems in Pager 3).
+//    language (the setting whose HTML attribute is lang) takes a known BCP 47 language or a private-use tag. Anything
+//    else is refused with status.page.settingInvalid, which names the setting and the value, and nothing changes
+//    (Problems in Pager 3).
 //  - The same value records nothing (history.noChange "no-entry"); the status bar says the setting's value either way.
 //  - A page address (the canonical URL, the sharing image, the favicon: page-seo-meta) takes a web address or a path
-//    (core/elements/address.ts). The remaining value type (the linked scripts) arrives with code-panel-edit-js, whose door is not
-//    available yet: no door hands one here.
+//    (core/elements/address.ts). The remaining value type (the linked scripts) arrives with code-panel-edit-js, whose
+//    door is not available yet: no door hands one here.
 import { languageTagAllowed, type AttributeRules } from '../document/validate.ts';
 import { message, registerHandler, type Message } from '../commands/registry.ts';
 import { readAddress } from '../elements/address.ts';

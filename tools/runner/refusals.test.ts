@@ -35,7 +35,10 @@ describe('the refusals of the availability predicates', () => {
       const ids = document.pages.flatMap((page) => [...walk(page.tree)].map((node) => node.id)).slice(0, 40);
       const selections = [[], ...ids.map((id) => [id]), ...(locked === null ? [] : [[locked]]), ...(inside === null ? [] : [[inside]]), ids.slice(0, 2)];
       for (const command of manifest.commands) {
-        const predicate = PREDICATES[command.availability.predicate as keyof typeof PREDICATES] as { test: (s: StoreState<EditorUi>, r: typeof MODEL_RULES, a?: unknown) => boolean; refusal?: (s: StoreState<EditorUi>, r: typeof MODEL_RULES, a?: unknown) => { key: string } } | undefined;
+        const predicate = PREDICATES[command.availability.predicate as keyof typeof PREDICATES] as {
+          test: (s: StoreState<EditorUi>, r: typeof MODEL_RULES, a?: unknown) => boolean;
+          refusal?: (s: StoreState<EditorUi>, r: typeof MODEL_RULES, a?: unknown) => { key: string }
+        } | undefined;
         if (predicate?.refusal === undefined) continue;
         const declared = new Set<string>([command.availability.refusalKey ?? '', ...command.refusals]);
         for (const selection of selections) {

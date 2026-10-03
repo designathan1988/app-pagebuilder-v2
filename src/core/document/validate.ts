@@ -37,7 +37,8 @@ export interface ElementRules {
   readonly naturalChildren: readonly string[];
   // the attribute whose field picks a file of the project (an image's Source), or null (spec explorer-assets-use)
   readonly filePicker: string | null;
-  // a block a page is built of (a section, a header, a footer): a click-insert lands after the one holding the selection
+  // a block a page is built of (a section, a header, a footer): a click-insert lands after the one holding the
+  // selection
   readonly pageBlock: boolean;
 }
 
@@ -82,7 +83,8 @@ export interface ModelRules {
   // each property whose value is structured (properties.json structures, by the property's valueType): its fields in
   // order, each with its type and how it reaches CSS
   readonly structures: ReadonlyMap<string, readonly StructureField[]>;
-  // the couplings a style write triggers, in the manifest's order (properties.json couplings; src/core/style/couplings.ts)
+  // the couplings a style write triggers, in the manifest's order (properties.json couplings;
+  // src/core/style/couplings.ts)
   readonly couplings: readonly Coupling[];
   // availability predicates that read one value of the primary selected element (properties.json valuePredicates)
   readonly valuePredicates: ReadonlyMap<string, { readonly property: string; readonly values: readonly string[] }>;
@@ -131,11 +133,24 @@ export function rulesFromManifest(elements: ElementsFile, properties: Properties
     elements: new Map(
       elements.elements.map((e) => [
         e.id,
-        { tags: [e.tag, ...e.alternativeTags], content: e.content, namespace: e.namespace, labelKey: e.labelKey as MessageId, defaultStyles: e.defaultStyles, defaultTextKey: e.defaultTextKey as MessageId | null, naturalChildren: [e.naturalChild ?? []].flat(), filePicker: e.filePicker ?? null, pageBlock: e.pageBlock ?? false },
+        {
+          tags: [e.tag, ...e.alternativeTags],
+          content: e.content,
+          namespace: e.namespace,
+          labelKey: e.labelKey as MessageId,
+          defaultStyles: e.defaultStyles,
+          defaultTextKey: e.defaultTextKey as MessageId | null,
+          naturalChildren: [e.naturalChild ?? []].flat(),
+          filePicker: e.filePicker ?? null,
+          pageBlock: e.pageBlock ?? false
+        },
       ]),
     ),
     attributes: new Map(elements.attributes.map((a) => [a.id, a.elements])),
-    attributeValues: new Map(elements.attributes.map((a) => [a.id, { valueType: a.valueType, keywords: a.keywords, html: a.html, global: a.global === true, keepsEmpty: a.keepsEmpty === true, head: a.head ?? null, labelKey: a.labelKey as MessageId, command: a.command }] as const)),
+    attributeValues: new Map(elements.attributes.map((a) => [
+      a.id,
+      { valueType: a.valueType, keywords: a.keywords, html: a.html, global: a.global === true, keepsEmpty: a.keepsEmpty === true, head: a.head ?? null, labelKey: a.labelKey as MessageId, command: a.command }
+    ] as const)),
     autocompleteTokens: elements.autocompleteTokens,
     // what a node stores: the edited properties, and the recipes by their ids (the output writes their declarations)
     properties: new Set([...properties.properties.map((p) => p.id), ...properties.recipes.map((r) => r.id)]),
@@ -146,7 +161,10 @@ export function rulesFromManifest(elements: ElementsFile, properties: Properties
         return [c.id, { codec: c.codec, labelKey: c.labelKey as MessageId, longhands: c.longhands, axes: axes.some((a) => a.length > 0) ? axes : null }] as const;
       }),
     ),
-    recipeFacts: new Map(properties.recipes.map((r) => [r.id, { codec: r.codec, labelKey: r.labelKey as MessageId, appliesTo: r.appliesTo, declarations: r.declarations, shared: r.shared === null ? null : { otherWrite: r.shared.otherWrite } }] as const)),
+    recipeFacts: new Map(properties.recipes.map((r) => [
+      r.id,
+      { codec: r.codec, labelKey: r.labelKey as MessageId, appliesTo: r.appliesTo, declarations: r.declarations, shared: r.shared === null ? null : { otherWrite: r.shared.otherWrite } }
+    ] as const)),
     structures: new Map(
       properties.properties.flatMap((p) => {
         const structure = properties.structures.find((s) => s.id === p.valueType);

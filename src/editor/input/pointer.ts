@@ -83,7 +83,8 @@ import { DRAG_HYSTERESIS, DRAG_THRESHOLD, IDLE, step, type Effect, type Machine,
 // which door a press runs lives in its own module too (pointer/press.ts): the facts it is judged by, the modifier held
 import { NOT_PICKING, argsFor, clickDoor, editEndDoor, laysGrid, modifierOf, type Button, type Picking, type PressFacts } from './pointer/press.ts';
 import { CONTAINERS, isInside, keepsSide, layersDrag, nearestAccepted, proposalAt, ROW_DROP, ROW_SELECT, rowUnder, sideAt } from './drop-proposals.ts';
-// what the pointer publishes for the canvas chrome and the panels (pointer/views.ts); the installer is their only writer
+// what the pointer publishes for the canvas chrome and the panels (pointer/views.ts); the installer is their only
+// writer
 import {
   altHeld,
   guideOverRuler,
@@ -231,8 +232,8 @@ const WHEEL_DOORS = manifest.doors.filter((d) => d.door.kind === 'canvas-wheel')
 // move with the size the travel gives (the page shows it live, the history keeps one step), Shift keeping the ratio and
 // Alt resizing from the centre as the move reads them; the release commits it and Escape (drag.cancel) drops it.
 const RESIZE_MIN = numberConstant('resize.minBox');
-// The rotation handle (spec rotation-handle): its drag writes the property its door writes (rotate) as the pointer's angle
-// around the element's centre, from the angle it held, in whole degrees; Shift snaps it to rotate.snapStep.
+// The rotation handle (spec rotation-handle): its drag writes the property its door writes (rotate) as the pointer's
+// angle around the element's centre, from the angle it held, in whole degrees; Shift snaps it to rotate.snapStep.
 const ROTATE_SNAP = numberConstant('rotate.snapStep');
 // The guide drags (spec guides-manual): out of a ruler (data-ruler: the axis of the guides it makes) a new guide, once
 // the pointer has moved past drag.threshold; a guide (data-guide) moved over the page; either released over its own
@@ -251,8 +252,8 @@ function degreesOf(value: string | undefined): number {
 }
 // an angle folded into -180 to 180 degrees
 const folded = (angle: number) => ((((angle + 180) % 360) + 360) % 360) - 180;
-// An Edit on canvas handle's drag (spec spacing-handles, radius-border-gap-handles): the chrome draws the handles of the
-// mode (canvas/edit-handles.tsx), each saying what its drag starts from, which way on the screen grows it and which
+// An Edit on canvas handle's drag (spec spacing-handles, radius-border-gap-handles): the chrome draws the handles of
+// the mode (canvas/edit-handles.tsx), each saying what its drag starts from, which way on the screen grows it and which
 // argument of its command the value goes in; a press on one, moved past the drag threshold, opens a gesture whose
 // command runs on every move with the new value (its start plus the travel along its normal ÷ the zoom, whole CSS px,
 // never below its minimum); for a spacing band Shift writes all four sides and Alt the opposite side by the same amount
@@ -269,7 +270,8 @@ interface SpacingDrag {
   readonly min: number | null;
   readonly opposite: string;
   readonly oppositeStart: number;
-  // the four sides' starts at the press, in the composite's order: Shift writes each its own start plus the travel (A3.15)
+  // the four sides' starts at the press, in the composite's order: Shift writes each its own start plus the travel
+  // (A3.15)
   readonly sidesStart: readonly number[] | null;
   readonly pointer: number;
   readonly from: Point;
@@ -490,8 +492,8 @@ export function registerSlider(element: HTMLInputElement, commit: (value: string
   return () => SLIDER_COMMITS.delete(element);
 }
 
-// A control that repeats while held (a number field's step buttons, shell/field.tsx, which carry data-repeat): the press
-// runs its step, with the
+// A control that repeats while held (a number field's step buttons, shell/field.tsx, which carry data-repeat): the
+// press runs its step, with the
 // one key it holds; held down, the step runs again after numberField.repeatDelay and then every
 // numberField.repeatInterval (Chromium's press-and-hold), until the release, a cancel or the pointer leaving it. The
 // press keeps the focus where it is.
@@ -653,7 +655,8 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     // refusal with the element that refused (spec drag-layout, Problems in Pager 4)
     raw: DropProposal | null;
     redirect: Redirect | null;
-    // the side drop offered, whether the dwell confirmed it, where its pill is drawn and the refusal its wrap would meet
+    // the side drop offered, whether the dwell confirmed it, where its pill is drawn and the refusal its wrap would
+    // meet
     side: { offer: SideOffer; armed: boolean; pill: Point | null; refusal: Message | null } | null;
     // whether the pointer's proposal came from a Layers row (its release runs the row drop's door)
     fromRow: boolean;
@@ -679,13 +682,13 @@ export function installPointer(store: EditorStore, target: Window = window): () 
   };
   // the resize handle pressed: its door and handle, where it went down, what the element measured then and the zoom,
   // and the gesture its drag opened (none before the threshold) with the cancellations counted when it opened
-  // a resize: its handle, where it began, its basis, the zoom, and the resized node and its box then (page px), which the
-  // snapping reads
+  // a resize: its handle, where it began, its basis, the zoom, and the resized node and its box then (page px), which
+  // the snapping reads
   let resizing: { entry: DoorEntry; handle: string; pointer: number; start: Point; basis: ResizeFrom; zoom: number; gesture: Gesture | null; cancels: number; node: NodeId; box: Box | null; media: boolean } | null = null;
   // a rotation in progress: its handle's door, the element's centre and the pointer's angle around it at the press, the
   // angle the element held, and its gesture once the pointer moved past the threshold
-  // a guide drag in progress: a new guide out of a ruler or a guide moved, its axis, the guide once there is one, and its
-  // gesture once the pointer moved past the threshold
+  // a guide drag in progress: a new guide out of a ruler or a guide moved, its axis, the guide once there is one, and
+  // its gesture once the pointer moved past the threshold
   let guiding: { kind: 'create' | 'move'; axis: string; guide: string | null; pointer: number; start: Point; gesture: Gesture | null; cancels: number } | null = null;
   let rotating: { entry: DoorEntry; property: string; pointer: number; start: Point; centre: Point; startAngle: number; base: number; gesture: Gesture | null; cancels: number } | null = null;
   let spacing: SpacingDrag | null = null;
@@ -1101,14 +1104,17 @@ export function installPointer(store: EditorStore, target: Window = window): () 
         // last receives the tile's entry through the palette's canvas-drag door (its command refuses a parent that
         // does not accept it); with no proposal drawn (outside the page) nothing is inserted
         if (!dragged) closing?.dispatch(press.entry.command.id, { ...press.entry.door.args, ...press.args } as never);
-        else if (side !== null && sideDoorOf !== null) closing?.dispatch(sideDoorOf.command.id, { ...sideDoorOf.door.args, ...press.args, target: side.offer.target, side: side.offer.side, wrapper: wrapped(side.offer.wrapper, releaseModifier) } as never);
+        else if (side !== null && sideDoorOf !== null) closing?.dispatch(
+          sideDoorOf.command.id,
+          { ...sideDoorOf.door.args, ...press.args, target: side.offer.target, side: side.offer.side, wrapper: wrapped(side.offer.wrapper, releaseModifier) } as never
+        );
         else if (dropped !== null && dropDoorOf !== null) closing?.dispatch(dropDoorOf.command.id, { ...dropDoorOf.door.args, ...press.args, parent: dropped.parent, index: dropped.index } as never);
       } else if (effect === 'commit' && dragged && side !== null && SIDE_ELEMENT !== null) {
         // a confirmed side drop puts the dragged elements beside its target in a new wrapper
         closing?.dispatch(SIDE_ELEMENT.command.id, { ...SIDE_ELEMENT.door.args, target: side.offer.target, side: side.offer.side, wrapper: wrapped(side.offer.wrapper, releaseModifier) } as never);
       } else if (effect === 'commit' && dropped !== null && !fromRow && DUPLICATE_DRAG !== null && releaseModifier !== null && releaseModifier === DUPLICATE_KEY) {
-        // the duplicate's key held at the release (spec drag-duplicate): the originals stay; their copies (the selection
-        // then) move to the place drawn, counted among the parent's children the originals included
+        // the duplicate's key held at the release (spec drag-duplicate): the originals stay; their copies (the
+        // selection then) move to the place drawn, counted among the parent's children the originals included
         const parent = locate(before, dropped.parent)?.node ?? null;
         const others = parent === null ? [] : parent.children.filter((c) => !draggedIds.includes(c.id));
         const anchor = others[dropped.index];
@@ -1117,8 +1123,8 @@ export function installPointer(store: EditorStore, target: Window = window): () 
         const move = dropDoor(dropped);
         if (made?.status === 'done' && made.changed && move !== null) closing?.dispatch(move.command.id, { ...move.door.args, parent: dropped.parent, index } as never);
       } else if (effect === 'commit' && dropped !== null) {
-        // the release commits exactly the proposal drawn last, through the door of its zone (a Layers row's, when it came
-        // from a row), in the gesture's transaction
+        // the release commits exactly the proposal drawn last, through the door of its zone (a Layers row's, when it
+        // came from a row), in the gesture's transaction
         const door = fromRow ? ROW_DROP : dropDoor(dropped);
         if (door !== null) closing?.dispatch(door.command.id, { ...door.door.args, parent: dropped.parent, index: dropped.index } as never);
       }
@@ -1184,8 +1190,8 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     if (dragging === null) return;
     const current = dragging.side;
     if (SIDE_DWELL > 0 && current?.armed && current.pill !== null && Math.hypot(at.x - current.pill.x, at.y - current.pill.y) <= PILL_FREEZE) return;
-    // the side drop drawn holds while the pointer stays by that side of its element, wrap.sideEdgeExclusion around it: a
-    // tremor never moves it to another element (spec drag-layout, the user's decision: no surgical pointing)
+    // the side drop drawn holds while the pointer stays by that side of its element, wrap.sideEdgeExclusion around it:
+    // a tremor never moves it to another element (spec drag-layout, the user's decision: no surgical pointing)
     const door = dragging.inserting !== null ? sideTileFor(dragging.inserting) : SIDE_ELEMENT;
     const fresh = door === null || (dragging.inserting !== null && !onPage) ? null : sideAt(store.getState().document, dragging.dragged, at);
     // a tremor out of the element keeps its side drop, but a deeper element's own side drop takes over
@@ -1402,8 +1408,9 @@ export function installPointer(store: EditorStore, target: Window = window): () 
   const underPointer = (event: PointerEvent): EventTarget | null => (captured === event.pointerId ? target.document.elementFromPoint(event.clientX, event.clientY) : event.target);
   // the gestures of a handle (a spacing band, a guide, a rotation, a resize), the pan and the colour pick: ended, their
   // open gesture cancelled
-  // a press a pointer tool took (pointer-tools.ts): its session, the pointer, the gesture open now (opened at the press,
-  // opened anew at each move that runs a command) and the cancellations counted at the press (Escape, drag.cancel)
+  // a press a pointer tool took (pointer-tools.ts): its session, the pointer, the gesture open now (opened at the
+  // press, opened anew at each move that runs a command) and the cancellations counted at the press (Escape,
+  // drag.cancel)
   let tooling: { readonly session: ToolSession; readonly pointer: number; gesture: Gesture; readonly cancels: number } | null = null;
   const dropTool = () => {
     if (tooling === null) return;
@@ -1543,7 +1550,17 @@ export function installPointer(store: EditorStore, target: Window = window): () 
       if (only && box && property !== undefined) {
         event.preventDefault();
         const centre = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
-        rotating = { entry: rotateEntry, property, pointer: event.pointerId, start: { x: event.clientX, y: event.clientY }, centre, startAngle: Math.atan2(event.clientY - centre.y, event.clientX - centre.x), base: degreesOf(storedValue(only, property, MODEL_RULES)), gesture: null, cancels: 0 };
+        rotating = {
+          entry: rotateEntry,
+          property,
+          pointer: event.pointerId,
+          start: { x: event.clientX, y: event.clientY },
+          centre,
+          startAngle: Math.atan2(event.clientY - centre.y, event.clientX - centre.x),
+          base: degreesOf(storedValue(only, property, MODEL_RULES)),
+          gesture: null,
+          cancels: 0
+        };
         return;
       }
     }

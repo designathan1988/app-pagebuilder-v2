@@ -75,7 +75,18 @@ describe('the layout compiler', () => {
 
   it('turns uniform empty tracks between cells into the grid gap', () => {
     const graph = ok(
-      drawn(648, 300, [{ x: 0, y: 0, width: 200, height: 138 }, { x: 224, y: 0, width: 200, height: 138 }, { x: 448, y: 0, width: 200, height: 138 }, { x: 0, y: 162, width: 200, height: 138 }, { x: 224, y: 162, width: 200, height: 138 }, { x: 448, y: 162, width: 200, height: 138 }]),
+      drawn(
+        648,
+        300,
+        [
+          { x: 0, y: 0, width: 200, height: 138 },
+          { x: 224, y: 0, width: 200, height: 138 },
+          { x: 448, y: 0, width: 200, height: 138 },
+          { x: 0, y: 162, width: 200, height: 138 },
+          { x: 224, y: 162, width: 200, height: 138 },
+          { x: 448, y: 162, width: 200, height: 138 }
+        ]
+      ),
       { kind: 'interpret', parent: null, strategy: 'grid' },
     );
     const { root } = compile(graph, PORTS);

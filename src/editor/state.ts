@@ -6,8 +6,8 @@ import type { DataUi } from './data/state.ts';
 // the overlays' dismissals (menus/overlays.ts), the context menu's opening (menus/context-menu.ts), the folded
 // Layers branches (layers/tree.ts), the name being edited in Layers (layers/rename.ts), the text being edited on the
 // canvas (canvas/text-edit.ts), the drop level and the cancellations of the drags (drag/drag-session.ts) and the
-// keyboard's hand (core/structure/hand.ts) and the camera's pan (view/camera.ts). Each module owns its part; this file only composes them. Document and
-// selection state live in the core store, never here.
+// keyboard's hand (core/structure/hand.ts) and the camera's pan (view/camera.ts). Each module owns its part; this file
+// only composes them. Document and selection state live in the core store, never here.
 import type { NodeId } from '../core/document/model.ts';
 import { NO_HAND, type HandState } from '../core/structure/hand.ts';
 import { INITIAL_TEXT_EDIT, type TextEditState } from './canvas/text-edit.ts';
@@ -34,7 +34,8 @@ import type { MotionUiState } from './motion/state.ts';
 
 export interface EditorUi {
   readonly assistant?: AssistantState;
-  // the Data panel: the collection it shows, its query and the data file being imported (data/state.ts); absent until used
+  // the Data panel: the collection it shows, its query and the data file being imported (data/state.ts); absent until
+  // used
   readonly data?: DataUi;
   readonly panels: PanelsState;
   readonly layout: LayoutState;
@@ -60,7 +61,8 @@ export interface EditorUi {
   readonly assetPicker: { readonly attribute: string } | null;
   // the link picker open on a node (shell/link-picker.tsx; the audit's item 7.4); null while closed
   readonly linkPicker: { readonly node: NodeId; readonly kind: string } | null;
-  // the component name prompt open on an element (shell/component-prompt.tsx; the audit's item A3.12); null while closed
+  // the component name prompt open on an element (shell/component-prompt.tsx; the audit's item A3.12); null while
+  // closed
   readonly componentPrompt: { readonly node: NodeId } | null;
   // the grid the canvas grid editor edits (canvas/grid-edit.ts; the audit's item 8.2); absent while none is
   readonly gridEdit?: NodeId | undefined;

@@ -3,9 +3,10 @@
 // its two answers, in the manifest's words, in a modal dialog over the editor. The answer goes back to the store
 // (store.answer), which runs the waiting dispatch or drops it. Its two buttons are that door's run going on, not doors
 // of their own (data-local).
-// It is a modal dialog as every other (docs/PRODUCT.md, The interface contract): the focus goes to Cancel, the answer that loses
-// nothing, and stays inside it (Tab past the last button comes back to the first); Escape, in its dialog key context,
-// is a dismissal, which answers Cancel; and once answered the focus goes back to what had it when it was asked.
+// It is a modal dialog as every other (docs/PRODUCT.md, The interface contract): the focus goes to Cancel, the answer
+// that loses nothing, and stays inside it (Tab past the last button comes back to the first); Escape, in its dialog key
+// context, is a dismissal, which answers Cancel; and once answered the focus goes back to what had it when it was
+// asked.
 import { useEffect, useRef, useState, type FocusEvent } from 'react';
 import { useEditorState, useStore } from '../store.ts';
 import { MESSAGE_IDS, type MessageId } from '../../generated/ids.ts';
@@ -45,7 +46,8 @@ function Asked() {
   const count = params.count;
   const plural = typeof count === 'number' ? (`${waiting.message}.${pluralForm(locale, count)}` as MessageId) : null;
   const question = plural !== null && (MESSAGE_IDS as readonly string[]).includes(plural) ? plural : waiting.message;
-  // the focus stays in the dialog: an edge after the last button sends it to the first, one before the first to the last
+  // the focus stays in the dialog: an edge after the last button sends it to the first, one before the first to the
+  // last
   const wrap = (event: FocusEvent<HTMLSpanElement>) => {
     const buttons = [...(box.current?.querySelectorAll<HTMLElement>('button') ?? [])];
     (event.currentTarget.dataset.edge === 'first' ? buttons[0] : buttons[buttons.length - 1])?.focus();

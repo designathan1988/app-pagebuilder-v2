@@ -1,5 +1,5 @@
-// The border field's text parted into style.setBorder's arguments (border.ts borderArgs): a whole border into its width,
-// style and colour; an aspect's field into that aspect alone.
+// The border field's text parted into style.setBorder's arguments (border.ts borderArgs): a whole border into its
+// width, style and colour; an aspect's field into that aspect alone.
 import { describe, expect, it } from 'vitest';
 import { manifest } from '../../manifest/runtime.ts';
 import { rulesFromManifest } from '../document/validate.ts';

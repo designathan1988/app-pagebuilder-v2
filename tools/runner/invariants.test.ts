@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 // @vitest-environment-options {"settings":{"disableCSSFileLoading":true,"handleDisabledFileLoadingAsSuccess":true,"disableJavaScriptFileLoading":true}}
-// The invariant probe in the gate (the audit's phase 3, promoted from its scratch probe; plan phase C5). The editor's own
-// store, frozen as in development, where a model breach throws:
+// The invariant probe in the gate (the audit's phase 3, promoted from its scratch probe; plan phase C5). The editor's
+// own store, frozen as in development, where a model breach throws:
 //  - random sequences of commands, drawn from every built door that runs without a browser, with arguments taken from
 //    what the document holds (and sometimes not): no throw, no refusal without words, no refusal that changed the
 //    document, a document the model takes after every step, and undoing everything returns exactly to the start. The
@@ -80,24 +80,37 @@ function argsFor(choice: Choice, document: DocumentJson, draw: Draw): Record<str
     if (args[name] !== undefined && args[name] !== '') continue;
     if (arg.optional && chance(0.5)) continue;
     switch (arg.type) {
-      case 'node': args[name] = chance(0.95) ? pick(nodes) : 'nope'; break;
-      case 'nodes': args[name] = [pick(nodes), pick(nodes)].filter((x) => x !== undefined); break;
-      case 'path': args[name] = pick([...(document.files ?? []).map((f) => f.path), ...document.pages.map((p) => p.file)]) ?? 'index.html'; break;
+      case 'node': args[name] = chance(0.95) ? pick(nodes) : 'nope';
+        break;
+      case 'nodes': args[name] = [pick(nodes), pick(nodes)].filter((x) => x !== undefined);
+        break;
+      case 'path': args[name] = pick([...(document.files ?? []).map((f) => f.path), ...document.pages.map((p) => p.file)]) ?? 'index.html';
+        break;
       case 'string': {
         const held = HELD[arg.refers ?? name]?.(document) ?? [];
         args[name] = arg.values.length > 0 ? pick(arg.values) : held.length > 0 && chance(0.75) ? pick(held) : pick(TEXTS);
         break;
       }
-      case 'enum': args[name] = pick(arg.values); break;
-      case 'integer': args[name] = pick(NUMBERS); break;
-      case 'number': args[name] = (pick(NUMBERS) ?? 0) * (chance(0.3) ? 0.5 : 1); break;
-      case 'boolean': args[name] = chance(0.5); break;
-      case 'breakpoint': args[name] = pick(['desktop', 'laptop', 'tablet', 'phone', ...(document.breakpoints ?? []).map((b) => b.id)]); break;
-      case 'state': args[name] = pick(['base', 'hover', 'focus', 'active', 'visited']); break;
-      case 'color': args[name] = pick(['#ff0000', 'red', 'var(--brand)', 'oklch(0.6 0.1 200)', 'transparent']); break;
-      case 'attribute': args[name] = pick(['href', 'alt', 'title', 'id', 'aria-label']); break;
-      case 'property': args[name] = pick(PROPERTIES); break;
-      case 'palette-entry': args[name] = pick(PALETTE); break;
+      case 'enum': args[name] = pick(arg.values);
+        break;
+      case 'integer': args[name] = pick(NUMBERS);
+        break;
+      case 'number': args[name] = (pick(NUMBERS) ?? 0) * (chance(0.3) ? 0.5 : 1);
+        break;
+      case 'boolean': args[name] = chance(0.5);
+        break;
+      case 'breakpoint': args[name] = pick(['desktop', 'laptop', 'tablet', 'phone', ...(document.breakpoints ?? []).map((b) => b.id)]);
+        break;
+      case 'state': args[name] = pick(['base', 'hover', 'focus', 'active', 'visited']);
+        break;
+      case 'color': args[name] = pick(['#ff0000', 'red', 'var(--brand)', 'oklch(0.6 0.1 200)', 'transparent']);
+        break;
+      case 'attribute': args[name] = pick(['href', 'alt', 'title', 'id', 'aria-label']);
+        break;
+      case 'property': args[name] = pick(PROPERTIES);
+        break;
+      case 'palette-entry': args[name] = pick(PALETTE);
+        break;
       default: return null;
     }
   }

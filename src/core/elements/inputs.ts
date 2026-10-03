@@ -116,8 +116,8 @@ export const setLabelTargetCommand = registerHandler('element.setLabelTarget', (
   return { kind: 'change', patches, message: message('status.label.target', { name: label.node.name, control: target.node.name }) };
 });
 
-// The form controls a label may point at: the inputs, text areas, selects, buttons, meters, progress bars and outputs of
-// the document, in document order.
+// The form controls a label may point at: the inputs, text areas, selects, buttons, meters, progress bars and outputs
+// of the document, in document order.
 const CONTROLS = new Set(['input', 'textarea', 'select', 'button', 'meter', 'progress', 'output']);
 const LABEL = 'label';
 export function formControls(document: DocumentJson): DocNode[] {

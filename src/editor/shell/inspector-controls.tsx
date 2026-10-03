@@ -76,7 +76,8 @@ function FieldInput({ entry, target, label, available }: { readonly entry: DoorE
   const d = entry.door;
   const off = available ? '' : ' is-unavailable';
   const ariaDisabled = available ? undefined : true;
-  // a field the door draws as a button (its drawnAs): an editor's action, or one fixed value (Spread writes space-between)
+  // a field the door draws as a button (its drawnAs): an editor's action, or one fixed value (Spread writes
+  // space-between)
   if (d.kind === 'inspector-field' && d.drawnAs === 'button') {
     return (
       <button type="button" className={`door door--button${off}`} aria-disabled={ariaDisabled} aria-label={label}>
@@ -195,7 +196,20 @@ function FieldControl({ entry, bare = false, labelled = false, prefix = null, ro
     // A row whose value is a colour, whatever the command that types its text (the border's colour, outline-color):
     // its swatch opens the colour picker on that property, which writes it through the one writer of a property
     // (core/style/set.ts writePropertyText) — the composite landing on its longhands (A3.29, finding 57)
-    return <TextStyleField entry={entry} door={door} property={edited} longhands={entry.door.composite !== null ? (target.longhands ?? null) : null} label={door.label} ownCommand colour={isColourValue(edited)} bare={bare} labelled={labelled} prefix={prefix} />;
+    return (
+      <TextStyleField
+        entry={entry}
+        door={door}
+        property={edited}
+        longhands={entry.door.composite !== null ? (target.longhands ?? null) : null}
+        label={door.label}
+        ownCommand
+        colour={isColourValue(edited)}
+        bare={bare}
+        labelled={labelled}
+        prefix={prefix}
+      />
+    );
   }
   // an image field (the background image): its own command, the same field
   if (target.control === 'image-field' && entry.door.kind === 'inspector-field' && entry.door.drawnAs === 'field' && entry.door.property !== null && 'property' in entry.command.args) {
@@ -216,8 +230,8 @@ function FieldControl({ entry, bare = false, labelled = false, prefix = null, ro
 }
 
 // The part of a value a field edits alone, by its door's control (manifest data): a translate axis (translate-x,
-// translate-y: style.set with the whole translate, core/style/functions.ts translateWith), or one function of a filter or
-// a transform (filter-blur, transform-skew-x: the door's command with that function's argument); null for any other.
+// translate-y: style.set with the whole translate, core/style/functions.ts translateWith), or one function of a filter
+// or a transform (filter-blur, transform-skew-x: the door's command with that function's argument); null for any other.
 function partOfField(entry: DoorEntry): FieldPart | null {
   if (entry.door.kind !== 'inspector-field' || entry.door.property === null) return null;
   const { control, property } = entry.door;
@@ -400,7 +414,9 @@ export function PairShorthand({ entry }: { readonly entry: DoorEntry }) {
     setValue('');
   };
   return (
-    <form className="input-wrap" data-door={entry.ref} data-args={JSON.stringify({ property })} title={door.title} onSubmit={(event) => { event.preventDefault(); keep(); }}>
+    <form className="input-wrap" data-door={entry.ref} data-args={JSON.stringify({ property })} title={door.title} onSubmit={(event) => { event.preventDefault();
+      keep();
+    }}>
       <input className="input" aria-label={t(fieldLabelKey(entry))} disabled={!door.available} value={value} onChange={(event) => setValue(event.target.value)} onBlur={keep} spellCheck={false} />
     </form>
   );
@@ -409,13 +425,15 @@ export function PairShorthand({ entry }: { readonly entry: DoorEntry }) {
 // The sides of a box in the order a box composite lists its longhands (CSS Box 3: top, right, bottom, left), each named
 // as CSS Logical Properties name it in a horizontal, top-to-bottom writing mode; the side argument of style.setSpacing.
 const BOX_SIDES = ['block-start', 'inline-end', 'block-end', 'inline-start'] as const;
-// the link of a box (inspector.toggleSpacingLink): the style region's control whose command takes a box and nothing else
+// the link of a box (inspector.toggleSpacingLink): the style region's control whose command takes a box and nothing
+// else
 export const SPACING_LINK = doorSlots('inspector-style').find((d) => d.door.kind === 'panel-control' && d.door.drawnAs === 'icon-button' && Object.keys(d.command.args).join() === 'box');
 
-// A field of the box model (spec props-spacing): one side of a box, or, while the box is linked, its four sides. It shows
-// the value the primary selected element holds (the four sides' when they agree, else nothing), else the value the page
-// computes; it is the one field of a form of its own, so Enter submits it and keeps what it holds with its door's command
-// (style.setSpacing, with its box and sides), as leaving it with typing not kept yet does (one undo step).
+// A field of the box model (spec props-spacing): one side of a box, or, while the box is linked, its four sides. It
+// shows the value the primary selected element holds (the four sides' when they agree, else nothing), else the value
+// the page computes; it is the one field of a form of its own, so Enter submits it and keeps what it holds with its
+// door's command (style.setSpacing, with its box and sides), as leaving it with typing not kept yet does (one undo
+// step).
 // the key context of a side of the box, whose Escape (field.cancel for the box: the form stands for it as `property`)
 // puts back the value the document holds; the message it gives rewrites the side, so leaving it writes nothing (spec
 // inspector-number-fields, Problems in Pager 4)
@@ -463,7 +481,8 @@ function SpacingField({ entry, box, sides, properties, where, label }: { readonl
       className={`box__side box__side--${where}`}
       data-origin={appearance.kind}
       data-door={entry.ref}
-      // a side stands for its longhand (its arrows step it: field.step, and Escape names it), the linked box for the box
+      // a side stands for its longhand (its arrows step it: field.step, and Escape names it), the linked box for the
+      // box
       data-args={JSON.stringify({ box, sides, property: properties.length === 1 ? properties[0] : box })}
       title={door.title}
       onSubmit={(event) => {
@@ -531,7 +550,8 @@ export function BoxModel({ doors }: { readonly doors: readonly DoorEntry[] }) {
     };
     return (
       <div className={`box box--${target.id}${linked ? ' is-linked' : ''}`}>
-        {/* the box's label stands for its composite door while the box is unlinked; linked, the four sides' field does */}
+        {/* the box's label stands for its composite door while the box is unlinked; linked, the four sides' field
+           does */}
         <span className="box__label" data-door={linked ? undefined : box.ref} data-args={linked ? undefined : JSON.stringify({ box: target.id, sides: 'all' })}>
           {t(target.labelKey as MessageId)}
         </span>
@@ -561,8 +581,8 @@ export function BoxModel({ doors }: { readonly doors: readonly DoorEntry[] }) {
 // Settings tab; Interactions: its own tab) is not a Style section.
 
 export const ANCHOR_CONTROL = 'anchor-control';
-// the rows follow position.setAnchors's edges in the manifest's order: left, right, top, bottom, the two centres, the two
-// stretches; a door's label is its edge's (command.anchor.<edge in camel case>)
+// the rows follow position.setAnchors's edges in the manifest's order: left, right, top, bottom, the two centres, the
+// two stretches; a door's label is its edge's (command.anchor.<edge in camel case>)
 const camel = (edge: string) => edge.replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
 function anchorRows(entry: DoorEntry): readonly (readonly string[])[] {
   const [left = '', right = '', top = '', bottom = '', horizontalCenter = '', verticalCenter = '', horizontalStretch = '', verticalStretch = ''] = entry.command.args.edge?.values ?? [];
@@ -607,7 +627,8 @@ export function AnchorControl({ entry }: { readonly entry: DoorEntry }) {
   );
 }
 
-// The kinds of element every selected element is of (core/style/applies.ts), as one text so the hook's answer is stable.
+// The kinds of element every selected element is of (core/style/applies.ts), as one text so the hook's answer is
+// stable.
 export const useSelectionKinds = (): readonly string[] =>
   useEditorState((s) => kindsOf(s.selection.flatMap((id) => locate(s.document, id)?.node ?? []), MODEL_RULES).join(' '))
     .split(' ')

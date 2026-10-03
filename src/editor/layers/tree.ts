@@ -117,8 +117,8 @@ export const collapseAll = registerHandler<'layers.collapseAll', EditorUi>('laye
 
 export const expandAll = registerHandler<'layers.expandAll', EditorUi>('layers.expandAll', ({ state }) => ({ kind: 'change', ui: withCollapsed(state.ui, []), message: message('status.layers.expandedAll') }));
 
-// layers.setRowDetails shows or hides one detail beside each row's name (spec layers-row-columns): the HTML tag, the id,
-// the classes, the attributes; the choice is a preference, kept after a reload. Its menu item stands for the detail
+// layers.setRowDetails shows or hides one detail beside each row's name (spec layers-row-columns): the HTML tag, the
+// id, the classes, the attributes; the choice is a preference, kept after a reload. Its menu item stands for the detail
 // being shown; run without `shown` (its menu item), it turns the detail over.
 export const setRowDetails: RegisteredHandler<'layers.setRowDetails', EditorUi> = registerHandler(
   'layers.setRowDetails',

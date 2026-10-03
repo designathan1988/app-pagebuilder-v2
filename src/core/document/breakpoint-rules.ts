@@ -1,6 +1,6 @@
-// The project's breakpoints as the document and the model rules hold them (spec project-breakpoints): the table's shape,
-// what makes a table a project's, and the rules and output a table gives. No manifest here: the validator and the
-// generator read it before the manifest's runtime exists (core/document/breakpoints.ts adds the default table).
+// The project's breakpoints as the document and the model rules hold them (spec project-breakpoints): the table's
+// shape, what makes a table a project's, and the rules and output a table gives. No manifest here: the validator and
+// the generator read it before the manifest's runtime exists (core/document/breakpoints.ts adds the default table).
 import type { ModelRules } from './validate.ts';
 import type { OutputModel } from '../render/output.ts';
 

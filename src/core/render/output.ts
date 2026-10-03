@@ -91,9 +91,9 @@ export function outputModelFromManifest(elements: ElementsFile, properties: Prop
 // one line for the canvas, or, laid out as a stylesheet a person reads (the export), one declaration per line indented
 // by two spaces.
 // The units the canvas resolves itself (the user's real-use audit, item 2.3): the page inside the editor's frame takes
-// the breakpoint's screen as its viewport, so vh, svh, dvh and lvh measure that screen — what the site shows in a window
-// of the breakpoint's size — wherever a value writes them, while the export keeps the units the person typed. vw and
-// its siblings need no rewriting: the frame is exactly the breakpoint wide.
+// the breakpoint's screen as its viewport, so vh, svh, dvh and lvh measure that screen — what the site shows in a
+// window of the breakpoint's size — wherever a value writes them, while the export keeps the units the person typed. vw
+// and its siblings need no rewriting: the frame is exactly the breakpoint wide.
 const VIEWPORT_HEIGHT = new RegExp('(^|[^a-z0-9.-])(-?(?:[0-9]+[.]?[0-9]*|[.][0-9]+))(svh|dvh|lvh|vh)(?![a-z])', 'gi');
 export function viewportUnits(text: string, screen: { readonly height: number }): string {
   return text.replace(VIEWPORT_HEIGHT, (_all, before: string, n: string) => `${before}${Math.round((Number(n) * screen.height) / 100 * 100) / 100}px`);
@@ -109,7 +109,8 @@ export function nodeCss(node: Pick<DocNode, 'styles'> & { readonly type?: string
   const blocks: string[] = [];
   for (const breakpoint of model.breakpoints) {
     const byState = node.styles[breakpoint.id as keyof DocNode['styles']];
-    // a base rule an animation adds to: written even where the element holds no value of its own (spec export-keyframes)
+    // a base rule an animation adds to: written even where the element holds no value of its own (spec
+    // export-keyframes)
     if (!byState && !(breakpoint.base && extra.length > 0)) continue;
     const rules: string[] = [];
     for (const [state, details] of model.states) {
@@ -151,9 +152,9 @@ export function declarationLines(
   return layout === 'block' ? compactDeclarations(lines, model.composites ?? []) : lines;
 }
 
-// The project's style classes as their rules (spec shared-style-classes): each class that holds styles, in the project's
-// order, its selector the class; the canvas and the export write them before every element's rules, so an element's own
-// values, of the same specificity, override them.
+// The project's style classes as their rules (spec shared-style-classes): each class that holds styles, in the
+// project's order, its selector the class; the canvas and the export write them before every element's rules, so an
+// element's own values, of the same specificity, override them.
 export function classesCss(classes: readonly StyleClass[], model: OutputModel, layout: 'line' | 'block' = 'line'): string {
   return classes
     .map((c) => nodeCss(c, `.${c.name}`, model, layout))

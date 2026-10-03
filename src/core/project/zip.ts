@@ -197,7 +197,8 @@ async function inflate(raw: Uint8Array, path: string, declared: number): Promise
       chunks.push(value);
     }
   } catch (error) {
-    // a deflate stream that is broken, cut short or followed by more data (the Compression Streams standard's TypeError)
+    // a deflate stream that is broken, cut short or followed by more data (the Compression Streams standard's
+    // TypeError)
     throw error instanceof ArchiveError ? error : damaged(path);
   }
   const out = new Uint8Array(length);

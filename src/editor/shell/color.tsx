@@ -69,7 +69,16 @@ function PickerButton({ entry, className }: { readonly entry: DoorEntry; readonl
 
 // A text field of the picker (the colour text, a channel): a form of its own, so Enter keeps what it holds; leaving it
 // with typing not kept yet keeps it too. It shows `shown` again whenever that changes or a message is said.
-function PickerText({ entry, args, shown, label, keep, className, keyText }: { readonly entry: DoorEntry; readonly args: Readonly<Record<string, unknown>>; readonly shown: string; readonly label: string; readonly keep: (text: string) => void; readonly className: string; readonly keyText?: string }) {
+function PickerText({ entry, args, shown, label, keep, className, keyText }: {
+  readonly entry: DoorEntry;
+  readonly args: Readonly<Record<string,
+  unknown>>;
+  readonly shown: string;
+  readonly label: string;
+  readonly keep: (text: string) => void;
+  readonly className: string;
+  readonly keyText?: string
+}) {
   const door = useDoor(entry, args, label, isFeatureBuilt(entry.door.feature as FeatureId));
   const said = useEditorState((s) => s.message);
   const input = useRef<HTMLInputElement>(null);
@@ -123,7 +132,17 @@ function PickerText({ entry, args, shown, label, keep, className, keyText }: { r
 
 // A slider of the picker (hue, alpha, the area's saturation and brightness for the keyboard): a native range, so it is
 // a focusable slider with its value text; each change writes the colour it makes.
-function PickerSlider({ entry, property, label, value, max, text, onValue, className, style }: { readonly entry: DoorEntry | null; readonly property: string; readonly label: string; readonly value: number; readonly max: number; readonly text: string; readonly onValue: (n: number) => void; readonly className: string; readonly style?: CSSProperties }) {
+function PickerSlider({ entry, property, label, value, max, text, onValue, className, style }: {
+  readonly entry: DoorEntry | null;
+  readonly property: string;
+  readonly label: string;
+  readonly value: number;
+  readonly max: number;
+  readonly text: string;
+  readonly onValue: (n: number) => void;
+  readonly className: string;
+  readonly style?: CSSProperties
+}) {
   const slider = (
     <input
       type="range"
@@ -145,8 +164,9 @@ function PickerSlider({ entry, property, label, value, max, text, onValue, class
   );
 }
 
-// A door of the picker drawn as its icon (Save current, a saved colour's ×, the eyedropper), standing for its arguments;
-// `act` runs it when it is not the door's own run with those arguments (the eyedropper asks the browser first).
+// A door of the picker drawn as its icon (Save current, a saved colour's ×, the eyedropper), standing for its
+// arguments; `act` runs it when it is not the door's own run with those arguments (the eyedropper asks the browser
+// first).
 function PickerIcon({ entry, args, ready = true, act }: { readonly entry: DoorEntry; readonly args: Readonly<Record<string, unknown>>; readonly ready?: boolean; readonly act?: () => void }) {
   const door = useDoor(entry, args, undefined, ready && isFeatureBuilt(entry.door.feature as FeatureId));
   return (
@@ -351,8 +371,13 @@ function Picker({ property, previous }: { readonly property: string; readonly pr
     return s.selection.length > 1 ? t('canvas.selectedCount', { count: s.selection.length }) : node.name;
   });
   const popover = useAnchor(property);
-  useOutsideLayer(popover, true, () => { const cancel = partFor('cancel'); if (cancel) run(cancel, {}); });
-  useLayoutEffect(() => { popover.current?.focus(); }, [popover]);
+  useOutsideLayer(popover, true, () => {
+    const cancel = partFor('cancel');
+    if (cancel) run(cancel, {});
+  });
+  useLayoutEffect(() => {
+    popover.current?.focus();
+  }, [popover]);
   // The `setsAlpha` part is the one that makes the alpha itself (its slider): its write keeps what it makes. Every
   // other pick writes the colour opaque when the colour the picker shows is fully transparent (item 6.5).
   const write = (entry: DoorEntry | undefined, colour: Rgba, setsAlpha = false) => {

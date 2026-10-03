@@ -46,8 +46,8 @@ const useOptionLabel = (): ((key: string) => string) => {
   };
 };
 
-// the trigger or the action a typed text names: an offered value typed as it is, or in its words, in any case; any other
-// text goes as typed (the command says it is not one)
+// the trigger or the action a typed text names: an offered value typed as it is, or in its words, in any case; any
+// other text goes as typed (the command says it is not one)
 const chosenOf =
   (offered: readonly string[], words: (value: string) => string) =>
   (typed: string): string => {

@@ -39,7 +39,8 @@ export function StatusBar() {
   const shownPage = useEditorState((s) => openedPage(s));
   const tree = document.pages[shownPage]?.tree;
   const count = tree === undefined ? 0 : [...walk(tree)].length;
-  // the breakpoint the canvas shows and its width (spec breakpoints-switch), and the state being edited (view/setStyleState)
+  // the breakpoint the canvas shows and its width (spec breakpoints-switch), and the state being edited
+  // (view/setStyleState)
   const breakpoint = useEditorState((s) => activeBreakpoint(s));
   const state = useEditorState((s) => activeState(s.ui));
   // while a drag goes on (pointer.ts), an element's or a palette tile's, the message is the drop's own words, as its
@@ -155,8 +156,9 @@ function Breadcrumb({ entry }: { readonly entry: DoorEntry }) {
   );
 }
 
-// The size of the selection in page pixels (one element's, or the box holding several), re-measured on every frame while one is selected: the page's
-// layout follows styles, the zoom and scrolling, so a measurement taken once goes stale.
+// The size of the selection in page pixels (one element's, or the box holding several), re-measured on every frame
+// while one is selected: the page's layout follows styles, the zoom and scrolling, so a measurement taken once goes
+// stale.
 function SelectionSize() {
   const t = useT();
   // every selected element (one text, a stable input): with several, the box that holds them all

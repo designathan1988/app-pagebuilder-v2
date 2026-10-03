@@ -16,8 +16,8 @@
 // is not selected, in one transaction; the relative order of the selected nodes is kept and they never leave their
 // parent. One command for every door (spec, Problems 2). Roots that do not share one parent are refused, and so is a
 // locked root or one inside a locked element (spec lock-element); so is a press that moves nothing: the first (last)
-// place says "Already at the start (end) of <parent>" and adds no history entry. The status bar names the one moved node with its new position among its siblings, or counts several
-// (spec, Problems 1). The selection stays as it is.
+// place says "Already at the start (end) of <parent>" and adds no history entry. The status bar names the one moved
+// node with its new position among its siblings, or counts several (spec, Problems 1). The selection stays as it is.
 import type { NodeId } from '../../generated/commands.ts';
 import { message, registerHandler, registerPredicate, type Message, type Outcome } from '../commands/registry.ts';
 import { instanceMoveRefusal } from '../design/components.ts';

@@ -100,9 +100,11 @@ export function matchScore(query: string, label: string): number | null {
   return first !== undefined && text.startsWith(first) ? score + 1 : score;
 }
 
-// The parts of a label the query's words match, as the bar marks them (the canonical palette: "Exp" of "Export project"):
+// The parts of a label the query's words match, as the bar marks them (the canonical palette: "Exp" of "Export
+// project"):
 // each word where matchScore found it, at the start of a word of the label, else anywhere in it; initials and a label
-// whose folded text does not keep its length mark nothing. Ranges in the label's own characters, sorted, never overlapping.
+// whose folded text does not keep its length mark nothing. Ranges in the label's own characters, sorted, never
+// overlapping.
 export function matchedRanges(query: string, label: string): readonly (readonly [number, number])[] {
   const folded = fold(label);
   if (folded.length !== label.length) return [];

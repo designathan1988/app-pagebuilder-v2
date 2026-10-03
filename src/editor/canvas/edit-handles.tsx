@@ -50,7 +50,8 @@ interface Box {
   readonly height: number;
 }
 const MIN_BAND = numberConstant('spacing.minBand');
-// a band thinner than this keeps its number for the pointer and the focus (the audit's U-036: 4 to 6 px bands spilled it)
+// a band thinner than this keeps its number for the pointer and the focus (the audit's U-036: 4 to 6 px bands spilled
+// it)
 const VALUE_MIN_BAND = numberConstant('spacing.valueMinBand');
 // the room an element wants before a control of the screen may cover it: the same the resize handles ask for
 const ROOM = numberConstant('resize.handleRoom');
@@ -68,8 +69,9 @@ const COMPOSITES = manifest.properties.composites;
 const longhandsOf = (box: string): readonly string[] => COMPOSITES.find((c) => c.id === box)?.longhands ?? [];
 // the gap longhands, row first: those of the gap handle that writes both (manifest)
 const [ROW_GAP = '', COLUMN_GAP = ''] = manifest.doors.find((d) => d.door.kind === 'canvas-handle' && 'property' in d.command.args && d.door.adapter.writes.length === 2)?.door.adapter.writes ?? [];
-// The divider between two children of a row (element.setDivider; the user's real-use audit, item 8.1): the canvas-handle
-// door whose command takes the boundary's place among the children, drawn on every boundary of a row's columns.
+// The divider between two children of a row (element.setDivider; the user's real-use audit, item 8.1): the
+// canvas-handle door whose command takes the boundary's place among the children, drawn on every boundary of a row's
+// columns.
 const DIVIDER: DoorEntry | undefined = manifest.doors.find((d) => d.door.kind === 'canvas-handle' && 'index' in d.command.args);
 // the grip's width on the screen, and the least a column may measure (interactions.json)
 const DIVIDER_GRIP = numberConstant('divider.grip');

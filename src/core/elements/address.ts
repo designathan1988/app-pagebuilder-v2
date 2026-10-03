@@ -6,7 +6,8 @@
 // What an address may be:
 //  - empty, which removes it (the caller decides; `readAddress` says ok with an empty value);
 //  - a fragment of the page itself ("#inicio");
-//  - a relative address inside the site ("/about", "about.html", "../img/a.png"), or a path of the project ("img/logo.png");
+//  - a relative address inside the site ("/about", "about.html", "../img/a.png"), or a path of the project
+//    ("img/logo.png");
 //  - a web address ("https://example.com/a"?x=1", "http://…");
 //  - an email or a phone address ("mailto:ana@example.com", "tel:+55 11 99999-0000");
 //  - a domain typed without a scheme ("example.com/about"), which is normalised to https://example.com/about — the one

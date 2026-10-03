@@ -44,8 +44,8 @@ export const toggleFolds = registerHandler(
   ({ state }) => toggled(state, 'foldLines', 'status.grid.foldsShown', 'status.grid.foldsHidden'),
   (state) => gridShown(state, 'foldLines'),
 );
-// The fold lines a page of this height has: one at each whole screen, the first at the first screen's end (a page 3000px
-// tall on a 900px screen has folds at 900, 1800 and 2700, labelled Fold 1, Fold 2 and Fold 3).
+// The fold lines a page of this height has: one at each whole screen, the first at the first screen's end (a page
+// 3000px tall on a 900px screen has folds at 900, 1800 and 2700, labelled Fold 1, Fold 2 and Fold 3).
 export function foldLines(pageHeight: number, screen: number): readonly number[] {
   if (screen <= 0 || pageHeight <= 0) return [];
   const folds: number[] = [];

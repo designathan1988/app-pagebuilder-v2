@@ -124,7 +124,8 @@ function project(graph: LayoutIntent, constraint: Constraint): LayoutIntent {
       const dimension = constraint.dimension;
       let box = r.box;
       if (dimension.mode === 'fill-available') {
-        // fill what is left: forward to the next obstacle and, when nothing stands before it, back to the parent's start
+        // fill what is left: forward to the next obstacle and, when nothing stands before it, back to the parent's
+        // start
         const start = startLimit(graph, r, axis);
         const first = !graph.regions.some((s) => s.parent === r.parent && s.id !== r.id && end(s.box, axis) <= r.box[axis] + precision && inBand(s.box, r.box, axis));
         const from = first ? start : r.box[axis];

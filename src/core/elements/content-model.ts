@@ -248,8 +248,8 @@ export function childrenRefusal(rules: ModelRules, tag: string, children: readon
 // (status.refused.onlyAccepts); an element that only exists inside certain parents (status.refused.requiresParent); a
 // receiver that holds at most one of an element and has it already (status.refused.singleChild); interactive content
 // inside interactive content (status.refused.interactiveInside); an ancestor, or the receiver, that excludes an
-// arriving element or something inside it (status.refused.notInside). `staying` names nodes already among the receiver's
-// children that the change keeps there (a move among siblings), which do not count as the one it holds.
+// arriving element or something inside it (status.refused.notInside). `staying` names nodes already among the
+// receiver's children that the change keeps there (a move among siblings), which do not count as the one it holds.
 export function placementRefusal(document: DocumentJson, rules: ModelRules, receiver: NodeId, arriving: readonly DocNode[], staying: ReadonlySet<NodeId> = new Set()): Message | null {
   const model = rules.contentModel;
   const chain = lineage(document, receiver);

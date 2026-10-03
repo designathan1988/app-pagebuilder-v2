@@ -11,9 +11,9 @@
 //    Pager 2: never refused without a word), and nothing changes.
 //  - A locked element, or one inside a locked element, is refused (lockRefusal of flags.ts) and keeps its value.
 //  - The same value records nothing (history.noChange "no-entry"); the status bar says the value either way.
-// Every command that writes CSS properties on an element (style.set, a handle's resize, the spacing handles) writes them
-// through writeDeclarations, the one writer of an element's declarations at a breakpoint and state, so the document
-// keeps one shape: styles → breakpoint → state → property → value, each level created when it is first needed.
+// Every command that writes CSS properties on an element (style.set, a handle's resize, the spacing handles) writes
+// them through writeDeclarations, the one writer of an element's declarations at a breakpoint and state, so the
+// document keeps one shape: styles → breakpoint → state → property → value, each level created when it is first needed.
 // Where they are written (styleHolders, spec shared-style-classes): the selected elements' styles, or, while a class
 // every selected element lists is the editor's style target, that class's alone (core/design/classes.ts targetClass);
 // the status bar then names the class as .name.
@@ -42,8 +42,8 @@ const CHILDREN = 'children';
 const SPREAD_CODECS: ReadonlySet<string> = new Set(['box-sides', 'box-corners', 'axis-pair']);
 
 // What a style write of the selection writes into: a node whose styles it writes (an element, or a class read as the
-// primary element holding the class's styles, for the couplings and recipes), the path of that node's holder, the parent
-// the couplings read, and the name the status bar says.
+// primary element holding the class's styles, for the couplings and recipes), the path of that node's holder, the
+// parent the couplings read, and the name the status bar says.
 export interface StyleHolder {
   readonly node: DocNode;
   readonly path: readonly (string | number)[];
@@ -150,7 +150,8 @@ function heldAt(node: DocNode, property: string, rules: ModelRules): StoredValue
   return declarations?.[property];
 }
 
-// What a field shows for a property at the layer the editor edits (rules.base; spec breakpoint-overrides, state-styles):
+// What a field shows for a property at the layer the editor edits (rules.base; spec breakpoint-overrides,
+// state-styles):
 // the value set there, else the one it inherits, desktop first: the same state at each larger breakpoint in turn, then
 // the base state from the active breakpoint up; with where it was found. Undefined when no layer sets it.
 export function shownValue(node: DocNode, property: string, rules: ModelRules): { readonly value: StoredValue; readonly breakpoint: string; readonly state: string } | undefined {

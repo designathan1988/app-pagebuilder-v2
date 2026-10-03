@@ -2,8 +2,8 @@
 // elements (predicate positionedSelection), as drawn: their border boxes in page px (the layout port).
 //  - position.align: several elements line up on an edge or the centre of the selection's bounds; one element on its
 //    parent's padding box (the layout port's place).
-//  - position.distribute: three elements or more (status.distribute.needsThree) get equal gaps along an axis between the
-//    first and the last, which stay where they are.
+//  - position.distribute: three elements or more (status.distribute.needsThree) get equal gaps along an axis between
+//    the first and the last, which stay where they are.
 // Each element moves through the inset it is anchored to (core/geometry/position.ts movedInsets), all in one undo step;
 // a locked element refuses (status.locked.move). The status bar names the command and how many elements it moved.
 import type { NodeId, Rect } from '../../generated/commands.ts';

@@ -158,7 +158,21 @@ interface Report {
   readonly unusedClasses: string[];
 }
 
-const emptyReport = (): Report => ({ scripts: [], handlers: [], unwrapped: [], repaired: [], dropped: [], attributes: [], unmapped: new Map(), approximated: new Map(), declarations: new Map(), sheetsMissing: [], released: [], tokens: [], unusedClasses: [] });
+const emptyReport = (): Report => ({
+  scripts: [],
+  handlers: [],
+  unwrapped: [],
+  repaired: [],
+  dropped: [],
+  attributes: [],
+  unmapped: new Map(),
+  approximated: new Map(),
+  declarations: new Map(),
+  sheetsMissing: [],
+  released: [],
+  tokens: [],
+  unusedClasses: []
+});
 
 const add = (into: Map<string, number[]>, file: string, line: number): void => {
   const held = into.get(file);
@@ -470,7 +484,10 @@ function build(child: MarkupChild, builder: Builder, ancestors: readonly string[
       return { nothing: true };
     }
     if (builder.mode === 'import' && child.tag === 'style') {
-      if (builder.keepScripts) { const text = textOf(child); builder.sheets.push({ file: builder.file, css: readStylesheet(text), text }); }
+      if (builder.keepScripts) {
+        const text = textOf(child);
+        builder.sheets.push({ file: builder.file, css: readStylesheet(text), text });
+      }
       else builder.report.dropped.push(lineOfNode(builder.markup, child));
       return { nothing: true };
     }
@@ -920,8 +937,8 @@ function applyStyles(tree: DocNode, builder: Builder, sources: readonly SheetSou
       const layer = layerOf(one.media.breakpoint ?? rules.baseLayer.breakpoint, one.state);
       for (const declaration of one.rule.declarations) {
         for (const [property, value] of storedDeclarations(builder, declaration.text, declaration.line, one.source)) {
-          // importance, the style attribute, then ids, classes and types, each counted apart (as CSS ranks them: one class
-          // outweighs any number of types), then source order
+          // importance, the style attribute, then ids, classes and types, each counted apart (as CSS ranks them: one
+          // class outweighs any number of types), then source order
           const rank = [declaration.important ? 1 : 0, 0, one.bare.specificity[0], one.bare.specificity[1], one.bare.specificity[2], one.order];
           const held = layer.own.get(property);
           if (held === undefined || higher(rank, held.rank)) layer.own.set(property, { value, rank });
@@ -1027,8 +1044,8 @@ function authorClasses(pages: readonly Page[], sources: readonly SheetSource[]):
       });
     }
   }
-  // a class no element lists is the person's too (the export never writes a class for nobody): a variant kept for later,
-  // a class the person made and has not used yet (the audit's AUD-05: they were dropped without a word)
+  // a class no element lists is the person's too (the export never writes a class for nobody): a variant kept for
+  // later, a class the person made and has not used yet (the audit's AUD-05: they were dropped without a word)
   return new Set([...ruled].filter((name) => (uses.get(name) ?? 0) === 0 || (uses.get(name) ?? 0) >= 2 || notLast.has(name)));
 }
 
@@ -1190,14 +1207,19 @@ function pageFrom(file: PickedFile, builder: Builder): Page {
       if (rel.split(/\s+/).includes('stylesheet')) {
         const sheet = builder.picked.find((one) => !isHtmlFile(one.name) && (one.name === href || one.name.endsWith(`/${href}`) || one.name === href.replace(/^\.?\//, '')));
         if (sheet === undefined) builder.report.sheetsMissing.push(href);
-        else { const text = textOfFile(sheet); builder.sheets.push({ file: sheet.name, css: readStylesheet(text), text }); }
+        else { const text = textOfFile(sheet);
+          builder.sheets.push({ file: sheet.name, css: readStylesheet(text), text });
+        }
         continue;
       }
       if (rel === 'canonical') settings.push(['pageCanonical', href]);
       else if (rel.split(/\s+/).includes('icon')) settings.push(['pageFavicon', href]);
       continue;
     }
-    if (node.tag === 'style') { const text = textOf(node); builder.sheets.push({ file: builder.file, css: readStylesheet(text), text }); }
+    if (node.tag === 'style') {
+      const text = textOf(node);
+      builder.sheets.push({ file: builder.file, css: readStylesheet(text), text });
+    }
   }
   const children = buildChildren(parsed.body, 'body', ['body'], builder, lineOf(builder.markup, '<body'));
   // the body's own attributes: its classes, its inline style and the person's own attributes
@@ -1246,7 +1268,8 @@ function pageFrom(file: PickedFile, builder: Builder): Page {
   };
 }
 
-// a page setting's value as the model keeps it (a language tag, an address, a path list), or null when it cannot hold it
+// a page setting's value as the model keeps it (a language tag, an address, a path list), or null when it cannot hold
+// it
 function settingValue(valueType: string, value: string, rules: ModelRules, setting: string): string | null {
   if (valueType === 'url') {
     const read = readAddress(value);
@@ -1298,8 +1321,8 @@ export const importHtmlCommand = registerHandler('project.importHtml', (context,
   const tokens = rootTokens(context, sources, report);
   report.tokens.push(...tokens.map((token) => token.name));
   report.unusedClasses.push(...unusedClasses(pages, authors).filter((name) => definitions.has(name)));
-  // A reference that names no element of the imported pages (a link to #search, whose element was a script's, or one the
-  // model does not keep) is released as element.applyHtml releases one, so the result stays a valid document; the
+  // A reference that names no element of the imported pages (a link to #search, whose element was a script's, or one
+  // the model does not keep) is released as element.applyHtml releases one, so the result stays a valid document; the
   // report names them (the plan's stage 12: a captured page is imported whole)
   const dangling = orphanReferences({ version: state.document.version, pages });
   if (dangling.length > 0) {
@@ -1349,7 +1372,14 @@ export const importHtmlCommand = registerHandler('project.importHtml', (context,
     else held[index] = record;
   }
   // the project's languages are the project's own (spec export-clean): an import keeps them, whatever it replaces
-  const parsed = { version: state.document.version, ...projectLanguages(state.document), pages, ...(tokens.length ? { tokens } : {}), ...(definitions.size ? { classes: [...definitions].map(([name, styles]) => ({ name, styles })) } : {}), ...(held.length ? { files: held } : {}) };
+  const parsed = {
+    version: state.document.version,
+    ...projectLanguages(state.document),
+    pages,
+    ...(tokens.length ? { tokens } : {}),
+    ...(definitions.size ? { classes: [...definitions].map(([name, styles]) => ({ name, styles })) } : {}),
+    ...(held.length ? { files: held } : {})
+  };
   const composed = importDestination(context, parsed, replacing ? 'replace' : destination, (target ?? (state.selection.length === 1 ? state.selection[0] : undefined)) as NodeId | undefined);
   if ('refused' in composed) return { kind: 'refused' as const, message: composed.refused };
   const said = message('status.import.done', {

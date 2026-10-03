@@ -17,7 +17,8 @@ const INSTALLED: readonly ModuleView[] = [LAYOUT_COMPOSER_VIEW];
 export const MODULE_SIDEBAR_VIEWS: BodyTable = Object.assign({}, ...INSTALLED.map((m) => m.sidebarViews)) as BodyTable;
 export const MODULE_CANVAS_LAYERS: readonly ComponentType[] = INSTALLED.flatMap((m) => m.canvasLayers);
 
-// The canvas tools join the pointer owner once, when the editor starts (main.tsx); the function returned takes them away.
+// The canvas tools join the pointer owner once, when the editor starts (main.tsx); the function returned takes them
+// away.
 export function installModuleTools(): () => void {
   const removals = INSTALLED.flatMap((m) => m.canvasTools.map((tool) => registerPointerTool(tool)));
   return () => {

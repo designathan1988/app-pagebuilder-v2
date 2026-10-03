@@ -137,7 +137,9 @@ describe('the data the page\'s motion script is given', () => {
 
   it('writes JSON that can stand inside a script element', () => {
     const config = motionConfig(project({ motionTimelines: [fade('Intro', [{ id: 't', target: { kind: 'self' }, start: 0, duration: 0, effect: { kind: 'text', value: '</script><b> ' } }])] }), inputs);
-    const text = configText(config ?? (() => { throw new Error('no config'); })());
+    const text = configText(config ?? (() => {
+      throw new Error('no config');
+    })());
     expect(text).not.toContain('</script');
     expect(text).not.toContain(' ');
     expect(JSON.parse(text).timelines.Intro.actions[1].effect.value).toBe('</script><b> ');

@@ -11,8 +11,8 @@
 //    pending text undo) stays the input's own. Confirmed values forward undo/redo to document history via keymap.
 //  - Leaving the field with typing not kept yet (Tab, a click elsewhere, a step button, the unit menu, the label's
 //    scrub) keeps it: one undo step, before whatever the press does.
-//  - Its label is the scrub handle (the panel drag field.scrub#…, run by the pointer owner, src/editor/input/pointer.ts,
-//    which reads the text of the field marked data-number-field at the press).
+//  - Its label is the scrub handle (the panel drag field.scrub#…, run by the pointer owner,
+//    src/editor/input/pointer.ts, which reads the text of the field marked data-number-field at the press).
 //  - The step buttons run field.step with the text the field holds and the key the click holds (Shift ×10, Alt ×0.1).
 //  - The unit menu lists the units and keywords the property offers (the generated lists, All properties) and runs
 //    field.setUnit with the one chosen; like any menu it closes on a dismissal (Escape, its backdrop).
@@ -75,8 +75,8 @@ const RESET = doorSlots('field').find((p) => p.door.kind === 'panel-control' && 
 // · 2 step up · 3 step down · 4 reset this value). The region also carries the doors other components draw beside a
 // field — the colour swatch (a colour field, color.tsx) and the choose buttons of a field that names a file or a
 // link (inspector.tsx) — and those are no parts of it: drawing them here put a stray item button inside every field.
-// the parts a number field draws (spec inspector-number-fields, Problem 5): its unit menu, its step buttons (shown while
-// it is hovered or holds the focus, so they take no room from its value at rest) and its Reset
+// the parts a number field draws (spec inspector-number-fields, Problem 5): its unit menu, its step buttons (shown
+// while it is hovered or holds the focus, so they take no room from its value at rest) and its Reset
 const STEP_CONTROLS = new Set(['step-up', 'step-down']);
 const PART_CONTROLS = new Set(['unit-menu', ...STEP_CONTROLS, 'property-reset']);
 const PARTS = doorSlots('field').filter((p) => p.door.kind === 'panel-control' && PART_CONTROLS.has(p.door.control));
@@ -348,7 +348,14 @@ interface Suggestions {
   readonly labelOf: (value: string) => string;
   readonly keep: (value: string) => void;
 }
-function UnitMenu({ entry, property, shown, input, ready, suggestions }: { readonly entry: DoorEntry; readonly property: string; readonly shown: string; readonly input: { readonly current: HTMLInputElement | null }; readonly ready: boolean; readonly suggestions: Suggestions }) {
+function UnitMenu({ entry, property, shown, input, ready, suggestions }: {
+  readonly entry: DoorEntry;
+  readonly property: string;
+  readonly shown: string;
+  readonly input: { readonly current: HTMLInputElement | null };
+  readonly ready: boolean;
+  readonly suggestions: Suggestions
+}) {
   const store = useStore();
   const t = useT();
   const door = useDoor(entry, { property }, undefined, ready);
@@ -389,13 +396,16 @@ function UnitMenu({ entry, property, shown, input, ready, suggestions }: { reado
           if (door.available) layer.toggle();
         }}
       >
-        {/* a keyword is shown by the field itself: the button then shows only its menu's glyph, leaving the field its room */}
+        {/* a keyword is shown by the field itself: the button then shows only its menu's glyph, leaving the field
+           its room */}
         <span className="field__unit-value">{current === shown.trim() ? '' : current}</span>
         <Icon name={GLYPHS.dropdown} size="xs" />
       </button>
 
       {open ? (
-        <div className="menu field__menu" role="menu" ref={(element) => { list.current = element; unitList.current = element; }} aria-label={door.label} data-key-context="menu">
+        <div className="menu field__menu" role="menu" ref={(element) => { list.current = element;
+          unitList.current = element;
+        }} aria-label={door.label} data-key-context="menu">
           {suggestions.values.map((value) => (
             <button
               key={value}
@@ -500,8 +510,8 @@ function slidNumber(text: string, fallbackUnit: string): { readonly value: numbe
   return { value, unit: (match[2] ?? '') === '' ? fallbackUnit : (match[2] as string) };
 }
 
-// What a slider stands on: the number the text holds, else — a value with no number to slide, a filter function absent —
-// the neutral the slider declares, else nothing (the slider is then disabled)
+// What a slider stands on: the number the text holds, else — a value with no number to slide, a filter function absent
+// — the neutral the slider declares, else nothing (the slider is then disabled)
 function slidValue(text: string, range: { readonly unit: string; readonly neutral?: number | undefined }): { readonly value: number; readonly unit: string } | null {
   return slidNumber(text, range.unit) ?? (range.neutral === undefined ? null : { value: range.neutral, unit: range.unit });
 }
@@ -574,7 +584,9 @@ export function NumberField({ entry, door, property, label, bare = false, labell
     element.value = face;
     draft.current.typed = false;
     markFieldKept(element, face);
-    return restoreFieldDraft(element, () => { draft.current.typed = recordFieldInput(element, new Event('input')); });
+    return restoreFieldDraft(element, () => {
+      draft.current.typed = recordFieldInput(element, new Event('input'));
+    });
   }, [shown, said, t]);
   useEffect(() => {
     const element = input.current;
@@ -613,7 +625,8 @@ export function NumberField({ entry, door, property, label, bare = false, labell
       {prefix !== null ? <span className="field__prefix">{prefix}</span> : null}
       <FieldValueSlot value={mixed ? t('inspector.mixedValue') : wordOfKeyword(compactFieldValue(base, true).value, t)}>
         <input ref={input} className="input" role="spinbutton" disabled={!available} aria-label={label} inputMode="decimal" spellCheck={false} data-key-context={NUMBER_FIELD_CONTEXT} placeholder={mixed ? t('inspector.mixedValue') : effective || undefined} aria-invalid={refused.text !== null ? true : undefined} onInput={refused.dismiss} />
-        {/* the step buttons lie over the value's end, so they take no room from the number (inspector.css .field__steps) */}
+        {/* the step buttons lie over the value's end, so they take no room from the number (inspector.css
+           .field__steps) */}
         <span className="field__steps">
           {PARTS.filter((part) => part.door.kind === 'panel-control' && STEP_CONTROLS.has(part.door.control)).map((part) => (
             <StepButton key={part.ref} entry={part} property={property} shown={base} input={input} ready={available} />
@@ -621,7 +634,12 @@ export function NumberField({ entry, door, property, label, bare = false, labell
         </span>
       </FieldValueSlot>
         {PARTS.filter((part) => part.door.kind === 'panel-control' && part.door.control === 'unit-menu').map((part) => (
-          <UnitMenu key={part.ref} entry={part} property={property} shown={base} input={input} ready={available} suggestions={{ field: entry, values: tokens, labelOf: (value) => valueLabel(property, value), keep: (value) => keepValue(store, command, property, value, store.getState().selection) }} />
+          <UnitMenu key={part.ref} entry={part} property={property} shown={base} input={input} ready={available} suggestions={{
+            field: entry,
+            values: tokens,
+            labelOf: (value) => valueLabel(property, value),
+            keep: (value) => keepValue(store, command, property, value, store.getState().selection)
+          }} />
         ))}
         {bare ? null : <FieldOriginBadge label={appearance.label} />}
         {measurement !== undefined && measured !== null && base === 'auto' ? <span className="field__measurement" aria-hidden="true">{measured[measurement]}</span> : null}
@@ -710,7 +728,8 @@ export function TextStyleField({
   // so a typed one never hides the others (the user's real-use audit, item A3.33)
   readonly values?: boolean;
   // a field whose value is a colour that is a part of a larger value (a border's colour, a shadow's, a stop's): the
-  // colour is shown as a sample, a chip of it; the picker opens on the fields whose colour is the whole property (A3.29)
+  // colour is shown as a sample, a chip of it; the picker opens on the fields whose colour is the whole property
+  // (A3.29)
   readonly sample?: boolean;
   // whether a text not kept yet is kept when the field is left or goes (true, the inspector's rule: no typing is
   // lost); a quick panel field leaves it false: it keeps while the panel is open and loses the draft when the panel
@@ -792,7 +811,9 @@ export function TextStyleField({
   const valuesList = useRef<HTMLDivElement>(null);
   const valuesLayer = useMenuLayer(valuesButton, valuesList, undefined, { onOutside: () => keepPending.current(), returnFocus: input });
   const closeValues = useRef(valuesLayer.close);
-  useLayoutEffect(() => { closeValues.current = valuesLayer.close; }, [valuesLayer.close]);
+  useLayoutEffect(() => {
+    closeValues.current = valuesLayer.close;
+  }, [valuesLayer.close]);
   const valueLabel = useValueLabel();
   const command = entry.command.id;
   // the list of its suggestions, one per field (the inspector and the quick panel may draw the same property)
@@ -827,7 +848,9 @@ export function TextStyleField({
     element.value = face;
     draft.current.typed = false;
     markFieldKept(element, face);
-    return restoreFieldDraft(element, () => { draft.current.typed = recordFieldInput(element, new Event('input')); });
+    return restoreFieldDraft(element, () => {
+      draft.current.typed = recordFieldInput(element, new Event('input'));
+    });
   }, [shown, said, t]);
   useEffect(() => {
     const element = sliderInput.current;
@@ -859,12 +882,17 @@ export function TextStyleField({
     keepPending.current = keep;
     const scope = valueScope.current;
     const inside = (target: EventTarget | null) => target === element || target === valuesButton.current || (target instanceof Node && valuesList.current?.contains(target) === true);
-    const finish = () => { keep(); closeValues.current(); };
+    const finish = () => {
+      keep();
+      closeValues.current();
+    };
     const leave = (event: FocusEvent) => {
       const next = event.relatedTarget;
       // Removing a menu can report null before its focus restoration completes (Escape).
       if (next === null) {
-        queueMicrotask(() => { if (!inside(document.activeElement)) finish(); });
+        queueMicrotask(() => {
+          if (!inside(document.activeElement)) finish();
+        });
         return;
       }
       // A pointer opens the list without committing. Tab is an explicit confirmation, even onto its trigger.
@@ -922,7 +950,8 @@ export function TextStyleField({
         {!colour && !sample && (entry.door.kind === 'inspector-field' || entry.door.kind === 'quick-panel') && entry.door.icon !== null ? <Icon name={entry.door.icon} size="sm" /> : null}
         {sample ? <span className="field__sample swatch" style={{ '--swatch-colour': shown || effective } as CSSProperties} title={shown || effective} /> : null}
         {colour && COLOR_SWATCH !== undefined ? (
-          // each swatch names the field it opens the picker for (three of them read the same, the audit's accessible names)
+          // each swatch names the field it opens the picker for (three of them read the same, the audit's accessible
+          // names)
           <DoorControl entry={COLOR_SWATCH} args={{ property }} ready={door.built && primary !== null} className="field__swatch" label={t('field.swatch.of', { property: label })}>
             <span className="field__sample swatch" style={{ '--swatch-colour': shown || effective } as CSSProperties} />
           </DoorControl>
@@ -1050,10 +1079,18 @@ export function TextStyleField({
 }
 // Keyword buttons: one button per value, each the field's door standing for its value; a click keeps that value with
 // its command (one undo step), and the button of the value the primary selected element holds (else the page computes)
-// is pressed. The buttons never wrap: when their words do not fit the row's value column (Position's five), the field is
-// drawn as a keyword menu — its value on a button that opens the list of the values, each item the same door standing
-// for its value (jornada02 GENERALISATION "Keyword buttons"; the audit's S-015).
-export function KeywordButtons({ entry, door, property, values, icons, label }: { readonly entry: DoorEntry; readonly door: DoorState; readonly property: string; readonly values: readonly string[]; readonly icons: Readonly<Record<string, string>>; readonly label: string }) {
+// is pressed. The buttons never wrap: when their words do not fit the row's value column (Position's five), the field
+// is drawn as a keyword menu — its value on a button that opens the list of the values, each item the same door
+// standing for its value (jornada02 GENERALISATION "Keyword buttons"; the audit's S-015).
+export function KeywordButtons({ entry, door, property, values, icons, label }: {
+  readonly entry: DoorEntry;
+  readonly door: DoorState;
+  readonly property: string;
+  readonly values: readonly string[];
+  readonly icons: Readonly<Record<string,
+  string>>;
+  readonly label: string
+}) {
   const store = useStore();
   const primary = useEditorState((s) => s.selection[0] ?? null);
   const stored = useEditorState((s) => {
@@ -1351,7 +1388,9 @@ export function TextField({ entry, node, label, keepOnLeave = true }: { readonly
     element.value = stored;
     draft.current.typed = false;
     markFieldKept(element, stored);
-    return restoreFieldDraft(element, () => { draft.current.typed = recordFieldInput(element, new Event('input')); });
+    return restoreFieldDraft(element, () => {
+      draft.current.typed = recordFieldInput(element, new Event('input'));
+    });
   }, [stored, said]);
   useEffect(() => {
     const element = field.current;
@@ -1475,7 +1514,14 @@ export function keptTextOf(entry: DoorEntry, attribute: AttributeId, valueType: 
 // element's equivalent tags) are offered under it as the browser offers a list of suggestions for a text field. A
 // field whose door's feature is not registered as built (the page's description, until page-seo-meta) is not
 // available yet, although the command it shares is built.
-export function KeptTextField({ entry, node, kept, label, attribute, keepOnLeave = true }: { readonly entry: DoorEntry; readonly node: DocNode; readonly kept: KeptText; readonly label: string; readonly attribute?: string; readonly keepOnLeave?: boolean }) {
+export function KeptTextField({ entry, node, kept, label, attribute, keepOnLeave = true }: {
+  readonly entry: DoorEntry;
+  readonly node: DocNode;
+  readonly kept: KeptText;
+  readonly label: string;
+  readonly attribute?: string;
+  readonly keepOnLeave?: boolean
+}) {
   const store = useStore();
   const t = useT();
   // an image's Source also suggests the images the project holds (spec explorer-assets-use): the library the Explorer
@@ -1511,7 +1557,10 @@ export function KeptTextField({ entry, node, kept, label, attribute, keepOnLeave
     draft.current.shown = stored;
     markFieldKept(element, stored);
     setTyped(stored);
-    return restoreFieldDraft(element, () => { recordFieldInput(element, new Event('input')); setTyped(element.value); });
+    return restoreFieldDraft(element, () => {
+      recordFieldInput(element, new Event('input'));
+      setTyped(element.value);
+    });
   }, [stored, said]);
   // the field the inspector was asked to show (inspector.reveal) takes the focus
   const revealed = useEditorState((s) => s.ui.revealed);
@@ -1570,10 +1619,14 @@ export function KeptTextField({ entry, node, kept, label, attribute, keepOnLeave
     <form ref={form} className={`field-row${door.available ? '' : ' is-unavailable'}${refused.text !== null ? ' is-invalid' : ''}`} data-door={entry.ref} data-args={JSON.stringify(args)} title={door.title}>
       <span className="field-row__label">{label}</span>
       {kept.multiline === true ? (
-        <textarea ref={field} className="input input--area" rows={4} disabled={!door.available} aria-label={label} aria-invalid={refused.text !== null} spellCheck={false} onInput={(event) => { setTyped(event.currentTarget.value); refused.dismiss(); }} />
+        <textarea ref={field} className="input input--area" rows={4} disabled={!door.available} aria-label={label} aria-invalid={refused.text !== null} spellCheck={false} onInput={(event) => { setTyped(event.currentTarget.value);
+          refused.dismiss();
+        }} />
       ) : (
         <span className="settings-field__value">
-          <input ref={field} className="input" disabled={!door.available} aria-label={label} aria-invalid={refused.text !== null} placeholder={(attribute === 'buttonType' || attribute === 'inputType') && stored === '' ? suggestions[0] : undefined} spellCheck={false} list={suggestions.length > 0 ? listId : undefined} onInput={(event) => { setTyped(event.currentTarget.value); refused.dismiss(); }} />
+          <input ref={field} className="input" disabled={!door.available} aria-label={label} aria-invalid={refused.text !== null} placeholder={(attribute === 'buttonType' || attribute === 'inputType') && stored === '' ? suggestions[0] : undefined} spellCheck={false} list={suggestions.length > 0 ? listId : undefined} onInput={(event) => { setTyped(event.currentTarget.value);
+            refused.dismiss();
+          }} />
           {pickerType !== null ? (
             <input className="settings-field__picker" type={pickerType} aria-label={t('settings.valuePicker', { attribute: label })} disabled={!door.available} value={pickerValue} onChange={(event) => choose(event.currentTarget.value)} />
           ) : null}

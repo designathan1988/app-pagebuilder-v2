@@ -508,4 +508,27 @@ export const COMMANDS = {
 } as const satisfies CommandTable<EditorUi>;
 
 // The availability predicates code has registered; a built command's predicate must be here (createStore checks it).
-export const PREDICATES = { always, canUndo, canRedo, hasSelection, targetOrSelection, singleSelection, singleTextSelection, canUnwrap, canNestIntoPrevious, canPromote, cellSelected, inTable, hasNaturalChild, flexOrGridContainer, instanceSelected, insideInstance, positionedSelection, distributableSelection, editableSelection, organizableSelection, divideableSelection, ...MODULE_PREDICATES } as const satisfies PredicateTable<EditorUi>;
+export const PREDICATES = {
+  always,
+  canUndo,
+  canRedo,
+  hasSelection,
+  targetOrSelection,
+  singleSelection,
+  singleTextSelection,
+  canUnwrap,
+  canNestIntoPrevious,
+  canPromote,
+  cellSelected,
+  inTable,
+  hasNaturalChild,
+  flexOrGridContainer,
+  instanceSelected,
+  insideInstance,
+  positionedSelection,
+  distributableSelection,
+  editableSelection,
+  organizableSelection,
+  divideableSelection,
+  ...MODULE_PREDICATES
+} as const satisfies PredicateTable<EditorUi>;

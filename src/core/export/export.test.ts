@@ -166,8 +166,8 @@ describe('a declaration address that names a project file (spec explorer-assets-
   });
 });
 
-// The audit's AUD-02 on a whole site: every element's base rule comes before any breakpoint block, the blocks follow the
-// cascade widest first, and the same project exports the same stylesheet every time (plan STG-6.1).
+// The audit's AUD-02 on a whole site: every element's base rule comes before any breakpoint block, the blocks follow
+// the cascade widest first, and the same project exports the same stylesheet every time (plan STG-6.1).
 describe('the site stylesheet in cascade order (AUD-02)', () => {
   it('writes every element rule before the breakpoint blocks, widest first, the same text every time', async () => {
     const fs = await import('node:fs');

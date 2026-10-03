@@ -196,7 +196,9 @@ function PageNameField({ page }: { readonly page: Page }) {
     (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(PAGE_NAME.command.id as CommandId, { ...PAGE_NAME.door.args, page: page.tree.id, name });
   };
   return (
-    <form className="row__page-name" onSubmit={(event) => { event.preventDefault(); keep((event.currentTarget.elements.namedItem('name') as HTMLInputElement).value); }}>
+    <form className="row__page-name" onSubmit={(event) => { event.preventDefault();
+      keep((event.currentTarget.elements.namedItem('name') as HTMLInputElement).value);
+    }}>
       <input
         ref={input}
         className="row__name-field"
@@ -623,7 +625,16 @@ function FileRows() {
 }
 
 // the explorer-files region's controls, by what they are
-interface TreeDoors { readonly newFile: DoorEntry | undefined; readonly newFolder: DoorEntry | undefined; readonly open: DoorEntry | undefined; readonly rename: DoorEntry | undefined; readonly remove: DoorEntry | undefined; readonly move: DoorEntry | undefined; readonly target: DoorEntry | undefined; readonly fill: DoorEntry | undefined }
+interface TreeDoors {
+  readonly newFile: DoorEntry | undefined;
+  readonly newFolder: DoorEntry | undefined;
+  readonly open: DoorEntry | undefined;
+  readonly rename: DoorEntry | undefined;
+  readonly remove: DoorEntry | undefined;
+  readonly move: DoorEntry | undefined;
+  readonly target: DoorEntry | undefined;
+  readonly fill: DoorEntry | undefined
+}
 function paletteDoors(region: RegionId): TreeDoors {
   const held = doorSlots(region);
   const of = (control: string): DoorEntry | undefined => held.find((slot) => slot.door.kind === 'panel-control' && slot.door.control === control);
@@ -643,7 +654,11 @@ function NewPath({ door, folder }: { readonly door: DoorEntry; readonly folder: 
     (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(door.command.id as CommandId, { ...door.door.args, path });
   };
   return (
-    <form className="file-maker" onSubmit={(event) => { event.preventDefault(); make(String(new FormData(event.currentTarget).get('path') ?? '')); event.currentTarget.reset(); (event.currentTarget.elements.namedItem('path') as HTMLInputElement | null)?.blur(); }}>
+    <form className="file-maker" onSubmit={(event) => { event.preventDefault();
+      make(String(new FormData(event.currentTarget).get('path') ?? ''));
+      event.currentTarget.reset();
+      (event.currentTarget.elements.namedItem('path') as HTMLInputElement | null)?.blur();
+    }}>
       <Icon name={folder ? 'folder-plus' : 'file-plus'} size="sm" />
       <input
         className="input file-maker__input"
@@ -697,7 +712,9 @@ function TreeRow({ row, doors }: { readonly row: TreeRow; readonly doors: TreeDo
         </DoorControl>
       )}
       {renaming && doors.rename !== undefined ? (
-        <form className="row__rename" onSubmit={(event) => { event.preventDefault(); keepName(String(new FormData(event.currentTarget).get('name') ?? '')); }}>
+        <form className="row__rename" onSubmit={(event) => { event.preventDefault();
+          keepName(String(new FormData(event.currentTarget).get('name') ?? ''));
+        }}>
           <input
             className="input row__name-field"
             type="text"
@@ -860,7 +877,8 @@ function LayersSection() {
         ) : null}
         <span className="section-title__actions">
           <Slots region="explorer-layers" render={(slot) => (slot.kind === 'door' && slot.entry === LAYERS_HEADER ? null : undefined)} />
-          {/* away from the sidebar (floating, or docked right), the header puts the Layers back (spec floating-panels) */}
+          {/* away from the sidebar (floating, or docked right), the header puts the Layers back (spec
+             floating-panels) */}
           {layersAway && DOCK_BACK ? <DoorControl entry={DOCK_BACK} args={{ panel: 'layers' }} /> : null}
         </span>
       </div>
@@ -972,8 +990,8 @@ function Insert() {
               </DoorControl>
               {/* the tiles are the palette's key context: Enter and Space insert the focused tile's entry */}
               {open ? (
-                // a group's tiles are one Tab stop, its first tile; the arrows walk the others (the palette key context;
-                // jornada03 plan, stage 5: the Insert panel was 74 Tab stops)
+                // a group's tiles are one Tab stop, its first tile; the arrows walk the others (the palette key
+                // context; jornada03 plan, stage 5: the Insert panel was 74 Tab stops)
                 <div className="tiles" data-region="palette-tiles" data-key-context="palette">
                   {entries.map((e, index) => (
                     <DoorControl key={e.id} entry={INSERT_TILE} args={{ entry: e.id }} className="tile" label={t(e.labelKey as MessageId)} ready={isFeatureBuilt(e.feature as FeatureId)} tabbable={index === 0}>
@@ -1009,7 +1027,8 @@ function ComponentTiles({ query, density }: { readonly query: string; readonly d
         <span className="door__label">{t('palette.group.components')}</span>
         <span className="palette-group__count">{names.length}</span>
       </div>
-      {/* a component tile is a button of its own: Enter and Space press it (the palette key context inserts elements) */}
+      {/* a component tile is a button of its own: Enter and Space press it (the palette key context inserts
+         elements) */}
       <div className="tiles" data-region="palette-tiles">
         {names.map((name) => (
           <DoorControl key={name} entry={COMPONENT_TILE} args={{ component: name }} className="tile" label={t(COMPONENT_TILE.door.labelKey as MessageId, { component: name })}>
@@ -1067,14 +1086,18 @@ function ClassNameField({ entry, name }: { readonly entry: DoorEntry; readonly n
   const door = useDoor(entry, { className: name }, undefined, isFeatureBuilt(entry.door.feature as FeatureId));
   const field = useRef<HTMLInputElement>(null);
   const said = useEditorState((state) => state.message);
-  useEffect(() => { if (field.current !== null) field.current.value = name; }, [name, said]);
+  useEffect(() => {
+    if (field.current !== null) field.current.value = name;
+  }, [name, said]);
   const keep = () => {
     const nextName = field.current?.value ?? name;
     if (nextName === name) return;
     afterGesture(() => (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(entry.command.id, { className: name, nextName }));
   };
   return (
-    <form className={`style-classes__field${door.available ? '' : ' is-unavailable'}`} data-door={entry.ref} data-args={JSON.stringify({ className: name })} title={door.title} onSubmit={(event) => { event.preventDefault(); keep(); }}>
+    <form className={`style-classes__field${door.available ? '' : ' is-unavailable'}`} data-door={entry.ref} data-args={JSON.stringify({ className: name })} title={door.title} onSubmit={(event) => { event.preventDefault();
+      keep();
+    }}>
       <input ref={field} className="input" aria-label={door.label} disabled={!door.available} spellCheck={false} onBlur={keep} />
     </form>
   );
@@ -1112,9 +1135,9 @@ export function Sidebar() {
   // panels combined with the view's area (spec panel-combine-tabs): one more tab of it, or one stacked under it; the
   // area then draws itself (PanelArea), so the tab strip and the stacked bodies have one owner
   const combined = useEditorState((s) => combinationAt(s.ui, view).tabs.length > 1 || combinationAt(s.ui, view).stack.length > 0);
-  // In a narrow window the sidebar opens over the canvas (workspace/narrow.ts): a press outside it and its activity bar,
-  // or the focus leaving it for anywhere else (Escape takes it to the canvas), closes it, as the left dock's own toggle
-  // does (workspace.toggleLeftDock)
+  // In a narrow window the sidebar opens over the canvas (workspace/narrow.ts): a press outside it and its activity
+  // bar, or the focus leaving it for anywhere else (Escape takes it to the canvas), closes it, as the left dock's own
+  // toggle does (workspace.toggleLeftDock)
   const narrow = useNarrowWindow();
   const store = useStore();
   const aside = useRef<HTMLElement>(null);

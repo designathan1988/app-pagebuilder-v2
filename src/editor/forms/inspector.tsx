@@ -33,13 +33,20 @@ function ConfigurationField({ control, entry }: { readonly control: FieldControl
   const door = useDoor(entry, {}, label, isFeatureBuilt(entry.door.feature as FeatureId));
   const shown = control.options?.find(option => option.value === String(control.value))?.label ?? String(control.value);
   useEffect(() => {
-    if (field.current !== null) { field.current.value = shown; markFieldKept(field.current, shown); }
+    if (field.current !== null) {
+      field.current.value = shown;
+      markFieldKept(field.current, shown);
+    }
   }, [shown, message]);
   const keep = () => {
     const input = field.current;
     if (input === null || input.value === shown || !door.available) return;
     const choice = control.options?.find(option => option.label === input.value || option.value === input.value);
-    if (control.options !== undefined && choice === undefined) { input.value = shown; markFieldKept(input, shown); return; }
+    if (control.options !== undefined && choice === undefined) {
+      input.value = shown;
+      markFieldKept(input, shown);
+      return;
+    }
     const value = choice?.value ?? input.value;
     keepAfterGesture(() => control.onChange(value));
     markFieldKept(input, input.value);
@@ -64,7 +71,10 @@ function ConfigurationField({ control, entry }: { readonly control: FieldControl
       if (control.door === 'forms.preview.input') control.onChange(event.currentTarget.value);
     },
   };
-  return <form className="field-row" data-door={entry.ref} onSubmit={event => { event.preventDefault(); keep(); }}>
+  return <form className="field-row" data-door={entry.ref} onSubmit={event => {
+    event.preventDefault();
+    keep();
+  }}>
     <label className="field-row__label" htmlFor={id}>{label}</label>
     {control.kind === 'textarea'
       ? <textarea {...common} ref={field as React.RefObject<HTMLTextAreaElement>} />
@@ -77,7 +87,9 @@ function ConfigurationButton({ control, entry }: { readonly control: Parameters<
   const t = useT();
   const args = control.configuration === undefined || entry.door.kind !== 'inspector-field' ? {} : { attribute: entry.door.attribute, value: JSON.stringify(control.configuration) };
   const door = useDoor(entry, args, t(control.labelKey as MessageId), isFeatureBuilt(entry.door.feature as FeatureId));
-  return <button className="door door--button" type="button" data-door={entry.ref} data-args={JSON.stringify(args)} aria-disabled={!door.available || undefined} title={door.title} onClick={() => { if (door.available) control.onClick(); }}>{t(control.labelKey as MessageId)}</button>;
+  return <button className="door door--button" type="button" data-door={entry.ref} data-args={JSON.stringify(args)} aria-disabled={!door.available || undefined} title={door.title} onClick={() => {
+    if (door.available) control.onClick();
+  }}>{t(control.labelKey as MessageId)}</button>;
 }
 
 /** All edits pass through the existing attribute handler, validator and undo history. */

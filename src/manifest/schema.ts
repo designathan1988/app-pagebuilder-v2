@@ -864,7 +864,22 @@ export const layoutFileSchema = z.strictObject({
   // other icon than these, the panels', the elements', the keywords' and the ones the doors name.
   // the quick panel's groups, in the order it draws them, each under its name (a quick-panel door names its group)
   quickPanelGroups: z.array(z.strictObject({ id: kebabId, labelKey: i18nKey })).min(1),
-  glyphs: z.strictObject({ dropdown: iconName, submenu: iconName, expanded: iconName, collapsed: iconName, checked: iconName, folder: iconName, sizeVariable: iconName, sideRow: iconName, sideColumn: iconName, quickPanel: iconName, grip: iconName, rotate: iconName, warning: iconName, search: iconName }),
+  glyphs: z.strictObject({
+    dropdown: iconName,
+    submenu: iconName,
+    expanded: iconName,
+    collapsed: iconName,
+    checked: iconName,
+    folder: iconName,
+    sizeVariable: iconName,
+    sideRow: iconName,
+    sideColumn: iconName,
+    quickPanel: iconName,
+    grip: iconName,
+    rotate: iconName,
+    warning: iconName,
+    search: iconName
+  }),
   // Each panel (the panel values of workspace.setPanelOpen): its icon (on its dock tab and its palette entry), its
   // name, where it lives, the sidebar view a section belongs to ("in", a section only; null: the stack under every
   // sidebar view, the panels a sidebar shows below the view that shows, spec panel-resize), and whether it is open at
@@ -1004,8 +1019,8 @@ export const scenarioSchema = z.strictObject({
     // makes the record autosave saved for the fixture unreadable, and reloads the editor (spec
     // autosave-corruption-recovery)
     storage: z.enum(['corrupt-current-record']).optional(),
-    // the editor's other tabs (optional: absent is none): "another-tab-editing" opens one first, which opens the fixture
-    // and saves it, so the scenario's tab reads it (spec multi-tab-guard)
+    // the editor's other tabs (optional: absent is none): "another-tab-editing" opens one first, which opens the
+    // fixture and saves it, so the scenario's tab reads it (spec multi-tab-guard)
     tabs: z.enum(['another-tab-editing']).optional(),
     // the browser's clipboard for the editor (optional: absent is the granted, empty one the runner sets): "denied"
     // withdraws the permission, so reading and writing it both fail, as when a person refuses the browser's prompt;
@@ -1046,7 +1061,8 @@ export const scenarioSchema = z.strictObject({
     render: z
       .strictObject({
         computed: z.array(z.strictObject({ node: nodeRef, property: cssName, value: z.string().min(1) })),
-        // measure(node) compared, by relation, with measure(reference) + value, or with value alone when reference is null
+        // measure(node) compared, by relation, with measure(reference) + value, or with value alone when reference is
+        // null
         geometry: z.array(
           z.strictObject({
             node: nodeRef,
@@ -1060,10 +1076,11 @@ export const scenarioSchema = z.strictObject({
       })
       .nullable(),
     // The pointer resting on a node once the steps are done (spec hover-measure): the browser runner moves the mouse to
-    // the node on the canvas (its centre, or a point inside its top-left corner, in the padding its children leave free:
+    // the node on the canvas (its centre, or a point inside its top-left corner, in the padding its children leave
+    // free:
     // an ancestor's own area), holding Alt when `alt`, and a region of the canvas chrome shows each text (a
-    // message, as the status bar's feedback is named); the fast runner, which lays nothing out, leaves it to the browser.
-    // Optional: absent is no hover.
+    // message, as the status bar's feedback is named); the fast runner, which lays nothing out, leaves it to the
+    // browser. Optional: absent is no hover.
     hover: z
       .strictObject({
         node: nodeRef,

@@ -2,12 +2,13 @@
 // selection (ui.colorPicker: the property, the value the primary selected element holds for it when it opened, the
 // format its channels show). colorPicker.open opens it from a colour field's swatch; colorPicker.setFormat shows its
 // channels as HSB, RGB, Hex, OKLCH or OKLab (color-picker-oklch); colorPicker.setChannel writes the colour a channel
-// typed in them makes (core/style/color.ts editedColour: a value out of the channel's range is refused); colorPicker.apply and colorPicker.cancel close it and say how (ui.colorPickerClosed).
-// Its session is one gesture of the pointer owner (src/editor/input/pointer.ts): opened when the picker opens, every
-// part writes style.set through it (the canvas shows the colour live), Apply commits it (one undo step), Cancel,
-// Escape (drag.cancel) or another closing cancels it (the value it opened with is back, no undo step). Apply also
-// puts the colour it keeps first among the recent colours of the preferences (color-swatches-eyedropper: the last
-// RECENT_COLOURS applied, each once), which every picker lists.
+// typed in them makes (core/style/color.ts editedColour: a value out of the channel's range is refused);
+// colorPicker.apply and colorPicker.cancel close it and say how (ui.colorPickerClosed). Its session is one gesture of
+// the pointer owner (src/editor/input/pointer.ts): opened when the picker opens, every part writes style.set through it
+// (the canvas shows the colour live), Apply commits it (one undo step), Cancel, Escape (drag.cancel) or another closing
+// cancels it (the value it opened with is back, no undo step). Apply also puts the colour it keeps first among the
+// recent colours of the preferences (color-swatches-eyedropper: the last RECENT_COLOURS applied, each once), which
+// every picker lists.
 import { message, registerHandler } from '../../core/commands/registry.ts';
 import { locate } from '../../core/document/model.ts';
 import { editedColour, type ColorChannel } from '../../core/style/color.ts';

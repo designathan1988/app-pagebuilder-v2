@@ -1,8 +1,8 @@
 // The timeline's preview (INVENTORY.md, owners; spec timeline-preview): timeline.play, timeline.pause,
 // timeline.stop and timeline.toggleLoop hold `ui.timeline` (playing, loop), and the canvas draws the shown animation at
-// the playhead (render.ts `previewTimeline`: the animation properties with the playhead as a negative delay and the play
-// state), so Play animates the element from the stored keyframes, Pause freezes it where the playhead is and Stop puts
-// the element back to its base styles. Previewing never changes the document and records no undo step.
+// the playhead (render.ts `previewTimeline`: the animation properties with the playhead as a negative delay and the
+// play state), so Play animates the element from the stored keyframes, Pause freezes it where the playhead is and Stop
+// puts the element back to its base styles. Previewing never changes the document and records no undo step.
 // While it plays, the canvas frame runs the editor's own loop (installPlayingLoop): the playhead walks the shown
 // animation's length so the marker follows, and it stops at the animation's end (or repeats while Loop is on).
 import { message, registerHandler } from '../../core/commands/registry.ts';

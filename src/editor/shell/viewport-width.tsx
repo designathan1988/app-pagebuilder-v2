@@ -19,7 +19,9 @@ export function ViewportWidth({ entry }: { readonly entry: DoorEntry }) {
     setDraft(null);
   };
   return (
-    <form className="viewport-width" data-door={entry.ref} title={door.title} onSubmit={(event) => { event.preventDefault(); keep(); }}>
+    <form className="viewport-width" data-door={entry.ref} title={door.title} onSubmit={(event) => { event.preventDefault();
+      keep();
+    }}>
       <input className="input viewport-width__value" aria-label={door.label} inputMode="numeric" disabled={!door.available} value={draft ?? String(width)} onChange={(event) => setDraft(event.currentTarget.value)} onBlur={keep} />
       <input className="viewport-width__range" type="range" aria-label={door.label} min={320} max={7680} step={1} value={width} disabled={!door.available} onChange={(event) => store.dispatch(entry.command.id as CommandId, { width: Number(event.currentTarget.value) })} />
     </form>

@@ -330,7 +330,8 @@ function updatedAction<Ui>(context: HandlerContext<Ui>, action: TimelineAction, 
       const kind = readText(value);
       if (kind === null || !isEffectKind(kind)) return invalid(value);
       if (kind === action.effect.kind) return action;
-      // another kind starts from that kind's own defaults; a timed one keeps the bar's length, its keyframes scaled to it
+      // another kind starts from that kind's own defaults; a timed one keeps the bar's length, its keyframes scaled to
+      // it
       const id = () => context.ids.next();
       const changed: TimelineAction = { ...without('easing'), duration: EFFECTS[kind].duration, effect: defaultEffect(kind, id) };
       return EFFECTS[kind].timed && action.duration > 0 ? withDuration(changed, action.duration) : changed;

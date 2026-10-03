@@ -122,7 +122,8 @@ export function createEditorStore(options: EditorStoreOptions = {}): EditorStore
     styleClass: (ui) => ui.styleTarget ?? null,
     // the keyframe the playhead sits on, whose declarations a style write goes to (timeline/playhead.ts)
     keyframe: keyframeTarget,
-    // the content bound to collections and the shared regions follow every change, in its transaction (spec content-data)
+    // the content bound to collections and the shared regions follow every change, in its transaction (spec
+    // content-data)
     derive: (before, after, context) => deriveData(before, after, context),
     // the motion Timeline's playhead and recording, which the motion commands read (motion/state.ts)
     motion: motionContext,

@@ -76,7 +76,12 @@ function extract(graph: LayoutIntent, ids: readonly string[]): LayoutIntent {
     ...emptyIntent(outline.width, outline.height),
     regions: moved,
     constraints: graph.constraints.filter((c) => inside(c.regions)),
-    responsive: graph.responsive.map((rule) => ({ ...rule, hidden: rule.hidden.filter((id) => kept.has(id)), ...(rule.order === undefined ? {} : { order: rule.order.filter((id) => kept.has(id)) }), ...(rule.sizes === undefined ? {} : { sizes: Object.fromEntries(Object.entries(rule.sizes).filter(([id]) => kept.has(id))) }) })),
+    responsive: graph.responsive.map((rule) => ({
+      ...rule,
+      hidden: rule.hidden.filter((id) => kept.has(id)),
+      ...(rule.order === undefined ? {} : { order: rule.order.filter((id) => kept.has(id)) }),
+      ...(rule.sizes === undefined ? {} : { sizes: Object.fromEntries(Object.entries(rule.sizes).filter(([id]) => kept.has(id))) })
+    })),
     variables: graph.variables,
     ...(graph.preferences === undefined ? {} : { preferences: Object.fromEntries(Object.entries(graph.preferences).filter(([key]) => [...kept].some((id) => key === preferenceKey(id)))) }),
     ...(graph.morphs === undefined ? {} : { morphs: graph.morphs.filter((m) => m.region !== null && kept.has(m.region)) }),
@@ -130,7 +135,13 @@ export function placeTemplate(graph: LayoutIntent, template: LayoutTemplate, tar
   for (const rule of source.responsive) {
     const held = graph.responsive.find((r) => Math.abs(r.maxWidth - rule.maxWidth) < 0.5);
     const merged = held === undefined
-      ? { ...rule, id: nextRuleId(ruleGraph), hidden: rule.hidden.map(regionOf), ...(rule.order === undefined ? {} : { order: rule.order.map(regionOf) }), ...(rule.sizes === undefined ? {} : { sizes: Object.fromEntries(Object.entries(rule.sizes).map(([id, size]) => [regionOf(id), size])) }) }
+      ? {
+        ...rule,
+        id: nextRuleId(ruleGraph),
+        hidden: rule.hidden.map(regionOf),
+        ...(rule.order === undefined ? {} : { order: rule.order.map(regionOf) }),
+        ...(rule.sizes === undefined ? {} : { sizes: Object.fromEntries(Object.entries(rule.sizes).map(([id, size]) => [regionOf(id), size])) })
+      }
       : { ...held, hidden: [...held.hidden, ...rule.hidden.map(regionOf)], ...(rule.sizes === undefined ? {} : { sizes: { ...held.sizes, ...Object.fromEntries(Object.entries(rule.sizes).map(([id, size]) => [regionOf(id), size])) } }) };
     operations.push({ kind: 'responsive', rule: merged });
     ruleGraph = { ...ruleGraph, responsive: [...ruleGraph.responsive.filter((r) => r.id !== merged.id), merged] };

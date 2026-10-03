@@ -30,9 +30,9 @@ const require = createRequire(import.meta.url);
 //   entry of the scope on its path, which stands for it when BCD lists nothing for it there; otherwise
 //   under a type on its path (css.types.basic-shape.rect), then the property's BCD entry, then its
 //   longhands' entries (grid's minmax() is under grid-template-columns), then anywhere in css.types (by
-//   the name its description starts with, so linear() is css.types.easing-function.linear-function). A function BCD tracks nowhere is a legacy
-//   alias when its official grammar is another function's once renamed (rgba() of rgb()); otherwise it
-//   has no support (image(), device-cmyk()).
+//   the name its description starts with, so linear() is css.types.easing-function.linear-function). A function BCD
+//   tracks nowhere is a legacy alias when its official grammar is another function's once renamed (rgba() of rgb());
+//   otherwise it has no support (image(), device-cmyk()).
 // - A keyword is looked up under the property's entry and its longhands' entries. Otherwise it is
 //   decided in each context the syntax has it in (every path of types and functions that reaches it):
 //   - an entry of its own under the css.types entry of a type on the way, innermost first
@@ -418,7 +418,8 @@ export function generateCompatProperties(
 
     // The BCD entry of a function on a keyword's path: the property's own entry for it
     // (fit-content_function, repeat), or its entry under css.types (color(), shape()).
-    // the property's BCD entry, then the entries of its longhands (BCD records grid's minmax() under grid-template-columns)
+    // the property's BCD entry, then the entries of its longhands (BCD records grid's minmax() under
+    // grid-template-columns)
     const ownNodes: { path: string; node: BcdNode }[] = [];
     if (node && path !== null) ownNodes.push({ path, node });
     for (const longhand of longhandsOf(name)) {
@@ -434,7 +435,8 @@ export function generateCompatProperties(
     //   css.types, then as a legacy alias.
     const functionEntry = (fn: string, context: string[] = [], seenAliases: string[] = []): { path: string; node: BcdNode } | undefined => {
       const bare = fn.replace(/\(\)$/, '');
-      // never under the function's own entry: its subfeatures (color-mix()'s variadic_color_arguments) are not the function
+      // never under the function's own entry: its subfeatures (color-mix()'s variadic_color_arguments) are not the
+      // function
       const functionUnder = (entry: { path: string; node: BcdNode }) => {
         if (firstCode(entry.node) === `${bare}()`) return undefined;
         const found = children(entry.node).find(([key, child]) => child.__compat !== undefined && entryIs(key, child, bare, 'function'));
@@ -541,7 +543,8 @@ export function generateCompatProperties(
         if (result !== null) byFunction.set(fn, [...(byFunction.get(fn) ?? []), result]);
       }
       for (const [fn, results] of [...byFunction].sort(([x], [y]) => x.localeCompare(y))) inFunctions[fn] = merge(results);
-      // a function context that says the same as the keyword outside functions adds nothing: the checker falls back to that
+      // a function context that says the same as the keyword outside functions adds nothing: the checker falls back to
+      // that
       const same = (x: KeywordCompat, y: KeywordCompat) => JSON.stringify(x) === JSON.stringify(y);
       const withoutEqual = (overall: KeywordCompat): Record<string, KeywordCompat> => Object.fromEntries(Object.entries(inFunctions).filter(([, v]) => !same(v, overall)));
       // outside functions: the contexts outside any function decide, else the untracked rules

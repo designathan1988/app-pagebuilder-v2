@@ -1,9 +1,10 @@
 // Which elements a property applies to (PRODUCT.md §5; spec props-element-specific). properties.json names, for every
 // property, the predicate of the elements it applies to (appliesTo); the element predicates are this module's:
-//  - the kinds, read from the tag the element is written with (a switched tag counts): table; tableOrCaption (a table or
-//    its caption); list (ul, ol, menu and li); media (the replaced elements the object properties act on: img, video,
-//    canvas and iframe); textarea; formControl (input, textarea, select, button, progress and meter); textInput (input
-//    and textarea). A field of a kind is shown only while every selected element is of that kind (KIND_PREDICATES).
+//  - the kinds, read from the tag the element is written with (a switched tag counts): table; tableOrCaption (a table
+//    or its caption); list (ul, ol, menu and li); media (the replaced elements the object properties act on: img,
+//    video, canvas and iframe); textarea; formControl (input, textarea, select, button, progress and meter); textInput
+//    (input and textarea). A field of a kind is shown only while every selected element is of that kind
+//    (KIND_PREDICATES).
 //  - what an element holds (elements.json): text (it holds text), svgShape (an SVG shape), hasBox (not one). The quick
 //    panel, compact, leaves out the text fields of an element that holds no text and the box fields of an SVG shape;
 //    the inspector keeps them (a text property set on a container is inherited by the text inside).

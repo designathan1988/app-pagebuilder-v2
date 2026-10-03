@@ -51,7 +51,8 @@ describe('text.set', () => {
     expect(outcome.patches).toEqual([{ op: 'add', path: ['pages', 0, 'tree', 'children', 0, 'children', 0, 'inline'], value: [{ tag: 'strong', children: ['O'] }, 'ld'] }]);
     const after = applyPatches(DOC, outcome.patches ?? []).document;
     const marked = { ...context, state: { ...context.state, document: after } };
-    // the same tree records nothing; a plain text over it keeps the marks of what it keeps; a tree with no mark removes them
+    // the same tree records nothing; a plain text over it keeps the marks of what it keeps; a tree with no mark removes
+    // them
     expect(setTextCommand.run(marked, { target: 'Intro', content: [{ tag: 'strong', children: ['O'] }, 'ld'] })).toEqual({ kind: 'change', message: { key: 'status.textEdit.cancelled', params: { name: 'Intro' } } });
     expect(setTextCommand.run(marked, { target: 'Intro', content: 'Old' })).toEqual({ kind: 'change', message: { key: 'status.textEdit.cancelled', params: { name: 'Intro' } } });
     const typed = setTextCommand.run(marked, { target: 'Intro', content: 'Older' });

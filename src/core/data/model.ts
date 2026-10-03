@@ -4,8 +4,8 @@
 // Where each part lives decides what follows it for free:
 //  - the collections are a field of the project (`collections`), named like components are: a unique name is what
 //    every binding refers to, so a scenario, a person and a saved file all read the same reference;
-//  - a binding is a mark on the element it fills (`bind`), so it travels with the element when it is copied, duplicated,
-//    made a component or deleted, and never points at an element that is gone;
+//  - a binding is a mark on the element it fills (`bind`), so it travels with the element when it is copied,
+//    duplicated, made a component or deleted, and never points at an element that is gone;
 //  - a bound list is a mark on the element that holds the repeated items (`dataList`): its items are that element's
 //    children that are instances of the list's component, in order, the n-th showing the n-th item of the query;
 //  - a page made for an item names the item on its root (`dataItem`);

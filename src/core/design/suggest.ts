@@ -77,7 +77,10 @@ export const applySuggestionCommand = registerHandler('design.applySuggestion', 
     // the element's styles without the shared declarations; a state, then a breakpoint, left empty goes too
     const styles = Object.fromEntries(
       Object.entries(at.node.styles as Readonly<Record<string, Readonly<Record<string, unknown>>>>)
-        .map(([breakpoint, states]) => [breakpoint, Object.fromEntries(Object.entries(states).flatMap(([state, held]) => (breakpoint === BASE_BREAKPOINT && state === BASE_STATE ? (Object.keys(kept).length > 0 ? [[state, kept]] : []) : [[state, held]])))] as const)
+        .map(([breakpoint, states]) => [
+          breakpoint,
+          Object.fromEntries(Object.entries(states).flatMap(([state, held]) => (breakpoint === BASE_BREAKPOINT && state === BASE_STATE ? (Object.keys(kept).length > 0 ? [[state, kept]] : []) : [[state, held]])))
+        ] as const)
         .filter(([, states]) => Object.keys(states).length > 0),
     );
     patches.push({ op: 'replace', path: [...at.path, 'styles'], value: styles });

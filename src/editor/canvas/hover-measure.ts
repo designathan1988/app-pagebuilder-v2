@@ -1,8 +1,8 @@
 // The hover measure (spec hover-measure): the hovered element's size, in CSS px, in a chip under its hover outline,
 // and, while Alt is held with one element selected, the distances from the selection to the hovered element (to an
 // ancestor's inner edges, else between the nearest edges; distances.ts). Measuring never changes the selection or the
-// document. The canvas chrome draws what these return (chrome.tsx), and nothing when they return nothing: this module is
-// the feature's code, the one the tooth proof switches off (manifest toothProof).
+// document. The canvas chrome draws what these return (chrome.tsx), and nothing when they return nothing: this module
+// is the feature's code, the one the tooth proof switches off (manifest toothProof).
 import { distancesOf, type Distance } from './distances.ts';
 import type { Box } from './placement.ts';
 

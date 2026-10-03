@@ -19,7 +19,9 @@ outsidePress.subscribe((target) => {
 
 export function useOutsideLayer(panel: RefObject<HTMLElement | null>, open: boolean, close: () => void, anchor?: RefObject<HTMLElement | null>, restoreFocus = true, returnFocus?: RefObject<HTMLElement | null>): void {
   const latest = useRef(close);
-  useLayoutEffect(() => { latest.current = close; });
+  useLayoutEffect(() => {
+    latest.current = close;
+  });
   useLayoutEffect(() => {
     const own = panel.current;
     if (!open || !own) return;
@@ -29,7 +31,9 @@ export function useOutsideLayer(panel: RefObject<HTMLElement | null>, open: bool
     const layer: Layer = {
       panel: own,
       anchor: anchor?.current ?? null,
-      dismiss: () => { outside = true; latest.current(); },
+      dismiss: () => { outside = true;
+        latest.current();
+      },
     };
     layers.add(layer);
     return () => {

@@ -13,8 +13,8 @@ describe('placeQuickPanel (src/editor/quick-panel/quick-panel.ts)', () => {
   });
 
   it('with no side holding it whole, covers the least of the element instead of pinning at the top', () => {
-    // a text as wide as the page near its top: no side holds a 560 px tall panel beside it; pinned at the top it covered
-    // the text whole, held below it it covers its lower half only
+    // a text as wide as the page near its top: no side holds a 560 px tall panel beside it; pinned at the top it
+    // covered the text whole, held below it it covers its lower half only
     const element = { x: 20, y: 100, width: 860, height: 40 };
     const placed = placeQuickPanel(element, PANEL, STAGE, SPACING, null);
     const overlap = Math.max(0, Math.min(placed.y + placed.height, element.y + element.height) - Math.max(placed.y, element.y));

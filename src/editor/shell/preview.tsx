@@ -38,7 +38,7 @@ export function PreviewPage() {
       // only the preview frame's own window is heard (the audit's AUD-10: every sandboxed frame reads the opaque origin
       // "null", an embed sandboxed inside the page as well, so the origin alone named no one; MDN, postMessage: check
       // the sender), and only the two keys it relays
-      // eslint-disable-next-line builder/frame-owner -- The preview's own frame, never the canvas: its window is compared with the sender, never read or written.
+      // eslint-disable-next-line builder/frame-owner -- the preview's own frame: its window is compared, never read
       if (event.source === null || event.source !== frame.current?.contentWindow) return;
       const key = relayedKey((event.data as { builderPreviewKey?: unknown } | null)?.builderPreviewKey);
       const bar = window.document.querySelector('[data-region="preview-bar"]');

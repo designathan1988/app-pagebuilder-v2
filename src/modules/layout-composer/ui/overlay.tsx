@@ -97,7 +97,10 @@ export function LayoutOverlay() {
           const b = nodeBox(frame, id);
           if (b !== null && b.width > 0 && b.height > 0) boxes[key] = { x: b.x - origin.x - next.x, y: b.y - origin.y - next.y, width: b.width, height: b.height, page: { width: Math.round(b.width / zoom), height: Math.round(b.height / zoom) } };
         }
-      setMeasured((before) => (base ? null : before !== null && Object.keys(before).length === Object.keys(boxes).length && Object.entries(boxes).every(([k, b]) => before[k] !== undefined && same(before[k] as Box, b) && before[k]?.page.width === b.page.width) ? before : boxes));
+      setMeasured((before) => (base ? null : before !== null && Object.keys(before).length === Object.keys(boxes).length && Object.entries(boxes).every(([k, b]) => before[k] !== undefined && same(
+        before[k] as Box,
+        b
+      ) && before[k]?.page.width === b.page.width) ? before : boxes));
       request = requestAnimationFrame(measure);
     };
     request = requestAnimationFrame(measure);

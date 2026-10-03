@@ -1,7 +1,7 @@
 // The motion Timeline (plan stage 10, "Linha do tempo de verdade"; spec motion-timeline, motion-keyframes): the
 // project's timelines on the left; on the right a seconds axis with zoom, a ruler, a playhead with its readout
-// ("0.48 s / 1.20 s"), markers, and one lane per target with its actions as bars, each followed by one lane per property
-// its animations key, with the keyframes as diamonds; below, the fields of the selected action and keyframe.
+// ("0.48 s / 1.20 s"), markers, and one lane per target with its actions as bars, each followed by one lane per
+// property its animations key, with the keyframes as diamonds; below, the fields of the selected action and keyframe.
 // Every control is a door of manifest/commands/motion.json. The drags — the playhead along the ruler, a bar, its two
 // edges, a keyframe, a marker — are the pointer owner's (src/editor/input/pointer.ts, with
 // src/editor/motion/pointer.ts): this panel draws them, with the door and the arguments each stands for, and the
@@ -114,7 +114,16 @@ function TimelineList({ shown }: { readonly shown: string | null }) {
 
 // A control that selects what it stands for, adding to the selection with Shift (the two doors of motion.select), and
 // holds the drag handle the pointer owner presses.
-function Selectable({ refs, args, selected, className, style, children, title }: { readonly refs: readonly [string, string]; readonly args: Readonly<Record<string, unknown>>; readonly selected: boolean; readonly className: string; readonly style: CSSProperties; readonly children: React.ReactNode; readonly title: string }) {
+function Selectable({ refs, args, selected, className, style, children, title }: {
+  readonly refs: readonly [string, string];
+  readonly args: Readonly<Record<string,
+  unknown>>;
+  readonly selected: boolean;
+  readonly className: string;
+  readonly style: CSSProperties;
+  readonly children: React.ReactNode;
+  readonly title: string
+}) {
   const plain = useDoor(motionDoor(refs[0]), args, title);
   const adding = useDoor(motionDoor(refs[1]), args, title);
   return (

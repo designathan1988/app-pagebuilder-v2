@@ -110,8 +110,8 @@ export const renamePageCommand = registerHandler('pages.rename', ({ state }, { p
   // while nothing else holds it, so a file a link points at is never taken silently
   const free = held.file !== HOME && wanted !== HOME && !document.pages.some((p, i) => i !== at && p.file === wanted);
   const patches: Patch[] = [{ op: 'replace', path: ['pages', at, 'name'], value: typed }];
-  // the page's root takes its new name too (the journey "site": the page Contato's root read "Page 3" in the Layers, the
-  // breadcrumb and the status bar), unique among the pages' roots
+  // the page's root takes its new name too (the journey "site": the page Contato's root read "Page 3" in the Layers,
+  // the breadcrumb and the status bar), unique among the pages' roots
   const root = rootName(document.pages.filter((_, i) => i !== at), typed);
   if (held.tree.name !== root) patches.push({ op: 'replace', path: ['pages', at, 'tree', 'name'], value: root });
   // the links to the page follow its file (references.ts): a link written "about.html" becomes "sobre.html"

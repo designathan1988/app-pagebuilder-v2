@@ -243,7 +243,8 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
   // the status bar says the command's change was refused and nothing changed, before development throws.
   // Predictable invalid operations are refused by the operation itself, before any patch exists.
   // A command is named by its name without placeholders when its label has some (the manifest's nameKey): no argument
-  // is at hand here to fill them, and a text that cannot be formatted would fail where it is drawn (the audit's AUD-01).
+  // is at hand here to fill them, and a text that cannot be formatted would fail where it is drawn (the audit's
+  // AUD-01).
   const nameOf = (command: { readonly labelKey: string; readonly nameKey?: string | undefined }): MessageParam => ({ key: (command.nameKey ?? command.labelKey) as MessageId });
   const breachMessage = (source: string): Message => {
     const command = commands.get(source as CommandId);
@@ -323,9 +324,9 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
 
   // what a handler reads: the state now, the ports, the words of the person's language, and whether the person
   // confirmed this run
-  // the rules of the project (its own breakpoints: core/document/breakpoints.ts), and of the layer the editor shows (the
-  // breakpoint and state picked): what a handler writes into and what a predicate reads. A breakpoint the project does
-  // not have (one removed, a preference from another project) is its base.
+  // the rules of the project (its own breakpoints: core/document/breakpoints.ts), and of the layer the editor shows
+  // (the breakpoint and state picked): what a handler writes into and what a predicate reads. A breakpoint the project
+  // does not have (one removed, a preference from another project) is its base.
   const layeredNow = (): ModelRules => {
     const project = rulesForDocument(rules, state.document);
     // the same layer for a predicate and a handler (an element made absolute at Phone is positioned there: A3.23)
@@ -423,7 +424,14 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
       if (gesture) throw new Error(`${id} cannot ask a confirmation inside a gesture`);
       const asked = command.confirmation;
       if (asked === null) throw new Error(`${id} asks a confirmation the manifest does not declare`);
-      const confirmation: PendingConfirmation = { command: id, args, message: asked.messageKey as MessageId, confirm: asked.confirmKey as MessageId, cancel: asked.cancelKey as MessageId, ...(outcome.params === undefined ? {} : { params: outcome.params }) };
+      const confirmation: PendingConfirmation = {
+        command: id,
+        args,
+        message: asked.messageKey as MessageId,
+        confirm: asked.confirmKey as MessageId,
+        cancel: asked.cancelKey as MessageId,
+        ...(outcome.params === undefined ? {} : { params: outcome.params })
+      };
       publish(commit({ ...state, confirmation }, id));
       return { status: 'confirm' };
     }
@@ -566,20 +574,37 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
         active: () => group === current,
         dispatch: (id, args) => {
           if (group !== current) throw new Error('this command group is closed');
-          try { const result = run(id, args, null, false, current); if (result.status !== 'done') cancel(); return result; }
-          catch (error) { cancel(); throw error; }
+          try {
+            const result = run(id, args, null, false, current);
+            if (result.status !== 'done') cancel();
+            return result;
+          }
+          catch (error) { cancel();
+            throw error;
+          }
         },
         cancel,
         commit: () => {
           if (group !== current) throw new Error('this command group is closed');
           const before = current.before as StoreState<Ui>;
           try {
-            const tx: Transaction | null = current.command === null || deepEqual(before.document, state.document) ? null : { command: current.command, patches: current.patches, inverses: current.inverses, selectionBefore: before.selection, selectionAfter: state.selection, at: clock.now(), coalesceKey: null, message: state.message !== before.message ? state.message : null };
+            const tx: Transaction | null = current.command === null || deepEqual(before.document, state.document) ? null : {
+              command: current.command,
+              patches: current.patches,
+              inverses: current.inverses,
+              selectionBefore: before.selection,
+              selectionAfter: state.selection,
+              at: clock.now(),
+              coalesceKey: null,
+              message: state.message !== before.message ? state.message : null
+            };
             const next = commit({ ...state, history: tx === null ? before.history : record(before.history, tx, null) }, current.command ?? 'a command group');
             group = null;
             lastMergeable = null;
             publish(next);
-          } catch (error) { cancel(); throw error; }
+          } catch (error) { cancel();
+            throw error;
+          }
         },
       };
     },
@@ -655,7 +680,16 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
           }
           // one gesture is one entry: it never merges with another
           // a gesture says what it did by the last message its commands gave
-          const tx: Transaction = { command: current.command, patches: current.patches, inverses: current.inverses, selectionBefore: before.selection, selectionAfter: state.selection, at: clock.now(), coalesceKey: null, message: state.message !== before.message ? state.message : null };
+          const tx: Transaction = {
+            command: current.command,
+            patches: current.patches,
+            inverses: current.inverses,
+            selectionBefore: before.selection,
+            selectionAfter: state.selection,
+            at: clock.now(),
+            coalesceKey: null,
+            message: state.message !== before.message ? state.message : null
+          };
           publish(commit({ ...state, history: record(before.history, tx, null) }, current.command));
         },
         cancel: () => {

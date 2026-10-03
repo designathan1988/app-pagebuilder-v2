@@ -91,7 +91,8 @@ function CommandBarDialog() {
       if (kind === 'set-property') {
         const asked = askedSet(query);
         const all = asked === null ? [] : namedProperties();
-        // the name is the property's CSS name, or the words the bar shows for it (what a person reads can be typed back)
+        // the name is the property's CSS name, or the words the bar shows for it (what a person reads can be typed
+        // back)
         const property = asked === null ? undefined : (all.find((one) => one.id === asked.name) ?? all.find((one) => t(one.labelKey as MessageId).toLowerCase() === asked.name));
         if (asked === null || property === undefined) return [];
         const write = setEntryFor(property, asked.value);
@@ -100,8 +101,8 @@ function CommandBarDialog() {
         // the CSS name, as the spec asks (the status names the CSS property), and what a person types to reach it
         return [{ entry, args: write.args, label: t(entry.door.labelKey as MessageId, { property: property.id, value: asked.value }), key: entryKey(entry, write.args) }];
       }
-      // the project's own things (jornada03 J12): its pages to go to, the open page's elements to select, its classes to
-      // apply to the selection, each an entry of its own door with the item as its argument
+      // the project's own things (jornada03 J12): its pages to go to, the open page's elements to select, its classes
+      // to apply to the selection, each an entry of its own door with the item as its argument
       if (kind === 'go-to-page') {
         return state.document.pages.flatMap((one): BarEntry[] => {
           const args = { page: one.tree.id };
@@ -211,7 +212,9 @@ function CommandBarDialog() {
               {t(group.title as MessageId)}
             </li>,
             ...group.entries.map((e) => (
-              <li key={e.key} id={`${LIST_ID}-${shown.indexOf(e)}`} role="option" aria-selected="false" className="command-bar__option" onClick={() => { remember(e.key); close(); }}>
+              <li key={e.key} id={`${LIST_ID}-${shown.indexOf(e)}`} role="option" aria-selected="false" className="command-bar__option" onClick={() => { remember(e.key);
+                close();
+              }}>
                 <Entry e={e} query={query} />
               </li>
             )),

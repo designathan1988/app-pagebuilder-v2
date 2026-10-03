@@ -51,8 +51,8 @@ function lengthOf(text: string, least: number | null): string | null {
 }
 
 // A shadow's layers read from its CSS text (spec shadow-editor, Problems in Pager 4): layers part at the commas outside
-// parentheses; in each, the lengths in order are X, Y, blur and (a box shadow's) spread, `inset` sets inset, and what is
-// left is the colour (currentcolor when nothing is); null when a layer has fewer than two lengths or more than the
+// parentheses; in each, the lengths in order are X, Y, blur and (a box shadow's) spread, `inset` sets inset, and what
+// is left is the colour (currentcolor when nothing is); null when a layer has fewer than two lengths or more than the
 // structure takes, or a length is no length. `shadowLayersFromCss` is the one reader of a shadow's CSS text: the text
 // field of the shadow editor and the import both read through it (core/import/import.ts).
 export function shadowLayersFromCss(text: string, fields: readonly StructureField[]): StructuredLayer[] | null {

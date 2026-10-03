@@ -42,7 +42,8 @@ describe('how a door is drawn', () => {
 
   it('draws a door whose feature is not registered as disabled, saying not available yet', () => {
     // Every feature of the manifest is registered today (hover-measure was the last, QA 167): the rule is exercised on
-    // an entry that names a feature no table registers, which is exactly what a door of a feature still to come will be.
+    // an entry that names a feature no table registers, which is exactly what a door of a feature still to come will
+    // be.
     const real = manifest.doors.find((entry) => isDoorBuilt(entry)) as DoorEntry;
     const toCome = 'a-feature-still-to-come' as FeatureId;
     expect(isFeatureBuilt(toCome)).toBe(false);

@@ -39,8 +39,8 @@ export interface DocNode {
   readonly styles: Styles;
   // the text of a text element or the markup of a markup element; null for the others
   readonly text: string | null;
-  // the marks of a text element's text (bold, italic, links; src/core/text/inline.ts): its canonical tree of runs, whose
-  // plain text is `text`; absent while nothing in the text is marked (spec text-inline-formatting)
+  // the marks of a text element's text (bold, italic, links; src/core/text/inline.ts): its canonical tree of runs,
+  // whose plain text is `text`; absent while nothing in the text is marked (spec text-inline-formatting)
   readonly inline?: readonly InlineRun[];
   readonly children: readonly DocNode[];
   // hidden on the canvas with its whole subtree, still in the document and in Layers (element.toggleHidden, spec
@@ -59,8 +59,8 @@ export interface DocNode {
   // every element of an instance: the place of the definition element it comes from, the child indexes from the
   // definition's root ([] for the root); absent on any other element
   readonly componentPart?: readonly number[];
-  // a page's root only: the page's manual guides (core/page/guides.ts, spec guides-manual), each named by its axis and a
-  // number, at a page px position, locked or not; absent while the page has none. Never exported.
+  // a page's root only: the page's manual guides (core/page/guides.ts, spec guides-manual), each named by its axis and
+  // a number, at a page px position, locked or not; absent while the page has none. Never exported.
   readonly guides?: readonly Guide[];
   // a page's root only: the settings of its layout grids set in Guides & Grids (core/page/grid.ts, spec
   // workspace-settings-dialog), each grid's settings a person set; a setting absent takes its default of
@@ -172,7 +172,8 @@ export interface DocumentJson {
   readonly pages: readonly Page[];
   // the colours saved with the project, in the order they were saved (core/design/colors.ts); absent while none is
   readonly swatches?: readonly string[];
-  // the project's design tokens, CSS variables named var(--name) in styles (core/design/tokens.ts); absent while none is
+  // the project's design tokens, CSS variables named var(--name) in styles (core/design/tokens.ts); absent while none
+  // is
   readonly tokens?: readonly { readonly name: string; readonly kind: string; readonly value: string }[];
   // the project's style classes, in the order they were made: a name an element lists in its classes and the styles
   // every element with it takes (core/design/classes.ts); absent while none is

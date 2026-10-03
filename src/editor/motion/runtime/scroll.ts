@@ -1,7 +1,7 @@
 // The scroll progress of the continuous scroll triggers (plan stage 10: native ScrollTimeline / ViewTimeline, with a
 // scroll listener where the browser has none; spec motion-runtime, Scroll progress):
-//  - while-visible: how far the element has crossed the viewport, 0 when its top meets the viewport's bottom, 1 when its
-//    bottom leaves the viewport's top (the "cover" range of CSS Scroll-driven Animations);
+//  - while-visible: how far the element has crossed the viewport, 0 when its top meets the viewport's bottom, 1 when
+//    its bottom leaves the viewport's top (the "cover" range of CSS Scroll-driven Animations);
 //  - page-scroll: how far the page is scrolled, 0 at the top, 1 at the bottom.
 // The interaction's range (scrollStart to scrollEnd, in percent) narrows it: the timeline plays across that part.
 // With a native timeline the browser drives the animations itself, off the main thread; the listener is the fallback

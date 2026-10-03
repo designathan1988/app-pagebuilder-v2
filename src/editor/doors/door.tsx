@@ -68,7 +68,8 @@ export interface DoorState {
 export function useDoor(entry: DoorEntry, args: Readonly<Record<string, unknown>> = {}, labelled?: string, ready = true, keysIn: KeyContextId = 'global'): DoorState {
   const t = useT();
   const store = useStore();
-  // a door whose only effect is to open a panel the shell draws no body for is not available yet, like an unbuilt command
+  // a door whose only effect is to open a panel the shell draws no body for is not available yet, like an unbuilt
+  // command
   const drawsBody = useContext(PanelBodies);
   const built = ready && isDoorBuilt(entry) && !opensEmptyPanel({ ...entry.door.args, ...args }, drawsBody);
   const current = useEditorState((s) => built && isCurrent(entry, s, args));
@@ -78,7 +79,8 @@ export function useDoor(entry: DoorEntry, args: Readonly<Record<string, unknown>
   const runArgs = { ...entry.door.args, ...args };
   const available = useEditorState((s) => built && (predicate?.test(s, layeredRules(s), runArgs) ?? true));
   // why it is not available now: its predicate's own refusal when it names one (Distribute: three elements, or
-  // positioned ones; the audit's A3.23), else the door's reason (disabledReasonKey); one JSON text, stable between renders
+  // positioned ones; the audit's A3.23), else the door's reason (disabledReasonKey); one JSON text, stable between
+  // renders
   const refused = useEditorState((s) => (built && !available && predicate?.refusal !== undefined ? JSON.stringify(predicate.refusal(s, layeredRules(s), runArgs)) : null));
   // the words the label fills in for the state now (the command's labelParams), as one JSON text so the hook's value
   // is stable between renders

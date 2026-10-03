@@ -39,7 +39,9 @@ export function AssetPicker() {
     return wanted === '' ? files : files.filter((file) => fold(file.path).includes(wanted));
   }, [files, query]);
   const panel = useRef<HTMLDivElement>(null);
-  const close = () => { if (CLOSE) (store.dispatch as (id: string, args: unknown) => DispatchResult)(CLOSE.command.id, {}); };
+  const close = () => {
+    if (CLOSE) (store.dispatch as (id: string, args: unknown) => DispatchResult)(CLOSE.command.id, {});
+  };
   useOutsideLayer(panel, open !== null, close);
   // the picker takes the focus, so the keymap reads its context and Escape closes it
   useEffect(() => {

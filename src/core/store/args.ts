@@ -2,7 +2,8 @@
 // threw on arguments their doors never hand — a missing value, a node or a page that is not there, a word outside an
 // enum — where a predictable invalid operation is refused before any patch). The one reader of the declared argument
 // types for the store, before the availability predicate and the handler run: a door always hands what its command
-// takes, so what reaches this refusal is a caller's (the assistant, the MCP tools, a stale control) and is said in words.
+// takes, so what reaches this refusal is a caller's (the assistant, the MCP tools, a stale control) and is said in
+// words.
 //
 // It refuses what can never be right, and leaves to the handler what only the handler knows: a text where a number is
 // declared stands (a field hands the text typed, which the handler reads), but a number that is no number (NaN,

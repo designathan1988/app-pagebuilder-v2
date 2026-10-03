@@ -24,7 +24,8 @@ export function tracksOf(value: string | undefined): readonly string[] {
     const track = (repeated[2] as string).trim();
     return count > 0 ? Array.from({ length: count }, () => track) : [];
   }
-  // a track holding no space of its own (minmax(0, 1fr)) stays one track: the split is at the spaces outside parentheses
+  // a track holding no space of its own (minmax(0, 1fr)) stays one track: the split is at the spaces outside
+  // parentheses
   const tracks: string[] = [];
   let depth = 0;
   let current = '';

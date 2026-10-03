@@ -141,7 +141,8 @@ export function snapMove(state: EditorState, node: NodeId, box: Box, zoom: numbe
   return { box: { ...box, x: box.x + offset.x, y: box.y + offset.y }, x, y, gaps, offset };
 }
 
-// The snap of a resized box's dragged edges (a resize handle's sides: e, w, n, s): the offset each axis's edge moves by.
+// The snap of a resized box's dragged edges (a resize handle's sides: e, w, n, s): the offset each axis's edge moves
+// by.
 export function snapResize(state: EditorState, node: NodeId, box: Box, sides: string, zoom: number, apply: boolean): Snapped {
   const { distance } = snapSettingsOf(state.ui);
   const lines = targetLines(state, node);

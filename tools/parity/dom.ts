@@ -1,5 +1,5 @@
-// The DOM of one region of the app in the breakpoint state, for the pairing (tools/parity/pair.ts): node tools/parity/dom.ts
-// <css selector> [state]. Prints the selector's outer HTML and each element's box and colours.
+// The DOM of one region of the app in the breakpoint state, for the pairing (tools/parity/pair.ts): node
+// tools/parity/dom.ts <css selector> [state]. Prints the selector's outer HTML and each element's box and colours.
 import { chromium } from '@playwright/test';
 
 const SELECTOR = process.argv[2] ?? '.quick-panel';
