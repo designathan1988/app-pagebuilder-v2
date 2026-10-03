@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { documentOf, node, runHandler } from '../testing/handlers.ts';
-import { deleteFileCommand, javascriptProblem, moveFileCommand, renameFileCommand } from './files.ts';
+import { FORMS_SCRIPT, INTERACTIONS_SCRIPT, LOTTIE_SCRIPT, MOTION_SCRIPT, STYLESHEET } from '../export/export.ts';
+import { createFileCommand, deleteFileCommand, folderOf, javascriptProblem, moveFileCommand, nameOfPath, renameFileCommand, uniqueFilePath, uploadPath } from './files.ts';
 
 const png = (path: string) => ({ path, type: 'image/png', bytes: 'AAAA' });
 const home = (children: ReturnType<typeof node>[] = [], attributes: Record<string, string> = {}) => ({ id: 'p', name: 'Home', file: 'index.html', tree: node('Page', 'page', 'body', { attributes, children }) });
@@ -74,5 +75,19 @@ describe('javascriptProblem', () => {
     expect(javascriptProblem("import x from './y.js';\nexport const a = 1;\nexport default function f() {\n  return x;\n}\nexport { a as b };")).toBeNull();
     expect(javascriptProblem("import x from './y.js';\nexport default {\n  a: 1,\n};")).toBeNull();
     expect(javascriptProblem("import x from './y.js';\nexport const a = ;")?.line).toBe(2);
+  });
+});
+
+// The audit's AUD-11: the tree reserved three of the five paths the export writes a generated file at, so a file stored
+// at js/motion.js or js/lottie.min.js went into the archive twice. Every path the export writes at is planted.
+describe('the paths the export writes its generated files at stay free', () => {
+  const written = [STYLESHEET, INTERACTIONS_SCRIPT, FORMS_SCRIPT, MOTION_SCRIPT, LOTTIE_SCRIPT];
+  const document = documentOf({ pages: [home()], folders: ['css', 'js'] });
+
+  it.each(written)('no file is made, uploaded or imported at %s', (path) => {
+    const made = runHandler(createFileCommand, document, { path });
+    expect(made.outcome).toEqual({ kind: 'refused', message: { key: 'status.files.generatedPath', params: { path } } });
+    expect(uploadPath(document, `${folderOf(path)}/`, nameOfPath(path))).not.toBe(path);
+    expect(uniqueFilePath(document, path)).not.toBe(path);
   });
 });

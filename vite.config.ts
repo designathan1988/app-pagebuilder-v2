@@ -42,12 +42,34 @@ function fullReload(): Plugin {
   };
 }
 
-export default defineConfig(({ command }) => {
+// A build without the test port says so if anything of it is left (the audit's AUD-10: the read-only test port shipped
+// in the build a person uses, exposing the document and the incident feed to any script on the page): the port is
+// installed behind __BUILDER_TEST_PORT__, which Vite replaces statically, so this build drops its code, and a chunk
+// that still names it fails the build.
+const TEST_PORT_NAME = '__builderTestPort';
+function noTestPort(): Plugin {
+  return {
+    name: 'no-test-port',
+    apply: 'build',
+    generateBundle(_options, bundle) {
+      for (const [file, output] of Object.entries(bundle)) {
+        if (output.type === 'chunk' && output.code.includes(TEST_PORT_NAME)) this.error(`${file} carries the test port (${TEST_PORT_NAME}) in a build without it`);
+      }
+    },
+  };
+}
+
+export default defineConfig(({ command, mode }) => {
   // PORT is required by the servers, dev and preview (vite preview reports the serve command too), never by a build
   const port = command === 'build' ? null : readPort();
+  // the e2e build: E2E_BUILD set by playwright.config.ts, or `npm run build:e2e` (the e2e mode) for npm run ui
+  const e2e = process.env.E2E_BUILD === '1' || mode === 'e2e';
+  // the test port is in the dev server and the e2e build only (src/editor/test-port.ts)
+  const testPort = command === 'serve' || e2e;
   return {
     // toothPlugin() is null unless the scenario runner's tooth proof starts this server (tools/runner/tooth.ts)
-    plugins: [react(), productTitle(), toothPlugin(), fullReload()],
+    plugins: [react(), productTitle(), toothPlugin(), fullReload(), testPort ? null : noTestPort()],
+    define: { __BUILDER_TEST_PORT__: JSON.stringify(testPort) },
     // reference/ holds other projects with their own HTML entries; keep Vite away from them.
     optimizeDeps: { entries: ['index.html'] },
     server: port === null ? {} : { port, strictPort: true, watch: { ignored: unwatched } },
@@ -55,6 +77,6 @@ export default defineConfig(({ command }) => {
     preview: port === null ? {} : { port, strictPort: true },
     // the e2e build (E2E_BUILD, set by playwright.config.ts) is not minified: the limited validation reads which
     // functions a test executed from Chrome's coverage of it (tools/impact/analyze.ts), which needs the functions intact
-    build: process.env.E2E_BUILD === '1' ? { minify: false, cssMinify: false } : {},
+    build: e2e ? { minify: false, cssMinify: false } : {},
   };
 });

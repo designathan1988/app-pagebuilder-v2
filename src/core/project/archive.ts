@@ -8,9 +8,9 @@ import { message, registerHandler, type Message } from '../commands/registry.ts'
 import { isEmptyProject, type DocumentJson } from '../document/model.ts';
 import { migrateDocument } from '../document/migrations.ts';
 import { validateDocument, type ModelRules } from '../document/validate.ts';
-import { isZip, unzip, zip } from './zip.ts';
+import { ArchiveError, archiveReason, isZip, unzip, zip } from './zip.ts';
 
-const invalid = (reason: string): { readonly refused: Message } => ({ refused: message('status.open.invalidArchive', { reason }) });
+const invalid = (reason: string | Message): { readonly refused: Message } => ({ refused: message('status.open.invalidArchive', { reason }) });
 
 // A project document read from its parsed JSON: the document when the model accepts it at this app's format
 // version, else the refusal naming why (a newer version, or what is wrong with it). A file of an older version is
@@ -45,14 +45,14 @@ export const saveProject = registerHandler('project.save', ({ state, clock }) =>
 
 // The text of project.json in a chosen file (spec project-open-json, Problems in Pager 2): the archive's
 // project.json, or the file's own text for a bare project.json. An archive that cannot be read, or holds no
-// project.json, gives a text the project reader refuses, naming why.
+// project.json, gives a text the project reader refuses, naming why (one of the archive reader's reasons).
 export async function projectFileText(bytes: Uint8Array): Promise<string> {
   if (!isZip(bytes)) return new TextDecoder().decode(bytes);
   try {
     const document = (await unzip(bytes)).get(PROJECT_DOCUMENT);
-    return document === undefined ? JSON.stringify({ archive: `it holds no ${PROJECT_DOCUMENT}` }) : new TextDecoder().decode(document);
+    return document === undefined ? JSON.stringify({ archive: message('archive.noDocument', { file: PROJECT_DOCUMENT }) }) : new TextDecoder().decode(document);
   } catch (error) {
-    return JSON.stringify({ archive: (error as Error).message });
+    return JSON.stringify({ archive: error instanceof ArchiveError ? error.reason : message('archive.broken') });
   }
 }
 
@@ -67,6 +67,9 @@ export const openProject = registerHandler('project.open', ({ rules, state, conf
   } catch (error) {
     return { kind: 'refused' as const, message: invalid((error as Error).message).refused };
   }
+  // an archive the reader refused (projectFileText): its reason, read back only when it is one of the reader's
+  const unread = parsed !== null && typeof parsed === 'object' && 'archive' in parsed ? archiveReason((parsed as { archive: unknown }).archive) : null;
+  if (unread !== null) return { kind: 'refused' as const, message: invalid(unread).refused };
   const read = readProject(parsed, rules);
   if ('refused' in read) return { kind: 'refused' as const, message: read.refused };
   if (confirmed !== true && !isEmptyProject(state.document)) return { kind: 'confirm' as const };

@@ -49,8 +49,9 @@ const recovery = saved !== null && restored === null ? await readVersions() : nu
 const store = createEditorStore({ restored, recovery, narrow: windowIsNarrow() });
 startAutosave(store, saved, restored !== null, isEditing);
 startDrafts(store, currentWorkRevision, isEditing);
-// what the end-to-end tests read, in every build (src/editor/test-port.ts)
-installTestPort(store);
+// what the end-to-end tests read: in the dev server and the e2e build only, never in the build a person uses (Vite
+// replaces the flag statically, so that build drops the port; vite.config.ts fails a build that still carries it)
+if (__BUILDER_TEST_PORT__) installTestPort(store);
 
 // what the page throws, into the incident feed: the status bar draws the count, the test port carries the list
 // (src/editor/errors.ts, the plan's T2)

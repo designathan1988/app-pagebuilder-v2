@@ -38,7 +38,7 @@ if (args.includes('--list') || args.length === 0) {
   console.log('flows:');
   for (const flow of FLOWS) console.log(`  ${flow.name.padEnd(14)} ${flow.about}`);
   console.log('\n  --door <id>    press one door by its manifest id');
-  console.log(`\nthe port comes from PORT (now ${port}); start the app first (npm run dev, or npm run build && npm run preview)`);
+  console.log(`\nthe port comes from PORT (now ${port}); start the app first (npm run dev, or npm run build:e2e && npm run preview: the test port is only in those)`);
   process.exit(args.length === 0 ? 1 : 0);
 }
 

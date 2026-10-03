@@ -20,6 +20,7 @@ import { walk } from '../document/model.ts';
 import { familyOf, fontFiles } from './fonts.ts';
 import { followPaths, movedPath } from './references.ts';
 import { argumentRefused } from '../store/args.ts';
+import { GENERATED_PATHS } from '../export/paths.ts';
 
 export type { ProjectFile };
 
@@ -62,7 +63,7 @@ export function uploadPath(document: DocumentJson, folder: string, name: string)
   const clean = name.replace(/[\\/:*?"<>|]+/g, '-').replace(/^\.+/, '') || 'file';
   const taken = new Set(filesOf(document).map((f) => f.path));
   let path = `${folder}${clean}`;
-  for (let n = 2; taken.has(path); n++) {
+  for (let n = 2; taken.has(path) || pathGenerated(path); n++) {
     const dot = clean.lastIndexOf('.');
     path = `${folder}${dot <= 0 ? `${clean}-${n}` : `${clean.slice(0, dot)}-${n}${clean.slice(dot)}`}`;
   }
@@ -238,10 +239,11 @@ export const uploadCommand = registerHandler('files.upload', ({ state }, { files
 
 // ---------------------------------------------------------------- the project's file tree
 
-// The paths the document generates, whatever the tree holds: the stylesheet every page links and the interactions
-// script (spec explorer-file-system, Problems 2). They are fixed: nothing else may take their path, and no command
-// renames, moves or deletes them; a folder that holds one of them is as fixed as the file it holds.
-export const GENERATED_PATHS: readonly string[] = ['css/styles.css', 'js/interactions.js', 'js/forms.js'];
+// The paths the document generates, whatever the tree holds: the stylesheet every page links and the scripts the export
+// writes (spec explorer-file-system, Problems 2), the export's own list (core/export/paths.ts). They are fixed: nothing
+// else may take their path (an upload or an imported file takes a free name beside it), and no command renames, moves
+// or deletes them; a folder that holds one of them is as fixed as the file it holds.
+export { GENERATED_PATHS };
 
 // whether a path IS one of the generated files: its path is taken, and no file may be made there
 export function pathGenerated(path: string): boolean {
@@ -285,7 +287,7 @@ export function uniqueFilePath(document: DocumentJson, path: string, reserved: R
   const dot = path.lastIndexOf('.');
   const split = dot > slash + 1 ? dot : path.length;
   let candidate = path;
-  for (let n = 2; pathTaken(document, candidate) || reserved.has(candidate); n += 1) candidate = `${path.slice(0, split)}-${n}${path.slice(split)}`;
+  for (let n = 2; pathTaken(document, candidate) || pathGenerated(candidate) || reserved.has(candidate); n += 1) candidate = `${path.slice(0, split)}-${n}${path.slice(split)}`;
   return candidate;
 }
 

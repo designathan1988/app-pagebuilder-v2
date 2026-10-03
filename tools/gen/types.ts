@@ -137,7 +137,7 @@ export function generateTypes(root: string): { file: string; content: string }[]
       return `  ${q(c.id)}: ${fields.length === 0 ? 'Record<string, never>' : `{ ${fields.join('; ')} }`};`;
     })
     .join('\n');
-  const commandTypes = `${HEADER}import type { AttributeId, CommandId, FeatureId, PaletteEntryId, StateId, StyleTargetId } from './ids.ts';
+  const commandTypes = `${HEADER}import type { AttributeId, CommandId, FeatureId, MessageId, PaletteEntryId, StateId, StyleTargetId } from './ids.ts';
 
 export type NodeId = string;
 export type JsonValue = string | number | boolean | null | readonly JsonValue[] | { readonly [key: string]: JsonValue };
@@ -162,14 +162,15 @@ export type ClipboardContent =
 // what a door that reads several files hands the command (an argument of type "files", File › Import HTML): each
 // picked file — its name (the path it has inside an archive it came from), its MIME type, its bytes as base64 and,
 // for an image, its intrinsic size; the door expands an archive into its entries, and one it cannot read stands for
-// its own file with the reason instead (src/core/import/import.ts readPickedFiles)
+// its own file with the reason instead (src/core/import/import.ts readPickedFiles): one of the archive reader's
+// reasons, as a message (src/core/project/zip.ts), or an error's text
 export interface PickedFile {
   readonly name: string;
   readonly type: string;
   readonly bytes: string;
   readonly width?: number;
   readonly height?: number;
-  readonly error?: string;
+  readonly error?: string | { readonly key: MessageId; readonly params: Readonly<Record<string, string | number>> };
 }
 
 // the arguments of each command (manifest/commands/*.json args)

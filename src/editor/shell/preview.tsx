@@ -3,7 +3,7 @@
 // exported (core/export/export.ts previewPage), at the active breakpoint's width and at 100 %, in a frame of its own
 // that runs it as a browser would (its scripts and embeds, its hover and details) and opens its links in a new tab:
 // sandboxed, never the editing canvas. No selection, guides, handles, docks or rulers are drawn.
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { previewPage } from '../../core/export/export.ts';
 import { siteScripts } from '../forms/script.ts';
 import { openedPage } from '../../core/project/pages.ts';
@@ -29,15 +29,19 @@ export function PreviewPage() {
   // interface audit F03), and the memo re-runs when the open page changes
   const page = useEditorState((s) => openedPage(s));
   const html = useMemo(() => withKeyRelay(previewPage(document, MODEL_RULES, page, siteScripts)), [document, page]);
+  const frame = useRef<HTMLIFrameElement>(null);
   // a key the page relays (KEY_RELAY) is pressed again on the preview bar, in the preview's key context, so the keymap
   // runs its door as if the editor had the focus
   useEffect(() => {
     const relay = (event: MessageEvent) => {
-      // only the sandboxed preview page speaks from the opaque origin (the canvas frame shares the editor's)
-      if (event.origin !== 'null' || event.source === null || event.source === window) return;
-      const key = (event.data as { builderPreviewKey?: KeyboardEventInit } | null)?.builderPreviewKey;
+      // only the preview frame's own window is heard (the audit's AUD-10: every sandboxed frame reads the opaque origin
+      // "null", an embed sandboxed inside the page as well, so the origin alone named no one; MDN, postMessage: check
+      // the sender), and only the two keys it relays
+      // eslint-disable-next-line builder/frame-owner -- The preview's own frame, never the canvas: its window is compared with the sender, never read or written.
+      if (event.source === null || event.source !== frame.current?.contentWindow) return;
+      const key = relayedKey((event.data as { builderPreviewKey?: unknown } | null)?.builderPreviewKey);
       const bar = window.document.querySelector('[data-region="preview-bar"]');
-      if (key === undefined || bar === null) return;
+      if (key === null || bar === null) return;
       bar.dispatchEvent(new KeyboardEvent('keydown', { ...key, bubbles: true, cancelable: true }));
     };
     window.addEventListener('message', relay);
@@ -45,7 +49,7 @@ export function PreviewPage() {
   }, []);
   return (
     <main className="preview-stage">
-      <iframe className="preview__page" data-region="preview-page" title={t('preview.pageLabel')} srcDoc={html} sandbox="allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox" style={{ width }} />
+      <iframe ref={frame} className="preview__page" data-region="preview-page" title={t('preview.pageLabel')} srcDoc={html} sandbox="allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox" style={{ width }} />
     </main>
   );
 }
@@ -58,4 +62,13 @@ const KEY_RELAY = `<script>addEventListener('keydown', function (e) {
   if (!leave || (e.key === 'Escape' && document.querySelector('dialog:modal'))) return;
   parent.postMessage({ builderPreviewKey: { key: e.key, code: e.code, ctrlKey: e.ctrlKey, metaKey: e.metaKey, shiftKey: e.shiftKey, altKey: e.altKey } }, '*');
 }, true);</script>`;
+// the key a message relays, read field by field: Escape, or Enter with Ctrl or Cmd, as KEY_RELAY sends them
+function relayedKey(sent: unknown): KeyboardEventInit | null {
+  if (sent === null || typeof sent !== 'object') return null;
+  const { key, code, ctrlKey, metaKey, shiftKey, altKey } = sent as Record<string, unknown>;
+  if (key !== 'Escape' && key !== 'Enter') return null;
+  const flag = (value: unknown): boolean => value === true;
+  return { key, code: typeof code === 'string' ? code : '', ctrlKey: flag(ctrlKey), metaKey: flag(metaKey), shiftKey: flag(shiftKey), altKey: flag(altKey) };
+}
+
 const withKeyRelay = (html: string): string => (html.includes('</body>') ? html.replace('</body>', `${KEY_RELAY}</body>`) : html + KEY_RELAY);

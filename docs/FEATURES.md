@@ -68,7 +68,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `autosave-corruption-recovery` | Recover from a corrupted saved project | yes | 1 | 1 | [autosave-corruption-recovery](../spec/BEHAVIOUR.md#autosave-corruption-recovery) | 3 | — |
 | `multi-tab-guard` | Only one tab edits the project at a time | yes | 1 | 1 | [multi-tab-guard](../spec/BEHAVIOUR.md#multi-tab-guard) | 3 | — |
 | `project-save-json` | Save the project as one archive file | yes | 2 | 1 | [project-save-json](../spec/BEHAVIOUR.md#project-save-json) | 4 | — |
-| `project-open-json` | Open a project archive | yes | 5 | 1 | [project-open-json](../spec/BEHAVIOUR.md#project-open-json) | 4 | — |
+| `project-open-json` | Open a project archive | yes | 5 | 1 | [project-open-json](../spec/BEHAVIOUR.md#project-open-json) | 5 | — |
 
 ## 04-inspector
 
@@ -208,7 +208,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `preview-mode` | Preview the page without editor chrome | yes | 11 | 11 | [preview-mode](../spec/BEHAVIOUR.md#preview-mode) | 5 | — |
+| `preview-mode` | Preview the page without editor chrome | yes | 11 | 11 | [preview-mode](../spec/BEHAVIOUR.md#preview-mode) | 6 | — |
 | `embed-html` | Embed custom HTML | yes | 2 | 2 | none | — | — |
 | `theme-switch` | Light, dark and system theme | yes | 3 | 3 | [theme-switch](../spec/BEHAVIOUR.md#theme-switch) | 1 | — |
 
@@ -231,7 +231,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `accessibility-checks` | Accessibility and structure checks | yes | 1 | 1 | [accessibility-checks](../spec/BEHAVIOUR.md#accessibility-checks) | 3 | — |
+| `accessibility-checks` | Accessibility and structure checks | yes | 1 | 1 | [accessibility-checks](../spec/BEHAVIOUR.md#accessibility-checks) | 4 | — |
 | `keyboard-panel-navigation` | Move between panels and inside them with the keyboard | yes | 8 | 31 | [keyboard-panel-navigation](../spec/BEHAVIOUR.md#keyboard-panel-navigation) | 6 | — |
 | `layers-keyboard-navigation` | Operate the Layers tree with the keyboard | yes | 7 | 8 | [layers-keyboard-navigation](../spec/BEHAVIOUR.md#layers-keyboard-navigation) | 4 | — |
 

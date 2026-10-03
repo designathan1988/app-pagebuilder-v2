@@ -44,16 +44,11 @@ import type { SiteScripts } from '../ports/site-scripts.ts';
 import { addressedMotionNodes, treeUsesMotion } from '../motion/document.ts';
 import { motionConfig, siteUsesLottie } from '../motion/export.ts';
 import { rulesForDocument } from '../document/breakpoint-rules.ts';
+import { FORMS_SCRIPT, INTERACTIONS_SCRIPT, LOTTIE_SCRIPT, MOTION_SCRIPT, STYLESHEET } from './paths.ts';
 
 export const SITE_ARCHIVE = 'site.zip';
-export const STYLESHEET = 'css/styles.css';
-// the site's interactions script (spec export-events-js): written when the project holds interactions, linked with
-// <script defer> from every page that uses them
-export const INTERACTIONS_SCRIPT = 'js/interactions.js';
-export const FORMS_SCRIPT = 'js/forms.js';
-// the motion script and the Lottie player, at the paths the pages link them by (spec export-motion-js)
-export const MOTION_SCRIPT = 'js/motion.js';
-export const LOTTIE_SCRIPT = 'js/lottie.min.js';
+// the generated files' paths (paths.ts, the one list the file tree reads too), published here for the editor
+export { FORMS_SCRIPT, INTERACTIONS_SCRIPT, LOTTIE_SCRIPT, MOTION_SCRIPT, STYLESHEET } from './paths.ts';
 const pageUsesForms = (tree: DocNode): boolean => [...walk(tree)].some(node => node.attributes.formField !== undefined || node.attributes.formSubmit !== undefined);
 // the page setting that is the page's title (elements.json), written in the head rather than as an attribute
 const TITLE_SETTING = 'pageTitle';

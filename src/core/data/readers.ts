@@ -10,7 +10,7 @@
 import type { Message } from '../commands/registry.ts';
 import { message } from '../commands/registry.ts';
 import { csvLines, jsonRowList } from '../design/data.ts';
-import { unzip } from '../project/zip.ts';
+import { ARCHIVE_LIMITS, ArchiveError, unzip, type ArchiveLimits } from '../project/zip.ts';
 import { DataRefusal, refuse } from './collections.ts';
 
 export interface XmlElement {
@@ -150,32 +150,10 @@ function columnIndex(file: string, reference: string): number {
   return value - 1;
 }
 
-// The archive's directory read before anything is unpacked: too many entries, more unpacked bytes than the limit, or a
-// path that climbs out of the archive refuse the file.
-function guardArchive(file: string, bytes: Uint8Array): void {
-  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
-  let end = -1;
-  for (let i = bytes.length - 22; i >= Math.max(0, bytes.length - 22 - 0xffff); i -= 1) {
-    if (view.getUint32(i, true) === 0x06054b50) {
-      end = i;
-      break;
-    }
-  }
-  if (end < 0) refuse('status.data.fileSheet', { name: file });
-  const entries = view.getUint16(end + 10, true);
-  if (entries > DATA_LIMITS.entries) refuse('status.data.fileTooLarge', { name: file });
-  let at = view.getUint32(end + 16, true);
-  let unpacked = 0;
-  for (let n = 0; n < entries; n += 1) {
-    if (at + 46 > bytes.length || view.getUint32(at, true) !== 0x02014b50) refuse('status.data.fileSheet', { name: file });
-    const nameLength = view.getUint16(at + 28, true);
-    const path = new TextDecoder().decode(bytes.subarray(at + 46, at + 46 + nameLength));
-    if (path.startsWith('/') || path.includes('\\') || path.split('/').includes('..')) refuse('status.data.fileSheet', { name: file });
-    unpacked += view.getUint32(at + 24, true);
-    if (unpacked > DATA_LIMITS.unpacked) refuse('status.data.fileTooLarge', { name: file });
-    at += 46 + nameLength + view.getUint16(at + 30, true) + view.getUint16(at + 32, true);
-  }
-}
+// A spreadsheet is an archive read within the data limits (core/project/zip.ts checks the directory before anything
+// is unpacked and counts the bytes as they inflate): too many entries or more unpacked bytes than the limit refuse the
+// file as too large, a path that climbs out of the archive or a broken one as no spreadsheet.
+const SHEET_LIMITS: ArchiveLimits = { ...ARCHIVE_LIMITS, entries: DATA_LIMITS.entries, entryBytes: DATA_LIMITS.unpacked, totalBytes: DATA_LIMITS.unpacked };
 
 // The built-in number formats that show a date (ECMA-376 18.8.30), and a custom format that writes a day or a year.
 const DATE_FORMATS = new Set([14, 15, 16, 17, 22, 27, 30, 36, 50, 57]);
@@ -192,12 +170,11 @@ function dateOf(file: string, cell: string, serial: number, from1904: boolean): 
 }
 
 export async function readSpreadsheet(file: string, bytes: Uint8Array, xml: XmlReader): Promise<DataFile> {
-  guardArchive(file, bytes);
   let archive: Map<string, Uint8Array>;
   try {
-    archive = await unzip(bytes);
-  } catch {
-    return refuse('status.data.fileSheet', { name: file });
+    archive = await unzip(bytes, SHEET_LIMITS);
+  } catch (error) {
+    return refuse(error instanceof ArchiveError && error.limit ? 'status.data.fileTooLarge' : 'status.data.fileSheet', { name: file });
   }
   const part = (path: string): XmlElement | null => {
     const entry = archive.get(path);

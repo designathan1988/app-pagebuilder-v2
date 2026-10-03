@@ -8,7 +8,9 @@
 //  - The rules: an image with no alt; a link with no text; a link with no address; a heading that skips a level
 //    (h2 after h1 is fine, h4 after h2 is not); text whose colour and the first background colour above it are both
 //    set and do not reach the 4.5:1 contrast WCAG asks for body text; an embedded frame with no title; an image with no
-//    source (export: the canvas draws a placeholder in its place, the exported page nothing — the journey "site").
+//    source (export: the canvas draws a placeholder in its place, the exported page nothing — the journey "site"); a
+//    form with no submit button (WCAG technique H32: a visitor has no way to send it; the audit's AUD-22, the one
+//    html-validate error of a fixture export left to the person, src/core/export/validity.test.ts).
 //  - A value the reader cannot understand (a colour that is a variable, a gradient background) is left alone: a check
 //    never guesses, and a page that says nothing about colour is never reported.
 import type { MessageId } from '../../generated/ids.ts';
@@ -80,6 +82,18 @@ export interface CheckProperties {
   readonly backgroundProperty: string;
 }
 
+// whether a form holds a control that sends it: a button whose type is submit (the export writes submit for a button
+// in a form that says nothing, core/export/names.ts buttonKind), or a submit or image input; a form inside it sends
+// itself
+function submitsWithin(form: DocNode): boolean {
+  const sends = (node: DocNode): boolean => {
+    if (node.tag === 'button') return node.attributes.buttonType === undefined || node.attributes.buttonType === 'submit';
+    if (node.tag === 'input') return node.attributes.inputType === 'submit' || node.attributes.inputType === 'image';
+    return node.tag !== 'form' && node.children.some(sends);
+  };
+  return form.children.some(sends);
+}
+
 export function checksOf(document: DocumentJson, properties: CheckProperties): readonly CheckIssue[] {
   const issues: CheckIssue[] = [];
   const visit = (node: DocNode, hidden: boolean, background: readonly [number, number, number] | null, seenHeading: number): number => {
@@ -96,6 +110,7 @@ export function checksOf(document: DocumentJson, properties: CheckProperties): r
     if (node.tag === 'img' && !('alt' in node.attributes)) issues.push({ node: node.id, category: 'accessibility', rule: 'checks.imageAlt', fix: 'checks.imageAlt.fix' });
     if (node.tag === 'img' && String(node.attributes.src ?? '') === '') issues.push({ node: node.id, category: 'export', rule: 'checks.imageSource', fix: 'checks.imageSource.fix' });
     if (node.tag === 'iframe' && !('title' in node.attributes)) issues.push({ node: node.id, category: 'accessibility', rule: 'checks.iframeTitle', fix: 'checks.iframeTitle.fix' });
+    if (node.tag === 'form' && !submitsWithin(node)) issues.push({ node: node.id, category: 'accessibility', rule: 'checks.formSubmit', fix: 'checks.formSubmit.fix' });
     if (node.tag === 'a') {
       if (node.attributes.href === undefined || String(node.attributes.href) === '') issues.push({ node: node.id, category: 'links', rule: 'checks.linkHref', fix: 'checks.linkHref.fix' });
       if (textWithin(node) === '') issues.push({ node: node.id, category: 'links', rule: 'checks.linkText', fix: 'checks.linkText.fix' });

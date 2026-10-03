@@ -217,6 +217,9 @@ export function elementAttributes(
   for (const [name, value] of Object.entries(node.customAttributes ?? {})) if (!element.has(name)) element.set(name, value);
   if (root) page.set('lang', pageLanguage(page.get('lang'), context.language));
   if (tag === 'button') element.set('type', buttonKind(element.get('type'), context.inForm === true, typeof element.get('form') === 'string' && element.get('form') !== ''));
+  // an input says its type, the HTML default "text" included, as a button does (html-validate no-implicit-input-type;
+  // the audit's AUD-22)
+  if (tag === 'input' && !element.has('type')) element.set('type', 'text');
   // an SVG draws in its own size: a unit of its drawing is a CSS px (spec elements-svg-shapes, Problems in Pager 2)
   const viewBox = tag === SVG_TAG ? viewBoxOf(node, model) : null;
   if (viewBox !== null) element.set(VIEW_BOX, viewBox);

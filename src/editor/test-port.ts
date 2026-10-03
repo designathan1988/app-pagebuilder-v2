@@ -1,7 +1,9 @@
 // The read-only test port (ARCHITECTURE.md): what the end-to-end tests read of the editor, the document, the
 // selection, the history and the export, each as a copy taken now. It has no other member: it never writes, loads,
-// creates or selects anything, so a test can change the editor only through its doors. It is installed in every
-// build (the e2e suite tests the packaged app, playwright.config.ts), frozen on window.
+// creates or selects anything, so a test can change the editor only through its doors. It is installed, frozen on
+// window, in the dev server and in the e2e build (the suite tests the packaged app, playwright.config.ts; npm run ui
+// drives the dev server or `npm run build:e2e`), never in the build a person uses (the audit's AUD-10: src/main.tsx,
+// vite.config.ts).
 import type { CommandArgs } from '../generated/commands.ts';
 import type { CommandId } from '../generated/ids.ts';
 import { aboutNode, saidOf, whyNotAccepted, type Explanation } from '../core/explain.ts';

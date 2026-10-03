@@ -44,7 +44,7 @@ import { childrenRefusal } from '../elements/content-model.ts';
 import { readAddress } from '../elements/address.ts';
 import { sanitizedSvgMarkup } from '../elements/svg.ts';
 import { fileBytes, pickedFilePath, resolveHref, typeOfFile } from '../files/files.ts';
-import { isZip, unzip } from '../project/zip.ts';
+import { ArchiveError, archiveReason, isZip, unzip } from '../project/zip.ts';
 import { canonical, hasMarks } from '../text/inline.ts';
 import { freshName, type NodeMaker } from '../structure/insert.ts';
 import { parseDeclarations } from '../style/custom.ts';
@@ -79,7 +79,7 @@ export async function readPickedFiles(files: readonly File[]): Promise<readonly 
           if (!path.endsWith('/')) picked.push(await fileOf(path, data, ''));
         }
       } catch (error) {
-        picked.push({ name: file.name, type: file.type === '' ? 'application/zip' : file.type, bytes: base64(bytes), error: (error as Error).message });
+        picked.push({ name: file.name, type: file.type === '' ? 'application/zip' : file.type, bytes: base64(bytes), error: error instanceof ArchiveError ? error.reason : (error as Error).message });
       }
       continue;
     }
@@ -1267,8 +1267,8 @@ export const importPageFiles = (files: readonly PickedFile[]): PickedFile[] => f
 export const importHtmlCommand = registerHandler('project.importHtml', (context, { files, destination = 'page', target }) => {
   const { state, rules, ids, words, confirmed } = context;
   const picked = (files ?? []) as readonly PickedFile[];
-  const broken = picked.find((file) => typeof file.error === 'string' && file.error !== '');
-  if (broken !== undefined) return { kind: 'refused' as const, message: message('status.import.invalidArchive', { file: broken.name, reason: broken.error ?? '' }) };
+  const broken = picked.find((file) => file.error !== undefined && file.error !== '');
+  if (broken !== undefined) return { kind: 'refused' as const, message: message('status.import.invalidArchive', { file: broken.name, reason: typeof broken.error === 'string' ? broken.error : (archiveReason(broken.error) ?? '') }) };
   // the home page first: index.html, else the files in their own order
   const markup = importPageFiles(picked);
   if (markup.length === 0) return { kind: 'refused' as const, message: message('status.import.noPage') };

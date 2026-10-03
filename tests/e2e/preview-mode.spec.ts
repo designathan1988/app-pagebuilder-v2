@@ -69,3 +69,42 @@ test('Escape leaves the preview after a click inside its page', runs(OPEN, PREVI
   await expect(frame).toHaveCount(0);
   await expect(page.locator('.workbench')).toBeVisible();
 });
+
+test('only the previewed page relays a key: another sandboxed frame is not heard', runs(OPEN, PREVIEW), async ({ page }) => {
+  // the audit's AUD-10: the relay took any message from an opaque origin, so an embed sandboxed inside the page (or any
+  // other sandboxed frame) could end the preview; only the preview frame's own window is heard (MDN, postMessage: check
+  // the sender, opaque origins all read "null")
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await openEditor(page);
+  const chooser = page.waitForEvent('filechooser');
+  await runDoor(page, OPEN);
+  await (await chooser).setFiles({ name: 'aurora.json', mimeType: 'application/json', buffer: fs.readFileSync(FIXTURE) });
+  await page.keyboard.press('Control+P');
+  const frame = page.locator('[data-region="preview-page"]');
+  await expect(frame).toBeVisible();
+  // the editor hears each message after the relay did (its listener came first), so the relay has answered when it resolves
+  const heard = (marker: string) =>
+    page.evaluate((m) => new Promise<void>((resolve) => addEventListener('message', (e) => (e.data as { marker?: string } | null)?.marker === m && resolve())), marker);
+  const sibling = heard('sibling');
+  await page.evaluate(() => {
+    const rogue = document.createElement('iframe');
+    rogue.setAttribute('sandbox', 'allow-scripts');
+    rogue.srcdoc = `<script>parent.postMessage({ marker: 'sibling', builderPreviewKey: { key: 'Escape', code: 'Escape' } }, '*')</script>`;
+    document.body.append(rogue);
+  });
+  await sibling;
+  await expect(frame).toBeVisible();
+  const nested = heard('nested');
+  await page.frameLocator('[data-region="preview-page"]').locator('body').evaluate(() => {
+    const embed = document.createElement('iframe');
+    embed.setAttribute('sandbox', 'allow-scripts');
+    embed.srcdoc = `<script>top.postMessage({ marker: 'nested', builderPreviewKey: { key: 'Escape', code: 'Escape' } }, '*')</script>`;
+    document.body.append(embed);
+  });
+  await nested;
+  await expect(frame).toBeVisible();
+  // the page's own relay still works
+  await page.frameLocator('[data-region="preview-page"]').locator('h1').click();
+  await page.keyboard.press('Escape');
+  await expect(frame).toHaveCount(0);
+});

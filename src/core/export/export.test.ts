@@ -61,7 +61,8 @@ describe('the whitespace between inline neighbours (the journey "site")', () => 
   it('writes an element whose children run on in the line on one line, so no space parts them as the canvas draws none', () => {
     const label = node('label', 'Label', 'label', 'label', { children: [node('name', 'Name', 'paragraph', 'span', { text: 'Name' }), node('field', 'Input', 'input', 'input')] });
     const { html } = exportPage(page([label]), 0, RULES);
-    expect(html).toContain('  <label><span>Name</span><input></label>');
+    // the input says its type (spec export-clean, the audit's AUD-22)
+    expect(html).toContain('  <label><span>Name</span><input type="text"></label>');
   });
 
   it('keeps one element per line where the layout ignores the whitespace (a flex row) or the children are blocks', () => {

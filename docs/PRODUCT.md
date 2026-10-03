@@ -379,8 +379,8 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-07 | 2 | The document core executes DOM | audit | open |
 | AUD-08 | 2 | Store robustness: undeclared predicate refusals throw, gesture patches recorded before validation, `refusal()` does not catch | audit | done (QA 157) |
 | AUD-09 | 2 | Handlers throw instead of refusing on stale or malformed references | audit | done (QA 158 the bad-argument probe; QA 159 the random sequences' tail) |
-| AUD-10 | 2 | Unbounded ZIP inflation; the preview's key relay trusts any opaque-origin frame; the test port in production | audit; open since the module handoff (`docs/archive/history/coordination.md`) | open |
-| AUD-11 | 2 | `js/motion.js`, `js/lottie.min.js` not protected generated paths | audit; QA 124 | open |
+| AUD-10 | 2 | Unbounded ZIP inflation; the preview's key relay trusts any opaque-origin frame; the test port in production | audit; open since the module handoff (`docs/archive/history/coordination.md`) | done (QA 160) |
+| AUD-11 | 2 | `js/motion.js`, `js/lottie.min.js` not protected generated paths | audit; QA 124 | done (QA 160) |
 | AUD-12 | 2 | The uploaded font only behind "More values" | audit; J15 | open |
 | AUD-13 | 2 | F6 never focuses the canvas page | audit; J12 | open |
 | AUD-14 | 2 | Export class names partly Portuguese and numbered | audit; J14 | open |
@@ -391,7 +391,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-19 | 2 | Apply a class to every similar element reaches every element of the type | audit | open |
 | AUD-20 | 2 | The Grid template keeps empty cells when a card is inserted | audit | open |
 | AUD-21 | 2 | First panel still the Explorer; Insert called Elements in menus | audit; J26 | open |
-| AUD-22 | 2 | html-validate errors in the `motion` fixture's export | audit | open |
+| AUD-22 | 2 | html-validate errors in the `motion` fixture's export | audit | done (QA 160) |
 | AUD-23 | 1 | pt-BR values clipped in the inspector | audit | open |
 | AUD-24 | 1 | An untranslated save-refusal reason | audit | open |
 | AUD-25 | 1 | Ctrl+A on the page body selects the interface's text | audit | open |

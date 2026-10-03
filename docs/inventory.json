@@ -5,8 +5,8 @@
     "commands": 370,
     "doors": 1335,
     "scenarios": 1754,
-    "modules": 414,
-    "lines": 76996
+    "modules": 417,
+    "lines": 77179
   },
   "features": [
     {
@@ -3307,7 +3307,7 @@
     },
     {
       "path": "src/core/a11y/checks.ts",
-      "lines": 113,
+      "lines": 128,
       "commands": [],
       "features": []
     },
@@ -3426,7 +3426,7 @@
     },
     {
       "path": "src/core/data/readers.ts",
-      "lines": 304,
+      "lines": 281,
       "commands": [],
       "features": []
     },
@@ -3756,7 +3756,7 @@
     },
     {
       "path": "src/core/export/export.ts",
-      "lines": 468,
+      "lines": 463,
       "commands": [
         "project.export"
       ],
@@ -3787,6 +3787,12 @@
       "features": []
     },
     {
+      "path": "src/core/export/paths.ts",
+      "lines": 16,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/core/files/assets.ts",
       "lines": 57,
       "commands": [
@@ -3798,7 +3804,7 @@
     },
     {
       "path": "src/core/files/files.ts",
-      "lines": 557,
+      "lines": 559,
       "commands": [
         "files.upload",
         "files.createFolder",
@@ -4246,7 +4252,7 @@
     },
     {
       "path": "src/core/project/archive.ts",
-      "lines": 75,
+      "lines": 78,
       "commands": [
         "project.save",
         "project.open"
@@ -4319,7 +4325,7 @@
     },
     {
       "path": "src/core/project/zip.ts",
-      "lines": 147,
+      "lines": 265,
       "commands": [],
       "features": []
     },
@@ -4343,7 +4349,7 @@
     },
     {
       "path": "src/core/render/output.ts",
-      "lines": 226,
+      "lines": 229,
       "commands": [],
       "features": []
     },
@@ -4801,6 +4807,12 @@
       "features": []
     },
     {
+      "path": "src/core/testing/archive.ts",
+      "lines": 75,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/core/testing/handlers.ts",
       "lines": 64,
       "commands": [],
@@ -4808,7 +4820,7 @@
     },
     {
       "path": "src/core/testing/workbook.ts",
-      "lines": 151,
+      "lines": 96,
       "commands": [],
       "features": []
     },
@@ -6081,7 +6093,7 @@
     },
     {
       "path": "src/editor/shell/preview.tsx",
-      "lines": 62,
+      "lines": 75,
       "commands": [],
       "features": []
     },
@@ -6201,7 +6213,7 @@
     },
     {
       "path": "src/editor/test-port.ts",
-      "lines": 60,
+      "lines": 62,
       "commands": [],
       "features": []
     },
@@ -6480,14 +6492,20 @@
       "features": []
     },
     {
+      "path": "src/env.d.ts",
+      "lines": 5,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/generated/commands.ts",
-      "lines": 632,
+      "lines": 633,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6463,
+      "lines": 6475,
       "commands": [],
       "features": []
     },
@@ -6505,7 +6523,7 @@
     },
     {
       "path": "src/main.tsx",
-      "lines": 66,
+      "lines": 67,
       "commands": [],
       "features": []
     },
