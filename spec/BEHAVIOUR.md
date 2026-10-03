@@ -62,6 +62,11 @@ Values are CSS px; tabs keep their screen size.
 3. **The top tab is hidden under the selection chip.** Required: anchor tabs are never covered by other canvas chrome.
 4. **`height: 19px` is frozen when anchoring left and right,** turning an auto-height text box into a fixed height. Required: toggling a horizontal anchor never changes the vertical size mode, and vice versa.
 5. **A tab said nothing of its state to assistive technology** (the audit's U-051: "Anchor left" on an element anchored left by default answered "anchored right · top", with no pressed state to warn). Required: each tab is a toggle that says whether its edge is anchored (`aria-pressed`, the filled tab), the start edges of an element that holds no inset reading as anchored.
+6. **Toggling could change the element after all** (the audit's AUD-35: a one-line paragraph 232.45 px wide, anchored
+   on both edges, got two insets rounded apart, 0.42 px too close, and its text wrapped to two lines). Required: the
+   insets and sizes written are whole px and never leave the box smaller than it is drawn: on both edges the start inset
+   is rounded and the end inset is what the drawn distances leave, rounded down; a size an edge takes back is rounded
+   up. The canvas measures exactly (fractions kept) and each writer rounds.
 
 ## absolute-free-drag
 

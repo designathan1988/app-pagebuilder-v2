@@ -443,7 +443,9 @@ export const pageLayout: Layout = {
     const r = element.getBoundingClientRect();
     // the margin edge, in the frame's own pixels (the page's: the frame is scaled from outside)
     const edge = { left: r.left - cssPx(style.marginLeft), top: r.top - cssPx(style.marginTop), right: r.right + cssPx(style.marginRight), bottom: r.bottom + cssPx(style.marginBottom) };
-    const size = { width: Math.round(cssPx(style.width)), height: Math.round(cssPx(style.height)) };
+    // exact, as drawn: a writer rounds what it writes (two insets rounded apart can leave a box narrower than its text:
+    // position.setAnchors)
+    const size = { width: cssPx(style.width), height: cssPx(style.height) };
     // the containing block's padding edges: the viewport's, or the parent's border box less its borders
     const parent = element.parentElement;
     if (within === 'parent' && !parent) return null;
@@ -453,7 +455,7 @@ export const pageLayout: Layout = {
       p === null || ps === null
         ? { left: 0, top: 0, right: view.innerWidth, bottom: view.innerHeight }
         : { left: p.left + cssPx(ps.borderLeftWidth), top: p.top + cssPx(ps.borderTopWidth), right: p.right - cssPx(ps.borderRightWidth), bottom: p.bottom - cssPx(ps.borderBottomWidth) };
-    return { left: Math.round(edge.left - box.left), top: Math.round(edge.top - box.top), right: Math.round(box.right - edge.right), bottom: Math.round(box.bottom - edge.bottom), ...size };
+    return { left: edge.left - box.left, top: edge.top - box.top, right: box.right - edge.right, bottom: box.bottom - edge.bottom, ...size };
   },
 };
 

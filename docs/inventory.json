@@ -6,7 +6,7 @@
     "doors": 1346,
     "scenarios": 1774,
     "modules": 422,
-    "lines": 79571
+    "lines": 79590
   },
   "features": [
     {
@@ -3882,7 +3882,7 @@
     },
     {
       "path": "src/core/geometry/anchors.ts",
-      "lines": 149,
+      "lines": 160,
       "commands": [
         "position.setAnchors"
       ],
@@ -4601,7 +4601,7 @@
     },
     {
       "path": "src/core/style/couplings.ts",
-      "lines": 96,
+      "lines": 97,
       "commands": [],
       "features": []
     },
@@ -4816,7 +4816,7 @@
     },
     {
       "path": "src/core/testing/handlers.ts",
-      "lines": 64,
+      "lines": 69,
       "commands": [],
       "features": []
     },
@@ -4989,7 +4989,7 @@
     },
     {
       "path": "src/editor/canvas/coordinates.ts",
-      "lines": 639,
+      "lines": 641,
       "commands": [],
       "features": []
     },

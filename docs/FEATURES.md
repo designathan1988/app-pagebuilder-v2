@@ -195,7 +195,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `workspace-settings-dialog` | Guides & Grids settings dialog | yes | 11 | 10 | [workspace-settings-dialog](../spec/BEHAVIOUR.md#workspace-settings-dialog) | 3 | — |
 | `absolute-free-drag` | Free positioning of absolute children by dragging | yes | 5 | 2 | [absolute-free-drag](../spec/BEHAVIOUR.md#absolute-free-drag) | 3 | — |
 | `absolute-nudge` | Nudge positioned elements with the arrow keys | yes | 5 | 3 | [absolute-nudge](../spec/BEHAVIOUR.md#absolute-nudge) | 1 | — |
-| `absolute-anchors` | Anchor positioned elements to edges and centres | yes | 10 | 9 | [absolute-anchors](../spec/BEHAVIOUR.md#absolute-anchors) | 5 | — |
+| `absolute-anchors` | Anchor positioned elements to edges and centres | yes | 10 | 9 | [absolute-anchors](../spec/BEHAVIOUR.md#absolute-anchors) | 6 | — |
 | `align-distribute` | Align and distribute positioned elements | yes | 9 | 16 | [align-distribute](../spec/BEHAVIOUR.md#align-distribute) | 2 | — |
 | `snap-toggle-settings` | Snap on/off and snap settings | yes | 9 | 7 | [snap-toggle-settings](../spec/BEHAVIOUR.md#snap-toggle-settings) | 4 | — |
 | `snap-while-moving` | Snapping while resizing and moving positioned elements | yes | 6 | 2 | [snap-while-moving](../spec/BEHAVIOUR.md#snap-while-moving) | 4 | — |

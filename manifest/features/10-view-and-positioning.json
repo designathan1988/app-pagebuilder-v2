@@ -6278,7 +6278,7 @@
                       "width": "200px",
                       "top": "56px",
                       "left": "40px",
-                      "bottom": "175px"
+                      "bottom": "174px"
                     }
                   }
                 }
@@ -6297,7 +6297,7 @@
                 {
                   "node": "/Page/Hero/Title",
                   "property": "bottom",
-                  "value": "175px"
+                  "value": "174px"
                 }
               ],
               "geometry": [],
@@ -7009,7 +7009,7 @@
                       "width": "200px",
                       "top": "56px",
                       "left": "40px",
-                      "bottom": "175px"
+                      "bottom": "174px"
                     }
                   }
                 }
@@ -7028,7 +7028,7 @@
                 {
                   "node": "/Page/Hero/Title",
                   "property": "bottom",
-                  "value": "175px"
+                  "value": "174px"
                 }
               ],
               "geometry": [],
@@ -7749,7 +7749,7 @@
                       "width": "200px",
                       "top": "56px",
                       "left": "40px",
-                      "bottom": "175px"
+                      "bottom": "174px"
                     }
                   }
                 }
@@ -7768,7 +7768,7 @@
                 {
                   "node": "/Page/Hero/Title",
                   "property": "bottom",
-                  "value": "175px"
+                  "value": "174px"
                 }
               ],
               "geometry": [],

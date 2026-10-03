@@ -3,7 +3,7 @@
 // would meet the selection's label, which sits above the element from its left edge: the tab moves past it. The
 // scenarios cannot say where chrome is drawn: this test reads the boxes in Chrome.
 import fs from 'node:fs';
-import { expect, test, type Locator } from '../support/test.ts';
+import { expect, test, type Locator, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
 import { control, runDoor, runs } from './door.ts';
 
@@ -60,6 +60,28 @@ test('an anchor tab says whether its edge is anchored, and a press turns it over
   const right = page.locator('[data-door="position.setAnchors#handle-anchor-right"]');
   await expect(left).toHaveAttribute('aria-pressed', 'true');
   await expect(right).toHaveAttribute('aria-pressed', 'false');
+  // Intro's box in the page's own CSS px
+  const intro = () => page.frameLocator('.frame__page').locator('[data-node="n-intro"]').evaluate((el) => el.getBoundingClientRect().toJSON() as { x: number; y: number; width: number; height: number });
+  const before = await intro();
   await right.click();
   await expect(right).toHaveAttribute('aria-pressed', 'true');
+  // what the press wrote (the audit's AUD-35: the tab's state alone): both horizontal insets, measured where the
+  // element lies, in whole px, so it does not move but by the rounding of its start edge and never narrows (its one
+  // line of text stays one line)
+  await expect.poll(() => introBase(page).then((base) => [base.left !== undefined, base.right !== undefined])).toEqual([true, true]);
+  const after = await intro();
+  expect(after.height, 'the text keeps its lines').toBeCloseTo(before.height, 1);
+  expect(Math.abs(after.x - before.x), 'the start edge moves by its rounding at most').toBeLessThanOrEqual(0.5);
+  expect(after.width, 'never narrower than drawn').toBeGreaterThanOrEqual(before.width - 0.01);
+  expect(after.width, 'wider by less than a px').toBeLessThan(before.width + 1);
 });
+
+// the declarations Intro holds at the base layer, read from the document
+type Base = Readonly<Record<string, string | undefined>>;
+const introBase = (page: Page) =>
+  page.evaluate(() => {
+    type Node = { id: string; styles: { desktop?: { base?: Base } }; children: Node[] };
+    const tree = (window as unknown as { __builderTestPort: { document(): { pages: { tree: Node }[] } } }).__builderTestPort.document().pages[0]?.tree;
+    const find = (node: Node | undefined): Node | undefined => node === undefined || node.id === 'n-intro' ? node : node.children.map(find).find((found) => found !== undefined);
+    return find(tree)?.styles.desktop?.base ?? {};
+  });

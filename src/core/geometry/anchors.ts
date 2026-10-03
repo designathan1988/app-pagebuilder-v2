@@ -59,6 +59,11 @@ const ZERO = new Set(['0', '0px']);
 const FIXED = 'fixed';
 const FIT = 'fit-content';
 const isSet = (value: string | undefined) => value !== undefined && value !== AUTO;
+// a measure in whole px down or up, a measure within a thousandth of a px of a whole one being that one (a layout's
+// arithmetic leaves 12.0000001 where 12 was meant)
+const NEAR = 0.001;
+const roundedDown = (px: number) => Math.floor(px + NEAR);
+const roundedUp = (px: number) => Math.ceil(px - NEAR);
 
 // The anchors an element holds on an axis: the centre, else the edges whose insets it sets (the start edge when none:
 // where an absolute element's static position leaves it)
@@ -109,7 +114,7 @@ export const setAnchorsCommand = registerHandler(
     const positioning = rules.valuePredicates.get('positionedSelection')?.property;
     const fixed = positioning !== undefined && storedValue(found.node, positioning, rules) === FIXED;
     const place = layout.place(found.node.id as NodeId, fixed ? 'viewport' : 'parent') as Readonly<Record<string, number>> | null;
-    const at = (property: string) => `${Math.round(place?.[property] ?? 0)}px`;
+    const exact = (property: string) => place?.[property] ?? 0;
     const writes: Record<string, string | null> = {};
     // the margins of a centre it leaves go
     const leavesCenter = current.kind === 'center' && next.kind !== 'center';
@@ -117,12 +122,18 @@ export const setAnchorsCommand = registerHandler(
       Object.assign(writes, { [axis.start]: '0px', [axis.end]: '0px', [axis.marginStart]: AUTO, [axis.marginEnd]: AUTO, [axis.size]: FIT });
     } else {
       if (leavesCenter) Object.assign(writes, { [axis.marginStart]: null, [axis.marginEnd]: null });
-      writes[axis.start] = next.sides.has('start') ? at(axis.start) : null;
-      writes[axis.end] = next.sides.has('end') ? at(axis.end) : null;
+      // whole px, and never a box smaller than the one drawn: a size a hair narrower than its text wraps the text (the
+      // audit's AUD-35 found a one-line paragraph turned two lines by two rounded insets). Both edges: the start inset
+      // rounded, the end inset what is left of the drawn distances, rounded down; one edge: its inset rounded, and a
+      // size it now holds rounded up
+      const start = Math.round(exact(axis.start));
+      const both = next.sides.size === 2;
+      writes[axis.start] = next.sides.has('start') ? `${start}px` : null;
+      writes[axis.end] = !next.sides.has('end') ? null : `${both ? roundedDown(exact(axis.end) + exact(axis.start) - start) : Math.round(exact(axis.end))}px`;
       // both edges: the size follows the containing block; one edge: the size it is drawn at, when it followed them
       const followed = current.kind === 'center' || current.sides.size === 2;
-      if (next.sides.size === 2) writes[axis.size] = null;
-      else if (followed) writes[axis.size] = at(axis.size);
+      if (both) writes[axis.size] = null;
+      else if (followed) writes[axis.size] = `${roundedUp(exact(axis.size))}px`;
     }
     const other = target.axis === 'horizontal' ? both.vertical : both.horizontal;
     const horizontal = target.axis === 'horizontal' ? next : anchorsOf(found.node, other, rules);

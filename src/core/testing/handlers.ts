@@ -11,7 +11,7 @@ import { applyPatches } from '../history/transaction.ts';
 import { manualClock } from '../ports/clock.ts';
 import { anyCss } from '../ports/css.ts';
 import { sequentialIds } from '../ports/ids.ts';
-import { noLayout } from '../ports/layout.ts';
+import { noLayout, type Layout } from '../ports/layout.ts';
 import { deepFreeze } from '../store/store.ts';
 
 export const RULES = rulesFromManifest(manifest.elements, manifest.properties, manifest.html);
@@ -46,14 +46,19 @@ export interface Ran {
   readonly problems: readonly unknown[];
 }
 
-export function runHandler(handler: Handler, document: DocumentJson, args: Record<string, unknown> = {}, options: { readonly selection?: readonly string[]; readonly confirmed?: boolean; readonly ui?: unknown } = {}): Ran {
+export function runHandler(
+  handler: Handler,
+  document: DocumentJson,
+  args: Record<string, unknown> = {},
+  options: { readonly selection?: readonly string[]; readonly confirmed?: boolean; readonly ui?: unknown; readonly layout?: Layout } = {},
+): Ran {
   const context = {
     state: { document, selection: (options.selection ?? []) as NodeId[], history: EMPTY_HISTORY, message: null, ui: options.ui as never },
     ids: sequentialIds('new'),
     clock: manualClock(),
     rules: RULES,
     words: (key: string) => key,
-    layout: noLayout,
+    layout: options.layout ?? noLayout,
     css: anyCss,
     confirmed: options.confirmed ?? false,
   } as HandlerContext<never>;

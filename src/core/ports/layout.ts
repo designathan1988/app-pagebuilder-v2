@@ -13,8 +13,8 @@ export interface Layout {
   paddingBox(node: NodeId): Rect | null;
   // where the node's margin edge lies, in page pixels, from its parent's padding edges ('parent': what left, top, right
   // and bottom say once the parent is its containing block) or from the viewport's ('viewport': what they say for a
-  // fixed element), with its computed width and height; null when the canvas does not draw it (specs
-  // absolute-free-drag, keepVisualPlace; absolute-anchors)
+  // fixed element), with its computed width and height, exact (a writer rounds what it writes); null when the canvas
+  // does not draw it (specs absolute-free-drag, keepVisualPlace; absolute-anchors)
   place(node: NodeId, within: 'parent' | 'viewport'): Place | null;
   // the font size the page computes for a node, in page pixels, or the root's when the node is null: what a length in
   // rem, em or % stands for (the user's real-use audit, item 5.3); null when the canvas draws neither

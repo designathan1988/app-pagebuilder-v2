@@ -39,13 +39,14 @@ export const setParentValue = registerAction('setParentValue', (_values, _trigge
   if (effect.value !== null && !(effect.property in scene.parent)) scene.parent[effect.property] = effect.value;
 });
 // the value that keeps the element where it is drawn: a value the write names wins; a fixed element is measured from
-// the viewport, any other from its parent's padding edge (its containing block, which setParentValue made relative)
+// the viewport, any other from its parent's padding edge (its containing block, which setParentValue made relative),
+// in whole px
 const FIXED = 'fixed';
 export const keepVisualPlace = registerAction('keepVisualPlace', (values, trigger, effect, scene) => {
   if (effect.property in values) return;
   const at = scene.place(values[trigger] === FIXED ? 'viewport' : 'parent') as Readonly<Record<string, number>> | null;
   const value = at?.[effect.property];
-  if (value !== undefined) values[effect.property] = `${value}px`;
+  if (value !== undefined) values[effect.property] = `${Math.round(value)}px`;
 });
 
 const CONDITIONS: ReadonlyMap<string, RegisteredCondition> = new Map([valueIn, alwaysHolds, parentValueIn].map((c) => [c.id, c]));

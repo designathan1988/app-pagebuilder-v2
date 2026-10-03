@@ -415,6 +415,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | FL2 | 1 | narrow-window’s Escape case failed twice under load: the Insert panel takes the focus two frames after it opens, and a tile focused within them lost it to the panel’s search field, whose Escape cleared the field instead of closing the panel | QA 184’s and 185’s block runs | done (QA 185: the race fixed and proven; to confirm in the complete run) |
 | TS1 | 1 | The panel splitters are 6 px wide, under WCAG 2.5.8’s 24 px: a 24 px hit area would cover the Layers rows’ buttons, the Insert tiles and the ruler beside them, and no other control sets a panel’s width (no equivalent). A decision: room taken from the panels for a gutter, or an equivalent control (a panel-width setting or command) | QA 181 | open (needs the user’s decision) |
 | CL1 | 1 | The Form section’s Preset field cuts its value (“Brazilian taxpaye…”) once a mask preset is chosen, a state the text-fits test never reaches | QA 183, the forms-mask flow’s photo | done (QA 184) |
+| AN1 | 2 | Anchoring an element on both edges could narrow it below its text (rounded insets, the text wrapped): the canvas's measure rounded each distance apart | QA 192, AUD-35's strengthened anchor test | done (QA 192) |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 
