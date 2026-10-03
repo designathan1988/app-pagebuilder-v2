@@ -2452,7 +2452,7 @@
               "type": null
             },
             {
-              "door": "interactions.update#inspector-interaction-options",
+              "door": "interactions.update#inspector-interaction-value",
               "args": {
                 "interaction": 0,
                 "changes": "is-open"
@@ -2769,7 +2769,7 @@
               "type": null
             },
             {
-              "door": "interactions.update#inspector-interaction-options",
+              "door": "interactions.update#inspector-interaction-value",
               "args": {
                 "interaction": 0,
                 "changes": "https://example.com/plans"
@@ -3006,6 +3006,292 @@
           "refusals": [
             {
               "key": "status.interactions.notApplicable",
+              "document": "unchanged"
+            }
+          ]
+        },
+        {
+          "id": "the-options-make-an-interaction-fire-once-after-a-delay",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-interactions",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "interactions.add#inspector-interaction-add",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "interactions.update#inspector-interaction-options",
+              "args": {
+                "interaction": 0,
+                "changes": "once 200ms"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "interactions.update#inspector-interaction-options"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/@interactions",
+                "value": [
+                  {
+                    "trigger": "click",
+                    "action": "show",
+                    "once": true,
+                    "delay": 200
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Hero"
+            ],
+            "history": {
+              "undoSteps": 2,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.interactions.updated",
+                  "params": {
+                    "name": "On click",
+                    "element": "Hero"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "an-entering-trigger-set-to-every-time-keeps-the-choice",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-interactions",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "interactions.add#inspector-interaction-add",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "interactions.update#inspector-interaction-trigger",
+              "args": {
+                "interaction": 0,
+                "changes": "scroll-into-view"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "interactions.update#inspector-interaction-options",
+              "args": {
+                "interaction": 0,
+                "changes": "always"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "interactions.update#inspector-interaction-options"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/@interactions",
+                "value": [
+                  {
+                    "trigger": "scroll-into-view",
+                    "action": "show",
+                    "once": false
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Hero"
+            ],
+            "history": {
+              "undoSteps": 3,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.interactions.updated",
+                  "params": {
+                    "name": "Scrolled into view",
+                    "element": "Hero"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "an-options-text-that-says-no-option-is-refused",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-interactions",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "interactions.add#inspector-interaction-add",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "interactions.update#inspector-interaction-options",
+              "args": {
+                "interaction": 0,
+                "changes": "soon"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "interactions.update#inspector-interaction-options"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/@interactions",
+                "value": [
+                  {
+                    "trigger": "click",
+                    "action": "show"
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Hero"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.interactions.badOptions",
+                  "params": {
+                    "text": "soon"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.interactions.badOptions",
               "document": "unchanged"
             }
           ]
@@ -3317,7 +3603,7 @@
               "type": null
             },
             {
-              "door": "interactions.update#inspector-interaction-options",
+              "door": "interactions.update#inspector-interaction-value",
               "args": {
                 "interaction": 0,
                 "changes": "fade-in"
@@ -3426,6 +3712,118 @@
                   "path": "js/interactions.js",
                   "present": [
                     "classList.add('anim-fade-in')"
+                  ],
+                  "absent": []
+                }
+              ]
+            }
+          },
+          "refusals": []
+        },
+        {
+          "id": "the-options-are-wired-in-the-exported-script",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-interactions",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "interactions.add#inspector-interaction-add",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "interactions.update#inspector-interaction-options",
+              "args": {
+                "interaction": 0,
+                "changes": "once 200ms"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.export#menu-file",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.export#menu-file"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/@interactions",
+                "value": [
+                  {
+                    "trigger": "click",
+                    "action": "show",
+                    "once": true,
+                    "delay": 200
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Hero"
+            ],
+            "history": {
+              "undoSteps": 2,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.export.done",
+                  "params": {
+                    "file": "site.zip"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": {
+              "files": [
+                {
+                  "path": "js/interactions.js",
+                  "present": [
+                    "var fired = false;",
+                    "if (fired) return; fired = true;",
+                    "setTimeout",
+                    "}, 200);"
                   ],
                   "absent": []
                 }

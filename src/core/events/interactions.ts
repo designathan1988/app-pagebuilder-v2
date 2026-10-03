@@ -3,7 +3,8 @@
 // interactions.remove — with the readers the export asks (which animations an event plays, which elements the script
 // addresses).
 //  - An interaction is one event and one action on the element: on click, hover, entering the screen, the page loading
-//    or a form's submit; show, hide, toggle a class, play an animation, scroll to an element or open a link.
+//    or a form's submit; show, hide, toggle a class, play an animation, scroll to an element or open a link. Its
+//    Options say whether it fires only the first time and how long its action waits (readOptions).
 //  - The triggers and actions are the manifest's own lists (the enums of interactions.add's arguments), never re-listed
 //    here. What applies is read from the element: a form's submit only on a <form>, playing an animation only where
 //    the element holds one. Anything else is refused with status.interactions.notApplicable naming what.
@@ -143,6 +144,64 @@ function optionsFrom(node: DocNode, action: string, text: string): { readonly ch
   return { refused: message('status.interactions.notApplicable', { name: { key: actionLabel(action) } }) };
 }
 
+// The Options of an interaction (the canonical card's "Once · no delay"; Webflow's trigger settings hold the same
+// "play once" and delay): whether it fires only the first time, and how long its action waits after the trigger.
+// The triggers that fire once of their own: an element enters the screen once, the page loads once; a click, a hover
+// and a submit fire every time unless the interaction says once.
+const ONCE_BY_NATURE: ReadonlySet<string> = new Set(['scroll-into-view', 'page-load']);
+export const firesOnce = (interaction: Interaction): boolean => interaction.once ?? ONCE_BY_NATURE.has(interaction.trigger);
+// the longest wait an action takes (10 s): a longer one reads as a site that does not answer
+export const MAX_DELAY = 10_000;
+
+export interface InteractionOptions {
+  readonly once?: boolean;
+  readonly delay?: number;
+}
+
+// An options text: the word once or always (every time) and a delay — a duration in ms or s ("200ms", "0.2s"; a bare
+// number is ms, 0 none), in any order, between spaces, commas or middle dots. Null for any other text, a second word of
+// either kind, or a delay over MAX_DELAY. The editor puts the person's own words for once, every time and no delay into
+// these before the command reads them.
+export function readOptions(text: string): InteractionOptions | null {
+  const words = text.trim().toLowerCase().split(/[\s,·]+/u).filter((word) => word !== '');
+  if (words.length === 0) return null;
+  let once: boolean | undefined;
+  let delay: number | undefined;
+  for (const word of words) {
+    if (word === 'once' || word === 'always') {
+      if (once !== undefined) return null;
+      once = word === 'once';
+      continue;
+    }
+    const time = /^(\d+(?:\.\d+)?)(ms|s)?$/u.exec(word);
+    if (time === null || delay !== undefined) return null;
+    const ms = Math.round(Number(time[1]) * (time[2] === 's' ? 1000 : 1));
+    if (ms > MAX_DELAY) return null;
+    delay = ms;
+  }
+  return { ...(once === undefined ? {} : { once }), ...(delay === undefined ? {} : { delay }) };
+}
+
+// An interaction with these options: what they do not say stays; once is kept only where it is not the trigger's own
+// way, and a delay of 0 is none, so a document holds no setting that changes nothing.
+function withOptions(interaction: Interaction, options: InteractionOptions): Interaction {
+  const { once: heldOnce, delay: heldDelay, ...rest } = interaction;
+  const once = options.once ?? heldOnce;
+  const delay = options.delay ?? heldDelay;
+  return {
+    ...rest,
+    ...(once === undefined || once === ONCE_BY_NATURE.has(interaction.trigger) ? {} : { once }),
+    ...(delay === undefined || delay === 0 ? {} : { delay }),
+  };
+}
+
+// the options a changes object names (a door that stands for its value), or null when it names one out of range
+function optionsOfChanges(wanted: Readonly<Record<string, unknown>>): InteractionOptions | null {
+  const delay = wanted.delay;
+  if (delay !== undefined && (typeof delay !== 'number' || !Number.isInteger(delay) || delay < 0 || delay > MAX_DELAY)) return null;
+  return { ...(typeof wanted.once === 'boolean' ? { once: wanted.once } : {}), ...(typeof delay === 'number' ? { delay } : {}) };
+}
+
 export const addInteractionCommand = registerHandler('interactions.add', (context, { trigger, action, target, options }): Outcome<never> => {
   const found = targetNode(context);
   if (found === null) return { kind: 'change' };
@@ -153,16 +212,21 @@ export const addInteractionCommand = registerHandler('interactions.add', (contex
   const locked = lockedRefusal(context, found.node);
   if (locked !== null) return { kind: 'refused', message: locked };
   const held = options !== null && typeof options === 'object' && !Array.isArray(options) ? (options as Record<string, unknown>) : {};
-  const interaction: Interaction = {
-    trigger: chosenTrigger,
-    action: chosenAction,
-    ...(typeof target === 'string' ? { target: target as NodeId } : {}),
-    ...(typeof held.className === 'string' ? { className: held.className } : {}),
-    ...(typeof held.animation === 'string' ? { animation: held.animation } : {}),
-    ...(typeof held.address === 'string' ? { address: held.address } : {}),
-    ...(held.newTab === true ? { newTab: true as const } : {}),
-    ...(typeof held.scope === 'string' && held.scope !== '' ? { scope: held.scope } : {}),
-  };
+  const timing = optionsOfChanges(held);
+  if (timing === null) return { kind: 'refused', message: message('status.interactions.badOptions', { text: String(held.delay) }) };
+  const interaction: Interaction = withOptions(
+    {
+      trigger: chosenTrigger,
+      action: chosenAction,
+      ...(typeof target === 'string' ? { target: target as NodeId } : {}),
+      ...(typeof held.className === 'string' ? { className: held.className } : {}),
+      ...(typeof held.animation === 'string' ? { animation: held.animation } : {}),
+      ...(typeof held.address === 'string' ? { address: held.address } : {}),
+      ...(held.newTab === true ? { newTab: true as const } : {}),
+      ...(typeof held.scope === 'string' && held.scope !== '' ? { scope: held.scope } : {}),
+    },
+    timing,
+  );
   return {
     kind: 'change',
     patches: writeInteractions(found, [...interactionsOf(found.node), interaction]),
@@ -187,10 +251,17 @@ function changedByText(node: DocNode, interaction: Interaction, field: string, t
     void _n;
     return { next: { ...rest, action: typed } };
   }
-  if (field === 'options') {
+  // the action's own value: the class it toggles, the animation it plays, the address it opens
+  if (field === 'value') {
     const made = optionsFrom(node, interaction.action, typed);
     if ('refused' in made) return made;
     return { next: { ...interaction, ...made.change } };
+  }
+  // the Options: once or every time, and a delay
+  if (field === 'options') {
+    const read = readOptions(typed);
+    if (read === null) return { refused: message('status.interactions.badOptions', { text: typed }) };
+    return { next: withOptions(interaction, read) };
   }
   if (field === 'scope') {
     if (typed === '') {
@@ -248,6 +319,12 @@ export function updateInteractionCommand<Ui>(make: PickMaking<Ui>): RegisteredHa
     if (typeof wanted.action === 'string') {
       if (!applicableActions(found.node).includes(wanted.action)) return { kind: 'refused', message: message('status.interactions.notApplicable', { name: { key: actionLabel(wanted.action) } }) };
       next = { ...next, action: wanted.action };
+    }
+    // the Options as values (once, a delay in ms), as a door that stands for them writes them
+    if ('once' in wanted || 'delay' in wanted) {
+      const timing = optionsOfChanges(wanted);
+      if (timing === null) return { kind: 'refused', message: message('status.interactions.badOptions', { text: String(wanted.delay) }) };
+      next = withOptions(next, timing);
     }
     // the new-tab toggle of an open-link action (the button stands for the value it writes)
     if (typeof wanted.newTab === 'boolean') {

@@ -134,6 +134,11 @@ export interface Interaction {
   readonly address?: string;
   readonly newTab?: true;
   readonly scope?: string;
+  // whether it fires only the first time (the canonical card's Options); absent, its trigger's own way: entering the
+  // screen and the page's load fire once, a click, a hover and a submit every time
+  readonly once?: boolean;
+  // the milliseconds between the trigger and the action; absent for none
+  readonly delay?: number;
 }
 
 export interface GridSettings {

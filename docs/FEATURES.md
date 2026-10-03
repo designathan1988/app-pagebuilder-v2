@@ -5,7 +5,7 @@ the last complete browser run on a clean tree (`docs/feature-results.json`, writ
 hand. `npm run inventory:check` fails while this file is out of step. The requirements these features answer, and the
 open problems, are in `docs/PRODUCT.md`.
 
-214 features (214 built), 371 commands, 1345 doors, 1770 scenarios.
+214 features (214 built), 371 commands, 1346 doors, 1774 scenarios.
 
 No complete browser run on a clean tree has been recorded yet: the next one writes `docs/feature-results.json`.
 
@@ -273,8 +273,8 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `timeline-animation-settings` | Animation duration, delay, repeat, direction and fill | yes | 2 | 2 | [timeline-animation-settings](../spec/BEHAVIOUR.md#timeline-animation-settings) | 1 | — |
 | `timeline-preview` | Preview animations by playing and scrubbing the timeline | yes | 5 | 5 | [timeline-preview](../spec/BEHAVIOUR.md#timeline-preview) | 2 | — |
 | `export-keyframes` | Export animations as @keyframes | yes | 1 | 1 | [export-keyframes](../spec/BEHAVIOUR.md#export-keyframes) | 1 | — |
-| `events-actions` | Events and actions per element | yes | 7 | 6 | [events-actions](../spec/BEHAVIOUR.md#events-actions) | 5 | — |
-| `export-events-js` | Export interactions as standard JavaScript | yes | 2 | 1 | [export-events-js](../spec/BEHAVIOUR.md#export-events-js) | 1 | — |
+| `events-actions` | Events and actions per element | yes | 10 | 7 | [events-actions](../spec/BEHAVIOUR.md#events-actions) | 6 | — |
+| `export-events-js` | Export interactions as standard JavaScript | yes | 3 | 1 | [export-events-js](../spec/BEHAVIOUR.md#export-events-js) | 1 | — |
 
 ## 19-pages-files-assets
 

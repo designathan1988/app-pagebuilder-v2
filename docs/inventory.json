@@ -3,10 +3,10 @@
     "features": 214,
     "built": 214,
     "commands": 371,
-    "doors": 1345,
-    "scenarios": 1770,
+    "doors": 1346,
+    "scenarios": 1774,
     "modules": 422,
-    "lines": 78163
+    "lines": 78311
   },
   "features": [
     {
@@ -2581,8 +2581,8 @@
         "interactions.remove",
         "workspace.setActiveTab"
       ],
-      "doors": 15,
-      "scenarios": 7,
+      "doors": 16,
+      "scenarios": 10,
       "modules": [
         "src/core/events/interactions.ts",
         "src/editor/workspace/layout.ts"
@@ -2596,7 +2596,7 @@
         "project.export"
       ],
       "doors": 8,
-      "scenarios": 2,
+      "scenarios": 3,
       "modules": [
         "src/core/export/export.ts",
         "src/editor/view/preview.ts"
@@ -3573,7 +3573,7 @@
     },
     {
       "path": "src/core/document/model.ts",
-      "lines": 308,
+      "lines": 313,
       "commands": [],
       "features": []
     },
@@ -3728,7 +3728,7 @@
     },
     {
       "path": "src/core/events/interactions.ts",
-      "lines": 294,
+      "lines": 371,
       "commands": [
         "interactions.add",
         "interactions.update",
@@ -3740,7 +3740,7 @@
     },
     {
       "path": "src/core/events/script.ts",
-      "lines": 196,
+      "lines": 211,
       "commands": [],
       "features": []
     },
@@ -6081,7 +6081,7 @@
     },
     {
       "path": "src/editor/shell/interactions.tsx",
-      "lines": 199,
+      "lines": 238,
       "commands": [],
       "features": []
     },
@@ -6111,7 +6111,7 @@
     },
     {
       "path": "src/editor/shell/panel-field.tsx",
-      "lines": 172,
+      "lines": 175,
       "commands": [],
       "features": []
     },
@@ -6541,7 +6541,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6505,
+      "lines": 6514,
       "commands": [],
       "features": []
     },

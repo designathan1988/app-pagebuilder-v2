@@ -10,7 +10,7 @@
 //    class; play an animation (the class rule the export writes beside its @keyframes, restarted when it fires again);
 //    scroll to an element; open a link (a new tab like the element's own link, or the same one).
 import { walk, type DocNode, type DocumentJson, type Interaction, type NodeId } from '../document/model.ts';
-import { interactionsOf, needsAddress, needsAnimation } from './interactions.ts';
+import { actionTarget, firesOnce, interactionsOf, needsAddress, needsAnimation, needsTarget } from './interactions.ts';
 import { playedClassName } from '../animation/animation.ts';
 
 // The saved template trees predate runtime metadata. Recognise their semantic structure so existing projects and
@@ -83,10 +83,11 @@ export type SelectorOf = (node: NodeId) => string;
 
 const quoted = (text: string): string => `'${text.replaceAll('\\', '\\\\').replaceAll("'", "\\'")}'`;
 
-// what an interaction's action does, as JavaScript statements
-function actionJs(interaction: Interaction, selectorOf: SelectorOf): string | null {
-  const target = interaction.target === undefined ? null : selectorOf(interaction.target);
-  const find = target === null ? null : `var target = document.querySelector(${quoted(target)});`;
+// what an interaction's action does, as JavaScript statements, on the element it acts on: the target it names, else the
+// element itself (actionTarget; an action on its own element wrote `if (target)` with no target declared, which throws
+// in the script's strict mode, so an animation an element plays on itself never played in the exported site)
+function actionJs(node: DocNode, interaction: Interaction, selectorOf: SelectorOf): string | null {
+  const find = needsTarget(interaction.action) ? `var target = document.querySelector(${quoted(selectorOf(actionTarget(node, interaction)))});` : null;
   const act: string | null = (() => {
     if (interaction.action === 'show') return `if (target) target.hidden = false;`;
     if (interaction.action === 'hide') return `if (target) target.hidden = true;`;
@@ -112,26 +113,40 @@ function actionJs(interaction: Interaction, selectorOf: SelectorOf): string | nu
 }
 
 // the action a hover's leave runs, where the action has one (show and hide are each other's)
-function reverseJs(interaction: Interaction, selectorOf: SelectorOf): string | null {
+function reverseJs(node: DocNode, interaction: Interaction, selectorOf: SelectorOf): string | null {
   if (interaction.target === undefined) return null;
   const other = interaction.action === 'show' ? 'hide' : interaction.action === 'hide' ? 'show' : null;
-  return other === null ? null : actionJs({ ...interaction, action: other }, selectorOf);
+  return other === null ? null : actionJs(node, { ...interaction, action: other }, selectorOf);
 }
 
-// one interaction of one element, as the statement that wires it
+// one interaction of one element, as the statement that wires it. Its Options: an action that waits runs in a
+// setTimeout of its delay; an interaction that fires once runs its action the first time only (a flag per element: a
+// submit is still kept on the page every time, a hover's leave runs once after its enter), and one that enters the
+// screen every time runs each time the element comes back into view.
 function wiringJs(node: DocNode, interaction: Interaction, triggerSelectorOf: SelectorOf, selectorOf: SelectorOf): string | null {
-  const act = actionJs(interaction, selectorOf);
-  if (act === null) return null;
+  const action = actionJs(node, interaction, selectorOf);
+  if (action === null) return null;
+  const delay = interaction.delay ?? 0;
+  const later = (js: string): string => (delay > 0 ? `setTimeout(function () { ${js} }, ${String(delay)});` : js);
+  const act = later(action);
+  const once = firesOnce(interaction);
+  const flag = once ? 'var fired = false; ' : '';
+  const guard = once ? 'if (fired) return; fired = true; ' : '';
   const selector = triggerSelectorOf(node.id as NodeId);
-  if (interaction.trigger === 'click') return `each(${quoted(selector)}, function (el) { el.addEventListener('click', function () { ${act} }); });`;
+  if (interaction.trigger === 'click') return `each(${quoted(selector)}, function (el) { ${flag}el.addEventListener('click', function () { ${guard}${act} }); });`;
   if (interaction.trigger === 'hover') {
-    const leave = reverseJs(interaction, selectorOf);
-    return `each(${quoted(selector)}, function (el) { el.addEventListener('pointerenter', function () { ${act} });${leave === null ? '' : ` el.addEventListener('pointerleave', function () { ${leave} });`} });`;
+    const reverse = reverseJs(node, interaction, selectorOf);
+    const leave = reverse === null ? null : later(reverse);
+    const leaveGuard = once ? 'if (!fired || left) return; left = true; ' : '';
+    return `each(${quoted(selector)}, function (el) { ${flag}${once && leave !== null ? 'var left = false; ' : ''}el.addEventListener('pointerenter', function () { ${guard}${act} });${leave === null ? '' : ` el.addEventListener('pointerleave', function () { ${leaveGuard}${leave} });`} });`;
   }
-  if (interaction.trigger === 'scroll-into-view')
-    return `each(${quoted(selector)}, function (el) {\n    var fired = false;\n    var observer = new IntersectionObserver(function (entries) {\n      for (var i = 0; i < entries.length; i += 1) {\n        if (!entries[i].isIntersecting || fired) continue;\n        fired = true;\n        observer.disconnect();\n        ${act}\n      }\n    }, { threshold: 0.5 });\n    observer.observe(el);\n  });`;
+  if (interaction.trigger === 'scroll-into-view') {
+    if (once)
+      return `each(${quoted(selector)}, function (el) {\n    var fired = false;\n    var observer = new IntersectionObserver(function (entries) {\n      for (var i = 0; i < entries.length; i += 1) {\n        if (!entries[i].isIntersecting || fired) continue;\n        fired = true;\n        observer.disconnect();\n        ${act}\n      }\n    }, { threshold: 0.5 });\n    observer.observe(el);\n  });`;
+    return `each(${quoted(selector)}, function (el) {\n    var inside = false;\n    var observer = new IntersectionObserver(function (entries) {\n      for (var i = 0; i < entries.length; i += 1) {\n        var now = entries[i].isIntersecting;\n        if (now && !inside) { ${act} }\n        inside = now;\n      }\n    }, { threshold: 0.5 });\n    observer.observe(el);\n  });`;
+  }
   if (interaction.trigger === 'page-load') return `each(${quoted(selector)}, function () { ${act} });`;
-  if (interaction.trigger === 'form-submit') return `each(${quoted(selector)}, function (el) { el.addEventListener('submit', function (event) { event.preventDefault(); ${act} }); });`;
+  if (interaction.trigger === 'form-submit') return `each(${quoted(selector)}, function (el) { ${flag}el.addEventListener('submit', function (event) { event.preventDefault(); ${guard}${act} }); });`;
   return null;
 }
 

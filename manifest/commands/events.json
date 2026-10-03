@@ -46,6 +46,7 @@
         "refusalKey": "status.needsSingleSelection"
       },
       "refusals": [
+        "status.interactions.badOptions",
         "status.interactions.notApplicable",
         "status.locked.edit"
       ],
@@ -103,6 +104,7 @@
             "trigger",
             "action",
             "target",
+            "value",
             "options",
             "scope",
             "newTab"
@@ -120,6 +122,7 @@
         "refusalKey": null
       },
       "refusals": [
+        "status.interactions.badOptions",
         "status.interactions.notApplicable",
         "status.locked.edit",
         "status.url.unsafe"
@@ -205,7 +208,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "inspector-interactions",
-            "order": 6
+            "order": 8
           },
           "adapter": {
             "selection": "none",
@@ -218,6 +221,34 @@
             "changes": {
               "pick": true
             }
+          }
+        },
+        {
+          "id": "inspector-interaction-value",
+          "kind": "panel-control",
+          "drawnAs": "field",
+          "pressed": false,
+          "feature": "events-actions",
+          "panel": "inspector",
+          "control": "interaction-value",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.interactions.update",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-interactions",
+            "order": 6
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "field": "value"
           }
         },
         {
@@ -236,7 +267,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "inspector-interactions",
-            "order": 7
+            "order": 9
           },
           "adapter": {
             "selection": "none",
@@ -344,7 +375,7 @@
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
             "region": "inspector-interactions",
-            "order": 8
+            "order": 7
           },
           "adapter": {
             "selection": "none",

@@ -2035,6 +2035,7 @@ None in Pager.
    - The editing canvas never runs them; preview and the exported page run them once they are exported as JavaScript (manifest feature `export-events-js`).
 - **An interaction's card read as unfinished** (the dogfooding pass, 2026-09-30): its Applies to field stood empty when the interaction is the element's own, and Trigger and Action showed their values larger than every other value of the inspector. Required: an empty Applies to says what it means inside the field (`interactions.scope.element`, "This element"), and the card's values take the inspector's value size.
 - **Trigger and Action showed their raw values** (`click`, `toggle-class`) while the card's head said "On click → Toggle class" (the dogfooding pass). Required: the two fields show their values in the editor's words and list the offered ones in words; a typed text is taken as the value it names, typed as the value itself or in its words, in any case.
+- **The card had no Options row, and its "Options" field held the action's own value** (the audit's AUD-28; STG-5.10: the canonical card ends with Options, "Once · no delay"; Webflow's trigger settings carry the same play once and delay). Required: an interaction says whether it fires only the first time and how long its action waits. `once` absent is the trigger's own way — entering the screen and the page's load fire once, a click, a hover and a submit every time — and is stored only where the person chose otherwise; `delay` is in ms, 0 to 10 000, absent for none. The Options field (`interactions.update#inspector-interaction-options`, the card's last row) shows them in words ("Every time · no delay", "Once · 200 ms"), offers every time and once with no delay, 0.2 s, 0.5 s and 1 s, and takes a typed text of once or always and a duration (200ms, 0.2s, a bare number in ms), in the editor's words too (Uma vez · 200 ms); any other text is refused naming it (`status.interactions.badOptions`) and the document is unchanged. The action's own value — the class it toggles, the animation it plays, the address it opens — has its own field (`#inspector-interaction-value`) under Action, labelled Class, Animation or Address.
 
 ## explorer-assets-use
 
@@ -9382,6 +9383,12 @@ Required (manifest feature `export-events-js`):
   no longer plays on load.
 - The preview runs every interaction as the exported page does; in the exported page opened in Chrome every trigger
   performs its action (checked by class, computed style or scroll position).
+- An interaction's Options are the script's: an action that waits runs in a `setTimeout` of its delay; one that fires
+  once runs the first time only (a submit is still kept on the page every time, a hover's leave runs once after its
+  enter); one that enters the screen every time runs each time the element comes back into view (half of it visible).
+- An action acts on the element its interaction names, else on the element itself: it never reads a target the script
+  did not declare (the script runs in strict mode, where that throws: an animation an element played on itself never
+  played in the exported page, and a page-load one stopped every interaction after it).
 
 ## export-multi-page
 

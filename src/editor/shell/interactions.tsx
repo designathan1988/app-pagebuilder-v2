@@ -1,5 +1,6 @@
 // The Interactions tab of the inspector (DESIGN.md "Inspector"; spec events-actions): the selected element, Add, then
-// one card per interaction — Applies to, Trigger, Action, Options and the target it acts on — and Remove. Every
+// one card per interaction — Applies to, Trigger, Action (and its own value: a class, an animation, an address), the
+// target it acts on and Options (once or every time, and a delay) — and Remove. Every
 // control is a door the manifest places in the inspector-interactions region: Add (interactions.add), the card's
 // fields (interactions.update, each fixing the `field` it edits), the target's picks (the canvas door and a Layers
 // row's) and Remove. The target is not typed: the field starts picking (src/editor/inspector/pick-target.ts, DESIGN's
@@ -9,7 +10,7 @@
 import { isFeatureBuilt } from '../../app/features.ts';
 import { useState } from 'react';
 import { locate, type DocNode, type Interaction } from '../../core/document/model.ts';
-import { actionLabel, applicableActions, applicableTriggers, interactionsOf, needsAddress, needsAnimation, needsClassName, needsTarget, primaryNodeOf, triggerLabel } from '../../core/events/interactions.ts';
+import { actionLabel, applicableActions, applicableTriggers, firesOnce, interactionsOf, needsAddress, needsAnimation, needsClassName, needsTarget, primaryNodeOf, readOptions, triggerLabel } from '../../core/events/interactions.ts';
 import { animationsOf } from '../../core/animation/animation.ts';
 import { elementIcon, type DoorEntry } from '../../manifest/runtime.ts';
 import { manifest } from '../../manifest/runtime.ts';
@@ -20,7 +21,7 @@ import { useT } from '../text.ts';
 import { pickingTarget } from '../inspector/pick-target.ts';
 import { MotionInteractions } from '../motion/ui/interactions.tsx';
 import type { DispatchResult } from '../../core/store/store.ts';
-import type { CommandId, FeatureId } from '../../generated/ids.ts';
+import type { CommandId, FeatureId, MessageId } from '../../generated/ids.ts';
 
 // The doors the tab draws, read from the manifest's own data: the panel-control doors of the inspector's region
 // (manifest/layout.json: the region each is placed in), by their control names.
@@ -30,6 +31,7 @@ const ADD = doorOf('interaction-add');
 const TRIGGER_FIELD = doorOf('interaction-trigger');
 const ACTION_FIELD = doorOf('interaction-action');
 const TARGET_FIELD = doorOf('interaction-target');
+const VALUE_FIELD = doorOf('interaction-value');
 const OPTIONS_FIELD = doorOf('interaction-options');
 const SCOPE_FIELD = doorOf('interaction-scope');
 const NEW_TAB = doorOf('interaction-new-tab');
@@ -53,7 +55,39 @@ const chosenOf =
     return offered.find((value) => value.toLowerCase() === text || words(value).toLowerCase() === text) ?? typed.trim();
   };
 
-// what an interaction's options field holds, by its action
+// the words of an action's own value, by the action: the class it toggles, the animation it plays, the address it opens
+const valueLabelKey = (action: string): MessageId | null =>
+  needsClassName(action) ? 'interactions.field.className' : needsAnimation(action) ? 'interactions.field.animation' : needsAddress(action) ? 'interactions.field.address' : null;
+
+// The Options as the command reads them (core/events/interactions.ts readOptions: once or always, and a delay in ms),
+// the ones the field offers (every time and once, with no delay, 0.2 s, 0.5 s and 1 s), and their words: "Once · no
+// delay", as the canonical card writes them. A text typed in the person's words (Uma vez · 200 ms) is put into the
+// command's before it runs.
+const OPTION_PRESETS: readonly string[] = ['always 0ms', 'once 0ms', 'always 200ms', 'once 200ms', 'always 500ms', 'once 500ms', 'always 1000ms', 'once 1000ms'];
+const optionsText = (interaction: Interaction): string => `${firesOnce(interaction) ? 'once' : 'always'} ${String(interaction.delay ?? 0)}ms`;
+const useOptionWords = (): { readonly display: (value: string) => string; readonly accept: (typed: string) => string } => {
+  const t = useT();
+  const display = (value: string): string => {
+    const read = readOptions(value);
+    if (read === null) return value;
+    const delay = read.delay ?? 0;
+    return `${t(read.once === true ? 'interactions.options.onlyOnce' : 'interactions.options.everyTime')} · ${delay === 0 ? t('interactions.options.noDelay') : t('interactions.options.waits', { ms: delay })}`;
+  };
+  const accept = (typed: string): string => {
+    let text = ` ${typed.toLowerCase()} `;
+    const words: readonly (readonly [string, string])[] = [
+      [t('interactions.options.onlyOnce'), 'once'],
+      [t('interactions.options.everyTime'), 'always'],
+      [t('interactions.options.noDelay'), '0ms'],
+    ];
+    for (const [word, token] of words) text = text.split(word.toLowerCase()).join(` ${token} `);
+    // a number and its unit written apart (200 ms) read as one duration
+    return text.replaceAll('·', ' ').replace(/(\d)\s+(ms|s)(?![a-z])/gu, '$1$2').trim();
+  };
+  return { display, accept };
+};
+
+// what an interaction's value field holds, by its action
 function optionValue(interaction: Interaction): string {
   if (needsClassName(interaction.action)) return interaction.className ?? '';
   if (needsAnimation(interaction.action)) return interaction.animation ?? '';
@@ -70,6 +104,8 @@ function Card({ node, interaction, index }: { readonly node: DocNode; readonly i
   const animations = animationsOf(node).map((animation) => animation.name);
   const classes = [...node.classes];
   const [expanded, setExpanded] = useState(index === 0);
+  const options = useOptionWords();
+  const valueKey = valueLabelKey(interaction.action);
   return (
     <article className={`interaction-card${expanded ? ' is-expanded' : ''}`}>
       <header className="interaction-card__head">
@@ -90,20 +126,12 @@ function Card({ node, interaction, index }: { readonly node: DocNode; readonly i
         {ACTION_FIELD !== null ? (
           <PanelField entry={ACTION_FIELD} args={{ interaction: index }} value={interaction.action} label={t('interactions.field.action')} offered={applicableActions(node)} display={(v) => label(`action:${v}`)} accept={chosenOf(applicableActions(node), (v) => label(`action:${v}`))} />
         ) : null}
-        <div className="field-row interaction-card__target" data-interaction-target={index}>
-          <span className="field-row__label">{t('interactions.field.target')}</span>
-          {TARGET_FIELD !== null ? (
-            <PanelButton entry={TARGET_FIELD} args={{ interaction: index }} pressed={picking} icon={<Icon name="locate-fixed" size="sm" />}>
-              {picking ? t('interactions.picking') : (target?.name ?? t('interactions.target.none'))}
-            </PanelButton>
-          ) : null}
-        </div>
-        {OPTIONS_FIELD !== null && (needsClassName(interaction.action) || needsAnimation(interaction.action) || needsAddress(interaction.action)) ? (
+        {VALUE_FIELD !== null && valueKey !== null ? (
           <PanelField
-            entry={OPTIONS_FIELD}
+            entry={VALUE_FIELD}
             args={{ interaction: index }}
             value={optionValue(interaction)}
-            label={t('interactions.field.options')}
+            label={t(valueKey)}
             offered={needsClassName(interaction.action) ? classes : needsAnimation(interaction.action) ? animations : undefined}
           />
         ) : null}
@@ -117,6 +145,17 @@ function Card({ node, interaction, index }: { readonly node: DocNode; readonly i
               pressed={interaction.newTab === true}
             />
           </div>
+        ) : null}
+        <div className="field-row interaction-card__target" data-interaction-target={index}>
+          <span className="field-row__label">{t('interactions.field.target')}</span>
+          {TARGET_FIELD !== null ? (
+            <PanelButton entry={TARGET_FIELD} args={{ interaction: index }} pressed={picking} icon={<Icon name="locate-fixed" size="sm" />}>
+              {picking ? t('interactions.picking') : (target?.name ?? t('interactions.target.none'))}
+            </PanelButton>
+          ) : null}
+        </div>
+        {OPTIONS_FIELD !== null ? (
+          <PanelField entry={OPTIONS_FIELD} args={{ interaction: index }} value={optionsText(interaction)} label={t('interactions.field.options')} offered={OPTION_PRESETS} display={options.display} accept={options.accept} />
         ) : null}
       </div> : null}
       {!expanded ? <p className="interaction-card__note">

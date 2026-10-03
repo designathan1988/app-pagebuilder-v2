@@ -625,6 +625,25 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'interaction-options',
+    about: 'the event card ends with Options, as the canonical card does: once or every time and a delay, typed in the editor\'s words (AUD-28)',
+    steps: [
+      INSERT_PANEL,
+      { door: 'element.insert#elements-tile', labelled: 'Button' },
+      { door: 'workspace.setActiveTab#inspector-tab-interactions' },
+      { door: 'interactions.add#inspector-interaction-add' },
+      { photo: 'card-every-time-no-delay' },
+      { type: { at: '[data-door="interactions.update#inspector-interaction-options"] input', text: 'once 200ms' } },
+      { expect: { message: 'Changed the interaction on Button.' } },
+      { photo: 'card-once-200-ms' },
+      { click: '[data-menu="view"]' },
+      { click: 'button.menu__item:has-text("Language")' },
+      { door: 'preferences.setLanguage#menu-language-pt-br' },
+      { type: { at: '[data-door="interactions.update#inspector-interaction-options"] input', text: 'toda vez · 500 ms' } },
+      { photo: 'card-portuguese-every-time-500-ms' },
+    ],
+  },
+  {
     name: 'pt-br-fit',
     about: 'in Portuguese no text of the inspector is cut: a row whose word does not fit beside its label lays the label above its values (AUD-23)',
     steps: [

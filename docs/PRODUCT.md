@@ -144,7 +144,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-5.7 | Floating windows: header, dock button, close (J5) | done | QA 97; flow `floating-window` |
 | STG-5.8 | Inspector Style: sections, selector bar, class chips, legend | done | QA 100, 132 |
 | STG-5.9 | Inspector Settings: professional fields, link picker, plain-language accessibility | done | feature tests (inspector, settings) |
-| STG-5.10 | Inspector Interactions: the canonical card with the complete stage-10 model | partial | QA 99, 137; AUD-28 (no Options row) |
+| STG-5.10 | Inspector Interactions: the canonical card with the complete stage-10 model | done | QA 99, 137, 180 |
 | STG-5.11 | Quick panel: canonical anatomy (196 px), fields per element type | done | QA 98, 121 |
 | STG-5.12 | Command bar: filter pills, pages, layers, classes, focus into opened panels (J12, J26, D1) | done | QA 88, 104, 126, 135 |
 | STG-5.13 | Canvas overlays: labels never over content (J16), breakpoint band (J22), image marker | done | QA 89, 101, 102, 122, 128 |
@@ -397,7 +397,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-25 | 1 | Ctrl+A on the page body selects the interface's text | audit | done (QA 175) |
 | AUD-26 | 1 | The New variable kind list does not take the focus (probable) | audit | done (QA 176) |
 | AUD-27 | 1 | Duplicated pages ordered newest first | audit | done (QA 174) |
-| AUD-28 | 1 | Remaining divergences from the canonical interface (icons, palette footer, naming, event card Options) | audit | partial (QA 179: icons, footer, Layout; the event card’s Options row open) |
+| AUD-28 | 1 | Remaining divergences from the canonical interface (icons, palette footer, naming, event card Options) | audit | done (QA 179, 180) |
 | AUD-29 | 1 | 16 targets under 24 × 24 px | audit | open |
 | AUD-30 | 1 | Documents and comments that contradict the application; 347 comments citing deleted documents (now archived) | audit | open |
 | AUD-31 | 1 | The `forms-mask` flow broken since `87eb183` | audit | open |

@@ -155,7 +155,7 @@ export interface CommandArgs {
   "table.addRowAfter": Record<string, never>;
   "table.removeRow": Record<string, never>;
   "interactions.add": { readonly trigger?: "click" | "hover" | "scroll-into-view" | "page-load" | "form-submit"; readonly action?: "show" | "hide" | "toggle-class" | "play-animation" | "scroll-to" | "open-link"; readonly target?: NodeId; readonly options?: JsonValue };
-  "interactions.update": { readonly interaction?: number; readonly field?: "trigger" | "action" | "target" | "options" | "scope" | "newTab"; readonly changes?: JsonValue };
+  "interactions.update": { readonly interaction?: number; readonly field?: "trigger" | "action" | "target" | "value" | "options" | "scope" | "newTab"; readonly changes?: JsonValue };
   "interactions.remove": { readonly interaction?: number };
   "pages.add": { readonly name: string };
   "pages.rename": { readonly page: string; readonly name: string };
