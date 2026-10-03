@@ -397,7 +397,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-25 | 1 | Ctrl+A on the page body selects the interface's text | audit | done (QA 175) |
 | AUD-26 | 1 | The New variable kind list does not take the focus (probable) | audit | done (QA 176) |
 | AUD-27 | 1 | Duplicated pages ordered newest first | audit | done (QA 174) |
-| AUD-28 | 1 | Remaining divergences from the canonical interface (icons, palette footer, naming, event card Options) | audit | open |
+| AUD-28 | 1 | Remaining divergences from the canonical interface (icons, palette footer, naming, event card Options) | audit | partial (QA 179: icons, footer, Layout; the event card’s Options row open) |
 | AUD-29 | 1 | 16 targets under 24 × 24 px | audit | open |
 | AUD-30 | 1 | Documents and comments that contradict the application; 347 comments citing deleted documents (now archived) | audit | open |
 | AUD-31 | 1 | The `forms-mask` flow broken since `87eb183` | audit | open |
@@ -411,6 +411,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | T7 | — | The pointer's module-level singletons matter only with two editors on a page | deferred (DEC-26) | open |
 | RT1 | 1 | A class of the person's that one element lists alone, on an element without styles of its own, imports back as that element's own styles: plain HTML cannot tell it from the export's own class (`class="card"` and its rule either way) | QA 169, the round trip test on a new fixture | open (a limit of plain HTML; spec html-import-roundtrip says it) |
 | BW1 | 2 | The border fields of an element with no border of its own show the canvas’s zoomed computed width: a 1 px border reads `1.69014px` at 59 % | QA 177, the text-fits test | done (QA 178) |
+| FL1 | 1 | layout-composer’s scenario done-closes-the-composer failed once in a run of 157: its Escape reached the page while the Layout tool was still coming on (the focus moves into a panel two frames after it opens); six reruns pass | QA 179, the AUD-28 block run | open (the module’s owner told) |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 

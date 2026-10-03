@@ -494,7 +494,7 @@
           "feature": "copy-paste-styles",
           "labelKey": "command.pasteStyle",
           "faceLabelKey": null,
-          "icon": null,
+          "icon": "brush",
           "disabledReasonKey": "refusal.nothingSelected",
           "placement": {
             "region": "context-menu",

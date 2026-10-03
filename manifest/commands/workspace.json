@@ -3589,7 +3589,7 @@
           "control": "chip",
           "modifier": null,
           "labelKey": "quickPanel.open",
-          "icon": "sliders-horizontal",
+          "icon": "settings-2",
           "placement": {
             "region": "quick-panel",
             "order": 44

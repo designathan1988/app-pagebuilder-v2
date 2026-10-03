@@ -35,7 +35,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `move-up-down` | Move the selection up or down among its siblings with Alt+ArrowUp and Alt+ArrowDown | yes | 4 | 2 | [move-up-down](../spec/BEHAVIOUR.md#move-up-down) | 2 | — |
 | `wrap-row-column` | Wrap the selection in a Row or a Column with R and C | yes | 4 | 4 | [wrap-row-column](../spec/BEHAVIOUR.md#wrap-row-column) | 5 | — |
 | `drag-side-wrap` | Drop beside an element to put both side by side | yes | 3 | 2 | [drag-layout](../spec/BEHAVIOUR.md#drag-layout) | 4 | — |
-| `context-menu` | Right-click context menu on the canvas and in Layers | yes | 7 | 8 | [context-menu](../spec/BEHAVIOUR.md#context-menu) | 6 | — |
+| `context-menu` | Right-click context menu on the canvas and in Layers | yes | 7 | 8 | [context-menu](../spec/BEHAVIOUR.md#context-menu) | 7 | — |
 | `nest-into-previous` | Nest the selection into its previous sibling | yes | 5 | 3 | [nest-into-previous](../spec/BEHAVIOUR.md#nest-into-previous) | 4 | — |
 | `promote-out` | Move the selection out of its parent with P | yes | 4 | 3 | [promote-out](../spec/BEHAVIOUR.md#promote-out) | 3 | — |
 | `duplicate` | Duplicate the selection with Ctrl+D | yes | 4 | 2 | [duplicate](../spec/BEHAVIOUR.md#duplicate) | 3 | — |
@@ -103,7 +103,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `inspector-advanced-mode` | Switch the inspector between all properties and essentials only | yes | 2 | 2 | [inspector-advanced-mode](../spec/BEHAVIOUR.md#inspector-advanced-mode) | 2 | — |
 | `inspector-add-property` | Add a property that is not shown yet | yes | 1 | 1 | [inspector-add-property](../spec/BEHAVIOUR.md#inspector-add-property) | 5 | — |
 | `semantic-tag-switch` | Switch an element between equivalent semantic tags | yes | 12 | 1 | [semantic-tag-switch](../spec/BEHAVIOUR.md#semantic-tag-switch) | 6 | — |
-| `quick-panel` | Floating quick panel over the selection | yes | 36 | 37 | [quick-panel](../spec/BEHAVIOUR.md#quick-panel) | 15 | — |
+| `quick-panel` | Floating quick panel over the selection | yes | 36 | 37 | [quick-panel](../spec/BEHAVIOUR.md#quick-panel) | 16 | — |
 | `multi-select-edit` | Edit a property on several selected elements at once | yes | 3 | 4 | [multi-select-edit](../spec/BEHAVIOUR.md#multi-select-edit) | 4 | — |
 | `value-presets` | Ready-made values with a preview | yes | 4 | 2 | [value-presets](../spec/BEHAVIOUR.md#value-presets) | 0 | — |
 
@@ -217,7 +217,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
 | `dock-toggles` | Show and hide the docks and panels | yes | 15 | 14 | [dock-toggles](../spec/BEHAVIOUR.md#dock-toggles) | 2 | — |
-| `command-bar` | Command bar with Ctrl+K | yes | 56 | 59 | [command-bar](../spec/BEHAVIOUR.md#command-bar) | 7 | — |
+| `command-bar` | Command bar with Ctrl+K | yes | 56 | 59 | [command-bar](../spec/BEHAVIOUR.md#command-bar) | 8 | — |
 | `command-bar-set-property` | Set a property or jump to it from the command bar | yes | 10 | 10 | [command-bar-set-property](../spec/BEHAVIOUR.md#command-bar-set-property) | 2 | — |
 | `shortcuts-panel` | Keyboard shortcuts panel generated from the keymap | yes | 1 | 1 | [shortcuts-panel](../spec/BEHAVIOUR.md#shortcuts-panel) | 3 | — |
 | `workbench-panel` | Bottom workbench: tabs, collapse, maximise and developer tools | yes | 10 | 6 | [workbench-panel](../spec/BEHAVIOUR.md#workbench-panel) | 4 | — |

@@ -3,12 +3,12 @@
 // the doors of its key context: ArrowDown and ArrowUp move the active entry, Enter runs it (focus.ts: the field is a
 // combobox), Escape and a press on the backdrop close it (ui.dismiss). An entry pressed runs its command, then the bar
 // closes (the close waits for the entry's own click: closing first took the entry away before it ran).
-import { useContext, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useContext, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { isFeatureBuilt } from '../../app/features.ts';
 import type { CommandId, FeatureId, MessageId } from '../../generated/ids.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
 import { elementIcon, manifest } from '../../manifest/runtime.ts';
-import { BAR_DOORS, SCOPE_PILLS, askedSet, entryKey, groupedEntries, matchedRanges, scopeOf, kindOf, namedProperties, recentEntries, remember, setEntryFor, shownEntries, type BarEntry, type NamedProperty } from '../command-bar/command-bar.ts';
+import { BAR_DOORS, SCOPE_PILLS, askedSet, openCommandBar, entryKey, groupedEntries, matchedRanges, scopeOf, kindOf, namedProperties, recentEntries, remember, setEntryFor, shownEntries, type BarEntry, type NamedProperty } from '../command-bar/command-bar.ts';
 import { labelParamsOf } from '../doors/current.ts';
 import { DoorControl, Icon, appliesNow, isDoorBuilt } from '../doors/door.tsx';
 import { GLYPHS, doorSlots, menuOf } from '../doors/placement.ts';
@@ -25,8 +25,16 @@ import { classesOf } from '../../core/design/classes.ts';
 const BACKDROP = doorSlots('overlay')[0];
 const LIST_ID = 'command-bar-list';
 const PALETTE = manifest.elements.palette.flatMap((g) => g.entries);
-// the keys of the bar's key context (its shortcut doors), as its hints name them
+// The footer's hints, as the canonical palette writes them (the audit's AUD-28): the arrows choose, Enter runs, Tab
+// reaches the scope pills (the browser's own Tab: the pills follow the field), and the bar's other chord opens it too.
+// Escape, which closes the bar, stands at the field's end. The keys are the bar's key context's shortcut doors.
 const KEY_DOORS = manifest.doors.filter((d) => d.door.kind === 'shortcut' && d.door.context === 'command-bar');
+const keyOf = (key: string): string | null => (KEY_DOORS.some((d) => d.door.kind === 'shortcut' && d.door.chord === key) ? key : null);
+const CHOOSE_KEYS = ['ArrowUp', 'ArrowDown'].map(keyOf).filter((key): key is string => key !== null);
+const RUN_KEY = keyOf('Enter');
+const FILTER_KEY = 'Tab';
+// the chords that open the bar besides the one the top bar's search shows
+const ALSO_CHORDS = manifest.doors.flatMap((d) => (d.command.id === openCommandBar.command && d.door.kind === 'shortcut' && d.door.context === 'global' && d.door.chord !== chordHint(openCommandBar.command) ? [d.door.chord] : []));
 // the menu a command stands in, which its entry names after its label (the canonical palette: Export project (ZIP),
 // File); a command in no menu names none
 const MENU_OF = new Map(manifest.doors.flatMap((d) => (d.door.kind === 'menu' ? [[d.command.id, menuOf(d.door.menu).labelKey] as const] : [])).reverse());
@@ -210,11 +218,30 @@ function CommandBarDialog() {
           ])}
         </ul>
         <p className="command-bar__hints">
-          {KEY_DOORS.map((d) => (
-            <span key={d.ref} className="command-bar__key">
-              <kbd>{chordCap(chordHint(d.command.id, 'command-bar') ?? '')}</kbd> {t(d.door.labelKey as MessageId)}
+          {CHOOSE_KEYS.length > 0 ? (
+            <span className="command-bar__key">
+              {CHOOSE_KEYS.map((key, index) => (
+                <Fragment key={key}>
+                  {index > 0 ? ' ' : null}
+                  <kbd>{chordCap(key)}</kbd>
+                </Fragment>
+              ))}{' '}
+              {t('commandBar.hint.choose')}
             </span>
-          ))}
+          ) : null}
+          {RUN_KEY !== null ? (
+            <span className="command-bar__key">
+              <kbd>{chordCap(RUN_KEY)}</kbd> {t('commandBar.hint.run')}
+            </span>
+          ) : null}
+          <span className="command-bar__key">
+            <kbd>{chordCap(FILTER_KEY)}</kbd> {t('commandBar.hint.filter')}
+          </span>
+          {ALSO_CHORDS.length > 0 ? (
+            <span className="command-bar__key">
+              {t('commandBar.hint.also')} {ALSO_CHORDS.map((chord) => <kbd key={chord}>{chordCap(chord)}</kbd>)}
+            </span>
+          ) : null}
         </p>
       </div>
     </div>
@@ -231,7 +258,10 @@ function Entry({ e, query }: { readonly e: BarEntry; readonly query: string }) {
   const ranges = matchedRanges(query, e.label);
   const parts = ranges.flatMap(([from, to], i) => [e.label.slice(i === 0 ? 0 : (ranges[i - 1]?.[1] ?? 0), from), <mark key={from} className="command-bar__match">{e.label.slice(from, to)}</mark>]);
   const element = kindOf(e.entry) === 'insert' ? PALETTE.find((p) => p.id === e.args.entry)?.element : undefined;
-  const icon = element !== undefined ? elementIcon(element) : e.entry.door.icon;
+  // an open-panel entry draws its panel's own icon (layout.json; the canonical palette: Open Explorer with the
+  // Explorer's files, the audit's AUD-28), as the activity bar and the View menu draw it
+  const panel = kindOf(e.entry) === 'open-panel' && typeof e.args.panel === 'string' ? PANELS[e.args.panel as Panel] : undefined;
+  const icon = element !== undefined ? elementIcon(element) : (panel?.icon ?? e.entry.door.icon);
   return (
     // one icon, drawn by the control itself (the audit's U-003: the entry drew its icon a second time)
     <DoorControl entry={e.entry} args={e.args} label={e.label} className="command-bar__entry" tabbable={false} icon={icon ?? null}>
