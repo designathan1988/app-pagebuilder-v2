@@ -1848,9 +1848,9 @@ export function checkManifest(input: ManifestInput): CheckResult {
       const editor = s.expect.editor;
       const measuresEditor = (editor !== null && editor.regions.length + editor.computed.length > 0) || s.expect.hover !== undefined;
       const persistence = s.expect.persistence;
-      const persists = persistence !== null && (persistence.document !== null || persistence.preferences !== null || (persistence.selection ?? null) !== null);
+      const persists = persistence !== null && (persistence.document !== null || persistence.preferences !== null || (persistence.selection ?? null) !== null || (persistence.workspace ?? null) !== null);
       if (!renders && !measuresEditor && !persists && s.expect.export === null) {
-        report('scenario-terminal', f.file, `${f.path}.scenarios[${si}].expect`, `scenario ${s.id} has no end terminal: expect render, the editor, persistence (of the document, the preferences or the selection) or export`);
+        report('scenario-terminal', f.file, `${f.path}.scenarios[${si}].expect`, `scenario ${s.id} has no end terminal: expect render, the editor, persistence (of the document, the preferences, the selection or the workspace) or export`);
       }
     }
   }

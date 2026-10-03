@@ -68,7 +68,7 @@ interface Scenario {
     // the pointer resting on a node once the steps are done (spec hover-measure; schema.ts)
     hover?: { node: string; at: 'centre' | 'corner'; alt: boolean; shows: { region: string; key: string; params: Record<string, string | number> }[] };
     editor: { regions: { region: string; measure: Measure; relation: Relation; value: number; reference: string | null }[]; computed: { region: string; property: string; value: string }[] } | null;
-    persistence: { document: 'same' | null; preferences: 'same' | null; selection?: 'same' | null } | null;
+    persistence: { document: 'same' | null; preferences: 'same' | null; selection?: 'same' | null; workspace?: 'same' | null } | null;
     // the files inside the archive the action step handed out: each holds every `present` text and no `absent` one
     export: { files: { path: string; present: string[]; absent: string[]; absentPattern?: string[] }[] } | null;
   };
@@ -315,6 +315,15 @@ const appliedAgain = async (page: Page, before: Awaited<ReturnType<typeof applie
 
 const compare = (actual: number, relation: Relation, expected: number) =>
   relation === 'equals' ? Math.abs(actual - expected) <= 0.5 : relation === 'less-than' ? actual < expected : actual > expected;
+
+// whether an editor measure holds now (false while a region it names is not laid out): what a reloaded workspace is
+// polled for
+const editorMeasureHolds = async (page: Page, r: { readonly region: string; readonly measure: 'x' | 'y' | 'width' | 'height'; readonly relation: Relation; readonly value: number; readonly reference: string | null }) => {
+  const box = async (id: string) => page.locator(`[data-region="${id}"]`).first().boundingBox();
+  const actual = await box(r.region);
+  const base = r.reference === null ? { x: 0, y: 0, width: 0, height: 0 } : await box(r.reference);
+  return actual !== null && base !== null && compare(actual[r.measure], r.relation, base[r.measure] + r.value);
+};
 
 interface Node {
   readonly id: string;
@@ -2113,6 +2122,9 @@ export function registerScenarioTests(): void {
           const persistence = s.expect.persistence;
           if (persistence) {
             const stored = await page.evaluate(() => window.localStorage.getItem('preferences'));
+            // the workspace, kept under its own key (src/editor/workspace/persist.ts): stored once the step left it so
+            const workspace = await page.evaluate(() => window.localStorage.getItem('workspace'));
+            if (persistence.workspace === 'same') expect(workspace, 'the workspace is stored').not.toBeNull();
             const applied = await appliedPreferences(page);
             if (persistence.preferences === 'same') {
               // what is stored is what the editor shows: its language and its theme
@@ -2128,6 +2140,11 @@ export function registerScenarioTests(): void {
               await expect.poll(() => appliedAgain(page, applied), { message: 'the editor applies after the reload the preferences it had before', intervals: POLL }).toEqual(applied);
             }
             if (persistence.selection === 'same') expect((await port(page)).selection, 'selection after reload').toEqual(after.selection);
+            if (persistence.workspace === 'same') {
+              expect(await page.evaluate(() => window.localStorage.getItem('workspace')), 'workspace after reload').toBe(workspace);
+              // the reloaded editor draws it: the regions the scenario measures measure the same again
+              for (const g of s.expect.editor?.regions ?? []) await expect.poll(() => editorMeasureHolds(page, g), { message: `after the reload, ${g.region} ${g.measure} ${g.relation} ${g.value}`, intervals: POLL }).toBe(true);
+            }
           }
         });
       }

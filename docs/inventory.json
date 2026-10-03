@@ -4,9 +4,9 @@
     "built": 214,
     "commands": 371,
     "doors": 1346,
-    "scenarios": 1775,
+    "scenarios": 1776,
     "modules": 422,
-    "lines": 79595
+    "lines": 79597
   },
   "features": [
     {
@@ -2313,7 +2313,7 @@
         "inspector.toggleSection"
       ],
       "doors": 18,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/editor/inspector/sections.ts",
         "src/editor/workspace/layout.ts",
@@ -6601,7 +6601,7 @@
     },
     {
       "path": "src/manifest/schema.ts",
-      "lines": 1378,
+      "lines": 1380,
       "commands": [],
       "features": []
     },

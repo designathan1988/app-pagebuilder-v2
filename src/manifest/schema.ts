@@ -1101,14 +1101,16 @@ export const scenarioSchema = z.strictObject({
         computed: z.array(z.strictObject({ region: regionId, property: cssName, value: z.string().min(1) })),
       })
       .nullable(),
-    // what must survive an immediate reload: the document, the stored preferences, the selection (optional: absent
-    // is null), or several of them
+    // what must survive an immediate reload: the document, the stored preferences, the selection, the workspace (the
+    // panels, docks and sizes, kept apart under their own key: spec workspace-persist-reset; the last two optional,
+    // absent is null), or several of them
     persistence: z
       .strictObject({
         reload: z.literal('immediate'),
         document: z.literal('same').nullable(),
         preferences: z.literal('same').nullable(),
         selection: z.literal('same').nullable().optional(),
+        workspace: z.literal('same').nullable().optional(),
       })
       .nullable(),
     export: z

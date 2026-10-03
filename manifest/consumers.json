@@ -1473,6 +1473,10 @@
       "reader": "tools/runner/scenarios.ts"
     },
     {
+      "field": "features:features[].scenarios[].expect.persistence.workspace",
+      "reader": "tools/runner/scenarios.ts"
+    },
+    {
       "field": "features:features[].scenarios[].expect.export",
       "reader": "tools/runner/scenarios.ts"
     },
