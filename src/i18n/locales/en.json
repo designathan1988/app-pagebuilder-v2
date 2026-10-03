@@ -1903,6 +1903,7 @@
   "status.save.notSaved": "Not saved",
   "status.save.notSavedBecause": "Not saved: {reason}",
   "status.save.noDatabase": "the browser keeps no storage for this page (IndexedDB is not available)",
+  "status.save.journalInDatabase": "This project is too large for the quick crash journal: it is now kept in the browser's database, at every change.",
   "status.save.recovered": "Your work was recovered from the last session. Undo starts again from here.",
   "status.save.recoveryRequired": "Recovery required",
   "status.save.restored": "Restored the saved version.",

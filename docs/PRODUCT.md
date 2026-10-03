@@ -406,7 +406,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-34 | 1 | A test edited per new feature; misfiled manifest group | audit | done (QA 188) |
 | AUD-35 | 1 | Weak tests and thinly covered features | audit | open |
 | AUD-36 | 1 | Undo by keys over its 35 ms per-group reference | audit; QA 44, 80 | open |
-| AUD-38 | 1 | Crash journal silently off for projects over the storage quota (probable) | audit | open |
+| AUD-38 | 1 | Crash journal silently off for projects over the storage quota (probable) | audit | done (QA 189) |
 | R4 | — | `e2e:affected` selects the whole suite for 80 % of source changes | review R4 (deferred by the user, DEC-10) | open |
 | T7 | — | The pointer's module-level singletons matter only with two editors on a page | deferred (DEC-26) | open |
 | RT1 | 1 | A class of the person's that one element lists alone, on an element without styles of its own, imports back as that element's own styles: plain HTML cannot tell it from the export's own class (`class="card"` and its rule either way) | QA 169, the round trip test on a new fixture | open (a limit of plain HTML; spec html-import-roundtrip says it) |

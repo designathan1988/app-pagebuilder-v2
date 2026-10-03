@@ -63,7 +63,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `ui-language` | UI language: Brazilian Portuguese by default, English available | yes | 2 | 2 | [ui-language](../spec/BEHAVIOUR.md#ui-language) | 4 | — |
 | `autosave-restore` | Autosave to IndexedDB and restore the work after a reload | yes | 4 | 6 | [autosave-restore](../spec/BEHAVIOUR.md#autosave-restore) | 4 | — |
 | `unsaved-work-guard` | Never lose an edit that is not yet saved | yes | 1 | 1 | [unsaved-work-guard](../spec/BEHAVIOUR.md#unsaved-work-guard) | 3 | — |
-| `autosave-crash-recovery` | Keep saved versions and restore the work after a crash | yes | 1 | 1 | [autosave-crash-recovery](../spec/BEHAVIOUR.md#autosave-crash-recovery) | 2 | — |
+| `autosave-crash-recovery` | Keep saved versions and restore the work after a crash | yes | 1 | 1 | [autosave-crash-recovery](../spec/BEHAVIOUR.md#autosave-crash-recovery) | 3 | — |
 | `new-blank-page` | Start over with a new blank page | yes | 3 | 1 | [new-blank-page](../spec/BEHAVIOUR.md#new-blank-page) | 2 | — |
 | `autosave-corruption-recovery` | Recover from a corrupted saved project | yes | 1 | 1 | [autosave-corruption-recovery](../spec/BEHAVIOUR.md#autosave-corruption-recovery) | 3 | — |
 | `multi-tab-guard` | Only one tab edits the project at a time | yes | 1 | 1 | [multi-tab-guard](../spec/BEHAVIOUR.md#multi-tab-guard) | 3 | — |

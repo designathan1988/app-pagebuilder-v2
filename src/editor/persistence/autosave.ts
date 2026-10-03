@@ -3,16 +3,17 @@
 // is written as soon as the browser is idle (at most autosave.idleWait later, the plan's stage 4: the whole document
 // was serialised inside every input, a selection's too): first to a journal in localStorage — written at once, before
 // the page can unload, when the tab hides or closes —, then to IndexedDB, in one transaction; the journal is dropped
-// once IndexedDB holds that revision. A change of the selection alone never writes the document again to the journal
-// (what a crash keeps is the work; the selection travels with the next record). At start the newer of
-// the two is read (`readSavedWork`; the journal's is a crash's work, restored with a notice: spec
-// autosave-crash-recovery), restored through the project reader every open uses (`restoredWork`, which
-// src/editor/store.ts asks while it creates the store: the history starts empty), and kept as it was when the model
-// refuses it (nothing overwrites it in that session). The status bar's save state comes from here: Not saved (no
-// record yet, or a write IndexedDB refused, with its reason), Saving… (a change not in IndexedDB yet), Saved, or
-// Recovery required (the saved work the project reader refused at start: it is kept untouched, and nothing is written
-// until another project replaces the document, a restored version or File › Open or New blank page; spec
-// autosave-corruption-recovery). A refused write is written again after autosave.retryDelay, and
+// once IndexedDB holds that revision. A journal localStorage refuses (its 5 MiB quota: a project with images inline)
+// moves to IndexedDB, written at every change of the document, and the status bar says so once. A change of the
+// selection alone never writes the document again to the journal (what a crash keeps is the work; the selection travels
+// with the next record). At start the newest of the record and a journal is read (`readSavedWork`; a journal's is a
+// crash's work, restored with a notice: spec autosave-crash-recovery), restored through the project reader every open
+// uses (`restoredWork`, which src/editor/store.ts asks while it creates the store: the history starts empty), and kept
+// as it was when the model refuses it (nothing overwrites it in that session). The status bar's save state comes from
+// here: Not saved (no record yet, or a write IndexedDB refused, with its reason), Saving… (a change not in IndexedDB
+// yet), Saved, or Recovery required (the saved work the project reader refused at start: it is kept untouched, and
+// nothing is written until another project replaces the document, a restored version or File › Open or New blank page;
+// spec autosave-corruption-recovery). A refused write is written again after autosave.retryDelay, and
 // with the next change. While a change is not in IndexedDB, or a write was refused, leaving or reloading the tab asks
 // the browser's leave-page confirmation (spec unsaved-work-guard).
 import { flushDraftCaret, hasPendingDraft } from './drafts.ts';
@@ -20,6 +21,7 @@ import { readProject } from '../../core/project/archive.ts';
 import type { DocumentJson, Selection } from '../../core/document/model.ts';
 import { validateDocument, type ModelRules } from '../../core/document/validate.ts';
 import type { Store } from '../../core/store/store.ts';
+import { message } from '../../core/commands/registry.ts';
 import { numberConstant } from '../../manifest/runtime.ts';
 import { systemClock } from '../../core/ports/clock.ts';
 import type { MessageId } from '../../generated/ids.ts';
@@ -145,10 +147,51 @@ function readJournal(): SavedWork | null {
   }
 }
 
-// The saved work, the newer of IndexedDB's record and the journal a write left; null on a fresh profile.
+// The journal of a project too large for localStorage (the audit's AUD-38: its quota is 5 MiB, and a project with its
+// images inline outgrew it, so a crash kept only the last idle write): kept in IndexedDB beside the record, under its
+// own key, written at every change of the document.
+const DATABASE_JOURNAL = 'journal';
+function readDatabaseJournal(): Promise<SavedWork | null> {
+  return db().then(
+    (opened) =>
+      new Promise((resolve) => {
+        if (opened === null) return resolve(null);
+        try {
+          const request = opened.transaction(STORE).objectStore(STORE).get(DATABASE_JOURNAL);
+          request.onsuccess = () => resolve((request.result as SavedWork | undefined) ?? null);
+          request.onerror = () => resolve(null);
+        } catch {
+          resolve(null);
+        }
+      }),
+  );
+}
+// writes (a work) or drops (null) the journal kept in IndexedDB; true once it is done
+function writeDatabaseJournal(work: SavedWork | null): Promise<boolean> {
+  return db().then(
+    (opened) =>
+      new Promise((resolve) => {
+        if (opened === null) return resolve(false);
+        try {
+          const transaction = opened.transaction(STORE, 'readwrite');
+          if (work === null) transaction.objectStore(STORE).delete(DATABASE_JOURNAL);
+          else transaction.objectStore(STORE).put(work, DATABASE_JOURNAL);
+          transaction.oncomplete = () => resolve(true);
+          transaction.onerror = () => resolve(false);
+          transaction.onabort = () => resolve(false);
+        } catch {
+          resolve(false);
+        }
+      }),
+  );
+}
+
+// The saved work, the newest of IndexedDB's record and the journal a write left (in localStorage, or in IndexedDB for
+// a project too large for it); null on a fresh profile.
 export async function readSavedWork(): Promise<SavedWork | null> {
   const record = await readRecord();
-  const journal = readJournal();
+  const journals = [readJournal(), await readDatabaseJournal()].filter((one): one is SavedWork => one !== null);
+  const journal = journals.sort((a, b) => b.revision - a.revision)[0] ?? null;
   // a journal newer than the record: the session ended before IndexedDB held its last change
   if (journal !== null && (record === null || journal.revision > record.revision)) return record === null ? journal : { ...journal, recovered: true };
   return record;
@@ -193,17 +236,37 @@ export function startAutosave<Ui>(store: Store<Ui>, saved: SavedWork | null | un
   // the revision whose document the journal holds: a change of the selection alone does not write it again
   let journalled = -1;
   let idle = 0;
+  // whether the journal is kept in IndexedDB: localStorage refused it once (its 5 MiB quota, a private window), so from
+  // then on it goes to IndexedDB, at every change of the document (AUD-38)
+  let journalInDatabase = false;
   // the journal of the pending work, written now (when its document is not in the journal yet)
   const journalNow = () => {
     const work = pending;
     if (work === null || !documentRevisions.has(work.revision) || journalled >= work.revision) return;
-    try {
-      window.localStorage.setItem(JOURNAL, JSON.stringify(work));
-      journalled = work.revision;
+    const kept = () => {
+      journalled = Math.max(journalled, work.revision);
       for (const older of documentRevisions) if (older < work.revision) documentRevisions.delete(older);
-    } catch {
-      // storage refused (quota, private window): IndexedDB alone keeps the work
+    };
+    if (!journalInDatabase) {
+      try {
+        window.localStorage.setItem(JOURNAL, JSON.stringify(work));
+        kept();
+        return;
+      } catch {
+        // the journal does not fit localStorage: it moves to IndexedDB, and the status bar says so once; the older
+        // journal there is dropped, so no restore takes it for the newer work
+        journalInDatabase = true;
+        try {
+          window.localStorage.removeItem(JOURNAL);
+        } catch {
+          // storage refused even that: the journal in IndexedDB is newer, and the next start reads the newest
+        }
+        store.notice(message('status.save.journalInDatabase'));
+      }
     }
+    void writeDatabaseJournal(work).then((done) => {
+      if (done) kept();
+    });
   };
   // the revisions that changed the document (a selection alone makes none of them)
   const documentRevisions = new Set<number>();
@@ -252,6 +315,7 @@ export function startAutosave<Ui>(store: Store<Ui>, saved: SavedWork | null | un
         } catch {
           // storage refused: the journal stays, and the next start reads the same revision from either
         }
+        if (journalInDatabase && journalled === work.revision) void writeDatabaseJournal(null);
       }
     }
     writing = false;
@@ -316,6 +380,8 @@ export function startAutosave<Ui>(store: Store<Ui>, saved: SavedWork | null | un
     pending = work;
     setState('saving');
     writeWhenIdle();
+    // a journal kept in IndexedDB is written at once, so a crash before the idle write keeps this change
+    if (journalInDatabase) journalNow();
   });
   return () => {
     unsubscribe();

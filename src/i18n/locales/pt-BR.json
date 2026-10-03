@@ -1903,6 +1903,7 @@
   "status.save.notSaved": "Não salvo",
   "status.save.notSavedBecause": "Não salvo: {reason}",
   "status.save.noDatabase": "o navegador não guarda dados desta página (o IndexedDB não está disponível)",
+  "status.save.journalInDatabase": "Este projeto é grande demais para o diário rápido contra falhas: agora ele fica no banco de dados do navegador, a cada mudança.",
   "status.save.recovered": "Seu trabalho foi recuperado da última sessão. O Desfazer recomeça daqui.",
   "status.save.recoveryRequired": "Recuperação necessária",
   "status.save.restored": "Versão salva restaurada.",

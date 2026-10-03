@@ -4914,6 +4914,7 @@ export const MESSAGE_IDS = [
   "status.save.notSaved",
   "status.save.notSavedBecause",
   "status.save.noDatabase",
+  "status.save.journalInDatabase",
   "status.save.recovered",
   "status.save.recoveryRequired",
   "status.save.restored",

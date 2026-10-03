@@ -377,6 +377,7 @@ None.
 
 1. **Only five versions, kept inside the record they belong to,** so a record that cannot be read takes its history with it. Required: ten versions, each its own entry, with its time.
 2. **A change made just before the browser died is lost** when its delayed write had not run. Required: the journal written with every change brings it back, and the notice says so.
+3. **A project too large for localStorage lost its crash journal without a word** (the audit's AUD-38: the journal's write met localStorage's 5 MiB quota, the error was swallowed, and a crash kept only the last idle write of IndexedDB). Required: a journal localStorage refuses moves to IndexedDB, beside the record under its own key, written at every change of the document rather than when the browser is idle; the older journal in localStorage is dropped; the status bar says so once (`status.save.journalInDatabase`); the next start reads the newest of the record and the two journals, a journal newer than the record restored with the recovered notice.
 
 ### Undo and redo
 
