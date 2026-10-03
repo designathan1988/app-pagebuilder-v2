@@ -1,21 +1,10 @@
 /* the project's variables in the Styles view (src/editor/shell/variables.tsx) */
-.variables__new {
-  position: relative;
-}
-
+/* New variable's list of kinds, in the editor's popover (primitives.css .popover places and draws it) */
 .variables__kinds {
-  position: absolute;
-  z-index: 6;
-  top: 100%;
-  right: 0;
   display: flex;
   flex-direction: column;
   min-width: calc(var(--space-10) * 4);
   padding: var(--space-1);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-surface-raised);
-  box-shadow: var(--shadow-2);
 }
 
 .variables__group-title {

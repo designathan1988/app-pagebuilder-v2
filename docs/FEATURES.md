@@ -123,7 +123,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `page-properties` | Page properties: title, language, direction and page styles | yes | 6 | 4 | [page-properties](../spec/BEHAVIOUR.md#page-properties) | 5 | — |
 | `base-style` | The project's base style | yes | 2 | 2 | [base-style](../spec/BEHAVIOUR.md#base-style) | 2 | — |
 | `export-zip` | Export the page as a ZIP with HTML and a separate CSS file | yes | 5 | 2 | [export-zip](../spec/BEHAVIOUR.md#export-zip) | 8 | — |
-| `css-variables-tokens` | Design tokens as CSS variables | yes | 11 | 7 | [css-variables-tokens](../spec/BEHAVIOUR.md#css-variables-tokens) | 6 | — |
+| `css-variables-tokens` | Design tokens as CSS variables | yes | 11 | 7 | [css-variables-tokens](../spec/BEHAVIOUR.md#css-variables-tokens) | 7 | — |
 | `export-bem-css` | Exported CSS uses readable BEM classes and is deterministic | yes | 3 | 1 | [export-bem-css](../spec/BEHAVIOUR.md#export-bem-css) | 5 | — |
 
 ## 07-elements

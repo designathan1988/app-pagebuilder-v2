@@ -1249,6 +1249,10 @@ Read from Pager's source (`reference/Pager`, run from `.cache/pager-run`); refer
 - **A new variable left the focus on nothing** (jornada03 plan, stage 5: "nova variável rola até ela e foca"). Required:
   the variable New variable makes is scrolled into view and its name field takes the focus with the name selected, so
   the name typed next replaces it (Enter keeps it, as every name).
+- **The list of kinds could not be reached from the keyboard** (the audit's AUD-26: the + opened it and kept the
+  focus). Required: New variable's + opens the kinds as a listbox in the editor's popover, and the first kind takes the
+  focus; the arrows move it among the kinds (wrapping), Home and End reach the ends, Enter makes a variable of the
+  focused kind, and Escape or a press outside closes the list and gives the focus back to the +, with nothing made.
 
 ### Undo and redo
 

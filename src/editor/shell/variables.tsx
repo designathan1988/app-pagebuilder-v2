@@ -4,22 +4,25 @@
 // kinds: each item makes a variable of its kind with the next free name (the kind, a dash and a number) and its kind's
 // first value. A field keeps its text on Enter or when it is left, as the inspector's text fields do, for the variable
 // it was drawn for.
-import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
+import { useEffect, useRef, type CSSProperties, type FormEvent } from 'react';
 import { isFeatureBuilt } from '../../app/features.ts';
 import { tokensOf, type Token } from '../../core/design/tokens.ts';
 import { siteColoursOf } from '../../core/design/site-colours.ts';
 import { suggestedName, suggestionsOf } from '../../core/design/suggest.ts';
 import { pluralForm } from '../../i18n/index.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
-import type { CommandId, FeatureId, MessageId } from '../../generated/ids.ts';
+import type { CommandId, FeatureId, KeyContextId, MessageId } from '../../generated/ids.ts';
 import type { DoorEntry } from '../../manifest/runtime.ts';
 import { DoorControl, Icon, useDoor } from '../doors/door.tsx';
 import { doorSlots } from '../doors/placement.ts';
 import { afterGesture } from '../input/pointer.ts';
 import { useEditorState, useStore } from '../store.ts';
 import { useLocale, useT } from '../text.ts';
+import { Popover, usePopover } from './popover.tsx';
 
 const DOORS = doorSlots('styles');
+// the key context of the list of kinds: a list of items has the menu's keys (interactions.json)
+const MENU_KEYS: KeyContextId = 'menu';
 // the doors of the section: New variable (its command takes a kind), a row's name field (a name), value field (a value
 // for a token) and Delete (the token alone)
 const ADD = DOORS.find((d) => 'kind' in d.command.args);
@@ -45,14 +48,16 @@ function nextName(kind: string, tokens: readonly Token[]): string {
   for (let n = 1; ; n += 1) if (!tokens.some((t) => t.name === `${kind}-${n}`)) return `${kind}-${n}`;
 }
 
-// An item of New variable's list: it makes a variable of its kind, and the list closes.
-function KindItem({ entry, args, label, onDone }: { readonly entry: DoorEntry; readonly args: Readonly<Record<string, string>>; readonly label: string; readonly onDone: () => void }) {
+// An item of New variable's list: it makes a variable of its kind, and the list closes. The first holds the list's Tab
+// stop; the arrows reach the others.
+function KindItem({ entry, args, label, onDone, first }: { readonly entry: DoorEntry; readonly args: Readonly<Record<string, string>>; readonly label: string; readonly onDone: () => void; readonly first: boolean }) {
   const door = useDoor(entry, args, label, isFeatureBuilt(entry.door.feature as FeatureId));
   return (
     <button
       type="button"
       role="option"
       aria-selected={false}
+      tabIndex={first ? 0 : -1}
       className={`variables__kind${door.available ? '' : ' is-unavailable'}`}
       data-door={entry.ref}
       data-args={JSON.stringify(args)}
@@ -77,13 +82,19 @@ function KindItem({ entry, args, label, onDone }: { readonly entry: DoorEntry; r
   );
 }
 
+// New variable's + opens the list of kinds in the editor's popover (popover.tsx), a listbox with the menu's keys: the
+// first kind takes the focus, the arrows, Home and End move it, Enter makes the variable, and Escape or a press outside
+// closes the list and gives the focus back to the + (the audit's AUD-26: the focus stayed on the +, and the kinds could
+// not be reached from the keyboard).
 function NewVariable({ entry, tokens }: { readonly entry: DoorEntry; readonly tokens: readonly Token[] }) {
   const t = useT();
-  const [open, setOpen] = useState(false);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const { open, setOpen } = usePopover(trigger);
   const door = useDoor(entry, {}, undefined, isFeatureBuilt(entry.door.feature as FeatureId));
   return (
-    <span className="variables__new">
+    <>
       <button
+        ref={trigger}
         type="button"
         className={`door door--icon-button${door.available ? '' : ' is-unavailable'}`}
         data-door={entry.ref}
@@ -98,13 +109,13 @@ function NewVariable({ entry, tokens }: { readonly entry: DoorEntry; readonly to
         {entry.door.icon !== null ? <Icon name={entry.door.icon} size="md" /> : null}
       </button>
       {open ? (
-        <span className="variables__kinds" role="listbox" aria-label={door.label}>
+        <Popover onDismiss={() => setOpen(false)} anchor={trigger} className="variables__kinds" role="listbox" label={door.label} keyContext={MENU_KEYS}>
           {KINDS.map((kind, i) => (
-            <KindItem key={kind} entry={entry} args={{ kind, name: nextName(kind, tokens), value: FIRST_VALUES[i] ?? '' }} label={t(`styles.newVariable.${kind}` as MessageId)} onDone={() => setOpen(false)} />
+            <KindItem key={kind} entry={entry} args={{ kind, name: nextName(kind, tokens), value: FIRST_VALUES[i] ?? '' }} label={t(`styles.newVariable.${kind}` as MessageId)} onDone={() => setOpen(false)} first={i === 0} />
           ))}
-        </span>
+        </Popover>
       ) : null}
-    </span>
+    </>
   );
 }
 
