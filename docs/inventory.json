@@ -6,7 +6,7 @@
     "doors": 1346,
     "scenarios": 1774,
     "modules": 422,
-    "lines": 79537
+    "lines": 79571
   },
   "features": [
     {
@@ -3758,7 +3758,7 @@
     },
     {
       "path": "src/core/export/export.ts",
-      "lines": 493,
+      "lines": 511,
       "commands": [
         "project.export"
       ],
@@ -5329,7 +5329,7 @@
     },
     {
       "path": "src/editor/explorer/explorer.ts",
-      "lines": 148,
+      "lines": 154,
       "commands": [
         "files.open",
         "files.startRename"
@@ -5438,7 +5438,7 @@
     },
     {
       "path": "src/editor/input/keymap.ts",
-      "lines": 552,
+      "lines": 562,
       "commands": [],
       "features": []
     },

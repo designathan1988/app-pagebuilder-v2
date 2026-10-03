@@ -405,7 +405,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-33 | 1 | 11 controls outside the manifest (`data-local`) | audit | done (QA 187) |
 | AUD-34 | 1 | A test edited per new feature; misfiled manifest group | audit | done (QA 188) |
 | AUD-35 | 1 | Weak tests and thinly covered features | audit | open |
-| AUD-36 | 1 | Undo by keys over its 35 ms per-group reference | audit; QA 44, 80 | open |
+| AUD-36 | 1 | Undo by keys over its 35 ms per-group reference | audit; QA 44, 80 | partial (QA 190: undo 41.8 → 34.7–36.8 ms, --enforce passed once in two runs; the rest is React reconciling the subscribed controls) |
 | AUD-38 | 1 | Crash journal silently off for projects over the storage quota (probable) | audit | done (QA 189) |
 | R4 | — | `e2e:affected` selects the whole suite for 80 % of source changes | review R4 (deferred by the user, DEC-10) | open |
 | T7 | — | The pointer's module-level singletons matter only with two editors on a page | deferred (DEC-26) | open |

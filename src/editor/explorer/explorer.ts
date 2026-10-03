@@ -8,7 +8,7 @@ import { message, registerHandler } from '../../core/commands/registry.ts';
 import type { DocumentJson, Page, ProjectFile } from '../../core/document/model.ts';
 import { filesOf, folderOf, folderPaths } from '../../core/files/files.ts';
 import { isGenerated } from '../code-panel/code-panel.ts';
-import { FORMS_SCRIPT, INTERACTIONS_SCRIPT, LOTTIE_SCRIPT, MOTION_SCRIPT, STYLESHEET, siteFiles } from '../../core/export/export.ts';
+import { FORMS_SCRIPT, INTERACTIONS_SCRIPT, LOTTIE_SCRIPT, MOTION_SCRIPT, STYLESHEET, siteFiles, siteScriptsWritten } from '../../core/export/export.ts';
 import { siteScripts } from '../forms/script.ts';
 import type { ModelRules } from '../../core/document/validate.ts';
 import type { EditorUi } from '../state.ts';
@@ -52,6 +52,12 @@ const SCRIPTS = [
 ] as const;
 // the paths the export may write a script at
 export const SCRIPT_PATHS: readonly string[] = SCRIPTS.map(([path]) => path);
+// the paths of the scripts the export writes now, read without writing the site (export.ts siteScriptsWritten): what
+// the rows list at every change of the document, the text being written only when the code pane shows one
+export function generatedScriptPaths(document: DocumentJson, rules: ModelRules): readonly string[] {
+  const written = siteScriptsWritten(document, rules);
+  return SCRIPTS.flatMap(([path, part]) => (written.has(part) ? [path] : []));
+}
 export function generatedScripts(document: DocumentJson, rules: ModelRules): readonly { readonly path: string; readonly text: string }[] {
   const site = siteFiles(document, rules, true, siteScripts);
   return SCRIPTS.flatMap(([path, part]) => {
@@ -66,7 +72,7 @@ export function fileRows(document: DocumentJson, rules: ModelRules): readonly Fi
   const generated: FileRow[] = [
     ...document.pages.map((page) => ({ path: page.file, kind: 'html' as const, generated: true, size: null })),
     { path: STYLESHEET, kind: 'css' as const, generated: true, size: null },
-    ...generatedScripts(document, rules).map((script) => ({ path: script.path, kind: 'js' as const, generated: true, size: null })),
+    ...generatedScriptPaths(document, rules).map((path) => ({ path, kind: 'js' as const, generated: true, size: null })),
   ];
   const owned: FileRow[] = filesOf(document).map((file: ProjectFile) => ({ path: file.path, kind: kindOf(file.path, file.type), generated: false, size: Math.floor((file.bytes.length * 3) / 4) }));
   return [...generated, ...owned];
@@ -93,7 +99,7 @@ export function treeRows(document: DocumentJson, rules: ModelRules): readonly Tr
   const folders = folderPaths(document);
   const under = (folder: string): readonly string[] => folders.filter((one) => folderOf(one) === folder).sort();
   // the generated stylesheet and scripts: rows of no stored file and no page
-  const made = [STYLESHEET, ...generatedScripts(document, rules).map((script) => script.path)].map((path) => ({ path, file: null as ProjectFile | null, page: null as Page | null }));
+  const made = [STYLESHEET, ...generatedScriptPaths(document, rules)].map((path) => ({ path, file: null as ProjectFile | null, page: null as Page | null }));
   const filesIn = (folder: string): readonly { readonly path: string; readonly file: ProjectFile | null; readonly page: Page | null }[] =>
     [...filesOf(document).map((file) => ({ path: file.path, file, page: null as Page | null })), ...document.pages.map((page) => ({ path: page.file, file: null as ProjectFile | null, page })), ...made]
       .filter((one) => folderOf(one.path) === folder)

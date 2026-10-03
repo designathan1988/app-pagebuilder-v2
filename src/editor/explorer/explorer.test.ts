@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { createEditorStore, MODEL_RULES } from '../store.ts';
 import { manualClock } from '../../core/ports/clock.ts';
 import { sequentialIds } from '../../core/ports/ids.ts';
-import { siteFiles } from '../../core/export/export.ts';
+import fs from 'node:fs';
+import { siteFiles, siteScriptsWritten } from '../../core/export/export.ts';
+import type { DocumentJson } from '../../core/document/model.ts';
 import { siteScripts } from '../forms/script.ts';
 import { paneText } from '../code-panel/code-panel.ts';
 import { fileRows, treeRows } from './explorer.ts';
@@ -30,5 +32,17 @@ describe('the Explorer tree lists what the export writes', () => {
     const written = siteFiles(document, MODEL_RULES, true, siteScripts).interactions;
     expect(written).not.toBeNull();
     expect(paneText('js/interactions.js', document, MODEL_RULES)).toBe(written);
+  });
+});
+
+// The rows learn which scripts the site writes without writing the site (the audit's AUD-36: every undo wrote the whole
+// export just to list them): on every fixture the scripts listed are exactly those siteFiles writes.
+describe('the generated scripts listed', () => {
+  const fixtures = fs.readdirSync('manifest/features/fixtures').filter((name) => name.endsWith('.json'));
+  it.each(fixtures)('are the scripts the export writes, on %s', (name) => {
+    const document = JSON.parse(fs.readFileSync(`manifest/features/fixtures/${name}`, 'utf8')) as DocumentJson;
+    const site = siteFiles(document, MODEL_RULES, true, siteScripts);
+    const written = (['interactions', 'forms', 'motion', 'lottie'] as const).filter((part) => site[part] !== null);
+    expect([...siteScriptsWritten(document, MODEL_RULES)].sort()).toEqual([...written].sort());
   });
 });

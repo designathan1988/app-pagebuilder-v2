@@ -417,6 +417,24 @@ export function siteFiles(
   return { pages: pages.map(({ page, code }) => ({ file: page.file, html: code.html.map((line) => line.text).join('\n') })), css, cssLines, interactions, forms, motion, lottie };
 }
 
+// The scripts the site writes beside its pages: the same answers siteFiles reaches, read without writing the pages or
+// their stylesheet — the selectors a script names change its text, never whether it is written (every element an
+// interaction or a motion addresses takes a generated class). The Explorer lists the generated files at every change of
+// the document (the audit's AUD-36: listing them through siteFiles wrote the whole site at every undo).
+export type SiteScriptPart = 'interactions' | 'forms' | 'motion' | 'lottie';
+export function siteScriptsWritten(document: DocumentJson, manifestRules: ModelRules): ReadonlySet<SiteScriptPart> {
+  const written = new Set<SiteScriptPart>();
+  const anywhere = () => '.';
+  if (interactionsJs(document, anywhere) !== null) written.add('interactions');
+  if (document.pages.some((page) => pageUsesForms(page.tree))) written.add('forms');
+  const breakpoints = rulesForDocument(manifestRules, document).output.breakpoints.map(({ id, width, base }) => ({ id, width, base }));
+  if (motionConfig(document, { selectorOf: anywhere, breakpoints, playedClassName }) !== null) {
+    written.add('motion');
+    if (siteUsesLottie(document)) written.add('lottie');
+  }
+  return written;
+}
+
 // A page as the preview shows it (spec preview-mode): the exported page itself, its stylesheet written in its head in
 // place of the link (the preview has no files to load), and links and forms opening in a new tab, never in the editor.
 export function previewPage(document: DocumentJson, rules: ModelRules, pageIndex = 0, scripts?: SiteScripts): string {

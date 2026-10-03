@@ -92,12 +92,22 @@ export function bindingFor(context: KeyContextId, chord: string): DoorEntry | nu
 // The chord shown next to a command's label: its first shortcut in the context the control acts in, else in a context
 // that one inherits; the global context by default. The context menu acts on the canvas's selection, so its items
 // show the canvas's keys (Alt+ArrowUp for Move up; spec context-menu, Problems in Pager 2).
+// (each answer kept: the manifest's shortcuts never change, and every door asks at every render; the audit's AUD-36)
+const HINTS = new Map<string, string | null>();
 export function chordHint(command: CommandId, context: KeyContextId = 'global'): string | null {
+  const key = `${command} ${context}`;
+  const known = HINTS.get(key);
+  if (known !== undefined) return known;
+  let found: string | null = null;
   for (const c of keyContextChain(context)) {
     const door = shortcuts.find((d) => d.command.id === command && d.door.kind === 'shortcut' && d.door.context === c);
-    if (door && door.door.kind === 'shortcut') return door.door.chord;
+    if (door && door.door.kind === 'shortcut') {
+      found = door.door.chord;
+      break;
+    }
   }
-  return null;
+  HINTS.set(key, found);
+  return found;
 }
 
 // a chord as its key cap shows it (key-caps.ts)
