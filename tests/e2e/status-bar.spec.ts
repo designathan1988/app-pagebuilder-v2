@@ -5,7 +5,7 @@
 import fs from 'node:fs';
 import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
-import { control, runDoor, runs } from './door.ts';
+import { control, runDoor, runs, openExplorer } from './door.ts';
 
 const FIXTURE = 'manifest/features/fixtures/aurora.json';
 const OPEN = 'project.open#menu-file';
@@ -134,6 +134,7 @@ test('the element count is that of the open page: a new page reads one element',
   // the dogfooding pass: a new empty page read "20 elements", the count of every page of the project (the aurora project
   // is open: beforeEach)
   await expect(page.locator('.status-bar').getByText('19 elements')).toHaveCount(1);
+  await openExplorer(page);
   await runDoor(page, 'pages.add#explorer-add-page');
   await expect(page.locator('.status-bar').getByText('1 element', { exact: true })).toHaveCount(1);
 });

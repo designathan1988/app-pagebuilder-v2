@@ -3,7 +3,7 @@
 // current state the store holds. A door that is no toggle (a close button, a command item) says nothing.
 import { expect, test } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
-import { openMenu, runDoor, runs } from './door.ts';
+import { openMenu, runDoor, runs, openExplorer } from './door.ts';
 
 const door = (ref: string) => `[data-door="${ref}"]`;
 
@@ -14,10 +14,11 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('the toggle buttons of the panels and the workbench say whether they are on, and a close button says nothing', runs('workspace.setPanelOpen#toolbar-activity-bar-insert', 'workspace.setWorkbenchState#toolbar-workbench-strip-maximize'), async ({ page }) => {
-  // a fresh profile: the Explorer and the canvas tools are open, Insert is not, and the dock is closed — closed, it
-  // keeps its strip (spec workspace, as the canonical design draws it), whose show/hide says the workbench is hidden
-  await expect(page.locator(door('workspace.setPanelOpen#toolbar-activity-bar-explorer'))).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.locator(door('workspace.setPanelOpen#toolbar-activity-bar-insert'))).toHaveAttribute('aria-pressed', 'false');
+  // a fresh profile: Insert (the audit's AUD-21) and the canvas tools are open, the Explorer is not, and the dock is
+  // closed — closed, it keeps its strip (spec workspace, as the canonical design draws it), whose show/hide says the
+  // workbench is hidden
+  await expect(page.locator(door('workspace.setPanelOpen#toolbar-activity-bar-explorer'))).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator(door('workspace.setPanelOpen#toolbar-activity-bar-insert'))).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator(door('workspace.setPanelOpen#toolbar-canvas-toolbar-canvas-tools'))).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator(door('workspace.setWorkbenchState#toolbar-workbench-strip-toggle'))).toHaveAttribute('aria-pressed', 'false');
   await runDoor(page, 'workspace.setPanelOpen#menu-view-workbench');
@@ -25,6 +26,8 @@ test('the toggle buttons of the panels and the workbench say whether they are on
   await expect(page.locator(door('workspace.setWorkbenchState#toolbar-workbench-strip-maximize'))).toHaveAttribute('aria-pressed', 'false');
   await expect(page.locator(door('workspace.setPanelOpen#workbench-tab-close'))).not.toHaveAttribute('aria-pressed', /.*/);
 
+  // from the Explorer, Insert's door turns it on and the Explorer's off
+  await openExplorer(page);
   await runDoor(page, 'workspace.setPanelOpen#toolbar-activity-bar-insert');
   await expect(page.locator(door('workspace.setPanelOpen#toolbar-activity-bar-insert'))).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator(door('workspace.setPanelOpen#toolbar-activity-bar-explorer'))).toHaveAttribute('aria-pressed', 'false');

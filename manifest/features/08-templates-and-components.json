@@ -5783,6 +5783,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "components.fillFromData#explorer-fill-from-data",
               "args": {
                 "path": "data/plans.json"

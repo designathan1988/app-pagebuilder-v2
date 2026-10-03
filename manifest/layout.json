@@ -616,14 +616,14 @@
       "labelKey": "panel.explorer",
       "place": "sidebar",
       "in": null,
-      "open": true
+      "open": false
     },
     "elements": {
       "icon": "square-plus",
       "labelKey": "panel.elements",
       "place": "sidebar",
       "in": null,
-      "open": false
+      "open": true
     },
     "variables": {
       "icon": "palette",

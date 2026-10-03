@@ -491,3 +491,9 @@ export async function scrollToControl(page: Page, ref: string, options: { readon
   if ((await target.count()) > 0) await target.scrollIntoViewIfNeeded();
   await settle();
 }
+
+// The Explorer, opened through its activity bar door, as a person does: a fresh profile opens on Insert (the audit's
+// AUD-21), so a test that uses the Explorer's rows opens it first.
+export async function openExplorer(page: Page): Promise<void> {
+  await runDoor(page, 'workspace.setPanelOpen#toolbar-activity-bar-explorer');
+}

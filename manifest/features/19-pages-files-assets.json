@@ -48,6 +48,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "pages.add#explorer-add-page",
               "args": {},
               "target": null,
@@ -146,6 +155,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "pages.add#explorer-add-page",
               "args": {},
@@ -263,6 +281,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "pages.add#explorer-add-page",
               "args": {},
@@ -403,6 +430,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "pages.rename#explorer-page-name-field",
               "args": {
                 "page": "/Page",
@@ -483,6 +519,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "pages.duplicate#explorer-page-duplicate",
               "args": {
@@ -578,6 +623,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "pages.add#explorer-add-page",
               "args": {},
@@ -700,6 +754,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "pages.add#explorer-add-page",
               "args": {},
               "target": null,
@@ -808,6 +871,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "pages.add#explorer-add-page",
               "args": {},
@@ -918,6 +990,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "pages.delete#explorer-page-delete",
               "args": {
                 "page": "/Page"
@@ -974,6 +1055,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "pages.add#explorer-add-page",
               "args": {},
@@ -1038,6 +1128,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "pages.add#explorer-add-page",
               "args": {},
@@ -1175,6 +1274,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "files.createFolder#explorer-new-folder",
               "args": {
                 "path": "js"
@@ -1241,6 +1349,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "files.createFolder#explorer-new-folder",
               "args": {
@@ -1331,6 +1448,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "files.createFile#explorer-new-file",
               "args": {
                 "path": "note.txt"
@@ -1419,6 +1545,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "files.createFolder#explorer-new-folder",
               "args": {
@@ -1529,6 +1664,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "files.open#explorer-file-row",
               "args": {
                 "path": "index.html"
@@ -1593,6 +1737,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "files.open#explorer-file-row",
               "args": {
@@ -1670,6 +1823,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "files.createFile#explorer-new-file",
               "args": {
                 "path": "css/styles.css"
@@ -1728,6 +1890,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "files.createFolder#explorer-new-folder",
               "args": {
@@ -1827,6 +1998,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "files.createFolder#explorer-new-folder",
               "args": {
                 "path": "src"
@@ -1921,6 +2101,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "files.createFolder#explorer-new-folder",
               "args": {
                 "path": "src"
@@ -2008,6 +2197,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "files.createFile#explorer-new-file",
               "args": {
@@ -2108,6 +2306,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "files.createFile#explorer-new-file",
               "args": {
                 "path": "note.txt"
@@ -2182,6 +2389,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "files.createFolder#explorer-new-folder",
               "args": {
@@ -3836,6 +4052,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "files.createFolder#explorer-new-folder",
               "args": {
@@ -5523,6 +5748,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "files.createFile#explorer-new-file",
               "args": {
                 "path": "js/main.js"
@@ -5636,6 +5870,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "files.createFile#explorer-new-file",
               "args": {
@@ -5754,6 +5997,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "files.createFile#explorer-new-file",
               "args": {

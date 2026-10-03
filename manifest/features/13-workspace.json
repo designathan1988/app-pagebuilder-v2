@@ -512,6 +512,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "workspace.setPanelOpen#panel-header-close",
               "args": {
                 "panel": "explorer",
@@ -10480,6 +10489,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "workspace.setPanelOpen#command-bar-open-panel",
               "args": {
                 "panel": "elements"
@@ -10509,7 +10527,7 @@
                 {
                   "key": "status.panel.opened",
                   "params": {
-                    "panel": "Elements"
+                    "panel": "Insert"
                   }
                 }
               ]
@@ -13003,6 +13021,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "workspace.movePanel#panel-drag-panel-header-canvas",
               "args": {
                 "panel": "explorer",
@@ -13046,7 +13073,7 @@
                   "key": "status.panel.tabs",
                   "params": {
                     "panel": "Explorer",
-                    "host": "Elements"
+                    "host": "Insert"
                   }
                 }
               ]
@@ -13081,6 +13108,15 @@
             "zoom": "fit"
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "workspace.movePanel#panel-drag-panel-header-canvas",
               "args": {
@@ -13149,6 +13185,15 @@
             "zoom": "fit"
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "workspace.movePanel#panel-drag-panel-header-canvas",
               "args": {

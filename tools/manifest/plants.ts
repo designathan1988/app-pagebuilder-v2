@@ -984,9 +984,9 @@ PLANTS.push(
   {
     id: 'two-sidebar-views-open',
     rule: 'panel',
-    description: 'both the Explorer and Insert are open at the first start, and the sidebar shows one view',
+    description: 'both Insert and the Explorer are open at the first start, and the sidebar shows one view',
     apply: (m) => {
-      obj(obj(obj(m.files['layout.json']).panels).elements).open = true;
+      obj(obj(obj(m.files['layout.json']).panels).explorer).open = true;
     },
   },
   {

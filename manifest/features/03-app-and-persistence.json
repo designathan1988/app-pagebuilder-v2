@@ -2212,6 +2212,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "workspace.setPanelOpen#menu-view-elements",
               "args": {},
               "target": null,
@@ -2239,7 +2248,7 @@
                 {
                   "key": "status.panel.opened",
                   "params": {
-                    "panel": "Elements"
+                    "panel": "Insert"
                   }
                 }
               ]

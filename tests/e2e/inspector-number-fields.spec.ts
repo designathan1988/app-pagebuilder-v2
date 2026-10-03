@@ -153,7 +153,7 @@ test('the arrows step by 1, with Shift by 10, with Alt by 0.1, PageUp and PageDo
 });
 
 // The step buttons come back (the audit's AUD-16: the plan's stage 3 asked for them, and 9f6c561 dropped them without
-// the person's decision; DEC-30 withdrawn): shown while the field is hovered or holds the focus, never at rest.
+// the person's decision; DEC-30 withdrawn): shown while the field holds the focus, never at rest nor on a hover.
 test('the step buttons step by 1, with Shift by 10 and with Alt by 0.1; clicks in a row are one undo step, one after a pause starts another', runs(OPEN, SELECT, WIDTH, ENTER, STEP_UP, STEP_DOWN), async ({ page }) => {
   await typeWidth(page, '240');
   await expect.poll(() => stored(page)).toEqual({ width: '240px', undoSteps: 1, present: true });
@@ -163,7 +163,10 @@ test('the step buttons step by 1, with Shift by 10 and with Alt by 0.1; clicks i
   await row.locator('input').evaluate((element) => element.blur());
   await page.mouse.move(0, 0);
   await expect(row.locator(`[data-door="${STEP_UP}"]`), 'no step button at rest').toBeHidden();
+  // nor on a mere hover, where they would take the click meant for the value: they show once the field holds the focus
   await row.locator('.input-wrap').hover();
+  await expect(row.locator(`[data-door="${STEP_UP}"]`), 'no step button on a hover').toBeHidden();
+  await row.locator('input').click();
   const button = (ref: string) => control(page, ref, { args: { property: 'width' } });
   await button(STEP_UP).click();
   await expect.poll(() => stored(page)).toEqual({ width: '241px', undoSteps: 2, present: true });

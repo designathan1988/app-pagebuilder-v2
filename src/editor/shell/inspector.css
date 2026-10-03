@@ -1068,13 +1068,13 @@
 
 /* The step buttons (spec inspector-number-fields, Problem 5): a column of two over the value's end, in the field's own
    fill; they never take room from the number (the audit's A.0, the plan's lean field: the number's width is
-   guaranteed). Shown while the field is hovered or holds the focus, and hidden while text typed in it is not kept yet
-   (data-draft "typed", input/drafts.ts), so the caret never goes under them. */
+   guaranteed). Shown while the field holds the focus, never on a mere hover: over a narrow field's value a hovered pair
+   took the click meant for the value (the phase E run: 46 tests, each a person's click); and hidden while text typed in
+   it is not kept yet (data-draft "typed", input/drafts.ts), so the caret never goes under them. */
 .field__steps {
   display: none;
 }
 
-.input-wrap--number:hover .field__steps,
 .input-wrap--number:focus-within .field__steps {
   position: absolute;
   top: 0;

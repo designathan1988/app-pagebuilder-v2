@@ -136,7 +136,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-4.3 | Autosave in idle time, one record, selection apart | done | QA 80 |
 | STG-4.4 | The renderer patches the iframe per document patch | done | `src/core/render/render.ts` header |
 | STG-5.1 | Top bar, file tabs, page selector, Saved left of Preview | done | QA 106, 131 |
-| STG-5.2 | Activity bar labels and tooltips (J26), active icon keeps its panel (J8b) | partial | AUD-21 |
+| STG-5.2 | Activity bar labels and tooltips (J26), active icon keeps its panel (J8b) | done | QA 171 (Insert first and named Insert, AUD-21) |
 | STG-5.3 | Explorer: names without overlap, badges, duplicate page opens and focuses its name (J20) | done | QA 108; C2 |
 | STG-5.4 | Layers: colour shown, collapse all keeps the root (J9), Shift range (J17), instance badge (J21), batch rename | done | QA 82, 84, 85, 90 |
 | STG-5.5 | Insert: accents, synonyms, relevance (J11), roving focus (J12), template thumbnails, drag to the canvas | partial | QA 86, 105; M1; real template thumbnails belong to stage 15 (out) |
@@ -151,7 +151,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-5.14 | Bottom dock with the canonical strip | done | QA 96 (DEC-02) |
 | STG-5.15 | Keyboard: F6 includes canvas and Layers, arrows start at the root, roving focus (J12) | done | QA 95, 103, 105, 162 |
 | STG-5.16 | 1280 × 720: canvas ≥ 55 % (J25) | done | QA 155: the stage 932 × 537 px, 54.3 % of the window as an area, 72.8 % of its width; the width splitters QA 156 |
-| STG-5.17 | Language and texts: browser language, gender-neutral Portuguese, singular forms (J26, J28) | partial | QA 87, 93; AUD-21, AUD-23 |
+| STG-5.17 | Language and texts: browser language, gender-neutral Portuguese, singular forms (J26, J28) | partial | QA 87, 93, 171; AUD-23 |
 | STG-5.18 | Image picker with thumbnails and search (M4) | done | QA 94 |
 | STG-5.19 | Status bar parity, never an incident without a message (J1) | done | QA 149, 151 (`refusal-never-blanks.spec.ts`) |
 | STG-5.20 | Stage closure: `PAIRING-2.md` with zero open divergence | partial | `docs/archive/PAIRING-2.md` (manual); AUD-28 |
@@ -256,7 +256,7 @@ The problems of the usability study (`jornada03/REPORT.md` section 3), re-checke
 | J23 | Text lost on reload | done | QA 41 |
 | J24 | 641-node latency | done | QA 80; perf |
 | J25 | 45 % canvas at 1280 × 720 | done | 54.3 % (QA 155; `narrow-window.spec.ts`) |
-| J26 | First contact (language, labels, Explorer first, naming) | partial | QA 87; AUD-21 |
+| J26 | First contact (language, labels, Explorer first, naming) | done | QA 87, 171 |
 | J27 | Padding link global; longhand only | done | QA 54, 71 |
 | J28 | Copy glitches | partial | QA 76, 93; AUD-23, AUD-28 |
 
@@ -390,7 +390,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-18 | 2 | 39 features without a behaviour section | audit | done (QA 168) |
 | AUD-19 | 2 | Apply a class to every similar element reaches every element of the type | audit | done (QA 169) |
 | AUD-20 | 2 | The Grid template keeps empty cells when a card is inserted | audit | done (QA 170) |
-| AUD-21 | 2 | First panel still the Explorer; Insert called Elements in menus | audit; J26 | open |
+| AUD-21 | 2 | First panel still the Explorer; Insert called Elements in menus | audit; J26 | done (QA 171) |
 | AUD-22 | 2 | html-validate errors in the `motion` fixture's export | audit | done (QA 160) |
 | AUD-23 | 1 | pt-BR values clipped in the inspector | audit | open |
 | AUD-24 | 1 | An untranslated save-refusal reason | audit | open |
@@ -474,6 +474,7 @@ Stages 13, 15, 16 and 17 stay out (DEC-08, kept by the user on 2026-10-02).
 | DEC-37 | The assistant's default model is `claude-opus-5-5`, the person's own key, kept encrypted locally | stage 14 | — | QA 50 |
 | DEC-38 | A style state the selection does not take goes back to Base, and the status bar says so; choosing one is refused | the user, 2026-10-02 (plan question) | — | QA 151; `spec/BEHAVIOUR.md#state-styles` |
 | DEC-39 | A second look of an exported class name takes a BEM modifier that says how it looks beside the first (dark, large, raised…, from its declarations at the base breakpoint), standing alone with every declaration, never a number until every word is taken | plan phase E3, 2026-10-03 (BEM modifiers describe appearance; Webflow's combo classes) | supersedes the numeric suffix of export-bem-css 1 | QA 163; `spec/BEHAVIOUR.md#export-bem-css` |
+| DEC-40 | A number field's step buttons show while the field holds the focus, not on a hover: hovered over a narrow field's value they took the click meant for the value | phase E's block run, 2026-10-03 (46 tests, each a person's click) | narrows the plan's stage 3 "visible on focus/hover" | QA 172; spec `inspector-number-fields` Problem 5 |
 
 ## 5. Architecture
 

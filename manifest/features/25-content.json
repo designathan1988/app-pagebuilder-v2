@@ -11377,6 +11377,15 @@
           },
           "steps": [
             {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
               "door": "pages.switch#explorer-page-row",
               "args": {
                 "page": "/Product page"
@@ -13054,6 +13063,15 @@
             "zoom": 100
           },
           "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
             {
               "door": "pages.add#explorer-add-page",
               "args": {},

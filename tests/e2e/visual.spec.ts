@@ -6,7 +6,7 @@
 import fs from 'node:fs';
 import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
-import { control, runDoor, runs } from './door.ts';
+import { control, openExplorer, runDoor, runs } from './door.ts';
 
 const FIXTURE = 'manifest/features/fixtures/aurora.json';
 const OPEN = 'project.open#menu-file';
@@ -71,6 +71,8 @@ for (const scheme of ['light', 'dark'] as const) {
 
   test(`the Explorer and the Layers, ${scheme}`, runs(OPEN, ROW), async ({ page }) => {
     await aurora(page, scheme);
+    // its subject: a fresh profile opens on Insert (the audit's AUD-21)
+    await openExplorer(page);
     await expect(page.locator('aside.sidebar')).toHaveScreenshot(`sidebar-${scheme}.png`, STILL);
   });
 }

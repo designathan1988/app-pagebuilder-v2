@@ -22,7 +22,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `palette-click-insert` | Insert Section, Container, Heading and Paragraph by clicking the Elements panel | yes | 7 | 3 | [palette-click-insert](../spec/BEHAVIOUR.md#palette-click-insert) | 5 | — |
+| `palette-click-insert` | Insert Section, Container, Heading and Paragraph by clicking the Insert panel | yes | 7 | 3 | [palette-click-insert](../spec/BEHAVIOUR.md#palette-click-insert) | 5 | — |
 | `select-click` | Select an element by clicking it on the canvas | yes | 6 | 5 | [select-click](../spec/BEHAVIOUR.md#select-click) | 6 | — |
 | `layers-tree` | Layers panel shows the document tree and selects in sync with the canvas | yes | 5 | 5 | [layers-tree](../spec/BEHAVIOUR.md#layers-tree) | 5 | — |
 | `undo-redo` | Undo and redo every document change | yes | 5 | 5 | [undo-redo](../spec/BEHAVIOUR.md#undo-redo) | 3 | — |
@@ -30,7 +30,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `drag-reorder-canvas` | Drag an element before or after a sibling on the canvas | yes | 4 | 1 | [drag-reorder-canvas](../spec/BEHAVIOUR.md#drag-reorder-canvas) | 12 | — |
 | `drag-drop-inside` | Drop an element inside a container and move it across parents | yes | 3 | 1 | [drag-drop-inside](../spec/BEHAVIOUR.md#drag-drop-inside) | 5 | — |
 | `drag-level-keys-escape` | Change the drop level with arrow keys and cancel a drag with Escape | yes | 4 | 3 | [drag-level-keys-escape](../spec/BEHAVIOUR.md#drag-level-keys-escape) | 4 | — |
-| `palette-drag-insert` | Drag an element type from the Elements panel to a position on the canvas | yes | 10 | 2 | [palette-drag-insert](../spec/BEHAVIOUR.md#palette-drag-insert) | 4 | — |
+| `palette-drag-insert` | Drag an element type from the Insert panel to a position on the canvas | yes | 10 | 2 | [palette-drag-insert](../spec/BEHAVIOUR.md#palette-drag-insert) | 4 | — |
 | `layers-drag` | Reorder and nest by dragging rows in the Layers panel | yes | 3 | 2 | [layers-drag](../spec/BEHAVIOUR.md#layers-drag) | 5 | — |
 | `move-up-down` | Move the selection up or down among its siblings with Alt+ArrowUp and Alt+ArrowDown | yes | 4 | 2 | [move-up-down](../spec/BEHAVIOUR.md#move-up-down) | 2 | — |
 | `wrap-row-column` | Wrap the selection in a Row or a Column with R and C | yes | 4 | 4 | [wrap-row-column](../spec/BEHAVIOUR.md#wrap-row-column) | 5 | — |
@@ -168,8 +168,8 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `palette-search-groups` | Search the Elements panel and collapse its groups | yes | 1 | 1 | [palette-search-groups](../spec/BEHAVIOUR.md#palette-search-groups) | 1 | — |
-| `palette-density` | Elements panel view density | yes | 3 | 3 | [palette-density](../spec/BEHAVIOUR.md#palette-density) | 1 | — |
+| `palette-search-groups` | Search the Insert panel and collapse its groups | yes | 1 | 1 | [palette-search-groups](../spec/BEHAVIOUR.md#palette-search-groups) | 1 | — |
+| `palette-density` | Insert panel view density | yes | 3 | 3 | [palette-density](../spec/BEHAVIOUR.md#palette-density) | 1 | — |
 | `layers-expand-collapse-all` | Collapse and expand every branch in Layers | yes | 3 | 3 | [layers-expand-collapse-all](../spec/BEHAVIOUR.md#layers-expand-collapse-all) | 1 | — |
 | `layers-search` | Search the Layers panel | yes | 4 | 2 | [layers-search](../spec/BEHAVIOUR.md#layers-search) | 1 | — |
 | `layers-row-columns` | Choose what each Layers row shows | yes | 3 | 3 | [layers-row-columns](../spec/BEHAVIOUR.md#layers-row-columns) | 1 | — |

@@ -8,7 +8,7 @@ import { extname, join } from 'node:path';
 import type { Server as CompanionServer } from 'node:http';
 import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
-import { runDoor, runs } from './door.ts';
+import { runDoor, runs, openExplorer } from './door.ts';
 import { startCompanion, stopCompanion } from '../../tools/companion/server.ts';
 
 const SITE_PORT = 5421;
@@ -86,6 +86,7 @@ test('two pages of the site are captured, the link between them written from one
   const frame = page.frameLocator('.frame__page');
   await expect(frame.getByRole('link', { name: 'See the plans' })).toHaveAttribute('href', 'plans/index.html');
   const plans = (await read(page)).pages.find((one) => one.file === 'plans/index.html');
+  await openExplorer(page);
   await runDoor(page, 'pages.switch#explorer-page-row', { args: { page: (plans?.tree as { id: string }).id } });
   await expect(frame.getByRole('heading', { name: 'Our plans' })).toBeVisible();
   // the shared stylesheet reached the second page too

@@ -271,7 +271,11 @@ type Dispatch = (id: CommandId, args: unknown) => DispatchResult;
 // press-and-hold (input/pointer.ts registerRepeat), and the whole hold is one undo step (the command coalesces steps
 // within numberField.stepBurstWindow). The press keeps the focus where it is, so a field being typed in keeps its
 // text; the keys step the field itself, so the button is no Tab stop.
+// a step button's name says the field it steps ("Step Width up"): every field draws its own pair, and two controls of
+// the Style tab never share a name (accessibility-audit.spec.ts)
+const STEP_NAMES: Readonly<Record<string, MessageId>> = { 'field.stepUp': 'field.stepUp.of', 'field.stepDown': 'field.stepDown.of' };
 function StepButton({ entry, property, shown, input, ready }: { readonly entry: DoorEntry; readonly property: string; readonly shown: string; readonly input: RefObject<HTMLInputElement | null>; readonly ready: boolean }) {
+  const t = useT();
   const store = useStore();
   const door = useDoor(entry, { property }, undefined, ready);
   const button = useRef<HTMLButtonElement>(null);
@@ -293,7 +297,7 @@ function StepButton({ entry, property, shown, input, ready }: { readonly entry: 
       data-args={JSON.stringify({ property, value: shown })}
       data-repeat=""
       tabIndex={-1}
-      aria-label={door.label}
+      aria-label={STEP_NAMES[entry.door.labelKey] === undefined ? door.label : t(STEP_NAMES[entry.door.labelKey] as MessageId, { property: propertyWord(t, property) })}
       title={door.title}
       aria-disabled={available ? undefined : true}
     >

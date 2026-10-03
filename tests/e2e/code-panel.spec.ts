@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
 import { unzip } from '../../tools/runner/unzip.ts';
-import { control, runDoor, runs } from './door.ts';
+import { control, runDoor, runs, openExplorer } from './door.ts';
 
 const FIXTURE = 'manifest/features/fixtures/aurora.json';
 const OPEN = 'project.open#menu-file';
@@ -199,6 +199,7 @@ const fileBytes = (page: Page, path: string): Promise<string | null> =>
 test('a JS file is edited and saved, and the page that links it runs it in the Preview', runs(NEW_FILE, SAVE, SCRIPTS, ROW_ICON, PREVIEW), async ({ page }) => {
   await openEditor(page);
   await page.setViewportSize({ width: 1440, height: 900 });
+  await openExplorer(page);
   await control(page, NEW_FILE).fill('js/main.js');
   await control(page, NEW_FILE).press('Enter');
   await expect.poll(async () => page.evaluate(() => (window as unknown as { __builderTestPort: { document: () => { files?: unknown[] } } }).__builderTestPort.document().files?.length ?? 0)).toBe(1);
@@ -248,6 +249,7 @@ test('Delete on the code pane keeps the selected element', runs(VIEW('code'), RO
 test('a text file shows its own tab, its extension, and an editor named after it', runs(NEW_FILE, ROW_ICON), async ({ page }) => {
   await openEditor(page);
   await page.setViewportSize({ width: 1440, height: 900 });
+  await openExplorer(page);
   await control(page, NEW_FILE).fill('notes.txt');
   await control(page, NEW_FILE).press('Enter');
   const row = page.locator('[data-file="notes.txt"]');

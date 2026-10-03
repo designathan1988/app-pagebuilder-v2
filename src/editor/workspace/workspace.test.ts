@@ -28,22 +28,24 @@ describe('panel visibility (workspace/panels.ts)', () => {
     for (const panel of Object.keys(PANELS) as Panel[]) expect([panel, atStart(panel)]).toEqual([panel, PANELS[panel].open]);
   });
 
-  it('starts with the Explorer, Layers and the inspector open and the dock collapsed with Timeline and Checks, neither shown', () => {
+  // a fresh profile opens on Insert (the audit's AUD-21, jornada03 J26: it opened on the Explorer)
+  it('starts with Insert, Layers and the inspector open and the dock collapsed with Timeline and Checks, neither shown', () => {
     const s = store();
-    expect(openPanels(s)).toEqual(['explorer', 'layers', 'inspector', 'canvas-tools']);
+    expect(openPanels(s)).toEqual(['elements', 'layers', 'inspector', 'canvas-tools']);
     expect(s.getState().ui.panels.dockTabs).toEqual(['timeline', 'checks']);
     expect(s.getState().ui.layout).toEqual({ dock: 'collapsed', activeDockTab: 'timeline' });
   });
 
   it('switches the sidebar view, and closes the sidebar when the shown view is toggled again', () => {
     const s = store();
-    s.dispatch('workspace.setPanelOpen', { panel: 'elements', open: 'toggle' });
-    expect(openPanels(s).filter((p) => PANELS[p].place === 'sidebar')).toEqual(['elements']);
-    s.dispatch('workspace.setPanelOpen', { panel: 'elements', open: 'toggle' });
+    // from Insert, the first view (AUD-21), to the Explorer, then closed, then back on Insert
+    s.dispatch('workspace.setPanelOpen', { panel: 'explorer', open: 'toggle' });
+    expect(openPanels(s).filter((p) => PANELS[p].place === 'sidebar')).toEqual(['explorer']);
+    s.dispatch('workspace.setPanelOpen', { panel: 'explorer', open: 'toggle' });
     expect(s.getState().ui.panels.sidebar).toBe(false);
     expect(openPanels(s).filter((p) => PANELS[p].place === 'sidebar' || PANELS[p].place === 'section')).toEqual([]);
-    s.dispatch('workspace.setPanelOpen', { panel: 'explorer', open: 'open' });
-    expect(openPanels(s).filter((p) => PANELS[p].place === 'sidebar' || PANELS[p].place === 'section')).toEqual(['explorer', 'layers']);
+    s.dispatch('workspace.setPanelOpen', { panel: 'elements', open: 'open' });
+    expect(openPanels(s).filter((p) => PANELS[p].place === 'sidebar' || PANELS[p].place === 'section')).toEqual(['elements', 'layers']);
   });
 
   it('reports each change in the status bar (spec dock-toggles, Problems 1)', () => {

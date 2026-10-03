@@ -3,7 +3,7 @@
 // following; a second + then a second name make a second page. The document is read through the read-only test port.
 import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
-import { runDoor, runs } from './door.ts';
+import { runDoor, runs, openExplorer } from './door.ts';
 
 const ADD = 'pages.add#explorer-add-page';
 const NAME = 'pages.rename#explorer-page-name-field';
@@ -13,6 +13,7 @@ const pages = (page: Page) =>
 
 test('after the + the new page takes the name typed, and Enter keeps it with its file', runs(ADD, NAME), async ({ page }) => {
   await openEditor(page);
+  await openExplorer(page);
   await runDoor(page, ADD);
   const focused = page.locator(':focus');
   await expect(focused).toHaveAttribute('data-door', NAME);

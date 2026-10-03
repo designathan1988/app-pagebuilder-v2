@@ -5,7 +5,7 @@
 // document generates (css/styles.css, js/interactions.js) and the folders that hold them are refused everywhere.
 import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
-import { control, runs } from './door.ts';
+import { control, runs, openExplorer } from './door.ts';
 
 const NEW_FILE = 'files.createFile#explorer-new-file';
 const NEW_FOLDER = 'files.createFolder#explorer-new-folder';
@@ -39,6 +39,7 @@ async function make(page: Page, door: string, path: string): Promise<void> {
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await openEditor(page);
+  await openExplorer(page);
 });
 
 // The scenario runner covers the doors' arguments; what this proves is the tree the document ends up holding, which a

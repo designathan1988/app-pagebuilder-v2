@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
-import { control, runDoor, runs } from './door.ts';
+import { control, runDoor, runs, openExplorer } from './door.ts';
 import { unzip } from '../../tools/runner/unzip.ts';
 
 const IMPORT = 'project.importHtml#menu-file';
@@ -53,6 +53,7 @@ test('a folder adds both pages with their nested images, stylesheet and links', 
   await expect.poll(() => frame.locator('img').evaluate(el => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   const about = (await read(page)).pages.find(p => p.file === 'pages/about.html');
   if (!about) throw new Error('The folder About page was not imported');
+  await openExplorer(page);
   await runDoor(page, 'pages.switch#explorer-page-row', { args: { page: (about.tree as { id: string }).id } });
   await expect(frame.getByRole('heading', { name: 'Folder about' })).toBeVisible();
   expect(await frame.getByRole('heading').evaluate(el => getComputedStyle(el).color)).toBe('rgb(12, 34, 56)');

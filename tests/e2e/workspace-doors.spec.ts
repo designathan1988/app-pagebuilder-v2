@@ -4,7 +4,7 @@
 // nothing or does something else.
 import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
-import { runDoor, runs } from './door.ts';
+import { runDoor, runs, openExplorer } from './door.ts';
 
 const box = async (page: Page, selector: string) => {
   const found = await page.locator(selector).boundingBox();
@@ -22,6 +22,8 @@ test.beforeEach(async ({ page }) => {
 
 for (const ref of ['workspace.setPanelOpen#menu-view-elements']) {
   test(`${ref} puts Insert in the sidebar, and a second time gives the sidebar's column to the canvas`, runs(ref), async ({ page }) => {
+    // from the Explorer (a fresh profile opens on Insert itself: the audit's AUD-21)
+    await openExplorer(page);
     const start = await box(page, '.workbench');
     const sidebar = await box(page, '.sidebar');
     await runDoor(page, ref);
@@ -61,6 +63,7 @@ for (const [ref, view] of [['workspace.setPanelOpen#toolbar-activity-bar-insert'
 // that built the Explorer, layers-tree, and is no longer drawn not available yet)
 for (const ref of ['workspace.setPanelOpen#menu-view-explorer']) {
   test(`${ref} gives the Explorer's column to the canvas, and a second time puts the Explorer back`, runs(ref), async ({ page }) => {
+    await openExplorer(page);
     const start = await box(page, '.workbench');
     const sidebar = await box(page, '.sidebar');
     const layers = await region(page, 'explorer-layers');

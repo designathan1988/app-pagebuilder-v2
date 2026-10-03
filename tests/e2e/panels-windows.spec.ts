@@ -6,7 +6,7 @@
 // the document the read-only test port reads — never a bare "it exists".
 import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
-import { runDoor, runs } from './door.ts';
+import { runDoor, runs, openExplorer } from './door.ts';
 
 const CANVAS = 'workspace.movePanel#panel-drag-panel-header-canvas';
 const LEFT = 'workspace.movePanel#panel-drag-panel-header-left-edge';
@@ -93,6 +93,7 @@ test('the hints name the place, and Escape lets the drag go without a word', run
 
 test('a drag over another panel combines as tabs on its upper part and stacks on its lower part', runs(UPPER, LOWER, TAB), async ({ page }) => {
   // the Explorer floats, so the sidebar shows the Insert view and the Layers section: two panels to drop on
+  await openExplorer(page);
   await drag(page, await centre(band(page, CANVAS, 'explorer')), { x: 176, y: 56 });
   await expect(floating(page)).toHaveCount(1);
   const view = await page.locator('.sidebar__view').boundingBox();
