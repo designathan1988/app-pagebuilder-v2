@@ -1061,6 +1061,7 @@ export const DOOR_IDS = [
   "selection.walkParent#key-arrow-up-in-canvas",
   "selection.walkFirstChild#key-arrow-down-in-canvas",
   "selection.selectAllInContainer#key-ctrl-a-in-canvas",
+  "selection.selectAllInContainer#key-ctrl-a-in-global",
   "selection.selectAllInContainer#menu-edit",
   "selection.selectAllInContainer#command-bar",
   "selection.marquee#canvas-drag-empty-area-page-or-container",

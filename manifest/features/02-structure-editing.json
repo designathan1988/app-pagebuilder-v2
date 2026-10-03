@@ -16670,6 +16670,62 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "ctrl-a-on-a-control-outside-the-canvas-selects-the-page-children",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "selection.selectAllInContainer#key-ctrl-a-in-global",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "selection.selectAllInContainer#key-ctrl-a-in-global"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Hero",
+              "/Page/Plans",
+              "/Page/Footer"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.selection.count",
+                  "params": {
+                    "count": 3
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
         }
       ]
     },

@@ -5,7 +5,7 @@ the last complete browser run on a clean tree (`docs/feature-results.json`, writ
 hand. `npm run inventory:check` fails while this file is out of step. The requirements these features answer, and the
 open problems, are in `docs/PRODUCT.md`.
 
-214 features (214 built), 371 commands, 1344 doors, 1769 scenarios.
+214 features (214 built), 371 commands, 1345 doors, 1770 scenarios.
 
 No complete browser run on a clean tree has been recorded yet: the next one writes `docs/feature-results.json`.
 
@@ -50,7 +50,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `unwrap` | Remove a wrapper and lift its children into its place | yes | 1 | 1 | [unwrap](../spec/BEHAVIOUR.md#unwrap) | 4 | — |
 | `marquee-select` | Select elements by dragging a marquee on the page | yes | 6 | 2 | [marquee-select](../spec/BEHAVIOUR.md#marquee-select) | 4 | — |
 | `multi-select-actions` | Delete, move and duplicate several selected elements at once | yes | 8 | 11 | [multi-select-actions](../spec/BEHAVIOUR.md#multi-select-actions) | 3 | — |
-| `select-container-children` | Select every element in the current container with Ctrl+A | yes | 3 | 2 | [select-container-children](../spec/BEHAVIOUR.md#select-container-children) | 3 | — |
+| `select-container-children` | Select every element in the current container with Ctrl+A | yes | 4 | 3 | [select-container-children](../spec/BEHAVIOUR.md#select-container-children) | 4 | — |
 | `lock-element` | Lock an element so it cannot be moved, edited or deleted | yes | 5 | 5 | [lock-element](../spec/BEHAVIOUR.md#lock-element) | 5 | — |
 | `hide-element` | Hide and show an element | yes | 4 | 2 | [hide-element](../spec/BEHAVIOUR.md#hide-element) | 3 | — |
 | `drag-autoscroll` | A drag at the edge scrolls the page and the Layers | yes | 1 | 1 | [drag-autoscroll](../spec/BEHAVIOUR.md#drag-autoscroll) | 3 | — |

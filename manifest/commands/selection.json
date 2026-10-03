@@ -662,6 +662,26 @@
           "args": {}
         },
         {
+          "id": "key-ctrl-a-in-global",
+          "kind": "shortcut",
+          "feature": "select-container-children",
+          "chord": "Ctrl+A",
+          "context": "global",
+          "gesture": null,
+          "labelKey": "command.selectAllInContainer",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "primary",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
           "id": "menu-edit",
           "kind": "menu",
           "feature": "app-menu",

@@ -7,7 +7,7 @@
 import fs from 'node:fs';
 import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
-import { runDoor } from './door.ts';
+import { runDoor, runs } from './door.ts';
 
 const escapeInLayers = 'focus.canvas#key-escape-in-layers-tree';
 const row = 'selection.select#layers-row';
@@ -97,4 +97,19 @@ test('F6 puts the keys on the canvas page itself, with a visible focus, and walk
   expect(await onStage()).toBe(false);
   await runDoor(page, shiftF6);
   expect(await onStage(), 'Shift+F6 comes back to the canvas page').toBe(true);
+});
+
+test('Ctrl+A on a control outside the canvas selects the page elements, never the interface text', runs('selection.selectAllInContainer#key-ctrl-a-in-global'), async ({ page }) => {
+  // the audit's AUD-25: with the focus on a sidebar button, Ctrl+A was the browser's own, and selected the whole interface
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await openEditor(page);
+  const chooser = page.waitForEvent('filechooser');
+  await runDoor(page, 'project.open#menu-file');
+  await (await chooser).setFiles({ name: 'aurora.json', mimeType: 'application/json', buffer: fs.readFileSync('manifest/features/fixtures/aurora.json') });
+  await expect(page.frameLocator('.frame__page').locator('[data-node="n-title"]')).toHaveCount(1);
+  await page.locator('[data-door="workspace.setPanelOpen#toolbar-activity-bar-explorer"]').focus();
+  await page.keyboard.press('Control+A');
+  expect(await page.evaluate(() => window.getSelection()?.toString() ?? ''), 'no interface text is selected').toBe('');
+  const selection = await page.evaluate(() => (window as unknown as { __builderTestPort: { selection: () => readonly string[] } }).__builderTestPort.selection());
+  expect(selection, 'the page elements are').toEqual(['n-hero', 'n-plans', 'n-footer']);
 });

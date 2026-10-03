@@ -3,10 +3,10 @@
     "features": 214,
     "built": 214,
     "commands": 371,
-    "doors": 1344,
-    "scenarios": 1769,
+    "doors": 1345,
+    "scenarios": 1770,
     "modules": 420,
-    "lines": 77762
+    "lines": 77763
   },
   "features": [
     {
@@ -445,8 +445,8 @@
         "selection.selectAllInContainer",
         "text.selectAll"
       ],
-      "doors": 4,
-      "scenarios": 3,
+      "doors": 5,
+      "scenarios": 4,
       "modules": [
         "src/core/selection/selection.ts",
         "src/editor/canvas/text-edit.ts"
@@ -510,7 +510,7 @@
         "focus.nextMenu",
         "focus.previousMenu"
       ],
-      "doors": 109,
+      "doors": 110,
       "scenarios": 21,
       "modules": [
         "src/core/clipboard/clipboard.ts",
@@ -2097,7 +2097,7 @@
         "components.startCreate",
         "selection.range"
       ],
-      "doors": 229,
+      "doors": 230,
       "scenarios": 56,
       "modules": [
         "src/core/clipboard/clipboard.ts",
@@ -6529,7 +6529,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6501,
+      "lines": 6502,
       "commands": [],
       "features": []
     },
