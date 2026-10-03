@@ -5,7 +5,7 @@ the last complete browser run on a clean tree (`docs/feature-results.json`, writ
 hand. `npm run inventory:check` fails while this file is out of step. The requirements these features answer, and the
 open problems, are in `docs/PRODUCT.md`.
 
-214 features (214 built), 371 commands, 1346 doors, 1814 scenarios.
+214 features (214 built), 371 commands, 1350 doors, 1819 scenarios.
 
 No complete browser run on a clean tree has been recorded yet: the next one writes `docs/feature-results.json`.
 
@@ -123,7 +123,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `page-properties` | Page properties: title, language, direction and page styles | yes | 6 | 4 | [page-properties](../spec/BEHAVIOUR.md#page-properties) | 5 | — |
 | `base-style` | The project's base style | yes | 2 | 2 | [base-style](../spec/BEHAVIOUR.md#base-style) | 2 | — |
 | `export-zip` | Export the page as a ZIP with HTML and a separate CSS file | yes | 5 | 2 | [export-zip](../spec/BEHAVIOUR.md#export-zip) | 8 | — |
-| `css-variables-tokens` | Design tokens as CSS variables | yes | 11 | 7 | [css-variables-tokens](../spec/BEHAVIOUR.md#css-variables-tokens) | 7 | — |
+| `css-variables-tokens` | Design tokens as CSS variables | yes | 16 | 12 | [css-variables-tokens](../spec/BEHAVIOUR.md#css-variables-tokens) | 8 | — |
 | `export-bem-css` | Exported CSS uses readable BEM classes and is deterministic | yes | 3 | 1 | [export-bem-css](../spec/BEHAVIOUR.md#export-bem-css) | 5 | — |
 | `project-language` | The project’s languages | yes | 4 | 3 | [project-language](../spec/BEHAVIOUR.md#project-language) | 0 | — |
 | `site-colours` | Colours in use, replaced or made a variable across the site | yes | 3 | 2 | [site-colours](../spec/BEHAVIOUR.md#site-colours) | 0 | — |

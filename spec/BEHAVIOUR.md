@@ -1261,6 +1261,15 @@ Read from Pager's source (`reference/Pager`, run from `.cache/pager-run`); refer
   focus). Required: New variable's + opens the kinds as a listbox in the editor's popover, and the first kind takes the
   focus; the arrows move it among the kinds (wrapping), Home and End reach the ends, Enter makes a variable of the
   focused kind, and Escape or a press outside closes the list and gives the focus back to the +, with nothing made.
+- **A variable was reached only through the field's menu, or by typing its whole name** (WISH-10: a bare `--name`
+  was read, but nothing was suggested while it was typed; the browser's own list could not be read nor reached by the
+  editor's keys). Required: while a value field's text is `--` or `var(` and the start of a name, the field lists the
+  project's variables of its kind whose names start with what is typed (else those that hold it), the first one
+  active, under the field — as Webflow's value editor suggests variables. The field is then a combobox (the WAI-ARIA
+  pattern, as the command bar's search field): the arrows move the active variable, Enter writes it, Escape closes the
+  list and keeps the text, a press on a variable writes it; the focus stays in the field and typing goes on there.
+  Each item is the field's own door with the variable as its value, so a variable chosen is one undo step, as a value
+  typed is. The browser's list keeps the keywords and presets only.
 
 ### Undo and redo
 

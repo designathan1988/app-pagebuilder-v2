@@ -499,7 +499,7 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "page-properties": ["page.openProperties","page.setSetting"],
   "base-style": [],
   "export-zip": ["page.setSetting","project.export"],
-  "css-variables-tokens": ["tokens.create","tokens.update","tokens.rename","tokens.delete","workspace.setPanelOpen"],
+  "css-variables-tokens": ["tokens.create","tokens.update","tokens.rename","tokens.delete","workspace.setPanelOpen","focus.next","focus.previous","focus.activate","ui.dismiss"],
   "export-bem-css": ["element.setClasses","project.export"],
   "project-language": ["project.setLanguage","project.setCodeLanguage","workspace.setActiveTab","project.export"],
   "site-colours": ["design.replaceColour","design.colourToVariable"],

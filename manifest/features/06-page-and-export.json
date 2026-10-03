@@ -1203,7 +1203,11 @@
         "tokens.update",
         "tokens.rename",
         "tokens.delete",
-        "workspace.setPanelOpen"
+        "workspace.setPanelOpen",
+        "focus.next",
+        "focus.previous",
+        "focus.activate",
+        "ui.dismiss"
       ],
       "dependsOn": [
         "color-picker"
@@ -2378,6 +2382,500 @@
                 }
               ]
             }
+          },
+          "refusals": []
+        },
+        {
+          "id": "a-name-begun-in-a-value-field-lists-its-variables-and-one-is-written",
+          "setup": {
+            "fixture": "brand-title",
+            "selection": [
+              "/Page/Title"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "style.set#inspector-color",
+              "args": {
+                "property": "color",
+                "value": "--br"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "--br"
+            },
+            {
+              "door": "style.set#inspector-color",
+              "args": {
+                "property": "color",
+                "value": "var(--brand)"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "style.set#inspector-color"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/desktop/base/color",
+                "value": "var(--brand)"
+              }
+            ],
+            "selection": [
+              "/Page/Title"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Title",
+                  "property": "color",
+                  "value": "rgb(11, 127, 114)"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.style.set",
+                  "params": {
+                    "property": "Text colour",
+                    "name": "Title",
+                    "value": "var(--brand)"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "enter-writes-the-active-variable",
+          "setup": {
+            "fixture": "brand-title",
+            "selection": [
+              "/Page/Title"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "style.set#inspector-color",
+              "args": {
+                "property": "color",
+                "value": "--br"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "--br"
+            },
+            {
+              "door": "focus.activate#key-enter-in-field-suggestions",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "focus.activate#key-enter-in-field-suggestions"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/desktop/base/color",
+                "value": "var(--brand)"
+              }
+            ],
+            "selection": [
+              "/Page/Title"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.style.set",
+                  "params": {
+                    "property": "Text colour",
+                    "name": "Title",
+                    "value": "var(--brand)"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "arrow-down-makes-the-next-variable-active",
+          "setup": {
+            "fixture": "brand-title",
+            "selection": [
+              "/Page/Title"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-styles",
+              "args": {
+                "panel": "variables",
+                "open": "toggle"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "tokens.create#variables-add",
+              "args": {
+                "kind": "color",
+                "name": "color-1",
+                "value": "#000000"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.set#inspector-color",
+              "args": {
+                "property": "color",
+                "value": "--"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "--"
+            },
+            {
+              "door": "focus.next#key-arrow-down-in-field-suggestions",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "focus.activate#key-enter-in-field-suggestions",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "focus.next#key-arrow-down-in-field-suggestions"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@tokens",
+                "value": [
+                  {
+                    "kind": "color",
+                    "name": "brand",
+                    "value": "#0b7f72"
+                  },
+                  {
+                    "kind": "color",
+                    "name": "color-1",
+                    "value": "#000000"
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/desktop/base/color",
+                "value": "var(--color-1)"
+              }
+            ],
+            "selection": [
+              "/Page/Title"
+            ],
+            "history": {
+              "undoSteps": 2,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.style.set",
+                  "params": {
+                    "property": "Text colour",
+                    "name": "Title",
+                    "value": "var(--color-1)"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "arrow-up-from-the-first-variable-makes-the-last-active",
+          "setup": {
+            "fixture": "brand-title",
+            "selection": [
+              "/Page/Title"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-styles",
+              "args": {
+                "panel": "variables",
+                "open": "toggle"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "tokens.create#variables-add",
+              "args": {
+                "kind": "color",
+                "name": "color-1",
+                "value": "#000000"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.set#inspector-color",
+              "args": {
+                "property": "color",
+                "value": "--"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "--"
+            },
+            {
+              "door": "focus.previous#key-arrow-up-in-field-suggestions",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "focus.activate#key-enter-in-field-suggestions",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "focus.previous#key-arrow-up-in-field-suggestions"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@tokens",
+                "value": [
+                  {
+                    "kind": "color",
+                    "name": "brand",
+                    "value": "#0b7f72"
+                  },
+                  {
+                    "kind": "color",
+                    "name": "color-1",
+                    "value": "#000000"
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/desktop/base/color",
+                "value": "var(--color-1)"
+              }
+            ],
+            "selection": [
+              "/Page/Title"
+            ],
+            "history": {
+              "undoSteps": 2,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.style.set",
+                  "params": {
+                    "property": "Text colour",
+                    "name": "Title",
+                    "value": "var(--color-1)"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "escape-closes-the-list-and-keeps-the-text",
+          "setup": {
+            "fixture": "brand-title",
+            "selection": [
+              "/Page/Title"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "style.set#inspector-color",
+              "args": {
+                "property": "color",
+                "value": "--"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "--"
+            },
+            {
+              "door": "ui.dismiss#key-escape-in-field-suggestions",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.set#inspector-color",
+              "args": {
+                "property": "color",
+                "value": "--"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "\n"
+            }
+          ],
+          "doors": [
+            "ui.dismiss#key-escape-in-field-suggestions"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Title"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.value.invalid",
+                  "params": {
+                    "property": "Text colour",
+                    "value": "--"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
           },
           "refusals": []
         }

@@ -139,6 +139,12 @@
       "absorbsFields": false
     },
     {
+      "id": "field-suggestions",
+      "labelKey": "keyContext.fieldSuggestions",
+      "inherits": "field",
+      "absorbsFields": false
+    },
+    {
       "id": "element-text-field",
       "labelKey": "keyContext.elementTextField",
       "inherits": "field",

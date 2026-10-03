@@ -58,6 +58,26 @@
           "args": {}
         },
         {
+          "id": "key-arrow-down-in-field-suggestions",
+          "kind": "shortcut",
+          "feature": "css-variables-tokens",
+          "chord": "ArrowDown",
+          "context": "field-suggestions",
+          "gesture": null,
+          "labelKey": "command.focusNext",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
           "id": "key-arrow-down-in-layers-tree",
           "kind": "shortcut",
           "feature": "layers-keyboard-navigation",
@@ -355,6 +375,26 @@
           "feature": "command-bar",
           "chord": "ArrowUp",
           "context": "command-bar",
+          "gesture": null,
+          "labelKey": "command.focusPrevious",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "key-arrow-up-in-field-suggestions",
+          "kind": "shortcut",
+          "feature": "css-variables-tokens",
+          "chord": "ArrowUp",
+          "context": "field-suggestions",
           "gesture": null,
           "labelKey": "command.focusPrevious",
           "faceLabelKey": null,
@@ -804,6 +844,26 @@
           "args": {}
         },
         {
+          "id": "key-enter-in-field-suggestions",
+          "kind": "shortcut",
+          "feature": "css-variables-tokens",
+          "chord": "Enter",
+          "context": "field-suggestions",
+          "gesture": null,
+          "labelKey": "command.focusActivate",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
           "id": "key-enter-in-tab-strip",
           "kind": "shortcut",
           "feature": "keyboard-panel-navigation",
@@ -1187,6 +1247,26 @@
           "feature": "command-bar",
           "chord": "Escape",
           "context": "command-bar",
+          "gesture": null,
+          "labelKey": "command.dismiss",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": "none",
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {}
+        },
+        {
+          "id": "key-escape-in-field-suggestions",
+          "kind": "shortcut",
+          "feature": "css-variables-tokens",
+          "chord": "Escape",
+          "context": "field-suggestions",
           "gesture": null,
           "labelKey": "command.dismiss",
           "faceLabelKey": null,

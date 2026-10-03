@@ -514,6 +514,13 @@ export function registerRepeat(element: HTMLElement, step: (modifier: string | n
 // text-inline-formatting: Bold, Italic and Link act on what is selected there).
 const TEXT_TOOLBAR_AREA = `[data-canvas-overlay] [data-region="${TEXT_TOOLBAR}"]`;
 const onTextToolbar = (target: EventTarget | null) => target instanceof Element && target.closest(TEXT_TOOLBAR_AREA) !== null;
+// an option of the list the focused combobox controls (a value field's variable suggestions): a press there keeps the
+// focus in the combobox, as the WAI-ARIA combobox keeps it, and the option's click runs
+const onOwnOption = (target: EventTarget | null) => {
+  const field = document.activeElement;
+  const list = field?.getAttribute('role') === 'combobox' ? field.getAttribute('aria-controls') : null;
+  return list !== null && list !== undefined && target instanceof Element && target.closest('[role="option"]')?.closest(`[id="${CSS.escape(list)}"]`) != null;
+};
 
 // What a pointer event is on: the label of an element on the canvas chrome (spec select-click, "Hit zones": the
 // selection label and the hover label select or drag the element they name), the page under the overlay, the
@@ -1985,7 +1992,7 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     const keep = keepFocus;
     keepFocus = false;
     const toolbar = editedNode(store.getState()) !== null && onTextToolbar(event.target);
-    if (keep || toolbar || (event.button === 2 && event.target instanceof Element && event.target.closest(EDITOR_MENU_AREA))) event.preventDefault();
+    if (keep || toolbar || onOwnOption(event.target) || (event.button === 2 && event.target instanceof Element && event.target.closest(EDITOR_MENU_AREA))) event.preventDefault();
   };
 
   // A drag Escape cancelled ends its gesture at once, its button still down: the drag and what it would do at the

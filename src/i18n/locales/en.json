@@ -1178,6 +1178,7 @@
   "keyContext.codeEditor": "In the code editor",
   "keyContext.colorPicker": "In the colour picker",
   "keyContext.commandBar": "In the command bar",
+  "keyContext.fieldSuggestions": "In a value field’s variable suggestions",
   "keyContext.dialog": "In a dialog",
   "keyContext.drag": "During a drag",
   "keyContext.elementTextField": "In the text field of an element",
@@ -3494,5 +3495,7 @@
   "status.instance.nested": "{name} is or holds an instance, and an instance goes inside no other ({instance}).",
   "capture.pages": "Pages of the site",
   "capture.pagesHint": "1 captures this page alone; more follow its links to other pages of the same site, up to 30.",
-  "status.capture.badPages": "{pages} is no number of pages: 1 to 30."
+  "status.capture.badPages": "{pages} is no number of pages: 1 to 30.",
+  "field.variables.of": "The variables {property} takes",
+  "field.variables.choose": "Write {value}"
 }

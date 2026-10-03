@@ -3,10 +3,10 @@
     "features": 214,
     "built": 214,
     "commands": 371,
-    "doors": 1346,
-    "scenarios": 1814,
-    "modules": 422,
-    "lines": 79627
+    "doors": 1350,
+    "scenarios": 1819,
+    "modules": 423,
+    "lines": 79794
   },
   "features": [
     {
@@ -220,7 +220,7 @@
         "element.wrapColumn",
         "element.delete"
       ],
-      "doors": 69,
+      "doors": 73,
       "scenarios": 7,
       "modules": [
         "src/core/structure/move.ts",
@@ -1179,12 +1179,18 @@
         "tokens.update",
         "tokens.rename",
         "tokens.delete",
-        "workspace.setPanelOpen"
+        "workspace.setPanelOpen",
+        "focus.next",
+        "focus.previous",
+        "focus.activate",
+        "ui.dismiss"
       ],
-      "doors": 29,
-      "scenarios": 11,
+      "doors": 62,
+      "scenarios": 16,
       "modules": [
         "src/core/design/tokens.ts",
+        "src/editor/focus/focus.ts",
+        "src/editor/menus/overlays.ts",
         "src/editor/workspace/panels.ts"
       ]
     },
@@ -1897,7 +1903,7 @@
         "workspace.openDialog",
         "grid.toggleFolds"
       ],
-      "doors": 30,
+      "doors": 31,
       "scenarios": 11,
       "modules": [
         "src/core/page/grid.ts",
@@ -2176,7 +2182,7 @@
         "components.startCreate",
         "selection.range"
       ],
-      "doors": 230,
+      "doors": 234,
       "scenarios": 56,
       "modules": [
         "src/core/clipboard/clipboard.ts",
@@ -2365,7 +2371,7 @@
         "focus.previousRegion",
         "focus.canvas"
       ],
-      "doors": 43,
+      "doors": 46,
       "scenarios": 8,
       "modules": [
         "src/editor/focus/focus.ts"
@@ -2388,7 +2394,7 @@
         "layers.collapseOrFocusParent",
         "selection.range"
       ],
-      "doors": 61,
+      "doors": 63,
       "scenarios": 7,
       "modules": [
         "src/core/selection/selection.ts",
@@ -5368,6 +5374,7 @@
         "app-menu",
         "command-bar",
         "context-menu",
+        "css-variables-tokens",
         "keyboard-panel-navigation",
         "layers-keyboard-navigation"
       ]
@@ -5450,7 +5457,7 @@
     },
     {
       "path": "src/editor/input/pointer.ts",
-      "lines": 2167,
+      "lines": 2174,
       "commands": [],
       "features": []
     },
@@ -5680,6 +5687,7 @@
       "features": [
         "command-bar",
         "context-menu",
+        "css-variables-tokens",
         "workspace-settings-dialog"
       ]
     },
@@ -6033,7 +6041,7 @@
     },
     {
       "path": "src/editor/shell/field.tsx",
-      "lines": 1653,
+      "lines": 1678,
       "commands": [],
       "features": []
     },
@@ -6220,6 +6228,12 @@
     {
       "path": "src/editor/shell/value-presets.tsx",
       "lines": 73,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/shell/variable-suggestions.tsx",
+      "lines": 127,
       "commands": [],
       "features": []
     },
@@ -6541,7 +6555,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6513,
+      "lines": 6521,
       "commands": [],
       "features": []
     },

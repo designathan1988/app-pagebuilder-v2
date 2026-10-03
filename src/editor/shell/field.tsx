@@ -56,6 +56,7 @@ import { DRAFT_KEPT, markFieldKept, recordFieldInput } from '../input/drafts.ts'
 import { wordOfKeyword } from '../../core/style/keyword-words.ts';
 import { floatBelow, type Placed } from './float.ts';
 import { onPageChange } from '../canvas/page-clock.ts';
+import { VariableSuggestions } from './variable-suggestions.tsx';
 
 // the key context a number field's input names (interactions.json)
 const NUMBER_FIELD_CONTEXT: KeyContextId = 'number-field';
@@ -617,11 +618,21 @@ export function NumberField({ entry, door, property, label, bare = false, labell
   }, [store, command, property]);
   useRevealed(property, input);
   useWheelSteps(input, property, store);
+  // a variable chosen from the suggestions a name typed opens (variable-suggestions.tsx): written as a value typed is
+  const cellRef = useRef<HTMLSpanElement>(null);
+  const chooseVariable = (value: string) => {
+    const element = input.current;
+    if (element === null) return;
+    element.value = value;
+    draft.current.typed = false;
+    element.dataset.draft = DRAFT_KEPT;
+    keepValue(store, command, property, value, store.getState().selection);
+  };
   const scrub = SCRUB === null ? null : <ScrubLabel entry={SCRUB} property={property} shown={base} label={label} ready={available} origin={appearance.kind} />;
   const refused = useFieldRefusal(command, property);
   const state = `${available ? '' : ' is-unavailable'}${stored !== undefined ? ' is-set' : ''}${refused.text !== null ? ' is-invalid' : ''}`;
   const cell = (
-    <span className="input-wrap input-wrap--number" data-face="" data-origin={appearance.kind}>
+    <span ref={cellRef} className="input-wrap input-wrap--number" data-face="" data-origin={appearance.kind}>
       {prefix !== null ? <span className="field__prefix">{prefix}</span> : null}
       <FieldValueSlot value={mixed ? t('inspector.mixedValue') : wordOfKeyword(compactFieldValue(base, true).value, t)}>
         <input ref={input} className="input" role="spinbutton" disabled={!available} aria-label={label} inputMode="decimal" spellCheck={false} data-key-context={NUMBER_FIELD_CONTEXT} placeholder={mixed ? t('inspector.mixedValue') : effective || undefined} aria-invalid={refused.text !== null ? true : undefined} onInput={refused.dismiss} />
@@ -642,6 +653,7 @@ export function NumberField({ entry, door, property, label, bare = false, labell
           }} />
         ))}
         {bare ? null : <FieldOriginBadge label={appearance.label} />}
+        <VariableSuggestions entry={entry} property={property} label={t('field.variables.of', { property: propertyWord(t, property) })} input={input} anchor={cellRef} variables={variables} choose={chooseVariable} />
         {measurement !== undefined && measured !== null && base === 'auto' ? <span className="field__measurement" aria-hidden="true">{measured[measurement]}</span> : null}
     </span>
   );
@@ -827,6 +839,9 @@ export function TextStyleField({
   const families = useProjectFontFamilies();
   const projectFonts = useMemo(() => (fontMenu ? families : []), [fontMenu, families]);
   const suggestions = useMemo(() => [...projectFonts, ...new Set([...tokenSuggestions, ...(keywords ?? []), ...presetsOf(entry)])], [projectFonts, tokenSuggestions, keywords, entry]);
+  // the browser's own list offers the keywords and presets; the variables come in the field's suggestions list, which a
+  // name typed opens (variable-suggestions.tsx), never twice
+  const listed = useMemo(() => suggestions.filter((value) => !tokenSuggestions.includes(value)), [suggestions, tokenSuggestions]);
   // a font menu draws every family in its own face (the plan's stage 3: each family previewed in itself)
   const faces = codecOf(MODEL_RULES.propertyFacts.get(property)?.codec ?? '')?.id === FAMILY_CODEC;
   // the values menu: the door's essentials first (the only ones in Essentials only), the rest behind More values
@@ -940,6 +955,15 @@ export function TextStyleField({
     element.dataset.draft = DRAFT_KEPT;
     keepText.current(element.value, store.getState().selection);
   };
+  // a variable chosen from the suggestions a name typed opens (variable-suggestions.tsx): kept as a text typed is
+  const chooseVariable = (value: string) => {
+    const element = input.current;
+    if (element === null) return;
+    element.value = value;
+    draft.current.typed = false;
+    element.dataset.draft = DRAFT_KEPT;
+    keepText.current(value, store.getState().selection);
+  };
   const state = `${available ? '' : ' is-unavailable'}${set ? ' is-set' : ''}${refused.text !== null ? ' is-invalid' : ''}`;
   const visible = mixed ? t('inspector.mixedValue') : shown || placeholder || '';
   const percent = sliderRange?.min === 0 && sliderRange.max === 1 && visible.trim() !== '' && Number.isFinite(Number(visible));
@@ -961,13 +985,14 @@ export function TextStyleField({
             <input ref={input} className="input" disabled={!available} aria-label={label} spellCheck={false} data-key-context={COMMAND_FIELD_CONTEXT} placeholder={placeholder} aria-invalid={refused.text !== null ? true : undefined} onInput={refused.dismiss} />
           </form>
         ) : (
-          <input key="input" ref={input} className="input" disabled={!available} aria-label={label} spellCheck={false} list={suggestions.length > 0 ? listId : undefined} data-key-context={NUMBER_FIELD_CONTEXT} placeholder={placeholder} aria-invalid={refused.text !== null ? true : undefined} onInput={refused.dismiss} />
+          <input key="input" ref={input} className="input" disabled={!available} aria-label={label} spellCheck={false} list={listed.length > 0 ? listId : undefined} data-key-context={NUMBER_FIELD_CONTEXT} placeholder={placeholder} aria-invalid={refused.text !== null ? true : undefined} onInput={refused.dismiss} />
         )}</FieldValueSlot>
         {face.unit ? <span className="field__suffix" aria-hidden="true">{face.unit}</span> : null}
         {bare ? null : <FieldOriginBadge label={appearance.label} />}
-        {suggestions.length > 0 ? (
+        <VariableSuggestions entry={entry} property={property} label={t('field.variables.of', { property: propertyWord(t, property) })} input={input} anchor={valueScope} variables={tokenSuggestions} choose={chooseVariable} />
+        {listed.length > 0 ? (
           <datalist key="suggestions" id={listId}>
-            {suggestions.map((value) => (
+            {listed.map((value) => (
               // a value the catalogue names (the Screen height preset: 100vh) carries its name, so the list reads
               <option key={value} value={value} label={valueLabel(property, value) === value ? undefined : valueLabel(property, value)} />
             ))}

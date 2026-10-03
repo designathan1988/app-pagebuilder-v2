@@ -332,7 +332,7 @@ The wishes the study recorded (the plan lists them as 32; its list names 31):
 | WISH-07 | Spreadsheet and column mapping | done | STG-8.6 |
 | WISH-08 | Photos found by name | done | STG-8.6 |
 | WISH-09 | Keep the text being typed | done | J23 |
-| WISH-10 | Autocomplete variables | partial | a bare `--name` is read (QA 76); no suggestion list verified |
+| WISH-10 | Autocomplete variables | done | QA 202: a name typed after `--` or `var(` lists the field's variables (a combobox of the field's door; spec css-variables-tokens) |
 | WISH-11 | Extract to a class | done | STG-7.3 |
 | WISH-12 | Batch rename | done | QA 82 |
 | WISH-13 | Names in the project's language | done | QA 51, 81 |
