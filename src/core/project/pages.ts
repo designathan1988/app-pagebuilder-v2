@@ -142,9 +142,15 @@ export function duplicatePageCommandFor<Ui extends WithPage>() {
     const source = document.pages[at];
     if (source === undefined) throw new Error(`pages.duplicate: the document has no page ${String(page)}`);
     // a copy of "About 2" is "About 3", never "About 2 2": the number a copy took is not part of the name
-    const made = copyPage(document, source, source.name.replace(/ \d+$/, ''), () => ids.next() as NodeId);
+    const base = source.name.replace(/ \d+$/, '');
+    const made = copyPage(document, source, base, () => ids.next() as NodeId);
+    // the copy goes after the source and the copies of it that follow it, so copies line up in the order they were made
+    // (the audit's AUD-27: Home, Home 3, Home 2 after two copies)
+    const copyOfBase = (name: string): boolean => name.startsWith(`${base} `) && /^\d+$/.test(name.slice(base.length + 1));
+    let place = at + 1;
+    while (place < document.pages.length && copyOfBase(document.pages[place]?.name ?? '')) place += 1;
     // the copy opens (the selection goes with the page left), and its name field takes the focus (sidebar.tsx)
-    return { kind: 'change' as const, patches: [{ op: 'add', path: ['pages', at + 1], value: made }], ui: { ...state.ui, page: made.id }, selection: [], message: message('status.pages.duplicated', { name: source.name, copy: made.name, file: made.file }) };
+    return { kind: 'change' as const, patches: [{ op: 'add', path: ['pages', place], value: made }], ui: { ...state.ui, page: made.id }, selection: [], message: message('status.pages.duplicated', { name: source.name, copy: made.name, file: made.file }) };
   });
 }
 

@@ -6,7 +6,7 @@
     "doors": 1344,
     "scenarios": 1769,
     "modules": 420,
-    "lines": 77756
+    "lines": 77762
   },
   "features": [
     {
@@ -4278,7 +4278,7 @@
     },
     {
       "path": "src/core/project/pages.ts",
-      "lines": 204,
+      "lines": 210,
       "commands": [
         "pages.add",
         "pages.rename",

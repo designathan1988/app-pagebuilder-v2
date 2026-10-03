@@ -396,7 +396,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-24 | 1 | An untranslated save-refusal reason | audit | done (QA 173) |
 | AUD-25 | 1 | Ctrl+A on the page body selects the interface's text | audit | open |
 | AUD-26 | 1 | The New variable kind list does not take the focus (probable) | audit | open |
-| AUD-27 | 1 | Duplicated pages ordered newest first | audit | open |
+| AUD-27 | 1 | Duplicated pages ordered newest first | audit | done (QA 174) |
 | AUD-28 | 1 | Remaining divergences from the canonical interface (icons, palette footer, naming, event card Options) | audit | open |
 | AUD-29 | 1 | 16 targets under 24 × 24 px | audit | open |
 | AUD-30 | 1 | Documents and comments that contradict the application; 347 comments citing deleted documents (now archived) | audit | open |

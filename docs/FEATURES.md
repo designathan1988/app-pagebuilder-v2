@@ -280,7 +280,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `explorer-pages` | File explorer: add, rename, duplicate, delete and switch pages | yes | 11 | 8 | [explorer-pages](../spec/BEHAVIOUR.md#explorer-pages) | 5 | — |
+| `explorer-pages` | File explorer: add, rename, duplicate, delete and switch pages | yes | 11 | 8 | [explorer-pages](../spec/BEHAVIOUR.md#explorer-pages) | 6 | — |
 | `explorer-file-system` | File explorer with a virtual file system | yes | 13 | 11 | [explorer-file-system](../spec/BEHAVIOUR.md#explorer-file-system) | 5 | — |
 | `link-picker` | Link to pages, anchors, email and phone | yes | 2 | 2 | [media-embed-rules](../spec/BEHAVIOUR.md#media-embed-rules) | 0 | — |
 | `export-multi-page` | Export every page of the project | yes | 1 | 1 | [export-multi-page](../spec/BEHAVIOUR.md#export-multi-page) | 1 | — |
