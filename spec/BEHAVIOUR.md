@@ -3274,6 +3274,10 @@ This is the keyboard feature.
    of the F6 ring is the stage itself: it takes the focus (its key context the canvas's), draws a focus ring, and the
    canvas's keys act at once (ArrowDown walks into the page from the root when nothing is selected); F6 and Shift+F6
    go on from the canvas to the regions beside it.
+8. **A control reached inside a panel just opened lost the focus** (FL2: the panel takes the focus two frames after it
+   opens, and a tile focused within them lost it to the panel's search field, whose Escape then cleared the field
+   instead of closing the panel; seen twice under load in narrow-window). Required: the panel's own entry focus goes
+   into it only while the focus is not already inside it.
 
 ## keyboard-tree-walk
 

@@ -113,3 +113,27 @@ test('Ctrl+A on a control outside the canvas selects the page elements, never th
   const selection = await page.evaluate(() => (window as unknown as { __builderTestPort: { selection: () => readonly string[] } }).__builderTestPort.selection());
   expect(selection, 'the page elements are').toEqual(['n-hero', 'n-plans', 'n-footer']);
 });
+
+// A panel opened takes the focus two frames later (focus.ts, the panel's request): a control the person reaches inside
+// it in those two frames keeps the focus (FL2: narrow-window's tile, focused at once, lost it to the Insert panel's
+// search field, so its Escape cleared the field instead of closing the panel). Played in the page to hold the timing:
+// the Insert panel opened from the Explorer, its second tile focused on the next frame, the focus read three frames on.
+test('a control reached inside a panel just opened keeps the focus', runs('workspace.setPanelOpen#toolbar-activity-bar-insert'), async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await openEditor(page);
+  await page.locator('[data-door="workspace.setPanelOpen#toolbar-activity-bar-explorer"]').click();
+  await expect(page.locator('[data-door="element.insert#elements-tile"]')).toHaveCount(0);
+  const held = await page.evaluate(async () => {
+    const frame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    document.querySelector<HTMLElement>('[data-door="workspace.setPanelOpen#toolbar-activity-bar-insert"]')?.click();
+    await frame();
+    const tile = document.querySelectorAll<HTMLElement>('[data-door="element.insert#elements-tile"]')[1];
+    tile?.focus();
+    await frame();
+    await frame();
+    await frame();
+    return { tile: tile?.getAttribute('data-args') ?? null, focused: document.activeElement?.getAttribute('data-args') ?? document.activeElement?.tagName ?? null };
+  });
+  expect(held.tile).not.toBeNull();
+  expect(held.focused).toBe(held.tile);
+});

@@ -190,7 +190,9 @@ export function carryOut(move: FocusMove, focused: Element | null): void {
         // (data-panel-focus: the inspector, a dock tab; data-panel-area would make it a place a dragged panel combines
         // with, panel-drag.ts)
         const region = document.querySelector(`[data-panel-area="${move.slice(6)}"], [data-panel-window="${move.slice(6)}"], [data-panel-focus="${move.slice(6)}"]`);
-        if (region) focusRegion(region);
+        // a control the person reached inside the panel in these two frames keeps the focus (FL2: a tile focused at once
+        // lost it to the panel's search field, so its Escape cleared the field instead of closing the panel)
+        if (region && !region.contains(document.activeElement)) focusRegion(region);
       }),
     );
     return;
