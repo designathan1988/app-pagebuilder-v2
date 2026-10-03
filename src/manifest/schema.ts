@@ -903,6 +903,11 @@ export const layoutFileSchema = z.strictObject({
       labelKey: i18nKey,
     }),
   ),
+  // The controls that are no door (the audit's AUD-33): each `data-local` name the editor draws, with why it runs no
+  // command of its own — a field that filters a view, a field whose text a door's command takes as its argument, the
+  // answer buttons of a confirmation, a readout. tools/inventory/local-controls.test.ts fails on a name drawn and not
+  // declared here, and on one declared and drawn nowhere.
+  localControls: z.array(z.strictObject({ id: kebabId, reason: z.string().min(1) })),
 });
 
 // ---------------------------------------------------------------- checks (the Checks tab of the dock)

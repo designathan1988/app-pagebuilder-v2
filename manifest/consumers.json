@@ -2069,6 +2069,18 @@
       "reader": "src/editor/workspace/panels.ts"
     },
     {
+      "field": "layout:localControls",
+      "reader": "tools/inventory/local-controls.test.ts"
+    },
+    {
+      "field": "layout:localControls[].id",
+      "reader": "tools/inventory/local-controls.test.ts"
+    },
+    {
+      "field": "layout:localControls[].reason",
+      "reader": "tools/inventory/local-controls.test.ts"
+    },
+    {
       "field": "layout:splitters",
       "reader": "src/editor/workspace/layout.ts"
     },

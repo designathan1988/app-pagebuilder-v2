@@ -754,5 +754,43 @@
         "right"
       ]
     }
-  }
+  },
+  "localControls": [
+    {
+      "id": "search",
+      "reason": "The Insert panel's search: it narrows the tiles the panel shows and writes nothing to the document."
+    },
+    {
+      "id": "asset-search",
+      "reason": "The asset picker's search: it narrows the files the picker lists and writes nothing."
+    },
+    {
+      "id": "add-property-filter",
+      "reason": "The add-property list's filter: it narrows the properties the list offers and writes nothing."
+    },
+    {
+      "id": "class-name",
+      "reason": "The name typed in the New class and Rename class popovers: the popover's door takes it as its command's argument."
+    },
+    {
+      "id": "custom-attribute-name",
+      "reason": "The name of a custom attribute to add: the add-attribute door takes it as its command's argument."
+    },
+    {
+      "id": "guide-place",
+      "reason": "The place typed for a new guide: the guide door takes it as its command's argument."
+    },
+    {
+      "id": "link-address",
+      "reason": "The address typed in the text toolbar's link prompt: the link door takes it as its command's argument."
+    },
+    {
+      "id": "confirmation",
+      "reason": "The Confirm and Cancel buttons of a command's confirmation: they answer the command waiting for them, which runs or not."
+    },
+    {
+      "id": "incident-count",
+      "reason": "The status bar's count of incidents: a readout, pressed for nothing."
+    }
+  ]
 }

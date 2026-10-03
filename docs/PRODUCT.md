@@ -402,7 +402,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-30 | 1 | Documents and comments that contradict the application; 347 comments citing deleted documents (now archived) | audit | done (QA 182) |
 | AUD-31 | 1 | The `forms-mask` flow broken since `87eb183` | audit | done (QA 183) |
 | AUD-32 | 1 | Minified-style source in the assistant and some tests | audit | done (QA 186) |
-| AUD-33 | 1 | 11 controls outside the manifest (`data-local`) | audit | open |
+| AUD-33 | 1 | 11 controls outside the manifest (`data-local`) | audit | done (QA 187) |
 | AUD-34 | 1 | A test edited per new feature; misfiled manifest group | audit | open |
 | AUD-35 | 1 | Weak tests and thinly covered features | audit | open |
 | AUD-36 | 1 | Undo by keys over its 35 ms per-group reference | audit; QA 44, 80 | open |
@@ -537,7 +537,7 @@ a concept that has an owner is a defect.
 - **Everything is a door.** Every button, menu item, field, handle, tile and shortcut is generated from a door in
   `manifest/commands/*.json`; there is no other keymap or button list. A door whose feature is not registered is
   drawn disabled with "not available yet" (proven by `src/editor/doors/door.test.tsx`); the context menu draws only
-  what applies to the selection. (Eleven local controls marked `data-local` are an exception: AUD-33.)
+  what applies to the selection. The controls that run no command of their own — a field that filters a view, a field whose text a door takes as its argument, a confirmation's answers, a readout — are marked `data-local` and declared in `manifest/layout.json` `localControls`, each with its reason; `tools/inventory/local-controls.test.ts` holds the list to what is drawn (AUD-33).
 - **Disabled and focused, one look each.** A control that cannot act is `aria-disabled`, drawn in the subtle ink, with
   no hover plate, the not-allowed pointer and its reason in the tooltip — never faded with opacity. The keyboard's
   focus is one ring everywhere: 2 px of the focus colour, 1 px off the control; inside a strip whose edges clip it is
