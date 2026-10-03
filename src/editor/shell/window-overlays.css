@@ -1088,6 +1088,24 @@
   width: var(--size-target-min);
   height: var(--size-target-min);
   padding: 0;
+  border-color: transparent;
+  background: none;
+  color: var(--color-text-muted);
+}
+
+.interactions__head > .door {
+  font-weight: var(--weight-semibold);
+}
+
+.interaction-card .interaction-card__fields .interaction-card__default .panel-field__text {
+  background: var(--color-surface-sunken);
+  color: var(--color-origin-default);
+  font-weight: var(--weight-regular);
+}
+
+.interaction-card__default,
+.interaction-card__set {
+  display: contents;
 }
 
 .interaction-card__head > .door .door__label {
@@ -1111,7 +1129,7 @@
 .interaction-card .interaction-card__fields .panel-field__text,
 .interaction-card .interaction-card__fields .panel-field__text::placeholder {
   border-color: transparent;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
   background: var(--color-origin-here-soft);
   color: var(--color-origin-here);
   font: var(--weight-semibold) var(--fs-code) / var(--lh-code) var(--font-mono);

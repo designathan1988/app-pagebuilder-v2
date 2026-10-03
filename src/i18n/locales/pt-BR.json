@@ -3497,5 +3497,7 @@
   "capture.pagesHint": "1 captura só esta página; mais seguem os links para outras páginas do mesmo site, até 30.",
   "status.capture.badPages": "{pages} não é um número de páginas: de 1 a 30.",
   "field.variables.of": "As variáveis que {property} aceita",
-  "field.variables.choose": "Escrever {value}"
+  "field.variables.choose": "Escrever {value}",
+  "textToolbar.face.bold": "B",
+  "textToolbar.face.italic": "I"
 }

@@ -168,6 +168,42 @@
           "property": "width"
         }
       ]
+    },
+    {
+      "decision": "DEC-42",
+      "why": "Align acts on positioned elements only",
+      "matches": [
+        {
+          "kind": "control",
+          "id": "position.align#menu-arrange-left",
+          "property": "colour"
+        },
+        {
+          "kind": "control",
+          "id": "position.align#menu-arrange-horizontal-center",
+          "property": "colour"
+        },
+        {
+          "kind": "control",
+          "id": "position.align#menu-arrange-right",
+          "property": "colour"
+        },
+        {
+          "kind": "control",
+          "id": "position.align#menu-arrange-top",
+          "property": "colour"
+        },
+        {
+          "kind": "control",
+          "id": "position.align#menu-arrange-vertical-center",
+          "property": "colour"
+        },
+        {
+          "kind": "control",
+          "id": "position.align#menu-arrange-bottom",
+          "property": "colour"
+        }
+      ]
     }
   ]
 }

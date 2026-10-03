@@ -6518,5 +6518,7 @@ export const MESSAGE_IDS = [
   "status.capture.badPages",
   "field.variables.of",
   "field.variables.choose",
+  "textToolbar.face.bold",
+  "textToolbar.face.italic",
 ] as const;
 export type MessageId = (typeof MESSAGE_IDS)[number];

@@ -369,11 +369,11 @@
         {
           "id": "toolbar-text-toolbar-bold",
           "kind": "toolbar",
-          "drawnAs": "icon-button",
+          "drawnAs": "button",
           "pressed": true,
           "feature": "text-inline-formatting",
           "labelKey": "command.textEdit.bold",
-          "faceLabelKey": null,
+          "faceLabelKey": "textToolbar.face.bold",
           "icon": "bold",
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {
@@ -429,11 +429,11 @@
         {
           "id": "toolbar-text-toolbar-italic",
           "kind": "toolbar",
-          "drawnAs": "icon-button",
+          "drawnAs": "button",
           "pressed": true,
           "feature": "text-inline-formatting",
           "labelKey": "command.textEdit.italic",
-          "faceLabelKey": null,
+          "faceLabelKey": "textToolbar.face.italic",
           "icon": "italic",
           "disabledReasonKey": "common.notAvailableYet",
           "placement": {

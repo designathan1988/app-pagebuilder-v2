@@ -64,7 +64,13 @@
 
 .menu__item:not(.is-unavailable):hover,
 .menu__item:focus-visible {
-  background: var(--color-surface-hover);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.menu__item:not(.is-unavailable):hover > *,
+.menu__item:focus-visible > * {
+  color: var(--color-on-accent);
 }
 
 .menu__item.is-unavailable {

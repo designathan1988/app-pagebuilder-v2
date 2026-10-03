@@ -3497,5 +3497,7 @@
   "capture.pagesHint": "1 captures this page alone; more follow its links to other pages of the same site, up to 30.",
   "status.capture.badPages": "{pages} is no number of pages: 1 to 30.",
   "field.variables.of": "The variables {property} takes",
-  "field.variables.choose": "Write {value}"
+  "field.variables.choose": "Write {value}",
+  "textToolbar.face.bold": "B",
+  "textToolbar.face.italic": "I"
 }

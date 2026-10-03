@@ -983,9 +983,9 @@ function Insert() {
       <InsertDestination />
       <div className={`insert insert--${density}`}>
         <input className="search" type="search" placeholder={t('insert.search')} aria-label={t('insert.search')} data-local="search" value={query} onChange={(event) => setQuery(event.target.value)} />
-        {/* the densities fill the panel's width, each drawn by its icon with its name as its tooltip; they are one Tab
-            stop, the density shown, and the arrows move among them (a roving group) */}
-        <div className="segmented segmented--wide segmented--icons" role="group">
+        {/* the densities, each the small button of its icon with its name as its tooltip (the canonical .seg.icons); they
+            are one Tab stop, the density shown, and the arrows move among them (a roving group) */}
+        <div className="segmented segmented--icons" role="group">
           <Slots region="insert" render={(slot) => (slot.kind === 'door' && drawnAs(slot.entry) === 'segment' ? <DoorControl key={slot.entry.ref} entry={slot.entry} roving /> : null)} />
         </div>
         {groups.map(({ group: g, entries }) => {

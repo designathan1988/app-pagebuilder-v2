@@ -62,7 +62,7 @@
   width: var(--space-9);
   height: var(--space-9);
   padding: 0;
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
   cursor: pointer;
 }
 
@@ -151,7 +151,7 @@
   border-color: transparent;
   background: none;
   color: var(--color-text-subtle);
-  font-size: var(--fs-caption);
+  font-size: var(--fs-body);
   text-align: center;
 }
 

@@ -154,8 +154,11 @@ function Card({ node, interaction, index }: { readonly node: DocNode; readonly i
             </PanelButton>
           ) : null}
         </div>
+        {/* the options in the default ink while the event keeps its trigger's own way (the canonical card's o-def) */}
         {OPTIONS_FIELD !== null ? (
-          <PanelField entry={OPTIONS_FIELD} args={{ interaction: index }} value={optionsText(interaction)} label={t('interactions.field.options')} offered={OPTION_PRESETS} display={options.display} accept={options.accept} />
+          <span className={interaction.once === undefined && interaction.delay === undefined ? 'interaction-card__default' : 'interaction-card__set'}>
+            <PanelField entry={OPTIONS_FIELD} args={{ interaction: index }} value={optionsText(interaction)} label={t('interactions.field.options')} offered={OPTION_PRESETS} display={options.display} accept={options.accept} />
+          </span>
         ) : null}
       </div> : null}
       {!expanded ? <p className="interaction-card__note">

@@ -58,6 +58,13 @@
         "workspace.setPanelOpen#dock-strip-checks"
       ],
       "why": "the closed dock's tabs open the dock at their panel (DEC-02: the canonical strip, Motion beside them), where the design marks them as the tab strip's"
+    },
+    {
+      "door": "components.create#context-menu",
+      "as": [
+        "components.startCreate#context-menu"
+      ],
+      "why": "the app's context menu asks the component's name first (components.startCreate opens the prompt, the audit's A3.12), where the design's item creates it at once"
     }
   ]
 }

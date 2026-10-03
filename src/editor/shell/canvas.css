@@ -1085,6 +1085,39 @@
   height: var(--size-target-min);
 }
 
+/* Bold and Italic as their letters (the canonical B and I, DEC-43): the 24 px button, B in the bold weight, I slanted,
+   the toolbar's ink, and the accent's fill while the selection holds the mark */
+.text-toolbar [data-door$='#toolbar-text-toolbar-bold'],
+.text-toolbar [data-door$='#toolbar-text-toolbar-italic'] {
+  width: var(--size-target-min);
+  min-width: var(--size-target-min);
+  height: var(--size-target-min);
+  padding: 0;
+  border-color: transparent;
+  background: none;
+  color: var(--color-text);
+  font-size: var(--fs-title);
+}
+
+/* the letter is the face: the manifest's icon stays the door's mark for the menus and the palette */
+.text-toolbar [data-door$='#toolbar-text-toolbar-bold'] .icon,
+.text-toolbar [data-door$='#toolbar-text-toolbar-italic'] .icon {
+  display: none;
+}
+
+.text-toolbar [data-door$='#toolbar-text-toolbar-bold'] {
+  font-weight: var(--weight-semibold);
+}
+
+.text-toolbar [data-door$='#toolbar-text-toolbar-italic'] {
+  font-style: italic;
+}
+
+.text-toolbar [data-door$='#toolbar-text-toolbar-bold'].is-current,
+.text-toolbar [data-door$='#toolbar-text-toolbar-italic'].is-current {
+  background: var(--color-accent-soft);
+}
+
 /* the link prompt under the text toolbar: a popover (popover.tsx) of its label, its field and its hint */
 .link-prompt__panel {
   display: grid;
