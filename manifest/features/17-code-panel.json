@@ -475,6 +475,91 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "a-line-of-a-nested-element-selects-it",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "view.setEditorView#toolbar-canvas-toolbar-code",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "codePanel.setPane#code-panel-tab-html",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "selection.select#code-panel-html-line",
+              "args": {
+                "target": "/Page/Plans/Grid/CardB/CardBTitle"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "selection.select#code-panel-html-line"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Plans/Grid/CardB/CardBTitle"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.selected",
+                  "params": {
+                    "name": "CardBTitle"
+                  }
+                }
+              ]
+            },
+            "editor": {
+              "regions": [
+                {
+                  "region": "code-view",
+                  "measure": "width",
+                  "relation": "greater-than",
+                  "value": 350,
+                  "reference": null
+                }
+              ],
+              "computed": []
+            },
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
         }
       ]
     },
@@ -764,6 +849,489 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "a-rule-typed-in-the-pane-styles-the-element",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "view.setEditorView#toolbar-canvas-toolbar-code",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "codePanel.setPane#code-panel-tab-css",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.saveContent#code-panel-editor",
+              "args": {
+                "path": "css/styles.css",
+                "content": "color: #aa0000;"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.applyCssRule#code-panel-css-apply",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "style.applyCssRule#code-panel-css-apply"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/Intro/@styles",
+                "value": {
+                  "desktop": {
+                    "base": {
+                      "color": "#aa0000"
+                    }
+                  }
+                }
+              }
+            ],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.css.applied",
+                  "params": {
+                    "name": "Intro"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "a-piece-that-is-no-declaration-is-refused-with-its-line",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "view.setEditorView#toolbar-canvas-toolbar-code",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "codePanel.setPane#code-panel-tab-css",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.saveContent#code-panel-editor",
+              "args": {
+                "path": "css/styles.css",
+                "content": "this is no css"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.applyCssRule#code-panel-css-apply",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "style.applyCssRule#code-panel-css-apply"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.css.notDeclaration",
+                  "params": {
+                    "line": 1,
+                    "text": "this is no css"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.css.notDeclaration",
+              "document": "unchanged"
+            }
+          ]
+        },
+        {
+          "id": "a-property-the-editor-does-not-write-is-refused-with-its-line",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "view.setEditorView#toolbar-canvas-toolbar-code",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "codePanel.setPane#code-panel-tab-css",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.saveContent#code-panel-editor",
+              "args": {
+                "path": "css/styles.css",
+                "content": "colr: red;"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.applyCssRule#code-panel-css-apply",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "style.applyCssRule#code-panel-css-apply"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.css.unknownProperty",
+                  "params": {
+                    "line": 1,
+                    "property": "colr"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.css.unknownProperty",
+              "document": "unchanged"
+            }
+          ]
+        },
+        {
+          "id": "a-value-in-braces-is-refused-with-its-line",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "view.setEditorView#toolbar-canvas-toolbar-code",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "codePanel.setPane#code-panel-tab-css",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.saveContent#code-panel-editor",
+              "args": {
+                "path": "css/styles.css",
+                "content": "color: {red};"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.applyCssRule#code-panel-css-apply",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "style.applyCssRule#code-panel-css-apply"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.css.badValue",
+                  "params": {
+                    "line": 1,
+                    "property": "color",
+                    "value": "{red}"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.css.badValue",
+              "document": "unchanged"
+            }
+          ]
+        },
+        {
+          "id": "a-locked-element-keeps-its-declarations",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "element.toggleLock#layers-row-lock",
+              "args": {
+                "target": "/Page/Hero/Intro"
+              },
+              "target": "/Page/Hero/Intro",
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "view.setEditorView#toolbar-canvas-toolbar-code",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "codePanel.setPane#code-panel-tab-css",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.saveContent#code-panel-editor",
+              "args": {
+                "path": "css/styles.css",
+                "content": "color: #aa0000;"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.applyCssRule#code-panel-css-apply",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "style.applyCssRule#code-panel-css-apply"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/Intro/@locked",
+                "value": true
+              }
+            ],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.locked.edit",
+                  "params": {
+                    "name": "Intro"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.locked.edit",
+              "document": "unchanged"
+            }
+          ]
         }
       ]
     },
@@ -876,6 +1444,390 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "markup-typed-in-the-pane-rewrites-the-elements-text",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "view.setEditorView#toolbar-canvas-toolbar-code",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "codePanel.setPane#code-panel-tab-html",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.saveContent#code-panel-editor",
+              "args": {
+                "path": "index.html",
+                "content": "<p>Fresh coffee, roasted every day.</p>"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.applyHtml#code-panel-html-apply",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.applyHtml#code-panel-html-apply"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/Intro/@text",
+                "value": "Fresh coffee, roasted every day."
+              }
+            ],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.html.applied",
+                  "params": {
+                    "name": "Intro"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "markup-of-two-elements-is-refused",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "view.setEditorView#toolbar-canvas-toolbar-code",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "codePanel.setPane#code-panel-tab-html",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.saveContent#code-panel-editor",
+              "args": {
+                "path": "index.html",
+                "content": "<p>One</p><p>Two</p>"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.applyHtml#code-panel-html-apply",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.applyHtml#code-panel-html-apply"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.html.invalidAt",
+                  "params": {
+                    "line": 1,
+                    "reason": "the markup of an element is one element (it holds none, or several)"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.html.invalidAt",
+              "document": "unchanged"
+            }
+          ]
+        },
+        {
+          "id": "markup-the-parent-refuses-is-refused",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Plans/Perks/PerkOne"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "view.setEditorView#toolbar-canvas-toolbar-code",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "codePanel.setPane#code-panel-tab-html",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.saveContent#code-panel-editor",
+              "args": {
+                "path": "index.html",
+                "content": "<p>Free delivery</p>"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.applyHtml#code-panel-html-apply",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.applyHtml#code-panel-html-apply"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Plans/Perks/PerkOne"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.refused.onlyAccepts",
+                  "params": {
+                    "parent": "<ul>",
+                    "children": "<li>"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.refused.onlyAccepts",
+              "document": "unchanged"
+            }
+          ]
+        },
+        {
+          "id": "a-locked-element-keeps-its-markup",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "element.toggleLock#layers-row-lock",
+              "args": {
+                "target": "/Page/Hero/Intro"
+              },
+              "target": "/Page/Hero/Intro",
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "view.setEditorView#toolbar-canvas-toolbar-code",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "codePanel.setPane#code-panel-tab-html",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.saveContent#code-panel-editor",
+              "args": {
+                "path": "index.html",
+                "content": "<p>Changed</p>"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.applyHtml#code-panel-html-apply",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.applyHtml#code-panel-html-apply"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/Intro/@locked",
+                "value": true
+              }
+            ],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.locked.edit",
+                  "params": {
+                    "name": "Intro"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.locked.edit",
+              "document": "unchanged"
+            }
+          ]
         }
       ]
     }

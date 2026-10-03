@@ -5,7 +5,7 @@ the last complete browser run on a clean tree (`docs/feature-results.json`, writ
 hand. `npm run inventory:check` fails while this file is out of step. The requirements these features answer, and the
 open problems, are in `docs/PRODUCT.md`.
 
-214 features (214 built), 371 commands, 1346 doors, 1782 scenarios.
+214 features (214 built), 371 commands, 1346 doors, 1814 scenarios.
 
 No complete browser run on a clean tree has been recorded yet: the next one writes `docs/feature-results.json`.
 
@@ -62,8 +62,8 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `app-menu` | Application menu: File, Edit, Arrange, View, Help, Theme and Language | yes | 21 | 21 | [app-menu](../spec/BEHAVIOUR.md#app-menu) | 8 | — |
 | `ui-language` | UI language: Brazilian Portuguese by default, English available | yes | 2 | 2 | [ui-language](../spec/BEHAVIOUR.md#ui-language) | 4 | — |
 | `autosave-restore` | Autosave to IndexedDB and restore the work after a reload | yes | 4 | 6 | [autosave-restore](../spec/BEHAVIOUR.md#autosave-restore) | 4 | — |
-| `unsaved-work-guard` | Never lose an edit that is not yet saved | yes | 1 | 1 | [unsaved-work-guard](../spec/BEHAVIOUR.md#unsaved-work-guard) | 3 | — |
-| `autosave-crash-recovery` | Keep saved versions and restore the work after a crash | yes | 1 | 1 | [autosave-crash-recovery](../spec/BEHAVIOUR.md#autosave-crash-recovery) | 3 | — |
+| `unsaved-work-guard` | Never lose an edit that is not yet saved | yes | 2 | 2 | [unsaved-work-guard](../spec/BEHAVIOUR.md#unsaved-work-guard) | 3 | — |
+| `autosave-crash-recovery` | Keep saved versions and restore the work after a crash | yes | 2 | 2 | [autosave-crash-recovery](../spec/BEHAVIOUR.md#autosave-crash-recovery) | 3 | — |
 | `new-blank-page` | Start over with a new blank page | yes | 3 | 1 | [new-blank-page](../spec/BEHAVIOUR.md#new-blank-page) | 2 | — |
 | `autosave-corruption-recovery` | Recover from a corrupted saved project | yes | 1 | 1 | [autosave-corruption-recovery](../spec/BEHAVIOUR.md#autosave-corruption-recovery) | 3 | — |
 | `multi-tab-guard` | Only one tab edits the project at a time | yes | 2 | 2 | [multi-tab-guard](../spec/BEHAVIOUR.md#multi-tab-guard) | 3 | — |
@@ -101,7 +101,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `inspector-provenance-reset` | Mark set values and reset one property or all of them | yes | 4 | 2 | [inspector-provenance-reset](../spec/BEHAVIOUR.md#inspector-provenance-reset) | 6 | — |
 | `inspector-property-search` | Search the inspector for a property | yes | 3 | 1 | [inspector-property-search](../spec/BEHAVIOUR.md#inspector-property-search) | 1 | — |
 | `inspector-advanced-mode` | Switch the inspector between all properties and essentials only | yes | 2 | 2 | [inspector-advanced-mode](../spec/BEHAVIOUR.md#inspector-advanced-mode) | 2 | — |
-| `inspector-add-property` | Add a property that is not shown yet | yes | 1 | 1 | [inspector-add-property](../spec/BEHAVIOUR.md#inspector-add-property) | 5 | — |
+| `inspector-add-property` | Add a property that is not shown yet | yes | 2 | 2 | [inspector-add-property](../spec/BEHAVIOUR.md#inspector-add-property) | 5 | — |
 | `semantic-tag-switch` | Switch an element between equivalent semantic tags | yes | 12 | 1 | [semantic-tag-switch](../spec/BEHAVIOUR.md#semantic-tag-switch) | 6 | — |
 | `quick-panel` | Floating quick panel over the selection | yes | 36 | 37 | [quick-panel](../spec/BEHAVIOUR.md#quick-panel) | 16 | — |
 | `multi-select-edit` | Edit a property on several selected elements at once | yes | 3 | 4 | [multi-select-edit](../spec/BEHAVIOUR.md#multi-select-edit) | 4 | — |
@@ -225,7 +225,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `dock-toggles` | Show and hide the docks and panels | yes | 15 | 14 | [dock-toggles](../spec/BEHAVIOUR.md#dock-toggles) | 2 | — |
 | `command-bar` | Command bar with Ctrl+K | yes | 56 | 59 | [command-bar](../spec/BEHAVIOUR.md#command-bar) | 8 | — |
 | `command-bar-set-property` | Set a property or jump to it from the command bar | yes | 10 | 10 | [command-bar-set-property](../spec/BEHAVIOUR.md#command-bar-set-property) | 2 | — |
-| `shortcuts-panel` | Keyboard shortcuts panel generated from the keymap | yes | 1 | 1 | [shortcuts-panel](../spec/BEHAVIOUR.md#shortcuts-panel) | 3 | — |
+| `shortcuts-panel` | Keyboard shortcuts panel generated from the keymap | yes | 2 | 1 | [shortcuts-panel](../spec/BEHAVIOUR.md#shortcuts-panel) | 3 | — |
 | `workbench-panel` | Bottom workbench: tabs, collapse, maximise and developer tools | yes | 10 | 6 | [workbench-panel](../spec/BEHAVIOUR.md#workbench-panel) | 4 | — |
 | `panel-resize` | Resize docks and panels with splitters | yes | 6 | 5 | [panel-resize](../spec/BEHAVIOUR.md#panel-resize) | 6 | — |
 | `floating-panels` | Float a panel as a window and dock it again | yes | 5 | 5 | [floating-panels](../spec/BEHAVIOUR.md#floating-panels) | 4 | — |
@@ -237,7 +237,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `accessibility-checks` | Accessibility and structure checks | yes | 7 | 7 | [accessibility-checks](../spec/BEHAVIOUR.md#accessibility-checks) | 5 | — |
+| `accessibility-checks` | Accessibility and structure checks | yes | 8 | 8 | [accessibility-checks](../spec/BEHAVIOUR.md#accessibility-checks) | 5 | — |
 | `keyboard-panel-navigation` | Move between panels and inside them with the keyboard | yes | 8 | 31 | [keyboard-panel-navigation](../spec/BEHAVIOUR.md#keyboard-panel-navigation) | 8 | — |
 | `layers-keyboard-navigation` | Operate the Layers tree with the keyboard | yes | 7 | 8 | [layers-keyboard-navigation](../spec/BEHAVIOUR.md#layers-keyboard-navigation) | 4 | — |
 
@@ -252,12 +252,12 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `html-import-structure` | Import an HTML file: tags, text, inline marks and attributes | yes | 7 | 6 | [html-import](../spec/BEHAVIOUR.md#html-import) | 3 | — |
+| `html-import-structure` | Import an HTML file: tags, text, inline marks and attributes | yes | 8 | 6 | [html-import](../spec/BEHAVIOUR.md#html-import) | 3 | — |
 | `html-import-cleaning` | Import cleaning: scripts, unknown elements, broken nesting and the import report | yes | 2 | 2 | [html-import-cleaning](../spec/BEHAVIOUR.md#html-import-cleaning) | 1 | — |
 | `html-import-styles` | Import CSS: style attributes, style blocks and linked stylesheets | yes | 2 | 2 | [html-import-styles](../spec/BEHAVIOUR.md#html-import-styles) | 1 | — |
 | `html-import-media-queries` | Import @media rules as breakpoint overrides | yes | 2 | 2 | [html-import-media-queries](../spec/BEHAVIOUR.md#html-import-media-queries) | 1 | — |
-| `html-import-states` | Import pseudo-class rules as state styles | yes | 1 | 2 | [html-import-states](../spec/BEHAVIOUR.md#html-import-states) | 1 | — |
-| `html-import-roundtrip` | Exported pages import back unchanged | yes | 1 | 2 | [html-import-roundtrip](../spec/BEHAVIOUR.md#html-import-roundtrip) | 1 | — |
+| `html-import-states` | Import pseudo-class rules as state styles | yes | 2 | 2 | [html-import-states](../spec/BEHAVIOUR.md#html-import-states) | 1 | — |
+| `html-import-roundtrip` | Exported pages import back unchanged | yes | 2 | 2 | [html-import-roundtrip](../spec/BEHAVIOUR.md#html-import-roundtrip) | 1 | — |
 | `clipboard-paste-external` | Paste HTML and text copied from outside the app | yes | 2 | 2 | [clipboard-paste-external](../spec/BEHAVIOUR.md#clipboard-paste-external) | 2 | — |
 | `capture-url` | Open any web address as a page of the project | yes | 3 | 2 | [capture-url](../spec/BEHAVIOUR.md#capture-url) | 0 | — |
 
@@ -266,10 +266,10 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
 | `code-panel-view` | Code panel shows the generated HTML and CSS | yes | 5 | 6 | [code-panel-view](../spec/BEHAVIOUR.md#code-panel-view) | 1 | — |
-| `code-panel-selection-sync` | Code panel follows the selection | yes | 1 | 1 | [code-panel-selection-sync](../spec/BEHAVIOUR.md#code-panel-selection-sync) | 3 | — |
+| `code-panel-selection-sync` | Code panel follows the selection | yes | 2 | 1 | [code-panel-selection-sync](../spec/BEHAVIOUR.md#code-panel-selection-sync) | 3 | — |
 | `code-panel-copy-download` | Copy or download what the Code panel shows | yes | 2 | 2 | [code-panel-copy-download](../spec/BEHAVIOUR.md#code-panel-copy-download) | 1 | — |
-| `code-panel-edit-css` | Edit an element's CSS in the Code panel | yes | 1 | 1 | [code-panel-edit-css](../spec/BEHAVIOUR.md#code-panel-edit-css) | 1 | — |
-| `code-panel-edit-html` | Edit HTML in the Code panel | yes | 1 | 1 | [code-panel-edit-html](../spec/BEHAVIOUR.md#code-panel-edit-html) | 1 | — |
+| `code-panel-edit-css` | Edit an element's CSS in the Code panel | yes | 6 | 1 | [code-panel-edit-css](../spec/BEHAVIOUR.md#code-panel-edit-css) | 1 | — |
+| `code-panel-edit-html` | Edit HTML in the Code panel | yes | 5 | 1 | [code-panel-edit-html](../spec/BEHAVIOUR.md#code-panel-edit-html) | 1 | — |
 
 ## 18-animation-and-events
 
@@ -279,7 +279,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `timeline-keyframes` | Add, edit, move and delete keyframes on the timeline | yes | 4 | 5 | [timeline-keyframes](../spec/BEHAVIOUR.md#timeline-keyframes) | 3 | — |
 | `timeline-animation-settings` | Animation duration, delay, repeat, direction and fill | yes | 2 | 2 | [timeline-animation-settings](../spec/BEHAVIOUR.md#timeline-animation-settings) | 1 | — |
 | `timeline-preview` | Preview animations by playing and scrubbing the timeline | yes | 5 | 5 | [timeline-preview](../spec/BEHAVIOUR.md#timeline-preview) | 2 | — |
-| `export-keyframes` | Export animations as @keyframes | yes | 1 | 1 | [export-keyframes](../spec/BEHAVIOUR.md#export-keyframes) | 1 | — |
+| `export-keyframes` | Export animations as @keyframes | yes | 2 | 1 | [export-keyframes](../spec/BEHAVIOUR.md#export-keyframes) | 1 | — |
 | `events-actions` | Events and actions per element | yes | 10 | 7 | [events-actions](../spec/BEHAVIOUR.md#events-actions) | 6 | — |
 | `export-events-js` | Export interactions as standard JavaScript | yes | 3 | 1 | [export-events-js](../spec/BEHAVIOUR.md#export-events-js) | 1 | — |
 
@@ -288,15 +288,15 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
 | `explorer-pages` | File explorer: add, rename, duplicate, delete and switch pages | yes | 11 | 8 | [explorer-pages](../spec/BEHAVIOUR.md#explorer-pages) | 6 | — |
-| `explorer-file-system` | File explorer with a virtual file system | yes | 13 | 11 | [explorer-file-system](../spec/BEHAVIOUR.md#explorer-file-system) | 5 | — |
+| `explorer-file-system` | File explorer with a virtual file system | yes | 14 | 11 | [explorer-file-system](../spec/BEHAVIOUR.md#explorer-file-system) | 5 | — |
 | `link-picker` | Link to pages, anchors, email and phone | yes | 2 | 2 | [media-embed-rules](../spec/BEHAVIOUR.md#media-embed-rules) | 0 | — |
-| `export-multi-page` | Export every page of the project | yes | 1 | 1 | [export-multi-page](../spec/BEHAVIOUR.md#export-multi-page) | 1 | — |
+| `export-multi-page` | Export every page of the project | yes | 2 | 1 | [export-multi-page](../spec/BEHAVIOUR.md#export-multi-page) | 1 | — |
 | `explorer-assets` | Upload and manage image and font files | yes | 2 | 2 | [explorer-assets](../spec/BEHAVIOUR.md#explorer-assets) | 2 | — |
 | `explorer-assets-use` | Use assets in Image elements and drop images onto the canvas | yes | 3 | 3 | [explorer-assets-use](../spec/BEHAVIOUR.md#explorer-assets-use) | 3 | — |
-| `export-file-tree` | Export the file tree as a ZIP | yes | 1 | 1 | [export-file-tree](../spec/BEHAVIOUR.md#export-file-tree) | 1 | — |
-| `export-assets` | Export includes every file of the tree | yes | 1 | 1 | [export-assets](../spec/BEHAVIOUR.md#export-assets) | 1 | — |
-| `page-seo-meta` | Page metadata for search and sharing | yes | 1 | 1 | [page-seo-meta](../spec/BEHAVIOUR.md#page-seo-meta) | 1 | — |
-| `custom-fonts` | Use custom font files | yes | 1 | 1 | [custom-fonts](../spec/BEHAVIOUR.md#custom-fonts) | 1 | — |
+| `export-file-tree` | Export the file tree as a ZIP | yes | 2 | 1 | [export-file-tree](../spec/BEHAVIOUR.md#export-file-tree) | 1 | — |
+| `export-assets` | Export includes every file of the tree | yes | 2 | 1 | [export-assets](../spec/BEHAVIOUR.md#export-assets) | 1 | — |
+| `page-seo-meta` | Page metadata for search and sharing | yes | 7 | 6 | [page-seo-meta](../spec/BEHAVIOUR.md#page-seo-meta) | 1 | — |
+| `custom-fonts` | Use custom font files | yes | 2 | 1 | [custom-fonts](../spec/BEHAVIOUR.md#custom-fonts) | 1 | — |
 | `explorer-open-folder` | Open a whole folder from disk | yes | 4 | 3 | [explorer-open-folder](../spec/BEHAVIOUR.md#explorer-open-folder) | 1 | — |
 | `code-panel-edit-js` | Edit JavaScript files in the Code panel | yes | 3 | 3 | [code-panel-edit-js](../spec/BEHAVIOUR.md#code-panel-edit-js) | 1 | — |
 | `command-bar-find` | Pages, layers and classes in the command bar | yes | 3 | 3 | [command-bar-find](../spec/BEHAVIOUR.md#command-bar-find) | 0 | — |
@@ -305,7 +305,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `shortcuts-e2e-sweep` | Every listed shortcut works in its context | yes | 1 | 1 | [shortcuts-e2e-sweep](../spec/BEHAVIOUR.md#shortcuts-e2e-sweep) | 3 | — |
+| `shortcuts-e2e-sweep` | Every listed shortcut works in its context | yes | 2 | 2 | [shortcuts-e2e-sweep](../spec/BEHAVIOUR.md#shortcuts-e2e-sweep) | 3 | — |
 
 ## 21-layout-and-structure
 
@@ -336,7 +336,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `motion-keyframes` | Keyframes: add, edit, move, copy, paste and record | yes | 12 | 10 | [motion-keyframes](../spec/BEHAVIOUR.md#motion-keyframes) | 1 | — |
 | `motion-preview` | Preview a timeline and run the interactions on the canvas | yes | 4 | 4 | [motion-preview](../spec/BEHAVIOUR.md#motion-preview) | 1 | — |
 | `motion-behaviours` | Behaviours: sticky, scroll snap, smooth scroll, parallax, marquee, cursor follow | yes | 10 | 10 | [motion-behaviours](../spec/BEHAVIOUR.md#motion-behaviours) | 1 | — |
-| `export-motion-js` | Motion exported as plain JavaScript | yes | 1 | 1 | [export-motion-js](../spec/BEHAVIOUR.md#export-motion-js) | 0 | — |
+| `export-motion-js` | Motion exported as plain JavaScript | yes | 2 | 1 | [export-motion-js](../spec/BEHAVIOUR.md#export-motion-js) | 0 | — |
 
 ## 25-content
 

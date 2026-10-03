@@ -2491,6 +2491,93 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "a-folder-name-already-taken-is-refused",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.createFolder#explorer-new-folder",
+              "args": {
+                "path": "img"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.createFolder#explorer-new-folder",
+              "args": {
+                "path": "img"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "files.createFolder#explorer-new-folder"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@folders",
+                "value": [
+                  "img"
+                ]
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.files.nameTaken",
+                  "params": {
+                    "name": "img"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.files.nameTaken",
+              "document": "unchanged"
+            }
+          ]
         }
       ]
     },
@@ -3256,6 +3343,262 @@
                   "path": "css/styles.css",
                   "present": [
                     "box-sizing"
+                  ],
+                  "absent": []
+                }
+              ]
+            }
+          },
+          "refusals": []
+        },
+        {
+          "id": "a-page-in-a-folder-links-back-to-the-home-page",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "pages.add#explorer-add-page",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "pages.rename#explorer-page-name-field",
+              "args": {
+                "page": "/Page 2",
+                "name": "About us"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.createFolder#explorer-new-folder",
+              "args": {
+                "path": "company"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.move#explorer-move-to",
+              "args": {
+                "path": "about-us.html",
+                "to": ""
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.move#explorer-move-target",
+              "args": {
+                "path": "about-us.html",
+                "to": "company"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-insert",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.insert#elements-tile",
+              "args": {
+                "entry": "link"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "linkPicker.open#field-href-choose",
+              "args": {
+                "target": "/About us/Link"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "linkPicker.setKind#link-picker-page",
+              "args": {
+                "kind": "page"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.setLink#link-picker-page-item",
+              "args": {
+                "page": "index.html"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.export#toolbar-top-bar-export",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.export#toolbar-top-bar-export"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@pages",
+                "value": [
+                  {
+                    "name": "Home",
+                    "file": "index.html",
+                    "tree": {
+                      "type": "page",
+                      "name": "Page",
+                      "tag": "body",
+                      "attributes": {},
+                      "classes": [],
+                      "styles": {},
+                      "text": null,
+                      "children": []
+                    }
+                  },
+                  {
+                    "name": "About us",
+                    "file": "company/about-us.html",
+                    "tree": {
+                      "type": "page",
+                      "name": "About us",
+                      "tag": "body",
+                      "attributes": {},
+                      "classes": [],
+                      "styles": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "type": "link",
+                          "name": "Link",
+                          "tag": "a",
+                          "attributes": {
+                            "href": "index.html"
+                          },
+                          "classes": [],
+                          "styles": {},
+                          "text": "A link",
+                          "children": []
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/@folders",
+                "value": [
+                  "company"
+                ]
+              }
+            ],
+            "selection": [
+              "/About us/Link"
+            ],
+            "history": {
+              "undoSteps": 6,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.export.done",
+                  "params": {
+                    "file": "site.zip"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": {
+              "files": [
+                {
+                  "path": "company/about-us.html",
+                  "present": [
+                    "<a href=\"../index.html\">A link</a>",
+                    "<link rel=\"stylesheet\" href=\"../css/styles.css\">"
+                  ],
+                  "absent": [
+                    "href=\"index.html\""
+                  ]
+                },
+                {
+                  "path": "index.html",
+                  "present": [
+                    "<link rel=\"stylesheet\" href=\"css/styles.css\">"
                   ],
                   "absent": []
                 }
@@ -4233,6 +4576,139 @@
             }
           },
           "refusals": []
+        },
+        {
+          "id": "a-script-of-the-tree-is-in-the-archive-at-its-path",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.createFile#explorer-new-file",
+              "args": {
+                "path": "js/main.js"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.open#explorer-file-row",
+              "args": {
+                "path": "js/main.js"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.saveContent#code-panel-editor",
+              "args": {
+                "path": "js/main.js",
+                "content": "let a = 12;"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.saveContent#code-panel-save",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.export#toolbar-top-bar-export",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.export#toolbar-top-bar-export"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@files",
+                "value": [
+                  {
+                    "path": "js/main.js",
+                    "type": "text/javascript",
+                    "bytes": "bGV0IGEgPSAxMjsK"
+                  }
+                ]
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 2,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.export.done",
+                  "params": {
+                    "file": "site.zip"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": {
+              "files": [
+                {
+                  "path": "js/main.js",
+                  "present": [
+                    "let a = 12;"
+                  ],
+                  "absent": []
+                },
+                {
+                  "path": "index.html",
+                  "present": [
+                    "<meta charset=\"utf-8\">"
+                  ],
+                  "absent": []
+                }
+              ]
+            }
+          },
+          "refusals": []
         }
       ]
     },
@@ -4372,6 +4848,108 @@
                   "path": "css/styles.css",
                   "present": [
                     "box-sizing"
+                  ],
+                  "absent": []
+                }
+              ]
+            }
+          },
+          "refusals": []
+        },
+        {
+          "id": "an-uploaded-font-is-in-the-archive-byte-for-byte",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.upload#explorer-upload",
+              "args": {
+                "files": "woff2:Body.woff2"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.export#toolbar-top-bar-export",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.export#toolbar-top-bar-export"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@files",
+                "value": [
+                  {
+                    "path": "fonts/Body.woff2",
+                    "type": "font/woff2",
+                    "bytes": "woff2:Body.woff2"
+                  }
+                ]
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.export.done",
+                  "params": {
+                    "file": "site.zip"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": {
+              "files": [
+                {
+                  "path": "fonts/Body.woff2",
+                  "present": [
+                    "wOF2"
+                  ],
+                  "absent": []
+                },
+                {
+                  "path": "css/styles.css",
+                  "present": [
+                    "font-family: Body;",
+                    "src: url(\"../fonts/Body.woff2\") format(\"woff2\");"
                   ],
                   "absent": []
                 }
@@ -4572,6 +5150,472 @@
                 }
               ]
             }
+          },
+          "refusals": []
+        },
+        {
+          "id": "the-description-field-keeps-the-pages-description",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "page.openProperties#inspector-page-properties-button",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "page.setSetting#inspector-page-description",
+              "args": {
+                "setting": "pageDescription",
+                "value": "Fresh coffee, roasted every week."
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Fresh coffee, roasted every week.\n"
+            }
+          ],
+          "doors": [
+            "page.setSetting#inspector-page-description"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/@attributes/pageDescription",
+                "value": "Fresh coffee, roasted every week."
+              }
+            ],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.page.settingSet",
+                  "params": {
+                    "setting": "Description",
+                    "value": "Fresh coffee, roasted every week."
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "the-canonical-field-keeps-a-web-address",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "page.openProperties#inspector-page-properties-button",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "page.setSetting#inspector-page-canonical",
+              "args": {
+                "setting": "pageCanonical",
+                "value": "https://aurora.example/"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "https://aurora.example/\n"
+            }
+          ],
+          "doors": [
+            "page.setSetting#inspector-page-canonical"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/@attributes/pageCanonical",
+                "value": "https://aurora.example/"
+              }
+            ],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.page.settingSet",
+                  "params": {
+                    "setting": "Canonical URL",
+                    "value": "https://aurora.example/"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "the-canonical-field-refuses-an-address-that-runs-code",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "page.openProperties#inspector-page-properties-button",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "page.setSetting#inspector-page-canonical",
+              "args": {
+                "setting": "pageCanonical",
+                "value": "javascript:alert(1)"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "javascript:alert(1)\n"
+            }
+          ],
+          "doors": [
+            "page.setSetting#inspector-page-canonical"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.url.unsafe",
+                  "params": {
+                    "url": "javascript:alert(1)"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.url.unsafe",
+              "document": "unchanged"
+            }
+          ]
+        },
+        {
+          "id": "the-sharing-title-field-keeps-its-title",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "page.openProperties#inspector-page-properties-button",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "page.setSetting#inspector-page-og-title",
+              "args": {
+                "setting": "pageOgTitle",
+                "value": "Aurora Coffee"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "Aurora Coffee\n"
+            }
+          ],
+          "doors": [
+            "page.setSetting#inspector-page-og-title"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/@attributes/pageOgTitle",
+                "value": "Aurora Coffee"
+              }
+            ],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.page.settingSet",
+                  "params": {
+                    "setting": "Sharing title",
+                    "value": "Aurora Coffee"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "the-sharing-image-field-refuses-a-scheme-the-rule-does-not-know",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "page.openProperties#inspector-page-properties-button",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "page.setSetting#inspector-page-og-image",
+              "args": {
+                "setting": "pageOgImage",
+                "value": "ftp://aurora.example/card.png"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "ftp://aurora.example/card.png\n"
+            }
+          ],
+          "doors": [
+            "page.setSetting#inspector-page-og-image"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.url.malformed",
+                  "params": {
+                    "url": "ftp://aurora.example/card.png"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.url.malformed",
+              "document": "unchanged"
+            }
+          ]
+        },
+        {
+          "id": "the-favicon-field-keeps-a-domain-as-a-web-address",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "page.openProperties#inspector-page-properties-button",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "page.setSetting#inspector-page-favicon",
+              "args": {
+                "setting": "pageFavicon",
+                "value": "aurora.example/favicon.ico"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "aurora.example/favicon.ico\n"
+            }
+          ],
+          "doors": [
+            "page.setSetting#inspector-page-favicon"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/@attributes/pageFavicon",
+                "value": "https://aurora.example/favicon.ico"
+              }
+            ],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.page.settingSet",
+                  "params": {
+                    "setting": "Favicon",
+                    "value": "https://aurora.example/favicon.ico"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
           },
           "refusals": []
         }
@@ -4834,6 +5878,163 @@
                   "path": "fonts/Body.woff2",
                   "present": [
                     "wOF2"
+                  ],
+                  "absent": []
+                }
+              ]
+            }
+          },
+          "refusals": []
+        },
+        {
+          "id": "a-font-whose-name-holds-a-space-is-one-family",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-explorer",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "files.upload#explorer-upload",
+              "args": {
+                "files": "woff2:Grao Display.woff2"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-insert",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.insert#elements-tile",
+              "args": {
+                "entry": "heading"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.set#inspector-font-family",
+              "args": {
+                "property": "font-family",
+                "value": "\"Grao Display\""
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "\"Grao Display\"\n"
+            },
+            {
+              "door": "project.export#toolbar-top-bar-export",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "style.set#inspector-font-family"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@files",
+                "value": [
+                  {
+                    "path": "fonts/Grao Display.woff2",
+                    "type": "font/woff2",
+                    "bytes": "woff2:Grao Display.woff2"
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/@children",
+                "value": [
+                  {
+                    "type": "heading",
+                    "name": "Heading",
+                    "tag": "h2",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "font-family": "\"Grao Display\""
+                        }
+                      }
+                    },
+                    "text": "New heading",
+                    "children": []
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Heading"
+            ],
+            "history": {
+              "undoSteps": 3,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Heading",
+                  "property": "font-family",
+                  "value": "\"Grao Display\""
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.export.done",
+                  "params": {
+                    "file": "site.zip"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": {
+              "files": [
+                {
+                  "path": "css/styles.css",
+                  "present": [
+                    "font-family: \"Grao Display\";",
+                    "fonts/Grao"
                   ],
                   "absent": []
                 }

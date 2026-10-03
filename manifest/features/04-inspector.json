@@ -36679,6 +36679,102 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "a-property-revealed-from-the-list-or-the-command-bar-takes-its-value",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "inspector.setMode#inspector-mode-essentials",
+              "args": {
+                "mode": "essentials"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "inspector.reveal#inspector-add-property-item",
+              "args": {
+                "property": "word-spacing"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "style.set#inspector-word-spacing",
+              "args": {
+                "property": "word-spacing",
+                "value": "4px"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": "4px\n"
+            }
+          ],
+          "doors": [
+            "inspector.reveal#inspector-add-property-item",
+            "inspector.reveal#command-bar-edit-property"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/Intro/@styles/desktop/base/word-spacing",
+                "value": "4px"
+              }
+            ],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Hero/Intro",
+                  "property": "word-spacing",
+                  "value": "4px"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.style.set",
+                  "params": {
+                    "property": "Word spacing",
+                    "name": "Intro",
+                    "value": "4px"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
         }
       ]
     },

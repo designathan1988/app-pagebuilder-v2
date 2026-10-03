@@ -165,6 +165,130 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "ctrl-d-then-alt-arrow-up-puts-a-copy-first",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "element.duplicate#key-ctrl-d-in-global",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.moveUp#key-alt-arrow-up-in-canvas",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.moveUp#key-alt-arrow-up-in-canvas",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.moveUp#key-alt-arrow-up-in-canvas"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/@children",
+                "value": [
+                  {
+                    "type": "paragraph",
+                    "name": "Intro 2",
+                    "tag": "p",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Fresh coffee, roasted every week.",
+                    "children": []
+                  },
+                  {
+                    "type": "heading",
+                    "name": "Title",
+                    "tag": "h1",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Welcome to Aurora",
+                    "children": []
+                  },
+                  {
+                    "type": "paragraph",
+                    "name": "Intro",
+                    "tag": "p",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Fresh coffee, roasted every week.",
+                    "children": []
+                  },
+                  {
+                    "type": "div",
+                    "name": "Actions",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": null,
+                    "children": []
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Hero/Intro 2"
+            ],
+            "history": {
+              "undoSteps": 3,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.moved",
+                  "params": {
+                    "name": "Intro 2",
+                    "position": 1,
+                    "count": 4,
+                    "parent": "Hero"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
         }
       ],
       "toothProof": "src/editor/input/keymap.ts"

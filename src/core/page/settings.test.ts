@@ -84,6 +84,12 @@ describe('page.setSetting', () => {
     expect(run(withRoot({}), 'pageDirection', 'sideways')).toEqual({ refused: { key: 'status.page.settingInvalid', params: { setting: label('pageDirection'), value: 'sideways' } } });
   });
 
+  it('refuses a page address with the address rule’s own reason, as the Link field does (PS1)', () => {
+    expect(run(withRoot({}), 'pageCanonical', 'javascript:alert(1)')).toEqual({ refused: { key: 'status.url.unsafe', params: { url: 'javascript:alert(1)' } } });
+    expect(run(withRoot({}), 'pageOgImage', 'ftp://aurora.example/card.png')).toEqual({ refused: { key: 'status.url.malformed', params: { url: 'ftp://aurora.example/card.png' } } });
+    expect(run(withRoot({}), 'pageFavicon', 'aurora.example/favicon.ico').attributes).toEqual({ pageFavicon: 'https://aurora.example/favicon.ico' });
+  });
+
   it('refuses what no door hands it: an attribute that is no setting of the page, a value that is no string', () => {
     expect(() => run(withRoot({}), 'id', 'x')).toThrow(/no setting of the page/);
     expect(() => run(withRoot({}), 'pageTitle', 3)).toThrow(/not a string/);

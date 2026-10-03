@@ -1190,6 +1190,71 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "importing-inside-a-paragraph-is-refused",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "project.importHtml#menu-file",
+              "args": {
+                "files": [
+                  "import:page.html"
+                ],
+                "destination": "inside"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.importHtml#menu-file",
+            "project.importHtml#command-bar"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.import.insideRefused",
+                  "params": {}
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.import.insideRefused",
+              "document": "unchanged"
+            }
+          ]
         }
       ]
     },
@@ -2413,6 +2478,170 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "imported-inside-an-element-the-hover-rule-comes-with-the-link",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "project.importHtml#menu-file",
+              "args": {
+                "files": [
+                  "import:states.html",
+                  "import:states.css"
+                ],
+                "destination": "inside"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.importHtml#menu-file",
+            "project.importHtml#command-bar"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/@children",
+                "value": [
+                  {
+                    "type": "heading",
+                    "name": "Title",
+                    "tag": "h1",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Welcome to Aurora",
+                    "children": []
+                  },
+                  {
+                    "type": "paragraph",
+                    "name": "Intro",
+                    "tag": "p",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Fresh coffee, roasted every week.",
+                    "children": []
+                  },
+                  {
+                    "type": "div",
+                    "name": "Actions",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": null,
+                    "children": []
+                  },
+                  {
+                    "type": "div",
+                    "name": "Page 2",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": null,
+                    "children": [
+                      {
+                        "type": "heading",
+                        "name": "Title 2",
+                        "tag": "h2",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {
+                          "desktop": {
+                            "base": {
+                              "font-size": "40px"
+                            }
+                          },
+                          "tablet": {
+                            "base": {
+                              "font-size": "24px"
+                            }
+                          }
+                        },
+                        "text": "Shop",
+                        "children": []
+                      },
+                      {
+                        "type": "paragraph",
+                        "name": "Lead",
+                        "tag": "p",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {
+                          "tablet": {
+                            "base": {
+                              "color": "#444444"
+                            }
+                          }
+                        },
+                        "text": "Open today.",
+                        "children": []
+                      },
+                      {
+                        "type": "link",
+                        "name": "Cta",
+                        "tag": "a",
+                        "attributes": {
+                          "href": "https://aurora.example/menu"
+                        },
+                        "classes": [],
+                        "styles": {
+                          "desktop": {
+                            "hover": {
+                              "color": "#00aa00"
+                            }
+                          }
+                        },
+                        "text": "Menu",
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Hero/Page 2"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": []
+            },
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
         }
       ]
     },
@@ -2693,6 +2922,308 @@
                 }
               ]
             }
+          },
+          "refusals": []
+        },
+        {
+          "id": "the-aurora-site-comes-back-from-its-own-export",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "project.export#toolbar-top-bar-export",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.importHtml#menu-file",
+              "args": {
+                "files": [
+                  "download"
+                ],
+                "destination": "replace"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null,
+              "answer": "confirm"
+            }
+          ],
+          "doors": [
+            "project.importHtml#menu-file",
+            "project.importHtml#command-bar"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@pages",
+                "value": [
+                  {
+                    "name": "Home",
+                    "file": "index.html",
+                    "tree": {
+                      "type": "page",
+                      "name": "Page",
+                      "tag": "body",
+                      "attributes": {},
+                      "classes": [],
+                      "styles": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "type": "section",
+                          "name": "Hero",
+                          "tag": "section",
+                          "attributes": {},
+                          "classes": [],
+                          "styles": {
+                            "desktop": {
+                              "base": {
+                                "padding-top": "56px",
+                                "padding-right": "40px",
+                                "padding-bottom": "56px",
+                                "padding-left": "40px"
+                              }
+                            }
+                          },
+                          "text": null,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "name": "Heading",
+                              "tag": "h1",
+                              "attributes": {},
+                              "classes": [],
+                              "styles": {},
+                              "text": "Welcome to Aurora",
+                              "children": []
+                            },
+                            {
+                              "type": "paragraph",
+                              "name": "Paragraph",
+                              "tag": "p",
+                              "attributes": {},
+                              "classes": [],
+                              "styles": {},
+                              "text": "Fresh coffee, roasted every week.",
+                              "children": []
+                            },
+                            {
+                              "type": "div",
+                              "name": "Container",
+                              "tag": "div",
+                              "attributes": {},
+                              "classes": [],
+                              "styles": {},
+                              "text": null,
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "type": "section",
+                          "name": "Section",
+                          "tag": "section",
+                          "attributes": {},
+                          "classes": [],
+                          "styles": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "type": "div",
+                              "name": "Container 2",
+                              "tag": "div",
+                              "attributes": {},
+                              "classes": [],
+                              "styles": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "type": "article",
+                                  "name": "Card",
+                                  "tag": "article",
+                                  "attributes": {},
+                                  "classes": [
+                                    "card"
+                                  ],
+                                  "styles": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "type": "heading",
+                                      "name": "Heading 2",
+                                      "tag": "h3",
+                                      "attributes": {},
+                                      "classes": [],
+                                      "styles": {},
+                                      "text": "Monthly",
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "article",
+                                  "name": "Card 2",
+                                  "tag": "article",
+                                  "attributes": {},
+                                  "classes": [
+                                    "card"
+                                  ],
+                                  "styles": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "type": "heading",
+                                      "name": "Heading 3",
+                                      "tag": "h3",
+                                      "attributes": {},
+                                      "classes": [],
+                                      "styles": {},
+                                      "text": "Weekly",
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "article",
+                                  "name": "Card 3",
+                                  "tag": "article",
+                                  "attributes": {},
+                                  "classes": [
+                                    "card"
+                                  ],
+                                  "styles": {},
+                                  "text": null,
+                                  "children": []
+                                }
+                              ]
+                            },
+                            {
+                              "type": "list",
+                              "name": "Unordered list",
+                              "tag": "ul",
+                              "attributes": {},
+                              "classes": [],
+                              "styles": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "type": "listItem",
+                                  "name": "List item",
+                                  "tag": "li",
+                                  "attributes": {},
+                                  "classes": [],
+                                  "styles": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "type": "paragraph",
+                                      "name": "Paragraph 2",
+                                      "tag": "p",
+                                      "attributes": {},
+                                      "classes": [],
+                                      "styles": {},
+                                      "text": "Free delivery",
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "listItem",
+                                  "name": "List item 2",
+                                  "tag": "li",
+                                  "attributes": {},
+                                  "classes": [],
+                                  "styles": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "type": "paragraph",
+                                      "name": "Paragraph 3",
+                                      "tag": "p",
+                                      "attributes": {},
+                                      "classes": [],
+                                      "styles": {},
+                                      "text": "Pause anytime",
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "footer",
+                          "name": "Footer",
+                          "tag": "footer",
+                          "attributes": {},
+                          "classes": [],
+                          "styles": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "type": "paragraph",
+                              "name": "Paragraph 4",
+                              "tag": "p",
+                              "attributes": {},
+                              "classes": [],
+                              "styles": {},
+                              "text": "Aurora Coffee",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Hero",
+                  "property": "padding-top",
+                  "value": "56px"
+                }
+              ],
+              "geometry": [],
+              "feedback": []
+            },
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
           },
           "refusals": []
         }

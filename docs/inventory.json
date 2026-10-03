@@ -4,9 +4,9 @@
     "built": 214,
     "commands": 371,
     "doors": 1346,
-    "scenarios": 1782,
+    "scenarios": 1814,
     "modules": 422,
-    "lines": 79597
+    "lines": 79602
   },
   "features": [
     {
@@ -551,7 +551,7 @@
       "built": true,
       "commands": [],
       "doors": 0,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": []
     },
     {
@@ -559,7 +559,7 @@
       "built": true,
       "commands": [],
       "doors": 0,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": []
     },
     {
@@ -1010,7 +1010,7 @@
         "inspector.reveal"
       ],
       "doors": 3,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/editor/inspector/sections.ts"
       ]
@@ -2244,7 +2244,7 @@
         "workspace.setPanelOpen"
       ],
       "doors": 25,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/editor/workspace/panels.ts"
       ]
@@ -2345,7 +2345,7 @@
         "checks.applyFix"
       ],
       "doors": 38,
-      "scenarios": 7,
+      "scenarios": 8,
       "modules": [
         "src/core/selection/selection.ts",
         "src/editor/checks/fix.ts",
@@ -2431,7 +2431,7 @@
         "project.importHtml"
       ],
       "doors": 6,
-      "scenarios": 7,
+      "scenarios": 8,
       "modules": [
         "src/core/import/import.ts"
       ]
@@ -2480,7 +2480,7 @@
         "project.importHtml"
       ],
       "doors": 10,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/import/import.ts",
         "src/editor/view/preview.ts"
@@ -2494,7 +2494,7 @@
         "project.export"
       ],
       "doors": 10,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/export/export.ts",
         "src/core/import/import.ts"
@@ -2549,7 +2549,7 @@
         "selection.select"
       ],
       "doors": 7,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/selection/selection.ts"
       ]
@@ -2574,7 +2574,7 @@
         "style.applyCssRule"
       ],
       "doors": 1,
-      "scenarios": 1,
+      "scenarios": 6,
       "modules": [
         "src/core/style/css-rule.ts"
       ]
@@ -2586,7 +2586,7 @@
         "element.applyHtml"
       ],
       "doors": 1,
-      "scenarios": 1,
+      "scenarios": 5,
       "modules": [
         "src/core/import/apply-html.ts"
       ]
@@ -2660,7 +2660,7 @@
         "project.export"
       ],
       "doors": 4,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/export/export.ts"
       ]
@@ -2727,7 +2727,7 @@
         "files.startRename"
       ],
       "doors": 11,
-      "scenarios": 13,
+      "scenarios": 14,
       "modules": [
         "src/core/files/files.ts",
         "src/editor/explorer/explorer.ts",
@@ -2760,7 +2760,7 @@
         "files.move"
       ],
       "doors": 14,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/elements/link.ts",
         "src/core/export/export.ts",
@@ -2805,7 +2805,7 @@
         "files.createFolder"
       ],
       "doors": 5,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/export/export.ts",
         "src/core/files/files.ts"
@@ -2819,7 +2819,7 @@
         "files.upload"
       ],
       "doors": 6,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/export/export.ts",
         "src/core/files/files.ts"
@@ -2833,7 +2833,7 @@
         "project.export"
       ],
       "doors": 13,
-      "scenarios": 1,
+      "scenarios": 7,
       "modules": [
         "src/core/export/export.ts",
         "src/core/page/settings.ts"
@@ -2848,7 +2848,7 @@
         "files.upload"
       ],
       "doors": 178,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/export/export.ts",
         "src/core/files/files.ts",
@@ -2909,7 +2909,7 @@
       "built": true,
       "commands": [],
       "doors": 0,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": []
     },
     {
@@ -3123,7 +3123,7 @@
         "project.export"
       ],
       "doors": 8,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/export/export.ts",
         "src/editor/view/preview.ts"
@@ -4197,7 +4197,7 @@
     },
     {
       "path": "src/core/page/settings.ts",
-      "lines": 94,
+      "lines": 99,
       "commands": [
         "page.setSetting"
       ],

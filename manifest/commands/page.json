@@ -90,7 +90,8 @@
       },
       "refusals": [
         "status.page.settingInvalid",
-        "status.url.unsafe"
+        "status.url.unsafe",
+        "status.url.malformed"
       ],
       "confirmation": null,
       "history": {

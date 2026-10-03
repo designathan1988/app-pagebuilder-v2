@@ -2914,6 +2914,69 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "a-style-typed-just-before-a-reload-is-kept",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "style.set#inspector-font-size",
+              "args": {
+                "property": "font-size",
+                "value": "22px"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": "22px\n"
+            }
+          ],
+          "doors": [
+            "style.set#inspector-font-size"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/Intro/@styles/desktop/base/font-size",
+                "value": "22px"
+              }
+            ],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": []
+            },
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
         }
       ]
     },
@@ -2995,6 +3058,69 @@
               "redoRestores": true
             },
             "render": null,
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "a-deletion-undone-just-before-a-reload-stays-undone",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "element.delete#key-delete-in-canvas",
+              "args": {},
+              "target": "/Page/Hero/Intro",
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "history.undo#key-ctrl-z-in-global",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "history.undo#key-ctrl-z-in-global"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Hero/Intro"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": []
+            },
             "editor": null,
             "persistence": {
               "reload": "immediate",

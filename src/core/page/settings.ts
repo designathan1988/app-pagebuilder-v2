@@ -13,8 +13,9 @@
 //    (Problems in Pager 3).
 //  - The same value records nothing (history.noChange "no-entry"); the status bar says the setting's value either way.
 //  - A page address (the canonical URL, the sharing image, the favicon: page-seo-meta) takes a web address or a path
-//    (core/elements/address.ts). The remaining value type (the linked scripts) arrives with code-panel-edit-js, whose
-//    door is not available yet: no door hands one here.
+//    (core/elements/address.ts), and one the address rule refuses says that rule's reason (status.url.unsafe,
+//    status.url.malformed). The remaining value type (the linked scripts) arrives with code-panel-edit-js, whose door
+//    is not available yet: no door hands one here.
 import { languageTagAllowed, type AttributeRules } from '../document/validate.ts';
 import { message, registerHandler, type Message } from '../commands/registry.ts';
 import { readAddress } from '../elements/address.ts';
@@ -85,6 +86,10 @@ export const setPageSettingCommand = registerHandler('page.setSetting', ({ state
     const removed: Message = message('status.page.settingRemoved', { setting: name });
     return stored === undefined ? { kind: 'change', message: removed } : { kind: 'change', patches: [{ op: 'remove', path }], message: removed };
   }
+  // a page address refused says the address rule's own reason, as Link's and Source's fields do (spec page-seo-meta,
+  // "the address fields"; PS1: it said only "cannot be", the reason dropped)
+  const address = rule.valueType === 'url' ? readAddress(typed) : null;
+  if (address !== null && !address.ok) return { kind: 'refused', message: address.refusal };
   const kept = keptValue(setting, rule, typed);
   if (kept === null) return { kind: 'refused', message: message('status.page.settingInvalid', { setting: name, value: typed }) };
   const set = message('status.page.settingSet', { setting: name, value: kept });

@@ -404,7 +404,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-32 | 1 | Minified-style source in the assistant and some tests | audit | done (QA 186) |
 | AUD-33 | 1 | 11 controls outside the manifest (`data-local`) | audit | done (QA 187) |
 | AUD-34 | 1 | A test edited per new feature; misfiled manifest group | audit | done (QA 188) |
-| AUD-35 | 1 | Weak tests and thinly covered features | audit | partial (QA 191: every trigger of the catalogue proven by a behaviour test; QA 193: the 22 presence-proxy tests read their artifacts, and found AN1; QA 195–197: eight thin features get a second scenario, and found RF1, LC1, LP1; the others remain) |
+| AUD-35 | 1 | Weak tests and thinly covered features | audit | partial (QA 191: every trigger of the catalogue proven by a behaviour test; QA 193: the 22 presence-proxy tests read their artifacts, and found AN1; QA 195–198: 26 of the 29 thin features get scenarios for their doors, refusals and a rule of their own, and found RF1, LC1, LP1, PS1; drag-autoscroll and autosave-corruption-recovery remain, with reasons) |
 | AUD-36 | 1 | Undo by keys over its 35 ms per-group reference | audit; QA 44, 80 | partial (QA 190: undo 41.8 → 34.7–36.8 ms, --enforce passed once in two runs; the rest is React reconciling the subscribed controls) |
 | AUD-38 | 1 | Crash journal silently off for projects over the storage quota (probable) | audit | done (QA 189) |
 | R4 | — | `e2e:affected` selects the whole suite for 80 % of source changes | review R4 (deferred by the user, DEC-10) | open |
@@ -419,6 +419,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | RF1 | 1 | Five refusals declared and catalogued that no code says (formInForm, labelOneControl, readOnlyTab, canvas.setEditMode's two), and notInside said by 15 commands that did not declare it | QA 194, AUD-35's refusal scenarios | done (QA 194: tools/manifest/declared-refusals.test.ts holds it) |
 | LC1 | 2 | Taking a page's only label colour away was refused as an invalid state (an empty layerColors list left behind) | QA 195, AUD-35's scenarios | done (QA 195) |
 | LP1 | 1 | A coloured Layers row drew its dot and the palette's swatch of its colour as the same door with the same arguments: two controls nothing could tell apart | QA 195, AUD-35's scenarios | done (QA 195) |
+| PS1 | 1 | A page address refused (Canonical URL, Sharing image, Favicon) said only "cannot be", dropping the address rule's reason | QA 198, AUD-35's scenarios | done (QA 198) |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 
