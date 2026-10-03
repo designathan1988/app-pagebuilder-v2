@@ -6,7 +6,7 @@
     "doors": 1343,
     "scenarios": 1766,
     "modules": 420,
-    "lines": 77694
+    "lines": 77696
   },
   "features": [
     {
@@ -6589,7 +6589,7 @@
     },
     {
       "path": "src/manifest/schema.ts",
-      "lines": 1353,
+      "lines": 1355,
       "commands": [],
       "features": []
     },

@@ -1313,7 +1313,7 @@
         "element.setLink"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#elements-text",
       "intent": {
         "title": "Text elements: Heading, Paragraph, Link, Blockquote, Preformatted, Divider",
         "steps": [
@@ -4634,7 +4634,7 @@
         "parts.toggle"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#elements-tables",
       "intent": {
         "title": "Table elements: Table, Caption, Head, Body, Footer, Row, Header cell, Cell",
         "steps": [
@@ -7331,7 +7331,7 @@
         "element.setAttribute"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#elements-form-structure",
       "intent": {
         "title": "Form structure elements: Form, Fieldset, Legend, Label, Button, Output",
         "steps": [
@@ -8482,7 +8482,7 @@
         "element.setAttribute"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#element-attributes-aria",
       "intent": {
         "title": "Custom attributes and accessibility fields",
         "steps": [
@@ -10589,7 +10589,7 @@
         "element.setAttribute"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#elements-form-inputs",
       "intent": {
         "title": "Input elements: the 14 input types and their attributes",
         "steps": [
@@ -13584,7 +13584,7 @@
         "parts.remove"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#elements-form-controls",
       "intent": {
         "title": "Textarea, Select, Option group, Option, Progress and Meter",
         "steps": [
@@ -20786,7 +20786,7 @@
         "element.setAttribute"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#elements-interactive",
       "intent": {
         "title": "Details, Summary and Dialog",
         "steps": [

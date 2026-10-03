@@ -177,6 +177,14 @@ export function plantRenderScenario(m: MutableInput): Json {
 
 export const PLANTS: Plant[] = [
   {
+    id: 'feature-without-spec',
+    rule: 'schema',
+    description: 'undo-redo points at no behaviour section (the audit\'s AUD-18: a feature must have one)',
+    apply: (m) => {
+      feature(m, 'undo-redo').spec = null;
+    },
+  },
+  {
     id: 'unknown-field',
     rule: 'schema',
     description: 'a feature carries a hand-set "passes" field',

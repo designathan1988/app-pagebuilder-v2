@@ -13235,7 +13235,7 @@
         "panel-combine-tabs",
         "dock-toggles"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#workspace-persist-reset",
       "intent": {
         "title": "Workspace layout persists and can be reset",
         "steps": [

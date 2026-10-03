@@ -913,7 +913,7 @@
         "element.setEmbedMarkup"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#embed-html",
       "intent": {
         "title": "Embed custom HTML",
         "steps": [

@@ -964,7 +964,7 @@ export function checkManifest(input: ManifestInput): CheckResult {
     const sections = sectionsOf(target);
     if (sections.length > 0 && !sections.includes(anchor)) report('spec-missing', file, path, `${target} has no section #${anchor}`);
   };
-  for (const f of features) if (f.feature.spec !== null) checkSpecRef(f.feature.spec, f.file, `${f.path}.spec`);
+  for (const f of features) checkSpecRef(f.feature.spec, f.file, `${f.path}.spec`);
   for (const [i, c] of p.interactions.constants.entries()) checkSpecRef(c.source, 'interactions.json', `constants[${i}].source`);
   for (const [i, g] of p.interactions.gestures.entries()) checkSpecRef(g.source, 'interactions.json', `gestures[${i}].source`);
 

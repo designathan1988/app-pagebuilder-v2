@@ -15,8 +15,8 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `editor-shell` | Editor layout: top bar, left dock, canvas, inspector and status bar | yes | 3 | 2 | none | — | — |
-| `canvas-page-iframe` | The page renders from the document JSON inside a zoomed iframe | yes | 2 | 3 | none | — | — |
+| `editor-shell` | Editor layout: top bar, left dock, canvas, inspector and status bar | yes | 3 | 2 | [editor-shell](../spec/BEHAVIOUR.md#editor-shell) | 1 | — |
+| `canvas-page-iframe` | The page renders from the document JSON inside a zoomed iframe | yes | 2 | 3 | [canvas-page-iframe](../spec/BEHAVIOUR.md#canvas-page-iframe) | 1 | — |
 
 ## 02-structure-editing
 
@@ -97,7 +97,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `props-transforms` | Move, rotate, scale, skew, origin and 3D transform properties | yes | 15 | 12 | [props-transforms](../spec/BEHAVIOUR.md#props-transforms) | 2 | — |
 | `props-transition` | Transition and will-change | yes | 6 | 2 | [props-transition](../spec/BEHAVIOUR.md#props-transition) | 2 | — |
 | `props-more` | Remaining advanced properties | yes | 20 | 17 | [props-more](../spec/BEHAVIOUR.md#props-more) | 3 | — |
-| `props-attributes` | ID, classes, title and custom declarations of an element | yes | 11 | 6 | none | — | — |
+| `props-attributes` | ID, classes, title and custom declarations of an element | yes | 11 | 6 | [props-attributes](../spec/BEHAVIOUR.md#props-attributes) | 1 | — |
 | `inspector-provenance-reset` | Mark set values and reset one property or all of them | yes | 4 | 2 | [inspector-provenance-reset](../spec/BEHAVIOUR.md#inspector-provenance-reset) | 6 | — |
 | `inspector-property-search` | Search the inspector for a property | yes | 3 | 1 | [inspector-property-search](../spec/BEHAVIOUR.md#inspector-property-search) | 1 | — |
 | `inspector-advanced-mode` | Switch the inspector between all properties and essentials only | yes | 2 | 2 | [inspector-advanced-mode](../spec/BEHAVIOUR.md#inspector-advanced-mode) | 2 | — |
@@ -131,22 +131,22 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
 | `elements-structure` | Structure elements: Container, Header, Navigation, Main, Section, Article, Aside, Footer, Link Block | yes | 12 | 6 | [elements-structure](../spec/BEHAVIOUR.md#elements-structure) | 6 | — |
-| `elements-text` | Text elements: Heading, Paragraph, Link, Blockquote, Preformatted, Divider | yes | 6 | 3 | none | — | — |
+| `elements-text` | Text elements: Heading, Paragraph, Link, Blockquote, Preformatted, Divider | yes | 6 | 3 | [elements-text](../spec/BEHAVIOUR.md#elements-text) | 1 | — |
 | `elements-lists` | List elements: Unordered, Ordered and Definition lists with their items | yes | 11 | 6 | [elements-lists](../spec/BEHAVIOUR.md#elements-lists) | 6 | — |
 | `nesting-grammar` | HTML nesting rules for inserting, dragging and pasting | yes | 2 | 4 | [nesting-grammar](../spec/BEHAVIOUR.md#nesting-grammar) | 3 | — |
 | `nesting-grammar-structure` | HTML nesting rules for wrap, unwrap, promote, tag switch and hand | yes | 6 | 6 | [nesting-grammar-structure](../spec/BEHAVIOUR.md#nesting-grammar-structure) | 3 | — |
-| `elements-tables` | Table elements: Table, Caption, Head, Body, Footer, Row, Header cell, Cell | yes | 4 | 4 | none | — | — |
+| `elements-tables` | Table elements: Table, Caption, Head, Body, Footer, Row, Header cell, Cell | yes | 4 | 4 | [elements-tables](../spec/BEHAVIOUR.md#elements-tables) | 1 | — |
 | `table-commands` | Add and remove table rows and columns | yes | 5 | 5 | [table-commands](../spec/BEHAVIOUR.md#table-commands) | 2 | — |
-| `elements-form-structure` | Form structure elements: Form, Fieldset, Legend, Label, Button, Output | yes | 10 | 4 | none | — | — |
-| `element-attributes-aria` | Custom attributes and accessibility fields | yes | 8 | 6 | none | — | — |
+| `elements-form-structure` | Form structure elements: Form, Fieldset, Legend, Label, Button, Output | yes | 10 | 4 | [elements-form-structure](../spec/BEHAVIOUR.md#elements-form-structure) | 1 | — |
+| `element-attributes-aria` | Custom attributes and accessibility fields | yes | 8 | 6 | [element-attributes-aria](../spec/BEHAVIOUR.md#element-attributes-aria) | 1 | — |
 | `shared-style-classes` | Reusable style classes | yes | 10 | 4 | [shared-style-classes](../spec/BEHAVIOUR.md#shared-style-classes) | 5 | — |
-| `elements-form-inputs` | Input elements: the 14 input types and their attributes | yes | 26 | 13 | none | — | — |
+| `elements-form-inputs` | Input elements: the 14 input types and their attributes | yes | 26 | 13 | [elements-form-inputs](../spec/BEHAVIOUR.md#elements-form-inputs) | 1 | — |
 | `elements-form-inputs-rules` | Per-type input attributes, type switching, label targets and canvas focus | yes | 3 | 3 | [elements-form-inputs-rules](../spec/BEHAVIOUR.md#elements-form-inputs-rules) | 2 | — |
-| `elements-form-controls` | Textarea, Select, Option group, Option, Progress and Meter | yes | 13 | 9 | none | — | — |
+| `elements-form-controls` | Textarea, Select, Option group, Option, Progress and Meter | yes | 13 | 9 | [elements-form-controls](../spec/BEHAVIOUR.md#elements-form-controls) | 1 | — |
 | `elements-media-images` | Image, Picture, Source, Figure and Caption | yes | 9 | 6 | [media-embed-rules](../spec/BEHAVIOUR.md#media-embed-rules) | 0 | — |
 | `elements-media-embeds` | Video, Audio, Track, Embedded frame and Canvas | yes | 14 | 11 | [media-embed-rules](../spec/BEHAVIOUR.md#media-embed-rules) | 0 | — |
 | `elements-svg-shapes` | SVG/Icon, Rectangle, Ellipse and Line | yes | 14 | 11 | [elements-svg-shapes](../spec/BEHAVIOUR.md#elements-svg-shapes) | 5 | — |
-| `elements-interactive` | Details, Summary and Dialog | yes | 4 | 2 | none | — | — |
+| `elements-interactive` | Details, Summary and Dialog | yes | 4 | 2 | [elements-interactive](../spec/BEHAVIOUR.md#elements-interactive) | 1 | — |
 | `natural-child-command` | Create the natural child inside a container | yes | 4 | 1 | [natural-child-command](../spec/BEHAVIOUR.md#natural-child-command) | 3 | — |
 | `props-element-specific` | List, table, form and media properties shown only where they apply | yes | 10 | 9 | [props-element-specific](../spec/BEHAVIOUR.md#props-element-specific) | 7 | — |
 | `settings-class-management` | Manage Settings classes and attributes | yes | 6 | 5 | [settings-class-management](../spec/BEHAVIOUR.md#settings-class-management) | 0 | — |
@@ -158,22 +158,22 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
 | `templates-layout` | Layout templates: Container, Row, Column, Grid | yes | 4 | 1 | [templates-layout](../spec/BEHAVIOUR.md#templates-layout) | 1 | — |
-| `templates-content` | Content templates: lists, table, form, select and figure | yes | 7 | 1 | none | — | — |
-| `templates-sections` | Section templates: Card, Hero, Navbar, Sidebar, Gallery | yes | 5 | 1 | none | — | — |
+| `templates-content` | Content templates: lists, table, form, select and figure | yes | 7 | 1 | [templates-content](../spec/BEHAVIOUR.md#templates-content) | 1 | — |
+| `templates-sections` | Section templates: Card, Hero, Navbar, Sidebar, Gallery | yes | 5 | 1 | [templates-sections](../spec/BEHAVIOUR.md#templates-sections) | 1 | — |
 | `reusable-components` | Reusable components with instances | yes | 10 | 9 | [reusable-components](../spec/BEHAVIOUR.md#reusable-components) | 4 | — |
 | `repeat-element` | Repeat an element | yes | 6 | 6 | [repeat-element](../spec/BEHAVIOUR.md#repeat-element) | 0 | — |
-| `templates-components` | Component templates: Form group, Button group, Tabs, Accordion, Modal | yes | 5 | 1 | none | — | — |
+| `templates-components` | Component templates: Form group, Button group, Tabs, Accordion, Modal | yes | 5 | 1 | [templates-components](../spec/BEHAVIOUR.md#templates-components) | 1 | — |
 
 ## 09-panels
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `palette-search-groups` | Search the Elements panel and collapse its groups | yes | 1 | 1 | none | — | — |
-| `palette-density` | Elements panel view density | yes | 3 | 3 | none | — | — |
+| `palette-search-groups` | Search the Elements panel and collapse its groups | yes | 1 | 1 | [palette-search-groups](../spec/BEHAVIOUR.md#palette-search-groups) | 1 | — |
+| `palette-density` | Elements panel view density | yes | 3 | 3 | [palette-density](../spec/BEHAVIOUR.md#palette-density) | 1 | — |
 | `layers-expand-collapse-all` | Collapse and expand every branch in Layers | yes | 3 | 3 | [layers-expand-collapse-all](../spec/BEHAVIOUR.md#layers-expand-collapse-all) | 1 | — |
-| `layers-search` | Search the Layers panel | yes | 4 | 2 | none | — | — |
-| `layers-row-columns` | Choose what each Layers row shows | yes | 3 | 3 | none | — | — |
-| `layers-row-colours` | Colour labels on Layers rows | yes | 1 | 1 | none | — | — |
+| `layers-search` | Search the Layers panel | yes | 4 | 2 | [layers-search](../spec/BEHAVIOUR.md#layers-search) | 1 | — |
+| `layers-row-columns` | Choose what each Layers row shows | yes | 3 | 3 | [layers-row-columns](../spec/BEHAVIOUR.md#layers-row-columns) | 1 | — |
+| `layers-row-colours` | Colour labels on Layers rows | yes | 1 | 1 | [layers-row-colours](../spec/BEHAVIOUR.md#layers-row-colours) | 1 | — |
 
 ## 10-view-and-positioning
 
@@ -209,7 +209,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
 | `preview-mode` | Preview the page without editor chrome | yes | 11 | 11 | [preview-mode](../spec/BEHAVIOUR.md#preview-mode) | 6 | — |
-| `embed-html` | Embed custom HTML | yes | 2 | 2 | none | — | — |
+| `embed-html` | Embed custom HTML | yes | 2 | 2 | [embed-html](../spec/BEHAVIOUR.md#embed-html) | 1 | — |
 | `theme-switch` | Light, dark and system theme | yes | 3 | 3 | [theme-switch](../spec/BEHAVIOUR.md#theme-switch) | 1 | — |
 
 ## 13-workspace
@@ -224,7 +224,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `panel-resize` | Resize docks and panels with splitters | yes | 6 | 5 | [panel-resize](../spec/BEHAVIOUR.md#panel-resize) | 6 | — |
 | `floating-panels` | Float a panel as a window and dock it again | yes | 5 | 5 | [floating-panels](../spec/BEHAVIOUR.md#floating-panels) | 4 | — |
 | `panel-combine-tabs` | Combine panels as tabs or stack them | yes | 3 | 3 | [panel-combine-tabs](../spec/BEHAVIOUR.md#panel-combine-tabs) | 2 | — |
-| `workspace-persist-reset` | Workspace layout persists and can be reset | yes | 1 | 2 | none | — | — |
+| `workspace-persist-reset` | Workspace layout persists and can be reset | yes | 1 | 2 | [workspace-persist-reset](../spec/BEHAVIOUR.md#workspace-persist-reset) | 1 | — |
 | `status-bar` | Status bar: messages, breadcrumb, size, context, count, zoom and save state | yes | 2 | 2 | [status-bar](../spec/BEHAVIOUR.md#status-bar) | 6 | — |
 
 ## 14-accessibility-and-keyboard
@@ -246,35 +246,35 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `html-import-structure` | Import an HTML file: tags, text, inline marks and attributes | yes | 7 | 6 | [html-import](../spec/BEHAVIOUR.md#html-import) | 8 | — |
-| `html-import-cleaning` | Import cleaning: scripts, unknown elements, broken nesting and the import report | yes | 2 | 2 | none | — | — |
-| `html-import-styles` | Import CSS: style attributes, style blocks and linked stylesheets | yes | 2 | 2 | none | — | — |
-| `html-import-media-queries` | Import @media rules as breakpoint overrides | yes | 2 | 2 | none | — | — |
-| `html-import-states` | Import pseudo-class rules as state styles | yes | 1 | 2 | none | — | — |
-| `html-import-roundtrip` | Exported pages import back unchanged | yes | 1 | 2 | none | — | — |
+| `html-import-structure` | Import an HTML file: tags, text, inline marks and attributes | yes | 7 | 6 | [html-import](../spec/BEHAVIOUR.md#html-import) | 3 | — |
+| `html-import-cleaning` | Import cleaning: scripts, unknown elements, broken nesting and the import report | yes | 2 | 2 | [html-import-cleaning](../spec/BEHAVIOUR.md#html-import-cleaning) | 1 | — |
+| `html-import-styles` | Import CSS: style attributes, style blocks and linked stylesheets | yes | 2 | 2 | [html-import-styles](../spec/BEHAVIOUR.md#html-import-styles) | 1 | — |
+| `html-import-media-queries` | Import @media rules as breakpoint overrides | yes | 2 | 2 | [html-import-media-queries](../spec/BEHAVIOUR.md#html-import-media-queries) | 1 | — |
+| `html-import-states` | Import pseudo-class rules as state styles | yes | 1 | 2 | [html-import-states](../spec/BEHAVIOUR.md#html-import-states) | 1 | — |
+| `html-import-roundtrip` | Exported pages import back unchanged | yes | 1 | 2 | [html-import-roundtrip](../spec/BEHAVIOUR.md#html-import-roundtrip) | 1 | — |
 | `clipboard-paste-external` | Paste HTML and text copied from outside the app | yes | 2 | 2 | [clipboard-paste-external](../spec/BEHAVIOUR.md#clipboard-paste-external) | 2 | — |
 
 ## 17-code-panel
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `code-panel-view` | Code panel shows the generated HTML and CSS | yes | 5 | 6 | none | — | — |
+| `code-panel-view` | Code panel shows the generated HTML and CSS | yes | 5 | 6 | [code-panel-view](../spec/BEHAVIOUR.md#code-panel-view) | 1 | — |
 | `code-panel-selection-sync` | Code panel follows the selection | yes | 1 | 1 | [code-panel-selection-sync](../spec/BEHAVIOUR.md#code-panel-selection-sync) | 3 | — |
-| `code-panel-copy-download` | Copy or download what the Code panel shows | yes | 2 | 2 | none | — | — |
-| `code-panel-edit-css` | Edit an element's CSS in the Code panel | yes | 1 | 1 | none | — | — |
-| `code-panel-edit-html` | Edit HTML in the Code panel | yes | 1 | 1 | none | — | — |
+| `code-panel-copy-download` | Copy or download what the Code panel shows | yes | 2 | 2 | [code-panel-copy-download](../spec/BEHAVIOUR.md#code-panel-copy-download) | 1 | — |
+| `code-panel-edit-css` | Edit an element's CSS in the Code panel | yes | 1 | 1 | [code-panel-edit-css](../spec/BEHAVIOUR.md#code-panel-edit-css) | 1 | — |
+| `code-panel-edit-html` | Edit HTML in the Code panel | yes | 1 | 1 | [code-panel-edit-html](../spec/BEHAVIOUR.md#code-panel-edit-html) | 1 | — |
 
 ## 18-animation-and-events
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `timeline-animations` | Timeline panel: create animations for an element | yes | 3 | 2 | none | — | — |
+| `timeline-animations` | Timeline panel: create animations for an element | yes | 3 | 2 | [timeline-animations](../spec/BEHAVIOUR.md#timeline-animations) | 1 | — |
 | `timeline-keyframes` | Add, edit, move and delete keyframes on the timeline | yes | 4 | 5 | [timeline-keyframes](../spec/BEHAVIOUR.md#timeline-keyframes) | 3 | — |
-| `timeline-animation-settings` | Animation duration, delay, repeat, direction and fill | yes | 2 | 2 | none | — | — |
+| `timeline-animation-settings` | Animation duration, delay, repeat, direction and fill | yes | 2 | 2 | [timeline-animation-settings](../spec/BEHAVIOUR.md#timeline-animation-settings) | 1 | — |
 | `timeline-preview` | Preview animations by playing and scrubbing the timeline | yes | 5 | 5 | [timeline-preview](../spec/BEHAVIOUR.md#timeline-preview) | 2 | — |
-| `export-keyframes` | Export animations as @keyframes | yes | 1 | 1 | none | — | — |
+| `export-keyframes` | Export animations as @keyframes | yes | 1 | 1 | [export-keyframes](../spec/BEHAVIOUR.md#export-keyframes) | 1 | — |
 | `events-actions` | Events and actions per element | yes | 7 | 6 | [events-actions](../spec/BEHAVIOUR.md#events-actions) | 5 | — |
-| `export-events-js` | Export interactions as standard JavaScript | yes | 2 | 1 | none | — | — |
+| `export-events-js` | Export interactions as standard JavaScript | yes | 2 | 1 | [export-events-js](../spec/BEHAVIOUR.md#export-events-js) | 1 | — |
 
 ## 19-pages-files-assets
 
@@ -283,15 +283,15 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `explorer-pages` | File explorer: add, rename, duplicate, delete and switch pages | yes | 11 | 8 | [explorer-pages](../spec/BEHAVIOUR.md#explorer-pages) | 5 | — |
 | `explorer-file-system` | File explorer with a virtual file system | yes | 13 | 11 | [explorer-file-system](../spec/BEHAVIOUR.md#explorer-file-system) | 5 | — |
 | `link-picker` | Link to pages, anchors, email and phone | yes | 2 | 2 | [media-embed-rules](../spec/BEHAVIOUR.md#media-embed-rules) | 0 | — |
-| `export-multi-page` | Export every page of the project | yes | 1 | 1 | none | — | — |
+| `export-multi-page` | Export every page of the project | yes | 1 | 1 | [export-multi-page](../spec/BEHAVIOUR.md#export-multi-page) | 1 | — |
 | `explorer-assets` | Upload and manage image and font files | yes | 2 | 2 | [explorer-assets](../spec/BEHAVIOUR.md#explorer-assets) | 2 | — |
 | `explorer-assets-use` | Use assets in Image elements and drop images onto the canvas | yes | 3 | 3 | [explorer-assets-use](../spec/BEHAVIOUR.md#explorer-assets-use) | 3 | — |
-| `export-file-tree` | Export the file tree as a ZIP | yes | 1 | 1 | none | — | — |
-| `export-assets` | Export includes every file of the tree | yes | 1 | 1 | none | — | — |
+| `export-file-tree` | Export the file tree as a ZIP | yes | 1 | 1 | [export-file-tree](../spec/BEHAVIOUR.md#export-file-tree) | 1 | — |
+| `export-assets` | Export includes every file of the tree | yes | 1 | 1 | [export-assets](../spec/BEHAVIOUR.md#export-assets) | 1 | — |
 | `page-seo-meta` | Page metadata for search and sharing | yes | 1 | 1 | [page-seo-meta](../spec/BEHAVIOUR.md#page-seo-meta) | 1 | — |
 | `custom-fonts` | Use custom font files | yes | 1 | 1 | [custom-fonts](../spec/BEHAVIOUR.md#custom-fonts) | 1 | — |
-| `explorer-open-folder` | Open a whole folder from disk | yes | 4 | 3 | none | — | — |
-| `code-panel-edit-js` | Edit JavaScript files in the Code panel | yes | 3 | 3 | none | — | — |
+| `explorer-open-folder` | Open a whole folder from disk | yes | 4 | 3 | [explorer-open-folder](../spec/BEHAVIOUR.md#explorer-open-folder) | 1 | — |
+| `code-panel-edit-js` | Edit JavaScript files in the Code panel | yes | 3 | 3 | [code-panel-edit-js](../spec/BEHAVIOUR.md#code-panel-edit-js) | 1 | — |
 
 ## 20-shortcut-sweep
 

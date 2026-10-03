@@ -1202,7 +1202,7 @@
       "dependsOn": [
         "html-import-structure"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#html-import-cleaning",
       "intent": {
         "title": "Import cleaning: scripts, unknown elements, broken nesting and the import report",
         "steps": [
@@ -1616,7 +1616,7 @@
       "dependsOn": [
         "html-import-structure"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#html-import-styles",
       "intent": {
         "title": "Import CSS: style attributes, style blocks and linked stylesheets",
         "steps": [
@@ -1926,7 +1926,7 @@
         "html-import-styles",
         "breakpoint-overrides"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#html-import-media-queries",
       "intent": {
         "title": "Import @media rules as breakpoint overrides",
         "steps": [
@@ -2254,7 +2254,7 @@
         "html-import-styles",
         "state-styles"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#html-import-states",
       "intent": {
         "title": "Import pseudo-class rules as state styles",
         "steps": [
@@ -2427,7 +2427,7 @@
         "html-import-states",
         "export-bem-css"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#html-import-roundtrip",
       "intent": {
         "title": "Exported pages import back unchanged",
         "steps": [

@@ -10,7 +10,7 @@
         "palette.toggleGroup"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#palette-search-groups",
       "intent": {
         "title": "Search the Elements panel and collapse its groups",
         "steps": [
@@ -103,7 +103,7 @@
         "palette.setDensity"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#palette-density",
       "intent": {
         "title": "Elements panel view density",
         "steps": [
@@ -580,7 +580,7 @@
         "selection.select"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#layers-search",
       "intent": {
         "title": "Search the Layers panel",
         "steps": [
@@ -893,7 +893,7 @@
         "layers.setRowDetails"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#layers-row-columns",
       "intent": {
         "title": "Choose what each Layers row shows",
         "steps": [
@@ -1195,7 +1195,7 @@
         "element.setLayerColor"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#layers-row-colours",
       "intent": {
         "title": "Colour labels on Layers rows",
         "steps": [

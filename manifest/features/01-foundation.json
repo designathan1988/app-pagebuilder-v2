@@ -9,7 +9,7 @@
         "workspace.setPanelOpen"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#editor-shell",
       "intent": {
         "title": "Editor layout: top bar, left dock, canvas, inspector and status bar",
         "steps": [
@@ -279,7 +279,7 @@
       "dependsOn": [
         "editor-shell"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#canvas-page-iframe",
       "intent": {
         "title": "The page renders from the document JSON inside a zoomed iframe",
         "steps": [

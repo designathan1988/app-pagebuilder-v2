@@ -1107,7 +1107,9 @@ export const featureSchema = z.strictObject({
   titleKey: i18nKey,
   commands: z.array(commandId),
   dependsOn: z.array(featureId),
-  spec: specPath.nullable(),
+  // the section of spec/BEHAVIOUR.md that holds its behaviour in words, anchored by its id: every feature has one (the
+  // audit's AUD-18: 39 had none, so nothing said what they must do beyond their scenarios)
+  spec: specPath,
   // The module the tooth proof replaces with a no-op, for a feature without commands of its own (the renderer for
   // canvas-page-iframe); a feature with commands disables their handlers instead. Optional, so no feature has to
   // name it; manifest:check requires it of a feature with scenarios and no commands.

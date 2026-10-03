@@ -13,7 +13,7 @@
         "timeline.show"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#timeline-animations",
       "intent": {
         "title": "Timeline panel: create animations for an element",
         "steps": [
@@ -1030,7 +1030,7 @@
       "dependsOn": [
         "timeline-animations"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#timeline-animation-settings",
       "intent": {
         "title": "Animation duration, delay, repeat, direction and fill",
         "steps": [
@@ -2081,7 +2081,7 @@
         "timeline-animation-settings",
         "export-zip"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#export-keyframes",
       "intent": {
         "title": "Export animations as @keyframes",
         "steps": [
@@ -3023,7 +3023,7 @@
         "events-actions",
         "preview-mode"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#export-events-js",
       "intent": {
         "title": "Export interactions as standard JavaScript",
         "steps": [

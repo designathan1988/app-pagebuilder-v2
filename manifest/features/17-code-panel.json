@@ -11,7 +11,7 @@
         "codePanel.setPane"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#code-panel-view",
       "intent": {
         "title": "Code panel shows the generated HTML and CSS",
         "steps": [
@@ -488,7 +488,7 @@
       "dependsOn": [
         "code-panel-view"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#code-panel-copy-download",
       "intent": {
         "title": "Copy or download what the Code panel shows",
         "steps": [
@@ -665,7 +665,7 @@
       "dependsOn": [
         "code-panel-view"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#code-panel-edit-css",
       "intent": {
         "title": "Edit an element's CSS in the Code panel",
         "steps": [
@@ -777,7 +777,7 @@
         "code-panel-view",
         "html-import-cleaning"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#code-panel-edit-html",
       "intent": {
         "title": "Edit HTML in the Code panel",
         "steps": [

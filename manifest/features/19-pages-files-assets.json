@@ -2751,7 +2751,7 @@
         "link-picker",
         "explorer-file-system"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#export-multi-page",
       "intent": {
         "title": "Export every page of the project",
         "steps": [
@@ -3810,7 +3810,7 @@
       "dependsOn": [
         "export-multi-page"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#export-file-tree",
       "intent": {
         "title": "Export the file tree as a ZIP",
         "steps": [
@@ -4022,7 +4022,7 @@
         "explorer-assets-use",
         "export-file-tree"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#export-assets",
       "intent": {
         "title": "Export includes every file of the tree",
         "steps": [
@@ -4630,7 +4630,7 @@
         "html-import-styles",
         "explorer-file-system"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#explorer-open-folder",
       "intent": {
         "title": "Open a whole folder from disk",
         "steps": [
@@ -5492,7 +5492,7 @@
         "explorer-file-system",
         "code-panel-view"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#code-panel-edit-js",
       "intent": {
         "title": "Edit JavaScript files in the Code panel",
         "steps": [

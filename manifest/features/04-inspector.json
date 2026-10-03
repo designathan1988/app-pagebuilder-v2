@@ -34431,7 +34431,7 @@
         "element.setClasses"
       ],
       "dependsOn": [],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#props-attributes",
       "intent": {
         "title": "ID, classes, title and custom declarations of an element",
         "steps": [

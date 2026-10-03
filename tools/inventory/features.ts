@@ -23,7 +23,7 @@ export interface FeatureResults {
 interface ManifestFeature {
   readonly id: string;
   readonly titleKey: string;
-  readonly spec: string | null;
+  readonly spec: string;
   readonly scenarios: readonly { readonly doors: readonly string[] }[];
 }
 
@@ -80,7 +80,7 @@ export function featuresMarkdown(inventory: Inventory): string {
     lines.push('|---|---|---|---|---|---|---|---|');
     for (const feature of features) {
       const row = rowOf.get(feature.id);
-      const anchor = feature.spec === null ? null : (feature.spec.split('#')[1] ?? null);
+      const anchor = feature.spec.split('#')[1] ?? null;
       const run = results?.features[feature.id];
       const runText = row?.built !== true ? 'not built' : results === null ? '—' : run === undefined ? 'not in that run' : run.passed === run.total ? `passes ${run.passed}/${run.total}` : `FAILS ${run.passed}/${run.total}`;
       const doors = new Set(feature.scenarios.flatMap((one) => one.doors)).size;

@@ -546,7 +546,7 @@
       "dependsOn": [
         "templates-layout"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#templates-content",
       "intent": {
         "title": "Content templates: lists, table, form, select and figure",
         "steps": [
@@ -1708,7 +1708,7 @@
       "dependsOn": [
         "templates-layout"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#templates-sections",
       "intent": {
         "title": "Section templates: Card, Hero, Navbar, Sidebar, Gallery",
         "steps": [
@@ -5821,7 +5821,7 @@
       "dependsOn": [
         "templates-layout"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#templates-components",
       "intent": {
         "title": "Component templates: Form group, Button group, Tabs, Accordion, Modal",
         "steps": [

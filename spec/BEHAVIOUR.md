@@ -2770,11 +2770,11 @@ None.
 ### Problems in Pager
 
 1. **No HTML import.** Required (manifest feature `html-import-structure`): File › Import HTML (and the command bar) opens the browser's file picker, reads the picked `.html`, and each supported tag becomes the matching element type in the document JSON with its text, inline marks and supported attributes (`href`, `src`, `alt`, `type`, `name`, …); element names come from BEM classes when present, else from the element type; the import replaces the page and is one undo step; a ZIP among the picked files is read as a whole, its entries standing for the files it holds.
-2. **Import cleaning.** Required (`html-import-cleaning`): scripts are not dropped — each is kept with its page (its code, or its `src` as a project file or as an address the page lists), never run on the editing canvas, written back by the export, and listed in the report; event handler attributes (`on…`) are removed and listed; unknown elements are unwrapped into their children; structures the editor cannot hold are repaired (a stray `li` gets a `ul`) or dropped; the resulting document always passes the content model; an import report lists everything that was dropped, unwrapped, repaired or kept, with the source line.
-3. **The styles of the imported page.** Required (`html-import-styles`): the import takes several files at once; a linked stylesheet is found by its path among the picked files; `style` attributes, `<style>` blocks and linked stylesheets' declarations are resolved by specificity and order (importance, inline, specificity, then order) and become each element's styles in the document JSON, so the computed styles of every element in the canvas match the original file opened in Chrome; a linked stylesheet that was not picked is listed in the report; a declaration of a property the editor does not edit is listed in the report and left out.
-4. **Media queries.** Required (`html-import-media-queries`): a `max-width` rule whose width is a breakpoint's becomes an override of that breakpoint; another width maps to the nearest breakpoint at or below it and is reported; rules that cannot be mapped (`min-width`, `orientation`, `print`) are listed in the report; at each breakpoint the computed styles in the canvas equal the original's.
-5. **Pseudo-class rules.** Required (`html-import-states`): each supported pseudo-class rule (`:hover`, `:focus`, `:active`, `:disabled`, `:invalid`, `:placeholder-shown`, `:first-child`, `:last-child`, `:focus-visible`, `:visited`) becomes a state style of the matching element, at its breakpoint; in preview, hovering an imported element shows its hover styles; a selector that cannot be mapped to single elements (a descendant rule, `@supports`, `::before`, an unsupported pseudo-class) is listed in the report.
-6. **Exported pages import back.** Required (`html-import-roundtrip`): importing the ZIP the export wrote imports its pages together with their linked stylesheets as a whole; the imported document equals the original in tag structure, texts, attributes and styles per breakpoint and state (element types that share a tag are compared by tag); element names are recovered from their BEM classes, so a second export writes the same pages and the same rules again. Ids and editor-only data (locks, guides, grid settings, saved colours) are not compared.
+2. **Import cleaning.** Its requirement is the section of its own feature: spec `html-import-cleaning`.
+3. **The styles of the imported page.** Its requirement is the section of its own feature: spec `html-import-styles`.
+4. **Media queries.** Its requirement is the section of its own feature: spec `html-import-media-queries`.
+5. **Pseudo-class rules.** Its requirement is the section of its own feature: spec `html-import-states`.
+6. **Exported pages import back.** Its requirement is the section of its own feature: spec `html-import-roundtrip`.
 7. **Pasted HTML from outside.** Required (manifest feature `clipboard-paste-external`, spec clipboard-paste-external): pasted `text/html` goes through the same importer and the same nesting and cleaning rules and is inserted into the selection as one undo step; scripts in pasted HTML are not kept, a pasted fragment having no page to keep them with; plain text becomes one Paragraph per line; anything the importer drops is reported in the status bar. (Chrome's own clipboard already leaves a `<script>` and an `on…` attribute out of the HTML it hands back; what reaches the importer through a paste is what the platform kept, and the importer's cleaning applies to that.)
 8. **The design tokens and the classes no element used were lost on the way back** (the audit's AUD-05, 2026-10-02): `:root { --brand: #0b7f72 }` came back as "rules not mapped" (every `var(--brand)` lost its definition), and `.accent` or the variant `.plan--gold` were dropped without a word. Required (`html-import-roundtrip`): a `:root` rule of custom properties alone, outside any @media, becomes the project's variables, each with its kind read from its value (a colour), else from where the sheets use it (only in font sizes: a font size), else a length; a value of no such kind is reported with its line. A class rule no element lists is a class of the person's and becomes a project class. The report names both ("Variables kept from the stylesheet: brand.", "Classes no element uses kept: accent."). Imported as a page or inside an element, a variable the project already holds as it is goes once, and one whose name the project uses for another value takes a free name (`brand-2`), its uses following it. Every fixture exported and imported back keeps its pages, declarations, variables and classes (`src/core/import/roundtrip.test.ts`).
 
@@ -4948,6 +4948,18 @@ Not affected.
 3. **Move out of parent took a part out of its instance** (the audit's AUD-04, 2026-10-02), which the model refuses. Required: a part of an instance stays in it: the door is unavailable for it (its own predicate, `canPromote`) and P says "<name> is part of the instance <instance> and stays in it. Detach the instance first."; every structure move keeps the same rule (a part stays in its instance, no instance goes inside another: `instanceMoveRefusal`).
 
 ## props-attributes
+
+### Our rule
+
+Required (manifest feature `props-attributes`):
+- An element's ID, classes, tooltip (title) and the attributes of its type (an image's source and alt, a button's
+  type…) are fields of Settings; its custom declarations are a field of the Style tab's All properties.
+- The ID is written to the document JSON; an ID that does not start with a letter, holds a space, or that another
+  element of the page has is refused with words, and the document is unchanged.
+- Classes are kept as a list; custom declarations are read as CSS: a property the editor does not write, or a line
+  that is no declaration, is refused naming it; a custom property (`--name`) and a shorthand the editor writes are
+  taken, and the declarations join the element's styles at the active breakpoint and state.
+- Nothing typed here writes a `style` attribute: the canvas and the export draw the element from its styles alone.
 
 ### Our rule: the free declarations (the user's real-use audit, item A3.33)
 
@@ -9012,3 +9024,394 @@ said in the status bar.
    29). Required: the font menu's first list starts with the project's fonts, in the tree's order, before the system
    stacks, each drawn in its own face, in Essentials only and in All properties alike; More values adds the other
    suggestions after them (Webflow groups uploaded fonts as their own source, "Custom fonts").
+
+## editor-shell
+
+### Our rule
+
+Required (manifest feature `editor-shell`):
+- The window holds the top bar (full width: the app menus, the page switcher, the command bar, Undo and Redo, the save
+  state, Preview and Export), the activity bar and the sidebar on the left, the canvas in the middle, the inspector on
+  the right, the dock strip and its workbench under the canvas, and the status bar (full width) at the bottom; the
+  product name comes from `src/config/product.ts`, in the top bar and the browser tab's title alike.
+- The regions never overlap, together cover the window, and the window has no page scrollbar, at 1440 × 900 and at
+  1920 × 1080; hiding a region (the inspector, the sidebar) gives its room to the canvas, and the canvas refits.
+- The workbench under the canvas is closed by default and opens with a panel shown in it (the Timeline, the Checks,
+  the code pane); panels added later open as tabs of the existing docks, so these regions stay the default layout.
+- Below 1366 px the sidebar floats over the canvas (spec workspace-layout; the audit's AUD-06).
+
+## canvas-page-iframe
+
+### Our rule
+
+Required (manifest feature `canvas-page-iframe`):
+- The canvas holds exactly one iframe, whose body renders the open page's root node of the document JSON; the
+  document is the source of truth, never the frame's DOM (only the renderer writes it, `builder/frame-owner`).
+- Inside the iframe the page is laid out at the active breakpoint's width (1440 CSS px at Desktop); the iframe is
+  scaled with CSS zoom so that width fits the canvas's viewport, centred in it, beside the rulers' band along its top
+  and left edges (spec rulers).
+- The zoom in the status bar is the iframe's zoom factor, recomputed whenever the canvas changes size (a hidden
+  inspector or sidebar, a resized window).
+
+## elements-text
+
+### Our rule
+
+Required (manifest feature `elements-text`):
+- The Insert panel's Text group places a Heading (h1–h6, h2 by default), a Paragraph, a Link, a Blockquote (holding a
+  paragraph), a Preformatted block and a Divider, each with its default text and styles; there is no Badge.
+- A Link keeps its address and "Open in a new tab", written as `target="_blank"` with `rel="noopener noreferrer"`; an
+  unsafe address (one that runs code or carries a document inline: `javascript:`, `vbscript:`, `data:`, `blob:`, `file:`; core/elements/address.ts) is refused with words; `https:`, `mailto:` and `tel:` are taken, and a bare domain is stored as `https://…`.
+- Preformatted keeps its line breaks and spaces; a Divider is a void element with no text.
+- The export writes the same tags and attributes.
+
+## elements-tables
+
+### Our rule
+
+Required (manifest feature `elements-tables`):
+- The Insert panel offers Table alone: caption, head, body, foot, row, header cell and cell are its parts, never tiles.
+- A new Table holds a head row of two header cells and a body of two rows of two cells.
+- The Table's part toggles add and remove its caption, head and foot, each at its place (the caption first, the head
+  before the body, the foot after it), one of each at most; the canvas and the export draw `caption`, `thead`, `tbody`,
+  `tfoot`, `tr`, `th` and `td` in that valid order.
+
+## elements-form-structure
+
+### Our rule
+
+Required (manifest feature `elements-form-structure`):
+- The Forms group places a Form (with a labelled input), a Fieldset (with its Legend, which is no tile: one Legend, as
+  its first child), a Label (with an input), a Button (with its text) and an Output, each with its attributes.
+- A form's action and method are fields of Settings: an unsafe action and a method that is no keyword (get, post) are
+  refused with words; a button's type is stored as chosen (submit, button, reset).
+- A Link switched to a button and back keeps its text and styles; its address stays on the link and is not written on
+  the button.
+- Buttons and forms never navigate the editor when pressed on the canvas; the export writes the same tags and
+  attributes (a button that says no type: submit inside a form, button elsewhere, spec export-clean).
+
+## element-attributes-aria
+
+### Our rule
+
+Required (manifest feature `element-attributes-aria`):
+- Settings' Attributes list adds, edits and removes the person's own attributes (aria-*, data-*, role and any valid
+  name): they are stored in the document JSON and written by the canvas and the export, unlike the editor's own
+  attributes, which the export never writes.
+- An event handler attribute (`on…`) and a name that is no attribute name are refused with words.
+- The Accessibility section's Role, Label for assistive readers (aria-label) and Hidden from assistive readers
+  (aria-hidden) write their attributes; each change is one undo step.
+
+## elements-form-inputs
+
+### Our rule
+
+Required (manifest feature `elements-form-inputs`):
+- The Forms group places an input of each of the 14 types (text, email, password, number, tel, url, search, date, time,
+  color, range, checkbox, radio, file), the canvas drawing each with its type.
+- Settings stores an input's placeholder, value, name, pattern, min, max, step and autocomplete, and its required,
+  disabled, readonly and checked switches, in the document JSON; the canvas and the export write them, and an input
+  always says its type (spec export-clean).
+
+## elements-form-controls
+
+### Our rule
+
+Required (manifest feature `elements-form-controls`):
+- The Forms group places a Textarea (empty), a Select (with three options), a Progress and a Meter; option groups and
+  options are a Select's parts, never tiles.
+- A Select's options editor adds an option or an option group (with its option), moves an option up and down, removes
+  it, marks the selected one and names a group; a Select takes only options and option groups, a group only options.
+- A textarea's rows take a whole number, anything else is refused with words; every attribute is written by the canvas
+  and the export.
+
+## elements-interactive
+
+### Our rule
+
+Required (manifest feature `elements-interactive`):
+- The Interactive group places a Details (with its Summary, which is no tile: exactly one, its first child) and a
+  Dialog (modal, centred on the screen).
+- Details' Open and Dialog's Open are stored; on the canvas a closed Details still shows its content while it or what
+  it holds is selected, and a closed Dialog shows while selected; the export writes them closed unless set open.
+- The export writes `details`/`summary` and `dialog`.
+
+## templates-content
+
+### Our rule
+
+Required (manifest feature `templates-content`):
+- The Templates group's content templates each place a whole valid subtree: a list (ul with three li), an ordered list
+  (ol with three li), a definition list (dl with dt and dd), a table (thead with two th, tbody with two rows of two td),
+  a form (two labelled inputs and a submit button), a select (three options) and a figure (an image and its caption).
+- Every subtree passes the content model and exports with the same markup.
+- The form template lays its fields out one under the other: the form a column at most 480 px wide, each label a
+  column with its text above its field, the button at the start of its line.
+
+## templates-sections
+
+### Our rule
+
+Required (manifest feature `templates-sections`):
+- Card places an article with an image, a heading, a text and an action; Hero a section with a heading, a supporting
+  line and two buttons in an actions row; Navbar a header with a brand, a nav of links and a button; Sidebar an aside
+  with a heading and a list of links; Gallery a section with three figures.
+- Each carries its default styles in the document JSON (Card: padding, radius, border; Hero: a large heading and
+  generous padding; Navbar: a flex row with space between; Sidebar: a fixed width; Gallery: a three-column grid), which
+  the export writes to the stylesheet, never as inline styles.
+
+## templates-components
+
+### Our rule
+
+Required (manifest feature `templates-components`):
+- Form group places labelled fields; Button group a row of buttons; Tabs a nav row of three tab buttons and a panel;
+  Accordion two details with their summaries; Modal a dialog with a heading, its content and a close button.
+- Each passes the content model and exports with the same markup; Tabs and Modal take their behaviour in the preview
+  and the export (spec export-events-js).
+
+
+## palette-search-groups
+
+### Our rule
+
+Required (manifest feature `palette-search-groups`):
+- The Insert panel's groups are Structure and layout, Text, Images and media, Forms, Lists, Tables, Interactive and
+  Templates, each with its count; the parts of composite elements (list items, table parts, options and option groups,
+  sources, tracks, captions, the legend, the summary, SVG shapes) are not listed.
+- Searching filters the tiles by label and tag ("inp" shows the 14 input types); the footer reads "N of M elements
+  match" (`palette.search.matchCount`, M the panel's entries), and a search with no match says "No element matches
+  "…"" (`palette.search.noMatch`).
+- A collapsed group stays collapsed after a reload (`palette.toggleGroup`, kept in the workspace).
+
+## palette-density
+
+### Our rule
+
+Required (manifest feature `palette-density`):
+- The Insert panel lays its tiles out at the chosen density (`palette.setDensity`): a list (one per row, with its tag),
+  two or three columns, or icons only (the label as the tooltip); the measured tile sizes change accordingly.
+- The density is kept in the preferences and restored after a reload.
+
+## layers-search
+
+### Our rule
+
+Required (manifest feature `layers-search`):
+- The Layers' search (`layers.search`) shows only the rows whose name, tag, id or class matches what is typed, with
+  their ancestors for context and the match marked; a search nothing matches says so.
+- A press on a result selects its element (`selection.select`); clearing the search brings back the folds the tree had.
+
+## layers-row-columns
+
+### Our rule
+
+Required (manifest feature `layers-row-columns`):
+- The Layers' row details (`layers.setRowDetails`) show beside each name the details chosen: its HTML tag, its id, its
+  classes, its attributes, each on or off.
+- The choice is kept in the preferences and restored after a reload.
+
+## layers-row-colours
+
+### Our rule
+
+Required (manifest feature `layers-row-colours`):
+- A row's colour (`element.setLayerColor`) tints the row and the element's selection outline on the canvas; it is kept
+  with its page in the document JSON (the page root's `layerColors`), restored after a reload, and never exported.
+
+## embed-html
+
+### Our rule
+
+Required (manifest feature `embed-html`):
+- An Embed (`element.setEmbedMarkup`) keeps its markup as typed, drawn sandboxed on the editing canvas, where its
+  scripts never run; the preview runs it; the export writes it verbatim at its place; the Layers mark it as an embed.
+- A locked element refuses the change (`status.locked.edit`), and an element that is no embed is said not to take it
+  (`status.element.notApplicable`).
+
+## workspace-persist-reset
+
+### Our rule
+
+Required (manifest feature `workspace-persist-reset`):
+- The workspace (which panels are open and where, the docks' and splitters' sizes, the inspector's open sections) is
+  kept apart from the document and restored after a reload exactly as it was left.
+- Reset workspace (`workspace.reset`) puts back the default docks, sizes and panels and says so in the status bar; the
+  document JSON and the history are untouched.
+
+## html-import-cleaning
+
+### Our rule
+
+1. **Import cleaning.** Required (`html-import-cleaning`): scripts are not dropped — each is kept with its page (its code, or its `src` as a project file or as an address the page lists), never run on the editing canvas, written back by the export, and listed in the report; event handler attributes (`on…`) are removed and listed; unknown elements are unwrapped into their children; structures the editor cannot hold are repaired (a stray `li` gets a `ul`) or dropped; the resulting document always passes the content model; an import report lists everything that was dropped, unwrapped, repaired or kept, with the source line.
+
+## html-import-styles
+
+### Our rule
+
+1. **The styles of the imported page.** Required (`html-import-styles`): the import takes several files at once; a linked stylesheet is found by its path among the picked files; `style` attributes, `<style>` blocks and linked stylesheets' declarations are resolved by specificity and order (importance, inline, specificity, then order) and become each element's styles in the document JSON, so the computed styles of every element in the canvas match the original file opened in Chrome; a linked stylesheet that was not picked is listed in the report; a declaration of a property the editor does not edit is listed in the report and left out.
+
+## html-import-media-queries
+
+### Our rule
+
+1. **Media queries.** Required (`html-import-media-queries`): a `max-width` rule whose width is a breakpoint's becomes an override of that breakpoint; another width maps to the nearest breakpoint at or below it and is reported; rules that cannot be mapped (`min-width`, `orientation`, `print`) are listed in the report; at each breakpoint the computed styles in the canvas equal the original's.
+
+## html-import-states
+
+### Our rule
+
+1. **Pseudo-class rules.** Required (`html-import-states`): each supported pseudo-class rule (`:hover`, `:focus`, `:active`, `:disabled`, `:invalid`, `:placeholder-shown`, `:first-child`, `:last-child`, `:focus-visible`, `:visited`) becomes a state style of the matching element, at its breakpoint; in preview, hovering an imported element shows its hover styles; a selector that cannot be mapped to single elements (a descendant rule, `@supports`, `::before`, an unsupported pseudo-class) is listed in the report.
+
+## html-import-roundtrip
+
+### Our rule
+
+1. **Exported pages import back.** Required (`html-import-roundtrip`): importing the ZIP the export wrote imports its pages together with their linked stylesheets as a whole; the imported document equals the original in tag structure, texts, attributes and styles per breakpoint and state (element types that share a tag are compared by tag); element names are recovered from their BEM classes, so a second export writes the same pages and the same rules again. Ids and editor-only data (locks, guides, grid settings, saved colours) are not compared.
+
+## code-panel-view
+
+### Our rule
+
+Required (manifest feature `code-panel-view`):
+- The canvas toolbar's views (`view.setEditorView`): Canvas draws no code pane, Split draws the canvas and the pane
+  side by side, Code draws the pane alone.
+- The pane's tabs (`codePanel.setPane`) show the open page's HTML, the stylesheet and the scripts, with line numbers and
+  syntax colouring, each exactly the text the export writes, updated after every command.
+
+## code-panel-copy-download
+
+### Our rule
+
+Required (manifest feature `code-panel-copy-download`):
+- Copy (`codePanel.copyPane`) puts exactly the open tab's text on the clipboard and names the file in the status bar;
+  Download (`codePanel.downloadPane`) hands out the open file itself (the page's HTML, `css/styles.css`, a script) with
+  exactly the content shown.
+
+## code-panel-edit-css
+
+### Our rule
+
+Required (manifest feature `code-panel-edit-css`):
+- Applying the CSS pane's rule (`style.applyCssRule`) replaces the selected element's styles at the active breakpoint
+  and state with the declarations of its rule, as one undo step; the inspector and the canvas follow.
+- A line that is no declaration, a property the editor does not write, or a value it cannot take is refused with the
+  line and the reason (`status.css.notDeclaration`, `status.css.unknownProperty`, `status.css.badValue`), and a locked
+  element refuses (`status.locked.edit`); the document is then unchanged.
+
+## code-panel-edit-html
+
+### Our rule
+
+Required (manifest feature `code-panel-edit-html`):
+- Applying the HTML pane's markup (`element.applyHtml`) reads it with the HTML importer's rules and replaces the
+  selected element's subtree as one undo step; the canvas, the Layers and the inspector follow, and nodes that did not
+  change keep their ids, names and styles.
+- Markup that cannot be read is refused with the line and the reason (`status.html.invalidAt`), and markup that breaks
+  the content model with the content model's own refusal; a locked element refuses; the document is then unchanged.
+
+
+## timeline-animations
+
+### Our rule
+
+Required (manifest feature `timeline-animations`):
+- The Timeline (a tab of the workbench) lists the selected element's animations over a time ruler.
+- A new animation (`animation.create`) is stored on the element with a name unique in the project (its @keyframes
+  name), a 1 s duration and keyframes at 0 % and 100 %; a taken name or one that is no CSS identifier is refused with
+  words (`status.animation.nameTaken`, `status.animation.nameInvalid`).
+- Rename and delete (`animation.rename`, `animation.delete`) are one undo step each; a deleted animation leaves no
+  animation property on the element; a locked element refuses every change (`status.locked.edit`).
+
+## timeline-animation-settings
+
+### Our rule
+
+Required (manifest feature `timeline-animation-settings`):
+- An animation's duration, delay, repeat count, direction and fill (`animation.setSettings`) are stored with it in the
+  document JSON; a value a setting cannot take is refused with words (`status.animation.invalidSetting`) and the
+  document is unchanged.
+- An animation has no trigger of its own: it plays on load, or when an interaction plays it (spec export-events-js).
+
+## export-keyframes
+
+### Our rule
+
+Required (manifest feature `export-keyframes`):
+- The stylesheet holds each animation's `@keyframes` with every keyframe and its values, and the animation properties
+  on the element's base rule, so it plays when the page loads; a `@media (prefers-reduced-motion: reduce)` block turns
+  the animations off, written only when the page has animations (a page without any exports exactly as before).
+- In the exported page the element's computed `animation-name` is the animation's name, and two exports are
+  byte-identical.
+
+## export-events-js
+
+### Our rule
+
+Required (manifest feature `export-events-js`):
+- The archive holds the plain JavaScript file `js/interactions.js` (no framework, no inline handler), linked with
+  `<script defer>` from every page that uses interactions; a page without interactions exports exactly as before.
+- The script addresses its targets by their BEM class or the person's own id, never by editor ids or data attributes.
+- An animation an event plays gets a class rule beside its `@keyframes`, which the script adds when the event fires; it
+  no longer plays on load.
+- The preview runs every interaction as the exported page does; in the exported page opened in Chrome every trigger
+  performs its action (checked by class, computed style or scroll position).
+
+## export-multi-page
+
+### Our rule
+
+Required (manifest feature `export-multi-page`):
+- The archive holds every page at its path in the file tree (`index.html`, `company/about-us.html`) and one shared
+  `css/styles.css`.
+- A link chosen with the link picker is written relative to the two files' paths (`company/about-us.html` from
+  `index.html`, `../index.html` back), and follows a moved page.
+- Each page file has its own title, lang and dir, and links the shared stylesheet by a path relative to its folder.
+
+## export-file-tree
+
+### Our rule
+
+Required (manifest feature `export-file-tree`):
+- The archive holds exactly the Explorer's tree: every folder and file at its path, the pages generated from the
+  document, the CSS in its own file with BEM classes, the generated scripts at the paths the file tree keeps free
+  (spec explorer-file-system 2).
+- Links between pages and to files (stylesheets, scripts, images) are written relative to their paths, so they follow a
+  moved or renamed file; two exports without a change are byte-identical.
+
+## export-assets
+
+### Our rule
+
+Required (manifest feature `export-assets`):
+- The archive holds every file of the tree at its path, byte for byte as uploaded, an unused image included; an image's
+  `src` is a relative path to its file, so the exported page shows it.
+
+## explorer-open-folder
+
+### Our rule
+
+Required (manifest feature `explorer-open-folder`):
+- File › Open folder (`project.openFolder`) reads a folder with Chrome's directory picker, and every file lands at the
+  same path in the project, except one whose path belongs to a generated file (css/styles.css and the export's scripts,
+  spec explorer-file-system 2): it is kept under a free name (`css/styles-1.css`) and the report lists it.
+- The HTML pages go through the HTML importer: the stylesheets they link are read from the folder into the document's
+  styles (the document JSON is the source of truth); each page becomes a page named after its file, at its path
+  (`about/index.html` is the page index in the folder about), the root `index.html` the home page — a folder without
+  one gets an empty home page, which the report lists; the original .css files stay as files no page links any more,
+  and the report says so; scripts, images and fonts are kept as files. A folder without any HTML page is refused.
+- Opening a folder replaces the project after asking, as File › Open does; the export right after reproduces the same
+  folder structure.
+
+## code-panel-edit-js
+
+### Our rule
+
+Required (manifest feature `code-panel-edit-js`):
+- A script opens in the code pane with line numbers and syntax colouring; saving (`files.saveContent`) writes the file in
+  the project as one undo step; a generated script (the export's, spec explorer-file-system 2) opens read-only and is
+  never written (`status.files.generatedPath`).
+- A script with a syntax error is refused with the line and the reason (`status.js.invalidAt`) and kept as typed.
+- A page links the scripts its setting lists (`page.setSetting`): the preview runs them and reloads after each save,
+  the editing canvas never runs them, and the export writes the files unchanged and links them from their pages.
+- Deleting a script a page links, or a folder that holds one, is refused, naming those pages (`status.files.linkedBy`).
