@@ -56,18 +56,19 @@ function NewAnimation({ ready }: { readonly ready: boolean }) {
     return (
       <button
         type="button"
-        className={`door door--button${ready ? '' : ' is-unavailable'}`}
+        className={`door door--icon-button door--sm${ready ? '' : ' is-unavailable'}`}
         data-door={NEW_ANIMATION.ref}
         data-args={JSON.stringify(NEW_ANIMATION.door.args)}
         aria-disabled={ready ? undefined : true}
         aria-haspopup="dialog"
+        aria-label={t('timeline.newAnimation')}
         title={t('timeline.newAnimation')}
         onClick={() => {
           if (ready) setAsking(true);
         }}
       >
+        {/* the small icon button, its name its tooltip and its accessible name (the canonical Animations' + ) */}
         <Icon name="plus" size="sm" />
-        <span className="door__label">{t('timeline.newAnimation')}</span>
       </button>
     );
   }
