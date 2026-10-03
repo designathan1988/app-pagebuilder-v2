@@ -32,7 +32,10 @@ const SAVE = DOORS.find((d) => drawnAsOf(d) === 'icon-button' && 'name' in d.com
 // under the "affects" line while a class is the target (spec class-moves): move the element's styles into it, apply it
 // to every element of the element's type
 const MOVE_INTO = DOORS.find((d) => d.door.kind === 'panel-control' && d.door.control === 'class-move-into');
-const APPLY_SIMILAR = DOORS.find((d) => d.door.kind === 'panel-control' && d.door.control === 'class-apply-similar');
+// apply the class to similar elements, one door per scope (this page, the project; the audit's AUD-19)
+const APPLY_SIMILAR = DOORS.filter((d) => d.door.kind === 'panel-control' && d.door.control === 'class-apply-similar');
+// the scope that reaches past the page: drawn only where the project has another page
+const PROJECT_WIDE = (entry: DoorEntry): boolean => entry.door.args.scope === entry.command.args.scope?.values.at(-1);
 const ELEMENT = 'element';
 const CLASS = 'class';
 const SEPARATOR = '\n';
@@ -195,19 +198,23 @@ export function Affects() {
 }
 
 // Move this element's styles into the class, while it has styles of its own; apply the class to every element of its
-// type, while one lacks it (each drawn only while it can act: the door's command can run)
+// type on this page or in the project, while one lacks it (each drawn only while it can act: the door's command can
+// run; the project's only while the project has another page)
 function ClassMoves({ target, selector }: { readonly target: string; readonly selector: string }) {
   const t = useT();
   const primary = useEditorState((s) => (s.selection[0] === undefined ? null : (locate(s.document, s.selection[0])?.node ?? null)));
   const store = useStore();
   useEditorState((s) => s.document);
+  const pages = useEditorState((s) => s.document.pages.length);
   if (primary === null) return null;
   const element = t(`element.${primary.type}.label` as MessageId);
   const args = { className: target };
   return (
     <span className="affects__actions">
       {MOVE_INTO !== undefined && appliesNow(MOVE_INTO, args, store) ? <DoorControl entry={MOVE_INTO} args={args} label={t(MOVE_INTO.door.labelKey as MessageId, { selector })} ready={ready(MOVE_INTO)} /> : null}
-      {APPLY_SIMILAR !== undefined && appliesNow(APPLY_SIMILAR, args, store) ? <DoorControl entry={APPLY_SIMILAR} args={args} label={t(APPLY_SIMILAR.door.labelKey as MessageId, { selector, element: element.toLowerCase() })} ready={ready(APPLY_SIMILAR)} /> : null}
+      {APPLY_SIMILAR.filter((entry) => (pages > 1 || !PROJECT_WIDE(entry)) && appliesNow(entry, args, store)).map((entry) => (
+        <DoorControl key={entry.ref} entry={entry} args={args} label={t(entry.door.labelKey as MessageId, { selector, element: element.toLowerCase() })} ready={ready(entry)} />
+      ))}
     </span>
   );
 }
@@ -217,6 +224,6 @@ export function classBarControl(entry: DoorEntry): ReactNode | undefined {
   if (entry === APPLY) return <ApplyClass key={entry.ref} />;
   if (entry === SAVE) return <SaveAsClass key={entry.ref} />;
   // drawn under the "affects" line (ClassMoves), never in the bar's row
-  if (entry === MOVE_INTO || entry === APPLY_SIMILAR) return null;
+  if (entry === MOVE_INTO || APPLY_SIMILAR.includes(entry)) return null;
   return undefined;
 }

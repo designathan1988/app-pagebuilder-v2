@@ -15,6 +15,7 @@ import { message, registerHandler, type HandlerContext, type Outcome } from '../
 import { locate, walk, type DocumentJson, type NodeId, type Selection, type StyleClass } from '../document/model.ts';
 import type { Patch } from '../history/transaction.ts';
 import { firstLockRefusal } from '../nodes/flags.ts';
+import { commandOf } from '../../manifest/runtime.ts';
 
 const NONE: readonly StyleClass[] = [];
 export const classesOf = (document: DocumentJson): readonly StyleClass[] => document.classes ?? NONE;
@@ -188,15 +189,19 @@ export const moveIntoClassCommand = registerHandler('classes.moveInto', (context
   return { kind: 'change', patches, message: message('status.classes.moved', { element: found.node.name, name: className }) };
 });
 
-// classes.applyToSimilar (the plan's stage 7, "aplicar a todos os parecidos"): the class goes on every element of the
-// project of the primary selected element's type that does not list it yet, on every page; one undo step. A locked one
-// refuses the whole change.
-export const applyToSimilarCommand = registerHandler('classes.applyToSimilar', (context, { className }): Outcome<never> => {
+// classes.applyToSimilar (the plan's stage 7, "aplicar a todos os parecidos"): the class goes on the elements of a scope
+// that do not list it yet, one undo step; a locked one refuses the whole change. The scope (the audit's AUD-19: the
+// three price cards' class went on the three benefit cards too): the elements of the primary selected element's type on
+// its page, the narrowest and the default; or on every page. The selected elements themselves take a class with
+// + Class (classes.apply), its one owner.
+export const applyToSimilarCommand = registerHandler('classes.applyToSimilar', (context, { className, scope }): Outcome<never> => {
   const { state } = context;
   const found = selectedNodes(context)[0];
   if (found === undefined) return { kind: 'change' };
   if (!classesOf(state.document).some((c) => c.name === className)) return { kind: 'refused', message: message('status.classes.unknown', { name: className }) };
-  const without = state.document.pages.flatMap((page) => [...walk(page.tree)]).filter((node) => node.type === found.node.type && !node.classes.includes(className));
+  const onPage = (scope ?? PAGE_SCOPE) === PAGE_SCOPE;
+  const pool = (onPage ? [state.document.pages[found.page]] : state.document.pages).flatMap((page) => (page === undefined ? [] : [...walk(page.tree)])).filter((node) => node.type === found.node.type);
+  const without = pool.filter((node) => !node.classes.includes(className));
   if (without.length === 0) return { kind: 'refused', message: message('status.classes.noSimilar', { name: className }) };
   const locked = firstLockRefusal(state.document, without.map((node) => node.id as NodeId), 'status.locked.edit');
   if (locked !== null) return { kind: 'refused', message: locked };
@@ -206,3 +211,5 @@ export const applyToSimilarCommand = registerHandler('classes.applyToSimilar', (
   });
   return { kind: 'change', patches, message: message('status.classes.appliedToSimilar', { name: className, count: without.length }) };
 });
+// the narrowest scope, as the command's argument lists it first (manifest/commands/design-system.json): the page
+const [PAGE_SCOPE] = commandOf(applyToSimilarCommand.command).args.scope?.values ?? [];

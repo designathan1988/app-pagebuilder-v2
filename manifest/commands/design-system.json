@@ -1468,6 +1468,14 @@
           "type": "string",
           "values": [],
           "optional": false
+        },
+        "scope": {
+          "type": "enum",
+          "values": [
+            "page",
+            "project"
+          ],
+          "optional": true
         }
       },
       "availability": {
@@ -1498,7 +1506,7 @@
           "control": "class-apply-similar",
           "modifier": null,
           "gesture": null,
-          "labelKey": "command.classes.applyToSimilar",
+          "labelKey": "command.classes.applyToSimilar.page",
           "faceLabelKey": null,
           "icon": null,
           "disabledReasonKey": "common.notAvailableYet",
@@ -1512,7 +1520,37 @@
             "writes": [],
             "fields": []
           },
-          "args": {}
+          "args": {
+            "scope": "page"
+          }
+        },
+        {
+          "id": "inspector-class-apply-project",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "class-moves",
+          "panel": "inspector",
+          "control": "class-apply-similar",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "command.classes.applyToSimilar.project",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "inspector-selector-bar",
+            "order": 22
+          },
+          "adapter": {
+            "selection": "primary",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "scope": "project"
+          }
         }
       ]
     },

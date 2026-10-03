@@ -8900,8 +8900,18 @@ variable name that is no name or is taken (the variables' own refusals).
   - **Move this element's styles into .card** (`classes.moveInto`, while the selected element has styles of its own):
     its own styles join the class's, laid over them (the element looks as it did, and every element listing the class
     takes them), the element keeps none, and it lists the class; one undo step.
-  - **Apply .card to every article** (`classes.applyToSimilar`, while some element of its type lacks it): every element
-    of the project of the selected element's type lists the class; one undo step.
+  - **Apply .card to every article on this page** (`classes.applyToSimilar`, scope `page`, while some element of its
+    type there lacks it): every element of the selected element's type on its page lists the class; one undo step.
+  - **Apply .card to every article in the project** (scope `project`, drawn only while the project has another page):
+    every element of its type on every page lists the class; one undo step.
+
+### Problems
+
+1. **"Apply .card to every article" reached every page** (the audit's AUD-19, 2026-10-02, journey D1: making the three
+   price cards share `.card` also put it on the three benefit cards of another page, and nothing applied it to the
+   similar ones alone). Required: the command takes a scope, this page or the project, the page the default (the
+   narrowest that holds the selected element); the selected elements themselves take the class with + Class
+   (`classes.apply` on a multi-selection), its one owner, so no third scope repeats it.
 
 ### Refusals
 
@@ -9268,6 +9278,7 @@ Required (manifest feature `workspace-persist-reset`):
 ### Our rule
 
 1. **Exported pages import back.** Required (`html-import-roundtrip`): importing the ZIP the export wrote imports its pages together with their linked stylesheets as a whole; the imported document equals the original in tag structure, texts, attributes and styles per breakpoint and state (element types that share a tag are compared by tag); element names are recovered from their BEM classes, so a second export writes the same pages and the same rules again. Ids and editor-only data (locks, guides, grid settings, saved colours) are not compared.
+2. **One limit plain HTML sets.** A class of the person's that one element lists alone, on an element without styles of its own, reads exactly as the export's own class of that element (`class="card"` and its rule either way): it comes back as the element's own styles, the page drawn the same (docs/PRODUCT.md RT1). A class two elements list, or one listed beside the export's own, or one no element lists, comes back as a class.
 
 ## code-panel-view
 

@@ -3441,6 +3441,8 @@
   "command.classes.moveInto": "Move this element’s styles into {selector}",
   "command.classes.moveInto.name": "Move styles into a class",
   "command.classes.applyToSimilar": "Apply {selector} to every {element}",
+  "command.classes.applyToSimilar.page": "Apply {selector} to every {element} on this page",
+  "command.classes.applyToSimilar.project": "Apply {selector} to every {element} in the project",
   "command.classes.applyToSimilar.name": "Apply a class to similar elements",
   "status.classes.unknown": "The project has no class .{name}.",
   "status.classes.nothingToMove": "{element} has no styles of its own to move.",

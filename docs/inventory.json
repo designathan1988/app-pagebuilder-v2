@@ -3,10 +3,10 @@
     "features": 214,
     "built": 214,
     "commands": 371,
-    "doors": 1343,
-    "scenarios": 1766,
+    "doors": 1344,
+    "scenarios": 1768,
     "modules": 420,
-    "lines": 77696
+    "lines": 77713
   },
   "features": [
     {
@@ -3213,8 +3213,8 @@
         "classes.moveInto",
         "classes.applyToSimilar"
       ],
-      "doors": 2,
-      "scenarios": 2,
+      "doors": 3,
+      "scenarios": 4,
       "modules": [
         "src/core/design/classes.ts"
       ]
@@ -3452,7 +3452,7 @@
     },
     {
       "path": "src/core/design/classes.ts",
-      "lines": 209,
+      "lines": 216,
       "commands": [
         "classes.create",
         "classes.apply",
@@ -5943,7 +5943,7 @@
     },
     {
       "path": "src/editor/shell/class-bar.tsx",
-      "lines": 223,
+      "lines": 230,
       "commands": [],
       "features": []
     },
@@ -6529,7 +6529,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6495,
+      "lines": 6498,
       "commands": [],
       "features": []
     },

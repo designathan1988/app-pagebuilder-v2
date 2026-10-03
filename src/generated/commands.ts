@@ -124,7 +124,7 @@ export interface CommandArgs {
   "design.replaceColour": { readonly colour: string; readonly value: string };
   "design.colourToVariable": { readonly colour: string; readonly name: string };
   "classes.moveInto": { readonly className: string };
-  "classes.applyToSimilar": { readonly className: string };
+  "classes.applyToSimilar": { readonly className: string; readonly scope?: "page" | "project" };
   "design.applySuggestion": { readonly type: string; readonly name: string };
   "components.updateFromInstance": Record<string, never>;
   "components.setVariant": { readonly variant: string };

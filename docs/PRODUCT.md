@@ -388,7 +388,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-16 | 2 | Plan items dropped without a user decision (steppers, auto-fix) | audit | done (QA 164 the steppers, QA 166 the Checks fixes) |
 | AUD-17 | 2 | `hover-measure` not available in the contract while its code runs | audit | done (QA 167) |
 | AUD-18 | 2 | 39 features without a behaviour section | audit | done (QA 168) |
-| AUD-19 | 2 | Apply a class to every similar element reaches every element of the type | audit | open |
+| AUD-19 | 2 | Apply a class to every similar element reaches every element of the type | audit | done (QA 169) |
 | AUD-20 | 2 | The Grid template keeps empty cells when a card is inserted | audit | open |
 | AUD-21 | 2 | First panel still the Explorer; Insert called Elements in menus | audit; J26 | open |
 | AUD-22 | 2 | html-validate errors in the `motion` fixture's export | audit | done (QA 160) |
@@ -409,6 +409,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-38 | 1 | Crash journal silently off for projects over the storage quota (probable) | audit | open |
 | R4 | — | `e2e:affected` selects the whole suite for 80 % of source changes | review R4 (deferred by the user, DEC-10) | open |
 | T7 | — | The pointer's module-level singletons matter only with two editors on a page | deferred (DEC-26) | open |
+| RT1 | 1 | A class of the person's that one element lists alone, on an element without styles of its own, imports back as that element's own styles: plain HTML cannot tell it from the export's own class (`class="card"` and its rule either way) | QA 169, the round trip test on a new fixture | open (a limit of plain HTML; spec html-import-roundtrip says it) |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 

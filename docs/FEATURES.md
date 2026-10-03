@@ -5,7 +5,7 @@ the last complete browser run on a clean tree (`docs/feature-results.json`, writ
 hand. `npm run inventory:check` fails while this file is out of step. The requirements these features answer, and the
 open problems, are in `docs/PRODUCT.md`.
 
-214 features (214 built), 371 commands, 1343 doors, 1766 scenarios.
+214 features (214 built), 371 commands, 1344 doors, 1768 scenarios.
 
 No complete browser run on a clean tree has been recorded yet: the next one writes `docs/feature-results.json`.
 
@@ -349,7 +349,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `batch-rename` | Renaming in batch | yes | 3 | 2 | [batch-rename](../spec/BEHAVIOUR.md#batch-rename) | 0 | — |
 | `command-bar-find` | Pages, layers and classes in the command bar | yes | 3 | 3 | [command-bar-find](../spec/BEHAVIOUR.md#command-bar-find) | 0 | — |
 | `site-colours` | Colours in use, replaced or made a variable across the site | yes | 3 | 2 | [site-colours](../spec/BEHAVIOUR.md#site-colours) | 0 | — |
-| `class-moves` | Move styles into a class; apply a class to every similar element | yes | 2 | 2 | [class-moves](../spec/BEHAVIOUR.md#class-moves) | 0 | — |
+| `class-moves` | Move styles into a class; apply a class to every similar element | yes | 4 | 3 | [class-moves](../spec/BEHAVIOUR.md#class-moves) | 1 | — |
 | `style-suggestions` | Repeated styles offered as one class | yes | 1 | 1 | [style-suggestions](../spec/BEHAVIOUR.md#style-suggestions) | 0 | — |
 | `component-master-edit` | An instance edited in place updates its component and every instance | yes | 1 | 1 | [component-master-edit](../spec/BEHAVIOUR.md#component-master-edit) | 0 | — |
 | `component-variants` | Variants of a component, chosen per instance | yes | 3 | 1 | [component-variants](../spec/BEHAVIOUR.md#component-variants) | 0 | — |
