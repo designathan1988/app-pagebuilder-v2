@@ -6,7 +6,7 @@
     "doors": 1350,
     "scenarios": 1819,
     "modules": 424,
-    "lines": 79859
+    "lines": 79867
   },
   "features": [
     {
@@ -5341,7 +5341,7 @@
     },
     {
       "path": "src/editor/explorer/explorer.ts",
-      "lines": 154,
+      "lines": 162,
       "commands": [
         "files.open",
         "files.startRename"

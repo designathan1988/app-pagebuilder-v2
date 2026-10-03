@@ -1376,6 +1376,16 @@
               }
             ]
           }
+        ],
+        "layerColors": [
+          {
+            "node": "c-hero",
+            "colour": "--color-canvas-margin"
+          },
+          {
+            "node": "c-plans",
+            "colour": "--color-canvas-padding"
+          }
         ]
       }
     },

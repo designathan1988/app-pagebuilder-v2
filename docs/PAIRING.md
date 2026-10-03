@@ -7,67 +7,64 @@ Never edited by hand: `tools/parity/pairing.test.ts` fails while it is out of st
 Every region both sides mark (`data-region`) and every control both mark (`data-door`, the n-th of each door) is
 measured on both sides; a divergence is a size beyond 2 px (a region's beyond 4), a font, a colour beyond 16 of the
 channels' summed difference, or corners, where they show — or something the design draws and the app does not.
-Open: 1486 divergences of 116 kinds. Decisions (docs/PRODUCT.md, section 4) keep the others.
+Open: 1248 divergences of 118 kinds. Decisions (docs/PRODUCT.md, section 4) keep the others.
 
 | State | Theme | Language | Regions | Controls | Open | Kept by a decision |
 |---|---|---|---|---|---|---|
-| default | dark | en | 15 | 117 | 26 | 5 |
-| selection | dark | en | 16 | 117 | 27 | 5 |
-| breakpoint | dark | en | 15 | 126 | 37 | 5 |
-| menu | dark | en | 16 | 134 | 37 | 5 |
-| context | dark | en | 16 | 133 | 31 | 5 |
-| palette | dark | en | 16 | 119 | 27 | 5 |
-| multi | dark | en | 15 | 116 | 30 | 5 |
-| state | dark | en | 12 | 77 | 29 | 5 |
-| text | dark | en | 15 | 113 | 31 | 5 |
-| interaction | dark | en | 14 | 107 | 39 | 5 |
-| hover | dark | en | 12 | 102 | 29 | 5 |
-| drag | dark | en | 14 | 117 | 25 | 5 |
-| default | light | en | 15 | 117 | 26 | 5 |
-| selection | light | en | 16 | 117 | 27 | 5 |
-| breakpoint | light | en | 15 | 126 | 37 | 5 |
-| menu | light | en | 16 | 134 | 37 | 5 |
-| context | light | en | 16 | 133 | 31 | 5 |
-| palette | light | en | 16 | 119 | 27 | 5 |
-| multi | light | en | 15 | 116 | 30 | 5 |
-| state | light | en | 12 | 77 | 29 | 5 |
-| text | light | en | 15 | 113 | 31 | 5 |
-| interaction | light | en | 14 | 107 | 39 | 5 |
-| hover | light | en | 12 | 102 | 29 | 5 |
-| drag | light | en | 14 | 117 | 25 | 5 |
-| default | dark | pt-BR | 15 | 117 | 27 | 5 |
-| selection | dark | pt-BR | 16 | 117 | 28 | 5 |
-| breakpoint | dark | pt-BR | 15 | 126 | 37 | 5 |
-| menu | dark | pt-BR | 16 | 134 | 38 | 5 |
-| context | dark | pt-BR | 16 | 133 | 32 | 5 |
-| palette | dark | pt-BR | 16 | 119 | 28 | 5 |
-| multi | dark | pt-BR | 15 | 116 | 30 | 5 |
-| state | dark | pt-BR | 12 | 77 | 29 | 5 |
-| text | dark | pt-BR | 15 | 113 | 31 | 5 |
-| interaction | dark | pt-BR | 14 | 107 | 39 | 5 |
-| hover | dark | pt-BR | 12 | 102 | 30 | 5 |
-| drag | dark | pt-BR | 14 | 117 | 26 | 5 |
-| default | light | pt-BR | 15 | 117 | 27 | 5 |
-| selection | light | pt-BR | 16 | 117 | 28 | 5 |
-| breakpoint | light | pt-BR | 15 | 126 | 37 | 5 |
-| menu | light | pt-BR | 16 | 134 | 38 | 5 |
-| context | light | pt-BR | 16 | 133 | 32 | 5 |
-| palette | light | pt-BR | 16 | 119 | 28 | 5 |
-| multi | light | pt-BR | 15 | 116 | 30 | 5 |
-| state | light | pt-BR | 12 | 77 | 29 | 5 |
-| text | light | pt-BR | 15 | 113 | 31 | 5 |
-| interaction | light | pt-BR | 14 | 107 | 39 | 5 |
-| hover | light | pt-BR | 12 | 102 | 30 | 5 |
-| drag | light | pt-BR | 14 | 117 | 26 | 5 |
+| default | dark | en | 15 | 117 | 20 | 5 |
+| selection | dark | en | 16 | 117 | 21 | 5 |
+| breakpoint | dark | en | 15 | 126 | 33 | 5 |
+| menu | dark | en | 16 | 134 | 31 | 5 |
+| context | dark | en | 16 | 133 | 25 | 5 |
+| palette | dark | en | 16 | 119 | 21 | 5 |
+| multi | dark | en | 15 | 116 | 26 | 5 |
+| state | dark | en | 12 | 77 | 25 | 5 |
+| text | dark | en | 15 | 113 | 25 | 5 |
+| interaction | dark | en | 14 | 107 | 36 | 5 |
+| hover | dark | en | 12 | 102 | 26 | 5 |
+| drag | dark | en | 14 | 117 | 20 | 5 |
+| default | light | en | 15 | 117 | 20 | 5 |
+| selection | light | en | 16 | 117 | 21 | 5 |
+| breakpoint | light | en | 15 | 126 | 33 | 5 |
+| menu | light | en | 16 | 134 | 31 | 5 |
+| context | light | en | 16 | 133 | 25 | 5 |
+| palette | light | en | 16 | 119 | 21 | 5 |
+| multi | light | en | 15 | 116 | 26 | 5 |
+| state | light | en | 12 | 77 | 25 | 5 |
+| text | light | en | 15 | 113 | 25 | 5 |
+| interaction | light | en | 14 | 107 | 36 | 5 |
+| hover | light | en | 12 | 102 | 26 | 5 |
+| drag | light | en | 14 | 117 | 20 | 5 |
+| default | dark | pt-BR | 15 | 117 | 21 | 5 |
+| selection | dark | pt-BR | 16 | 117 | 22 | 5 |
+| breakpoint | dark | pt-BR | 15 | 126 | 33 | 5 |
+| menu | dark | pt-BR | 16 | 134 | 32 | 5 |
+| context | dark | pt-BR | 16 | 133 | 26 | 5 |
+| palette | dark | pt-BR | 16 | 119 | 22 | 5 |
+| multi | dark | pt-BR | 15 | 116 | 26 | 5 |
+| state | dark | pt-BR | 12 | 77 | 25 | 5 |
+| text | dark | pt-BR | 15 | 113 | 25 | 5 |
+| interaction | dark | pt-BR | 14 | 107 | 36 | 5 |
+| hover | dark | pt-BR | 12 | 102 | 26 | 5 |
+| drag | dark | pt-BR | 14 | 117 | 21 | 5 |
+| default | light | pt-BR | 15 | 117 | 21 | 5 |
+| selection | light | pt-BR | 16 | 117 | 22 | 5 |
+| breakpoint | light | pt-BR | 15 | 126 | 33 | 5 |
+| menu | light | pt-BR | 16 | 134 | 32 | 5 |
+| context | light | pt-BR | 16 | 133 | 26 | 5 |
+| palette | light | pt-BR | 16 | 119 | 22 | 5 |
+| multi | light | pt-BR | 15 | 116 | 26 | 5 |
+| state | light | pt-BR | 12 | 77 | 25 | 5 |
+| text | light | pt-BR | 15 | 113 | 25 | 5 |
+| interaction | light | pt-BR | 14 | 107 | 36 | 5 |
+| hover | light | pt-BR | 12 | 102 | 26 | 5 |
+| drag | light | pt-BR | 14 | 117 | 21 | 5 |
 
 ## Open divergences
 
 | What | Pairs | Design | App | First pairs |
 |---|---|---|---|---|
-| control `workspace.setActiveTab#tab-strip-tab` background | 96 | rgba(0, 0, 0, 0) | rgb(21, 24, 29) | default/dark/en, default/dark/en, selection/dark/en |
-| control `workspace.setActiveTab#tab-strip-tab` colour | 92 | rgb(168, 176, 189) | rgb(217, 222, 230) | default/dark/en, default/dark/en, selection/dark/en |
 | control `element.setLayerColor#layers-row-colour-dot` colour | 80 | rgb(217, 222, 230) | rgb(168, 176, 189) | default/dark/en, default/dark/en, selection/dark/en |
-| control `selection.select#layers-row` background | 76 | rgb(23, 58, 56) | rgba(0, 0, 0, 0) | default/dark/en, default/dark/en, selection/dark/en |
 | control `style.setBorder#inspector-border-border-editor` drawn | 72 | yes | no | default/dark/en, default/dark/en, selection/dark/en |
 | control `files.open#file-tab` drawn | 48 | yes | no | default/dark/en, selection/dark/en, breakpoint/dark/en |
 | control `history.redo#toolbar-top-bar` colour | 48 | rgb(168, 176, 189) | rgb(135, 145, 160) | default/dark/en, selection/dark/en, breakpoint/dark/en |
@@ -87,9 +84,10 @@ Open: 1486 divergences of 116 kinds. Decisions (docs/PRODUCT.md, section 4) keep
 | control `style.setBackgroundImage#inspector-background-image-gradient-add` drawn | 32 | yes | no | default/dark/en, selection/dark/en, menu/dark/en |
 | control `tokens.update#variables-value-field` background | 20 | rgba(0, 0, 0, 0) | rgb(15, 17, 21) | state/dark/en, state/dark/en, state/dark/en |
 | control `tokens.update#variables-value-field` radius | 20 | 0px | 2px | state/dark/en, state/dark/en, state/dark/en |
+| control `palette.toggleGroup#elements-group-header` height | 14 | 24 | 28 | hover/dark/en, hover/dark/en, hover/dark/en |
 | control `style.set#inspector-overflow` drawn | 14 | yes | no | default/dark/pt-BR, selection/dark/pt-BR, menu/dark/pt-BR |
-| control `palette.toggleGroup#elements-group-header` height | 12 | 24 | 28 | hover/dark/en, hover/dark/en, hover/dark/en |
 | control `animation.rename#timeline-animation-name-field` drawn | 8 | yes | no | interaction/dark/en, interaction/dark/en, interaction/light/en |
+| control `selection.select#layers-row` background | 8 | rgb(31, 36, 44) | rgba(0, 0, 0, 0) | multi/dark/en, drag/dark/en, multi/light/en |
 | control `style.set#inspector-color` drawn | 8 | yes | no | breakpoint/dark/en, text/dark/en, breakpoint/light/en |
 | control `style.set#inspector-font-family` drawn | 8 | yes | no | breakpoint/dark/en, text/dark/en, breakpoint/light/en |
 | control `style.set#inspector-font-size` drawn | 8 | yes | no | breakpoint/dark/en, text/dark/en, breakpoint/light/en |
@@ -110,6 +108,8 @@ Open: 1486 divergences of 116 kinds. Decisions (docs/PRODUCT.md, section 4) keep
 | control `element.moveDown#menu-arrange` colour | 4 | rgb(4, 32, 28) | rgb(217, 222, 230) | menu/dark/en, menu/light/en, menu/dark/pt-BR |
 | control `element.moveUp#menu-arrange` colour | 4 | rgb(135, 145, 160) | rgb(217, 222, 230) | menu/dark/en, menu/light/en, menu/dark/pt-BR |
 | control `element.setTag#quick-panel-tag` font | 4 | 12px 400 | 11px 400 | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
+| control `element.toggleHidden#layers-row-eye` drawn | 4 | yes | no | multi/dark/en, multi/light/en, multi/dark/pt-BR |
+| control `element.toggleLock#layers-row-lock` drawn | 4 | yes | no | multi/dark/en, multi/light/en, multi/dark/pt-BR |
 | control `interactions.add#inspector-interaction-add` font | 4 | 12px 600 | 12px 400 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `interactions.remove#inspector-interaction-remove` background | 4 | rgba(0, 0, 0, 0) | rgb(21, 24, 29) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `interactions.remove#inspector-interaction-remove` colour | 4 | rgb(168, 176, 189) | rgb(217, 222, 230) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
@@ -165,6 +165,8 @@ Open: 1486 divergences of 116 kinds. Decisions (docs/PRODUCT.md, section 4) keep
 | control `timeline.setPlayhead#timeline-ruler-click` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `timeline.stop#timeline-stop` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `timeline.toggleLoop#timeline-loop` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
+| control `workspace.setActiveTab#tab-strip-tab` background | 4 | rgb(23, 58, 56) | rgba(0, 0, 0, 0) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
+| control `workspace.setActiveTab#tab-strip-tab` colour | 4 | rgb(217, 222, 230) | rgb(168, 176, 189) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `workspace.setActiveTab#tab-strip-tab` font | 4 | 12px 600 | 12px 400 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | region `command-palette` height | 4 | 254 | 249 | palette/dark/en, palette/light/en, palette/dark/pt-BR |
 | region `context-menu` height | 4 | 426 | 634 | context/dark/en, context/light/en, context/dark/pt-BR |

@@ -27,9 +27,13 @@
   gap: var(--space-1);
 }
 
+/* a tab of the strip, open or closed (the canonical .dtab): no fill and no edge, the muted ink */
 .dock-strip__tabs .door {
   height: var(--size-target-min);
+  padding: 0 var(--space-4);
   border: 0;
+  background: none;
+  color: var(--color-text-muted);
 }
 
 .dock-strip__tabs .door.is-current {

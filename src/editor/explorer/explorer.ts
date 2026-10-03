@@ -104,22 +104,30 @@ export function treeRows(document: DocumentJson, rules: ModelRules): readonly Tr
     [...filesOf(document).map((file) => ({ path: file.path, file, page: null as Page | null })), ...document.pages.map((page) => ({ path: page.file, file: null as ProjectFile | null, page })), ...made]
       .filter((one) => folderOf(one.path) === folder)
       .sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0));
+  const fileRow = (one: ReturnType<typeof filesIn>[number], depth: number): void => {
+    rows.push({
+      path: one.path,
+      folder: false,
+      depth,
+      kind: kindOf(one.path, one.file?.type ?? ''),
+      generated: one.page !== null || (one.file === null && one.page === null) || isGenerated(one.path, document),
+      page: one.page?.id ?? null,
+      size: one.file === null ? null : Math.floor((one.file.bytes.length * 3) / 4),
+    });
+  };
+  // in each folder the site's pages first, in the project's order (design/final's Explorer: index.html, planos.html,
+  // sobre.html above css/, img/, js/), then its folders, then its other files
   const walk = (folder: string, depth: number): void => {
+    const files = filesIn(folder);
+    for (const page of document.pages) {
+      const one = files.find((candidate) => candidate.page === page);
+      if (one !== undefined) fileRow(one, depth);
+    }
     for (const child of under(folder)) {
       rows.push({ path: child, folder: true, depth, kind: 'other', generated: false, page: null, size: null });
       walk(child, depth + 1);
     }
-    for (const one of filesIn(folder)) {
-      rows.push({
-        path: one.path,
-        folder: false,
-        depth,
-        kind: kindOf(one.path, one.file?.type ?? ''),
-        generated: one.page !== null || (one.file === null && one.page === null) || isGenerated(one.path, document),
-        page: one.page?.id ?? null,
-        size: one.file === null ? null : Math.floor((one.file.bytes.length * 3) / 4),
-      });
-    }
+    for (const one of files) if (one.page === null) fileRow(one, depth);
   };
   walk('', 0);
   return rows;

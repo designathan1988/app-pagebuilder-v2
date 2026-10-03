@@ -13,10 +13,13 @@ const marks = list.split(',').filter((one) => one !== '');
 
 const look = (page: Page, names: readonly string[]) =>
   page.evaluate((names) => names.map((name) => {
-    const found = [...document.querySelectorAll(`[data-door="${name}"], [data-region="${name}"]`)].slice(0, 3);
+    // a door, a region, or a CSS selector (one that starts with a dot)
+    const found = [...document.querySelectorAll(name.startsWith('.') ? name : `[data-door="${name}"], [data-region="${name}"]`)].slice(0, 3);
     return `${name}:\n${found.map((el) => {
       const r = el.getBoundingClientRect();
-      return `  <${el.localName} class="${el.getAttribute('class') ?? ''}"> ${Math.round(r.width)}x${Math.round(r.height)} @${Math.round(r.x)},${Math.round(r.y)}\n    ${el.outerHTML.replace(/\s+/g, ' ').slice(0, 600)}`;
+      const css = getComputedStyle(el);
+      const colours = `colour ${css.color} background ${css.backgroundColor} left edge ${css.borderLeftColor}`;
+      return `  <${el.localName} class="${el.getAttribute('class') ?? ''}"> ${Math.round(r.width)}x${Math.round(r.height)} @${Math.round(r.x)},${Math.round(r.y)} ${colours}\n    ${el.outerHTML.replace(/\s+/g, ' ').slice(0, 600)}`;
     }).join('\n') || '  (not drawn)'}`;
   }).join('\n'), names);
 
@@ -30,5 +33,7 @@ test('probe', async ({ browser, baseURL }) => {
   const text = `# ${state}\n\n## design\n${await look(canon, marks)}\n\n## app\n${await look(app, marks)}\n`;
   fs.mkdirSync('.cache/logs/parity', { recursive: true });
   fs.writeFileSync('.cache/logs/parity/probe.txt', text);
+  await canon.screenshot({ path: '.cache/logs/parity/probe-design.png' });
+  await app.screenshot({ path: '.cache/logs/parity/probe-app.png' });
   await context.close();
 });

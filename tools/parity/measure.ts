@@ -17,6 +17,8 @@ export interface Measured {
   readonly icon: boolean;
   // it draws an edge (a border), so its corners show
   readonly edged: boolean;
+  // the name it shows (a row's name, a tab's words), which pairs repeated controls whose order differs on the two sides
+  readonly label: string;
 }
 export interface Drawn {
   readonly regions: readonly Measured[];
@@ -42,7 +44,9 @@ export interface FaceRule {
 }
 export const drawn = (page: Page, faces: Readonly<Record<string, FaceRule>> = {}, aliases: Readonly<Record<string, readonly string[]>> = {}): Promise<Drawn> =>
   page.evaluate(({ faces, aliases }) => {
-    const inside = (r: DOMRect) => r.width >= 2 && r.height >= 2 && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
+    const within = (r: DOMRect) => r.width >= 2 && r.height >= 2 && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
+    // what shows: in the window, and neither hidden nor transparent (a row's actions wait for its hover at opacity 0)
+    const shows = (el: Element) => within(el.getBoundingClientRect()) && el.checkVisibility({ opacityProperty: true, visibilityProperty: true });
     // the face a rule names for a mark, if it finds one
     const listed = (el: Element, mark: string): Element | null => {
       const rule = faces[mark];
@@ -70,15 +74,18 @@ export const drawn = (page: Page, faces: Readonly<Record<string, FaceRule>> = {}
         background: s.backgroundColor,
         radius: s.borderTopLeftRadius,
         worded: (el.textContent ?? '').trim() !== '' || (el instanceof HTMLInputElement && el.value.trim() !== ''),
+        label: (marked.querySelector('.nm, .row__name')?.textContent ?? marked.textContent ?? '').trim().replace(/\s+/g, ' ').slice(0, 60),
         icon: el.querySelector('svg') !== null || el.localName === 'svg',
         // an edge that draws: a transparent border (the doors' 1 px kept for their hover) draws no corner
         edged: parseFloat(s.borderTopWidth) > 0 && s.borderTopStyle !== 'none' && !/^rgba\(.*,\s*0\)$|^transparent$/.test(s.borderTopColor),
       };
     };
-    const regions = [...document.querySelectorAll('[data-region]')].filter((el) => inside(el.getBoundingClientRect())).map((el) => measure(el, el.getAttribute('data-region') as string));
+    // a mark shows when what is measured for it does (a field invisible until pressed shows by its icon box)
+    const showsAs = (el: Element, mark: string) => shows(listed(el, mark) ?? el);
+    const regions = [...document.querySelectorAll('[data-region]')].filter((el) => showsAs(el, el.getAttribute('data-region') ?? '')).map((el) => measure(el, el.getAttribute('data-region') as string));
     const seen = new Map<string, number>();
     const controls = [...document.querySelectorAll('[data-door]')]
-      .filter((el) => inside(el.getBoundingClientRect()))
+      .filter((el) => showsAs(el, el.getAttribute('data-door') ?? ''))
       .map((el) => {
         const door = el.getAttribute('data-door') as string;
         const n = (seen.get(door) ?? 0) + 1;
@@ -86,7 +93,7 @@ export const drawn = (page: Page, faces: Readonly<Record<string, FaceRule>> = {}
         return measure(el, `${door} ${n}`);
       });
     for (const [door, others] of Object.entries(aliases)) {
-      const drawnAs = [...document.querySelectorAll(others.map((one) => `[data-door="${one}"]`).join(', '))].filter((el) => inside(el.getBoundingClientRect()));
+      const drawnAs = [...document.querySelectorAll(others.map((one) => `[data-door="${one}"]`).join(', '))].filter((el) => shows(el));
       drawnAs.forEach((el, i) => controls.push(measure(el, `${door} ${i + 1}`)));
     }
     return { regions, controls };
@@ -114,7 +121,10 @@ export function diverging(kind: Divergence['kind'], canon: readonly Measured[], 
   const found: Divergence[] = [];
   const doors = new Set(app.map((one) => one.id.split(' ')[0]));
   for (const one of canon) {
-    const other = app.find((candidate) => candidate.id === one.id);
+    // the app's control of the same door showing the same name, else the one drawn at the same place in the order
+    const door = one.id.replace(/ \d+$/, '');
+    const named = one.label === '' ? undefined : app.find((candidate) => candidate.id.replace(/ \d+$/, '') === door && candidate.label === one.label);
+    const other = named ?? app.find((candidate) => candidate.id === one.id);
     if (other === undefined) {
       // a control drawn fewer times in the app is the content's (the project holds fewer rows); a door the app draws
       // nowhere in the state is missing

@@ -87,20 +87,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -126,34 +112,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -320,20 +278,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -359,34 +303,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -679,34 +595,6 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
           "id": "style.setSpacing#inspector-margin-box-model 1",
           "property": "radius",
           "canon": "4px",
@@ -863,20 +751,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -902,34 +776,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -1166,20 +1012,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -1205,34 +1037,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -1420,20 +1224,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -1459,34 +1249,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -1632,24 +1394,24 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 8",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
           "id": "selection.select#layers-row 10",
           "property": "background",
           "canon": "rgb(31, 36, 44)",
-          "app": "rgb(23, 58, 56)"
+          "app": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "kind": "control",
+          "id": "element.toggleHidden#layers-row-eye 1",
+          "property": "drawn",
+          "canon": "yes",
+          "app": "no"
+        },
+        {
+          "kind": "control",
+          "id": "element.toggleLock#layers-row-lock 1",
+          "property": "drawn",
+          "canon": "yes",
+          "app": "no"
         },
         {
           "kind": "control",
@@ -1678,34 +1440,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -1977,34 +1711,6 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-background-color 1",
           "property": "drawn",
           "canon": "yes",
@@ -2147,20 +1853,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 6",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 2",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -2235,34 +1927,6 @@
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
           "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -2394,20 +2058,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 10",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 2",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -2458,23 +2108,16 @@
         {
           "kind": "control",
           "id": "workspace.setActiveTab#tab-strip-tab 1",
+          "property": "colour",
+          "canon": "rgb(217, 222, 230)",
+          "app": "rgb(168, 176, 189)"
+        },
+        {
+          "kind": "control",
+          "id": "workspace.setActiveTab#tab-strip-tab 1",
           "property": "background",
           "canon": "rgb(23, 58, 56)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
+          "app": "rgba(0, 0, 0, 0)"
         },
         {
           "kind": "control",
@@ -2760,6 +2403,13 @@
         },
         {
           "kind": "control",
+          "id": "palette.toggleGroup#elements-group-header 6",
+          "property": "height",
+          "canon": "24",
+          "app": "28"
+        },
+        {
+          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -2785,34 +2435,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -2965,17 +2587,10 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 8",
+          "id": "selection.select#layers-row 6",
           "property": "background",
           "canon": "rgba(0, 0, 0, 0)",
           "app": "color(srgb 0.894118 0.435294 0.815686 / 0.12)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
         },
         {
           "kind": "control",
@@ -3004,34 +2619,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -3191,20 +2778,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -3230,34 +2803,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -3424,20 +2969,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -3463,34 +2994,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -3783,34 +3286,6 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
           "id": "style.setSpacing#inspector-margin-box-model 1",
           "property": "radius",
           "canon": "4px",
@@ -3967,20 +3442,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -4006,34 +3467,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -4270,20 +3703,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -4309,34 +3728,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -4524,20 +3915,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -4563,34 +3940,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -4736,24 +4085,24 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 8",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
           "id": "selection.select#layers-row 10",
           "property": "background",
           "canon": "rgb(232, 235, 239)",
-          "app": "rgb(213, 239, 234)"
+          "app": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "kind": "control",
+          "id": "element.toggleHidden#layers-row-eye 1",
+          "property": "drawn",
+          "canon": "yes",
+          "app": "no"
+        },
+        {
+          "kind": "control",
+          "id": "element.toggleLock#layers-row-lock 1",
+          "property": "drawn",
+          "canon": "yes",
+          "app": "no"
         },
         {
           "kind": "control",
@@ -4782,34 +4131,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -5081,34 +4402,6 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-background-color 1",
           "property": "drawn",
           "canon": "yes",
@@ -5251,20 +4544,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 6",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 2",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -5339,34 +4618,6 @@
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
           "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -5498,20 +4749,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 10",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 2",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -5562,23 +4799,16 @@
         {
           "kind": "control",
           "id": "workspace.setActiveTab#tab-strip-tab 1",
+          "property": "colour",
+          "canon": "rgb(21, 24, 29)",
+          "app": "rgb(71, 78, 89)"
+        },
+        {
+          "kind": "control",
+          "id": "workspace.setActiveTab#tab-strip-tab 1",
           "property": "background",
           "canon": "rgb(213, 239, 234)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
+          "app": "rgba(0, 0, 0, 0)"
         },
         {
           "kind": "control",
@@ -5864,6 +5094,13 @@
         },
         {
           "kind": "control",
+          "id": "palette.toggleGroup#elements-group-header 6",
+          "property": "height",
+          "canon": "24",
+          "app": "28"
+        },
+        {
+          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -5889,34 +5126,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -6069,17 +5278,10 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 8",
+          "id": "selection.select#layers-row 6",
           "property": "background",
           "canon": "rgba(0, 0, 0, 0)",
           "app": "color(srgb 0.752941 0.211765 0.541176 / 0.12)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
         },
         {
           "kind": "control",
@@ -6108,34 +5310,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -6295,20 +5469,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -6334,34 +5494,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -6535,20 +5667,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -6574,34 +5692,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -6901,34 +5991,6 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
           "id": "style.setSpacing#inspector-margin-box-model 1",
           "property": "radius",
           "canon": "4px",
@@ -7085,20 +6147,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -7124,34 +6172,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -7395,20 +6415,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -7434,34 +6440,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -7656,20 +6634,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -7695,34 +6659,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -7875,24 +6811,24 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 8",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
           "id": "selection.select#layers-row 10",
           "property": "background",
           "canon": "rgb(31, 36, 44)",
-          "app": "rgb(23, 58, 56)"
+          "app": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "kind": "control",
+          "id": "element.toggleHidden#layers-row-eye 1",
+          "property": "drawn",
+          "canon": "yes",
+          "app": "no"
+        },
+        {
+          "kind": "control",
+          "id": "element.toggleLock#layers-row-lock 1",
+          "property": "drawn",
+          "canon": "yes",
+          "app": "no"
         },
         {
           "kind": "control",
@@ -7921,34 +6857,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -8220,34 +7128,6 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-background-color 1",
           "property": "drawn",
           "canon": "yes",
@@ -8390,20 +7270,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 6",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 2",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -8478,34 +7344,6 @@
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
           "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -8637,20 +7475,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 10",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(23, 58, 56)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 2",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -8701,23 +7525,16 @@
         {
           "kind": "control",
           "id": "workspace.setActiveTab#tab-strip-tab 1",
+          "property": "colour",
+          "canon": "rgb(217, 222, 230)",
+          "app": "rgb(168, 176, 189)"
+        },
+        {
+          "kind": "control",
+          "id": "workspace.setActiveTab#tab-strip-tab 1",
           "property": "background",
           "canon": "rgb(23, 58, 56)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
+          "app": "rgba(0, 0, 0, 0)"
         },
         {
           "kind": "control",
@@ -9031,34 +7848,6 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -9215,17 +8004,10 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 8",
+          "id": "selection.select#layers-row 6",
           "property": "background",
           "canon": "rgba(0, 0, 0, 0)",
           "app": "color(srgb 0.894118 0.435294 0.815686 / 0.12)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
         },
         {
           "kind": "control",
@@ -9254,34 +8036,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -9448,20 +8202,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -9487,34 +8227,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -9688,20 +8400,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -9727,34 +8425,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -10054,34 +8724,6 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
           "id": "style.setSpacing#inspector-margin-box-model 1",
           "property": "radius",
           "canon": "4px",
@@ -10238,20 +8880,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -10277,34 +8905,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -10548,20 +9148,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -10587,34 +9173,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -10809,20 +9367,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "files.closeTab#file-tab-close 1",
           "property": "drawn",
           "canon": "yes",
@@ -10848,34 +9392,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -11028,24 +9544,24 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 8",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
           "id": "selection.select#layers-row 10",
           "property": "background",
           "canon": "rgb(232, 235, 239)",
-          "app": "rgb(213, 239, 234)"
+          "app": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "kind": "control",
+          "id": "element.toggleHidden#layers-row-eye 1",
+          "property": "drawn",
+          "canon": "yes",
+          "app": "no"
+        },
+        {
+          "kind": "control",
+          "id": "element.toggleLock#layers-row-lock 1",
+          "property": "drawn",
+          "canon": "yes",
+          "app": "no"
         },
         {
           "kind": "control",
@@ -11074,34 +9590,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -11373,34 +9861,6 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-background-color 1",
           "property": "drawn",
           "canon": "yes",
@@ -11543,20 +10003,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 6",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 7",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 2",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -11631,34 +10077,6 @@
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
           "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -11790,20 +10208,6 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 10",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(213, 239, 234)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 2",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -11854,23 +10258,16 @@
         {
           "kind": "control",
           "id": "workspace.setActiveTab#tab-strip-tab 1",
+          "property": "colour",
+          "canon": "rgb(21, 24, 29)",
+          "app": "rgb(71, 78, 89)"
+        },
+        {
+          "kind": "control",
+          "id": "workspace.setActiveTab#tab-strip-tab 1",
           "property": "background",
           "canon": "rgb(213, 239, 234)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
+          "app": "rgba(0, 0, 0, 0)"
         },
         {
           "kind": "control",
@@ -12184,34 +10581,6 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -12368,17 +10737,10 @@
         },
         {
           "kind": "control",
-          "id": "selection.select#layers-row 8",
+          "id": "selection.select#layers-row 6",
           "property": "background",
           "canon": "rgba(0, 0, 0, 0)",
           "app": "color(srgb 0.752941 0.211765 0.541176 / 0.12)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 9",
-          "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
         },
         {
           "kind": "control",
@@ -12407,34 +10769,6 @@
           "property": "drawn",
           "canon": "yes",
           "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 2",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
