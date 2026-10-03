@@ -4,8 +4,13 @@ import { TRIGGER_KINDS } from '../../../core/motion/catalog.ts';
 import { startOn } from './compose.ts';
 import { config, fakePage, type FakePage } from './fake-page.ts';
 
+// The triggers a behaviour test of this file binds and asserts the callbacks of: the catalogue's last test holds
+// every kind of the catalogue to one (the audit's AUD-35: it only checked that binding them all threw nothing).
+const exercised = new Set<string>();
+
 // A trigger bound on an element, with what it called back.
 function bound(page: FakePage, trigger: Trigger, selector = '#box', range = { start: 0, end: 100 }) {
+  exercised.add(trigger.kind);
   const controller = startOn(page.win as unknown as Window, config({}), { mode: 'page', report: () => undefined });
   const calls: string[] = [];
   const handlers = { fire: () => calls.push('fire'), leave: () => calls.push('leave'), progress: (value: number) => calls.push(`progress ${value.toFixed(2)}`), duration: () => 600 };
@@ -149,6 +154,21 @@ describe('scrolling', () => {
     // 1000 of 2000 is half the page: the whole of a range ending at 50 %
     expect(calls).toEqual(['progress 1.00']);
   });
+
+  it('follows its element across the screen as progress while it is visible', () => {
+    const page = fakePage('<div id="box"></div>');
+    Object.defineProperty(page.win, 'innerHeight', { value: 800, configurable: true });
+    const box = page.document.querySelector('#box') as Element;
+    let top = 800;
+    box.getBoundingClientRect = () => ({ top, height: 200, bottom: top + 200, left: 0, right: 100, width: 100, x: 0, y: top, toJSON: () => ({}) }) as DOMRect;
+    // its top at the screen's bottom edge: none of the crossing yet
+    const { calls } = bound(page, { kind: 'while-visible' });
+    // half of the travel (the screen's height and its own) crossed
+    top = 300;
+    (page.win as unknown as Window).dispatchEvent(event(page, 'Event', 'scroll'));
+    page.tick(16);
+    expect(calls).toEqual(['progress 0.00', 'progress 0.50']);
+  });
 });
 
 describe('the page', () => {
@@ -246,15 +266,55 @@ describe('media and components', () => {
     expect([details.calls, slide.calls, custom.calls]).toEqual([['fire'], ['fire'], ['fire']]);
   });
 
-  it('binds every trigger of the catalogue without failing', () => {
+  it('fires on media pause and on its end', () => {
+    const page = fakePage('<div id="box"><video></video></div>');
+    const pause = bound(page, { kind: 'media-pause' });
+    const end = bound(page, { kind: 'media-end' });
+    const video = page.document.querySelector('video') as HTMLVideoElement;
+    // each answers its own event only: playing fires neither
+    video.dispatchEvent(event(page, 'Event', 'play'));
+    expect([pause.calls, end.calls]).toEqual([[], []]);
+    video.dispatchEvent(event(page, 'Event', 'pause'));
+    expect([pause.calls, end.calls]).toEqual([['fire'], []]);
+    video.dispatchEvent(event(page, 'Event', 'ended'));
+    expect([pause.calls, end.calls]).toEqual([['fire'], ['fire']]);
+  });
+
+  it('fires when a dropdown closes, never when it opens', async () => {
+    const page = fakePage('<div id="menu"><button aria-haspopup="true" aria-expanded="false">More</button></div>');
+    const closing = bound(page, { kind: 'dropdown-close' }, '#menu');
+    const button = page.document.querySelector('#menu button') as Element;
+    button.setAttribute('aria-expanded', 'true');
+    await flush();
+    expect(closing.calls).toEqual([]);
+    button.setAttribute('aria-expanded', 'false');
+    await flush();
+    expect(closing.calls).toEqual(['fire']);
+  });
+
+  it('fires once a resize settles, once for a burst of them', async () => {
+    const page = fakePage('<div id="box"></div>');
+    const { calls } = bound(page, { kind: 'resize' });
+    for (const width of [1200, 1000, 800]) {
+      page.resize(width);
+      (page.win as unknown as Window).dispatchEvent(event(page, 'Event', 'resize'));
+    }
+    expect(calls).toEqual([]);
+    await new Promise((resolve) => setTimeout(resolve, 250));
+    expect(calls).toEqual(['fire']);
+  });
+
+  it('binds every trigger of the catalogue without failing, and each is proven by a behaviour test above', () => {
     const page = fakePage('<form id="box"><input></form>');
     (page.win as unknown as { IntersectionObserver: unknown }).IntersectionObserver = class {
       observe() {}
       disconnect() {}
     };
+    const proven = new Set(exercised);
     for (const kind of TRIGGER_KINDS) {
       const { dispose } = bound(page, { kind } as Trigger);
       dispose();
     }
+    expect(TRIGGER_KINDS.filter((kind) => !proven.has(kind)), 'kinds of the catalogue no behaviour test binds and asserts').toEqual([]);
   });
 });
