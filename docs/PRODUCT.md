@@ -101,7 +101,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 |---|---|---|---|
 | STG-0.1 | New repository: origin = app-pagebuilder-v2, old repository remote `v1` | done | `git remote -v` |
 | STG-0.2 | Each J reproduced first by a failing test (`tests/e2e/jornada03-*.spec.ts`) | done | QA 200: `tests/e2e/jornada03.json` maps J1–J28 to the tests that replay them (checked by `tools/inventory/jornada03.test.ts`), `tests/e2e/jornada03.spec.ts` replays the seven no test replayed |
-| STG-0.3 | Task meter: `npm run journey -- <task>` replays M1…C5/P1…P4 with the scoreboard | partial | deferred by the user's speed order (DEC-09); `tools/journey/` holds the offline scorer (QA 45); the audit's journeys `.cache/scratch/audit/journey/` |
+| STG-0.3 | Task meter: `npm run journey -- <task>` replays M1…C5/P1…P4 with the scoreboard | done | QA 201: `tools/journey/` (19 tasks in Chrome, the scoreboard of H1–H17, `npm run fidelity`); H10 and H16 stay with the export checks and `npm run perf` |
 | STG-0.4 | Parity with the canonical: 12 states × dark/light × en/pt-BR, numeric diff per control, PAIRING-2 generated | partial | `tools/parity/pair.ts` (12 states × 2 themes, English only, region boxes); `docs/archive/PAIRING-2.md` was written by hand; DEC-09 |
 | STG-0.5 | Performance budget: input to frame p50/p95, opening, undo | done | `npm run perf` (QA 44, 80); AUD-36 |
 | STG-1.J1a | A refused commit becomes a spoken refusal; the dispatch answers `refused` | done | QA 32 (`917a35b`); named without placeholders and contained per region QA 149 |
@@ -267,8 +267,8 @@ Thresholds fixed before the study (`jornada03/00-frame/hypotheses.md`); measured
 | ID | Hypothesis | Status | Number now |
 |---|---|---|---|
 | H1 | Newcomer reaches title, text, button ≤ 5 min, ≤ 1 dead end | done | 0 dead ends (M1) |
-| H2 | Desktop rebuild ≥ 85 % fidelity ≤ 45 min | partial | 86.2 % common, 80.6 % height-adjusted |
-| H3 | Tablet and phone ≤ 15 min, ≥ 80 % | partial | 81.0 / 75.0 % common after QA 150 (the study: 81.0 / 75.0); phase G2 |
+| H2 | Desktop rebuild ≥ 85 % fidelity ≤ 45 min | done | QA 201: Marina's saved project exported now, 86.2 % common at 1440 (`npm run journey -- H2`) |
+| H3 | Tablet and phone ≤ 15 min, ≥ 80 % | done | QA 201: M3 redone with today's editor (the study's export lost those widths, AUD-02): 83.0 % at 834, 86.6 % at 390, 19 steps, no dead end (`npm run journey -- M3R`) |
 | H4 | Own font and images ≤ 8 min | done | M4 (AUD-12) |
 | H5 | Preview and export in 1 min, valid | done | M5, 0 html-validate errors |
 | H6 | Colours and spacing named once | done | D1 |
@@ -610,7 +610,9 @@ predicate hardening, the invariant probe in the gate, and the security set.
 | `npm run modules:removal <name>` | The application builds and checks without a module | minutes |
 | `npm run companion` | The Builder Companion on 127.0.0.1:5410 (capture of web addresses, the assistant's bridge and MCP tools) | — |
 | `node tools/parity/pair.ts <state> [light]` | The app against `design/final/index.html` in one of 12 states, region by region, crops and a report in `.cache/logs/parity-<time>/`; `node tools/parity/join.ts <dir>` joins each pair (needs the canonical served on 5394, `.claude/launch.json` design-static) | ~10 s each |
-| `npm run journey`, `npm run journey:check` | The study's offline scorer and its tests | seconds |
+| `npm run journey [-- <task>…]` | The jornada03 tasks (M1…M5, M3R, D1…D4, C1…C5, P2…P4, H2) replayed in Chrome on the e2e build, a photo per step, then the scoreboard of H1–H17 (`tools/journey/`; records and photos in `.cache/logs/journey/`) | ~3 min |
+| `npm run fidelity -- <site> <target.html>` | The study's fidelity measure of an exported site against the original at 1440, 1180, 834 and 390 | ~20 s |
+| `npm run journey:offline`, `npm run journey:check` | The study's offline scorer and its tests | seconds |
 
 Rules of proof: tests enter through doors with the real mouse and keyboard and assert end artifacts (the document
 JSON, computed style or geometry inside the frame, storage after a reload, the files inside the exported ZIP), never a

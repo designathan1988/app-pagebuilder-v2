@@ -30,8 +30,10 @@
     "perf": "node tools/perf/run.ts",
     "perf:layout": "node tools/perf/layout-pointer.ts",
     "modules:removal": "node tools/modules/removal.ts",
-    "journey": "node tools/journey/cli.mjs",
-    "journey:check": "node --test tools/journey/*.test.mjs"
+    "journey": "node tools/journey/run.ts",
+    "journey:check": "node --test tools/journey/*.test.mjs",
+    "journey:offline": "node tools/journey/cli.mjs",
+    "fidelity": "node tools/journey/fidelity.ts"
   },
   "dependencies": {
     "html-to-image": "1.11.13",
