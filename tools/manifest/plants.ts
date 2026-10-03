@@ -241,6 +241,24 @@ export const PLANTS: Plant[] = [
     },
   },
   {
+    id: 'command-name-missing',
+    rule: 'command-name',
+    description: 'style.set, labelled "Set {property} to {value}", has no name without placeholders',
+    apply: (m) => {
+      delete command(m, 'style.set').nameKey;
+    },
+  },
+  {
+    id: 'command-name-with-placeholder',
+    rule: 'command-name',
+    description: 'the pt-BR name of style.set has a placeholder',
+    apply: (m) => {
+      obj(m.catalogues['pt-BR'])['command.setProperty.name'] = 'Definir {property}';
+    },
+    // the placeholders then differ between the two catalogues for that key
+    implies: ['i18n-missing'],
+  },
+  {
     id: 'value-set-unknown-subset',
     rule: 'value-set',
     description: 'the quick panel Weight field offers the list "palette", which font-weight does not declare',

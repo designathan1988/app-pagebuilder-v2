@@ -4,6 +4,7 @@
     {
       "id": "style.set",
       "labelKey": "command.setProperty",
+      "nameKey": "command.setProperty.name",
       "owner": "src/core/style/set.ts",
       "introducedBy": "inspector-number-fields",
       "args": {
@@ -5460,6 +5461,7 @@
     {
       "id": "style.setSpacing",
       "labelKey": "command.setSpacing",
+      "nameKey": "command.setSpacing.name",
       "owner": "src/core/style/spacing.ts",
       "introducedBy": "props-spacing",
       "args": {

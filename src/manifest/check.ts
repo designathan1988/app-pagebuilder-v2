@@ -73,6 +73,7 @@ export const RULES = [
   'command-without-door',
   'feature-command-link',
   'i18n-missing',
+  'command-name',
   'value-set',
   'all-properties',
   'css-syntax',
@@ -967,6 +968,7 @@ export function checkManifest(input: ManifestInput): CheckResult {
   };
   for (const c of commands) {
     noteKey(c.command.labelKey, `${c.file} ${c.path}.labelKey`);
+    noteKey(c.command.nameKey ?? null, `${c.file} ${c.path}.nameKey`);
     noteKey(c.command.availability.refusalKey, `${c.file} ${c.path}.availability`);
     c.command.refusals.forEach((k, i) => noteKey(k, `${c.file} ${c.path}.refusals[${i}]`));
     if (c.command.confirmation) {
@@ -1051,6 +1053,22 @@ export function checkManifest(input: ManifestInput): CheckResult {
           report('i18n-missing', `i18n/${locale}`, key, `key "${key}" has placeholders {${placeholders(a).join('}, {')}} in ${firstLocale} but {${placeholders(b).join('}, {')}} in ${locale}`);
         }
       }
+    }
+  }
+
+  // ---- command-name: a command whose label has placeholders names itself without them too, for the texts that name
+  // it with none of its arguments at hand (a refused or failed change, store.ts; the audit's AUD-01: "Set {property}
+  // to {value}" with no values blanked the editor)
+  for (const c of commands) {
+    const label = catalogues.get(firstLocale ?? '')?.[c.command.labelKey];
+    const named = c.command.nameKey;
+    if (typeof label === 'string' && placeholders(label).length > 0 && named === undefined) {
+      report('command-name', c.file, `${c.path}.nameKey`, `${c.command.id}: its label "${label}" has placeholders, so it needs a nameKey without them`);
+    }
+    if (named === undefined) continue;
+    for (const [locale, catalogue] of catalogues) {
+      const text = catalogue[named];
+      if (typeof text === 'string' && placeholders(text).length > 0) report('command-name', `i18n/${locale}`, named, `${c.command.id}: its name "${text}" has placeholders`);
     }
   }
 

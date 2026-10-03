@@ -788,6 +788,10 @@ export const commandSchema = z
   .strictObject({
     id: commandId,
     labelKey: i18nKey,
+    // the command's name without placeholders ("Set a style"), for the texts that name the command with none of its
+    // arguments at hand (a refused or failed change: store.ts). Required when the label's text has placeholders
+    // (manifest:check, rule command-name); absent, the label is the name.
+    nameKey: i18nKey.optional(),
     owner: ownerPath,
     introducedBy: featureId,
     args: z.record(camelId, argSchema),

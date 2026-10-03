@@ -14,6 +14,7 @@ import { sequentialIds, type IdGenerator } from '../ports/ids.ts';
 import { InvalidStateError, createStore, type Store } from './store.ts';
 import { INITIAL_PREFERENCES } from '../../editor/preferences/preferences.ts';
 import { initialEditorUi, type EditorUi } from '../../editor/state.ts';
+import { messageText } from '../../editor/text.ts';
 
 // The store under test: the real command table with small test handlers in place of a few commands, each one kind of
 // history declaration of the manifest (undoable, coalescing, per-gesture, not undoable), so these tests exercise the
@@ -529,6 +530,26 @@ describe('the store', () => {
     expect(loose.store.getState().document).toBe(kept.document);
     expect(loose.store.getState().message?.key).toBe('status.change.failed');
     expect(incidents().map((i) => i.kind)).toEqual(['error']);
+  });
+
+  // the audit's AUD-01: "Insert {element}" named with none of its arguments threw where the status bar drew it, and the
+  // whole editor went blank; a refused or failed change names the command by its name without placeholders
+  it('names a refused or failed command in words every locale can format, whatever its label holds', () => {
+    const throwing = registerHandler('element.insert', () => {
+      throw new Error('a defect');
+    });
+    const failing = testStore({ ...TEST_COMMANDS, 'element.insert': throwing }, TEST_PREDICATES, false);
+    failing.store.dispatch('element.insert', { entry: 'container' });
+    const refusing = testStore({ ...TEST_COMMANDS, 'element.insert': twinInsert }, TEST_PREDICATES, false);
+    refusing.store.dispatch('element.insert', { entry: 'container' });
+    clearIncidents();
+    const said = [failing, refusing].map((s) => s.store.getState().message);
+    expect(said.map((m) => m?.key)).toEqual(['status.change.failed', 'status.change.invalid']);
+    for (const m of said) {
+      if (m === null || m === undefined) throw new Error('nothing said');
+      expect(messageText('en', m)).toContain('Insert an element');
+      expect(messageText('pt-BR', m)).toContain('Inserir um elemento');
+    }
   });
 
   it('records an incident when a command answers with structural patches that leave the document as it was', () => {

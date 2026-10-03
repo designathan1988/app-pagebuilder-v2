@@ -23,3 +23,33 @@
   grid-template-columns: var(--size-activity-bar) 0 minmax(0, 1fr) 0;
 }
 
+
+/* ---------------------------------------------------------------- a region that could not draw (region-boundary.tsx) */
+
+.region-fallback {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 0;
+  padding: var(--space-4) var(--space-6);
+  overflow: hidden;
+  background: var(--color-surface);
+  color: var(--color-danger);
+  font-size: var(--fs-caption);
+}
+
+.region-fallback--top-bar { grid-area: top; }
+.region-fallback--activity-bar { grid-area: activity; }
+.region-fallback--sidebar { grid-area: sidebar; }
+.region-fallback--inspector { grid-area: inspector; }
+.region-fallback--status-bar { grid-area: status; }
+.region-fallback--canvas { flex: 1; }
+
+/* the overlays draw over the editor, so their fallback does too, above the status bar */
+.region-fallback--overlays {
+  position: fixed;
+  right: var(--space-7);
+  bottom: calc(var(--size-status-bar) + var(--space-4));
+  z-index: var(--z-toast);
+  border-radius: var(--radius-md);
+}

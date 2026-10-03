@@ -765,6 +765,10 @@
       "reader": "src/editor/shell/component-prompt.tsx"
     },
     {
+      "field": "commands:commands[].nameKey",
+      "reader": "src/core/store/store.ts"
+    },
+    {
       "field": "commands:commands[].owner",
       "reader": "src/core/commands/registry.ts"
     },

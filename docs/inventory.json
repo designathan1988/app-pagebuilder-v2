@@ -5,8 +5,8 @@
     "commands": 370,
     "doors": 1335,
     "scenarios": 1749,
-    "modules": 409,
-    "lines": 76150
+    "modules": 410,
+    "lines": 76261
   },
   "features": [
     {
@@ -4389,7 +4389,7 @@
     },
     {
       "path": "src/core/store/store.ts",
-      "lines": 635,
+      "lines": 638,
       "commands": [],
       "features": []
     },
@@ -6080,6 +6080,12 @@
       "features": []
     },
     {
+      "path": "src/editor/shell/region-boundary.tsx",
+      "lines": 63,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/editor/shell/shadow.tsx",
       "lines": 230,
       "commands": [],
@@ -6087,7 +6093,7 @@
     },
     {
       "path": "src/editor/shell/shell.tsx",
-      "lines": 191,
+      "lines": 197,
       "commands": [],
       "features": []
     },
@@ -6457,7 +6463,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6431,
+      "lines": 6448,
       "commands": [],
       "features": []
     },
@@ -6481,7 +6487,7 @@
     },
     {
       "path": "src/manifest/check.ts",
-      "lines": 2331,
+      "lines": 2349,
       "commands": [],
       "features": []
     },
@@ -6517,7 +6523,7 @@
     },
     {
       "path": "src/manifest/schema.ts",
-      "lines": 1318,
+      "lines": 1322,
       "commands": [],
       "features": []
     },

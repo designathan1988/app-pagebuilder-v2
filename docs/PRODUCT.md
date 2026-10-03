@@ -365,49 +365,70 @@ feature has scenarios (listed in the audit's evidence `02c-contract.txt`).
 ## 3. Open problems register
 
 From the audit of 2026-10-02 (details, reproduction steps and evidence in `docs/AUDIT-2026-10-02.md`) and the items the
-QA-LOG left open. Severity: 4 blocks or loses work, 3 grave, 2 nuisance, 1 cosmetic. All are **open**.
+QA-LOG left open. Severity: 4 blocks or loses work, 3 grave, 2 nuisance, 1 cosmetic. A row is **open** until a
+commit closes it with its proof; the Status column then names the commit's QA-LOG row.
 
-| ID | Sev | Problem | Source |
-|---|---|---|---|
-| AUD-01 | 4 | The editor goes blank when a refused change belongs to a command whose label has placeholders (no error boundary; the message formatter throws) | audit |
-| AUD-02 | 3 | Export rule merging breaks the cascade: tablet and phone styles lost; fidelity regressed | audit |
-| AUD-03 | 3 | The style state stays on across selections and style writes produce invalid documents | audit |
-| AUD-04 | 3 | Unwrap, move out of parent and nest on component instances produce invalid documents | audit |
-| AUD-05 | 3 | Export then import loses design tokens and unused classes | audit |
-| AUD-06 | 3 | Canvas 41–46 % of the window at 1280 × 720 (H17, J25); the fix measured width | audit |
-| AUD-07 | 2 | The document core executes DOM | audit |
-| AUD-08 | 2 | Store robustness: undeclared predicate refusals throw, gesture patches recorded before validation, `refusal()` does not catch | audit |
-| AUD-09 | 2 | Handlers throw instead of refusing on stale or malformed references | audit |
-| AUD-10 | 2 | Unbounded ZIP inflation; the preview's key relay trusts any opaque-origin frame; the test port in production | audit; open since the module handoff (`docs/archive/history/coordination.md`) |
-| AUD-11 | 2 | `js/motion.js`, `js/lottie.min.js` not protected generated paths | audit; QA 124 |
-| AUD-12 | 2 | The uploaded font only behind "More values" | audit; J15 |
-| AUD-13 | 2 | F6 never focuses the canvas page | audit; J12 |
-| AUD-14 | 2 | Export class names partly Portuguese and numbered | audit; J14 |
-| AUD-15 | 2 | Capture: 98 % corpus never measured, login capture absent, MDN logo missing | audit; QA 117, 119 |
-| AUD-16 | 2 | Plan items dropped without a user decision (steppers, auto-fix) | audit |
-| AUD-17 | 2 | `hover-measure` not available in the contract while its code runs | audit |
-| AUD-18 | 2 | 39 features without a behaviour section | audit |
-| AUD-19 | 2 | Apply a class to every similar element reaches every element of the type | audit |
-| AUD-20 | 2 | The Grid template keeps empty cells when a card is inserted | audit |
-| AUD-21 | 2 | First panel still the Explorer; Insert called Elements in menus | audit; J26 |
-| AUD-22 | 2 | html-validate errors in the `motion` fixture's export | audit |
-| AUD-23 | 1 | pt-BR values clipped in the inspector | audit |
-| AUD-24 | 1 | An untranslated save-refusal reason | audit |
-| AUD-25 | 1 | Ctrl+A on the page body selects the interface's text | audit |
-| AUD-26 | 1 | The New variable kind list does not take the focus (probable) | audit |
-| AUD-27 | 1 | Duplicated pages ordered newest first | audit |
-| AUD-28 | 1 | Remaining divergences from the canonical interface (icons, palette footer, naming, event card Options) | audit |
-| AUD-29 | 1 | 16 targets under 24 × 24 px | audit |
-| AUD-30 | 1 | Documents and comments that contradict the application; 347 comments citing deleted documents (now archived) | audit |
-| AUD-31 | 1 | The `forms-mask` flow broken since `87eb183` | audit |
-| AUD-32 | 1 | Minified-style source in the assistant and some tests | audit |
-| AUD-33 | 1 | 11 controls outside the manifest (`data-local`) | audit |
-| AUD-34 | 1 | A test edited per new feature; misfiled manifest group | audit |
-| AUD-35 | 1 | Weak tests and thinly covered features | audit |
-| AUD-36 | 1 | Undo by keys over its 35 ms per-group reference | audit; QA 44, 80 |
-| AUD-38 | 1 | Crash journal silently off for projects over the storage quota (probable) | audit |
-| R4 | — | `e2e:affected` selects the whole suite for 80 % of source changes | review R4 (deferred by the user, DEC-10) |
-| T7 | — | The pointer's module-level singletons matter only with two editors on a page | deferred (DEC-26) |
+| ID | Sev | Problem | Source | Status |
+|---|---|---|---|---|
+| AUD-01 | 4 | The editor goes blank when a refused change belongs to a command whose label has placeholders (no error boundary; the message formatter throws) | audit | open: the fix is in (QA 149); its browser proof on the audit's path lands with AUD-03 |
+| AUD-02 | 3 | Export rule merging breaks the cascade: tablet and phone styles lost; fidelity regressed | audit | open |
+| AUD-03 | 3 | The style state stays on across selections and style writes produce invalid documents | audit | open |
+| AUD-04 | 3 | Unwrap, move out of parent and nest on component instances produce invalid documents | audit | open |
+| AUD-05 | 3 | Export then import loses design tokens and unused classes | audit | open |
+| AUD-06 | 3 | Canvas 41–46 % of the window at 1280 × 720 (H17, J25); the fix measured width | audit | open |
+| AUD-07 | 2 | The document core executes DOM | audit | open |
+| AUD-08 | 2 | Store robustness: undeclared predicate refusals throw, gesture patches recorded before validation, `refusal()` does not catch | audit | open |
+| AUD-09 | 2 | Handlers throw instead of refusing on stale or malformed references | audit | open |
+| AUD-10 | 2 | Unbounded ZIP inflation; the preview's key relay trusts any opaque-origin frame; the test port in production | audit; open since the module handoff (`docs/archive/history/coordination.md`) | open |
+| AUD-11 | 2 | `js/motion.js`, `js/lottie.min.js` not protected generated paths | audit; QA 124 | open |
+| AUD-12 | 2 | The uploaded font only behind "More values" | audit; J15 | open |
+| AUD-13 | 2 | F6 never focuses the canvas page | audit; J12 | open |
+| AUD-14 | 2 | Export class names partly Portuguese and numbered | audit; J14 | open |
+| AUD-15 | 2 | Capture: 98 % corpus never measured, login capture absent, MDN logo missing | audit; QA 117, 119 | open |
+| AUD-16 | 2 | Plan items dropped without a user decision (steppers, auto-fix) | audit | open |
+| AUD-17 | 2 | `hover-measure` not available in the contract while its code runs | audit | open |
+| AUD-18 | 2 | 39 features without a behaviour section | audit | open |
+| AUD-19 | 2 | Apply a class to every similar element reaches every element of the type | audit | open |
+| AUD-20 | 2 | The Grid template keeps empty cells when a card is inserted | audit | open |
+| AUD-21 | 2 | First panel still the Explorer; Insert called Elements in menus | audit; J26 | open |
+| AUD-22 | 2 | html-validate errors in the `motion` fixture's export | audit | open |
+| AUD-23 | 1 | pt-BR values clipped in the inspector | audit | open |
+| AUD-24 | 1 | An untranslated save-refusal reason | audit | open |
+| AUD-25 | 1 | Ctrl+A on the page body selects the interface's text | audit | open |
+| AUD-26 | 1 | The New variable kind list does not take the focus (probable) | audit | open |
+| AUD-27 | 1 | Duplicated pages ordered newest first | audit | open |
+| AUD-28 | 1 | Remaining divergences from the canonical interface (icons, palette footer, naming, event card Options) | audit | open |
+| AUD-29 | 1 | 16 targets under 24 × 24 px | audit | open |
+| AUD-30 | 1 | Documents and comments that contradict the application; 347 comments citing deleted documents (now archived) | audit | open |
+| AUD-31 | 1 | The `forms-mask` flow broken since `87eb183` | audit | open |
+| AUD-32 | 1 | Minified-style source in the assistant and some tests | audit | open |
+| AUD-33 | 1 | 11 controls outside the manifest (`data-local`) | audit | open |
+| AUD-34 | 1 | A test edited per new feature; misfiled manifest group | audit | open |
+| AUD-35 | 1 | Weak tests and thinly covered features | audit | open |
+| AUD-36 | 1 | Undo by keys over its 35 ms per-group reference | audit; QA 44, 80 | open |
+| AUD-38 | 1 | Crash journal silently off for projects over the storage quota (probable) | audit | open |
+| R4 | — | `e2e:affected` selects the whole suite for 80 % of source changes | review R4 (deferred by the user, DEC-10) | open |
+| T7 | — | The pointer's module-level singletons matter only with two editors on a page | deferred (DEC-26) | open |
+
+### 3.1 The order of work (approved by the user, 2026-10-02)
+
+Every row above and every in-scope row of section 2 that is not done, closed in this order, one commit each with its
+proof and a QA-LOG row; the complete suite runs once, at the end:
+
+| Phase | What | Rows |
+|---|---|---|
+| A | The two blockers: messages that always format and an error boundary per region; the export's CSS in base-then-breakpoint blocks | AUD-01, AUD-02, STG-1.J1a, STG-2.5, STG-5.19, STG-6.1, STG-6.6, H3 |
+| B | Severity 3: the style state resets to Base when the selection does not take it (the user's decision); instance-aware structure refusals; tokens and unused classes through a round trip; the canvas ≥ 50 % of 1280 × 720 | AUD-03 to AUD-06, STG-5.16, H17, J25, P3 |
+| C | Store robustness and the invariant probe (fast-check, fixed seeds) in `check:fast` | AUD-08, AUD-09, STG-1.J1d |
+| D | Bounded unzip, the preview relay's source check, the test port only in test builds, generated paths, html-validate | AUD-10, AUD-11, AUD-22 |
+| E | Severity 2 product gaps | AUD-12 to AUD-21 and their J/H/WISH/STG rows |
+| F | Severity 1 | AUD-23 to AUD-36, AUD-38 |
+| G | The remaining partial requirements (J reproductions, task meter, parity en + pt-BR generated, variable suggestions, the assistant's vision path, R4, T7) | STG-0.2 to STG-0.4, STG-5.20, WISH-10, STG-14.2/14.3, R4, T7 |
+| H | Stage 12 complete: the MDN logo, a 20-site corpus at ≥ 98 % replayed from HAR files, capture behind a login by a Chrome extension | AUD-15, STG-12.4, STG-12.6 |
+| I | The audit's architecture changes 6 to 12 (layers, code splitting, cycles, editor → app inversion, module host API, test balance, the giants split) | AUD-07, section 5.4 |
+| Z | The complete suite on a clean tree, the probes again, a closing audit | all |
+
+Stages 13, 15, 16 and 17 stay out (DEC-08, kept by the user on 2026-10-02).
 
 ## 4. Decisions register
 

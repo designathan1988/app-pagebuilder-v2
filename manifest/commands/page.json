@@ -69,6 +69,7 @@
     {
       "id": "page.setSetting",
       "labelKey": "command.setPageSetting",
+      "nameKey": "command.setPageSetting.name",
       "owner": "src/core/page/settings.ts",
       "introducedBy": "page-properties",
       "args": {

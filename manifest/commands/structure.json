@@ -4,6 +4,7 @@
     {
       "id": "element.insert",
       "labelKey": "command.insertElement",
+      "nameKey": "command.insertElement.name",
       "owner": "src/core/structure/insert.ts",
       "introducedBy": "palette-click-insert",
       "args": {
@@ -1735,6 +1736,7 @@
     {
       "id": "element.createNaturalChild",
       "labelKey": "command.createNaturalChild",
+      "nameKey": "command.createNaturalChild.name",
       "owner": "src/core/structure/insert.ts",
       "introducedBy": "natural-child-command",
       "args": {},

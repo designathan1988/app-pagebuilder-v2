@@ -4,6 +4,7 @@
     {
       "id": "workspace.setPanelOpen",
       "labelKey": "command.togglePanel",
+      "nameKey": "command.togglePanel.name",
       "owner": "src/editor/workspace/panels.ts",
       "introducedBy": "editor-shell",
       "args": {
@@ -2800,6 +2801,7 @@
     {
       "id": "inspector.reveal",
       "labelKey": "command.editProperty",
+      "nameKey": "command.editProperty.name",
       "owner": "src/editor/inspector/sections.ts",
       "introducedBy": "inspector-add-property",
       "args": {

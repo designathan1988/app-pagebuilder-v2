@@ -97,6 +97,7 @@
     {
       "id": "element.setAttribute",
       "labelKey": "command.setAttribute",
+      "nameKey": "command.setAttribute.name",
       "owner": "src/core/elements/attributes.ts",
       "introducedBy": "props-attributes",
       "args": {

@@ -7,7 +7,7 @@
 import type { CommandArgs } from '../../generated/commands.ts';
 import type { CommandId, ConstantId, MessageId } from '../../generated/ids.ts';
 import type { Command } from '../../manifest/schema.ts';
-import { isBuilt, message, type CommandTable, type HandlerContext, type KeyframeTarget, type Message, type Outcome, type PredicateTable } from '../commands/registry.ts';
+import { isBuilt, message, type CommandTable, type HandlerContext, type KeyframeTarget, type Message, type MessageParam, type Outcome, type PredicateTable } from '../commands/registry.ts';
 import type { MotionEditorContext } from '../motion/record.ts';
 import { locate, type DocumentJson, type Selection } from '../document/model.ts';
 import { validateDocument, type Invalid, type ModelRules } from '../document/validate.ts';
@@ -228,9 +228,12 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
   // tests throw so it is loud (plan T2). The person is never left with nothing (jornada03 J1, the silent failures):
   // the status bar says the command's change was refused and nothing changed, before development throws.
   // Predictable invalid operations are refused by the operation itself, before any patch exists.
+  // A command is named by its name without placeholders when its label has some (the manifest's nameKey): no argument
+  // is at hand here to fill them, and a text that cannot be formatted would fail where it is drawn (the audit's AUD-01).
+  const nameOf = (command: { readonly labelKey: string; readonly nameKey?: string | undefined }): MessageParam => ({ key: (command.nameKey ?? command.labelKey) as MessageId });
   const breachMessage = (source: string): Message => {
     const command = commands.get(source as CommandId);
-    return message('status.change.invalid', { command: command === undefined ? source : { key: command.labelKey as MessageId } });
+    return message('status.change.invalid', { command: command === undefined ? source : nameOf(command) });
   };
   // the refusal the last commit made of a command's own result, read by run() to answer the dispatch
   let breach: Message | null = null;
@@ -370,7 +373,7 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     try {
       outcome = entry.run(handlerContext(confirmed), args);
     } catch (error) {
-      const failed = message('status.change.failed', { command: { key: command.labelKey as MessageId } });
+      const failed = message('status.change.failed', { command: nameOf(command) });
       publish(commit({ ...state, message: failed, refused: true }, id));
       // development hears it through the page's own error feed (src/editor/errors.ts)
       if (options.freeze) throw error;

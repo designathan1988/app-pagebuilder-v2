@@ -225,7 +225,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `floating-panels` | Float a panel as a window and dock it again | yes | 5 | 5 | [floating-panels](../spec/BEHAVIOUR.md#floating-panels) | 4 | — |
 | `panel-combine-tabs` | Combine panels as tabs or stack them | yes | 3 | 3 | [panel-combine-tabs](../spec/BEHAVIOUR.md#panel-combine-tabs) | 2 | — |
 | `workspace-persist-reset` | Workspace layout persists and can be reset | yes | 1 | 2 | none | — | — |
-| `status-bar` | Status bar: messages, breadcrumb, size, context, count, zoom and save state | yes | 2 | 2 | [status-bar](../spec/BEHAVIOUR.md#status-bar) | 4 | — |
+| `status-bar` | Status bar: messages, breadcrumb, size, context, count, zoom and save state | yes | 2 | 2 | [status-bar](../spec/BEHAVIOUR.md#status-bar) | 6 | — |
 
 ## 14-accessibility-and-keyboard
 

@@ -43,6 +43,7 @@ import { previewing } from '../view/preview.ts';
 import { TopBar } from './top-bar.tsx';
 import { FitZoom, ReportFitZoom } from './slots.tsx';
 import { FloatingWindows, PanelBodyTable, PanelDragLayer, RightDock } from '../workspace/windows.tsx';
+import { RegionBoundary } from './region-boundary.tsx';
 
 // which panels the shell draws a body for, from the tables it draws them from (bodies.ts), and the component that
 // draws each body: a floating window and the right dock draw a panel of any place from the same table
@@ -142,43 +143,48 @@ export function Shell() {
       <FitZoom.Provider value={zoom}>
         <ReportFitZoom.Provider value={setZoom}>
           <div ref={root} className={classes} aria-label={t('editor.label')} data-key-context="global">
-            <TopBar />
-            <ActivityBar />
-            {sidebar ? <Sidebar /> : null}
+            {/* each region behind its own error boundary: one that cannot draw leaves the others drawn (AUD-01) */}
+            <RegionBoundary region="top-bar"><TopBar /></RegionBoundary>
+            <RegionBoundary region="activity-bar"><ActivityBar /></RegionBoundary>
+            {sidebar ? <RegionBoundary region="sidebar"><Sidebar /></RegionBoundary> : null}
             <div className="workbench">
               <div className="workbench__row">
-                <CanvasColumn />
+                <RegionBoundary region="canvas"><CanvasColumn /></RegionBoundary>
                 {/* the panels docked to the right edge, beside the canvas (spec floating-panels) */}
-                <RightDock />
+                <RegionBoundary region="right-dock"><RightDock /></RegionBoundary>
               </div>
-              <Dock />
+              <RegionBoundary region="dock"><Dock /></RegionBoundary>
             </div>
-            <Inspector />
-            <StatusBar />
-            <Toast />
-            <ContextMenu />
-            {/* the panels dragged out of their dock, and the drag that moves a panel (specs floating-panels and
-                panel-combine-tabs) */}
-            <FloatingWindows />
-            <PanelDragLayer />
-            <CommandBar />
-            <Confirmation />
-            <ColorPicker />
-            <AssetPicker />
-            <LinkPicker />
-            <ComponentPrompt />
-            <GuidesGridsDialog />
-            <SnapSettingsDialog />
-            <BreakpointsDialog />
-            <BatchRenameDialog />
-            <CaptureUrlDialog />
-            <RecoveryDialog />
-            <HtmlImportDialog />
-            <TabGuardNotice />
+            <RegionBoundary region="inspector"><Inspector /></RegionBoundary>
+            <RegionBoundary region="status-bar"><StatusBar /></RegionBoundary>
+            <RegionBoundary region="overlays">
+              <Toast />
+              <ContextMenu />
+              {/* the panels dragged out of their dock, and the drag that moves a panel (specs floating-panels and
+                  panel-combine-tabs) */}
+              <FloatingWindows />
+              <PanelDragLayer />
+              <CommandBar />
+              <Confirmation />
+              <ColorPicker />
+              <AssetPicker />
+              <LinkPicker />
+              <ComponentPrompt />
+              <GuidesGridsDialog />
+              <SnapSettingsDialog />
+              <BreakpointsDialog />
+              <BatchRenameDialog />
+              <CaptureUrlDialog />
+              <RecoveryDialog />
+              <HtmlImportDialog />
+              <TabGuardNotice />
+            </RegionBoundary>
             {inPreview ? (
               <div className="preview" data-key-context="preview" tabIndex={-1}>
-                <PreviewBar />
-                <PreviewPage />
+                <RegionBoundary region="preview">
+                  <PreviewBar />
+                  <PreviewPage />
+                </RegionBoundary>
               </div>
             ) : null}
           </div>

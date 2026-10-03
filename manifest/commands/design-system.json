@@ -936,6 +936,7 @@
     {
       "id": "components.insertInstance",
       "labelKey": "command.components.insertInstance",
+      "nameKey": "command.components.insertInstance.name",
       "owner": "src/core/design/components.ts",
       "introducedBy": "reusable-components",
       "args": {
@@ -1396,6 +1397,7 @@
     {
       "id": "classes.moveInto",
       "labelKey": "command.classes.moveInto",
+      "nameKey": "command.classes.moveInto.name",
       "owner": "src/core/design/classes.ts",
       "introducedBy": "class-moves",
       "args": {
@@ -1454,6 +1456,7 @@
     {
       "id": "classes.applyToSimilar",
       "labelKey": "command.classes.applyToSimilar",
+      "nameKey": "command.classes.applyToSimilar.name",
       "owner": "src/core/design/classes.ts",
       "introducedBy": "class-moves",
       "args": {
@@ -1512,6 +1515,7 @@
     {
       "id": "design.applySuggestion",
       "labelKey": "command.design.applySuggestion",
+      "nameKey": "command.design.applySuggestion.name",
       "owner": "src/core/design/suggest.ts",
       "introducedBy": "style-suggestions",
       "args": {

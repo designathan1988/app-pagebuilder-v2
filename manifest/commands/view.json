@@ -249,6 +249,7 @@
     {
       "id": "view.zoomTo",
       "labelKey": "command.zoomTo",
+      "nameKey": "command.zoomTo.name",
       "owner": "src/editor/view/camera.ts",
       "introducedBy": "zoom-keyboard-buttons",
       "args": {
@@ -701,6 +702,7 @@
     {
       "id": "view.setBreakpoint",
       "labelKey": "command.setBreakpoint",
+      "nameKey": "command.setBreakpoint.name",
       "owner": "src/editor/view/breakpoints.ts",
       "introducedBy": "breakpoints-switch",
       "args": {
@@ -1109,6 +1111,7 @@
     {
       "id": "view.setStyleState",
       "labelKey": "command.setStyleState",
+      "nameKey": "command.setStyleState.name",
       "owner": "src/editor/view/style-state.ts",
       "introducedBy": "state-styles",
       "args": {
@@ -2960,6 +2963,7 @@
     {
       "id": "workspace.openDialog",
       "labelKey": "command.openDialog",
+      "nameKey": "command.openDialog.name",
       "owner": "src/editor/workspace/dialogs.ts",
       "introducedBy": "workspace-settings-dialog",
       "args": {

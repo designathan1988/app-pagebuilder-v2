@@ -7361,6 +7361,7 @@ The status bar is a Tab stop (`data-region="status"`), but its breadcrumb button
 2. **The breadcrumb is not reachable by keyboard.** Required: breadcrumb items are buttons reachable with Tab/arrow keys inside the status region.
 3. **The breadcrumb's buttons stood 26 and 28 px tall in the 24 px bar** (the audit's U-038). Required: every control of the bar is as tall as the bar.
 - **The element count summed every page** (the dogfooding pass, 2026-09-30): a new, empty page read "20 elements". Required: the count is that of the page on the canvas.
+- **A refused change blanked the whole editor** (the audit's AUD-01, 2026-10-02): the status bar named the refused command by its label, "Set {property} to {value}", with none of its values, the text could not be formatted while it was drawn, and nothing caught it, so every region went with it. Required: a command whose label has placeholders also has a name without them (the manifest's `nameKey`, which `manifest:check` requires, rule `command-name`), and a refused or failed change is named by it ("“Set a style” was not applied…"). Required: each region of the editor (top bar, activity bar, sidebar, canvas, right dock, dock, inspector, status bar, the overlays, the preview) stands behind its own error boundary: a region that cannot draw says so in its place ("This part of the editor could not be drawn…"), the incident feed records what it threw, the other regions stay drawn, and it is drawn again at the next change.
 
 ## table-commands
 
