@@ -601,6 +601,72 @@
                                 "className": "is-hover",
                                 "scope": "btn"
                               }
+                            ],
+                            "animations": [
+                              {
+                                "name": "destaque-planos",
+                                "settings": {
+                                  "duration": "1.2s",
+                                  "delay": "0s",
+                                  "iterations": "1",
+                                  "direction": "normal",
+                                  "fill": "none",
+                                  "timing": "linear",
+                                  "play-state": "running"
+                                },
+                                "keyframes": [
+                                  {
+                                    "offset": 0,
+                                    "easing": "",
+                                    "declarations": {
+                                      "opacity": "0",
+                                      "translate": "0px 16px"
+                                    }
+                                  },
+                                  {
+                                    "offset": 40,
+                                    "easing": "",
+                                    "declarations": {
+                                      "opacity": "1"
+                                    }
+                                  },
+                                  {
+                                    "offset": 100,
+                                    "easing": "",
+                                    "declarations": {
+                                      "translate": "0px 0px"
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "entrada-hero",
+                                "settings": {
+                                  "duration": "0.8s",
+                                  "delay": "0s",
+                                  "iterations": "1",
+                                  "direction": "normal",
+                                  "fill": "none",
+                                  "timing": "linear",
+                                  "play-state": "running"
+                                },
+                                "keyframes": [
+                                  {
+                                    "offset": 0,
+                                    "easing": "",
+                                    "declarations": {
+                                      "opacity": "0"
+                                    }
+                                  },
+                                  {
+                                    "offset": 100,
+                                    "easing": "",
+                                    "declarations": {
+                                      "opacity": "1"
+                                    }
+                                  }
+                                ]
+                              }
                             ]
                           },
                           {

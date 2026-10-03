@@ -430,7 +430,8 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | LC2 | 2 | A label colour from the palette never drew: the swatches keep a token's name, drawn bare as the row's line, its dot and the canvas outline, which is no colour (they fell back to the text's ink), and the test compared the line with the outline only, two inks alike | QA 210, `tests/e2e/layers-row-colours.spec.ts` tightened (red without the fix) | done (QA 210) |
 | MV1 | 1 | Move up and Move down were drawn available on a first or last child (availability: a selection), their refusal said only after the press, where the canonical Arrange menu draws them disabled | QA 212, `src/core/structure/move-availability.test.ts` | done (QA 212) |
 | FT1 | 1 | Every open code file's tab, and the active one's close button, were drawn current over the canvas, beside the page's tab: two tabs selected at once | QA 214, `src/editor/explorer/file-tab-current.test.ts` (red without the fix) | done (QA 214) |
-| AN2 | 2 | An element's animations do not survive export then import: the export writes their @keyframes and animation-* declarations (and the reduced-motion rule), the import drops them, so the Timeline comes back empty | found by the canonical fixture (QA 216) | open |
+| AN2 | 2 | An element's animations do not survive export then import: the export writes their @keyframes and animation-* declarations (and the reduced-motion rule), the import drops them, so the Timeline comes back empty | found by the canonical fixture (QA 216); QA 217, the round trip of every fixture | done (QA 217) |
+| AN3 | 2 | Two animations of one element exported as two sets of animation properties in one rule: the last one won, the first never played | QA 217, `src/core/animation/animation-list.test.ts` | done (QA 217) |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 

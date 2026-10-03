@@ -40,7 +40,7 @@ import { fontFaceCss, fontFiles } from '../files/fonts.ts';
 import { exportPath, exportValue } from '../files/values.ts';
 import { rootCss } from '../design/tokens.ts';
 import type { InlineRun } from '../text/inline.ts';
-import { animationsOf, keyframesCss, playedClassDeclarations, playedClassName, animationDeclarations } from '../animation/animation.ts';
+import { animationsOf, keyframesCss, playedClassDeclarations, playedClassName, animationListDeclarations } from '../animation/animation.ts';
 import { addressedNodes, playedAnimations } from '../events/interactions.ts';
 import { interactionsJs, isModalTemplate, isTabsTemplate, pageNeedsScript } from '../events/script.ts';
 import type { SiteScripts } from '../ports/site-scripts.ts';
@@ -278,7 +278,7 @@ export function pageLines(document: DocumentJson, pageIndex: number, manifestRul
       // a class the elements of instances share is written once, by the first of them
       if (!shared.reused.has(node.id)) {
         const plain = held.filter((animation) => !byEvent.has(animation.name));
-        const block = nodeCss(node, `.${generated}`, output, 'block', null, plain.flatMap((animation) => animationDeclarations(animation)));
+        const block = nodeCss(node, `.${generated}`, output, 'block', null, animationListDeclarations(plain));
         if (block !== '') for (const text of block.split('\n')) css.push({ text, node: node.id });
       }
     }

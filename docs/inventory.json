@@ -6,7 +6,7 @@
     "doors": 1350,
     "scenarios": 1819,
     "modules": 424,
-    "lines": 79915
+    "lines": 80034
   },
   "features": [
     {
@@ -3321,7 +3321,7 @@
     },
     {
       "path": "src/core/animation/animation.ts",
-      "lines": 349,
+      "lines": 368,
       "commands": [
         "animation.create",
         "animation.rename",
@@ -4002,7 +4002,7 @@
     },
     {
       "path": "src/core/import/import.ts",
-      "lines": 1540,
+      "lines": 1639,
       "commands": [
         "project.importHtml"
       ],
@@ -6281,7 +6281,7 @@
     },
     {
       "path": "src/editor/timeline/panel.tsx",
-      "lines": 220,
+      "lines": 221,
       "commands": [],
       "features": []
     },

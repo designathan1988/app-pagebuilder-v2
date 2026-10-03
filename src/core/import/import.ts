@@ -34,7 +34,8 @@ import type { ElementType, MessageId } from '../../generated/ids.ts';
 import { message, registerHandler, type HandlerContext, type Message } from '../commands/registry.ts';
 import { probeOf, TOKEN_KINDS, type Token } from '../design/tokens.ts';
 import { readValue } from '../style/set.ts';
-import { allNodes, isEmptyProject, type DocNode, type DocumentJson, type Page, type ProjectFile, type StoredValue, type Styles } from '../document/model.ts';
+import { allNodes, isEmptyProject, type Animation, type DocNode, type DocumentJson, type Keyframe, type Page, type ProjectFile, type StoredValue, type Styles } from '../document/model.ts';
+import { SETTINGS as ANIMATION_SETTINGS, defaultSetting, keyframeEasingProperty, settingProperty } from '../animation/animation.ts';
 import type { InlineRun } from '../text/inline.ts';
 import { attributeValueRefusal, customAttributeRefusal, type ModelRules } from '../document/validate.ts';
 import { validClassName } from '../design/classes.ts';
@@ -838,7 +839,8 @@ function applyStyles(tree: DocNode, builder: Builder, sources: readonly SheetSou
   let order = 0;
   for (const source of sources) {
     // the at-rules the importer cannot map (@supports, @font-face, a nested @media): reported with their lines
-    for (const at of source.css.atRules) add(builder.report.unmapped, source.file, at.line);
+    // (an @keyframes block is read back as an element's animation: keyframesIn)
+    for (const at of source.css.atRules) if (!/^keyframes\b/i.test(at.name.trim())) add(builder.report.unmapped, source.file, at.line);
     for (const rule of source.css.rules) {
       order += 1;
       // The exported base is already in force. Match its entire selector and declaration list: an author's rule
@@ -895,6 +897,8 @@ function applyStyles(tree: DocNode, builder: Builder, sources: readonly SheetSou
   }
   const winners = new Map<string, Map<string, Layer>>();
   const kept = new Map<string, readonly string[]>();
+  // the animation properties each element's rules give it at the base layer (AN2: read back as its animations)
+  const animated = new Map<string, Map<string, { readonly value: string; readonly rank: readonly number[] }>>();
   const walk = (node: DocNode, ancestors: readonly Facts[]): void => {
     // the last of the element's classes a rule of the sheet is written for: the export's own class, which does not
     // stand among the element's (the export makes it again from the name); the others the element keeps as its own
@@ -937,6 +941,16 @@ function applyStyles(tree: DocNode, builder: Builder, sources: readonly SheetSou
       }
       const layer = layerOf(one.media.breakpoint ?? rules.baseLayer.breakpoint, one.state);
       for (const declaration of one.rule.declarations) {
+        const colon = declaration.text.indexOf(':');
+        const named = colon < 0 ? '' : declaration.text.slice(0, colon).trim().toLowerCase();
+        if (named.startsWith('animation-') && one.media.breakpoint === null && one.state === rules.baseLayer.state) {
+          const rank = [declaration.important ? 1 : 0, 0, one.bare.specificity[0], one.bare.specificity[1], one.bare.specificity[2], one.order];
+          const held = animated.get(node.id) ?? new Map<string, { readonly value: string; readonly rank: readonly number[] }>();
+          animated.set(node.id, held);
+          const was = held.get(named);
+          if (was === undefined || higher(rank, was.rank)) held.set(named, { value: declaration.text.slice(colon + 1).trim(), rank });
+          continue;
+        }
         for (const [property, value] of storedDeclarations(builder, declaration.text, declaration.line, one.source)) {
           // importance, the style attribute, then ids, classes and types, each counted apart (as CSS ranks them: one
           // class outweighs any number of types), then source order
@@ -988,7 +1002,13 @@ function applyStyles(tree: DocNode, builder: Builder, sources: readonly SheetSou
       definitions.set(name, styles as Styles);
     }
   }
+  const frames = keyframesIn(builder, sources);
   const write = (node: DocNode): void => {
+    const playing = animated.get(node.id);
+    if (playing !== undefined) {
+      const animations = animationsFrom(new Map([...playing].map(([property, one]) => [property, one.value])), frames);
+      if (animations.length > 0) (node as { animations?: readonly Animation[] }).animations = animations;
+    }
     const own = winners.get(node.id);
     if (own !== undefined) {
       const styles: Record<string, Record<string, Record<string, StoredValue>>> = {};
@@ -1004,6 +1024,85 @@ function applyStyles(tree: DocNode, builder: Builder, sources: readonly SheetSou
     for (const child of node.children) write(child);
   };
   write(tree);
+}
+
+// An element's animations read back from its animation properties and the sheets' @keyframes (AN2: the export writes
+// both, core/export/export.ts animationListDeclarations and keyframesCss, and the import dropped them): one animation
+// per name of animation-name's list, each setting the item of its property's list at the same place (a shorter list
+// repeats, as CSS has it), its keyframes the @keyframes of that name (none: the start and the end, empty).
+const listItems = (value: string): readonly string[] => {
+  const items: string[] = [];
+  let depth = 0;
+  let piece = '';
+  for (const char of value) {
+    if (char === '(') depth += 1;
+    if (char === ')') depth -= 1;
+    if (char === ',' && depth === 0) {
+      items.push(piece.trim());
+      piece = '';
+      continue;
+    }
+    piece += char;
+  }
+  items.push(piece.trim());
+  return items.filter((item) => item !== '');
+};
+function animationsFrom(properties: ReadonlyMap<string, string>, frames: ReadonlyMap<string, readonly Keyframe[]>): readonly Animation[] {
+  const names = listItems(properties.get('animation-name') ?? '').filter((name) => name !== 'none');
+  return names.map((name, i) => {
+    const settings: Record<string, string> = {};
+    for (const setting of ANIMATION_SETTINGS) {
+      const property = settingProperty(setting);
+      const items = property === null ? [] : listItems(properties.get(property) ?? '');
+      settings[setting] = items.length === 0 ? defaultSetting(setting) : (items[i % items.length] as string);
+    }
+    const keyframes = frames.get(name) ?? [
+      { offset: 0, easing: '', declarations: {} },
+      { offset: 100, easing: '', declarations: {} },
+    ];
+    return { name, settings, keyframes };
+  });
+}
+// the @keyframes blocks of the sheets, by name: each step's offset (from 0, to 100, a percentage) and its declarations
+// read as a style layer's (storedDeclarations), the timing function written in a step its easing
+// the property a keyframe's easing is written with (the timeline's easing field offers it)
+const KEYFRAME_EASING = keyframeEasingProperty();
+function keyframesIn(builder: Builder, sources: readonly SheetSource[]): ReadonlyMap<string, readonly Keyframe[]> {
+  const found = new Map<string, readonly Keyframe[]>();
+  for (const source of sources) {
+    let ast: CssTreeNode;
+    try {
+      ast = parseCssTree(source.text, { positions: true });
+    } catch {
+      continue;
+    }
+    walkCssTree(ast, (node) => {
+      if (node.type !== 'Atrule' || node.name.toLowerCase() !== 'keyframes' || node.prelude === null || node.block === null) return;
+      const name = generateCssTree(node.prelude).trim();
+      const steps: Keyframe[] = [];
+      for (const rule of node.block.children.toArray()) {
+        if (rule.type !== 'Rule') continue;
+        const offsets = generateCssTree(rule.prelude)
+          .split(',')
+          .map((one) => one.trim().toLowerCase())
+          .map((one) => (one === 'from' ? 0 : one === 'to' ? 100 : Number.parseFloat(one)));
+        let easing = '';
+        const declarations: Record<string, StoredValue> = {};
+        for (const declaration of rule.block.children.toArray()) {
+          if (declaration.type !== 'Declaration') continue;
+          if (declaration.property.toLowerCase() === KEYFRAME_EASING) {
+            easing = generateCssTree(declaration.value).trim();
+            continue;
+          }
+          const line = declaration.loc?.start.line ?? 0;
+          for (const [property, value] of storedDeclarations(builder, generateCssTree(declaration), line, source.file)) declarations[property] = value;
+        }
+        for (const offset of offsets) if (Number.isFinite(offset)) steps.push({ offset, easing, declarations: { ...declarations } });
+      }
+      found.set(name, steps.sort((a, b) => a.offset - b.offset));
+    });
+  }
+  return found;
 }
 
 // A base rule exported by this editor, identified by selector and all its declarations rather than by values alone.

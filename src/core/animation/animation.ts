@@ -53,6 +53,9 @@ export function settingProperty(setting: string): string | null {
 
 // The CSS property a panel field of the timeline edits, by the control its door draws: the property the door offers
 // (the keyframe's easing, whose field is no setting of the animation's settings).
+// the CSS property a keyframe's easing is written with (the timeline's easing field offers it)
+export const keyframeEasingProperty = (): string | null => offeredProperty(EASING_CONTROL);
+
 export function offeredProperty(control: string): string | null {
   return manifest.doors.find((d) => d.door.kind === 'panel-control' && d.door.panel === 'timeline' && d.door.control === control)?.door.adapter?.offers?.property ?? null;
 }
@@ -120,6 +123,22 @@ export function animationDeclarations(animation: Animation, overrides: Readonly<
       const property = settingProperty(setting);
       const value = overrides[setting] ?? animation.settings[setting];
       return property === null || value === undefined || value === '' ? [] : [`${property}: ${value};`];
+    }),
+  ];
+}
+
+// The animation properties of an element's own animations together (AN3: each animation wrote its own set into the
+// one rule, and the last one won): one animation as animationDeclarations writes it, several as each property's list
+// in the animations' order, a setting an animation leaves empty taking its default, as CSS lists them.
+export function animationListDeclarations(animations: readonly Animation[]): readonly string[] {
+  if (animations.length <= 1) return animations.flatMap((animation) => animationDeclarations(animation));
+  return [
+    `animation-name: ${animations.map((animation) => animation.name).join(', ')};`,
+    ...SETTINGS.flatMap((setting) => {
+      const property = settingProperty(setting);
+      if (property === null) return [];
+      const values = animations.map((animation) => animation.settings[setting] || defaultSetting(setting));
+      return values.every((value) => value === '') ? [] : [`${property}: ${values.join(', ')};`];
     }),
   ];
 }
