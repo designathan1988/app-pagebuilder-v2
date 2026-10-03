@@ -75,8 +75,9 @@ export default defineConfig(({ command, mode }) => {
     server: port === null ? {} : { port, strictPort: true, watch: { ignored: unwatched } },
     // the e2e suite serves the build (playwright.config.ts) from `vite preview`, on the same PORT
     preview: port === null ? {} : { port, strictPort: true },
-    // the e2e build (E2E_BUILD, set by playwright.config.ts) is not minified: the limited validation reads which
-    // functions a test executed from Chrome's coverage of it (tools/impact/analyze.ts), which needs the functions intact
-    build: e2e ? { minify: false, cssMinify: false } : {},
+    // the e2e build (E2E_BUILD, set by playwright.config.ts) is not minified and carries its source maps: a run with
+    // E2E_COVERAGE records which source lines and selectors each test executed (tests/support/coverage.ts), which
+    // npm run e2e:affected reads to choose the tests a change reaches (plan G6, R4)
+    build: e2e ? { minify: false, cssMinify: false, sourcemap: true } : {},
   };
 });

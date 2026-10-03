@@ -12,6 +12,8 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { affectedPlan, productionSource } from './affected-plan.ts';
+import { changedLines, selectorsOn, testsReached, type Recorded } from './affected-coverage.ts';
+import { COVERAGE_DIR } from '../../tests/support/coverage.ts';
 
 interface Inventory {
   readonly features: readonly { readonly id: string; readonly built: boolean; readonly modules: readonly string[] }[];
@@ -80,14 +82,70 @@ else {
   console.log(`spec files: ${plan.specs.length === 0 ? 'none' : plan.specs.join(' ')}`);
   if (styles.length > 0) console.log(`stylesheets changed (${styles.join(', ')}): the tests above prove behaviour; look at the screens with npm run ui`);
 }
-if (listOnly) {
-  for (const run of plan.runs) console.log(`playwright arguments: ${JSON.stringify(run)}`);
-  process.exit(0);
-}
+if (listOnly) for (const run of plan.runs) console.log(`playwright arguments: ${JSON.stringify(run)}`);
 
 const cli = path.join('node_modules', '@playwright', 'test', 'cli.js');
 const playwright = (a: string[]) => spawnSync(process.execPath, [cli, 'test', ...a], { stdio: 'inherit' }).status ?? 1;
+// With the last coverage run (npm run e2e:coverage), the tests that ran a changed line or used a changed selector
+// replace a plan that would run everything for a shared module or a stylesheet (plan G6): a change it cannot place
+// keeps the plan above, and a change to what every test stands on still runs the complete suite.
+const precise = preciseRuns();
+const runs = precise ?? plan.runs;
+if (precise !== null) console.log(`from the coverage of ${coverageMeta()?.commit.slice(0, 7) ?? ''}: ${precise.length === 0 ? 'no test' : 'the tests in .cache/coverage/affected.txt'}`);
+if (listOnly) process.exit(0);
 let status = 0;
-for (const run of plan.runs) status = Math.max(status, playwright(run));
-if (plan.runs.length === 0) console.log('no browser test is reached by the change');
+for (const run of runs) status = Math.max(status, playwright(run));
+if (runs.length === 0) console.log('no browser test is reached by the change');
 process.exit(status);
+
+function coverageMeta(): { readonly commit: string } | null {
+  try {
+    return JSON.parse(fs.readFileSync(path.join('.cache', 'coverage', 'meta.json'), 'utf8')) as { commit: string };
+  } catch {
+    return null;
+  }
+}
+
+function preciseRuns(): string[][] | null {
+  const meta = coverageMeta();
+  if (meta === null || !fs.existsSync(COVERAGE_DIR)) return null;
+  let files: string[];
+  try {
+    files = [...new Set([...git('diff', '--name-only', meta.commit), ...git('ls-files', '--others', '--exclude-standard')])].map(posix);
+  } catch {
+    return null;
+  }
+  // what every test stands on, and the plan's own reasons other than a shared module or a stylesheet, keep the plan
+  const sharedOnly = plan.reasons.every((reason) => reason.startsWith('shared door runtime') || reason.startsWith('unmapped production source'));
+  if (!sharedOnly) return null;
+  const existedAt = (file: string) => {
+    try {
+      execFileSync('git', ['cat-file', '-e', `${meta.commit}:${file}`], { stdio: 'ignore' });
+      return true;
+    } catch {
+      return false;
+    }
+  };
+  const records = fs.readdirSync(COVERAGE_DIR).map((name) => JSON.parse(fs.readFileSync(path.join(COVERAGE_DIR, name), 'utf8')) as Recorded);
+  const scripts = new Map<string, readonly (readonly [number, number])[]>();
+  const selectors = new Set<string>();
+  const list = new Set<string>();
+  for (const file of files) {
+    if (/^tests\/e2e\/.*\.spec\.ts$/.test(file) && fs.existsSync(file)) list.add(file);
+    if (!productionSource(file)) continue;
+    // a data file (a catalogue, a generated list) or a file the coverage never saw: the plan decides
+    if (!/\.(tsx?|css)$/.test(file) || !existedAt(file)) return null;
+    const changed = changedLines(execFileSync('git', ['diff', '-U0', meta.commit, '--', file], { encoding: 'utf8' })).get(file) ?? [];
+    if (file.endsWith('.css')) {
+      for (const one of selectorsOn(execFileSync('git', ['show', `${meta.commit}:${file}`], { encoding: 'utf8' }), changed)) selectors.add(one);
+      list.add('tests/e2e/visual.spec.ts');
+    } else scripts.set(file, changed);
+  }
+  for (const test of testsReached(records, scripts, selectors)) list.add(test);
+  // the features whose scenarios' file changed still run their scenarios
+  const featureRuns = featuresInFiles.size === 0 ? [] : [['scenarios.spec', '--grep', [...featuresInFiles].map((id) => `@feature:${id}(?![\\w-])`).join('|')]];
+  fs.mkdirSync(path.join('.cache', 'coverage'), { recursive: true });
+  fs.writeFileSync(path.join('.cache', 'coverage', 'affected.txt'), `${[...list].join('\n')}\n`);
+  console.log(`tests reached: ${list.size}`);
+  return [...(list.size > 0 ? [['--test-list', path.join('.cache', 'coverage', 'affected.txt')]] : []), ...featureRuns];
+}
