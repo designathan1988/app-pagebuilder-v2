@@ -19,6 +19,7 @@ import type { ModelRules } from '../document/validate.ts';
 import { walk } from '../document/model.ts';
 import { familyOf, fontFiles } from './fonts.ts';
 import { followPaths, movedPath } from './references.ts';
+import { argumentRefused } from '../store/args.ts';
 
 export type { ProjectFile };
 
@@ -438,7 +439,7 @@ export const createFileCommand = registerHandler('files.createFile', ({ state },
 export const renameFileCommand = registerHandler('files.rename', ({ state, rules }, { path, name }) => {
   const from = String(path ?? '');
   const typed = String(name ?? '').trim();
-  if (from === '' || typed === '') throw new Error('files.rename: a door hands a path and a name');
+  if (from === '' || typed === '') return { kind: 'refused' as const, message: argumentRefused(from === '' ? 'path' : 'name') };
   const to = pathIn(folderOf(from), typed);
   const refusal = renameRefusal(state.document, from, to);
   if (refusal !== null) return { kind: 'refused' as const, message: refusal };

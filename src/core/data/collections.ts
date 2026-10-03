@@ -239,7 +239,8 @@ export function setCell(collection: Collection, itemId: string, fieldKey: string
   const field = collection.fields.find((f) => f.key === fieldKey);
   const index = collection.items.findIndex((item) => item.id === itemId);
   const item = collection.items[index];
-  if (field === undefined || item === undefined) throw new Error(`data: ${collection.name} has no item ${itemId} or field ${fieldKey}`);
+  // a name of an item or a field the collection does not hold went stale under its door (the random probe)
+  if (field === undefined || item === undefined) refuse('status.stale');
   const read = readCell(field.type, typed);
   if (read === null) refuse('status.data.badValue', { collection: collection.name, row: index + 1, column: field.label, value: shownValue(typed), type: { key: `data.type.${field.type}` as MessageId } });
   const { [field.key]: _old, ...others } = item.values;
@@ -254,7 +255,7 @@ export function addItem(collection: Collection, id: string): Collection {
 
 export function deleteItems(collection: Collection, ids: readonly string[]): Collection {
   const gone = new Set(ids);
-  for (const id of gone) if (!collection.items.some((item) => item.id === id)) throw new Error(`data: ${collection.name} has no item ${id}`);
+  for (const id of gone) if (!collection.items.some((item) => item.id === id)) refuse('status.stale');
   return { ...collection, items: collection.items.filter((item) => !gone.has(item.id)) };
 }
 
@@ -262,7 +263,7 @@ export function deleteItems(collection: Collection, ids: readonly string[]): Col
 export function moveItem(collection: Collection, id: string, to: number): Collection {
   const from = collection.items.findIndex((item) => item.id === id);
   const moved = collection.items[from];
-  if (moved === undefined) throw new Error(`data: ${collection.name} has no item ${id}`);
+  if (moved === undefined) refuse('status.stale');
   const rest = collection.items.filter((item) => item.id !== id);
   const place = Math.max(0, Math.min(rest.length, Math.trunc(to)));
   return { ...collection, items: [...rest.slice(0, place), moved, ...rest.slice(place)] };
@@ -282,7 +283,7 @@ export function addField(collection: Collection, label: string, type: FieldType)
 // refused at the first item whose value the new type cannot hold (nothing is converted silently or dropped).
 export function setField(collection: Collection, key: string, change: { readonly label?: string; readonly type?: FieldType }): Collection {
   const field = collection.fields.find((f) => f.key === key);
-  if (field === undefined) throw new Error(`data: ${collection.name} has no field ${key}`);
+  if (field === undefined) refuse('status.stale');
   const next: Field = { key, label: change.label === undefined ? field.label : change.label.trim(), type: change.type ?? field.type };
   const fields = collection.fields.map((f) => (f.key === key ? next : f));
   const refused = schemaRefusal(collection.name, fields);

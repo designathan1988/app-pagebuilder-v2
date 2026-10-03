@@ -61,7 +61,8 @@ describe('element.setLink (src/core/elements/link.ts)', () => {
 
   it('without a node, acts on the one selected element', () => {
     expect(run(docWith(undefined), { href: 'mailto:a@b.co' }, ['Card']).attributes).toEqual({ href: 'mailto:a@b.co' });
-    expect(() => run(docWith(undefined), { href: 'https://x.co' }, ['Card', 'Intro'])).toThrow();
+    // two elements and no node named: refused with words, never thrown (the audit's AUD-09)
+    expect(run(docWith(undefined), { href: 'https://x.co' }, ['Card', 'Intro']).refused?.key).toBe('status.needsSingleSelection');
   });
 
   it('replaces a link, and records nothing for the link it already has', () => {

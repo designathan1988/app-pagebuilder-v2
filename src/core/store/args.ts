@@ -50,8 +50,12 @@ function fits(arg: Arg, value: unknown, document: DocumentJson, rules: ModelRule
     case 'rect':
       // eslint-disable-next-line builder/no-manifest-id -- A rect argument's own fields, not CSS properties.
       return isObject(value) && ['x', 'y', 'width', 'height'].every((key) => typeof value[key] === 'number' && finite(value[key])) ? 'fits' : 'invalid';
+    // what a door reads from the person's disk or clipboard (a file's text, its name and bytes, several files): the
+    // handler reads its shape
+    case 'file':
     case 'files':
-      return Array.isArray(value) ? 'fits' : 'invalid';
+    case 'clipboard':
+      return 'fits';
     case 'path':
       return typeof value === 'string' && value.trim() !== '' ? 'fits' : 'invalid';
     // eslint-disable-next-line builder/no-manifest-id -- The manifest's argument type, not the CSS color property.
@@ -59,10 +63,8 @@ function fits(arg: Arg, value: unknown, document: DocumentJson, rules: ModelRule
     case 'string':
     case 'property':
     case 'palette-entry':
-    case 'file':
       return typeof value === 'string' ? 'fits' : 'invalid';
     case 'json':
-    case 'clipboard':
       return 'fits';
   }
 }
@@ -76,7 +78,9 @@ export function argumentRefusal(id: CommandId, command: Pick<Command, 'args' | '
   for (const [argument, arg] of Object.entries(command.args)) {
     const value = given[argument];
     if (value === undefined || value === null) {
-      if (arg.optional) continue;
+      // what the clipboard holds is read only when the command runs (door.tsx): the context menu asks a paste before,
+      // and its handler answers that question (clipboard.ts)
+      if (arg.optional || arg.type === 'clipboard') continue;
       return message('status.args.invalid', { command: name, argument });
     }
     const verdict = fits(arg, value, document, rules);

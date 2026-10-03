@@ -24,6 +24,7 @@ import { releaseReferencesPatch } from '../document/tree.ts';
 import { followPaths, movedPath } from '../files/references.ts';
 import { slug } from '../text/fold.ts';
 import { registerReferenceKind } from '../store/references.ts';
+import { argumentRefused } from '../store/args.ts';
 
 // A page's name as a file name: lower case, no accent, its words joined by one dash (spec explorer-pages).
 export function pageFile(name: string): string {
@@ -43,9 +44,13 @@ function fresh(names: readonly string[], files: readonly string[], base: string)
   }
 }
 
+// Whether a page is the one a value names: its id, its root's, or its file (a link to a page names its file). The one
+// reading of a page reference, for the commands and for the store's check of what an argument names (refers: page).
+const pageNamed = (p: Page, value: unknown): boolean => p.id === value || p.tree.id === value || p.file === value;
+
 // The page a command acts on, by the id its door hands (a door that hands none is a defect of the door).
 function pageIndex(pages: readonly Page[], page: unknown): number {
-  const at = pages.findIndex((p) => p.id === page || p.tree.id === page);
+  const at = pages.findIndex((p) => pageNamed(p, page));
   if (at < 0) throw new Error(`pages: the document has no page ${String(page)}`);
   return at;
 }
@@ -97,7 +102,7 @@ export const renamePageCommand = registerHandler('pages.rename', ({ state }, { p
   const held = document.pages[at];
   const typed = typeof name === 'string' ? name.trim() : '';
   if (held === undefined) throw new Error(`pages.rename: the document has no page ${String(page)}`);
-  if (typed === '') throw new Error('pages.rename: a page takes a name');
+  if (typed === '') return { kind: 'refused' as const, message: argumentRefused('name') };
   if (held.name === typed) return { kind: 'change' as const, message: message('status.pages.renamed', { name: typed }) };
   if (document.pages.some((p, i) => i !== at && p.name === typed)) return { kind: 'refused' as const, message: message('status.pages.nameTaken', { name: typed }) };
   const wanted = pageFile(typed);
@@ -195,4 +200,4 @@ export function switchPageCommand<Ui extends WithPage>() {
 }
 
 // a page an argument names (manifest refers: page), by its id, its root's or its file (a link to a page names its file)
-registerReferenceKind('page', (document, id) => document.pages.some((page) => page.id === id || page.tree.id === id || page.file === id));
+registerReferenceKind('page', (document, value) => document.pages.some((page) => pageNamed(page, value)));

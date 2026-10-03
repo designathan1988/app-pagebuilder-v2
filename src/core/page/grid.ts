@@ -10,6 +10,7 @@ import type { MessageId } from '../../generated/ids.ts';
 import { numberConstant, numberConstantAt, pairConstant } from '../../manifest/runtime.ts';
 import { settingOf, settingsOf, type GridName } from './grid-settings.ts';
 import { baseBreakpointOf, breakpointName } from '../document/breakpoints.ts';
+import { argumentRefused } from '../store/args.ts';
 
 export type Grid = 'gridColumns' | 'gridRows' | 'gridDots' | 'foldLines';
 
@@ -84,7 +85,7 @@ export const setGridSettings = registerHandler('grid.setSettings', ({ state, rul
   // the write lands at the breakpoint in force, as every style write does (A3.8; A1.6)
   const facts = settingOf(grid, setting);
   const page = pageShown(state);
-  if (facts === undefined) throw new Error(`grid: the ${grid} grid has no setting ${setting}`);
+  if (facts === undefined) return { kind: 'refused', message: argumentRefused('setting') };
   if (page === undefined) throw new Error('grid: the document has no page');
   const label = words(facts.labelKey as MessageId);
   const [min, max] = pairConstant(facts.range);

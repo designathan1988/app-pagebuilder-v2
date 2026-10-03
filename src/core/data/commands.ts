@@ -432,7 +432,7 @@ export function pagesFromCollectionCommand<Ui extends WithPage>() {
       const held = named(document, collection);
       if (source.tree.dataItem !== undefined) refuse('status.data.templateIsItemPage', { name: source.name });
       const field = held.fields.find((f) => f.key === nameField);
-      if (field === undefined) throw new Error(`pages.fromCollection: ${held.name} has no field ${nameField}`);
+      if (field === undefined) refuse('status.stale');
       const existing = new Set(document.pages.flatMap((p) => (p.tree.dataItem?.collection === held.name ? [p.tree.dataItem.item] : [])));
       const made: Page[] = [];
       held.items.forEach((item, index) => {

@@ -131,9 +131,12 @@ describe('element.setTag', () => {
     expect(run(inLinkBlock, 'Go', 'button')).toEqual(refusal('status.refused.interactiveInside', { parent: 'Card' }));
   });
 
-  it('acts on one selected element only: any other selection is a defect of its door', () => {
-    expect(() => setTagCommand.run(contextOf(document(), []), { tag: 'div' })).toThrow();
-    expect(() => setTagCommand.run(contextOf(document(), ['Hero', 'Title']), { tag: 'div' })).toThrow();
+  // any other selection is refused with words, never thrown (the audit's AUD-09; the random probe reached it)
+  it('acts on one selected element only: any other selection is refused', () => {
+    for (const selection of [[], ['Hero', 'Title']]) {
+      const outcome = setTagCommand.run(contextOf(document(), selection), { tag: 'div' });
+      expect(outcome.kind === 'refused' ? outcome.message.key : outcome.kind).toBe('status.needsSingleSelection');
+    }
   });
 });
 

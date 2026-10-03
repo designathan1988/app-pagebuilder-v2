@@ -164,7 +164,7 @@ export const choosePreviewSheet = registerHandler<'data.previewSheet', EditorUi>
 // data.previewType: the type a column of the file will take in a new collection.
 export const setPreviewType = registerHandler<'data.previewType', EditorUi>('data.previewType', ({ state }, { column, type }) => {
   const preview = dataOf(state.ui).preview;
-  if (preview === undefined || !(previewSheet(preview)?.columns ?? []).includes(column)) throw new Error(`data.previewType: no column ${column} to type`);
+  if (preview === undefined || !(previewSheet(preview)?.columns ?? []).includes(column)) return { kind: 'refused', message: argumentRefused('column') };
   if (!(FIELD_TYPES as readonly string[]).includes(type)) throw new Error(`data.previewType: ${type} is not a field type`);
   return { kind: 'change', ui: withData(state.ui, { preview: { ...preview, types: { ...preview.types, [column]: type as FieldType } } }), message: message('status.data.columnTyped', { column, type: { key: `data.type.${type}` as MessageId } }) };
 });

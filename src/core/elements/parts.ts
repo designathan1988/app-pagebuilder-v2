@@ -11,6 +11,7 @@ import { newRow } from './table.ts';
 import { geometryAttributes, shapeGeometry, sizeForShapes, svgMarkupOf } from './svg.ts';
 import { resizeCommand } from '../geometry/resize.ts';
 import { argumentRefused } from '../store/args.ts';
+import { releaseReferencesPatch, subtreeIds } from '../document/tree.ts';
 
 const TABLE = 'table';
 const CAPTION = 'caption';
@@ -107,7 +108,10 @@ export const removePartCommand = registerHandler('parts.remove', ({ state }, { t
   if (at === null || at.parent === null) return { kind: 'refused', message: argumentRefused('target') };
   const locked = lockRefusal(state.document, at.node.id, 'status.locked.edit');
   if (locked !== null) return { kind: 'refused', message: locked };
-  return { kind: 'change', patches: [{ op: 'remove', path: at.path }], selection: [at.parent.id], message: message('status.parts.removed', { part: at.node.name, name: at.parent.name }) };
+  // what pointed at the part or inside it goes with it, in the same undo step, as a delete does (a label's for, a
+  // motion action's target: the random probe found a timeline left acting on a removed part)
+  const released = releaseReferencesPatch(state.document, subtreeIds(at.node));
+  return { kind: 'change', patches: [...released, { op: 'remove', path: at.path }], selection: [at.parent.id], message: message('status.parts.removed', { part: at.node.name, name: at.parent.name }) };
 });
 
 // The part types the selected element's editor adds (the parts.add doors whose type its permitted content names).

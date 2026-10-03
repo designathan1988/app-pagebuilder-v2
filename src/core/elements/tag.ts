@@ -29,7 +29,7 @@ export const setTagCommand = registerHandler('element.setTag', ({ state, rules }
   const id = state.selection.length === 1 ? state.selection[0] : undefined;
   const at = id === undefined ? null : locate(state.document, id);
   // the door acts on the one selected element (its adapter's selection); anything else is a defect of the door
-  if (at === null) throw new Error(`element.setTag: the door acts on one selected element, not ${JSON.stringify(state.selection)}`);
+  if (at === null) return { kind: 'refused', message: message('status.needsSingleSelection') };
   if (typeof tag !== 'string') throw new Error('element.setTag: the tag is not a string');
   const node = at.node;
   const element = rules.elements.get(node.type);

@@ -107,7 +107,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-1.J1a | A refused commit becomes a spoken refusal; the dispatch answers `refused` | done | QA 32 (`917a35b`); named without placeholders and contained per region QA 149 |
 | STG-1.J1b | `var()` in a composite written into its longhands; mixed composites refused before patches | done | QA 32 |
 | STG-1.J1c | Fill from data maps columns explicitly; images by file name; refusals name row and column | done | QA 32, 66; C4 |
-| STG-1.J1d | Sweep: no command produces a patch the validator refuses | partial | `tools/runner/fuzz.test.ts`; AUD-03, AUD-04 |
+| STG-1.J1d | Sweep: no command produces a patch the validator refuses | done | `tools/runner/fuzz.test.ts`; the invariant probe in the gate, `tools/runner/invariants.test.ts` (QA 159) |
 | STG-1.J2 | Single-letter shortcuts only when the canvas has the focus by choice; word bursts cancelled | done | QA 33; flow `typing-safety` |
 | STG-1.J4 | Spaces typed in a button's in-place text | done | QA 37; flow `button-text-spaces` |
 | STG-1.J7 | Ctrl+Z after a confirmed field undoes the document change | done | QA 39; flow `field-history` |
@@ -378,7 +378,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-06 | 3 | Canvas 41–46 % of the window at 1280 × 720 (H17, J25); the fix measured width | audit | done (QA 155) |
 | AUD-07 | 2 | The document core executes DOM | audit | open |
 | AUD-08 | 2 | Store robustness: undeclared predicate refusals throw, gesture patches recorded before validation, `refusal()` does not catch | audit | done (QA 157) |
-| AUD-09 | 2 | Handlers throw instead of refusing on stale or malformed references | audit | done (QA 158) |
+| AUD-09 | 2 | Handlers throw instead of refusing on stale or malformed references | audit | done (QA 158 the bad-argument probe; QA 159 the random sequences' tail) |
 | AUD-10 | 2 | Unbounded ZIP inflation; the preview's key relay trusts any opaque-origin frame; the test port in production | audit; open since the module handoff (`docs/archive/history/coordination.md`) | open |
 | AUD-11 | 2 | `js/motion.js`, `js/lottie.min.js` not protected generated paths | audit; QA 124 | open |
 | AUD-12 | 2 | The uploaded font only behind "More values" | audit; J15 | open |

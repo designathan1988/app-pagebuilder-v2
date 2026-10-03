@@ -122,6 +122,7 @@ export const setActiveTab = registerHandler<'workspace.setActiveTab', EditorUi>(
     if (group === SIDEBAR_GROUP) {
       // an area's tab strip (spec panel-combine-tabs): the tab chosen is the panel the strip draws, and it shows in
       // the area that hosts it (its own, while it hosts the strip itself)
+      if (!(panel in PANELS)) return { kind: 'refused', message: argumentRefused('panel') };
       const tab = panelOf(panel);
       const host = combinedOf(ui, tab)?.host ?? tab;
       if (host !== tab && combinedOf(ui, tab)?.mode !== 'tabs') return { kind: 'refused', message: argumentRefused('panel') };

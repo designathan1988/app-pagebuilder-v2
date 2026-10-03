@@ -83,7 +83,7 @@ export function moveSelectionTo(
 ): Outcome<never> {
   const moved = selectionRoots(state.document, state.selection);
   // every door moves what is selected (its adapter acts on the selection's roots), never the page itself
-  if (moved.length === 0) throw new Error('element.moveTo: nothing is selected');
+  if (moved.length === 0) return { kind: 'refused', message: message('refusal.nothingSelected') };
   const receiver = locate(state.document, parent);
   if (!receiver) throw new Error(`element.moveTo: the document has no node ${parent}`);
   // a page cannot move: its root stands for the page itself

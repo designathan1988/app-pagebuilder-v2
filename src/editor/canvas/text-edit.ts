@@ -166,6 +166,8 @@ export const editLink = registerHandler<'text.editLink', EditorUi>('text.editLin
 // and so is a clipboard the browser does not let the editor read.
 export const pasteText = registerHandler<'text.paste', EditorUi>('text.paste', ({ state, rules }, { clipboard }) => {
   if (state.ui.textEdit.node === null) return { kind: 'change' };
+  // asked before its door read the clipboard (core/store/args.ts): a paste lands in the text being edited
+  if ((clipboard as typeof clipboard | undefined) === undefined) return { kind: 'change' };
   if (clipboard.status === 'denied') return { kind: 'refused', message: message('status.clipboard.denied') };
   const runs = pastedRuns(clipboard, rules.contentModel);
   if (plainText(runs) === '') return { kind: 'refused', message: message('status.paste.empty') };

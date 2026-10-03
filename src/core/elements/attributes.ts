@@ -24,9 +24,11 @@ import { readAddress } from './address.ts';
 
 const ID = /^[A-Za-z][A-Za-z0-9_-]*$/;
 
-function nodeOf(state: { readonly document: DocumentJson; readonly selection: readonly NodeId[] }, target: NodeId | undefined): Location {
+// the element a door names, else the one selected; null when it names none and not one element is selected (refused:
+// the random probe found the door's command reached with a selection of none or of several)
+function nodeOf(state: { readonly document: DocumentJson; readonly selection: readonly NodeId[] }, target: NodeId | undefined): Location | null {
   const id = target ?? (state.selection.length === 1 ? state.selection[0] : undefined);
-  if (id === undefined) throw new Error('attributes: no node given and not one element selected');
+  if (id === undefined) return null;
   const found = locate(state.document, id);
   if (found === null) throw new Error(`attributes: the document has no node ${id}`);
   return found;
@@ -138,6 +140,7 @@ function invalidForNode(at: Location, attribute: string, stored: string | number
 
 export const setIdCommand = registerHandler('element.setId', ({ state, rules, words }, { id, target }): Outcome<never> => {
   const at = nodeOf(state, target as NodeId | undefined);
+  if (at === null) return { kind: 'refused', message: message('status.needsSingleSelection') };
   const locked = lockRefusal(state.document, at.node.id, 'status.locked.edit');
   if (locked !== null) return { kind: 'refused', message: locked };
   const typed = String(id).trim();
@@ -153,6 +156,7 @@ export const setIdCommand = registerHandler('element.setId', ({ state, rules, wo
 
 export const setClassesCommand = registerHandler('element.setClasses', ({ state, rules, words }, { classes, target }): Outcome<never> => {
   const at = nodeOf(state, target as NodeId | undefined);
+  if (at === null) return { kind: 'refused', message: message('status.needsSingleSelection') };
   const locked = lockRefusal(state.document, at.node.id, 'status.locked.edit');
   if (locked !== null) return { kind: 'refused', message: locked };
   const list = (Array.isArray(classes) ? classes.map(String) : String(classes ?? '').split(/\s+/)).map((c) => c.trim()).filter((c) => c !== '');
@@ -180,6 +184,7 @@ function isMutedWith(attribute: string, node: DocNode, rules: ModelRules): boole
 
 export const setAttributeCommand = registerHandler('element.setAttribute', ({ state, rules, words }, { attribute, value, target }): Outcome<never> => {
   const at = nodeOf(state, target as NodeId | undefined);
+  if (at === null) return { kind: 'refused', message: message('status.needsSingleSelection') };
   const rule = rules.attributeValues.get(attribute);
   const appliesTo = rules.attributes.get(attribute);
   if (rule === undefined || appliesTo === undefined || (appliesTo !== 'all' && !appliesTo.includes(at.node.type))) throw new Error(`element.setAttribute: ${attribute} is not an attribute of ${at.node.type}`);

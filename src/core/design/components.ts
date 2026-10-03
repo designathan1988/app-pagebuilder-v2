@@ -53,9 +53,14 @@ export function instanceRootOf(document: DocumentJson, id: NodeId): DocNode | nu
 export function instanceMoveRefusal(document: DocumentJson, moved: readonly DocNode[], receiver: NodeId): Message | null {
   const host = instanceRootOf(document, receiver);
   for (const node of moved) {
-    if (node.componentPart !== undefined && node.component === undefined) {
-      const own = instanceRootOf(document, node.id as NodeId);
-      if (own !== null && own.id !== host?.id) return message('status.instance.partLeaves', { name: node.name, instance: own.name });
+    // every part the moved subtree holds, the moved element or one inside it (a wrapper made inside an instance holds
+    // parts without being one), stays in its instance
+    // (a part of an instance that moves whole, its root inside the moved subtree, goes with its instance)
+    const subtree = new Set([...walk(node)].map((inner) => inner.id));
+    for (const inner of walk(node)) {
+      if (inner.componentPart === undefined || inner.component !== undefined) continue;
+      const own = instanceRootOf(document, inner.id as NodeId);
+      if (own !== null && !subtree.has(own.id) && own.id !== host?.id) return message('status.instance.partLeaves', { name: node.name, instance: own.name });
     }
     if (host !== null && [...walk(node)].some((inner) => inner.component !== undefined)) return message('status.instance.nested', { name: node.name, instance: host.name });
   }
@@ -396,19 +401,23 @@ export const updateFromInstanceCommand = registerHandler('components.updateFromI
   const taken = new Set(state.document.pages.flatMap((page) => [...walk(page.tree)].map((one) => one.name)));
   // an instance rebuilt on the edited one's structure: each element keeps the id, name, text and attributes of the
   // instance's element of the part it came from, else a new id
+  // each element of another instance is kept once: two elements of the edited instance with the same part (one
+  // duplicated inside it) would both take its id (the random probe found the ids twice)
+  const kept = new Set<string>();
   const rebuilt = (from: DocNode, instance: DocNode | null): DocNode => {
     const ownPart = from.componentPart;
-    const mine = instance === null || ownPart === undefined ? undefined : [...walk(instance)].find((one) => one.componentPart !== undefined && deepEqual(one.componentPart, ownPart));
+    const mine = instance === null || ownPart === undefined ? undefined : [...walk(instance)].find((one) => one.componentPart !== undefined && deepEqual(one.componentPart, ownPart) && !kept.has(one.id));
+    if (mine !== undefined) kept.add(mine.id);
     const plain = unmarked({ ...from, children: [] });
     // an element new to the edited instance reaches the others as a copy does: a new id and a name no element has
-    const kept =
+    const element =
       mine === undefined
         ? instance === null
           ? plain
           : { ...plain, id: next(), name: copyName(plain.name, taken) }
         : { ...plain, id: mine.id, name: mine.name, text: mine.text, attributes: mine.attributes };
-    if (mine === undefined && instance !== null) taken.add(kept.name);
-    return { ...kept, children: from.children.map((child) => rebuilt(child, instance)) };
+    if (mine === undefined && instance !== null) taken.add(element.name);
+    return { ...element, children: from.children.map((child) => rebuilt(child, instance)) };
   };
   const patches: Patch[] = [{ op: 'replace', path: ['components', index, 'tree'], value: definitionTree }];
   let count = 0;

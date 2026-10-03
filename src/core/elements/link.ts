@@ -27,7 +27,7 @@ const NEW_TAB = 'newTab';
 
 export const setLinkCommand = registerHandler('element.setLink', ({ state, rules }, { target, href, newTab, page, anchor }) => {
   const id = target ?? (state.selection.length === 1 ? state.selection[0] : undefined);
-  if (id === undefined) throw new Error('element.setLink: no node given and not one element selected');
+  if (id === undefined) return { kind: 'refused', message: message('status.needsSingleSelection') };
   const found = locate(state.document, id);
   if (!found) throw new Error(`element.setLink: the document has no node ${id}`);
   const appliesTo = rules.attributes.get(LINK);
