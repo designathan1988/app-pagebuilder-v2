@@ -3644,7 +3644,7 @@ its target rules):
 - a flex container's `flex-direction`: row ↔ column, row-reverse ↔ column-reverse;
 - a grid container's `grid-auto-flow`: row ↔ column (a `dense` keyword is kept).
 
-Available on a stored flex or grid container (the value predicate `flexOrGridContainer`); an element of neither
+Available on a flex or grid container, by its own display or its classes' (the value predicate `flexOrGridContainer`); an element of neither
 layout is refused with its element named (`status.swap.notContainer`). The status bar names the element, the
 property and the value it now holds ("Swapped the direction of Row: flex-direction column.").
 
@@ -5388,6 +5388,8 @@ The cells, Stretch and Spread are buttons: Tab reaches them and Enter or Space p
 
 1. **Stretch and Spread write both properties:** a click on Stretch also writes the pad's justify-content (`onChange({ justify, align })`, `properties.js:2027`, `:2029`), so an element that held no justify-content gets `flex-start` it was never given. Required: Stretch writes only `align-items`, Spread only `justify-content`.
 2. **The cells' names are English text written in the code** (`["Top", "Center", "Bottom"][r] + " " + ["left", "center", "right"][c]`, `:2019`), so they are never translated. Required: each cell is named from the catalogue, in the editor's language.
+
+3. **A container made flex by its class was refused the matrix** (found by the pairing on the design's page, 2026-10-03, AL1): the availability read the element's own display only, so the plans' cards — flex by `.card` — drew the matrix disabled ("Alignment applies to flex and grid containers."), and a grid made by a class could not open the grid editor. Required: an availability predicate that reads one value (`flexOrGridContainer`, `gridContainer`, `positionedSelection`) reads the element's own value, else the one its classes give it, the last of the project's classes that sets it winning, as in the exported stylesheet.
 
 Pager draws the flex controls only for a flex box (`when: isFlexBox`, `catalogue.js:308-316`). In this editor the fields stay drawn, and the cells, whose command is available on a flex or grid container only (the manifest's availability `flexOrGridContainer`), are disabled elsewhere, their title giving the reason (`status.layout.notFlex`), and a click on them writes nothing.
 

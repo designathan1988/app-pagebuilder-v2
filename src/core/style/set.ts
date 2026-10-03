@@ -144,8 +144,18 @@ export function storedLayers(node: DocNode, property: string, rules: ModelRules)
 // the same list every time a node holds no layers (a reader that compares what it read sees no change)
 const NO_LAYERS: readonly StructuredLayer[] = Object.freeze([]);
 
+// the value a set of styles (a class's) holds for a property at the base breakpoint and state, if it is one value
+export function storedStyleValue(styles: Styles, property: string, rules: ModelRules): string | undefined {
+  const value = heldIn(styles, property, rules);
+  return typeof value === 'string' ? value : undefined;
+}
+
 function heldAt(node: DocNode, property: string, rules: ModelRules): StoredValue | undefined {
-  const byState = node.styles[rules.base.breakpoint as keyof Styles];
+  return heldIn(node.styles, property, rules);
+}
+
+function heldIn(styles: Styles, property: string, rules: ModelRules): StoredValue | undefined {
+  const byState = styles[rules.base.breakpoint as keyof Styles];
   const declarations = byState?.[rules.base.state as keyof NonNullable<typeof byState>] as Readonly<Record<string, StoredValue>> | undefined;
   return declarations?.[property];
 }

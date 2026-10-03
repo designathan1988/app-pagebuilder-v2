@@ -16,7 +16,7 @@ const PLACE = { start: 'flex-start', center: 'center', end: 'flex-end' } as cons
 
 export const flexOrGridContainer = registerPredicate('flexOrGridContainer', (state, rules) => {
   const primary = state.selection[0] === undefined ? null : locate(state.document, state.selection[0]);
-  return primary !== null && valuePredicateHolds(primary.node, 'flexOrGridContainer', rules);
+  return primary !== null && valuePredicateHolds(primary.node, 'flexOrGridContainer', rules, state.document.classes);
 });
 
 export const setAlignmentCommand = registerHandler(

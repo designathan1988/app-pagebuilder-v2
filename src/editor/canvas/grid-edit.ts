@@ -16,7 +16,7 @@
 // document state, and every write goes through the owners above. An element that is not a grid container is refused
 // with the reason, and so is a grid the document no longer holds.
 import { message, registerHandler, type Outcome } from '../../core/commands/registry.ts';
-import { locate, type DocNode, type NodeId } from '../../core/document/model.ts';
+import { locate, type DocNode, type NodeId, type StyleClass } from '../../core/document/model.ts';
 import type { ModelRules } from '../../core/document/validate.ts';
 import type { Layout } from '../../core/ports/layout.ts';
 import type { KeyContextId } from '../../generated/ids.ts';
@@ -33,13 +33,14 @@ export const GRID_EDIT_CONTEXT: KeyContextId = 'grid-edit';
 export const gridEditOf = (ui: EditorUi): NodeId | null => ui.gridEdit ?? null;
 
 // whether a node is a grid container the editor can open on
-export const isGridContainer = (node: DocNode | null, rules: ModelRules): boolean => node !== null && valuePredicateHolds(node, GRID_CONTAINER, rules);
+// (its own display, else its classes')
+export const isGridContainer = (node: DocNode | null, rules: ModelRules, classes: readonly StyleClass[] = []): boolean => node !== null && valuePredicateHolds(node, GRID_CONTAINER, rules, classes);
 
 export const enterGridEdit = registerHandler<'grid.enterEdit', EditorUi>('grid.enterEdit', ({ state, rules }, { target }) => {
   const node = (target as NodeId | undefined) ?? state.selection[0];
   const found = node === undefined ? null : locate(state.document, node);
   if (found === null) return { kind: 'change' };
-  if (!isGridContainer(found.node, rules)) return { kind: 'refused', message: message('status.gridEdit.notGrid', { name: found.node.name }) };
+  if (!isGridContainer(found.node, rules, state.document.classes)) return { kind: 'refused', message: message('status.gridEdit.notGrid', { name: found.node.name }) };
   if (state.ui.gridEdit === found.node.id) return { kind: 'change' };
   return { kind: 'change', ui: { ...state.ui, gridEdit: found.node.id as NodeId } };
 });
@@ -62,7 +63,7 @@ function gridOf(state: { readonly document: Parameters<typeof locate>[0]; readon
   const edited = editedGrid(state);
   if (edited !== null) return edited;
   const primary = state.selection[0] === undefined ? null : locate(state.document, state.selection[0])?.node ?? null;
-  return isGridContainer(primary, rules) ? primary : null;
+  return isGridContainer(primary, rules, state.document.classes) ? primary : null;
 }
 
 // the item of the grid the span keys act on: the selected element, a child of the grid being edited

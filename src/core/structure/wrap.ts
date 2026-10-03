@@ -97,7 +97,7 @@ function wrap(id: WrapperId, { state, ids, rules, words, confirmed }: HandlerCon
   // selected element is positioned, so the wrapper takes it out of the flow it was placed in, or the selected siblings
   // are not next to each other, so the elements between them come out in another order than they showed.
   if (confirmed !== true) {
-    const positioned = selected.some((l) => valuePredicateHolds(l.node, 'positionedSelection', rules));
+    const positioned = selected.some((l) => valuePredicateHolds(l.node, 'positionedSelection', rules, state.document.classes));
     const nextToEachOther = selected.every((l, i) => i === 0 || l.index === (selected[i - 1] as Location).index + 1);
     if (positioned || !nextToEachOther) return { kind: 'confirm' };
   }

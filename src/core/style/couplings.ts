@@ -8,10 +8,10 @@
 // (the parent's declarations the same write makes) and keepVisualPlace (a property written from where the element lies
 // now, measured by the layout port: from its parent's padding edge, from the viewport for a fixed element).
 import { registerAction, registerCondition, type CouplingScene, type RegisteredAction, type RegisteredCondition } from '../commands/registry.ts';
-import type { DocNode } from '../document/model.ts';
+import type { DocNode, StyleClass } from '../document/model.ts';
 import type { ModelRules } from '../document/validate.ts';
 import { INITIAL_VALUES } from '../../generated/value-lists.ts';
-import { storedValue } from './set.ts';
+import { storedStyleValue, storedValue } from './set.ts';
 
 export const valueIn = registerCondition('valueIn', (own, _parent, values) => own !== undefined && values.includes(own));
 export const alwaysHolds = registerCondition('always', () => true);
@@ -53,11 +53,15 @@ const CONDITIONS: ReadonlyMap<string, RegisteredCondition> = new Map([valueIn, a
 const ACTIONS: ReadonlyMap<string, RegisteredAction> = new Map([setValue, swapWith, mirror, setParentValue, keepVisualPlace].map((a) => [a.id, a]));
 
 // Whether an availability predicate that reads one value (properties.json valuePredicates) holds for a node: the value
-// it holds for the predicate's property is one of the predicate's values.
-export function valuePredicateHolds(node: DocNode, id: string, rules: ModelRules): boolean {
+// it holds for the predicate's property is one of the predicate's values — its own, else the one its classes give it,
+// the last of the project's classes that sets it winning, as in the exported stylesheet (AL1: a card made a flex
+// container by its class was refused the alignment matrix, and a grid made by a class the grid editor).
+export function valuePredicateHolds(node: DocNode, id: string, rules: ModelRules, classes: readonly StyleClass[] = []): boolean {
   const predicate = rules.valuePredicates.get(id);
   if (predicate === undefined) throw new Error(`properties.json names no value predicate ${id}`);
-  return valueIn.holds(storedValue(node, predicate.property, rules), undefined, predicate.values);
+  const own = storedValue(node, predicate.property, rules);
+  const fromClasses = classes.filter((one) => node.classes.includes(one.name)).map((one) => storedStyleValue(one.styles, predicate.property, rules)).filter((value) => value !== undefined).at(-1);
+  return valueIn.holds(own ?? fromClasses, undefined, predicate.values);
 }
 
 // What a write of one element makes of the declarations it is about to write (property → CSS text), `via` the

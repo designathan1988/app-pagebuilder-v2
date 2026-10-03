@@ -53,7 +53,7 @@ const AUTO = 'auto';
 
 export const positionedSelection = registerPredicate('positionedSelection', (state, rules) => {
   const nodes = state.selection.map((id) => locate(state.document, id)?.node);
-  return nodes.length > 0 && nodes.every((node) => node !== undefined && valuePredicateHolds(node, POSITIONED, rules));
+  return nodes.length > 0 && nodes.every((node) => node !== undefined && valuePredicateHolds(node, POSITIONED, rules, state.document.classes));
 });
 
 // a value in whole px, or null for any other (a percentage, auto)
