@@ -10130,7 +10130,8 @@
                 {
                   "path": "css/styles.css",
                   "present": [
-                    "  background-color: #ff0000;\n}\n\n.band--plans {\n  background-color: #0000ff;\n}"
+                    "/* Classes */\n.band {",
+                    "  background-color: #ff0000;\n}\n\n/* Elements */\n.band--plans {\n  background-color: #0000ff;\n}"
                   ],
                   "absent": [
                     "[data-"

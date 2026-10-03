@@ -52,6 +52,7 @@ import { shadowLayersFromCss } from '../style/shadows.ts';
 import { matches, readSelector, type Compound, type Facts, type Selector } from './selectors.ts';
 import { readDeclarations, readStylesheet, type CssRule, type CssSheet } from './stylesheet.ts';
 import { baseCss } from '../render/base.ts';
+import { underClassesHeading } from '../export/sheet-headings.ts';
 // reading markup (core/import/markup.ts): the DOM walk and the source lines, moved out of this file
 import { lineOf, lineOfNode, parseMarkup, parsePage, textOf, type MarkupChild, type MarkupNode } from './markup.ts';
 import { orphanReferences } from '../elements/references.ts';
@@ -1024,14 +1025,20 @@ function isBaseRule(rule: CssRule): boolean {
 // The classes of the person's own among the ones a stylesheet has a rule of its own for (`.card`): a class listed by
 // two elements or more, or not the last of an element's classes. The class the export makes for an element's own
 // styles is the element's alone and the last of its list ("hero", "card__title", "card--featured"); a class of the
-// person's is shared and comes first. Their rules become the project's class definitions, not element values.
+// person's is shared and comes first. Their rules become the project's class definitions, not element values. A class
+// whose rule sits under the classes heading of this editor's own export (core/export/sheet-headings.ts) is the
+// person's whatever its uses: one element alone may list a class of the person's last ("card card--featured").
 function authorClasses(pages: readonly Page[], sources: readonly SheetSource[]): ReadonlySet<string> {
   const ruled = new Set<string>();
+  const headed = new Set<string>();
   for (const source of sources) {
+    const underHeading = underClassesHeading(source.text);
     for (const rule of source.css.rules) {
       const selector = readSelector(rule.selector);
       const name = selector === null ? null : classRuleOf(selector);
-      if (name !== null && validClassName(name)) ruled.add(name);
+      if (name === null || !validClassName(name)) continue;
+      ruled.add(name);
+      if (underHeading(rule.line)) headed.add(name);
     }
   }
   const uses = new Map<string, number>();
@@ -1046,7 +1053,7 @@ function authorClasses(pages: readonly Page[], sources: readonly SheetSource[]):
   }
   // a class no element lists is the person's too (the export never writes a class for nobody): a variant kept for
   // later, a class the person made and has not used yet (the audit's AUD-05: they were dropped without a word)
-  return new Set([...ruled].filter((name) => (uses.get(name) ?? 0) === 0 || (uses.get(name) ?? 0) >= 2 || notLast.has(name)));
+  return new Set([...ruled].filter((name) => headed.has(name) || (uses.get(name) ?? 0) === 0 || (uses.get(name) ?? 0) >= 2 || notLast.has(name)));
 }
 
 // the classes a stylesheet defines that no element of the pages lists

@@ -14,15 +14,18 @@
 //    modifier of its first class (card named Plano assinatura → card--plano-assinatura). A class already taken gets a
 //    numeric suffix (hero-2). The author classes come first; an element with neither has no class attribute.
 //  - Two exports of the same document are byte-identical: the archive's entries carry a fixed time.
-//  - The stylesheet: the design tokens' :root rule, then one rule per style class that holds styles, in the project's
-//    order (spec shared-style-classes: before the elements', so an element's own values override its classes), then one
-//    rule per styled element, in document order, one declaration per line indented by two spaces, a breakpoint's values
-//    in an @media block and a state's under its pseudo-class (render.ts nodeCss, the canvas's).
+//  - The stylesheet: the design tokens' :root rule, then, under the heading /* Classes */, one rule per style class
+//    that holds styles, in the project's order (spec shared-style-classes: before the elements', so an element's own
+//    values override its classes), then, under /* Elements */, one rule per styled element, in document order, one
+//    declaration per line indented by two spaces, a breakpoint's values in an @media block and a state's under its
+//    pseudo-class (render.ts nodeCss, the canvas's). The headings let the import read the classes back
+//    (sheet-headings.ts).
 // Exporting changes nothing in the document and records nothing; the status bar names the file.
 import { message, registerHandler } from '../commands/registry.ts';
 import { slug } from '../text/fold.ts';
 import { namingFor, roleWord, variantModifier, type Declarations, type Look, type Naming } from './names.ts';
 import { mergeCssLines } from '../render/clean.ts';
+import { CLASSES_HEADING, ELEMENTS_HEADING } from './sheet-headings.ts';
 import { formNodes } from './authoring.ts';
 import { capturedPageStylePath, capturedPageCss, captureAssetPath } from '../import/capture-styles.ts';
 import type { NodeId } from '../../generated/commands.ts';
@@ -384,11 +387,15 @@ export function siteFiles(
   // export at the path its file holds, relative to the stylesheet that names it)
   // each block ends with its line's end, as a page's rules do, so a blank line parts every rule from the next
   const fonts = fontFaceCss(filesOf(document), (file) => relativePath(STYLESHEET, file.path));
-  const shared = [baseCss(), rootCss(document.tokens ?? []), fonts === '' ? '' : `${fonts}\n`, classesCss(document.classes ?? [], rules.output, 'block')].filter((c) => c !== '').map((c) => `${relative ? writtenCss(document, c, STYLESHEET) : c}\n`);
+  // the person's classes and the elements' own rules each under its heading (core/export/sheet-headings.ts), so the
+  // import tells a class of the person's one element alone lists from the class the export made for its own styles
+  const classRules = classesCss(document.classes ?? [], rules.output, 'block');
+  const shared = [baseCss(), rootCss(document.tokens ?? []), fonts === '' ? '' : `${fonts}\n`, classRules === '' ? '' : `${CLASSES_HEADING}\n${classRules}`].filter((c) => c !== '').map((c) => `${relative ? writtenCss(document, c, STYLESHEET) : c}\n`);
   // the elements' rules in cascade order (every base rule, then each breakpoint's block, widest first), their identical
   // bodies merged inside a block (core/render/clean.ts; the audit's AUD-02)
   const media = rules.output.breakpoints.filter((breakpoint) => !breakpoint.base).map(mediaQuery);
-  const generated = mergeCssLines(pages.flatMap((p) => p.code.css), new Set(pages.flatMap((p) => [...p.code.classes.values()])), media);
+  const merged = mergeCssLines(pages.flatMap((p) => p.code.css), new Set(pages.flatMap((p) => [...p.code.classes.values()])), media);
+  const generated: readonly CodeLine[] = merged.length === 0 ? merged : [{ text: ELEMENTS_HEADING, node: null }, ...merged];
   const files = [pageCss(generated)];
   const css = [...shared, ...files].filter((c) => c !== '').join('\n');
   // the same text, line by line: every part's own lines, and the blank line the join writes between two parts

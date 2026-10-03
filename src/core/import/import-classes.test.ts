@@ -27,4 +27,37 @@ describe('export then import keeps the project’s classes (B-04)', () => {
     expect(articles.map((a) => a.classes)).toEqual([['card'], ['card']]);
     expect(articles.map((a) => a.styles.desktop?.base?.['background-color'])).toEqual([undefined, undefined]);
   });
+
+  // spec html-import, Problems 9: "card card--featured" on one element alone read like the class the export makes for
+  // an element's own styles, and the person's variant came back as that element's values
+  it('a class one element alone lists last comes back as a class, by the heading the export writes it under', () => {
+    const base64 = (text: string) => btoa(String.fromCharCode(...new TextEncoder().encode(text)));
+    const card = (name: string, classes: string[]) => node(name, 'article', 'article', { classes, children: [node(`${name}Title`, 'heading', 'h3', { text: name })] });
+    const document = documentOf({
+      pages: [page('p', 'Home', 'index.html', [card('One', ['card']), card('Two', ['card', 'card--featured'])])],
+      classes: [
+        { name: 'card', styles: { desktop: { base: { 'background-color': 'red' } } } },
+        { name: 'card--featured', styles: { desktop: { base: { color: 'white' } } } },
+      ],
+    });
+    const site = siteFiles(document, RULES);
+    expect(site.css).toContain('/* Classes */\n.card {');
+    const files = [
+      { name: 'index.html', type: 'text/html', bytes: base64(site.pages[0]?.html ?? '') },
+      { name: 'css/styles.css', type: 'text/css', bytes: base64(site.css) },
+    ];
+    const ran = runHandler(importHtmlCommand, documentOf({ pages: [page('p', 'Home', 'index.html')] }), { files }, { confirmed: true });
+    expect(ran.problems).toEqual([]);
+    expect(ran.document.classes?.map((c) => [c.name, c.styles])).toEqual([
+      ['card', { desktop: { base: { 'background-color': 'red' } } }],
+      ['card--featured', { desktop: { base: { color: 'white' } } }],
+    ]);
+    const articles = [...(ran.document.pages[0]?.tree.children ?? [])];
+    expect(articles.map((a) => a.classes)).toEqual([['card'], ['card', 'card--featured']]);
+    expect(articles.map((a) => a.styles)).toEqual([{}, {}]);
+    // a sheet written elsewhere, without the heading, is read as before: the last class one element lists is its own
+    const elsewhere = files.map((file) => (file.name.endsWith('.css') ? { ...file, bytes: base64(site.css.replace('/* Classes */\n', '')) } : file));
+    const read = runHandler(importHtmlCommand, documentOf({ pages: [page('p', 'Home', 'index.html')] }), { files: elsewhere }, { confirmed: true });
+    expect(read.document.classes?.map((c) => c.name)).toEqual(['card']);
+  });
 });

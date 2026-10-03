@@ -421,6 +421,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | LP1 | 1 | A coloured Layers row drew its dot and the palette's swatch of its colour as the same door with the same arguments: two controls nothing could tell apart | QA 195, AUD-35's scenarios | done (QA 195) |
 | PS1 | 1 | A page address refused (Canonical URL, Sharing image, Favicon) said only "cannot be", dropping the address rule's reason | QA 198, AUD-35's scenarios | done (QA 198) |
 | LA1 | 2 | The Layers tree never autoscrolled down during a drag when it was taller than its panel (it scrolled only where no row lay under the pointer) | QA 199, AUD-35's drag-autoscroll test | done (QA 199) |
+| CH1 | 2 | Export then import turned a class of the person's that one element alone listed last (`card card--featured`) into that element's own values, and the project lost the class | QA 204, `import-classes.test.ts`, the round trip of every fixture | done (QA 204) |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 
