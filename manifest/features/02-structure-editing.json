@@ -10651,6 +10651,117 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "alt-at-the-release-inside-an-empty-container-drops-the-copy-into-it",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "element.duplicate#canvas-drag-canvas-element-duplicate",
+              "args": {},
+              "target": "/Page/Hero/Title",
+              "drop": {
+                "placement": "inside",
+                "reference": "/Page/Hero/Actions"
+              },
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.duplicate#canvas-drag-canvas-element-duplicate"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Hero/@children",
+                "value": [
+                  {
+                    "type": "heading",
+                    "name": "Title",
+                    "tag": "h1",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Welcome to Aurora",
+                    "children": []
+                  },
+                  {
+                    "type": "paragraph",
+                    "name": "Intro",
+                    "tag": "p",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Fresh coffee, roasted every week.",
+                    "children": []
+                  },
+                  {
+                    "type": "div",
+                    "name": "Actions",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": null,
+                    "children": [
+                      {
+                        "type": "heading",
+                        "name": "Title 2",
+                        "tag": "h1",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "Welcome to Aurora",
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Hero/Actions/Title 2"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [
+                {
+                  "node": "/Page/Hero/Actions/Title 2",
+                  "measure": "y",
+                  "relation": "greater-than",
+                  "value": 0,
+                  "reference": "/Page/Hero/Intro"
+                }
+              ],
+              "feedback": []
+            },
+            "editor": null,
+            "persistence": {
+              "reload": "immediate",
+              "document": "same",
+              "preferences": null,
+              "selection": null
+            },
+            "export": null
+          },
+          "refusals": []
         }
       ]
     },
@@ -14859,6 +14970,134 @@
                   "key": "status.unwrapped",
                   "params": {
                     "name": "Grid"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
+        },
+        {
+          "id": "removing-a-row-takes-back-what-it-gave-its-children",
+          "setup": {
+            "fixture": "row-wrapper",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "contextMenu.open#canvas-right-click-element-or-page",
+              "args": {
+                "target": "/Page/Band/Row"
+              },
+              "target": "/Page/Band/Row",
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.unwrap#context-menu",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.unwrap#context-menu"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Band/@children",
+                "value": [
+                  {
+                    "type": "heading",
+                    "name": "Heading",
+                    "tag": "h2",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Our plans",
+                    "children": []
+                  },
+                  {
+                    "type": "paragraph",
+                    "name": "Left",
+                    "tag": "p",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {},
+                    "text": "Roasted every week.",
+                    "children": []
+                  },
+                  {
+                    "type": "paragraph",
+                    "name": "Right",
+                    "tag": "p",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "color": "#2b5fe3"
+                        }
+                      }
+                    },
+                    "text": "Delivered on Fridays.",
+                    "children": []
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Band/Left",
+              "/Page/Band/Right"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Band/Left",
+                  "property": "flex-grow",
+                  "value": "0"
+                },
+                {
+                  "node": "/Page/Band/Right",
+                  "property": "color",
+                  "value": "rgb(43, 95, 227)"
+                }
+              ],
+              "geometry": [
+                {
+                  "node": "/Page/Band/Right",
+                  "measure": "y",
+                  "relation": "greater-than",
+                  "value": 0,
+                  "reference": "/Page/Band/Left"
+                }
+              ],
+              "feedback": [
+                {
+                  "key": "status.unwrapped",
+                  "params": {
+                    "name": "Row"
                   }
                 }
               ]

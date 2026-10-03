@@ -5,7 +5,7 @@ the last complete browser run on a clean tree (`docs/feature-results.json`, writ
 hand. `npm run inventory:check` fails while this file is out of step. The requirements these features answer, and the
 open problems, are in `docs/PRODUCT.md`.
 
-214 features (214 built), 371 commands, 1346 doors, 1776 scenarios.
+214 features (214 built), 371 commands, 1346 doors, 1782 scenarios.
 
 No complete browser run on a clean tree has been recorded yet: the next one writes `docs/feature-results.json`.
 
@@ -39,7 +39,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `nest-into-previous` | Nest the selection into its previous sibling | yes | 5 | 3 | [nest-into-previous](../spec/BEHAVIOUR.md#nest-into-previous) | 4 | — |
 | `promote-out` | Move the selection out of its parent with P | yes | 4 | 3 | [promote-out](../spec/BEHAVIOUR.md#promote-out) | 3 | — |
 | `duplicate` | Duplicate the selection with Ctrl+D | yes | 4 | 2 | [duplicate](../spec/BEHAVIOUR.md#duplicate) | 3 | — |
-| `drag-duplicate` | Alt at the release drops a copy and leaves the original | yes | 1 | 1 | [drag-duplicate](../spec/BEHAVIOUR.md#drag-duplicate) | 2 | — |
+| `drag-duplicate` | Alt at the release drops a copy and leaves the original | yes | 2 | 1 | [drag-duplicate](../spec/BEHAVIOUR.md#drag-duplicate) | 2 | — |
 | `clipboard-copy-paste` | Copy and paste elements through the system clipboard with Ctrl+C and Ctrl+V | yes | 6 | 3 | [clipboard-copy-paste](../spec/BEHAVIOUR.md#clipboard-copy-paste) | 4 | — |
 | `keyboard-tree-walk` | Walk the tree with the arrow keys | yes | 10 | 4 | [keyboard-tree-walk](../spec/BEHAVIOUR.md#keyboard-tree-walk) | 3 | — |
 | `hand-keyboard-move` | Take the selection into the hand with M and place it with the keyboard | yes | 8 | 10 | [hand-keyboard-move](../spec/BEHAVIOUR.md#hand-keyboard-move) | 2 | — |
@@ -47,7 +47,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `text-inline-formatting` | Bold, italic and links inside text with Ctrl+B, Ctrl+I and Ctrl+K | yes | 5 | 7 | [text-inline-formatting](../spec/BEHAVIOUR.md#text-inline-formatting) | 3 | — |
 | `rename-element` | Rename an element with F2 or inline in Layers | yes | 4 | 5 | [rename-element](../spec/BEHAVIOUR.md#rename-element) | 2 | — |
 | `multi-select-click` | Select several elements with Shift+click and Ctrl+click | yes | 7 | 4 | [multi-select-click](../spec/BEHAVIOUR.md#multi-select-click) | 4 | — |
-| `unwrap` | Remove a wrapper and lift its children into its place | yes | 1 | 1 | [unwrap](../spec/BEHAVIOUR.md#unwrap) | 4 | — |
+| `unwrap` | Remove a wrapper and lift its children into its place | yes | 2 | 1 | [unwrap](../spec/BEHAVIOUR.md#unwrap) | 4 | — |
 | `marquee-select` | Select elements by dragging a marquee on the page | yes | 6 | 2 | [marquee-select](../spec/BEHAVIOUR.md#marquee-select) | 4 | — |
 | `multi-select-actions` | Delete, move and duplicate several selected elements at once | yes | 8 | 11 | [multi-select-actions](../spec/BEHAVIOUR.md#multi-select-actions) | 3 | — |
 | `select-container-children` | Select every element in the current container with Ctrl+A | yes | 4 | 3 | [select-container-children](../spec/BEHAVIOUR.md#select-container-children) | 4 | — |
@@ -66,7 +66,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `autosave-crash-recovery` | Keep saved versions and restore the work after a crash | yes | 1 | 1 | [autosave-crash-recovery](../spec/BEHAVIOUR.md#autosave-crash-recovery) | 3 | — |
 | `new-blank-page` | Start over with a new blank page | yes | 3 | 1 | [new-blank-page](../spec/BEHAVIOUR.md#new-blank-page) | 2 | — |
 | `autosave-corruption-recovery` | Recover from a corrupted saved project | yes | 1 | 1 | [autosave-corruption-recovery](../spec/BEHAVIOUR.md#autosave-corruption-recovery) | 3 | — |
-| `multi-tab-guard` | Only one tab edits the project at a time | yes | 1 | 1 | [multi-tab-guard](../spec/BEHAVIOUR.md#multi-tab-guard) | 3 | — |
+| `multi-tab-guard` | Only one tab edits the project at a time | yes | 2 | 2 | [multi-tab-guard](../spec/BEHAVIOUR.md#multi-tab-guard) | 3 | — |
 | `project-save-json` | Save the project as one archive file | yes | 2 | 1 | [project-save-json](../spec/BEHAVIOUR.md#project-save-json) | 4 | — |
 | `project-open-json` | Open a project archive | yes | 5 | 1 | [project-open-json](../spec/BEHAVIOUR.md#project-open-json) | 5 | — |
 
@@ -127,7 +127,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `export-bem-css` | Exported CSS uses readable BEM classes and is deterministic | yes | 3 | 1 | [export-bem-css](../spec/BEHAVIOUR.md#export-bem-css) | 5 | — |
 | `project-language` | The project’s languages | yes | 4 | 3 | [project-language](../spec/BEHAVIOUR.md#project-language) | 0 | — |
 | `site-colours` | Colours in use, replaced or made a variable across the site | yes | 3 | 2 | [site-colours](../spec/BEHAVIOUR.md#site-colours) | 0 | — |
-| `style-suggestions` | Repeated styles offered as one class | yes | 1 | 1 | [style-suggestions](../spec/BEHAVIOUR.md#style-suggestions) | 0 | — |
+| `style-suggestions` | Repeated styles offered as one class | yes | 2 | 1 | [style-suggestions](../spec/BEHAVIOUR.md#style-suggestions) | 0 | — |
 
 ## 07-elements
 
@@ -167,14 +167,14 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `reusable-components` | Reusable components with instances | yes | 10 | 9 | [reusable-components](../spec/BEHAVIOUR.md#reusable-components) | 4 | — |
 | `repeat-element` | Repeat an element | yes | 6 | 6 | [repeat-element](../spec/BEHAVIOUR.md#repeat-element) | 0 | — |
 | `templates-components` | Component templates: Form group, Button group, Tabs, Accordion, Modal | yes | 5 | 1 | [templates-components](../spec/BEHAVIOUR.md#templates-components) | 1 | — |
-| `component-master-edit` | An instance edited in place updates its component and every instance | yes | 1 | 1 | [component-master-edit](../spec/BEHAVIOUR.md#component-master-edit) | 0 | — |
+| `component-master-edit` | An instance edited in place updates its component and every instance | yes | 2 | 1 | [component-master-edit](../spec/BEHAVIOUR.md#component-master-edit) | 0 | — |
 | `component-variants` | Variants of a component, chosen per instance | yes | 3 | 1 | [component-variants](../spec/BEHAVIOUR.md#component-variants) | 0 | — |
 
 ## 09-panels
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `palette-search-groups` | Search the Insert panel and collapse its groups | yes | 1 | 1 | [palette-search-groups](../spec/BEHAVIOUR.md#palette-search-groups) | 1 | — |
+| `palette-search-groups` | Search the Insert panel and collapse its groups | yes | 2 | 1 | [palette-search-groups](../spec/BEHAVIOUR.md#palette-search-groups) | 1 | — |
 | `palette-density` | Insert panel view density | yes | 3 | 3 | [palette-density](../spec/BEHAVIOUR.md#palette-density) | 1 | — |
 | `layers-expand-collapse-all` | Collapse and expand every branch in Layers | yes | 3 | 3 | [layers-expand-collapse-all](../spec/BEHAVIOUR.md#layers-expand-collapse-all) | 1 | — |
 | `layers-search` | Search the Layers panel | yes | 4 | 2 | [layers-search](../spec/BEHAVIOUR.md#layers-search) | 1 | — |

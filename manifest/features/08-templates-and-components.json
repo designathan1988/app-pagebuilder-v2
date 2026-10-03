@@ -7043,6 +7043,259 @@
             "persistence": null,
             "export": null
           }
+        },
+        {
+          "id": "an-element-inside-the-instance-updates-the-component-from-it",
+          "setup": {
+            "fixture": "catalog-edited",
+            "selection": [
+              "/Page/Plans/Plan/PlanTitle"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "contextMenu.open#canvas-right-click-element-or-page",
+              "args": {
+                "target": "/Page/Plans/Plan/PlanTitle"
+              },
+              "target": "/Page/Plans/Plan/PlanTitle",
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "components.updateFromInstance#context-menu",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "components.updateFromInstance#context-menu"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@components",
+                "value": [
+                  {
+                    "name": "Plan",
+                    "tree": {
+                      "type": "article",
+                      "name": "Plan",
+                      "tag": "article",
+                      "attributes": {},
+                      "classes": [],
+                      "styles": {
+                        "desktop": {
+                          "base": {
+                            "padding-top": "24px"
+                          }
+                        }
+                      },
+                      "text": null,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "name": "PlanTitle",
+                          "tag": "h3",
+                          "attributes": {},
+                          "classes": [],
+                          "styles": {},
+                          "text": "Plan name",
+                          "children": []
+                        },
+                        {
+                          "type": "paragraph",
+                          "name": "PlanPrice",
+                          "tag": "p",
+                          "attributes": {},
+                          "classes": [],
+                          "styles": {},
+                          "text": "Price",
+                          "children": []
+                        },
+                        {
+                          "type": "paragraph",
+                          "name": "PlanNote",
+                          "tag": "p",
+                          "attributes": {},
+                          "classes": [],
+                          "styles": {},
+                          "text": "Cancel anytime",
+                          "children": []
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Plans/@children",
+                "value": [
+                  {
+                    "type": "article",
+                    "name": "Plan",
+                    "tag": "article",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "padding-top": "24px"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "children": [
+                      {
+                        "type": "heading",
+                        "name": "PlanTitle",
+                        "tag": "h3",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "Plan name",
+                        "children": [],
+                        "componentPart": [
+                          0
+                        ]
+                      },
+                      {
+                        "type": "paragraph",
+                        "name": "PlanPrice",
+                        "tag": "p",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "Price",
+                        "children": [],
+                        "componentPart": [
+                          1
+                        ]
+                      },
+                      {
+                        "type": "paragraph",
+                        "name": "PlanNote",
+                        "tag": "p",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "Cancel anytime",
+                        "children": [],
+                        "componentPart": [
+                          2
+                        ]
+                      }
+                    ],
+                    "component": "Plan",
+                    "componentPart": []
+                  },
+                  {
+                    "type": "article",
+                    "name": "Plan 2",
+                    "tag": "article",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "padding-top": "24px"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "children": [
+                      {
+                        "type": "heading",
+                        "name": "PlanTitle 2",
+                        "tag": "h3",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "Gold",
+                        "children": [],
+                        "componentPart": [
+                          0
+                        ]
+                      },
+                      {
+                        "type": "paragraph",
+                        "name": "PlanPrice 2",
+                        "tag": "p",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "Price",
+                        "children": [],
+                        "componentPart": [
+                          1
+                        ]
+                      },
+                      {
+                        "type": "paragraph",
+                        "name": "PlanNote 2",
+                        "tag": "p",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "Cancel anytime",
+                        "children": [],
+                        "componentPart": [
+                          2
+                        ]
+                      }
+                    ],
+                    "component": "Plan",
+                    "componentPart": []
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Plans/Plan/PlanTitle"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Plans/Plan 2",
+                  "property": "padding-top",
+                  "value": "24px"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.components.updated",
+                  "params": {
+                    "name": "Plan",
+                    "count": "1"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
         }
       ]
     },

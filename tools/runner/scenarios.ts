@@ -1997,7 +1997,13 @@ export function registerScenarioTests(): void {
             const navigated = restarts ? page.waitForEvent('framenavigated', { predicate: (frame) => frame === page.mainFrame() }) : null;
             await runStep(page, step, ref, held, step.action, downloads);
             if (navigated !== null) {
-              await navigated;
+              // a tab that never starts again fails the step on an assertion, never on the wait's timeout (the tooth
+              // proof found the take-over scenario failing on time with the command switched off)
+              const restarted = await navigated.then(
+                () => true,
+                () => false,
+              );
+              expect(restarted, `step ${ref}: the tab starts again`).toBe(true);
               await page.locator('.workbench').waitFor();
             }
             if (step.wait !== undefined) await page.waitForTimeout(step.wait);

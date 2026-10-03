@@ -4,7 +4,7 @@
     "built": 214,
     "commands": 371,
     "doors": 1346,
-    "scenarios": 1776,
+    "scenarios": 1782,
     "modules": 422,
     "lines": 79597
   },
@@ -275,7 +275,7 @@
         "element.moveTo"
       ],
       "doors": 9,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/structure/duplicate.ts",
         "src/core/structure/move.ts"
@@ -395,7 +395,7 @@
         "element.unwrap"
       ],
       "doors": 3,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/structure/wrap.ts"
       ]
@@ -593,7 +593,7 @@
         "project.takeOverEditing"
       ],
       "doors": 1,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/project/tab-guard.ts"
       ]
@@ -1239,7 +1239,7 @@
         "design.applySuggestion"
       ],
       "doors": 1,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/design/suggest.ts"
       ]
@@ -1692,7 +1692,7 @@
         "components.updateFromInstance"
       ],
       "doors": 1,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/design/components.ts"
       ]
@@ -1717,7 +1717,7 @@
         "palette.toggleGroup"
       ],
       "doors": 6,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/structure/insert.ts",
         "src/editor/palette/palette.ts"

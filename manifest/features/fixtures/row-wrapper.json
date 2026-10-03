@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "id": "p-home",
+      "name": "Home",
+      "file": "index.html",
+      "tree": {
+        "id": "n-page", "type": "page", "name": "Page", "tag": "body", "attributes": {}, "classes": [], "styles": {}, "text": null,
+        "children": [
+          {
+            "id": "n-band", "type": "section", "name": "Band", "tag": "section", "attributes": {}, "classes": [],
+            "styles": { "desktop": { "base": { "padding-top": "40px", "padding-right": "40px", "padding-bottom": "40px", "padding-left": "40px" } } },
+            "text": null,
+            "children": [
+              { "id": "n-heading", "type": "heading", "name": "Heading", "tag": "h2", "attributes": {}, "classes": [], "styles": {}, "text": "Our plans", "children": [] },
+              {
+                "id": "n-row", "type": "div", "name": "Row", "tag": "div", "attributes": {}, "classes": [],
+                "styles": { "desktop": { "base": { "display": "flex", "flex-direction": "row", "column-gap": "16px" } } },
+                "text": null,
+                "children": [
+                  {
+                    "id": "n-left", "type": "paragraph", "name": "Left", "tag": "p", "attributes": {}, "classes": [],
+                    "styles": { "desktop": { "base": { "flex-grow": "1", "flex-basis": "0px" } } },
+                    "text": "Roasted every week.", "children": []
+                  },
+                  {
+                    "id": "n-right", "type": "paragraph", "name": "Right", "tag": "p", "attributes": {}, "classes": [],
+                    "styles": { "desktop": { "base": { "flex-grow": "1", "flex-basis": "0px", "color": "#2b5fe3" } } },
+                    "text": "Delivered on Fridays.", "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
