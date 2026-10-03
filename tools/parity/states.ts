@@ -1,6 +1,7 @@
 // The canonical design's twelve states (design/final/index.html, its #state=…) and how the app is brought to each with
-// the gestures a person makes, on the cards-class project: what the parity tools pair (pair.ts crops the regions,
-// pairing.parity.ts measures every region and control).
+// the gestures a person makes, on the design's own page as a project (manifest/features/fixtures/canonical.json: the
+// Aurora page, its pages, files, classes, variables and layer names): what the parity tools pair (pair.ts crops the
+// regions, pairing.parity.ts measures every region and control).
 import type { Page } from '@playwright/test';
 import { openMenu } from '../../tests/e2e/door.ts';
 
@@ -9,7 +10,7 @@ export type State = (typeof STATES)[number];
 export type Theme = 'dark' | 'light';
 export type Language = 'en' | 'pt-BR';
 export const CANON = 'http://localhost:5394/design/final/index.html';
-export const FIXTURE = 'manifest/features/fixtures/cards-class.json';
+export const FIXTURE = 'manifest/features/fixtures/canonical.json';
 
 // the design at a state, its theme and language from its address (its own control reloads the page with them)
 export async function openCanon(canon: Page, state: State, theme: Theme, language: Language): Promise<void> {
@@ -19,7 +20,7 @@ export async function openCanon(canon: Page, state: State, theme: Theme, languag
   await canon.waitForTimeout(400);
 }
 
-// the app opened on the cards-class project, in a theme and a language chosen as a person chooses them
+// the app opened on the canonical project, in a theme and a language chosen as a person chooses them
 export async function openApp(app: Page, base: string, theme: Theme, language: Language): Promise<void> {
   await app.goto(base);
   await app.waitForTimeout(1200);
@@ -42,16 +43,77 @@ async function choose(app: Page, submenu: 'theme' | 'language', door: string): P
   await app.waitForTimeout(300);
 }
 
+// what the design selects in each state (its inspector's name and its Layers' selected row), and the class its
+// selector bar edits (the target drawn on)
+const SELECTED: Record<State, { readonly name: string; readonly target: string }> = {
+  default: { name: 'Cartão Assinatura', target: '.card' },
+  selection: { name: 'Cartão Assinatura', target: '.card' },
+  breakpoint: { name: 'Título Planos', target: '.plans__title' },
+  menu: { name: 'Cartão Assinatura', target: '.card' },
+  context: { name: 'Cartão Assinatura', target: '.card' },
+  palette: { name: 'Cartão Assinatura', target: '.card' },
+  multi: { name: 'Cartão Assinatura', target: '.card' },
+  state: { name: 'Assinar agora', target: '.btn' },
+  text: { name: 'Título principal', target: '.hero-title' },
+  interaction: { name: 'Assinar agora', target: '.btn' },
+  hover: { name: 'Cartão Assinatura', target: '.card' },
+  drag: { name: 'Cartão Oficinas', target: '.card' },
+};
+
+// a box on the canvas, in the page's coordinates (the frame's own offset added), of the element a layer names
+async function canvasBox(app: Page, name: string): Promise<{ x: number; y: number; width: number; height: number }> {
+  await row.click(app, name);
+  await app.waitForTimeout(300);
+  const box = await app.locator('.chrome__selection').first().boundingBox();
+  if (box === null) throw new Error(`${name} is not drawn selected`);
+  return box;
+}
+const rowOf = (app: Page, name: string) => app.locator('[data-door="selection.select#layers-row"]', { hasText: name }).first();
+// a layer's row, the Layers panel scrolled with the wheel until it is drawn (the tree draws the rows it shows)
+async function revealed(app: Page, name: string) {
+  const tree = app.locator('[data-region="explorer-layers"]').first();
+  for (let turn = 0; turn < 30 && (await rowOf(app, name).count()) === 0; turn += 1) {
+    const box = await tree.boundingBox();
+    if (box === null) break;
+    await app.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await app.mouse.wheel(0, 120);
+    await app.waitForTimeout(80);
+  }
+  return rowOf(app, name);
+}
+const row = {
+  click: async (app: Page, name: string, options?: Parameters<ReturnType<typeof rowOf>['click']>[0]) => (await revealed(app, name)).click(options),
+};
+
 // the app brought to a state of the design, as a person brings it there
 export async function setUpState(app: Page, state: State): Promise<void> {
-  const card = (name: string) => app.locator('[data-door="selection.select#layers-row"]', { hasText: name }).first();
+  const { name, target } = SELECTED[state];
   // the sidebar's view the design shows in the state (its Styles view in the State state, else the Explorer), opened
   // from the activity bar: a fresh profile opens on Insert (the audit's AUD-21), which the design does not show
   await app.locator(`[data-door="workspace.setPanelOpen#toolbar-activity-bar-${state === 'state' ? 'styles' : 'explorer'}"]`).click();
   await app.waitForTimeout(300);
-  if (state !== 'default') {
-    await card('CardA').click();
-    await app.waitForTimeout(500);
+  // the element selected once first: Layers opens its branch, so the rows of its siblings are there to click
+  await row.click(app, name);
+  await app.waitForTimeout(300);
+  // the boxes the pointer states need, read before the selection they end on
+  const other = state === 'hover' ? await canvasBox(app, 'Cartão Grãos') : null;
+  const before = state === 'drag' ? await canvasBox(app, 'Cartão Grãos') : null;
+  if (state === 'state') {
+    // the Styles view has no Layers: the element is selected from the Explorer, then the Styles view opened again
+    await app.locator('[data-door="workspace.setPanelOpen#toolbar-activity-bar-explorer"]').click();
+    await app.waitForTimeout(300);
+  }
+  await row.click(app, name);
+  await app.waitForTimeout(400);
+  // the class the design's selector bar edits, chosen on the bar as a person chooses it
+  const chip = app.locator('[data-door="inspector.setStyleTarget#inspector-class-bar-target"]', { hasText: target }).first();
+  if ((await chip.count()) > 0) {
+    await chip.click();
+    await app.waitForTimeout(300);
+  }
+  if (state === 'state') {
+    await app.locator('[data-door="workspace.setPanelOpen#toolbar-activity-bar-styles"]').click();
+    await app.waitForTimeout(300);
   }
   // the design's Tablet state shows the quick panel open on the selection: the app at Tablet with its panel open too
   if (state === 'breakpoint') {
@@ -65,7 +127,7 @@ export async function setUpState(app: Page, state: State): Promise<void> {
     await app.waitForTimeout(400);
   }
   if (state === 'context') {
-    await card('CardA').click({ button: 'right' });
+    await row.click(app, name, { button: 'right' });
     await app.waitForTimeout(400);
   }
   if (state === 'palette') {
@@ -76,8 +138,8 @@ export async function setUpState(app: Page, state: State): Promise<void> {
     await app.waitForTimeout(400);
   }
   if (state === 'multi') {
-    await card('CardB').click({ modifiers: ['Control'] });
-    await card('CardC').click({ modifiers: ['Control'] });
+    await row.click(app, 'Cartão Grãos', { modifiers: ['Control'] });
+    await row.click(app, 'Cartão Oficinas', { modifiers: ['Control'] });
     await app.waitForTimeout(400);
   }
   if (state === 'state') {
@@ -87,43 +149,35 @@ export async function setUpState(app: Page, state: State): Promise<void> {
     await app.waitForTimeout(400);
   }
   if (state === 'text') {
-    // the card's title edited in place: selected, then a double-click on its words, as a person starts editing it
-    await card('CardATitle').click();
-    await app.waitForTimeout(400);
+    // the title edited in place: selected, then a double-click on its words, as a person starts editing it
     const words = await app.locator('.chrome__selection').first().boundingBox();
-    if (words === null) throw new Error('the card title is not drawn selected');
+    if (words === null) throw new Error('the title is not drawn selected');
     await app.mouse.dblclick(words.x + Math.min(words.width / 2, 20), words.y + words.height / 2);
     await app.waitForTimeout(500);
   }
   if (state === 'interaction') {
+    // the Interactions tab on the button's two events, its click event's target being picked (the design's state)
     await app.locator('[data-door$="#inspector-tab-interactions"]').first().click();
     await app.waitForTimeout(400);
-    // an event made on the element, as the canonical tab shows one (its first item: On click)
-    const add = app.locator('[data-region="inspector-interactions"] button[aria-haspopup]').first();
-    if ((await add.count()) > 0) {
-      await add.click();
-      await app.waitForTimeout(300);
-      const first = app.locator('[role="menu"] [role^="menuitem"]').first();
-      if ((await first.count()) > 0) await first.click();
+    const pick = app.locator('[data-region="inspector-interactions"] [data-door="interactions.update#inspector-interaction-target"]').first();
+    if ((await pick.count()) > 0) {
+      await pick.click();
       await app.waitForTimeout(400);
     }
   }
-  if (state === 'hover') {
-    // CardA selected, the pointer below it with Alt held: the distance to what is under it (the canonical measurement)
-    const other = await app.locator('.chrome__selection').first().boundingBox();
-    if (other !== null) {
-      await app.mouse.move(other.x + other.width / 2, other.y + other.height + 40);
-      await app.keyboard.down('Alt');
-      await app.waitForTimeout(400);
-    }
+  if (state === 'hover' && other !== null) {
+    // the selection kept, the pointer on the next card with Alt held: the distance between them (the design's measure)
+    await app.mouse.move(other.x + other.width * 0.3, other.y + other.height * 0.36);
+    await app.keyboard.down('Alt');
+    await app.waitForTimeout(400);
   }
-  if (state === 'drag') {
-    // CardA dragged by the pointer and held midway (the canonical drag: the insertion line and the ghost)
+  if (state === 'drag' && before !== null) {
+    // the last card dragged by the pointer and held before the second one (the design's insertion line and ghost)
     const from = await app.locator('.chrome__selection').first().boundingBox();
     if (from !== null) {
-      await app.mouse.move(from.x + from.width / 2, from.y + from.height / 2);
+      await app.mouse.move(from.x + from.width * 0.36, from.y + from.height * 0.3);
       await app.mouse.down();
-      await app.mouse.move(from.x + from.width / 2, from.y + from.height + 60, { steps: 12 });
+      await app.mouse.move(before.x + 8, before.y + before.height * 0.3, { steps: 12 });
       await app.waitForTimeout(400);
     }
   }

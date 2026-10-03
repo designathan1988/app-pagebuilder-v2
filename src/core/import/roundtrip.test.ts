@@ -14,16 +14,22 @@ import { unzip } from '../project/zip.ts';
 import type { CommandId } from '../../generated/ids.ts';
 import { createEditorStore, MODEL_RULES } from '../../editor/store.ts';
 import { emptyProject } from '../../manifest/scenario.ts';
+import { lexer as cssLexer } from 'css-tree';
+import type { CssSupport } from '../ports/css.ts';
 
 const memory = (): { read(): string | null; write(text: string): void } => {
   let held: string | null = null;
   return { read: () => held, write: (text) => void (held = text) };
 };
 type Answer = { readonly status: string };
+// the browser's CSS.supports, which the import asks what a value is (a variable's kind among them): happy-dom answers
+// yes to every value, so a length variable read as a colour here and as a length in Chrome; css-tree's grammar answers
+// as the browser does
+const grammarCss: CssSupport = { supports: (property, value) => cssLexer.matchProperty(property, value).error === null };
 
 async function exported(document: DocumentJson): Promise<Map<string, Uint8Array>> {
   let bytes: Uint8Array | null = null;
-  const store = createEditorStore({ storage: memory(), workspace: memory(), clock: manualClock(1), ids: sequentialIds('x'), restored: { document, selection: [] }, ports: { readOnly: () => false, downloads: { deliver: (file) => void (bytes = file.bytes) } }, freeze: true });
+  const store = createEditorStore({ storage: memory(), workspace: memory(), clock: manualClock(1), ids: sequentialIds('x'), restored: { document, selection: [] }, ports: { readOnly: () => false, css: grammarCss, downloads: { deliver: (file) => void (bytes = file.bytes) } }, freeze: true });
   const answer = (store.dispatch as unknown as (id: CommandId, args: unknown) => Answer)('project.export' as CommandId, {});
   if (answer.status !== 'done' || bytes === null) throw new Error(`export: ${answer.status}`);
   return unzip(bytes);
@@ -31,7 +37,7 @@ async function exported(document: DocumentJson): Promise<Map<string, Uint8Array>
 
 function imported(files: Map<string, Uint8Array>): DocumentJson {
   const picked = [...files].map(([name, bytes]) => ({ name, type: name.endsWith('.html') ? 'text/html' : name.endsWith('.css') ? 'text/css' : name.endsWith('.js') ? 'text/javascript' : 'application/octet-stream', bytes: Buffer.from(bytes).toString('base64') }));
-  const store = createEditorStore({ storage: memory(), workspace: memory(), clock: manualClock(1), ids: sequentialIds('y'), restored: { document: emptyProject({ page: 'Home', root: 'Page' }, MODEL_RULES.root), selection: [] }, ports: { readOnly: () => false }, freeze: true });
+  const store = createEditorStore({ storage: memory(), workspace: memory(), clock: manualClock(1), ids: sequentialIds('y'), restored: { document: emptyProject({ page: 'Home', root: 'Page' }, MODEL_RULES.root), selection: [] }, ports: { readOnly: () => false, css: grammarCss }, freeze: true });
   const dispatch = store.dispatch as unknown as (id: CommandId, args: unknown) => Answer;
   let answer = dispatch('project.importHtml' as CommandId, { files: picked, destination: 'replace' });
   if (answer.status === 'confirm') answer = store.answer(true) as Answer;
@@ -86,7 +92,7 @@ describe('export then import back (AUD-05)', () => {
 describe('imported variables beside the project\'s', () => {
   const importAsPage = (files: Map<string, Uint8Array>, into: DocumentJson): DocumentJson => {
     const picked = [...files].map(([name, bytes]) => ({ name, type: name.endsWith('.html') ? 'text/html' : name.endsWith('.css') ? 'text/css' : 'application/octet-stream', bytes: Buffer.from(bytes).toString('base64') }));
-    const store = createEditorStore({ storage: memory(), workspace: memory(), clock: manualClock(1), ids: sequentialIds('z'), restored: { document: into, selection: [] }, ports: { readOnly: () => false }, freeze: true });
+    const store = createEditorStore({ storage: memory(), workspace: memory(), clock: manualClock(1), ids: sequentialIds('z'), restored: { document: into, selection: [] }, ports: { readOnly: () => false, css: grammarCss }, freeze: true });
     const answer = (store.dispatch as unknown as (id: CommandId, args: unknown) => Answer)('project.importHtml' as CommandId, { files: picked, destination: 'page' });
     if (answer.status !== 'done') throw new Error(`import: ${answer.status}`);
     return store.getState().document;

@@ -102,7 +102,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-0.1 | New repository: origin = app-pagebuilder-v2, old repository remote `v1` | done | `git remote -v` |
 | STG-0.2 | Each J reproduced first by a failing test (`tests/e2e/jornada03-*.spec.ts`) | done | QA 200: `tests/e2e/jornada03.json` maps J1–J28 to the tests that replay them (checked by `tools/inventory/jornada03.test.ts`), `tests/e2e/jornada03.spec.ts` replays the seven no test replayed |
 | STG-0.3 | Task meter: `npm run journey -- <task>` replays M1…C5/P1…P4 with the scoreboard | done | QA 201: `tools/journey/` (19 tasks in Chrome, the scoreboard of H1–H17, `npm run fidelity`); H10 and H16 stay with the export checks and `npm run perf` |
-| STG-0.4 | Parity with the canonical: 12 states × dark/light × en/pt-BR, numeric diff per control, PAIRING-2 generated | partial | QA 203: `npm run parity` measures the 48 pairs and writes `docs/PAIRING.md`; 5,452 divergences of 223 kinds open |
+| STG-0.4 | Parity with the canonical: 12 states × dark/light × en/pt-BR, numeric diff per control, PAIRING-2 generated | partial | QA 203: `npm run parity` measures the 48 pairs and writes `docs/PAIRING.md`; QA 206: on the design's own page (`canonical.json`), each state selected as the design selects it: 5,708 divergences of 225 kinds (125 marks) open |
 | STG-0.5 | Performance budget: input to frame p50/p95, opening, undo | done | `npm run perf` (QA 44, 80); AUD-36 |
 | STG-1.J1a | A refused commit becomes a spoken refusal; the dispatch answers `refused` | done | QA 32 (`917a35b`); named without placeholders and contained per region QA 149 |
 | STG-1.J1b | `var()` in a composite written into its longhands; mixed composites refused before patches | done | QA 32 |
@@ -424,6 +424,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | CH1 | 2 | Export then import turned a class of the person's that one element alone listed last (`card card--featured`) into that element's own values, and the project lost the class | QA 204, `import-classes.test.ts`, the round trip of every fixture | done (QA 204) |
 | AV1 | 3 | An assistant turn that entered the Layout tool was cancelled: layout_enter opens the Layout panel in the sidebar, the Assistant panel unmounted, and the session it had installed went with it, so a picture could never be laid out from the chat | QA 205, `tests/e2e/assistant.spec.ts` (red without the fix: "Assistant cancelled") | done (QA 205) |
 | AV2 | 1 | After an assistant turn that used the Layout tool, layout_leave gives the sidebar back to the Explorer, not to the Assistant the turn came from: the person opens the Assistant again to read the answer (owner: the Layout Composer, `src/modules/layout-composer/host/handlers.ts` leaveLayout) | QA 205 | open |
+| NR1 | 1 | A second export after an import renames a generated class when two elements of different blocks share a layer name (the canonical page's footer paragraph Cardápio: `footer__cardapio` → `footer__cardapio-2`, its header link holding the name too): the import makes every layer name unique, so html-import-roundtrip's "byte-identical" holds only for projects whose names are unique | found by `canonical.json` (QA 206) | open |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 
