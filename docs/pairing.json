@@ -59,20 +59,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -118,42 +104,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -250,20 +201,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -309,42 +246,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -395,7 +297,7 @@
           "id": "layers-row",
           "property": "height",
           "canon": "200",
-          "app": "252"
+          "app": "324"
         },
         {
           "kind": "region",
@@ -445,20 +347,6 @@
           "property": "height",
           "canon": "649",
           "app": "611"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
         },
         {
           "kind": "control",
@@ -595,13 +483,6 @@
         },
         {
           "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-color 1",
           "property": "drawn",
           "canon": "yes",
@@ -723,20 +604,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -782,42 +649,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -984,20 +816,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -1043,42 +861,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -1196,20 +979,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -1255,42 +1024,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -1366,20 +1100,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -1391,27 +1111,6 @@
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
           "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 10",
-          "property": "background",
-          "canon": "rgb(31, 36, 44)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "element.toggleHidden#layers-row-eye 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "element.toggleLock#layers-row-lock 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -1460,35 +1159,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -1503,13 +1174,6 @@
           "property": "background",
           "canon": "rgb(18, 58, 54)",
           "app": "rgb(38, 50, 26)"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
         },
         {
           "kind": "control",
@@ -1596,20 +1260,6 @@
           "property": "height",
           "canon": "647",
           "app": "581"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
         },
         {
           "kind": "control",
@@ -1786,7 +1436,7 @@
           "id": "layers-row",
           "property": "height",
           "canon": "272",
-          "app": "324"
+          "app": "416"
         },
         {
           "kind": "region",
@@ -1801,13 +1451,6 @@
           "property": "width",
           "canon": "748.8",
           "app": "852"
-        },
-        {
-          "kind": "region",
-          "id": "text-toolbar",
-          "property": "font",
-          "canon": "60px 400",
-          "app": "12px 400"
         },
         {
           "kind": "region",
@@ -1829,20 +1472,6 @@
           "property": "height",
           "canon": "677",
           "app": "611"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
         },
         {
           "kind": "control",
@@ -2005,14 +1634,14 @@
           "id": "layers-row",
           "property": "height",
           "canon": "296",
-          "app": "372"
+          "app": "416"
         },
         {
           "kind": "region",
           "id": "canvas-frame",
           "property": "height",
           "canon": "28",
-          "app": "717"
+          "app": "505"
         },
         {
           "kind": "region",
@@ -2023,31 +1652,10 @@
         },
         {
           "kind": "region",
-          "id": "dock-timeline",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "region",
           "id": "inspector-interactions",
           "property": "height",
           "canon": "800",
           "app": "586"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
         },
         {
           "kind": "control",
@@ -2100,31 +1708,52 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "font",
-          "canon": "12px 600",
-          "app": "12px 400"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
+          "id": "workspace.setWorkbenchState#toolbar-workbench-strip-toggle 1",
           "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
+          "canon": "rgb(168, 176, 189)",
+          "app": "rgb(44, 196, 176)"
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
+          "id": "workspace.setWorkbenchState#toolbar-workbench-strip-toggle 1",
           "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(18, 58, 54)"
         },
         {
           "kind": "control",
           "id": "animation.create#timeline-new-animation 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "height",
+          "canon": "24",
+          "app": "28"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "width",
+          "canon": "24",
+          "app": "120.3"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "font",
+          "canon": "11px 600",
+          "app": "12px 400"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "colour",
+          "canon": "rgb(135, 145, 160)",
+          "app": "rgb(217, 222, 230)"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "background",
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -2164,30 +1793,51 @@
         {
           "kind": "control",
           "id": "timeline.play#timeline-play 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(168, 176, 189)",
+          "app": "rgb(135, 145, 160)"
         },
         {
           "kind": "control",
           "id": "timeline.pause#timeline-pause 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(168, 176, 189)",
+          "app": "rgb(135, 145, 160)"
+        },
+        {
+          "kind": "control",
+          "id": "timeline.pause#timeline-pause 1",
+          "property": "background",
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
           "id": "timeline.stop#timeline-stop 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(168, 176, 189)",
+          "app": "rgb(135, 145, 160)"
+        },
+        {
+          "kind": "control",
+          "id": "timeline.stop#timeline-stop 1",
+          "property": "background",
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
           "id": "timeline.toggleLoop#timeline-loop 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(44, 196, 176)",
+          "app": "rgb(135, 145, 160)"
+        },
+        {
+          "kind": "control",
+          "id": "timeline.toggleLoop#timeline-loop 1",
+          "property": "background",
+          "canon": "rgb(18, 58, 54)",
+          "app": "rgba(0, 0, 0, 0)"
         },
         {
           "kind": "control",
@@ -2333,20 +1983,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "palette.setDensity#elements-density-list 1",
           "property": "width",
           "canon": "24",
@@ -2441,42 +2077,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -2559,20 +2160,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -2625,42 +2212,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -2750,20 +2302,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -2809,42 +2347,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -2941,20 +2444,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -3000,42 +2489,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -3086,7 +2540,7 @@
           "id": "layers-row",
           "property": "height",
           "canon": "200",
-          "app": "252"
+          "app": "324"
         },
         {
           "kind": "region",
@@ -3136,20 +2590,6 @@
           "property": "height",
           "canon": "649",
           "app": "611"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
         },
         {
           "kind": "control",
@@ -3286,13 +2726,6 @@
         },
         {
           "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-color 1",
           "property": "drawn",
           "canon": "yes",
@@ -3414,20 +2847,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -3473,42 +2892,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -3675,20 +3059,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -3734,42 +3104,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -3887,20 +3222,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -3946,42 +3267,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -4057,20 +3343,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -4082,27 +3354,6 @@
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
           "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 10",
-          "property": "background",
-          "canon": "rgb(232, 235, 239)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "element.toggleHidden#layers-row-eye 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "element.toggleLock#layers-row-lock 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -4151,35 +3402,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -4194,13 +3417,6 @@
           "property": "background",
           "canon": "rgb(220, 242, 238)",
           "app": "rgb(237, 244, 225)"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
         },
         {
           "kind": "control",
@@ -4287,20 +3503,6 @@
           "property": "height",
           "canon": "647",
           "app": "581"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
         },
         {
           "kind": "control",
@@ -4477,7 +3679,7 @@
           "id": "layers-row",
           "property": "height",
           "canon": "272",
-          "app": "324"
+          "app": "416"
         },
         {
           "kind": "region",
@@ -4492,13 +3694,6 @@
           "property": "width",
           "canon": "748.8",
           "app": "852"
-        },
-        {
-          "kind": "region",
-          "id": "text-toolbar",
-          "property": "font",
-          "canon": "60px 400",
-          "app": "12px 400"
         },
         {
           "kind": "region",
@@ -4520,20 +3715,6 @@
           "property": "height",
           "canon": "677",
           "app": "611"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
         },
         {
           "kind": "control",
@@ -4696,14 +3877,14 @@
           "id": "layers-row",
           "property": "height",
           "canon": "296",
-          "app": "372"
+          "app": "416"
         },
         {
           "kind": "region",
           "id": "canvas-frame",
           "property": "height",
           "canon": "28",
-          "app": "717"
+          "app": "505"
         },
         {
           "kind": "region",
@@ -4714,31 +3895,10 @@
         },
         {
           "kind": "region",
-          "id": "dock-timeline",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "region",
           "id": "inspector-interactions",
           "property": "height",
           "canon": "800",
           "app": "586"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
         },
         {
           "kind": "control",
@@ -4791,31 +3951,52 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "font",
-          "canon": "12px 600",
-          "app": "12px 400"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
+          "id": "workspace.setWorkbenchState#toolbar-workbench-strip-toggle 1",
           "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
+          "canon": "rgb(71, 78, 89)",
+          "app": "rgb(11, 127, 114)"
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
+          "id": "workspace.setWorkbenchState#toolbar-workbench-strip-toggle 1",
           "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(227, 244, 240)"
         },
         {
           "kind": "control",
           "id": "animation.create#timeline-new-animation 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "height",
+          "canon": "24",
+          "app": "28"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "width",
+          "canon": "24",
+          "app": "120.3"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "font",
+          "canon": "11px 600",
+          "app": "12px 400"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "colour",
+          "canon": "rgb(91, 99, 110)",
+          "app": "rgb(21, 24, 29)"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "background",
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -4855,30 +4036,51 @@
         {
           "kind": "control",
           "id": "timeline.play#timeline-play 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(71, 78, 89)",
+          "app": "rgb(91, 99, 110)"
         },
         {
           "kind": "control",
           "id": "timeline.pause#timeline-pause 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(71, 78, 89)",
+          "app": "rgb(91, 99, 110)"
+        },
+        {
+          "kind": "control",
+          "id": "timeline.pause#timeline-pause 1",
+          "property": "background",
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
           "id": "timeline.stop#timeline-stop 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(71, 78, 89)",
+          "app": "rgb(91, 99, 110)"
+        },
+        {
+          "kind": "control",
+          "id": "timeline.stop#timeline-stop 1",
+          "property": "background",
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
           "id": "timeline.toggleLoop#timeline-loop 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(11, 127, 114)",
+          "app": "rgb(91, 99, 110)"
+        },
+        {
+          "kind": "control",
+          "id": "timeline.toggleLoop#timeline-loop 1",
+          "property": "background",
+          "canon": "rgb(227, 244, 240)",
+          "app": "rgba(0, 0, 0, 0)"
         },
         {
           "kind": "control",
@@ -5024,20 +4226,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "palette.setDensity#elements-density-list 1",
           "property": "width",
           "canon": "24",
@@ -5132,42 +4320,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -5250,20 +4403,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -5316,42 +4455,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -5441,20 +4545,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -5500,42 +4590,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -5639,20 +4694,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -5698,42 +4739,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -5791,7 +4797,7 @@
           "id": "layers-row",
           "property": "height",
           "canon": "200",
-          "app": "252"
+          "app": "324"
         },
         {
           "kind": "region",
@@ -5841,20 +4847,6 @@
           "property": "height",
           "canon": "649",
           "app": "583"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
         },
         {
           "kind": "control",
@@ -5991,13 +4983,6 @@
         },
         {
           "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-color 1",
           "property": "drawn",
           "canon": "yes",
@@ -6119,20 +5104,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -6178,42 +5149,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -6387,20 +5323,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -6446,42 +5368,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -6606,20 +5493,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -6665,42 +5538,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -6783,20 +5621,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -6808,27 +5632,6 @@
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
           "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 10",
-          "property": "background",
-          "canon": "rgb(31, 36, 44)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "element.toggleHidden#layers-row-eye 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "element.toggleLock#layers-row-lock 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -6877,35 +5680,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -6920,13 +5695,6 @@
           "property": "background",
           "canon": "rgb(18, 58, 54)",
           "app": "rgb(38, 50, 26)"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
         },
         {
           "kind": "control",
@@ -7013,20 +5781,6 @@
           "property": "height",
           "canon": "647",
           "app": "581"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
         },
         {
           "kind": "control",
@@ -7203,7 +5957,7 @@
           "id": "layers-row",
           "property": "height",
           "canon": "272",
-          "app": "324"
+          "app": "416"
         },
         {
           "kind": "region",
@@ -7218,13 +5972,6 @@
           "property": "width",
           "canon": "748.8",
           "app": "852"
-        },
-        {
-          "kind": "region",
-          "id": "text-toolbar",
-          "property": "font",
-          "canon": "60px 400",
-          "app": "12px 400"
         },
         {
           "kind": "region",
@@ -7246,20 +5993,6 @@
           "property": "height",
           "canon": "677",
           "app": "611"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
         },
         {
           "kind": "control",
@@ -7422,14 +6155,14 @@
           "id": "layers-row",
           "property": "height",
           "canon": "296",
-          "app": "372"
+          "app": "416"
         },
         {
           "kind": "region",
           "id": "canvas-frame",
           "property": "height",
           "canon": "28",
-          "app": "717"
+          "app": "505"
         },
         {
           "kind": "region",
@@ -7440,31 +6173,10 @@
         },
         {
           "kind": "region",
-          "id": "dock-timeline",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "region",
           "id": "inspector-interactions",
           "property": "height",
           "canon": "800",
           "app": "586"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
         },
         {
           "kind": "control",
@@ -7517,31 +6229,52 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "font",
-          "canon": "12px 600",
-          "app": "12px 400"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
+          "id": "workspace.setWorkbenchState#toolbar-workbench-strip-toggle 1",
           "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
+          "canon": "rgb(168, 176, 189)",
+          "app": "rgb(44, 196, 176)"
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
+          "id": "workspace.setWorkbenchState#toolbar-workbench-strip-toggle 1",
           "property": "background",
-          "canon": "rgb(23, 58, 56)",
-          "app": "rgba(0, 0, 0, 0)"
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(18, 58, 54)"
         },
         {
           "kind": "control",
           "id": "animation.create#timeline-new-animation 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "height",
+          "canon": "24",
+          "app": "28"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "width",
+          "canon": "24",
+          "app": "122.1"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "font",
+          "canon": "11px 600",
+          "app": "12px 400"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "colour",
+          "canon": "rgb(135, 145, 160)",
+          "app": "rgb(217, 222, 230)"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "background",
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -7581,30 +6314,51 @@
         {
           "kind": "control",
           "id": "timeline.play#timeline-play 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(168, 176, 189)",
+          "app": "rgb(135, 145, 160)"
         },
         {
           "kind": "control",
           "id": "timeline.pause#timeline-pause 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(168, 176, 189)",
+          "app": "rgb(135, 145, 160)"
+        },
+        {
+          "kind": "control",
+          "id": "timeline.pause#timeline-pause 1",
+          "property": "background",
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
           "id": "timeline.stop#timeline-stop 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(168, 176, 189)",
+          "app": "rgb(135, 145, 160)"
+        },
+        {
+          "kind": "control",
+          "id": "timeline.stop#timeline-stop 1",
+          "property": "background",
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
           "id": "timeline.toggleLoop#timeline-loop 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(44, 196, 176)",
+          "app": "rgb(135, 145, 160)"
+        },
+        {
+          "kind": "control",
+          "id": "timeline.toggleLoop#timeline-loop 1",
+          "property": "background",
+          "canon": "rgb(18, 58, 54)",
+          "app": "rgba(0, 0, 0, 0)"
         },
         {
           "kind": "control",
@@ -7750,20 +6504,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "palette.setDensity#elements-density-list 1",
           "property": "width",
           "canon": "24",
@@ -7851,42 +6591,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -7976,20 +6681,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(168, 176, 189)",
-          "app": "rgb(135, 145, 160)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(217, 222, 230)",
@@ -8042,42 +6733,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(15, 17, 21)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -8174,20 +6830,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -8233,42 +6875,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -8372,20 +6979,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -8431,42 +7024,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -8524,7 +7082,7 @@
           "id": "layers-row",
           "property": "height",
           "canon": "200",
-          "app": "252"
+          "app": "324"
         },
         {
           "kind": "region",
@@ -8574,20 +7132,6 @@
           "property": "height",
           "canon": "649",
           "app": "583"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
         },
         {
           "kind": "control",
@@ -8724,13 +7268,6 @@
         },
         {
           "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-color 1",
           "property": "drawn",
           "canon": "yes",
@@ -8852,20 +7389,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -8911,42 +7434,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -9120,20 +7608,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -9179,42 +7653,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -9339,20 +7778,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -9398,42 +7823,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -9516,20 +7906,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -9541,27 +7917,6 @@
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
           "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "selection.select#layers-row 10",
-          "property": "background",
-          "canon": "rgb(232, 235, 239)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "element.toggleHidden#layers-row-eye 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "element.toggleLock#layers-row-lock 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -9610,35 +7965,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -9653,13 +7980,6 @@
           "property": "background",
           "canon": "rgb(220, 242, 238)",
           "app": "rgb(237, 244, 225)"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
         },
         {
           "kind": "control",
@@ -9746,20 +8066,6 @@
           "property": "height",
           "canon": "647",
           "app": "581"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
         },
         {
           "kind": "control",
@@ -9936,7 +8242,7 @@
           "id": "layers-row",
           "property": "height",
           "canon": "272",
-          "app": "324"
+          "app": "416"
         },
         {
           "kind": "region",
@@ -9951,13 +8257,6 @@
           "property": "width",
           "canon": "748.8",
           "app": "852"
-        },
-        {
-          "kind": "region",
-          "id": "text-toolbar",
-          "property": "font",
-          "canon": "60px 400",
-          "app": "12px 400"
         },
         {
           "kind": "region",
@@ -9979,20 +8278,6 @@
           "property": "height",
           "canon": "677",
           "app": "611"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
         },
         {
           "kind": "control",
@@ -10155,14 +8440,14 @@
           "id": "layers-row",
           "property": "height",
           "canon": "296",
-          "app": "372"
+          "app": "416"
         },
         {
           "kind": "region",
           "id": "canvas-frame",
           "property": "height",
           "canon": "28",
-          "app": "717"
+          "app": "505"
         },
         {
           "kind": "region",
@@ -10173,31 +8458,10 @@
         },
         {
           "kind": "region",
-          "id": "dock-timeline",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "region",
           "id": "inspector-interactions",
           "property": "height",
           "canon": "800",
           "app": "586"
-        },
-        {
-          "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
         },
         {
           "kind": "control",
@@ -10250,31 +8514,52 @@
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
-          "property": "font",
-          "canon": "12px 600",
-          "app": "12px 400"
-        },
-        {
-          "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
+          "id": "workspace.setWorkbenchState#toolbar-workbench-strip-toggle 1",
           "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
+          "canon": "rgb(71, 78, 89)",
+          "app": "rgb(11, 127, 114)"
         },
         {
           "kind": "control",
-          "id": "workspace.setActiveTab#tab-strip-tab 1",
+          "id": "workspace.setWorkbenchState#toolbar-workbench-strip-toggle 1",
           "property": "background",
-          "canon": "rgb(213, 239, 234)",
-          "app": "rgba(0, 0, 0, 0)"
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(227, 244, 240)"
         },
         {
           "kind": "control",
           "id": "animation.create#timeline-new-animation 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "height",
+          "canon": "24",
+          "app": "28"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "width",
+          "canon": "24",
+          "app": "122.1"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "font",
+          "canon": "11px 600",
+          "app": "12px 400"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "colour",
+          "canon": "rgb(91, 99, 110)",
+          "app": "rgb(21, 24, 29)"
+        },
+        {
+          "kind": "control",
+          "id": "animation.create#timeline-new-animation 1",
+          "property": "background",
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
@@ -10314,30 +8599,51 @@
         {
           "kind": "control",
           "id": "timeline.play#timeline-play 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(71, 78, 89)",
+          "app": "rgb(91, 99, 110)"
         },
         {
           "kind": "control",
           "id": "timeline.pause#timeline-pause 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(71, 78, 89)",
+          "app": "rgb(91, 99, 110)"
+        },
+        {
+          "kind": "control",
+          "id": "timeline.pause#timeline-pause 1",
+          "property": "background",
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
           "id": "timeline.stop#timeline-stop 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(71, 78, 89)",
+          "app": "rgb(91, 99, 110)"
+        },
+        {
+          "kind": "control",
+          "id": "timeline.stop#timeline-stop 1",
+          "property": "background",
+          "canon": "rgba(0, 0, 0, 0)",
+          "app": "rgb(247, 248, 250)"
         },
         {
           "kind": "control",
           "id": "timeline.toggleLoop#timeline-loop 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
+          "property": "colour",
+          "canon": "rgb(11, 127, 114)",
+          "app": "rgb(91, 99, 110)"
+        },
+        {
+          "kind": "control",
+          "id": "timeline.toggleLoop#timeline-loop 1",
+          "property": "background",
+          "canon": "rgb(227, 244, 240)",
+          "app": "rgba(0, 0, 0, 0)"
         },
         {
           "kind": "control",
@@ -10483,20 +8789,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "palette.setDensity#elements-density-list 1",
           "property": "width",
           "canon": "24",
@@ -10584,42 +8876,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",
@@ -10709,20 +8966,6 @@
         },
         {
           "kind": "control",
-          "id": "history.undo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
-          "id": "history.redo#toolbar-top-bar 1",
-          "property": "colour",
-          "canon": "rgb(71, 78, 89)",
-          "app": "rgb(91, 99, 110)"
-        },
-        {
-          "kind": "control",
           "id": "element.setLayerColor#layers-row-colour-dot 1",
           "property": "colour",
           "canon": "rgb(21, 24, 29)",
@@ -10775,42 +9018,7 @@
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "background",
-          "canon": "rgb(255, 255, 255)",
-          "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "style.set#inspector-flex-direction 1",
-          "property": "radius",
-          "canon": "3px",
-          "app": "2px"
-        },
-        {
-          "kind": "control",
-          "id": "style.setAlignment#inspector-alignment-matrix 1",
-          "property": "width",
-          "canon": "161",
-          "app": "76"
-        },
-        {
-          "kind": "control",
-          "id": "style.setSpacing#inspector-margin-box-model 1",
-          "property": "radius",
-          "canon": "4px",
-          "app": "3px"
+          "app": "96"
         },
         {
           "kind": "control",

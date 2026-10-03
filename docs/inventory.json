@@ -6,7 +6,7 @@
     "doors": 1350,
     "scenarios": 1819,
     "modules": 424,
-    "lines": 79867
+    "lines": 79874
   },
   "features": [
     {
@@ -4136,7 +4136,7 @@
     },
     {
       "path": "src/core/nodes/flags.ts",
-      "lines": 172,
+      "lines": 177,
       "commands": [
         "element.toggleHidden",
         "element.toggleLock",
@@ -4995,7 +4995,7 @@
     },
     {
       "path": "src/editor/canvas/chrome.tsx",
-      "lines": 1010,
+      "lines": 1011,
       "commands": [],
       "features": []
     },
@@ -6185,7 +6185,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1195,
+      "lines": 1196,
       "commands": [],
       "features": []
     },

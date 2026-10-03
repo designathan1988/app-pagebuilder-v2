@@ -5,14 +5,169 @@
       "decision": "DEC-03",
       "why": "Fit leaves 8 px around the page, where the canonical shows 24",
       "matches": [
-        { "kind": "region", "id": "canvas-frame", "property": "width" },
-        { "kind": "region", "id": "canvas-frame", "property": "height" }
+        {
+          "kind": "region",
+          "id": "canvas-frame",
+          "property": "width"
+        },
+        {
+          "kind": "region",
+          "id": "canvas-frame",
+          "property": "height"
+        }
       ]
     },
     {
       "decision": "DEC-21",
       "why": "Page tabs carry no ×; code file tabs do",
-      "matches": [{ "kind": "control", "id": "files.closeTab#file-tab-close", "property": "drawn" }]
+      "matches": [
+        {
+          "kind": "control",
+          "id": "files.closeTab#file-tab-close",
+          "property": "drawn"
+        }
+      ]
+    },
+    {
+      "decision": "DEC-41",
+      "why": "the app offers more than the mock shows (every property in All, more menu items, the reverse directions, more quick-panel fields, Layers under every view): its heights, and the controls it pushes out of the window",
+      "matches": [
+        {
+          "kind": "control",
+          "id": "style.setBorder#inspector-border-border-editor",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-background-color",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.setBackgroundImage#inspector-background-image-gradient-add",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-overflow",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-color",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-font-family",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-font-size",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-font-weight",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-line-height",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-letter-spacing",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-text-align",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.setRadius#inspector-border-radius-radius-editor",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-opacity",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.setShadows#inspector-box-shadow-shadow-add",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-translate-y",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-transition",
+          "property": "drawn"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-text-transform",
+          "property": "drawn"
+        },
+        {
+          "kind": "region",
+          "id": "inspector-style",
+          "property": "height"
+        },
+        {
+          "kind": "region",
+          "id": "explorer-layers",
+          "property": "height"
+        },
+        {
+          "kind": "region",
+          "id": "layers-row",
+          "property": "height"
+        },
+        {
+          "kind": "region",
+          "id": "menu:arrange",
+          "property": "height"
+        },
+        {
+          "kind": "region",
+          "id": "context-menu",
+          "property": "height"
+        },
+        {
+          "kind": "region",
+          "id": "quick-panel",
+          "property": "height"
+        },
+        {
+          "kind": "region",
+          "id": "insert",
+          "property": "height"
+        },
+        {
+          "kind": "region",
+          "id": "styles",
+          "property": "height"
+        },
+        {
+          "kind": "region",
+          "id": "inspector-interactions",
+          "property": "height"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-flex-direction",
+          "property": "width"
+        }
+      ]
     }
   ]
 }

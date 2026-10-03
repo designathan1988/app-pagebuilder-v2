@@ -42,6 +42,12 @@
       "side": "canon",
       "inside": ".qp-chip",
       "why": "closed, the design marks the chip's positioning box around the chip; the app marks the chip itself"
+    },
+    {
+      "mark": "style.set#inspector-flex-direction",
+      "side": "app",
+      "closest": ".segmented",
+      "why": "the app marks each direction's button; the design marks the group of them"
     }
   ],
   "aliases": [

@@ -120,6 +120,14 @@ export async function setUpState(app: Page, state: State): Promise<void> {
   // Layers as the design shows it: every branch folded, then only the selection's opened by selecting it
   await app.locator('[data-door="layers.collapseAll#toolbar-layers-header-collapse-all"]').first().click();
   await app.waitForTimeout(200);
+  // a session's history, as the design's top bar shows it (Undo and Redo both available) and the page unchanged: a card
+  // moved down and back up, then duplicated and the duplicate undone
+  await openTo(app, 'Cartão Grãos');
+  await row.click(app, 'Cartão Grãos');
+  for (const key of ['Alt+ArrowDown', 'Alt+ArrowUp', 'Control+d', 'Control+z']) {
+    await app.keyboard.press(key);
+    await app.waitForTimeout(150);
+  }
   await openTo(app, name);
   // the element selected once first: Layers opens its branch, so the rows of its siblings are there to click
   await row.click(app, name);
@@ -185,6 +193,9 @@ export async function setUpState(app: Page, state: State): Promise<void> {
     await app.waitForTimeout(500);
   }
   if (state === 'interaction') {
+    // the design's dock is open on the Timeline while an event is edited
+    await app.locator('[data-door="workspace.setPanelOpen#dock-strip-timeline"]').first().click();
+    await app.waitForTimeout(300);
     // the Interactions tab on the button's two events, its click event's target being picked (the design's state)
     await app.locator('[data-door$="#inspector-tab-interactions"]').first().click();
     await app.waitForTimeout(400);
@@ -213,5 +224,7 @@ export async function setUpState(app: Page, state: State): Promise<void> {
     }
   }
   // the pointer rests where it hovers nothing (a menu stays open: the pointer leaving it does not close it)
-  if (state !== 'palette' && state !== 'hover' && state !== 'drag') await app.mouse.move(1, 899);
+  // in the multiple selection the design's pointer rests on the Footer's row, which shows its actions
+  if (state === 'multi') await (await revealed(app, 'Footer')).hover();
+  else if (state !== 'palette' && state !== 'hover' && state !== 'drag') await app.mouse.move(1, 899);
 }

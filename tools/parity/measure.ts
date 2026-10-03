@@ -134,7 +134,9 @@ export function diverging(kind: Divergence['kind'], canon: readonly Measured[], 
     const add = (property: string, a: string, b: string) => found.push({ kind, id: one.id, property, canon: a, app: b });
     if (Math.abs(one.height - other.height) > SIZE[kind]) add('height', `${one.height}`, `${other.height}`);
     if ((kind === 'region' || !one.worded) && Math.abs(one.width - other.width) > SIZE[kind]) add('width', `${one.width}`, `${other.width}`);
-    if ((one.worded || other.worded) && one.font !== other.font) add('font', one.font, other.font);
+    // a region's font is its words' only where it holds them itself: a region around others' words (the text
+    // toolbar over the page's heading) draws no font of its own
+    if (kind === 'control' && (one.worded || other.worded) && one.font !== other.font) add('font', one.font, other.font);
     if ((one.worded || one.icon || other.worded || other.icon) && colourDistance(one.color, other.color) > COLOUR) add('colour', one.color, other.color);
     if (colourDistance(one.background, other.background) > COLOUR) add('background', one.background, other.background);
     const cornered = (m: Measured) => m.edged || colourDistance(m.background, 'rgba(0, 0, 0, 0)') !== 0;
