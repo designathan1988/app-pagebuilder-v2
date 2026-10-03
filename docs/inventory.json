@@ -5,8 +5,8 @@
     "commands": 371,
     "doors": 1350,
     "scenarios": 1819,
-    "modules": 423,
-    "lines": 79794
+    "modules": 424,
+    "lines": 79844
   },
   "features": [
     {
@@ -3764,7 +3764,7 @@
     },
     {
       "path": "src/core/export/export.ts",
-      "lines": 511,
+      "lines": 518,
       "commands": [
         "project.export"
       ],
@@ -3797,6 +3797,12 @@
     {
       "path": "src/core/export/paths.ts",
       "lines": 16,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/export/sheet-headings.ts",
+      "lines": 18,
       "commands": [],
       "features": []
     },
@@ -3996,7 +4002,7 @@
     },
     {
       "path": "src/core/import/import.ts",
-      "lines": 1533,
+      "lines": 1540,
       "commands": [
         "project.importHtml"
       ],
@@ -4888,7 +4894,7 @@
     },
     {
       "path": "src/editor/assistant/controller.ts",
-      "lines": 227,
+      "lines": 237,
       "commands": [],
       "features": []
     },
@@ -4912,7 +4918,7 @@
     },
     {
       "path": "src/editor/assistant/panel.tsx",
-      "lines": 91,
+      "lines": 94,
       "commands": [],
       "features": []
     },
@@ -4930,7 +4936,7 @@
     },
     {
       "path": "src/editor/assistant/session.ts",
-      "lines": 58,
+      "lines": 60,
       "commands": [],
       "features": []
     },
@@ -6161,7 +6167,7 @@
     },
     {
       "path": "src/editor/shell/shell.tsx",
-      "lines": 208,
+      "lines": 211,
       "commands": [],
       "features": []
     },

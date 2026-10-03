@@ -35,7 +35,9 @@ export function createAssistantSession(ports: SessionPorts) {
         const apiKey = await ports.vault.read();
         controller.signal.throwIfAborted();
         if (!apiKey) throw new Error('Assistant API key is required');
-        const content = [{ type: 'text', text: text.trim() }, ...(reference ? [imageBlock(reference.bytes, reference.mime)] : [])];
+        // the reference image before the words: the provider reads an image best when it comes first (Anthropic's
+        // vision guide, platform.claude.com/docs/en/build-with-claude/vision)
+        const content = [...(reference ? [imageBlock(reference.bytes, reference.mime)] : []), { type: 'text', text: text.trim() }];
         const result = await runTurn({ ...ports.settings(), apiKey }, [...messages, { role: 'user', content }], ports, controller.signal);
         controller.signal.throwIfAborted();
         messages = result.messages;

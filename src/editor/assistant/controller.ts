@@ -23,6 +23,14 @@ export interface AssistantController {
 }
 const controllers = new WeakMap<EditorStore, AssistantController>();
 export const assistantController = (store: EditorStore): AssistantController | undefined => controllers.get(store);
+// The assistant lives as long as the editor, not as long as its panel: a turn goes on while another view takes the
+// sidebar (its own layout_enter opens the Layout panel there, which unmounted the panel and cancelled the turn: plan
+// G5, AV1). The panel installs it when first shown; the shell uninstalls it with the editor (shell.tsx).
+const uninstallers = new WeakMap<EditorStore, () => void>();
+export function uninstallAssistant(store: EditorStore): void {
+  uninstallers.get(store)?.();
+  uninstallers.delete(store);
+}
 
 export function installAssistant(store: EditorStore): () => void {
   if (controllers.has(store)) return () => { };
@@ -218,9 +226,11 @@ export function installAssistant(store: EditorStore): () => void {
       notice(failure ?? key);
     });
   });
-  return () => {
+  const uninstall = () => {
     unwatch();
     unwatchDocument();
     controller.dispose();
   };
+  uninstallers.set(store, uninstall);
+  return uninstall;
 }

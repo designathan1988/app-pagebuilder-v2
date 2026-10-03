@@ -220,7 +220,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-13.7 | Publish: packaging CI (`.github/workflows/package.yml`) | out | DEC-08 |
 | STG-14.1 | MCP server in the Companion exposing the manifest's commands | done | QA 50, 55 |
 | STG-14.2 | Chat in the editor with the user's key, one undo step per turn | done (waiting on the user) | QA 50, 55; a real-provider check needs the user's key |
-| STG-14.3 | Image → layout through the assistant; manual tracing | partial | tracing done (STG-11.11); assistant vision not verified |
+| STG-14.3 | Image → layout through the assistant; manual tracing | done (waiting on the user) | tracing done (STG-11.11); QA 205: the picture reaches the provider first and its layout is built through the Layout Composer's tools in one undo step (stub provider, `tests/e2e/assistant.spec.ts`); the real provider: `npm run assistant:check` with the user's own key |
 | STG-15 | First contact, templates and help | out | DEC-08 |
 | STG-16 | Production readiness | out | DEC-08 |
 | STG-17 | Final validation and Journey 04 | out | DEC-08 |
@@ -317,7 +317,7 @@ Thresholds fixed before the study (`jornada03/00-frame/hypotheses.md`); measured
 | Bet C | Data to pages | done | stage 8; C4 |
 | Bet D | Shared regions | done | STG-8.1; C3 |
 | Bet E | Client preview (link or single file) | out | stage 13 (DEC-08) |
-| Bet F | Layout from a picture | partial | STG-11.11 done; STG-14.3 partial |
+| Bet F | Layout from a picture | done (waiting on the user) | STG-11.11 done; STG-14.3 done (QA 205), the real-provider check left to the user |
 
 The wishes the study recorded (the plan lists them as 32; its list names 31):
 
@@ -422,6 +422,8 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | PS1 | 1 | A page address refused (Canonical URL, Sharing image, Favicon) said only "cannot be", dropping the address rule's reason | QA 198, AUD-35's scenarios | done (QA 198) |
 | LA1 | 2 | The Layers tree never autoscrolled down during a drag when it was taller than its panel (it scrolled only where no row lay under the pointer) | QA 199, AUD-35's drag-autoscroll test | done (QA 199) |
 | CH1 | 2 | Export then import turned a class of the person's that one element alone listed last (`card card--featured`) into that element's own values, and the project lost the class | QA 204, `import-classes.test.ts`, the round trip of every fixture | done (QA 204) |
+| AV1 | 3 | An assistant turn that entered the Layout tool was cancelled: layout_enter opens the Layout panel in the sidebar, the Assistant panel unmounted, and the session it had installed went with it, so a picture could never be laid out from the chat | QA 205, `tests/e2e/assistant.spec.ts` (red without the fix: "Assistant cancelled") | done (QA 205) |
+| AV2 | 1 | After an assistant turn that used the Layout tool, layout_leave gives the sidebar back to the Explorer, not to the Assistant the turn came from: the person opens the Assistant again to read the answer (owner: the Layout Composer, `src/modules/layout-composer/host/handlers.ts` leaveLayout) | QA 205 | open |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 
@@ -610,6 +612,7 @@ predicate hardening, the invariant probe in the gate, and the security set.
 | `npm run perf:layout` | The Layout tool's pointer budget (≤ 16 ms per move) | — |
 | `npm run modules:removal <name>` | The application builds and checks without a module | minutes |
 | `npm run companion` | The Builder Companion on 127.0.0.1:5410 (capture of web addresses, the assistant's bridge and MCP tools) | — |
+| `npm run assistant:check` | The assistant's vision path against the real provider: a wireframe picture before the words, the Layout Composer's tools offered, the answer checked call by call (`tools/assistant/real-check.ts`); needs `ANTHROPIC_API_KEY`, the user's own, in the environment | ~30 s |
 | `npm run parity` | The app's e2e build and `design/final/index.html` measured side by side in Chrome, 12 states × 2 themes × 2 languages, every region and control both mark; writes `docs/pairing.json` and `docs/PAIRING.md` (`tools/parity/`) | ~6 min |
 | `node tools/parity/pair.ts <state> [light]` | The app against `design/final/index.html` in one of 12 states, region by region, crops and a report in `.cache/logs/parity-<time>/`; `node tools/parity/join.ts <dir>` joins each pair (needs the canonical served on 5394: `node tools/parity/serve-design.ts`) | ~10 s each |
 | `npm run journey [-- <task>…]` | The jornada03 tasks (M1…M5, M3R, D1…D4, C1…C5, P2…P4, H2) replayed in Chrome on the e2e build, a photo per step, then the scoreboard of H1–H17 (`tools/journey/`; records and photos in `.cache/logs/journey/`) | ~3 min |

@@ -47,7 +47,10 @@ export function AssistantPanel(): ReactNode {
   const state = useEditorState(state => assistantOf(state.ui));
   const model = useEditorState(state => state.ui.preferences.assistantModel ?? DEFAULT_ASSISTANT_MODEL);
   const key = useRef<HTMLInputElement>(null), connection = useRef<HTMLInputElement>(null);
-  useEffect(() => installAssistant(store), [store]);
+  // installed once for the editor, never uninstalled with the panel (controller.ts: the shell does it with the editor)
+  useEffect(() => {
+    installAssistant(store);
+  }, [store]);
   const invoke = (entry: DoorEntry, args: unknown = {}) => (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(entry.command.id, args);
   const door = (name: string, props: Readonly<Record<string, unknown>>): ReactNode => {
     if (name === 'assistant-provider') return <p>{t('assistant.providerAnthropic')}</p>;

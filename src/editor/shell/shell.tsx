@@ -36,6 +36,7 @@ import { BreakpointsDialog } from './breakpoints-dialog.tsx';
 import { BatchRenameDialog } from './batch-rename.tsx';
 import { CaptureUrlDialog } from './capture-url.tsx';
 import { installCapture } from '../import/capture.ts';
+import { uninstallAssistant } from '../assistant/controller.ts';
 import { RecoveryDialog } from './recovery.tsx';
 import { TabGuardNotice } from './tab-guard.tsx';
 import { PreviewBar, PreviewPage } from './preview.tsx';
@@ -121,6 +122,8 @@ export function Shell() {
   useProjectFontsOnDocument();
   useEffect(() => installKeymap(store), [store]);
   useEffect(() => installPointer(store), [store]);
+  // the assistant goes with the editor, never with its panel (assistant/controller.ts: a turn outlives a sidebar view)
+  useEffect(() => () => uninstallAssistant(store), [store]);
   // the canvas tools of the installed modules (app/modules-view.ts) and the motion Timeline's drags, asked first by the
   // pointer owner (input/pointer-tools.ts)
   useEffect(() => installModuleTools(), []);
