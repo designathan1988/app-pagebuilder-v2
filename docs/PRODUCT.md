@@ -120,7 +120,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-2.2 | Saved projects migrate and open alike | done | `src/core/document/migrations.ts`; Marina's version-1 project opens (audit M3) |
 | STG-2.3 | Tabs from the project's list, the frame's edge dragged, "create a breakpoint here" | done | QA 46, 69, 129 |
 | STG-2.4 | Side-by-side view of 2–4 breakpoints, editable | done | QA 69; feature `side-by-side-view` |
-| STG-2.5 | Export media queries and inspector badges from the project's list | partial | QA 67, 70; AUD-02 |
+| STG-2.5 | Export media queries and inspector badges from the project's list | done | QA 67, 70; the cascade order QA 150 (`export-cascade.spec.ts`) |
 | STG-3.1 | Lean field (J6): value and unit cell, Reset outside the value | done | QA 52, 56; flow `lean-field` |
 | STG-3.2 | Steppers, arrows ±1/±10/±0.1, wheel, scrub, one undo step per drag | partial | QA 71 (keys, wheel, scrub); steppers dropped (AUD-16, DEC-30) |
 | STG-3.3 | Smart input: bare numbers (J18), arithmetic and `calc()`, shorthand (J27), Portuguese keywords | done | QA 47, 71, 76 |
@@ -155,12 +155,12 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-5.18 | Image picker with thumbnails and search (M4) | done | QA 94 |
 | STG-5.19 | Status bar parity, never an incident without a message (J1) | partial | AUD-01 |
 | STG-5.20 | Stage closure: `PAIRING-2.md` with zero open divergence | partial | `docs/archive/PAIRING-2.md` (manual); AUD-28 |
-| STG-6.1 | Identical rule bodies merged, stable between exports | partial | QA 51; AUD-02 |
+| STG-6.1 | Identical rule bodies merged, stable between exports | done | QA 51; merged only inside one breakpoint block, the same text every time QA 150 |
 | STG-6.2 | Shorthand writer (padding, margin, border, inset, gap, radius, font) | done | QA 51 |
 | STG-6.3 | No `padding: 0px` on every div; plain divs get no class | done | QA 51 |
 | STG-6.4 | Class names by role in the project's code language, unnumbered across pages, batch rename | partial | QA 51, 82; AUD-14 |
 | STG-6.5 | `<html lang>`, `<button type>`; Checks rules with automatic fixes | partial | QA 51; the auto-fix removed (AUD-16, DEC-31) |
-| STG-6.6 | Fidelity remeasured: ≥ 85 % desktop, ≥ 80 % at 834 and 390 | missing | AUD-02 (78.5 / 70.7 %) |
+| STG-6.6 | Fidelity remeasured: ≥ 85 % desktop, ≥ 80 % at 834 and 390 | partial | after QA 150: 86.2 / 81.0 / 75.0 % common (80.6 / 77.1 / 72.2 adjusted), the study's values again; 390 below target: the M2/M3 rebuild is redone in phase G2 |
 | STG-7.1 | Variables in every field and the colour picker; make a variable from a value | done | QA 72, 76, 111 |
 | STG-7.2 | Find uses and replace across the site | done | QA 111; C1 |
 | STG-7.3 | Extract to a class, move into an existing class, apply to all similar | done | QA 113; D1; AUD-19 |
@@ -244,7 +244,7 @@ The problems of the usability study (`jornada03/REPORT.md` section 3), re-checke
 | J11 | Insert search accents, synonyms, order | done | QA 86; M1 |
 | J12 | Keyboard cannot reach canvas or Layers; Ctrl+K pages/layers | partial | QA 88, 95, 103, 104; AUD-13 |
 | J13 | Upload refuses CSV/JSON; no mapping | done | QA 66; C4 |
-| J14 | Export CSS ~5× hand-written | partial | QA 51 (1.95×); AUD-02, AUD-14 |
+| J14 | Export CSS ~5× hand-written | partial | QA 51 (1.95×); the cascade QA 150; AUD-14 |
 | J15 | Font list: half-typed commit, clipped, uploaded fonts missing | partial | QA 42, 73; AUD-12 |
 | J16 | Labels and chips over content | done | QA 101 |
 | J17 | Shift+click range; list jumps | done | QA 84 |
@@ -268,7 +268,7 @@ Thresholds fixed before the study (`jornada03/00-frame/hypotheses.md`); measured
 |---|---|---|---|
 | H1 | Newcomer reaches title, text, button ≤ 5 min, ≤ 1 dead end | done | 0 dead ends (M1) |
 | H2 | Desktop rebuild ≥ 85 % fidelity ≤ 45 min | partial | 86.2 % common, 80.6 % height-adjusted |
-| H3 | Tablet and phone ≤ 15 min, ≥ 80 % | missing | 78.5 / 70.7 % (AUD-02) |
+| H3 | Tablet and phone ≤ 15 min, ≥ 80 % | partial | 81.0 / 75.0 % common after QA 150 (the study: 81.0 / 75.0); phase G2 |
 | H4 | Own font and images ≤ 8 min | done | M4 (AUD-12) |
 | H5 | Preview and export in 1 min, valid | done | M5, 0 html-validate errors |
 | H6 | Colours and spacing named once | done | D1 |
@@ -371,7 +371,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | ID | Sev | Problem | Source | Status |
 |---|---|---|---|---|
 | AUD-01 | 4 | The editor goes blank when a refused change belongs to a command whose label has placeholders (no error boundary; the message formatter throws) | audit | open: the fix is in (QA 149); its browser proof on the audit's path lands with AUD-03 |
-| AUD-02 | 3 | Export rule merging breaks the cascade: tablet and phone styles lost; fidelity regressed | audit | open |
+| AUD-02 | 3 | Export rule merging breaks the cascade: tablet and phone styles lost; fidelity regressed | audit | done (QA 150) |
 | AUD-03 | 3 | The style state stays on across selections and style writes produce invalid documents | audit | open |
 | AUD-04 | 3 | Unwrap, move out of parent and nest on component instances produce invalid documents | audit | open |
 | AUD-05 | 3 | Export then import loses design tokens and unused classes | audit | open |

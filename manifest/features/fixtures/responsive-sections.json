@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "id": "p-home",
+      "name": "Home",
+      "file": "index.html",
+      "tree": {
+        "id": "n-page", "type": "page", "name": "Page", "tag": "body", "attributes": {}, "classes": [], "styles": {}, "text": null,
+        "children": [
+          {
+            "id": "n-hero", "type": "section", "name": "Hero", "tag": "section", "attributes": {}, "classes": [],
+            "styles": {
+              "desktop": { "base": { "padding-top": "48px", "padding-right": "64px", "padding-bottom": "48px", "padding-left": "64px" } },
+              "tablet": { "base": { "padding-right": "32px", "padding-left": "32px" } },
+              "phone": { "base": { "padding-right": "20px", "padding-left": "20px" } }
+            },
+            "text": null,
+            "children": [
+              { "id": "n-title", "type": "heading", "name": "Title", "tag": "h1", "attributes": {}, "classes": [], "styles": {}, "text": "Fresh coffee", "children": [] }
+            ]
+          },
+          {
+            "id": "n-plans", "type": "section", "name": "Plans", "tag": "section", "attributes": {}, "classes": [],
+            "styles": {
+              "desktop": { "base": { "padding-top": "48px", "padding-right": "64px", "padding-bottom": "56px", "padding-left": "64px" } },
+              "tablet": { "base": { "padding-right": "32px", "padding-left": "32px" } },
+              "phone": { "base": { "padding-right": "20px", "padding-left": "20px" } }
+            },
+            "text": null,
+            "children": [
+              {
+                "id": "n-grid", "type": "div", "name": "Grid", "tag": "div", "attributes": {}, "classes": [],
+                "styles": {
+                  "desktop": { "base": { "display": "grid", "grid-template-columns": "repeat(3, minmax(0, 1fr))", "column-gap": "24px", "row-gap": "24px" } },
+                  "tablet": { "base": { "grid-template-columns": "repeat(2, minmax(0, 1fr))" } },
+                  "phone": { "base": { "grid-template-columns": "minmax(0, 1fr)" } }
+                },
+                "text": null,
+                "children": [
+                  {
+                    "id": "n-card-a", "type": "article", "name": "Card A", "tag": "article", "attributes": {}, "classes": [],
+                    "styles": {
+                      "desktop": { "base": { "padding-top": "24px", "padding-right": "24px", "padding-bottom": "24px", "padding-left": "24px" } },
+                      "phone": { "base": { "padding-top": "16px", "padding-right": "16px", "padding-bottom": "16px", "padding-left": "16px" } }
+                    },
+                    "text": null,
+                    "children": [
+                      { "id": "n-card-a-title", "type": "heading", "name": "Card A title", "tag": "h3", "attributes": {}, "classes": [], "styles": {}, "text": "Monthly", "children": [] }
+                    ]
+                  },
+                  {
+                    "id": "n-card-b", "type": "article", "name": "Card B", "tag": "article", "attributes": {}, "classes": [],
+                    "styles": {
+                      "desktop": { "base": { "padding-top": "24px", "padding-right": "24px", "padding-bottom": "32px", "padding-left": "24px" } },
+                      "phone": { "base": { "padding-top": "16px", "padding-right": "16px", "padding-bottom": "16px", "padding-left": "16px" } }
+                    },
+                    "text": null,
+                    "children": [
+                      { "id": "n-card-b-title", "type": "heading", "name": "Card B title", "tag": "h3", "attributes": {}, "classes": [], "styles": {}, "text": "Weekly", "children": [] }
+                    ]
+                  },
+                  {
+                    "id": "n-card-c", "type": "article", "name": "Card C", "tag": "article", "attributes": {}, "classes": [],
+                    "styles": {
+                      "desktop": { "base": { "padding-top": "24px", "padding-right": "24px", "padding-bottom": "40px", "padding-left": "24px" } },
+                      "phone": { "base": { "padding-top": "16px", "padding-right": "16px", "padding-bottom": "16px", "padding-left": "16px" } }
+                    },
+                    "text": null,
+                    "children": [
+                      { "id": "n-card-c-title", "type": "heading", "name": "Card C title", "tag": "h3", "attributes": {}, "classes": [], "styles": {}, "text": "Daily", "children": [] }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

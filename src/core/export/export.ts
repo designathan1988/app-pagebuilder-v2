@@ -30,7 +30,7 @@ import { walk, type Animation, type DocNode, type DocumentJson } from '../docume
 import type { ModelRules } from '../document/validate.ts';
 import { zip } from '../project/zip.ts';
 import { baseCss } from '../render/base.ts';
-import { classesCss, elementAttributes, fileUrlsIn, nodeCss, writesNode } from '../render/output.ts';
+import { classesCss, elementAttributes, fileUrlsIn, mediaQuery, nodeCss, writesNode } from '../render/output.ts';
 import { svgMarkupOf } from '../elements/svg.ts';
 import { dataUrl, fileAt, fileBytes, filesOf, relativePath } from '../files/files.ts';
 import { fontFaceCss, fontFiles } from '../files/fonts.ts';
@@ -363,7 +363,10 @@ export function siteFiles(
   // each block ends with its line's end, as a page's rules do, so a blank line parts every rule from the next
   const fonts = fontFaceCss(filesOf(document), (file) => relativePath(STYLESHEET, file.path));
   const shared = [baseCss(), rootCss(document.tokens ?? []), fonts === '' ? '' : `${fonts}\n`, classesCss(document.classes ?? [], rules.output, 'block')].filter((c) => c !== '').map((c) => `${relative ? writtenCss(document, c, STYLESHEET) : c}\n`);
-  const generated = mergeCssLines(pages.flatMap(p => p.code.css), new Set(pages.flatMap(p => [...p.code.classes.values()])));
+  // the elements' rules in cascade order (every base rule, then each breakpoint's block, widest first), their identical
+  // bodies merged inside a block (core/render/clean.ts; the audit's AUD-02)
+  const media = rules.output.breakpoints.filter((breakpoint) => !breakpoint.base).map(mediaQuery);
+  const generated = mergeCssLines(pages.flatMap((p) => p.code.css), new Set(pages.flatMap((p) => [...p.code.classes.values()])), media);
   const files = [pageCss(generated)];
   const css = [...shared, ...files].filter((c) => c !== '').join('\n');
   // the same text, line by line: every part's own lines, and the blank line the join writes between two parts

@@ -2273,6 +2273,14 @@ Exporting records nothing.
    for the others; no selector uses an id or a data attribute; the product name appears in no class and no rule.
 3. **The same page exports to different files.** Required: two exports of the same document are byte-identical: the
    archive's entries carry a fixed time, not the time of the export.
+4. **Tablet and phone styles were lost in the export** (the audit's AUD-02, 2026-10-02): the elements' rules were
+   written one element at a time (its base rule, then its media rules), and merging identical bodies moved one
+   element's media rule up to another's, before its own base rule, which then won at that width (Marina's sections kept
+   their 64 px padding and the plans grid its three columns at 834 and 390, while the canvas drew them right). Required:
+   the stylesheet writes every element's base rules first, then one media block per breakpoint in cascade order, widest
+   first, each holding every element's rules for that breakpoint, as Webflow's export does; identical bodies merge only
+   inside one block; a media query the breakpoints do not name is refused, never placed by guess. At every breakpoint
+   the exported page has the canvas's computed styles (`tests/e2e/export-cascade.spec.ts`).
 
 ## export-zip
 

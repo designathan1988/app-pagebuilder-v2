@@ -99,6 +99,12 @@ export function viewportUnits(text: string, screen: { readonly height: number })
   return text.replace(VIEWPORT_HEIGHT, (_all, before: string, n: string) => `${before}${Math.round((Number(n) * screen.height) / 100 * 100) / 100}px`);
 }
 
+// The media query a breakpoint's rules are written in: desktop-first, the breakpoint's width as the widest it covers.
+// One writer for the node rules and for the export's cascade order (export.ts, clean.ts cascadeOrder).
+export function mediaQuery(breakpoint: { readonly width: number }): string {
+  return `@media (max-width: ${breakpoint.width}px)`;
+}
+
 export function nodeCss(node: Pick<DocNode, 'styles'> & { readonly type?: string }, selector: string, model: OutputModel, layout: 'line' | 'block' = 'line', screen: { readonly height: number } | null = null, extra: readonly string[] = []): string {
   const blocks: string[] = [];
   for (const breakpoint of model.breakpoints) {
@@ -120,7 +126,7 @@ export function nodeCss(node: Pick<DocNode, 'styles'> & { readonly type?: string
       rules.push(layout === 'line' ? `${selector}${pseudo ?? ''} { ${lines.join(' ')} }` : `${indent}${selector}${pseudo ?? ''} {\n${lines.map((l) => `${indent}  ${l}`).join('\n')}\n${indent}}`);
     }
     if (rules.length === 0) continue;
-    blocks.push(breakpoint.base ? rules.join('\n') : `@media (max-width: ${breakpoint.width}px) {\n${rules.join('\n')}\n}`);
+    blocks.push(breakpoint.base ? rules.join('\n') : `${mediaQuery(breakpoint)} {\n${rules.join('\n')}\n}`);
   }
   return blocks.join('\n');
 }

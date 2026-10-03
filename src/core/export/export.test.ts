@@ -162,3 +162,20 @@ describe('a declaration address that names a project file (spec explorer-assets-
     expect(html).toContain('src="data:image/png;base64,AAAA"');
   });
 });
+
+// The audit's AUD-02 on a whole site: every element's base rule comes before any breakpoint block, the blocks follow the
+// cascade widest first, and the same project exports the same stylesheet every time (plan STG-6.1).
+describe('the site stylesheet in cascade order (AUD-02)', () => {
+  it('writes every element rule before the breakpoint blocks, widest first, the same text every time', async () => {
+    const fs = await import('node:fs');
+    const document = JSON.parse(fs.readFileSync('manifest/features/fixtures/responsive-sections.json', 'utf8')) as DocumentJson;
+    const { css } = siteFiles(document, RULES);
+    const firstMedia = css.indexOf('@media (max-width: ');
+    const lastBase = Math.max(...[...css.matchAll(/^\.[a-z][^\n]* \{$/gm)].map((match) => match.index));
+    expect(firstMedia).toBeGreaterThan(lastBase);
+    const queries = [...css.matchAll(/^@media \(max-width: (\d+)px\) \{$/gm)].map((match) => Number(match[1]));
+    expect(queries).toEqual([...queries].sort((a, b) => b - a));
+    expect(new Set(queries).size).toBe(queries.length);
+    expect(siteFiles(document, RULES).css).toBe(css);
+  });
+});
