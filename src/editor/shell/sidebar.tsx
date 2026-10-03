@@ -26,8 +26,9 @@ import { MODEL_RULES, useEditorState, useStore, type EditorState } from '../stor
 import { atPlace, isPanelOpen, panelName, stackedSections, toggleLeftDock, type Panel } from '../workspace/panels.ts';
 import { useNarrowWindow } from '../workspace/narrow.ts';
 import { useOutsideLayer } from './outside-layer.ts';
+import { Splitter } from './splitter.tsx';
 import { outsidePress } from '../input/pointer/views.ts';
-import { SPLITTERS, combinationAt, splitterSize, type SplitterId } from '../workspace/layout.ts';
+import { combinationAt, splitterSize } from '../workspace/layout.ts';
 import { PanelArea, PanelGrip } from '../workspace/windows.tsx';
 import { floatingOf } from '../workspace/layout.ts';
 import { useLocale, useT } from '../text.ts';
@@ -1097,34 +1098,6 @@ function EmptyView({ panel }: { readonly panel: Panel }) {
   );
 }
 
-// the divider's drag door (spec panel-resize): the panel-drag door whose source is a splitter
-const SPLITTER_DRAG = manifest.doors.find((d) => d.door.kind === 'panel-drag' && d.door.source === 'splitter');
-
-// The splitter between the sidebar's view and its stack (spec panel-resize): the divider of the splitter named, drawn
-// as its manifest data says — its axis, its bounds and the size the person gave it (workspace.resizeSplitter) — a
-// separator the keyboard reaches (the splitter key context: its four arrows) and the pointer drags.
-function Splitter({ splitter }: { readonly splitter: string }) {
-  const t = useT();
-  const size = useEditorState((s) => splitterSize(s.ui, splitter));
-  const data = SPLITTERS[splitter as SplitterId] as (typeof SPLITTERS)[SplitterId] | undefined;
-  if (data === undefined || size === null || SPLITTER_DRAG === undefined) return null;
-  return (
-    <div
-      role="separator"
-      aria-orientation={data.axis === 'x' ? 'vertical' : 'horizontal'}
-      aria-label={t(data.labelKey as MessageId)}
-      aria-valuenow={size}
-      aria-valuemin={data.min}
-      aria-valuemax={data.max}
-      tabIndex={0}
-      data-key-context="splitter"
-      data-door={SPLITTER_DRAG.ref}
-      data-args={JSON.stringify({ splitter })}
-      className={`splitter splitter--${data.axis}`}
-    />
-  );
-}
-
 export function Sidebar() {
   const view = useEditorState((s) => s.ui.panels.sidebarView);
   const View = SIDEBAR_VIEWS[view];
@@ -1185,6 +1158,8 @@ export function Sidebar() {
           </div>
         );
       })}
+      {/* the sidebar's width, which the person sets (spec panel-resize) */}
+      <Splitter splitter="sidebar-width" className="splitter--column-end" />
     </aside>
   );
 }

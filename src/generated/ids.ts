@@ -4585,6 +4585,8 @@ export const MESSAGE_IDS = [
   "snapSettings.targetsHint",
   "snapSettings.title",
   "splitter.sidebarStack",
+  "splitter.sidebarWidth",
+  "splitter.inspectorWidth",
   "status.align.done",
   "status.align.needsPositioned",
   "status.alignment.set",

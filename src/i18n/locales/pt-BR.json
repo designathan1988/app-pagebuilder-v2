@@ -1590,6 +1590,8 @@
   "snapSettings.targetsHint": "Aonde uma borda movida ou redimensionada é puxada enquanto o encaixe está ligado.",
   "snapSettings.title": "Configurações de encaixe",
   "splitter.sidebarStack": "Redimensionar os painéis abaixo da vista",
+  "splitter.sidebarWidth": "Largura da barra lateral",
+  "splitter.inspectorWidth": "Largura do inspetor",
   "status.align.done": "{edge}: {elements}.",
   "status.align.needsPositioned": "Alinhar funciona com elementos com posição absoluta.",
   "status.alignment.set": "Alinhamento de {name}: {justify} · {align}.",

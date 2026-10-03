@@ -1590,6 +1590,8 @@
   "snapSettings.targetsHint": "What a moved or resized edge is pulled to while snap is on.",
   "snapSettings.title": "Snap settings",
   "splitter.sidebarStack": "Resize the panels below the view",
+  "splitter.sidebarWidth": "Sidebar width",
+  "splitter.inspectorWidth": "Inspector width",
   "status.align.done": "{edge}: {elements}.",
   "status.align.needsPositioned": "Align works on absolutely positioned elements.",
   "status.alignment.set": "Alignment of {name}: {justify} · {align}.",

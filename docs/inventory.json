@@ -4,9 +4,9 @@
     "built": 213,
     "commands": 370,
     "doors": 1335,
-    "scenarios": 1752,
-    "modules": 411,
-    "lines": 76719
+    "scenarios": 1754,
+    "modules": 412,
+    "lines": 76741
   },
   "features": [
     {
@@ -2193,7 +2193,7 @@
         "workspace.resizeSplitter"
       ],
       "doors": 5,
-      "scenarios": 4,
+      "scenarios": 6,
       "modules": [
         "src/editor/workspace/layout.ts"
       ]
@@ -6021,7 +6021,7 @@
     },
     {
       "path": "src/editor/shell/inspector.tsx",
-      "lines": 792,
+      "lines": 795,
       "commands": [],
       "features": []
     },
@@ -6093,7 +6093,7 @@
     },
     {
       "path": "src/editor/shell/shell.tsx",
-      "lines": 202,
+      "lines": 208,
       "commands": [],
       "features": []
     },
@@ -6111,7 +6111,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1191,
+      "lines": 1166,
       "commands": [],
       "features": []
     },
@@ -6124,6 +6124,12 @@
     {
       "path": "src/editor/shell/snap-settings.tsx",
       "lines": 74,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/shell/splitter.tsx",
+      "lines": 36,
       "commands": [],
       "features": []
     },
@@ -6469,7 +6475,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6460,
+      "lines": 6462,
       "commands": [],
       "features": []
     },

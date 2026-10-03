@@ -150,7 +150,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-5.13 | Canvas overlays: labels never over content (J16), breakpoint band (J22), image marker | done | QA 89, 101, 102, 122, 128 |
 | STG-5.14 | Bottom dock with the canonical strip | done | QA 96 (DEC-02) |
 | STG-5.15 | Keyboard: F6 includes canvas and Layers, arrows start at the root, roving focus (J12) | partial | QA 95, 103, 105; AUD-13 |
-| STG-5.16 | 1280 × 720: canvas ≥ 55 % (J25) | partial | QA 155: the stage 932 × 537 px, 54.3 % of the window as an area and 72.8 % of its width; the width splitters of the plan's row come next (B4b) |
+| STG-5.16 | 1280 × 720: canvas ≥ 55 % (J25) | done | QA 155: the stage 932 × 537 px, 54.3 % of the window as an area, 72.8 % of its width; the width splitters QA 156 |
 | STG-5.17 | Language and texts: browser language, gender-neutral Portuguese, singular forms (J26, J28) | partial | QA 87, 93; AUD-21, AUD-23 |
 | STG-5.18 | Image picker with thumbnails and search (M4) | done | QA 94 |
 | STG-5.19 | Status bar parity, never an incident without a message (J1) | done | QA 149, 151 (`refusal-never-blanks.spec.ts`) |

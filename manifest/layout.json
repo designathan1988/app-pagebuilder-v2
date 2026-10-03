@@ -721,6 +721,30 @@
         "up",
         "down"
       ]
+    },
+    "sidebar-width": {
+      "axis": "x",
+      "grow": "right",
+      "size": 224,
+      "min": 180,
+      "max": 400,
+      "labelKey": "splitter.sidebarWidth",
+      "directions": [
+        "left",
+        "right"
+      ]
+    },
+    "inspector-width": {
+      "axis": "x",
+      "grow": "left",
+      "size": 288,
+      "min": 240,
+      "max": 440,
+      "labelKey": "splitter.inspectorWidth",
+      "directions": [
+        "left",
+        "right"
+      ]
     }
   }
 }

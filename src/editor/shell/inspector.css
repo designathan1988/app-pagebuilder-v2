@@ -1,6 +1,7 @@
 /* ---------------------------------------------------------------- inspector */
 
 .inspector {
+  position: relative;
   grid-area: inspector;
   display: flex;
   flex-direction: column;

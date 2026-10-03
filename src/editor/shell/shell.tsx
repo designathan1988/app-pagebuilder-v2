@@ -5,7 +5,7 @@ import { HtmlImportDialog } from './html-import.tsx';
 // The shell regions (ARCHITECTURE.md): the window grid of DESIGN.md "The window", with the top bar, the activity
 // bar and the sidebar, the centre column, the inspector, the dock and the status bar. The sidebar, the inspector and
 // the dock are shown or hidden by the workspace state; the theme and the language follow the preferences.
-import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type RefObject } from 'react';
 import { installSelectOnFocus } from '../input/select-on-focus.ts';
 import { ContextMenu } from '../doors/menu.tsx';
 import { CommandBar } from './command-bar.tsx';
@@ -45,6 +45,7 @@ import { FitZoom, ReportFitZoom } from './slots.tsx';
 import { FloatingWindows, PanelBodyTable, PanelDragLayer, RightDock } from '../workspace/windows.tsx';
 import { RegionBoundary } from './region-boundary.tsx';
 import { NarrowWindow, useWindowNarrow } from '../workspace/narrow.ts';
+import { splitterSize } from '../workspace/layout.ts';
 
 // which panels the shell draws a body for, from the tables it draws them from (bodies.ts), and the component that
 // draws each body: a floating window and the right dock draw a panel of any place from the same table
@@ -133,6 +134,11 @@ export function Shell() {
   useEffect(() => installSelectOnFocus(), []);
   // below the manifest's width the sidebar opens over the canvas (workspace/narrow.ts)
   const narrow = useWindowNarrow();
+  // the widths the person gave the sidebar and the inspector (their splitters: workspace.resizeSplitter), which the
+  // window's columns and everything sized by them take
+  const sidebarWidth = useEditorState((s) => splitterSize(s.ui, 'sidebar-width'));
+  const inspectorWidth = useEditorState((s) => splitterSize(s.ui, 'inspector-width'));
+  const widths = { ...(sidebarWidth === null ? {} : { '--size-sidebar': `${sidebarWidth}px` }), ...(inspectorWidth === null ? {} : { '--size-inspector': `${inspectorWidth}px` }) } as CSSProperties;
   const classes = ['shell', sidebar ? '' : 'shell--no-sidebar', inspector ? '' : 'shell--no-inspector', narrow ? 'shell--narrow' : '', `shell--dock-${dock}`].filter((c) => c !== '').join(' ');
   // while previewing, the preview bar and the exported page over the editor (spec preview-mode): the editor stays as it
   // is underneath, its canvas included, and the status bar below says so
@@ -146,7 +152,7 @@ export function Shell() {
     <PanelBodies.Provider value={drawsBody}>
       <FitZoom.Provider value={zoom}>
         <ReportFitZoom.Provider value={setZoom}>
-          <div ref={root} className={classes} aria-label={t('editor.label')} data-key-context="global">
+          <div ref={root} className={classes} style={widths} aria-label={t('editor.label')} data-key-context="global">
             {/* each region behind its own error boundary: one that cannot draw leaves the others drawn (AUD-01) */}
             <RegionBoundary region="top-bar"><TopBar /></RegionBoundary>
             <RegionBoundary region="activity-bar"><ActivityBar /></RegionBoundary>

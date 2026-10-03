@@ -14,6 +14,7 @@
 //    field keeps the text with text.set), then the attribute fields that apply to the element's type, in their order;
 //    on the page root, the fields of the page's settings keep what is typed with page.setSetting; on a Link Block or a
 //    link, the Link address keeps it with element.setLink; the HTML tag field keeps a typed tag with element.setTag.
+import { Splitter } from './splitter.tsx';
 import { Fragment, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type ComponentType, type ReactNode } from 'react';
 import type { CommandId, FeatureId, MessageId, SectionId } from '../../generated/ids.ts';
 import { isFeatureBuilt } from '../../app/features.ts';
@@ -720,6 +721,8 @@ export function Inspector() {
   const Body = TAB_BODIES[tab];
   return (
     <aside className="inspector" aria-label={t(panelName('inspector'))} data-panel-focus="inspector">
+      {/* the inspector's width, which the person sets (spec panel-resize) */}
+      <Splitter splitter="inspector-width" className="splitter--column-start" />
       <div className="inspector-header" data-region="inspector-header">
         {/* its tabs rove with the arrows (the tab-strip key context; the audit's U-034) */}
         <div className="inspector-header__tabs" role="tablist" data-key-context="tab-strip">

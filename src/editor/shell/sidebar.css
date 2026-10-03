@@ -41,6 +41,7 @@
 }
 
 .sidebar {
+  position: relative;
   grid-area: sidebar;
   display: flex;
   flex-direction: column;
@@ -150,6 +151,22 @@
 .splitter:hover,
 .splitter:focus-visible {
   background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+}
+
+/* a column's width splitter (spec panel-resize): over the column's inner edge, the whole height, the line the column's
+   own border */
+.splitter--column-end,
+.splitter--column-start {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: none;
+}
+.splitter--column-end {
+  right: 0;
+}
+.splitter--column-start {
+  left: 0;
 }
 
 /* the keyboard's focus on a splitter wears the one ring, drawn inside its 6 px (the audit's U-030: it had none) */
