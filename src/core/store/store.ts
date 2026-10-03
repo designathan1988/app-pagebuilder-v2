@@ -185,11 +185,18 @@ export interface StoreOptions<Ui> {
   readonly freeze: boolean;
   // the editor state that follows a new selection, whichever command or undo step changed it (the editor's owner of
   // that state knows it: Layers unfolds the branches that hide a selected node)
-  readonly followSelection?: (state: StoreState<Ui>) => Ui;
+  readonly followSelection?: (state: StoreState<Ui>) => Followed<Ui>;
   // the editor state that follows a command that ran, by the command's manifest data and the arguments it ran with (a
   // text edit ends when an undoable command runs: the document may change under it; a renamed class the editor targets
   // moves the target with it); it returns the same editor state when nothing follows
-  readonly followCommand?: (state: StoreState<Ui>, command: Command, args: Readonly<Record<string, unknown>>) => Ui;
+  readonly followCommand?: (state: StoreState<Ui>, command: Command, args: Readonly<Record<string, unknown>>) => Followed<Ui>;
+}
+
+// What follows a new selection or a command that ran: the editor state, and words for the status bar when what followed
+// is something the person should hear of (the style state gone back to Base: the audit's AUD-03)
+export interface Followed<Ui> {
+  readonly ui: Ui;
+  readonly message?: Message | undefined;
 }
 
 export function deepFreeze<T>(value: T): T {
@@ -272,9 +279,9 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
   // a committed state whose selection changed, with the editor state that follows it
   const followSelection = (before: StoreState<Ui>, next: StoreState<Ui>): StoreState<Ui> => {
     if (options.followSelection === undefined || deepEqual(before.selection, next.selection)) return next;
-    const ui = options.followSelection(next);
-    if (ui === next.ui) return next;
-    const followed = { ...next, ui };
+    const { ui, message: said } = options.followSelection(next);
+    if (ui === next.ui && said === undefined) return next;
+    const followed = { ...next, ui, ...(said === undefined ? {} : { message: said }) };
     return options.freeze ? deepFreeze(followed) : followed;
   };
 
@@ -461,7 +468,8 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
       refused: false,
       ui: outcome.ui ?? before.ui,
     };
-    const next: StoreState<Ui> = options.followCommand === undefined ? ran : { ...ran, ui: options.followCommand(ran, command, args) };
+    const follows = options.followCommand?.(ran, command, args);
+    const next: StoreState<Ui> = follows === undefined ? ran : { ...ran, ui: follows.ui, ...(follows.message === undefined ? {} : { message: follows.message }) };
     const changed = documentChanged || !deepEqual(before.selection, next.selection) || next.ui !== before.ui || next.message !== before.message;
     breach = null;
     if (changed) {

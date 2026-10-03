@@ -101,6 +101,10 @@ export const setLabelTargetCommand = registerHandler('element.setLabelTarget', (
   const label = oneSelected(state);
   const target = locate(state.document, control);
   if (label === null || target === null) return { kind: 'refused', message: message('status.needsSingleSelection') };
+  // a label points at a form control, and only a label points (the audit's AUD-03: labelFor written on a heading left a
+  // document the validator refused)
+  if (label.node.type !== LABEL) return { kind: 'refused', message: message('status.label.notLabel', { name: label.node.name }) };
+  if (!CONTROLS.has(target.node.type)) return { kind: 'refused', message: message('status.label.notControl', { name: target.node.name }) };
   const locked = lockRefusal(state.document, label.node.id, 'status.locked.edit');
   if (locked !== null) return { kind: 'refused', message: locked };
   const patches: Patch[] = [];
@@ -115,6 +119,7 @@ export const setLabelTargetCommand = registerHandler('element.setLabelTarget', (
 // The form controls a label may point at: the inputs, text areas, selects, buttons, meters, progress bars and outputs of
 // the document, in document order.
 const CONTROLS = new Set(['input', 'textarea', 'select', 'button', 'meter', 'progress', 'output']);
+const LABEL = 'label';
 export function formControls(document: DocumentJson): DocNode[] {
   return [...allNodes(document)].filter((node) => CONTROLS.has(node.type));
 }

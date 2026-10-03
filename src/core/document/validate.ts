@@ -93,6 +93,8 @@ export interface ModelRules {
   readonly states: ReadonlySet<string>;
   // state id → the element types it stands on (null for every one): a rule a browser ignores is refused (A3.36)
   readonly stateElements: ReadonlyMap<string, readonly string[] | null>;
+  // state id → its name in the catalogues, for the words that name it (a refusal: nodes/flags.ts)
+  readonly stateLabels: ReadonlyMap<string, MessageId>;
   // breakpoint id → the screen width it stands for (properties.json): the import maps a media query's width to it
   readonly breakpointWidths: ReadonlyMap<string, number>;
   // the pseudo-class of a state, without its colons ("hover") → the state id: the import reads a selector's state
@@ -157,6 +159,7 @@ export function rulesFromManifest(elements: ElementsFile, properties: Properties
     breakpointTable: properties.breakpoints.map(({ id, width, height, base }) => ({ id, name: null, width, height, base })),
     states: new Set(properties.states.map((s) => s.id)),
     stateElements: new Map(properties.states.map((s) => [s.id, s.elements] as const)),
+    stateLabels: new Map(properties.states.map((s) => [s.id, s.labelKey as MessageId] as const)),
     breakpointWidths: new Map(properties.breakpoints.map((b) => [b.id, b.width] as const)),
     statePseudos: new Map(properties.states.flatMap((s) => (s.pseudo === null || s.pseudo.startsWith('::') ? [] : [[s.pseudo.slice(1), s.id] as const]))),
     base: { breakpoint: baseBreakpoint.id, state: baseState.id },
@@ -296,7 +299,7 @@ function validateStyles(styles: unknown, at: string, rules: ModelRules, bad: (pa
         if (!rules.states.has(state)) bad(`${at}/styles/${breakpoint}/${state}`, `"${state}" is not a style state`);
         // a state the element does not stand on (visited on a div, disabled on an h2) is no state for it (A3.36): the
         // export would write a rule a browser ignores
-        else if (type !== undefined && !stateElementAllows(state, type, rules)) bad(`${at}/styles/${breakpoint}/${state}`, `"${state}" is not a state ${type} takes`);
+        else if (type !== undefined && !stateStandsOn(state, type, rules)) bad(`${at}/styles/${breakpoint}/${state}`, `"${state}" is not a state ${type} takes`);
         if (!isRecord(declarations)) {
           bad(`${at}/styles/${breakpoint}/${state}`, 'a state holds its declarations');
           continue;
@@ -315,8 +318,10 @@ function validateStyles(styles: unknown, at: string, rules: ModelRules, bad: (pa
   }
 }
 
-// Whether a style state stands on an element of this type (properties.json states[].elements; null for every one)
-function stateElementAllows(state: string, type: string, rules: ModelRules): boolean {
+// Whether a style state stands on an element of this type (properties.json states[].elements; null for every one): the
+// one owner of the rule, read by the validator, by the style writers' refusals (nodes/flags.ts) and by the editor's
+// style state, which goes back to Base when the selection holds an element it does not stand on (the audit's AUD-03)
+export function stateStandsOn(state: string, type: string, rules: Pick<ModelRules, 'stateElements'>): boolean {
   const elements = rules.stateElements.get(state);
   return elements === undefined || elements === null || elements.includes(type);
 }

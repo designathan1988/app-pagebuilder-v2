@@ -5,7 +5,7 @@ import { createContext, useContext, useSyncExternalStore } from 'react';
 import { COMMANDS, PREDICATES } from '../app/commands.ts';
 import { message } from '../core/commands/registry.ts';
 import { isEditing, takeOver } from './persistence/tab-guard.ts';
-import { activeLayer } from './view/style-state.ts';
+import { activeLayer, styleStateFollows } from './view/style-state.ts';
 import { createEmptyDocument, type DocumentJson, type Selection } from '../core/document/model.ts';
 import { rulesFromManifest, type ModelRules } from '../core/document/validate.ts';
 import { rulesForDocument } from '../core/document/breakpoints.ts';
@@ -135,11 +135,12 @@ export function createEditorStore(options: EditorStoreOptions = {}): EditorStore
     followSelection: (state) => {
       const opened = { ...state, ui: pageFollowsSelection(state) };
       const revealed = { ...opened, ui: targetOffSelection({ ...opened, ui: revealSelection(opened) }) };
-      return endRenameOffSelection({ ...revealed, ui: endOffSelection(revealed) });
+      // the style state goes back to Base when the selection holds an element it does not stand on (AUD-03)
+      return styleStateFollows({ ...revealed, ui: endRenameOffSelection({ ...revealed, ui: endOffSelection(revealed) }) });
     },
     followCommand: (state, command, args) => {
       const followed = { ...state, ui: targetFollowsClassRename(state, command, args) };
-      return endRenameOnUndoable({ ...followed, ui: endOnUndoable(followed, command) }, command);
+      return styleStateFollows({ ...followed, ui: endRenameOnUndoable({ ...followed, ui: endOnUndoable(followed, command) }, command) });
     },
   });
   persistPreferences(store, storage);

@@ -1125,7 +1125,9 @@
         "predicate": "always",
         "refusalKey": null
       },
-      "refusals": [],
+      "refusals": [
+        "status.styleState.notApplicable"
+      ],
       "confirmation": null,
       "history": {
         "undoable": false
@@ -2343,7 +2345,9 @@
         "predicate": "always",
         "refusalKey": null
       },
-      "refusals": [],
+      "refusals": [
+        "status.guides.noPosition"
+      ],
       "confirmation": null,
       "history": {
         "undoable": true,

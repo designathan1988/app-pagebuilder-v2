@@ -104,7 +104,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-0.3 | Task meter: `npm run journey -- <task>` replays M1…C5/P1…P4 with the scoreboard | partial | deferred by the user's speed order (DEC-09); `tools/journey/` holds the offline scorer (QA 45); the audit's journeys `.cache/scratch/audit/journey/` |
 | STG-0.4 | Parity with the canonical: 12 states × dark/light × en/pt-BR, numeric diff per control, PAIRING-2 generated | partial | `tools/parity/pair.ts` (12 states × 2 themes, English only, region boxes); `docs/archive/PAIRING-2.md` was written by hand; DEC-09 |
 | STG-0.5 | Performance budget: input to frame p50/p95, opening, undo | done | `npm run perf` (QA 44, 80); AUD-36 |
-| STG-1.J1a | A refused commit becomes a spoken refusal; the dispatch answers `refused` | partial | QA 32 (`917a35b`); AUD-01 |
+| STG-1.J1a | A refused commit becomes a spoken refusal; the dispatch answers `refused` | done | QA 32 (`917a35b`); named without placeholders and contained per region QA 149 |
 | STG-1.J1b | `var()` in a composite written into its longhands; mixed composites refused before patches | done | QA 32 |
 | STG-1.J1c | Fill from data maps columns explicitly; images by file name; refusals name row and column | done | QA 32, 66; C4 |
 | STG-1.J1d | Sweep: no command produces a patch the validator refuses | partial | `tools/runner/fuzz.test.ts`; AUD-03, AUD-04 |
@@ -153,7 +153,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-5.16 | 1280 × 720: canvas ≥ 55 % (J25) | missing | AUD-06 |
 | STG-5.17 | Language and texts: browser language, gender-neutral Portuguese, singular forms (J26, J28) | partial | QA 87, 93; AUD-21, AUD-23 |
 | STG-5.18 | Image picker with thumbnails and search (M4) | done | QA 94 |
-| STG-5.19 | Status bar parity, never an incident without a message (J1) | partial | AUD-01 |
+| STG-5.19 | Status bar parity, never an incident without a message (J1) | done | QA 149, 151 (`refusal-never-blanks.spec.ts`) |
 | STG-5.20 | Stage closure: `PAIRING-2.md` with zero open divergence | partial | `docs/archive/PAIRING-2.md` (manual); AUD-28 |
 | STG-6.1 | Identical rule bodies merged, stable between exports | done | QA 51; merged only inside one breakpoint block, the same text every time QA 150 |
 | STG-6.2 | Shorthand writer (padding, margin, border, inset, gap, radius, font) | done | QA 51 |
@@ -231,7 +231,7 @@ The problems of the usability study (`jornada03/REPORT.md` section 3), re-checke
 
 | ID | Problem | Status | Proof / problems |
 |---|---|---|---|
-| J1 | Silent failures | partial | spoken since QA 32; AUD-01 (blank editor), AUD-03, AUD-04 |
+| J1 | Silent failures | partial | spoken since QA 32; the blank editor and the state breaches closed QA 149, 151; AUD-04 |
 | J2 | Letters typed outside a field run shortcuts | done | QA 33 |
 | J3 | Import HTML replaces the whole project | done | QA 43; D3 |
 | J4 | Spaces dropped in a button's text | done | QA 37 |
@@ -370,9 +370,9 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 
 | ID | Sev | Problem | Source | Status |
 |---|---|---|---|---|
-| AUD-01 | 4 | The editor goes blank when a refused change belongs to a command whose label has placeholders (no error boundary; the message formatter throws) | audit | open: the fix is in (QA 149); its browser proof on the audit's path lands with AUD-03 |
+| AUD-01 | 4 | The editor goes blank when a refused change belongs to a command whose label has placeholders (no error boundary; the message formatter throws) | audit | done (QA 149, browser proof on the audit's path QA 151) |
 | AUD-02 | 3 | Export rule merging breaks the cascade: tablet and phone styles lost; fidelity regressed | audit | done (QA 150) |
-| AUD-03 | 3 | The style state stays on across selections and style writes produce invalid documents | audit | open |
+| AUD-03 | 3 | The style state stays on across selections and style writes produce invalid documents | audit | done (QA 151) |
 | AUD-04 | 3 | Unwrap, move out of parent and nest on component instances produce invalid documents | audit | open |
 | AUD-05 | 3 | Export then import loses design tokens and unused classes | audit | open |
 | AUD-06 | 3 | Canvas 41–46 % of the window at 1280 × 720 (H17, J25); the fix measured width | audit | open |
@@ -471,6 +471,7 @@ Stages 13, 15, 16 and 17 stay out (DEC-08, kept by the user on 2026-10-02).
 | DEC-35 | Kebab-case file names, with the exceptions listed in section 7; tools in TypeScript (`join.py` → `join.ts`, `App.tsx` → `app.tsx`) | the audit, 2026-10-02 | — | section 7 |
 | DEC-36 | This document structure: one product document, generated feature states, superseded documents archived | the audit, 2026-10-02 | supersedes PROJECT.md, STATUS.md, PAIRING-2.md as sources | section 0 table |
 | DEC-37 | The assistant's default model is `claude-opus-5-5`, the person's own key, kept encrypted locally | stage 14 | — | QA 50 |
+| DEC-38 | A style state the selection does not take goes back to Base, and the status bar says so; choosing one is refused | the user, 2026-10-02 (plan question) | — | QA 151; `spec/BEHAVIOUR.md#state-styles` |
 
 ## 5. Architecture
 

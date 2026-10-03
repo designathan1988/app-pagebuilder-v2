@@ -3165,7 +3165,9 @@
         "predicate": "editableSelection",
         "refusalKey": "status.locked.edit"
       },
-      "refusals": [],
+      "refusals": [
+        "status.styleState.notApplicable"
+      ],
       "confirmation": null,
       "history": {
         "undoable": false

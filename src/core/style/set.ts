@@ -26,7 +26,7 @@ import { targetClass } from '../design/classes.ts';
 import { componentHolders, instanceRootOf } from '../design/components.ts';
 import type { ModelRules } from '../document/validate.ts';
 import type { Patch } from '../history/transaction.ts';
-import { firstLockRefusal } from '../nodes/flags.ts';
+import { firstLockRefusal, stateRefusal } from '../nodes/flags.ts';
 import { coupledScene } from './couplings.ts';
 import { recordStyleWrite } from '../motion/record.ts';
 import { deepEqual } from '../history/transaction.ts';
@@ -322,6 +322,10 @@ export function writeStyle<Ui>(context: HandlerContext<Ui>, property: string, cs
       message: message('status.keyframe.value', { property: name, name: primary.node.name, animation: keyframe.animation, offset: String(keyframe.keyframe), value: css }),
     };
   }
+  // the state the editor edits must stand on every element written (the audit's AUD-03: Visited written on a heading
+  // left a document the validator refused)
+  const misplaced = stateRefusal(state.document, nodes.map((found) => found.node.id as NodeId), rules);
+  if (misplaced !== null) return { kind: 'refused', message: misplaced };
   const { breakpoint, state: base } = rules.base;
   // a composite writes its longhands, the others their own property; the couplings the write triggers change it
   // (couplings.ts), element by element

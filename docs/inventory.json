@@ -4,9 +4,9 @@
     "built": 213,
     "commands": 370,
     "doors": 1335,
-    "scenarios": 1749,
+    "scenarios": 1750,
     "modules": 410,
-    "lines": 76405
+    "lines": 76488
   },
   "features": [
     {
@@ -1979,7 +1979,7 @@
         "view.setStyleState"
       ],
       "doors": 198,
-      "scenarios": 16,
+      "scenarios": 17,
       "modules": [
         "src/core/style/set.ts",
         "src/editor/view/breakpoints.ts",
@@ -3583,7 +3583,7 @@
     },
     {
       "path": "src/core/document/validate.ts",
-      "lines": 596,
+      "lines": 601,
       "commands": [],
       "features": []
     },
@@ -3637,7 +3637,7 @@
     },
     {
       "path": "src/core/elements/inputs.ts",
-      "lines": 129,
+      "lines": 134,
       "commands": [
         "element.setInputType",
         "element.setLabelTarget"
@@ -4116,7 +4116,7 @@
     },
     {
       "path": "src/core/nodes/flags.ts",
-      "lines": 149,
+      "lines": 169,
       "commands": [
         "element.toggleHidden",
         "element.toggleLock",
@@ -4174,7 +4174,7 @@
     },
     {
       "path": "src/core/page/guides.ts",
-      "lines": 79,
+      "lines": 81,
       "commands": [
         "guides.create",
         "guides.move",
@@ -4389,7 +4389,7 @@
     },
     {
       "path": "src/core/store/store.ts",
-      "lines": 638,
+      "lines": 646,
       "commands": [],
       "features": []
     },
@@ -4697,7 +4697,7 @@
     },
     {
       "path": "src/core/style/set.ts",
-      "lines": 392,
+      "lines": 396,
       "commands": [
         "style.set"
       ],
@@ -6177,7 +6177,7 @@
     },
     {
       "path": "src/editor/store.ts",
-      "lines": 163,
+      "lines": 164,
       "commands": [],
       "features": []
     },
@@ -6357,7 +6357,7 @@
     },
     {
       "path": "src/editor/view/style-state.ts",
-      "lines": 49,
+      "lines": 82,
       "commands": [
         "view.setStyleState"
       ],
@@ -6463,7 +6463,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6448,
+      "lines": 6453,
       "commands": [],
       "features": []
     },

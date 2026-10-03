@@ -21,6 +21,7 @@ import type { MessageId } from '../../generated/ids.ts';
 import { message, registerHandler, registerPredicate, type Message, type Outcome } from '../commands/registry.ts';
 import type { Patch } from '../history/transaction.ts';
 import { lineage, locate, type DocNode, type DocumentJson, type Location, type Selection } from '../document/model.ts';
+import { stateStandsOn, type ModelRules } from '../document/validate.ts';
 
 // The keys a command refuses a node it would change with, when the node carries the lock itself (en.json
 // status.locked.*): "Unlock {name} before deleting it", "… before moving it", and so on.
@@ -61,10 +62,29 @@ const edited = (selection: readonly NodeId[], args: unknown): readonly NodeId[] 
   const target = args !== null && typeof args === 'object' ? (args as { readonly target?: unknown }).target : undefined;
   return typeof target === 'string' ? [target as NodeId] : selection;
 };
+// Why a style write may not go to the state the editor edits (the layer's state, `rules.base`): one of the nodes it
+// would change does not stand on that state (Visited on a heading), and the validator would refuse the result (the
+// audit's AUD-03: nine writers broke the document this way). Null when the state stands on all of them.
+export function stateRefusal(document: DocumentJson, ids: readonly NodeId[], rules: Pick<ModelRules, 'base' | 'stateElements' | 'stateLabels' | 'elements'>): Message | null {
+  const state = rules.base.state;
+  for (const id of ids) {
+    const node = locate(document, id)?.node;
+    if (node === undefined || stateStandsOn(state, node.type, rules)) continue;
+    const label = rules.stateLabels.get(state);
+    const element = rules.elements.get(node.type)?.labelKey;
+    return message('status.styleState.notApplicable', { state: label === undefined ? state : { key: label }, element: element === undefined ? node.type : { key: element } });
+  }
+  return null;
+}
+
+const editRefusal = (state: { readonly document: DocumentJson; readonly selection: Selection }, rules: ModelRules, args: unknown): Message | null => {
+  const ids = edited(state.selection, args);
+  return firstLockRefusal(state.document, ids, 'status.locked.edit') ?? stateRefusal(state.document, ids, rules);
+};
 export const editableSelection = registerPredicate(
   'editableSelection',
-  (state, _rules, args) => firstLockRefusal(state.document, edited(state.selection, args), 'status.locked.edit') === null,
-  (state, _rules, args) => firstLockRefusal(state.document, edited(state.selection, args), 'status.locked.edit') ?? message('status.locked.edit', { name: '' }),
+  (state, rules, args) => editRefusal(state, rules, args) === null,
+  (state, rules, args) => editRefusal(state, rules, args) ?? message('status.locked.edit', { name: '' }),
 );
 
 // Why a node's own flag may not be toggled: a locked element above it (status.locked.byAncestor), or null.

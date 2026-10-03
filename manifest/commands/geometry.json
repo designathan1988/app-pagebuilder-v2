@@ -31,7 +31,8 @@
       "refusals": [
         "status.value.invalid",
         "status.locked.edit",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {

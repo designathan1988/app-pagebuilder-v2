@@ -5,7 +5,7 @@ the last complete browser run on a clean tree (`docs/feature-results.json`, writ
 hand. `npm run inventory:check` fails while this file is out of step. The requirements these features answer, and the
 open problems, are in `docs/PRODUCT.md`.
 
-214 features (213 built), 370 commands, 1335 doors, 1749 scenarios.
+214 features (213 built), 370 commands, 1335 doors, 1750 scenarios.
 
 No complete browser run on a clean tree has been recorded yet: the next one writes `docs/feature-results.json`.
 
@@ -202,7 +202,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 |---|---|---|---|---|---|---|---|
 | `breakpoints-switch` | Switch between Desktop, Laptop, Tablet and Phone breakpoints | yes | 12 | 9 | [breakpoints-switch](../spec/BEHAVIOUR.md#breakpoints-switch) | 2 | — |
 | `breakpoint-overrides` | Style overrides per breakpoint, desktop first | yes | 5 | 5 | [breakpoint-overrides](../spec/BEHAVIOUR.md#breakpoint-overrides) | 2 | — |
-| `state-styles` | Style states: hover, focus, active, disabled, invalid and placeholder shown | yes | 16 | 16 | [state-styles](../spec/BEHAVIOUR.md#state-styles) | 1 | — |
+| `state-styles` | Style states: hover, focus, active, disabled, invalid and placeholder shown | yes | 17 | 17 | [state-styles](../spec/BEHAVIOUR.md#state-styles) | 2 | — |
 
 ## 12-preview-embed-theme
 

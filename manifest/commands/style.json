@@ -31,7 +31,8 @@
       "refusals": [
         "status.value.invalid",
         "status.locked.edit",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -5505,7 +5506,8 @@
       "refusals": [
         "status.value.invalid",
         "status.value.negativePadding",
-        "status.locked.edit"
+        "status.locked.edit",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -6135,7 +6137,8 @@
       },
       "refusals": [
         "status.value.invalid",
-        "status.locked.edit"
+        "status.locked.edit",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -6766,7 +6769,8 @@
       },
       "refusals": [
         "status.value.invalid",
-        "status.locked.edit"
+        "status.locked.edit",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -7068,7 +7072,8 @@
         "status.url.unsafe",
         "status.locked.edit",
         "status.gradient.none",
-        "status.gradient.minStops"
+        "status.gradient.minStops",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -7718,7 +7723,8 @@
       },
       "refusals": [
         "status.value.invalid",
-        "status.locked.edit"
+        "status.locked.edit",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -8682,7 +8688,8 @@
       },
       "refusals": [
         "status.value.invalid",
-        "status.locked.edit"
+        "status.locked.edit",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -9120,7 +9127,8 @@
       },
       "refusals": [
         "status.value.invalid",
-        "status.locked.edit"
+        "status.locked.edit",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -9310,7 +9318,8 @@
         "refusalKey": "status.layout.notFlex"
       },
       "refusals": [
-        "status.locked.edit"
+        "status.locked.edit",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -9377,7 +9386,8 @@
         "status.css.notDeclaration",
         "status.css.unknownProperty",
         "status.css.badValue",
-        "status.locked.edit"
+        "status.locked.edit",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -9494,7 +9504,8 @@
         "refusalKey": "status.locked.edit"
       },
       "refusals": [
-        "status.locked.edit"
+        "status.locked.edit",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -9648,7 +9659,8 @@
       "refusals": [
         "status.locked.edit",
         "status.locked.byAncestor",
-        "status.value.notSteppable"
+        "status.value.notSteppable",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -9839,7 +9851,8 @@
       "refusals": [
         "status.locked.edit",
         "status.locked.byAncestor",
-        "status.value.notSteppable"
+        "status.value.notSteppable",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -9901,7 +9914,8 @@
       "refusals": [
         "status.value.unitNotConverted",
         "status.locked.edit",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -10058,7 +10072,8 @@
       "refusals": [
         "status.value.invalid",
         "status.locked.edit",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -10345,7 +10360,8 @@
       "refusals": [
         "status.value.invalid",
         "status.locked.edit",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
@@ -10922,7 +10938,8 @@
       "refusals": [
         "status.swap.notContainer",
         "status.locked.edit",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {

@@ -4425,7 +4425,9 @@
         "refusalKey": null
       },
       "refusals": [
-        "status.locked.edit"
+        "status.locked.edit",
+        "status.label.notLabel",
+        "status.label.notControl"
       ],
       "confirmation": null,
       "history": {

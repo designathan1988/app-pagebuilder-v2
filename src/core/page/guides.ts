@@ -39,6 +39,8 @@ function found(document: DocumentJson, id: string): Guide {
 }
 
 export const createGuideCommand = registerHandler('guides.create', ({ state }, { axis, at }): Outcome<never> => {
+  // a guide stands somewhere on its ruler (the audit's AUD-03: one created with no position was a guide the model refuses)
+  if (typeof at !== 'number' || !Number.isFinite(at)) return { kind: 'refused', message: message('status.guides.noPosition') };
   const guide: Guide = { id: nextGuideId(state.document, axis), axis, at: place(at) };
   return { kind: 'change', patches: [guidesPatch(state.document, [...guidesOf(state.document), guide])], message: message('status.guides.at', { at: guide.at }) };
 });

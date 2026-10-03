@@ -7320,6 +7320,16 @@ Each write is one undo step; choosing a state records nothing.
   applies the selected nodes' own values of that state *and* those of the classes they wear, after them, as the class
   rules do (maintenance of a class's hover is seen where it lands).
 - A class with no value left (its only element lost it) is signalled in the Styles view with its Delete, with A3.9.
+- **A state kept for an element that does not take it** (the audit's AUD-03, 2026-10-02): Visited chosen for a link
+  stayed chosen while a heading was selected, and the next style write went to a layer the model refuses (in the editor,
+  AUD-01's blank window). Required (the user's decision of 2026-10-02, DEC-38): when the selection comes to hold an
+  element the edited state does not stand on (after a new selection, or after any command), the editor goes back to Base
+  and the status bar says so ("Visited does not apply to Heading: editing Base."); choosing a state the selection does
+  not stand on is refused with words ("…: choose a state it takes, or Base."); and every style writer refuses, with the
+  same words, a write that would go to a state an element written does not take (the writers through `writeStyle`, the
+  ones behind `editableSelection`), so no write reaches a layer the validator refuses. The rule has one owner,
+  `stateStandsOn` (`src/core/document/validate.ts`). In the same family: a label's target is set only from a label and
+  only to a form control, and a guide is created only at a place on its ruler.
 
 ## status-bar
 

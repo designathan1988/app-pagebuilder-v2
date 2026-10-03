@@ -3351,7 +3351,8 @@
       },
       "refusals": [
         "status.motion.invalid",
-        "status.locked.edit"
+        "status.locked.edit",
+        "status.styleState.notApplicable"
       ],
       "confirmation": null,
       "history": {
