@@ -1,0 +1,75 @@
+{
+  "about": "Each finding of the jornada03 study (jornada03/REPORT.md, J1–J28) and the tests that replay its path and assert the fix: a browser test (spec file and title), a scenario of the manifest (feature and id, run through every door by the browser runner), a unit test (file and title) or the performance gate. tools/inventory/jornada03.test.ts holds every J to at least one, and every one named to a test that exists.",
+  "findings": {
+    "J1": [
+      { "spec": "jornada03.spec.ts", "test": "J1: a variable typed as a border colour reaches every side, and nothing fails in silence" },
+      { "spec": "refusal-never-blanks.spec.ts", "test": "a style state the next selection does not take goes back to Base, and the editor stays drawn" },
+      { "unit": "src/core/style/variables-in-composites.test.ts", "test": "writes a one-value token into every side of a border colour on" }
+    ],
+    "J2": [{ "spec": "wrap-row-column.spec.ts", "test": "letters typed after a press away from the canvas run nothing and say why; Escape chooses the canvas again" }],
+    "J3": [{ "spec": "import-destinations.spec.ts", "test": "import offers three destinations and adds a page without changing either client page" }],
+    "J4": [{ "spec": "text-edit-inline.spec.ts", "test": "spaces typed in a button edited in place are kept" }],
+    "J5": [
+      { "spec": "jornada03.spec.ts", "test": "J5: a long variables list scrolls inside the Styles view and leaves the Layers where they are" },
+      { "scenario": "floating-panels › a-floating-panel-is-put-back-by-its-header-button" }
+    ],
+    "J6": [{ "spec": "inspector-field-visuals.spec.ts", "test": "paired resting values remain readable and editing keeps full units, stepping and reset" }],
+    "J7": [
+      { "spec": "inspector-number-fields.spec.ts", "test": "Ctrl+Z in a field just kept with Enter undoes the change, and Ctrl+Shift+Z redoes it" },
+      { "spec": "field-history.spec.ts", "test": "an immediate undo after Enter needs no extra click or wait" }
+    ],
+    "J8": [
+      { "spec": "activity-open.spec.ts", "test": "opening a floating panel preserves its placement and its close button still works" },
+      { "spec": "color-picker.spec.ts", "test": "outside press cancels the preview before selecting another element" },
+      { "spec": "explorer-assets.spec.ts", "test": "the Source field chooses a project file from its picker, and Escape or the close button leaves the picker" }
+    ],
+    "J9": [{ "scenario": "layers-expand-collapse-all › collapse-every-branch-keeps-the-page-and-its-first-level" }],
+    "J10": [{ "spec": "inspector-organisation.spec.ts", "test": "a breakpoint that inherits two columns shows them, and editing one writes the list there only" }],
+    "J11": [
+      { "unit": "src/editor/palette/palette-rank.test.ts", "test": "reads a text without its accents, in any case" },
+      { "unit": "src/editor/palette/palette-rank.test.ts", "test": "finds an entry by its synonyms and its English name, then by its tag" }
+    ],
+    "J12": [
+      { "spec": "keyboard-panel-navigation.spec.ts", "test": "F6 walks the focus through the editor regions and Shift+F6 walks it back" },
+      { "spec": "keyboard-panel-navigation.spec.ts", "test": "F6 puts the keys on the canvas page itself, with a visible focus, and walks on from there" },
+      { "scenario": "command-bar-find › the-bar-goes-to-a-page-by-its-name" },
+      { "scenario": "command-bar-find › the-bar-selects-an-element-by-its-name" }
+    ],
+    "J13": [{ "scenario": "data-import › carlas-original-csv-imports-as-a-new-collection" }],
+    "J14": [
+      { "spec": "export-cascade.spec.ts", "test": "the exported page has the canvas\\'s computed styles at every breakpoint" },
+      { "unit": "src/core/export/names.test.ts", "test": "semantic roles translated to code language, custom names retained" },
+      { "unit": "src/core/export/names.test.ts", "test": "class identity stable across page order and genuinely different variants" }
+    ],
+    "J15": [
+      { "spec": "font-menu-draft.spec.ts", "test": "opening and exploring the font list leaves the unfinished text uncommitted" },
+      { "spec": "custom-fonts.spec.ts", "test": "the project’s fonts lead the font menu, in Essentials only and in All properties" },
+      { "spec": "jornada03.spec.ts", "test": "J15: the font menu is drawn whole inside the window" }
+    ],
+    "J16": [{ "unit": "src/editor/canvas/placement.test.ts", "test": "says it covers content when text surrounds the element on every side" }],
+    "J17": [{ "scenario": "multi-select-click › shift-click-on-a-layers-row-selects-the-rows-between" }],
+    "J18": [{ "scenario": "props-border-outline › a-bare-radius-uses-the-default-unit" }],
+    "J19": [{ "spec": "inspector-summaries.spec.ts", "test": "a 1px border reads 1px at a canvas zoom below 100 %, and the Shadow row says the shadow" }],
+    "J20": [
+      { "spec": "jornada03.spec.ts", "test": "J20: a duplicated page opens, right after its source, with its name ready to type" },
+      { "scenario": "palette-click-insert › a-new-element-takes-the-class-its-siblings-share" }
+    ],
+    "J21": [
+      { "spec": "jornada03.spec.ts", "test": "J21: an instance’s Layers row names its component" },
+      { "scenario": "reusable-components › an-instance-is-named-after-its-component-with-a-simple-number" }
+    ],
+    "J22": [{ "spec": "jornada03.spec.ts", "test": "J22: an image without a source draws a 16:9 marker no wider than 640 px" }],
+    "J23": [{ "spec": "draft-recovery.spec.ts", "test": "canvas text returns after reload with editing open and remains a single undoable confirmation" }],
+    "J24": [{ "perf": "tests/perf/large-page.perf.ts" }],
+    "J25": [{ "spec": "narrow-window.spec.ts", "test": "at 1280 × 720 the canvas has half of the window and the canvas toolbar fits whole" }],
+    "J26": [
+      { "spec": "browser-language.spec.ts", "test": "a Portuguese browser opens a Portuguese editor, and a chosen language stays chosen" },
+      { "spec": "browser-language.spec.ts", "test": "a fresh editor opens on the Insert panel, which the View menu names Insert" }
+    ],
+    "J27": [{ "spec": "multi-select-mixed.spec.ts", "test": "a box link belongs to its element: linking one title leaves the other unlinked" }],
+    "J28": [
+      { "spec": "jornada03.spec.ts", "test": "J28: Portuguese says an insertion without agreeing with its name, and one element in the singular" },
+      { "unit": "src/i18n/i18n.test.ts", "test": "chooses the plural form of a count by the rules of the locale, zero in the plural" }
+    ]
+  }
+}

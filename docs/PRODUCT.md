@@ -100,7 +100,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | ID | Item | Status | Proof / problems |
 |---|---|---|---|
 | STG-0.1 | New repository: origin = app-pagebuilder-v2, old repository remote `v1` | done | `git remote -v` |
-| STG-0.2 | Each J reproduced first by a failing test (`tests/e2e/jornada03-*.spec.ts`) | partial | J fixes cite red-then-green logs (QA 32–43, 47, 52–54); no per-J spec files |
+| STG-0.2 | Each J reproduced first by a failing test (`tests/e2e/jornada03-*.spec.ts`) | done | QA 200: `tests/e2e/jornada03.json` maps J1–J28 to the tests that replay them (checked by `tools/inventory/jornada03.test.ts`), `tests/e2e/jornada03.spec.ts` replays the seven no test replayed |
 | STG-0.3 | Task meter: `npm run journey -- <task>` replays M1…C5/P1…P4 with the scoreboard | partial | deferred by the user's speed order (DEC-09); `tools/journey/` holds the offline scorer (QA 45); the audit's journeys `.cache/scratch/audit/journey/` |
 | STG-0.4 | Parity with the canonical: 12 states × dark/light × en/pt-BR, numeric diff per control, PAIRING-2 generated | partial | `tools/parity/pair.ts` (12 states × 2 themes, English only, region boxes); `docs/archive/PAIRING-2.md` was written by hand; DEC-09 |
 | STG-0.5 | Performance budget: input to frame p50/p95, opening, undo | done | `npm run perf` (QA 44, 80); AUD-36 |
