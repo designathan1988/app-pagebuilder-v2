@@ -7934,7 +7934,7 @@ None: the guard asks the browser, never the person through a dialog of ours.
 ### Problems in Pager
 
 1. **The first edits wait for a delay before anything is written,** so a reload right after an edit loses it unless `pagehide` happens to finish its asynchronous write. Required: the journal is written synchronously with the change; the reload finds it.
-2. **"Save failed" gives no reason.** Required: Not saved says why (the browser's refusal: quota, blocked storage).
+2. **"Save failed" gives no reason.** Required: Not saved says why (the browser's refusal: quota, blocked storage). The editor's own reason (no IndexedDB at all) is a message of the catalogue, said in the editor's language like the sentence around it (the audit's AUD-24: "Não salvo: IndexedDB is not available"); only the browser's own words stay as the browser gives them.
 3. **A failure that never repeats leaves the work unsaved in silence.** Required: a failed write is retried on its own after a delay, and on the next change.
 
 ### Undo and redo

@@ -1891,6 +1891,7 @@
   "status.resized": "Resized to {width} × {height}.",
   "status.save.notSaved": "Not saved",
   "status.save.notSavedBecause": "Not saved: {reason}",
+  "status.save.noDatabase": "the browser keeps no storage for this page (IndexedDB is not available)",
   "status.save.recovered": "Your work was recovered from the last session. Undo starts again from here.",
   "status.save.recoveryRequired": "Recovery required",
   "status.save.restored": "Restored the saved version.",

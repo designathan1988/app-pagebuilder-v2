@@ -28,3 +28,12 @@ test('a fresh editor opens on the Insert panel, which the View menu names Insert
   await openMenu(page, 'view');
   await expect(page.locator('[data-door="workspace.setPanelOpen#menu-view-elements"]')).toContainText('Inserir');
 });
+
+// The audit's AUD-24: a write IndexedDB cannot take said "Não salvo: IndexedDB is not available", the editor's own
+// reason in English inside the translated sentence. Without IndexedDB, the reason is the editor's, in Portuguese.
+test('without the browser storage, the save state says why in the editor language', async ({ page }) => {
+  await page.addInitScript(() => Object.defineProperty(window, 'indexedDB', { value: undefined, configurable: true }));
+  await openEditor(page);
+  await page.locator('[data-door="element.insert#elements-tile"]').first().click();
+  await expect(page.locator('.status-bar__save')).toHaveText('Não salvo: o navegador não guarda dados desta página (o IndexedDB não está disponível)');
+});

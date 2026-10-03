@@ -1891,6 +1891,7 @@
   "status.resized": "Redimensionado para {width} × {height}.",
   "status.save.notSaved": "Não salvo",
   "status.save.notSavedBecause": "Não salvo: {reason}",
+  "status.save.noDatabase": "o navegador não guarda dados desta página (o IndexedDB não está disponível)",
   "status.save.recovered": "Seu trabalho foi recuperado da última sessão. O Desfazer recomeça daqui.",
   "status.save.recoveryRequired": "Recuperação necessária",
   "status.save.restored": "Versão salva restaurada.",

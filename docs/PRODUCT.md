@@ -393,7 +393,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-21 | 2 | First panel still the Explorer; Insert called Elements in menus | audit; J26 | done (QA 171) |
 | AUD-22 | 2 | html-validate errors in the `motion` fixture's export | audit | done (QA 160) |
 | AUD-23 | 1 | pt-BR values clipped in the inspector | audit | open |
-| AUD-24 | 1 | An untranslated save-refusal reason | audit | open |
+| AUD-24 | 1 | An untranslated save-refusal reason | audit | done (QA 173) |
 | AUD-25 | 1 | Ctrl+A on the page body selects the interface's text | audit | open |
 | AUD-26 | 1 | The New variable kind list does not take the focus (probable) | audit | open |
 | AUD-27 | 1 | Duplicated pages ordered newest first | audit | open |

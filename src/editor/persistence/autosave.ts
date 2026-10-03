@@ -22,6 +22,7 @@ import { validateDocument, type ModelRules } from '../../core/document/validate.
 import type { Store } from '../../core/store/store.ts';
 import { numberConstant } from '../../manifest/runtime.ts';
 import { systemClock } from '../../core/ports/clock.ts';
+import type { MessageId } from '../../generated/ids.ts';
 
 let savedRevision = 0;
 export const currentWorkRevision = (): number => savedRevision;
@@ -57,19 +58,23 @@ const JOURNAL = 'work-journal';
 export type SaveState = 'notSaved' | 'saving' | 'saved' | 'recoveryRequired';
 let state: SaveState = 'notSaved';
 // why the last write was refused (the browser's words), while it was; null otherwise
-let refusal: string | null = null;
+// why the last write was refused: the browser's own words, or the editor's own reason as a message of the catalogue (the
+// audit's AUD-24: "IndexedDB is not available" stood in English inside the translated "Not saved: {reason}")
+export type SaveRefusal = string | { readonly key: MessageId };
+const NO_DATABASE: SaveRefusal = { key: 'status.save.noDatabase' };
+let refusal: SaveRefusal | null = null;
 const listeners = new Set<() => void>();
 // The save state, for the status bar. Autosave state, not editor state: no command changes it.
 export const saveState = {
   get: (): SaveState => state,
   // why IndexedDB refused the last write, while the work is not saved because of it
-  reason: (): string | null => refusal,
+  reason: (): SaveRefusal | null => refusal,
   subscribe(listener: () => void): () => void {
     listeners.add(listener);
     return () => listeners.delete(listener);
   },
 };
-function setState(next: SaveState, reason: string | null = null) {
+function setState(next: SaveState, reason: SaveRefusal | null = null) {
   if (next === state && reason === refusal) return;
   state = next;
   refusal = reason;
@@ -104,12 +109,12 @@ function readRecord(): Promise<SavedWork | null> {
 }
 
 // writes a record: null once IndexedDB holds it, else why it did not (the browser's words)
-function writeRecord(work: SavedWork): Promise<string | null> {
+function writeRecord(work: SavedWork): Promise<SaveRefusal | null> {
   const why = (error: unknown) => (error instanceof DOMException || error instanceof Error ? error.message || error.name : String(error));
   return db().then(
     (opened) =>
       new Promise((resolve) => {
-        if (opened === null) return resolve('IndexedDB is not available');
+        if (opened === null) return resolve(NO_DATABASE);
         try {
           const transaction = opened.transaction([STORE, VERSIONS], 'readwrite');
           transaction.objectStore(STORE).put(work, RECORD);
@@ -229,7 +234,7 @@ export function startAutosave<Ui>(store: Store<Ui>, saved: SavedWork | null | un
       return;
     }
     writing = true;
-    let failed: string | null = null;
+    let failed: SaveRefusal | null = null;
     while (pending !== null) {
       const work = pending;
       pending = null;
