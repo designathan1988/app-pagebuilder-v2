@@ -20,7 +20,9 @@ import roles from './roles.json' with { type: 'json' };
 
 type Vocabulary = Readonly<Record<string, readonly string[]>>;
 type Catalogue = Readonly<Record<string, string>>;
-export type Declarations = Readonly<Record<string, string>>;
+// what an element holds at the base breakpoint and state: a text for most properties, a structured value for some (the
+// layers of a shadow), which the readers below compare whole and never read as text
+export type Declarations = Readonly<Record<string, unknown>>;
 
 // the interface languages the editor names things in, each a catalogue
 const CATALOGUES: readonly Catalogue[] = [en, ptBR];
@@ -95,9 +97,13 @@ type Layout = keyof typeof roles.layout;
 // how a div lays out what it holds, read from its own declarations
 function layoutOf(declarations: Declarations): Layout {
   const [displayProperty = '', directionProperty = ''] = roles.layoutProperties;
-  const display = declarations[displayProperty] ?? '';
+  const text = (property: string): string => {
+    const value = declarations[property];
+    return typeof value === 'string' ? value : '';
+  };
+  const display = text(displayProperty);
   if (roles.layoutValues.grid.includes(display)) return 'grid';
-  if (roles.layoutValues.flex.includes(display)) return roles.layoutValues.column.includes(declarations[directionProperty] ?? '') ? 'column' : 'row';
+  if (roles.layoutValues.flex.includes(display)) return roles.layoutValues.column.includes(text(directionProperty)) ? 'column' : 'row';
   return 'block';
 }
 
@@ -132,11 +138,14 @@ export interface Look {
 
 type Modifier = (typeof roles.modifiers)[number];
 const NONE = new Set(['', 'none', '0', '0px']);
-const present = (value: string | undefined): boolean => value !== undefined && !NONE.has(value.trim());
+const present = (value: unknown): boolean => (typeof value === 'string' ? !NONE.has(value.trim()) : value !== undefined && value !== null && !(Array.isArray(value) && value.length === 0));
+// two values the same, a structured one compared whole
+const same = (one: unknown, other: unknown): boolean => one === other || JSON.stringify(one) === JSON.stringify(other);
 // a length or a weight as a number to compare (px, rem and em at 16 px, a bare number, the two weight keywords)
 const WEIGHTS: Readonly<Record<string, number>> = { normal: 400, bold: 700 };
-function amount(value: string | undefined): number | null {
+function amount(value: unknown): number | null {
   if (value === undefined) return 0;
+  if (typeof value !== 'string') return null;
   const weight = WEIGHTS[value.trim()];
   if (weight !== undefined) return weight;
   const read = /^(-?\d*\.?\d+)(px|rem|em)?$/.exec(value.trim());
@@ -158,8 +167,8 @@ function modifierWord(rule: Modifier, variant: Look, first: Look | null, code: s
   };
   const words = 'en' in rule ? (portuguese(code) ? rule.pt : rule.en) : undefined;
   const properties = 'properties' in rule ? rule.properties : [];
-  const own = (property: string): string | undefined => variant.declarations[property];
-  const theirs = (property: string): string | undefined => first?.declarations[property];
+  const own = (property: string): unknown => variant.declarations[property];
+  const theirs = (property: string): unknown => first?.declarations[property];
   switch (rule.kind) {
     case 'tag': {
       // a heading of another level (title--h3): the tags the rule lists
@@ -169,7 +178,7 @@ function modifierWord(rule: Modifier, variant: Look, first: Look | null, code: s
     case 'lightness': {
       const property = properties[0] ?? '';
       const value = own(property);
-      if (value === undefined || value === theirs(property)) return null;
+      if (typeof value !== 'string' || same(value, theirs(property))) return null;
       const light = lightness(value);
       return said(words, light === null ? 'other' : light < 0.45 ? 'dark' : light > 0.9 ? 'light' : 'other');
     }
@@ -180,8 +189,8 @@ function modifierWord(rule: Modifier, variant: Look, first: Look | null, code: s
       return said(words, mine ? 'present' : 'absent');
     }
     case 'size': {
-      if (first === null || properties.every((property) => own(property) === theirs(property))) return null;
-      const sum = (read: (property: string) => string | undefined): number | null =>
+      if (first === null || properties.every((property) => same(own(property), theirs(property)))) return null;
+      const sum = (read: (property: string) => unknown): number | null =>
         properties.reduce<number | null>((total, property) => {
           const one = amount(read(property));
           return total === null || one === null ? null : total + one;

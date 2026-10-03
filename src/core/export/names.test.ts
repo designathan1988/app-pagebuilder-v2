@@ -28,3 +28,14 @@ test('the code language chooses the words, roles and modifiers alike (spec expor
   // every word taken: the last one numbered
   assert.equal(variantModifier(dark, first, 'en', (word) => word === 'alt-2'), 'alt-2');
 });
+
+// A structured declaration (the layers of a shadow) is compared whole and never read as text: the invariant probe met
+// an export that threw "value.trim is not a function" on one.
+test('a structured declaration is read whole by the modifiers', async () => {
+  const { variantModifier } = await import('./names.ts');
+  const first = { tag: 'div', declarations: { 'box-shadow': [] as unknown[] } };
+  const raised = { tag: 'div', declarations: { 'box-shadow': [{ x: '0', y: '2px', blur: '8px', colour: '#0003' }] } };
+  assert.equal(variantModifier(raised, first, 'en', () => true), 'raised');
+  assert.equal(variantModifier(first, raised, 'en', () => true), 'flat');
+  assert.equal(variantModifier({ tag: 'div', declarations: { 'background-color': { kind: 'token' } } }, first, 'en', () => true), 'alt');
+});
