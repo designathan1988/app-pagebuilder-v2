@@ -14,6 +14,7 @@ import { manifest } from '../../manifest/runtime.ts';
 import type { MessageId } from '../../generated/ids.ts';
 import type { EditorUi } from '../state.ts';
 import { authoredProperties, editedProperties, editedPropertiesByDoor } from './sections.ts';
+import { registerReferenceKind } from '../../core/store/references.ts';
 
 export interface ConceptRow {
   readonly id: string;
@@ -95,3 +96,6 @@ export const toggleRow = registerHandler<'inspector.toggleRow', EditorUi>('inspe
     ui: { ...state.ui, preferences: { ...rest, collapsedRows: collapsed.length > 0 ? collapsed : undefined, expandedRows: expanded.length > 0 ? expanded : undefined } },
   };
 });
+
+// a concept row of the Style tab an argument names (manifest refers: concept-row)
+registerReferenceKind('concept-row', (_document, row) => CONCEPT_ROW_IDS.includes(row));

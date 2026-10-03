@@ -10,6 +10,7 @@
 import { message, registerHandler, type Outcome } from '../commands/registry.ts';
 import type { DocumentJson, Guide } from '../document/model.ts';
 import type { Patch } from '../history/transaction.ts';
+import { registerReferenceKind } from '../store/references.ts';
 
 const NONE: readonly Guide[] = [];
 const PAGE = 0;
@@ -78,3 +79,6 @@ export const toggleGuideLockCommand = registerHandler('guides.toggleLock', ({ st
   });
   return { kind: 'change', patches: [guidesPatch(state.document, list)], message: message(held.locked === true ? 'status.guides.unlocked' : 'status.guides.lockedNow') };
 });
+
+// a guide an argument names (manifest refers: guide), by its id on the page it stands on
+registerReferenceKind('guide', (document, id) => guidesOf(document).some((guide) => guide.id === id));

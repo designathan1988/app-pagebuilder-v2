@@ -27,6 +27,7 @@ import { chosen } from '../preferences/said.ts';
 import { styleClassOf } from './style-target.ts';
 import { withInspectorTab } from '../workspace/layout.ts';
 import { withInspector } from '../workspace/panels.ts';
+import { registerReferenceKind } from '../../core/store/references.ts';
 
 // no element holds anything (nothing selected): every section the user has not opened stays collapsed
 const EMPTY_HELD: ReadonlySet<string> = new Set();
@@ -333,3 +334,6 @@ export function searchMatches(query: string, label: string, cssNames: readonly s
   if (wanted === '') return true;
   return fold(label).includes(wanted) || cssNames.some((name) => fold(name).includes(wanted));
 }
+
+// a section of the inspector an argument names (manifest refers: inspector-section)
+registerReferenceKind('inspector-section', (_document, section) => isSectionId(section));

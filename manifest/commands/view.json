@@ -2434,7 +2434,8 @@
         "guide": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "guide"
         },
         "at": {
           "type": "number",
@@ -2601,7 +2602,8 @@
         "guide": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "guide"
         }
       },
       "availability": {
@@ -2715,7 +2717,8 @@
         "guide": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "guide"
         }
       },
       "availability": {

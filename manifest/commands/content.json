@@ -10,7 +10,8 @@
         "collection": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "collection"
         }
       },
       "availability": {
@@ -385,7 +386,8 @@
         "collection": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "collection"
         },
         "name": {
           "type": "string",
@@ -447,7 +449,8 @@
         "collection": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "collection"
         }
       },
       "availability": {
@@ -576,7 +579,8 @@
         "collection": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "collection"
         },
         "field": {
           "type": "string",
@@ -690,7 +694,8 @@
         "collection": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "collection"
         },
         "field": {
           "type": "string",
@@ -752,7 +757,8 @@
         "collection": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "collection"
         }
       },
       "availability": {
@@ -815,7 +821,8 @@
         "collection": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "collection"
         },
         "item": {
           "type": "string",
@@ -893,7 +900,8 @@
         "collection": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "collection"
         },
         "items": {
           "type": "json",
@@ -961,7 +969,8 @@
         "collection": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "collection"
         },
         "item": {
           "type": "string",
@@ -1362,7 +1371,8 @@
         "collection": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "collection"
         },
         "mode": {
           "type": "enum",
@@ -1616,7 +1626,8 @@
         "collection": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "collection"
         },
         "query": {
           "type": "json",
@@ -1816,7 +1827,8 @@
         "collection": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "collection"
         },
         "nameField": {
           "type": "string",
@@ -2013,7 +2025,8 @@
         "component": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "component"
         }
       },
       "availability": {

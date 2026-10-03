@@ -4,13 +4,15 @@
 // nothing); colors.removeSwatch takes one away by its place. Each is one undo step.
 import { message, registerHandler, type Outcome } from '../commands/registry.ts';
 import type { DocumentJson } from '../document/model.ts';
+import { argumentRefused } from '../store/args.ts';
 
 const NONE: readonly string[] = [];
 export const swatchesOf = (document: DocumentJson): readonly string[] => document.swatches ?? NONE;
 
 export const saveSwatchCommand = registerHandler('colors.saveSwatch', ({ state }, { color }): Outcome<never> => {
   const colour = String(color).trim();
-  if (colour === '') throw new Error('colors.saveSwatch: the door hands the colour the picker shows');
+  // eslint-disable-next-line builder/no-manifest-id -- The command's argument name, not the CSS color property.
+  if (colour === '') return { kind: 'refused', message: argumentRefused('color') };
   const said = message('status.swatch.saved', { color: colour });
   const saved = swatchesOf(state.document);
   if (saved.includes(colour)) return { kind: 'change', message: said };
@@ -21,7 +23,7 @@ export const saveSwatchCommand = registerHandler('colors.saveSwatch', ({ state }
 export const removeSwatchCommand = registerHandler('colors.removeSwatch', ({ state }, { index }): Outcome<never> => {
   const saved = swatchesOf(state.document);
   const colour = saved[index];
-  if (colour === undefined) throw new Error(`colors.removeSwatch: the project saves no colour at ${index}`);
+  if (colour === undefined) return { kind: 'refused', message: argumentRefused('index') };
   const patch = saved.length === 1 ? { op: 'remove' as const, path: ['swatches'] } : { op: 'remove' as const, path: ['swatches', index] };
   return { kind: 'change', patches: [patch], message: message('status.swatch.removed', { color: colour }) };
 });

@@ -9,6 +9,7 @@ import { readAddress } from '../elements/address.ts';
 import { canonical, parseInline, plainText, type InlineRun } from '../text/inline.ts';
 import { fold } from '../text/fold.ts';
 import { FIELD_TYPES, type Cell, type Collection, type Field, type FieldType, type Filter, type Item, type Query } from './model.ts';
+import { registerReferenceKind } from '../store/references.ts';
 
 // A predictable refusal of a content operation: the message the status bar says. Handlers catch it and answer
 // `refused`; anything else a content function throws is a defect.
@@ -403,3 +404,6 @@ export function canonicalQuery(query: Query): Query {
     ...(query.limit !== undefined ? { limit: query.limit } : {}),
   };
 }
+
+// a collection an argument names (manifest refers: collection), by its name
+registerReferenceKind('collection', (document, name) => collectionNamed(document, name) !== undefined);

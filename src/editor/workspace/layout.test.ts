@@ -50,11 +50,16 @@ describe('the active tab of a tab group (workspace/layout.ts)', () => {
     expect(current(s, { group: 'workbench', panel: 'timeline' })).toBe(false);
   });
 
+  // a tab its group does not have, or a group that is none, is refused with words, never thrown (AUD-09)
   it('takes only a tab its group has', () => {
     const s = store();
-    expect(() => s.dispatch('workspace.setActiveTab', { group: 'inspector', panel: 'nope' })).toThrow(/the inspector has no tab nope/);
-    expect(() => s.dispatch('workspace.setActiveTab', { group: 'workbench', panel: 'shortcuts' })).toThrow(/the dock has no tab shortcuts/);
-    expect(() => s.dispatch('workspace.setActiveTab', { group: 'nope', panel: 'style' })).toThrow(/no tab group nope/);
+    const said = (args: { group: string; panel: string }) => {
+      const answer = s.dispatch('workspace.setActiveTab', args as never);
+      return [answer.status, s.getState().message?.key, s.getState().message?.params.argument];
+    };
+    expect(said({ group: 'inspector', panel: 'nope' })).toEqual(['refused', 'status.args.invalid', 'panel']);
+    expect(said({ group: 'workbench', panel: 'shortcuts' })).toEqual(['refused', 'status.args.invalid', 'panel']);
+    expect(said({ group: 'nope', panel: 'style' })).toEqual(['refused', 'status.stale', undefined]);
     expect(inspectorTab(s.getState().ui)).toBe('style');
   });
 });

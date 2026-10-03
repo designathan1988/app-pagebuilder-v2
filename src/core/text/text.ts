@@ -13,15 +13,16 @@ import { locate } from '../document/model.ts';
 import { deepEqual, type Patch } from '../history/transaction.ts';
 import { lockRefusal } from '../nodes/flags.ts';
 import { canonical, hasMarks, parseInline, plainText, withText, type InlineRun } from './inline.ts';
+import { argumentRefused } from '../store/args.ts';
 
 export const setTextCommand = registerHandler('text.set', ({ state, rules }, { target, content }) => {
   const found = locate(state.document, target);
   // a door hands the node it edits and the content the edit produced; anything else is a defect of the door
   if (!found) throw new Error(`text.set: the document has no node ${target}`);
-  if (rules.elements.get(found.node.type)?.content !== 'text') throw new Error(`text.set: ${found.node.name} is no text element`);
+  if (rules.elements.get(found.node.type)?.content !== 'text') return { kind: 'refused', message: message('status.element.notApplicable', { command: { key: 'command.editText' }, name: found.node.name }) };
   // a plain text keeps the marks of what it keeps of a marked text (the inspector's text field); a tree is whole
   const runs = typeof content === 'string' ? withText(found.node.inline ?? [found.node.text ?? ''], content) : parseInline(content);
-  if (runs === null) throw new Error('text.set: the content is not a string or a tree of runs');
+  if (runs === null) return { kind: 'refused', message: argumentRefused('content') };
   // the text of a locked element, or of one inside a locked element, stays (spec lock-element)
   const locked = lockRefusal(state.document, target, 'status.locked.editText');
   if (locked !== null) return { kind: 'refused', message: locked };

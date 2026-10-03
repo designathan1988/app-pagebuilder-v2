@@ -3859,7 +3859,8 @@
         "page": {
           "type": "path",
           "values": [],
-          "optional": true
+          "optional": true,
+          "refers": "page"
         },
         "anchor": {
           "type": "node",

@@ -86,7 +86,8 @@ export function moveSelectionTo(
   if (moved.length === 0) throw new Error('element.moveTo: nothing is selected');
   const receiver = locate(state.document, parent);
   if (!receiver) throw new Error(`element.moveTo: the document has no node ${parent}`);
-  for (const at of moved) if (!at.parent) throw new Error(`element.moveTo: ${at.node.id} is a page, it cannot move`);
+  // a page cannot move: its root stands for the page itself
+  for (const at of moved) if (!at.parent) return { kind: 'refused', message: message('status.element.notApplicable', { command: { key: 'command.moveTo' }, name: at.node.name }) };
   const roots = moved.map((at) => at.node.id);
 
   // a locked node, or one inside a locked element, stays where it is, and a locked parent takes no new child (spec

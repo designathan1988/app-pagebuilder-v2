@@ -18,6 +18,7 @@ import { splitLayers } from './codecs.ts';
 import { editedGradient, parseGradient, type GradientEdit } from './gradient.ts';
 import { removeStyle } from './reset.ts';
 import { propertyName, readValue, storedValue, typedText, writeStyle } from './set.ts';
+import { argumentRefused } from '../store/args.ts';
 
 export const setBackgroundImageCommand = registerHandler('style.setBackgroundImage', (context, { property, value, edit }) => {
   if (typeof property !== 'string') throw new Error('style.setBackgroundImage: a door hands the property it edits');
@@ -47,7 +48,7 @@ export const setBackgroundImageCommand = registerHandler('style.setBackgroundIma
     }
     text = edited.text;
   } else {
-    if (typeof value !== 'string') throw new Error('style.setBackgroundImage: the image field hands the text typed');
+    if (typeof value !== 'string') return { kind: 'refused', message: argumentRefused('value') };
     const address = imageAddress(value);
     if (address !== null && address !== '') {
       // the one rule of an address (core/elements/address.ts)

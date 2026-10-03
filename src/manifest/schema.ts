@@ -731,6 +731,10 @@ export const GESTURE_DOOR_KINDS = ['canvas-drag', 'canvas-handle', 'layers-drag'
 // owner is here, beside the schema that declares every type, so no module writes the list by hand.
 export const TEXTY_ARG_TYPES = ['string', 'number', 'enum', 'color'] as const;
 
+// The kinds of thing a command's argument may name (`refers`), each with one owner that finds it
+// (registerReferenceKind: core/store/references.ts)
+export const REFERS = ['collection', 'token', 'component', 'guide', 'page', 'palette-entry', 'splitter', 'inspector-section', 'concept-row', 'tab-group'] as const;
+
 const argSchema = z.strictObject({
   type: z.enum([
     'node',
@@ -763,6 +767,10 @@ const argSchema = z.strictObject({
   ]),
   values: z.array(z.string()),
   optional: z.boolean(),
+  // what the value names, when it names something the project or the editor holds (a collection, a variable, a guide…):
+  // the store refuses a name that names nothing before the handler runs (core/store/args.ts, core/store/references.ts;
+  // the audit's AUD-09), each kind found by the module that owns what it names
+  refers: z.enum(REFERS).optional(),
 });
 
 // How a command meets the history. Undo always restores the selection from before the command,

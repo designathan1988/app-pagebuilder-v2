@@ -23,6 +23,7 @@ import { walk, type NodeId } from '../document/model.ts';
 import { releaseReferencesPatch } from '../document/tree.ts';
 import { followPaths, movedPath } from '../files/references.ts';
 import { slug } from '../text/fold.ts';
+import { registerReferenceKind } from '../store/references.ts';
 
 // A page's name as a file name: lower case, no accent, its words joined by one dash (spec explorer-pages).
 export function pageFile(name: string): string {
@@ -192,3 +193,6 @@ export function switchPageCommand<Ui extends WithPage>() {
     },
   );
 }
+
+// a page an argument names (manifest refers: page), by its id, its root's or its file (a link to a page names its file)
+registerReferenceKind('page', (document, id) => document.pages.some((page) => page.id === id || page.tree.id === id || page.file === id));

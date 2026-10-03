@@ -20,6 +20,7 @@ import { lockRefusal } from '../nodes/flags.ts';
 import { pageShown } from '../project/pages.ts';
 import { startingParts } from '../elements/table.ts';
 import { tracksForChildren } from '../style/tracks.ts';
+import { registerReferenceKind } from '../store/references.ts';
 
 // A name no node of the document has: the base itself, else the base followed by the first free number from 2.
 export function uniqueName(document: DocumentJson, base: string): string {
@@ -234,3 +235,6 @@ export const insertCommand = registerHandler('element.insert', ({ state, ids, ru
     message: message('status.placed', { element: node.name, parent: receiver.name, position: at.index + 1, count: receiver.children.length + 1 }),
   };
 });
+
+// an entry of the palette an argument names (manifest refers: palette-entry)
+registerReferenceKind('palette-entry', (_document, entry, rules) => rules.palette.has(entry));

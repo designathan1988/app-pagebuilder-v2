@@ -793,6 +793,10 @@
       "reader": "src/core/commands/registry.ts"
     },
     {
+      "field": "commands:commands[].args{}.refers",
+      "reader": "src/core/store/args.ts"
+    },
+    {
       "field": "commands:commands[].availability",
       "reader": "src/core/commands/registry.ts"
     },

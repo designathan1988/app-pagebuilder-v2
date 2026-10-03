@@ -35,6 +35,7 @@ import { copyName } from '../structure/duplicate.ts';
 import { fileAt, imageFiles, isProjectPath } from '../files/files.ts';
 import { readAddress } from '../elements/address.ts';
 import { dataRows, type DataRow } from './data.ts';
+import { registerReferenceKind } from '../store/references.ts';
 
 const NONE: readonly ComponentDefinition[] = [];
 export const componentsOf = (document: DocumentJson): readonly ComponentDefinition[] => document.components ?? NONE;
@@ -466,3 +467,6 @@ export const setVariantCommand = registerHandler('components.setVariant', ({ sta
   if (!deepEqual(classes, root.classes)) patches.push({ op: 'replace', path: [...found.path, 'classes'], value: classes });
   return { kind: 'change', patches, message: typed === '' ? message('status.components.variantCleared', { name: root.name }) : message('status.components.variantSet', { name: root.name, variant: typed }) };
 });
+
+// a component an argument names (manifest refers: component), by its name
+registerReferenceKind('component', (document, name) => componentsOf(document).some((definition) => definition.name === name));

@@ -8,6 +8,8 @@ import type { MessageId } from '../../generated/ids.ts';
 import { commandOf, doorsIn, manifest } from '../../manifest/runtime.ts';
 import type { EditorUi } from '../state.ts';
 import { INITIAL_PANELS, PANELS, panelName, panelsAt, type Panel } from './panels.ts';
+import { registerReferenceKind } from '../../core/store/references.ts';
+import { argumentRefused } from '../../core/store/args.ts';
 
 export const DOCK_STATES = ['collapsed', 'open', 'max'] as const;
 export type DockState = (typeof DOCK_STATES)[number];
@@ -107,14 +109,14 @@ export const setActiveTab = registerHandler<'workspace.setActiveTab', EditorUi>(
     const ui = state.ui;
     if (group === INSPECTOR_GROUP) {
       // a door names a tab of the inspector's header; anything else is a defect of the door
-      if (!INSPECTOR_TABS.includes(panel)) throw new Error(`workspace.setActiveTab: the inspector has no tab ${panel}`);
+      if (!INSPECTOR_TABS.includes(panel)) return { kind: 'refused', message: argumentRefused('panel') };
       if (inspectorTab(ui) === panel) return { kind: 'change' };
       return { kind: 'change', ui: withInspectorTab(ui, panel) };
     }
     if (group === WORKBENCH_GROUP) {
       const tab = panel as Panel;
       // the dock's strip draws a tab for each of its open panels only
-      if (!ui.panels.dockTabs.includes(tab)) throw new Error(`workspace.setActiveTab: the dock has no tab ${panel}`);
+      if (!ui.panels.dockTabs.includes(tab)) return { kind: 'refused', message: argumentRefused('panel') };
       return { kind: 'change', ui: withDock(withActiveDockTab(ui, tab), ui.layout.dock === 'collapsed' ? 'open' : ui.layout.dock) };
     }
     if (group === SIDEBAR_GROUP) {
@@ -122,11 +124,11 @@ export const setActiveTab = registerHandler<'workspace.setActiveTab', EditorUi>(
       // the area that hosts it (its own, while it hosts the strip itself)
       const tab = panelOf(panel);
       const host = combinedOf(ui, tab)?.host ?? tab;
-      if (host !== tab && combinedOf(ui, tab)?.mode !== 'tabs') throw new Error(`workspace.setActiveTab: ${panel} is no tab of ${host}`);
+      if (host !== tab && combinedOf(ui, tab)?.mode !== 'tabs') return { kind: 'refused', message: argumentRefused('panel') };
       if (combinationAt(ui, host).active === tab) return { kind: 'change' };
       return { kind: 'change', ui: withLayout(ui, { ...ui.layout, tabActive: { ...ui.layout.tabActive, [host]: tab } }) };
     }
-    throw new Error(`workspace.setActiveTab: no tab group ${group}`);
+    return { kind: 'refused', message: argumentRefused('group') };
   },
   (state, args) => {
     if (args.group === INSPECTOR_GROUP) return inspectorTab(state.ui) === args.panel;
@@ -325,3 +327,8 @@ export const resizeSplitter = registerHandler<'workspace.resizeSplitter', Editor
     return { kind: 'change', ui: { ...state.ui, preferences } };
   },
 );
+
+// a splitter an argument names (manifest refers: splitter), one layout.json declares
+registerReferenceKind('splitter', (_document, splitter) => splitter in SPLITTERS);
+// a tab group an argument names (manifest refers: tab-group): the inspector's, the dock's, the sidebar's areas
+registerReferenceKind('tab-group', (_document, group) => group === INSPECTOR_GROUP || group === WORKBENCH_GROUP || group === SIDEBAR_GROUP);

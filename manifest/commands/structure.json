@@ -11,7 +11,8 @@
         "entry": {
           "type": "palette-entry",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "palette-entry"
         },
         "parent": {
           "type": "node",
@@ -995,7 +996,8 @@
         "entry": {
           "type": "palette-entry",
           "values": [],
-          "optional": true
+          "optional": true,
+          "refers": "palette-entry"
         }
       },
       "availability": {

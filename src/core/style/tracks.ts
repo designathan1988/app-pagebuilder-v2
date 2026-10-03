@@ -12,6 +12,7 @@ import { locate } from '../document/model.ts';
 import type { ModelRules } from '../document/validate.ts';
 import { commandOf, manifest, numberConstantAt } from '../../manifest/runtime.ts';
 import { propertyName, readValue, shownText, storedValue, writeStyle } from './set.ts';
+import { argumentRefused } from '../store/args.ts';
 
 // the tracks a value holds, in order; none for none or an unreadable value
 export function tracksOf(value: string | undefined): readonly string[] {
@@ -115,7 +116,7 @@ export function editedTracks(held: string | undefined, edit: TrackEdit): string 
 
 export const setGridTracksCommand = registerHandler('style.setGridTracks', (context, { property, track, value, edit }) => {
   if (typeof property !== 'string' || (typeof track !== 'number' && (typeof edit !== 'object' || edit === null || Array.isArray(edit)))) {
-    throw new Error('style.setGridTracks: a door hands a property and either a track with its value or an edit of the tracks');
+    return { kind: 'refused', message: argumentRefused(typeof property !== 'string' ? 'property' : 'track') };
   }
   const { state, rules } = context;
   const primary = state.selection[0] === undefined ? null : locate(state.document, state.selection[0]);

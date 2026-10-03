@@ -190,7 +190,8 @@
         "token": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "token"
         },
         "value": {
           "type": "string",
@@ -251,7 +252,8 @@
         "token": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "token"
         },
         "name": {
           "type": "string",
@@ -313,7 +315,8 @@
         "token": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "token"
         }
       },
       "availability": {
@@ -943,7 +946,8 @@
         "component": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "component"
         },
         "parent": {
           "type": "node",

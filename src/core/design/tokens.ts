@@ -19,6 +19,7 @@ import { walk, type DocNode, type DocumentJson, type StoredValue } from '../docu
 import type { Patch } from '../history/transaction.ts';
 import { readValue } from '../style/set.ts';
 import { commandOf } from '../../manifest/runtime.ts';
+import { registerReferenceKind } from '../store/references.ts';
 
 export interface Token {
   readonly name: string;
@@ -240,3 +241,6 @@ export function rootCss(tokens: readonly Token[]): string {
   if (tokens.length === 0) return '';
   return `:root {\n${tokens.map((t) => `  --${t.name}: ${t.value};`).join('\n')}\n}`;
 }
+
+// a variable an argument names (manifest refers: token), by its name
+registerReferenceKind('token', (document, name) => tokensOf(document).some((token) => token.name === name));

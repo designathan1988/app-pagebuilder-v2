@@ -1118,7 +1118,8 @@
         "group": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "tab-group"
         },
         "panel": {
           "type": "string",
@@ -1288,7 +1289,8 @@
         "splitter": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "splitter"
         },
         "size": {
           "type": "number",
@@ -2624,7 +2626,8 @@
         "section": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "inspector-section"
         }
       },
       "availability": {
@@ -2674,7 +2677,8 @@
         "row": {
           "type": "string",
           "values": [],
-          "optional": false
+          "optional": false,
+          "refers": "concept-row"
         }
       },
       "availability": {

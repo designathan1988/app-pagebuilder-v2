@@ -12,6 +12,7 @@ import { locate } from '../document/model.ts';
 import { lockRefusal } from '../nodes/flags.ts';
 import { styleHolders, writeDeclarations } from '../style/set.ts';
 import { attributeOf, geometryAttributes, resizedShape, shapeBox } from '../elements/svg.ts';
+import { argumentRefused } from '../store/args.ts';
 
 const LENGTH = /^-?\d+px$/;
 // the margin box of properties.json and the prefix of the two arguments a drag's flow compensation comes in
@@ -29,7 +30,7 @@ export const resizeCommand = registerHandler('geometry.resize', (context, args):
   const values: Record<string, string> = {};
   for (const [property, value] of Object.entries(args)) {
     if (typeof value !== 'string') continue;
-    if (!LENGTH.test(value)) throw new Error(`geometry.resize: ${property} "${value}" is no whole px length`);
+    if (!LENGTH.test(value)) return { kind: 'refused', message: argumentRefused(property) };
     // A drag's flow compensation arrives as the manifest's own marginLeft or marginTop argument (item 4.2: the dragged
     // edge follows the pointer by the element's margin): it goes to the margin longhand of that side, read from the
     // properties.json composite, so no declaration is named by hand.
@@ -39,7 +40,7 @@ export const resizeCommand = registerHandler('geometry.resize', (context, args):
     }
     const side = property.slice(MARGIN_ARG.length).toLowerCase();
     const longhand = rules.compositeFacts.get(MARGIN_BOX)?.longhands.find((name) => name.endsWith(`-${side}`));
-    if (longhand === undefined) throw new Error(`geometry.resize: ${property} names no margin longhand`);
+    if (longhand === undefined) return { kind: 'refused', message: argumentRefused(property) };
     values[longhand] = value;
   }
 

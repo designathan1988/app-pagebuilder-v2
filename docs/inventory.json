@@ -5,8 +5,8 @@
     "commands": 370,
     "doors": 1335,
     "scenarios": 1754,
-    "modules": 412,
-    "lines": 76757
+    "modules": 414,
+    "lines": 76963
   },
   "features": [
     {
@@ -3366,7 +3366,7 @@
     },
     {
       "path": "src/core/data/collections.ts",
-      "lines": 406,
+      "lines": 410,
       "commands": [],
       "features": []
     },
@@ -3470,7 +3470,7 @@
     },
     {
       "path": "src/core/design/colors.ts",
-      "lines": 28,
+      "lines": 30,
       "commands": [
         "colors.saveSwatch",
         "colors.removeSwatch"
@@ -3481,7 +3481,7 @@
     },
     {
       "path": "src/core/design/components.ts",
-      "lines": 469,
+      "lines": 473,
       "commands": [
         "components.create",
         "components.insertInstance",
@@ -3528,7 +3528,7 @@
     },
     {
       "path": "src/core/design/tokens.ts",
-      "lines": 243,
+      "lines": 247,
       "commands": [
         "tokens.create",
         "tokens.update",
@@ -3663,7 +3663,7 @@
     },
     {
       "path": "src/core/elements/parts.ts",
-      "lines": 121,
+      "lines": 122,
       "commands": [
         "parts.toggle",
         "parts.add",
@@ -3906,7 +3906,7 @@
     },
     {
       "path": "src/core/geometry/resize.ts",
-      "lines": 143,
+      "lines": 144,
       "commands": [
         "geometry.resize"
       ],
@@ -4174,7 +4174,7 @@
     },
     {
       "path": "src/core/page/guides.ts",
-      "lines": 81,
+      "lines": 85,
       "commands": [
         "guides.create",
         "guides.move",
@@ -4270,7 +4270,7 @@
     },
     {
       "path": "src/core/project/pages.ts",
-      "lines": 195,
+      "lines": 199,
       "commands": [
         "pages.add",
         "pages.rename",
@@ -4388,8 +4388,20 @@
       ]
     },
     {
+      "path": "src/core/store/args.ts",
+      "lines": 104,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/core/store/references.ts",
+      "lines": 29,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/core/store/store.ts",
-      "lines": 662,
+      "lines": 677,
       "commands": [],
       "features": []
     },
@@ -4429,7 +4441,7 @@
     },
     {
       "path": "src/core/structure/insert.ts",
-      "lines": 237,
+      "lines": 241,
       "commands": [
         "element.createNaturalChild",
         "element.insert"
@@ -4460,7 +4472,7 @@
     },
     {
       "path": "src/core/structure/move.ts",
-      "lines": 290,
+      "lines": 291,
       "commands": [
         "element.moveTo",
         "element.nestIntoPrevious",
@@ -4542,7 +4554,7 @@
     },
     {
       "path": "src/core/style/background-image.ts",
-      "lines": 63,
+      "lines": 64,
       "commands": [
         "style.setBackgroundImage"
       ],
@@ -4652,7 +4664,7 @@
     },
     {
       "path": "src/core/style/grid-item.ts",
-      "lines": 57,
+      "lines": 58,
       "commands": [
         "style.setGridItem"
       ],
@@ -4761,7 +4773,7 @@
     },
     {
       "path": "src/core/style/tracks.ts",
-      "lines": 143,
+      "lines": 144,
       "commands": [
         "style.setGridTracks"
       ],
@@ -4820,7 +4832,7 @@
     },
     {
       "path": "src/core/text/text.ts",
-      "lines": 40,
+      "lines": 41,
       "commands": [
         "text.set"
       ],
@@ -5201,7 +5213,7 @@
     },
     {
       "path": "src/editor/data/state.ts",
-      "lines": 246,
+      "lines": 247,
       "commands": [
         "data.select",
         "data.setQuery",
@@ -5459,7 +5471,7 @@
     },
     {
       "path": "src/editor/inspector/concept-rows.ts",
-      "lines": 98,
+      "lines": 102,
       "commands": [
         "inspector.toggleRow"
       ],
@@ -5519,7 +5531,7 @@
     },
     {
       "path": "src/editor/inspector/sections.ts",
-      "lines": 336,
+      "lines": 340,
       "commands": [
         "inspector.toggleSection",
         "inspector.setMode",
@@ -6388,7 +6400,7 @@
     },
     {
       "path": "src/editor/workspace/layout.ts",
-      "lines": 328,
+      "lines": 335,
       "commands": [
         "workspace.setActiveTab",
         "workspace.setWorkbenchState",
@@ -6475,7 +6487,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6462,
+      "lines": 6463,
       "commands": [],
       "features": []
     },
@@ -6535,7 +6547,7 @@
     },
     {
       "path": "src/manifest/schema.ts",
-      "lines": 1322,
+      "lines": 1330,
       "commands": [],
       "features": []
     },

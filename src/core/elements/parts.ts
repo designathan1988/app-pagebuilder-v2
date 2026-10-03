@@ -10,6 +10,7 @@ import { newElement, nodeMaker } from '../structure/insert.ts';
 import { newRow } from './table.ts';
 import { geometryAttributes, shapeGeometry, sizeForShapes, svgMarkupOf } from './svg.ts';
 import { resizeCommand } from '../geometry/resize.ts';
+import { argumentRefused } from '../store/args.ts';
 
 const TABLE = 'table';
 const CAPTION = 'caption';
@@ -91,7 +92,7 @@ export const addPartCommand = registerHandler('parts.add', ({ state, rules, ids,
 
 export const movePartCommand = registerHandler('parts.move', ({ state }, { target, delta }): Outcome<never> => {
   const at = locate(state.document, target);
-  if (at === null || at.parent === null) throw new Error(`parts.move: ${target} is no part`);
+  if (at === null || at.parent === null) return { kind: 'refused', message: argumentRefused('target') };
   const locked = lockRefusal(state.document, at.node.id, 'status.locked.move');
   if (locked !== null) return { kind: 'refused', message: locked };
   const to = Math.max(0, Math.min(at.parent.children.length - 1, at.index + delta));
@@ -103,7 +104,7 @@ export const movePartCommand = registerHandler('parts.move', ({ state }, { targe
 
 export const removePartCommand = registerHandler('parts.remove', ({ state }, { target }): Outcome<never> => {
   const at = locate(state.document, target);
-  if (at === null || at.parent === null) throw new Error(`parts.remove: ${target} is no part`);
+  if (at === null || at.parent === null) return { kind: 'refused', message: argumentRefused('target') };
   const locked = lockRefusal(state.document, at.node.id, 'status.locked.edit');
   if (locked !== null) return { kind: 'refused', message: locked };
   return { kind: 'change', patches: [{ op: 'remove', path: at.path }], selection: [at.parent.id], message: message('status.parts.removed', { part: at.node.name, name: at.parent.name }) };

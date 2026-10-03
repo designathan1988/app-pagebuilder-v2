@@ -71,9 +71,11 @@ describe('collapsed sections (inspector/sections.ts)', () => {
     expect(sectionClosed(odd.getState().ui, 'border', held)).toBe(true);
   });
 
+  // a section the inspector does not have is refused with words before the handler runs, never thrown (AUD-09)
   it('takes only a section of the inspector', () => {
     const s = store();
-    expect(() => s.dispatch('inspector.toggleSection', { section: 'nope' })).toThrow(/the inspector has no section nope/);
+    expect(s.dispatch('inspector.toggleSection', { section: 'nope' } as never).status).toBe('refused');
+    expect(s.getState().message?.key).toBe('status.stale');
     expect(collapsedSections(s.getState().ui)).toEqual([]);
   });
 });

@@ -2136,6 +2136,7 @@
   "status.change.invalid": "“{command}” was not applied: its result would leave the page invalid, so nothing changed. The details are in Incidents.",
   "status.data.imageNotFound": "Row {row} of the data: “{value}” in the column {column} names no image of the project (by its path or file name) nor a web address. Nothing was filled.",
   "status.change.failed": "“{command}” failed and nothing changed. The details are in Incidents.",
+  "status.args.invalid": "“{command}” was not run: its {argument} is not one it takes. Nothing changed.",
   "status.element.notApplicable": "“{command}” does not apply to {name}.",
   "status.keys.notChosen": "Letters typed here do nothing: click the canvas or a Layers row to use their keys, or a field to type into it.",
   "status.keys.typedNotShortcuts": "Typing is not a shortcut: took back {keys}.",

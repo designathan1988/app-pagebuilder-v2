@@ -10,6 +10,7 @@ import { FIELD_TYPES, FILTER_OPERATORS, type Field, type FieldType, type FilterO
 import { fold } from '../../core/text/fold.ts';
 import type { MessageId } from '../../generated/ids.ts';
 import type { EditorUi } from '../state.ts';
+import { argumentRefused } from '../../core/store/args.ts';
 
 // A data file read for import: its sheets, the one shown, and the type each of its columns will take (guessed, then
 // the person's choice).
@@ -150,7 +151,7 @@ export const choosePreviewSheet = registerHandler<'data.previewSheet', EditorUi>
   ({ state }, { sheet }) => {
     const preview = dataOf(state.ui).preview;
     const index = preview?.sheets.findIndex((one) => one.name === sheet) ?? -1;
-    if (preview === undefined || index < 0) throw new Error(`data.previewSheet: no sheet ${sheet} to show`);
+    if (preview === undefined || index < 0) return { kind: 'refused', message: argumentRefused('sheet') };
     const shown = preview.sheets[index];
   return { kind: 'change', ui: withData(state.ui, { preview: { ...preview, sheet: index, types: guessed(shown) } }), message: message('status.data.sheetShown', { name: sheet, count: { plural: 'data.rows', count: shown?.rows.length ?? 0 } }) };
   },

@@ -66,9 +66,13 @@ describe('text.set', () => {
     expect(setTextCommand.run(context, { target: 'Intro', content: [{ tag: 'a', href: 'javascript:alert(1)', children: ['Old'] }] })).toEqual({ kind: 'refused', message: { key: 'status.link.unsafe', params: {} } });
   });
 
+  // a missing node is the store's to refuse before the handler runs (core/store/args.ts); an element without text and a
+  // content that is no string are refused with words, never thrown (the audit's AUD-09)
   it('refuses what no door hands it: a missing node, an element without text, a content that is no string', () => {
     expect(() => setTextCommand.run(context, { target: 'Gone', content: 'x' })).toThrow(/no node/);
-    expect(() => setTextCommand.run(context, { target: 'Hero', content: 'x' })).toThrow(/no text element/);
-    expect(() => setTextCommand.run(context, { target: 'Intro', content: 3 })).toThrow(/not a string/);
+    const noText = setTextCommand.run(context, { target: 'Hero', content: 'x' });
+    expect(noText.kind === 'refused' ? noText.message.key : noText.kind).toBe('status.element.notApplicable');
+    const noString = setTextCommand.run(context, { target: 'Intro', content: 3 });
+    expect(noString.kind === 'refused' ? [noString.message.key, noString.message.params.argument] : noString.kind).toEqual(['status.args.invalid', 'content']);
   });
 });

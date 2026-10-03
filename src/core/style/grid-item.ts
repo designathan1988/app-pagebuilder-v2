@@ -7,6 +7,7 @@ import { message, registerHandler } from '../commands/registry.ts';
 import { locate, type DocNode } from '../document/model.ts';
 import type { ModelRules } from '../document/validate.ts';
 import { longhandValues, propertyName, readValue, storedValue, writeStyle } from './set.ts';
+import { argumentRefused } from '../store/args.ts';
 
 // the start and the span a composite's text holds ("2 / span 3", "span 3", "auto / b"): a start that is a whole
 // number, else none; a span that is "span N" in either side, else one (a value written as longhands keeps the span in
@@ -39,7 +40,7 @@ export function gridItemValue(now: { readonly start: number | null; readonly spa
 
 export const setGridItemCommand = registerHandler('style.setGridItem', (context, { property, start, span }) => {
   if (typeof property !== 'string' || (start !== undefined && typeof start !== 'number') || (span !== undefined && typeof span !== 'number')) {
-    throw new Error('style.setGridItem: a door hands a property and whole numbers for its start and span');
+    return { kind: 'refused', message: argumentRefused(typeof property !== 'string' ? 'property' : typeof start !== 'number' && start !== undefined ? 'start' : 'span') };
   }
   const { state, rules } = context;
   const primary = state.selection[0] === undefined ? null : locate(state.document, state.selection[0]);

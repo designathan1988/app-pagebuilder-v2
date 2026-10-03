@@ -5131,6 +5131,7 @@ export const MESSAGE_IDS = [
   "status.change.invalid",
   "status.data.imageNotFound",
   "status.change.failed",
+  "status.args.invalid",
   "status.element.notApplicable",
   "status.keys.notChosen",
   "status.keys.typedNotShortcuts",

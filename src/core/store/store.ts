@@ -7,6 +7,8 @@
 import type { CommandArgs } from '../../generated/commands.ts';
 import type { CommandId, ConstantId, MessageId } from '../../generated/ids.ts';
 import type { Command } from '../../manifest/schema.ts';
+import { argumentRefusal, withCommandName } from './args.ts';
+import { referenceKindRegistered } from './references.ts';
 import { isBuilt, message, type CommandTable, type HandlerContext, type KeyframeTarget, type Message, type MessageParam, type Outcome, type PredicateTable } from '../commands/registry.ts';
 import type { MotionEditorContext } from '../motion/record.ts';
 import { locate, type DocumentJson, type Selection } from '../document/model.ts';
@@ -223,10 +225,14 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
   const listeners = new Set<() => void>();
   const documentListeners = new Set<(change: DocumentChange) => void>();
 
-  // every built command names a registered availability predicate
+  // every built command names a registered availability predicate, and every kind of thing its arguments name has a
+  // module that finds it (core/store/references.ts)
   for (const [id, command] of commands) {
     if (isBuilt(table[id]) && predicates[command.availability.predicate as keyof PredicateTable<Ui>] === undefined) {
       throw new Error(`${id} is built but its availability predicate "${command.availability.predicate}" is not registered`);
+    }
+    for (const [argument, arg] of Object.entries(command.args)) {
+      if (isBuilt(table[id]) && arg.refers !== undefined && !referenceKindRegistered(arg.refers)) throw new Error(`${id} is built but no module finds the ${arg.refers} its ${argument} names`);
     }
   }
 
@@ -366,6 +372,12 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     // the manifest's history.transaction: a command recorded once per dispatch never joins a gesture's transaction
     if (gesture && command.history.undoable && command.history.transaction === 'per-dispatch') throw new Error(`${id} records one transaction per dispatch: it cannot run inside a gesture`);
     if (!isBuilt(entry)) return { status: 'not-available-yet' };
+    // arguments the command does not take are refused before anything reads them (core/store/args.ts; AUD-09)
+    const invalid = argumentRefusal(id, command, args, state.document, layeredNow());
+    if (invalid !== null) {
+      publish(commit({ ...state, message: invalid, refused: true }, id));
+      return { status: 'refused', message: invalid };
+    }
     const predicate = predicates[command.availability.predicate as keyof PredicateTable<Ui>];
     if (predicate && !predicate.test(state, layeredNow(), args)) {
       const declared = message((command.availability.refusalKey ?? 'common.notAvailableYet') as Message['key']);
@@ -415,8 +427,9 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
       return { status: 'confirm' };
     }
     if (outcome.kind === 'refused') {
-      publish(commit({ ...state, message: outcome.message, refusal: { command: id, args, message: outcome.message }, refused: true }, id));
-      return { status: 'refused', message: outcome.message };
+      const said = withCommandName(outcome.message, command);
+      publish(commit({ ...state, message: said, refusal: { command: id, args, message: said }, refused: true }, id));
+      return { status: 'refused', message: said };
     }
     if (outcome.kind === 'undo' || outcome.kind === 'redo') {
       if (gesture) throw new Error(`${id} cannot run inside a gesture`);
@@ -513,6 +526,8 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     if (!command) throw new Error(`unknown command ${id}`);
     if (group !== null && command.history.undoable) return group.busy;
     if (!isBuilt(entry)) return message('common.notAvailableYet');
+    const invalid = argumentRefusal(id, command, args, state.document, layeredNow());
+    if (invalid !== null) return invalid;
     const predicate = predicates[command.availability.predicate as keyof PredicateTable<Ui>];
     // a predicate or a handler that throws while a control asks is a defect, said as a failure and recorded, never a
     // throw into the control that asked (the audit's AUD-08: with no error boundary, it blanked the editor)
@@ -520,7 +535,7 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
       if (predicate && !predicate.test(state, layeredNow(), args)) return predicate.refusal?.(state, layeredNow(), args) ?? message((command.availability.refusalKey ?? 'common.notAvailableYet') as Message['key']);
       const outcome = entry.run(handlerContext(), args);
       if (group !== null && groupBlocked(outcome, true)) return group.busy;
-      return outcome.kind === 'refused' ? outcome.message : null;
+      return outcome.kind === 'refused' ? withCommandName(outcome.message, command) : null;
     } catch (error) {
       reportError(`${id} threw while its control asked whether it would run`, error instanceof Error ? (error.stack ?? error.message) : String(error));
       return message('status.change.failed', { command: nameOf(command) });
