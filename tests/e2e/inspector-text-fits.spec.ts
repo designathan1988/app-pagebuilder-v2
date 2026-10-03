@@ -11,6 +11,8 @@ import { control, openEverySection, runDoor, runs } from './door.ts';
 const INSERT = 'element.insert#elements-tile';
 const TABS = ['workspace.setActiveTab#inspector-tab-style', 'workspace.setActiveTab#inspector-tab-settings', 'workspace.setActiveTab#inspector-tab-interactions'] as const;
 const ALL = 'inspector.setMode#inspector-mode-all';
+const MASK_KIND = 'element.setAttribute#forms-mask-kind';
+const MASK_PRESET = 'element.setAttribute#forms-mask-preset';
 // one element of each kind whose inspector draws sections of its own: a box, text, a link and a button, media, form
 // controls, a list, a table, a disclosure, a dialog, a drawing
 const ENTRIES = ['section', 'heading', 'link', 'button', 'image', 'video', 'form', 'input-text', 'select', 'input-range', 'unordered-list', 'table', 'details', 'dialog', 'svg'];
@@ -96,6 +98,35 @@ for (const locale of ['en-US', 'pt-BR']) {
         await runDoor(page, TABS[0]);
       }
       expect(cut).toEqual([]);
+    });
+
+    // A field of offered values shows the words of its choice whole (CL1: once a mask preset was chosen the Form
+    // section read "Brazilian taxpaye…", "When leaving th…", "Create automatica…"; an input cuts its text with no
+    // ellipsis, so the walk above, which reads an input's placeholder only, never saw it). The preset is typed as its
+    // value, which the field takes in any language.
+    test('a field of offered values shows its chosen words whole once a mask preset is chosen', runs(INSERT, MASK_KIND), async ({ page }) => {
+      await control(page, INSERT, { args: { entry: 'input-text' } }).click();
+      await runDoor(page, TABS[1]);
+      const kind = control(page, MASK_KIND).locator('input');
+      await kind.click();
+      await page.keyboard.press('Control+A');
+      await page.keyboard.type('preset\n');
+      await expect(control(page, MASK_PRESET).locator('input')).not.toHaveValue('');
+      await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+      const cutChoices = await page.locator('[data-region="forms-settings"]').evaluate((region) => {
+        const canvas = document.createElement('canvas').getContext('2d');
+        return [...region.querySelectorAll<HTMLInputElement>('input[list]')]
+          .filter((input) => input.value !== '' && input.getClientRects().length > 0)
+          .filter((input) => {
+            const style = getComputedStyle(input);
+            if (canvas === null) return false;
+            canvas.font = style.font;
+            const room = input.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+            return canvas.measureText(input.value).width > room + 1;
+          })
+          .map((input) => `${input.getAttribute('aria-label') ?? ''}: ${input.value}`);
+      });
+      expect(cutChoices).toEqual([]);
     });
   });
 }

@@ -413,7 +413,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | BW1 | 2 | The border fields of an element with no border of its own show the canvas’s zoomed computed width: a 1 px border reads `1.69014px` at 59 % | QA 177, the text-fits test | done (QA 178) |
 | FL1 | 1 | layout-composer’s scenario done-closes-the-composer failed once in a run of 157: its Escape reached the page while the Layout tool was still coming on (the focus moves into a panel two frames after it opens); six reruns pass | QA 179, the AUD-28 block run | open (the module’s owner told) |
 | TS1 | 1 | The panel splitters are 6 px wide, under WCAG 2.5.8’s 24 px: a 24 px hit area would cover the Layers rows’ buttons, the Insert tiles and the ruler beside them, and no other control sets a panel’s width (no equivalent). A decision: room taken from the panels for a gutter, or an equivalent control (a panel-width setting or command) | QA 181 | open (needs the user’s decision) |
-| CL1 | 1 | The Form section’s Preset field cuts its value (“Brazilian taxpaye…”) once a mask preset is chosen, a state the text-fits test never reaches | QA 183, the forms-mask flow’s photo | open |
+| CL1 | 1 | The Form section’s Preset field cuts its value (“Brazilian taxpaye…”) once a mask preset is chosen, a state the text-fits test never reaches | QA 183, the forms-mask flow’s photo | done (QA 184) |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 

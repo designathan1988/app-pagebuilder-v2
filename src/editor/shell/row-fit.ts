@@ -5,7 +5,10 @@
 // so the inspector lets its text reflow rather than cut or abbreviate it. A row stacks when, laid out side by side:
 // - a word of its label is wider than the label column (a label wraps between its words, never inside one);
 // - a pair's value of one word (a keyword's word, a number) is wider than its half. A value of several parts (a list of
-//   fonts, a shorthand) may still end in an ellipsis: no cell holds it, and its slot's tooltip carries it whole.
+//   fonts, a shorthand) may still end in an ellipsis: no cell holds it, and its slot's tooltip carries it whole;
+// - a field of offered values (an input with its list: the Form section's preset, its moment, its error's place) shows
+//   words wider than its box (CL1: "Brazilian taxpaye…"); an input cuts its text with no ellipsis. A row whose field
+//   is being typed in keeps its layout, so nothing moves under the caret.
 // Each row is judged as it would be laid out beside its label, from the widths of its text and of its cells as drawn,
 // never by laying it out the other way, so a stacked row stays judged the same and nothing flickers or scrolls.
 
@@ -13,6 +16,8 @@ const ROWS = '.field-row';
 const PAIR = 'field-row--pair';
 const LABEL = ':scope > .field-row__label';
 const CELLS = ':scope > .field-cell';
+// a field of offered values standing in the row's value column
+const CHOICE = ':scope > input[list]';
 // the texts a cell cuts with an ellipsis: a field's shown value, a keyword menu's value
 const CLIPS = '.field__rest-value, .field__keyword-value';
 // the width of each row's label column, read while the row is laid out beside its label (a row is drawn so before it is
@@ -43,10 +48,18 @@ function fitsBeside(row: HTMLElement, context: CanvasRenderingContext2D): boolea
     const words = (label.textContent ?? '').split(/\s+/u).filter((word) => word !== '');
     if (words.some((word) => widthOf(context, word, own) > room + TOLERANCE)) return false;
   }
+  const gap = px(style.columnGap);
+  const inner = row.clientWidth - px(style.paddingLeft) - px(style.paddingRight);
+  const choice = row.querySelector<HTMLInputElement>(CHOICE);
+  if (choice !== null && choice.value !== '') {
+    // the field beside its label: the row less the label column and the gap
+    const own = getComputedStyle(choice);
+    const frame = px(own.paddingLeft) + px(own.paddingRight) + px(own.borderLeftWidth) + px(own.borderRightWidth);
+    if (widthOf(context, choice.value, own) + frame > inner - column - gap + TOLERANCE) return false;
+  }
   if (!row.classList.contains(PAIR)) return true;
   // a pair's half beside its label: the row less the label column and the two gaps, halved (inspector.css)
-  const gap = px(style.columnGap);
-  const half = (row.clientWidth - px(style.paddingLeft) - px(style.paddingRight) - column - 2 * gap) / 2;
+  const half = (inner - column - 2 * gap) / 2;
   for (const cell of row.querySelectorAll<HTMLElement>(CELLS)) {
     // what the cell has beyond its half while the row is stacked goes to its value (the value slot takes the free room)
     const extra = cell.getBoundingClientRect().width - half;
@@ -69,8 +82,10 @@ export function installRowFit(root: HTMLElement): () => void {
   const judge = () => {
     frame = 0;
     const rows = [...root.querySelectorAll<HTMLElement>(ROWS)];
-    // every row read before any is changed, so the layout is computed once
-    const stacked = rows.map((row) => !fitsBeside(row, context));
+    // every row read before any is changed, so the layout is computed once; a row whose field is being typed in keeps
+    // its layout until the field is left
+    const typing = document.activeElement instanceof HTMLInputElement || document.activeElement instanceof HTMLTextAreaElement ? document.activeElement : null;
+    const stacked = rows.map((row) => (typing !== null && row.contains(typing) ? 'stacked' in row.dataset : !fitsBeside(row, context)));
     rows.forEach((row, index) => {
       if (stacked[index] === ('stacked' in row.dataset)) return;
       if (stacked[index] === true) row.dataset.stacked = '';
@@ -84,6 +99,9 @@ export function installRowFit(root: HTMLElement): () => void {
   changes.observe(root, { subtree: true, childList: true, characterData: true });
   const sizes = new ResizeObserver(soon);
   sizes.observe(root);
+  // a field left or changed: its words may be others now (an input's value is no text the DOM observer sees)
+  root.addEventListener('focusout', soon);
+  root.addEventListener('change', soon);
   void document.fonts.ready.then(soon);
   soon();
   return () => {
@@ -91,5 +109,7 @@ export function installRowFit(root: HTMLElement): () => void {
     cancelAnimationFrame(frame);
     changes.disconnect();
     sizes.disconnect();
+    root.removeEventListener('focusout', soon);
+    root.removeEventListener('change', soon);
   };
 }
