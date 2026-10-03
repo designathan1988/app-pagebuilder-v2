@@ -4363,7 +4363,7 @@
       "dependsOn": [
         "explorer-assets"
       ],
-      "spec": null,
+      "spec": "spec/BEHAVIOUR.md#custom-fonts",
       "intent": {
         "title": "Use custom font files",
         "steps": [

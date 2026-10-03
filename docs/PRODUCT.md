@@ -124,7 +124,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-3.1 | Lean field (J6): value and unit cell, Reset outside the value | done | QA 52, 56; flow `lean-field` |
 | STG-3.2 | Steppers, arrows ±1/±10/±0.1, wheel, scrub, one undo step per drag | partial | QA 71 (keys, wheel, scrub); steppers dropped (AUD-16, DEC-30) |
 | STG-3.3 | Smart input: bare numbers (J18), arithmetic and `calc()`, shorthand (J27), Portuguese keywords | done | QA 47, 71, 76 |
-| STG-3.4 | Values with preview: colour variables, contrast, project fonts first, presets, easing curves, gradients, shadows | partial | QA 72–79; AUD-12 (project fonts not first) |
+| STG-3.4 | Values with preview: colour variables, contrast, project fonts first, presets, easing curves, gradients, shadows | done | QA 72–79; QA 161 (project fonts first, AUD-12) |
 | STG-3.5 | Inherited values read without zoom (J19); Border and Shadow summaries | done | QA 77 |
 | STG-3.6 | Grid tracks show inherited tracks, labelled lists (J10) | done | QA 53 |
 | STG-3.7 | Spacing link per element (J27) | done | QA 54 |
@@ -245,7 +245,7 @@ The problems of the usability study (`jornada03/REPORT.md` section 3), re-checke
 | J12 | Keyboard cannot reach canvas or Layers; Ctrl+K pages/layers | partial | QA 88, 95, 103, 104; AUD-13 |
 | J13 | Upload refuses CSV/JSON; no mapping | done | QA 66; C4 |
 | J14 | Export CSS ~5× hand-written | partial | QA 51 (1.95×); the cascade QA 150; AUD-14 |
-| J15 | Font list: half-typed commit, clipped, uploaded fonts missing | partial | QA 42, 73; AUD-12 |
+| J15 | Font list: half-typed commit, clipped, uploaded fonts missing | done | QA 42, 73, 161 |
 | J16 | Labels and chips over content | done | QA 101 |
 | J17 | Shift+click range; list jumps | done | QA 84 |
 | J18 | Radius refuses bare numbers | done | QA 47 |
@@ -350,7 +350,7 @@ The wishes the study recorded (the plan lists them as 32; its list names 31):
 | WISH-25 | Ctrl+Z always | done | J7 |
 | WISH-26 | Spacing of every section at once | done | STG-7.4 |
 | WISH-27 | Breakpoints side by side | done | STG-2.4 |
-| WISH-28 | Project fonts at the top | missing | AUD-12 |
+| WISH-28 | Project fonts at the top | done | QA 161 |
 | WISH-29 | Drag an image onto an element | done | feature `explorer-assets-use` |
 | WISH-30 | Thumbnails in pickers | done | QA 94 |
 | WISH-31 | Preview link for the client | out | stage 13 |
@@ -381,7 +381,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-09 | 2 | Handlers throw instead of refusing on stale or malformed references | audit | done (QA 158 the bad-argument probe; QA 159 the random sequences' tail) |
 | AUD-10 | 2 | Unbounded ZIP inflation; the preview's key relay trusts any opaque-origin frame; the test port in production | audit; open since the module handoff (`docs/archive/history/coordination.md`) | done (QA 160) |
 | AUD-11 | 2 | `js/motion.js`, `js/lottie.min.js` not protected generated paths | audit; QA 124 | done (QA 160) |
-| AUD-12 | 2 | The uploaded font only behind "More values" | audit; J15 | open |
+| AUD-12 | 2 | The uploaded font only behind "More values" | audit; J15 | done (QA 161) |
 | AUD-13 | 2 | F6 never focuses the canvas page | audit; J12 | open |
 | AUD-14 | 2 | Export class names partly Portuguese and numbered | audit; J14 | open |
 | AUD-15 | 2 | Capture: 98 % corpus never measured, login capture absent, MDN logo missing | audit; QA 117, 119 | open |

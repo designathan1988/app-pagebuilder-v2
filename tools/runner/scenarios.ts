@@ -1051,7 +1051,7 @@ async function dropOsFile(page: Page, value: string, at: Point | null): Promise<
 // a real woff2 font, drawn from scratch by the scratch script that built it (every glyph a rectangle with its own
 // advance, so "Heading" is 4.4 em wide at any size and a scenario can prove a custom font is the face the page draws
 // with; spec custom-fonts). Null-transformed tables in one Brotli stream, as the WOFF2 spec writes them.
-const WOFF2_TEST = Buffer.from(
+export const WOFF2_TEST = Buffer.from(
   'd09GMgABAAAAAAHMAAoAAAAAC7QAAAGEAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPMqOdAE2AiQDgVjLgVwEIAWBJgcgFwMLEJ4Hti1nC0aqpvB9K3aOHaGSE1XD1rMXPhHca7ImK8pjHMLgBE7gBBbhwX2AIMZRezATwHSJ5HRzOsAQxX/DRE61eQDw+QnL/+DddceHC3x+vt0faWJpmHJoiaehp0lbKBlcMPRAD7aXE0niYxBpbXWBv8ygkxSvkxd9Ve3iCJq+IwTkd4ULDAuNwAmde1iypOBClKojXPCWeET9WsJO4RHZqTREIPGYAQ4FoNb2QnhEfQb3tNbY+2FM3dL85iDNRATwcf72T3umjqZfa1hSBIJXyGwpAPj71/z2GDM0fTa+oCIggDev9w6f8IVv/GCH6CN+SAbSQ1bJHflPaaO8UCmoDmqRuqJ+09TR3NAS0Fpos7Qz2jddGd0JPQa9gT5JP6K/M+Qx7DAiMGowRhl7jGemNNMKMwSzAnOQucW8ZyHOwgyLACxKCMArYQIUAAB0XgkR4ZWwxeHijC137hjDPBN/PkplypEiVZEQqYqVCJIqXakciYpCvX6FzIsQI3a8Rw==',
   'base64',
 );

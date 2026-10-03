@@ -8973,3 +8973,21 @@ instance (`status.locked.edit`).
 A text that is no http or https address (`status.capture.invalidUrl`), refused before any request. A Companion that does
 not answer (`status.capture.noCompanion`) or a page it could not open (`status.capture.failed`, with its reason) is
 said in the status bar.
+
+## custom-fonts
+
+### Our rule
+
+- A font file in the project's tree (WOFF2, WOFF, TTF, OTF, EOT; an upload stores it in `fonts/`) is a family the
+  project offers, known by its file's name without the folder or the extension (`fonts/Grao Display.woff2` is
+  "Grao Display"; `src/core/files/fonts.ts`, the one owner).
+- The canvas draws it and the export carries it: one `@font-face` per font file, `font-display: swap`, its `src` the
+  file's path relative to the stylesheet, and the file at its path in the archive.
+
+### Problems
+
+1. **An uploaded font was offered only behind More values** (the audit's AUD-12, 2026-10-02, jornada03 J15: after
+   uploading `GraoDisplay.ttf` the font menu's first list held 12 system stacks; the font came in the longer list of
+   29). Required: the font menu's first list starts with the project's fonts, in the tree's order, before the system
+   stacks, each drawn in its own face, in Essentials only and in All properties alike; More values adds the other
+   suggestions after them (Webflow groups uploaded fonts as their own source, "Custom fonts").

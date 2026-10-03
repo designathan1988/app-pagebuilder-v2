@@ -765,8 +765,11 @@ export function TextStyleField({
   const essentials = essentialsOf(entry);
   const essentialsMode = useEditorState((s) => inspectorMode(s.ui) === 'essentials');
   const [moreValues, setMoreValues] = useState(false);
-  const menuValues = essentials === null ? suggestions : [...essentials.filter((v) => suggestions.includes(v)), ...(moreValues && !essentialsMode ? suggestions.filter((v) => !essentials.includes(v)) : [])];
-  const hasMoreValues = essentials !== null && !essentialsMode && suggestions.some((v) => !essentials.includes(v));
+  // the project's own fonts lead the first list, never behind More values, Essentials only too (the audit's AUD-12: an
+  // uploaded font showed only in the longer list; Webflow groups uploaded fonts as their own source)
+  const first = essentials === null ? null : [...projectFonts, ...essentials.filter((v) => !projectFonts.includes(v))];
+  const menuValues = first === null ? suggestions : [...first.filter((v) => suggestions.includes(v)), ...(moreValues && !essentialsMode ? suggestions.filter((v) => !first.includes(v)) : [])];
+  const hasMoreValues = first !== null && !essentialsMode && suggestions.some((v) => !first.includes(v));
   // the item checked: the value the element holds, else the one the page computes (the audit's S-027: no mark at all)
   const checkedValue = shown !== '' ? shown : mixed ? '' : effective.trim();
   useEffect(() => {

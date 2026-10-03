@@ -289,7 +289,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `export-file-tree` | Export the file tree as a ZIP | yes | 1 | 1 | none | — | — |
 | `export-assets` | Export includes every file of the tree | yes | 1 | 1 | none | — | — |
 | `page-seo-meta` | Page metadata for search and sharing | yes | 1 | 1 | [page-seo-meta](../spec/BEHAVIOUR.md#page-seo-meta) | 1 | — |
-| `custom-fonts` | Use custom font files | yes | 1 | 1 | none | — | — |
+| `custom-fonts` | Use custom font files | yes | 1 | 1 | [custom-fonts](../spec/BEHAVIOUR.md#custom-fonts) | 1 | — |
 | `explorer-open-folder` | Open a whole folder from disk | yes | 4 | 3 | none | — | — |
 | `code-panel-edit-js` | Edit JavaScript files in the Code panel | yes | 3 | 3 | none | — | — |
 
