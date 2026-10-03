@@ -1940,6 +1940,7 @@
   "status.unlocked": "Desbloqueado: {name}",
   "status.unwrap.noChildren": "{name} não tem filhos para elevar.",
   "status.unwrap.unavailable": "Só um elemento com filhos, dentro de um pai, pode ter o contêiner removido.",
+  "status.unwrap.instance": "{name} é uma instância: o contêiner dela guarda as partes. Desvincule-a do componente primeiro.",
   "status.unwrapped": "O contêiner {name} foi removido.",
   "status.url.malformed": "{url} não é um endereço que esta página possa usar: escreva um caminho, um #trecho, um endereço https:, um mailto: ou um tel:.",
   "status.url.normalized": "{url} foi gravado como {value}.",
@@ -3452,6 +3453,8 @@
   "status.capture.failed": "Não foi possível capturar {url}: {reason}",
   "feature.captureUrl": "Abrir qualquer endereço da web como página do projeto",
   "status.import.released": "{count} links ou rótulos apontavam para nada da página e foram soltos ({values}).",
+  "status.instance.partLeaves": "{name} faz parte da instância {instance} e fica nela. Desvincule a instância primeiro.",
+  "status.instance.nested": "{name} é ou contém uma instância, e uma instância não fica dentro de outra ({instance}).",
   "capture.pages": "Páginas do site",
   "capture.pagesHint": "1 captura só esta página; mais seguem os links para outras páginas do mesmo site, até 30.",
   "status.capture.badPages": "{pages} não é um número de páginas: de 1 a 30."

@@ -169,12 +169,18 @@ function unwrappable(state: { readonly document: Parameters<typeof locate>[0]; r
 
 // canUnwrap: one element selected, below the page root, holding children. Refused, the status bar says which: an
 // element with no children to lift names itself; anything else says what can lose its wrapper.
+// An instance keeps its wrapper: its root is what makes its children parts of it, and lifted out they would be parts of
+// no instance (the audit's AUD-04). Detaching it first makes them ordinary elements.
 export const canUnwrap = registerPredicate(
   'canUnwrap',
-  (state) => unwrappable(state) !== null,
+  (state) => {
+    const found = unwrappable(state);
+    return found !== null && found.node.component === undefined;
+  },
   (state) => {
     const [only, ...others] = state.selection;
     const found = only === undefined || others.length > 0 ? null : locate(state.document, only);
+    if (found !== null && found.node.component !== undefined) return message('status.unwrap.instance', { name: found.node.name });
     if (found !== null && found.parent !== null && found.node.children.length === 0) return message('status.unwrap.noChildren', { name: found.node.name });
     return message('status.unwrap.unavailable');
   },

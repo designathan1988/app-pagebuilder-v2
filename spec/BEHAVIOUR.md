@@ -4261,6 +4261,7 @@ None in Pager.
 1. **The item is always enabled and fails silently** when there is no previous sibling or it cannot contain the element. Required: the item is disabled in those cases (with the reason in its tooltip) and the document JSON is unchanged (manifest feature `nest-into-previous`).
 2. **No keyboard shortcut and no Arrange menu entry.** Required: the command is in the Arrange menu and in the keymap owner, so the shortcuts panel lists it (the key choice belongs to the keymap; it must not collide with R, C, P, M).
 3. **The status wording (`Placed. … position 1 of 1.`) is the hand's wording.** Required: `Moved <name> into <receiver>, position N of M.`
+4. **Make child of previous layer put an instance inside another** (the audit's AUD-04, 2026-10-02), which the model refuses. Required: an element that is or holds an instance goes into no instance: the door is unavailable and Alt+→ says "<name> is or holds an instance, and an instance goes inside no other (<instance>)."
 
 ## nesting-grammar-structure
 
@@ -4917,6 +4918,7 @@ Not affected.
 
 1. **Two implementations** (key row and Layers menu) with different messages (`Promoted … position N` vs `a11y.promoted` via the menu with a different index base). Required: one command for the key, the menus and the selection bar.
 2. **The refusal at the top level is not styled as a refusal** (tag stays `ENGINE`). Required: the status explains that a direct child of the Page cannot be promoted, styled as a refusal; the document JSON is unchanged.
+3. **Move out of parent took a part out of its instance** (the audit's AUD-04, 2026-10-02), which the model refuses. Required: a part of an instance stays in it: the door is unavailable for it (its own predicate, `canPromote`) and P says "<name> is part of the instance <instance> and stays in it. Detach the instance first."; every structure move keeps the same rule (a part stays in its instance, no instance goes inside another: `instanceMoveRefusal`).
 
 ## props-attributes
 
@@ -7947,6 +7949,7 @@ None in Pager.
 1. **Remove wrapper is only reachable through the selection bar's icon strip.** Required: a context-menu item "Remove wrapper" and an Arrange menu item, running the same command (manifest feature `unwrap`, `context-menu`, `app-menu`).
 2. **The button is hidden rather than disabled when the command cannot apply,** so the strip changes layout depending on the selection. Required: the context-menu item stays in place and is disabled, with the reason in its tooltip, for the Page root and for elements without children.
 3. **The More actions strip overlaps its own text** (the "Margin", "Padding" and "More…" labels are drawn on top of each other). Required: no overlapping text in any panel; the new app has no separate strip (see `context-menu.md`).
+4. **Remove wrapper on a component instance broke the document** (the audit's AUD-04, 2026-10-02): its parts were lifted out of the instance, parts of no instance, which the model refuses. Required: an instance keeps its wrapper; the door is unavailable for it (the context menu leaves it out) and says why: "<name> is an instance: its wrapper holds its parts. Detach it from the component first." The instances' rules have one owner (`instanceMoveRefusal`, `src/core/design/components.ts`).
 
 ## workbench-panel
 

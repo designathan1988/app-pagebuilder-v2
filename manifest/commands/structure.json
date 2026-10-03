@@ -192,7 +192,9 @@
         "status.locked.move",
         "status.locked.insert",
         "status.locked.byAncestor",
-        "status.drop.outsidePage"
+        "status.drop.outsidePage",
+        "status.instance.partLeaves",
+        "status.instance.nested"
       ],
       "confirmation": null,
       "history": {
@@ -1086,7 +1088,9 @@
         "status.refused.noChildren",
         "status.locked.move",
         "status.locked.insert",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "status.instance.partLeaves",
+        "status.instance.nested"
       ],
       "confirmation": null,
       "history": {
@@ -1209,8 +1213,8 @@
       "introducedBy": "promote-out",
       "args": {},
       "availability": {
-        "predicate": "singleSelection",
-        "refusalKey": "status.needsSingleSelection"
+        "predicate": "canPromote",
+        "refusalKey": "status.promote.topLevel"
       },
       "refusals": [
         "status.promote.topLevel",
@@ -1222,7 +1226,10 @@
         "status.refused.labelOneControl",
         "status.refused.noChildren",
         "status.locked.move",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "status.instance.partLeaves",
+        "status.instance.nested",
+        "status.needsSingleSelection"
       ],
       "confirmation": null,
       "history": {
@@ -1657,7 +1664,8 @@
         "status.refused.labelOneControl",
         "status.refused.noChildren",
         "status.locked.edit",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "status.unwrap.instance"
       ],
       "confirmation": null,
       "history": {
@@ -1935,7 +1943,10 @@
         "predicate": "always",
         "refusalKey": null
       },
-      "refusals": [],
+      "refusals": [
+        "status.instance.partLeaves",
+        "status.instance.nested"
+      ],
       "confirmation": null,
       "history": {
         "undoable": false
@@ -1993,7 +2004,10 @@
         "predicate": "always",
         "refusalKey": null
       },
-      "refusals": [],
+      "refusals": [
+        "status.instance.partLeaves",
+        "status.instance.nested"
+      ],
       "confirmation": null,
       "history": {
         "undoable": false
@@ -2051,7 +2065,10 @@
         "predicate": "always",
         "refusalKey": null
       },
-      "refusals": [],
+      "refusals": [
+        "status.instance.partLeaves",
+        "status.instance.nested"
+      ],
       "confirmation": null,
       "history": {
         "undoable": false
@@ -2089,7 +2106,10 @@
         "predicate": "always",
         "refusalKey": null
       },
-      "refusals": [],
+      "refusals": [
+        "status.instance.partLeaves",
+        "status.instance.nested"
+      ],
       "confirmation": null,
       "history": {
         "undoable": false

@@ -61,7 +61,7 @@ import {
 import { duplicateCommand } from '../core/structure/duplicate.ts';
 import { handCommands } from '../core/structure/hand.ts';
 import { createNaturalChildCommand, hasNaturalChild, insertCommand } from '../core/structure/insert.ts';
-import { canNestIntoPrevious, moveDownCommand, moveToCommand, moveUpCommand, nestIntoPreviousCommand, promoteCommand } from '../core/structure/move.ts';
+import { canNestIntoPrevious, canPromote, moveDownCommand, moveToCommand, moveUpCommand, nestIntoPreviousCommand, promoteCommand } from '../core/structure/move.ts';
 import { deleteCommand } from '../core/structure/remove.ts';
 import { canUnwrap, unwrapCommand, wrapBesideCommand, wrapColumnCommand, wrapContainerCommand, wrapGridCommand, wrapRowCommand } from '../core/structure/wrap.ts';
 import { setCustomDeclarationsCommand } from '../core/style/custom.ts';
@@ -506,4 +506,4 @@ export const COMMANDS = {
 } as const satisfies CommandTable<EditorUi>;
 
 // The availability predicates code has registered; a built command's predicate must be here (createStore checks it).
-export const PREDICATES = { always, canUndo, canRedo, hasSelection, targetOrSelection, singleSelection, singleTextSelection, canUnwrap, canNestIntoPrevious, cellSelected, inTable, hasNaturalChild, flexOrGridContainer, instanceSelected, insideInstance, positionedSelection, distributableSelection, editableSelection, organizableSelection, divideableSelection, ...MODULE_PREDICATES } as const satisfies PredicateTable<EditorUi>;
+export const PREDICATES = { always, canUndo, canRedo, hasSelection, targetOrSelection, singleSelection, singleTextSelection, canUnwrap, canNestIntoPrevious, canPromote, cellSelected, inTable, hasNaturalChild, flexOrGridContainer, instanceSelected, insideInstance, positionedSelection, distributableSelection, editableSelection, organizableSelection, divideableSelection, ...MODULE_PREDICATES } as const satisfies PredicateTable<EditorUi>;

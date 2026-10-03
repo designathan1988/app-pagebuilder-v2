@@ -5,7 +5,7 @@ the last complete browser run on a clean tree (`docs/feature-results.json`, writ
 hand. `npm run inventory:check` fails while this file is out of step. The requirements these features answer, and the
 open problems, are in `docs/PRODUCT.md`.
 
-214 features (213 built), 370 commands, 1335 doors, 1750 scenarios.
+214 features (213 built), 370 commands, 1335 doors, 1752 scenarios.
 
 No complete browser run on a clean tree has been recorded yet: the next one writes `docs/feature-results.json`.
 
@@ -36,8 +36,8 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `wrap-row-column` | Wrap the selection in a Row or a Column with R and C | yes | 4 | 4 | [wrap-row-column](../spec/BEHAVIOUR.md#wrap-row-column) | 5 | — |
 | `drag-side-wrap` | Drop beside an element to put both side by side | yes | 3 | 2 | [drag-layout](../spec/BEHAVIOUR.md#drag-layout) | 4 | — |
 | `context-menu` | Right-click context menu on the canvas and in Layers | yes | 7 | 8 | [context-menu](../spec/BEHAVIOUR.md#context-menu) | 6 | — |
-| `nest-into-previous` | Nest the selection into its previous sibling | yes | 4 | 3 | [nest-into-previous](../spec/BEHAVIOUR.md#nest-into-previous) | 3 | — |
-| `promote-out` | Move the selection out of its parent with P | yes | 3 | 3 | [promote-out](../spec/BEHAVIOUR.md#promote-out) | 2 | — |
+| `nest-into-previous` | Nest the selection into its previous sibling | yes | 5 | 3 | [nest-into-previous](../spec/BEHAVIOUR.md#nest-into-previous) | 3 | — |
+| `promote-out` | Move the selection out of its parent with P | yes | 4 | 3 | [promote-out](../spec/BEHAVIOUR.md#promote-out) | 2 | — |
 | `duplicate` | Duplicate the selection with Ctrl+D | yes | 4 | 2 | [duplicate](../spec/BEHAVIOUR.md#duplicate) | 3 | — |
 | `drag-duplicate` | Alt at the release drops a copy and leaves the original | yes | 1 | 1 | [drag-duplicate](../spec/BEHAVIOUR.md#drag-duplicate) | 2 | — |
 | `clipboard-copy-paste` | Copy and paste elements through the system clipboard with Ctrl+C and Ctrl+V | yes | 6 | 3 | [clipboard-copy-paste](../spec/BEHAVIOUR.md#clipboard-copy-paste) | 4 | — |

@@ -44,6 +44,23 @@ export function instanceRootOf(document: DocumentJson, id: NodeId): DocNode | nu
   return lineage(document, id).findLast((node) => node.component !== undefined) ?? null;
 }
 
+// Why these elements may not go into this receiver, by the instances' own rules, or null (the audit's AUD-04: Remove
+// wrapper, Move out of parent and Make child of previous layer left parts outside their instance or an instance
+// inside another, which the model refuses): a part of an instance stays inside that instance, and an element that is
+// or holds an instance goes into no instance. The one owner of the rule for every structure command that moves
+// elements (core/structure/move.ts, wrap.ts).
+export function instanceMoveRefusal(document: DocumentJson, moved: readonly DocNode[], receiver: NodeId): Message | null {
+  const host = instanceRootOf(document, receiver);
+  for (const node of moved) {
+    if (node.componentPart !== undefined && node.component === undefined) {
+      const own = instanceRootOf(document, node.id as NodeId);
+      if (own !== null && own.id !== host?.id) return message('status.instance.partLeaves', { name: node.name, instance: own.name });
+    }
+    if (host !== null && [...walk(node)].some((inner) => inner.component !== undefined)) return message('status.instance.nested', { name: node.name, instance: host.name });
+  }
+  return null;
+}
+
 // An element of a tree as the elements of an instance: its part given, its children's after it; the root names the
 // component.
 export function marked(node: DocNode, part: readonly number[], component: string | null): DocNode {

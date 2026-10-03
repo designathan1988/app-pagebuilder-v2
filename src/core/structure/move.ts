@@ -19,7 +19,8 @@
 // place says "Already at the start (end) of <parent>" and adds no history entry. The status bar names the one moved node with its new position among its siblings, or counts several
 // (spec, Problems 1). The selection stays as it is.
 import type { NodeId } from '../../generated/commands.ts';
-import { message, registerHandler, registerPredicate, type Outcome } from '../commands/registry.ts';
+import { message, registerHandler, registerPredicate, type Message, type Outcome } from '../commands/registry.ts';
+import { instanceMoveRefusal } from '../design/components.ts';
 import { locate, walk, type DocNode, type DocumentJson, type Selection, type StoredValue } from '../document/model.ts';
 import type { ModelRules } from '../document/validate.ts';
 import type { Layout } from '../ports/layout.ts';
@@ -97,6 +98,9 @@ export function moveSelectionTo(
   // the one rule of where elements may go (content-model.ts placementRefusal), a move among its siblings keeping them
   const refused = placementRefusal(state.document, rules, parent, moved.map((at) => at.node), new Set(moved.filter((at) => at.parent?.id === parent).map((at) => at.node.id)));
   if (refused !== null) return { kind: 'refused', message: refused };
+  // a part stays in its instance, and no instance goes inside another (the audit's AUD-04)
+  const instanced = instanceMoveRefusal(state.document, moved.map((at) => at.node), parent);
+  if (instanced !== null) return { kind: 'refused', message: instanced };
 
   // each moved node leaves its place, found again in the document the earlier removals left
   const patches: Patch[] = [];
@@ -174,7 +178,23 @@ function previousContainer(state: { readonly document: DocumentJson; readonly se
   return previous !== undefined && rules.elements.get(previous.type)?.content === 'children' ? previous : null;
 }
 
-export const canNestIntoPrevious = registerPredicate('canNestIntoPrevious', (state, rules) => previousContainer(state, rules) !== null);
+// the instances' refusal of nesting the selected element into its previous container (AUD-04), or null
+function nestRefusal(state: { readonly document: DocumentJson; readonly selection: Selection }, receiver: DocNode): Message | null {
+  const node = state.selection[0] === undefined ? undefined : locate(state.document, state.selection[0])?.node;
+  return node === undefined ? null : instanceMoveRefusal(state.document, [node], receiver.id as NodeId);
+}
+
+export const canNestIntoPrevious = registerPredicate(
+  'canNestIntoPrevious',
+  (state, rules) => {
+    const receiver = previousContainer(state, rules);
+    return receiver !== null && nestRefusal(state, receiver) === null;
+  },
+  (state, rules) => {
+    const receiver = previousContainer(state, rules);
+    return (receiver === null ? null : nestRefusal(state, receiver)) ?? message('status.nest.noPrevious');
+  },
+);
 
 export const nestIntoPreviousCommand = registerHandler('element.nestIntoPrevious', ({ state, rules, layout }): Outcome<never> => {
   const receiver = previousContainer(state, rules);
@@ -185,6 +205,22 @@ export const nestIntoPreviousCommand = registerHandler('element.nestIntoPrevious
 
 // element.promote (spec promote-out): the one selected element leaves its parent and lands right after it, in its
 // grandparent, through the move above; a direct child of the page root cannot go higher (status.promote.topLevel).
+// canPromote: one element selected that has a grandparent to land in, and that may leave its parent there (a part stays
+// in its instance: AUD-04). The door is disabled, and the context menu leaves it out, when it may not.
+function promoteRefusal(state: { readonly document: DocumentJson; readonly selection: Selection }): Message | null {
+  const [only, ...others] = state.selection;
+  const at = only === undefined || others.length > 0 ? null : locate(state.document, only);
+  if (at === null) return message('status.needsSingleSelection');
+  const parent = at.parent === null ? null : locate(state.document, at.parent.id);
+  if (parent === null || parent.parent === null) return message('status.promote.topLevel');
+  return instanceMoveRefusal(state.document, [at.node], parent.parent.id as NodeId);
+}
+export const canPromote = registerPredicate(
+  'canPromote',
+  (state) => promoteRefusal(state) === null,
+  (state) => promoteRefusal(state) ?? message('status.promote.topLevel'),
+);
+
 export const promoteCommand = registerHandler('element.promote', ({ state, rules, layout }): Outcome<never> => {
   const [only] = state.selection;
   const at = only === undefined ? null : locate(state.document, only);

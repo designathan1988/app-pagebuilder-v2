@@ -1940,6 +1940,7 @@
   "status.unlocked": "Unlocked: {name}",
   "status.unwrap.noChildren": "{name} has no children to lift.",
   "status.unwrap.unavailable": "Only an element with children, inside a parent, can lose its wrapper.",
+  "status.unwrap.instance": "{name} is an instance: its wrapper holds its parts. Detach it from the component first.",
   "status.unwrapped": "Removed the wrapper {name}.",
   "status.url.malformed": "{url} is not an address this page can use: write a path, a #section, an https: address, a mailto: or a tel: one.",
   "status.url.normalized": "{url} is stored as {value}.",
@@ -3452,6 +3453,8 @@
   "status.capture.failed": "{url} could not be captured: {reason}",
   "feature.captureUrl": "Open any web address as a page of the project",
   "status.import.released": "{count} links or labels named nothing the page holds and were released ({values}).",
+  "status.instance.partLeaves": "{name} is part of the instance {instance} and stays in it. Detach the instance first.",
+  "status.instance.nested": "{name} is or holds an instance, and an instance goes inside no other ({instance}).",
   "capture.pages": "Pages of the site",
   "capture.pagesHint": "1 captures this page alone; more follow its links to other pages of the same site, up to 30.",
   "status.capture.badPages": "{pages} is no number of pages: 1 to 30."

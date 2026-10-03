@@ -1257,6 +1257,11 @@
     },
     {
       "kind": "predicate",
+      "id": "canPromote",
+      "status": "registered"
+    },
+    {
+      "kind": "predicate",
       "id": "hasNaturalChild",
       "status": "registered"
     },

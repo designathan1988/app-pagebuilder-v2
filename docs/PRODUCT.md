@@ -231,7 +231,7 @@ The problems of the usability study (`jornada03/REPORT.md` section 3), re-checke
 
 | ID | Problem | Status | Proof / problems |
 |---|---|---|---|
-| J1 | Silent failures | partial | spoken since QA 32; the blank editor and the state breaches closed QA 149, 151; AUD-04 |
+| J1 | Silent failures | done | spoken since QA 32; the blank editor, the state and instance breaches closed QA 149, 151, 152 |
 | J2 | Letters typed outside a field run shortcuts | done | QA 33 |
 | J3 | Import HTML replaces the whole project | done | QA 43; D3 |
 | J4 | Spaces dropped in a button's text | done | QA 37 |
@@ -373,7 +373,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-01 | 4 | The editor goes blank when a refused change belongs to a command whose label has placeholders (no error boundary; the message formatter throws) | audit | done (QA 149, browser proof on the audit's path QA 151) |
 | AUD-02 | 3 | Export rule merging breaks the cascade: tablet and phone styles lost; fidelity regressed | audit | done (QA 150) |
 | AUD-03 | 3 | The style state stays on across selections and style writes produce invalid documents | audit | done (QA 151) |
-| AUD-04 | 3 | Unwrap, move out of parent and nest on component instances produce invalid documents | audit | open |
+| AUD-04 | 3 | Unwrap, move out of parent and nest on component instances produce invalid documents | audit | done (QA 152) |
 | AUD-05 | 3 | Export then import loses design tokens and unused classes | audit | open |
 | AUD-06 | 3 | Canvas 41–46 % of the window at 1280 × 720 (H17, J25); the fix measured width | audit | open |
 | AUD-07 | 2 | The document core executes DOM | audit | open |

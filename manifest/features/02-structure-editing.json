@@ -9356,6 +9356,69 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "an-instance-goes-into-no-other",
+          "setup": {
+            "fixture": "catalog",
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "element.nestIntoPrevious#key-alt-arrow-right-in-canvas",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.nestIntoPrevious#key-alt-arrow-right-in-canvas",
+            "element.nestIntoPrevious#key-alt-arrow-right-in-layers-tree"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.instance.nested",
+                  "params": {
+                    "name": "Plan 2",
+                    "instance": "Plan"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.instance.nested",
+              "document": "unchanged"
+            }
+          ]
         }
       ]
     },
@@ -9858,6 +9921,69 @@
           "refusals": [
             {
               "key": "status.promote.topLevel",
+              "document": "unchanged"
+            }
+          ]
+        },
+        {
+          "id": "a-part-of-an-instance-stays-in-it",
+          "setup": {
+            "fixture": "catalog",
+            "selection": [
+              "/Page/Plans/Plan/PlanTitle"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "element.promote#key-p-in-canvas",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.promote#key-p-in-canvas",
+            "element.promote#key-p-in-layers-tree"
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Plans/Plan/PlanTitle"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.instance.partLeaves",
+                  "params": {
+                    "name": "PlanTitle",
+                    "instance": "Plan"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": [
+            {
+              "key": "status.instance.partLeaves",
               "document": "unchanged"
             }
           ]

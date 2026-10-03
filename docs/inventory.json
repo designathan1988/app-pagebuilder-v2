@@ -4,9 +4,9 @@
     "built": 213,
     "commands": 370,
     "doors": 1335,
-    "scenarios": 1750,
+    "scenarios": 1752,
     "modules": 410,
-    "lines": 76488
+    "lines": 76551
   },
   "features": [
     {
@@ -238,7 +238,7 @@
         "element.nestIntoPrevious"
       ],
       "doors": 5,
-      "scenarios": 4,
+      "scenarios": 5,
       "modules": [
         "src/core/structure/move.ts"
       ]
@@ -250,7 +250,7 @@
         "element.promote"
       ],
       "doors": 5,
-      "scenarios": 3,
+      "scenarios": 4,
       "modules": [
         "src/core/structure/move.ts"
       ]
@@ -3481,7 +3481,7 @@
     },
     {
       "path": "src/core/design/components.ts",
-      "lines": 452,
+      "lines": 469,
       "commands": [
         "components.create",
         "components.insertInstance",
@@ -4460,7 +4460,7 @@
     },
     {
       "path": "src/core/structure/move.ts",
-      "lines": 254,
+      "lines": 290,
       "commands": [
         "element.moveTo",
         "element.nestIntoPrevious",
@@ -4503,7 +4503,7 @@
     },
     {
       "path": "src/core/structure/wrap.ts",
-      "lines": 278,
+      "lines": 284,
       "commands": [
         "element.wrapRow",
         "element.wrapColumn",
@@ -6463,7 +6463,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6453,
+      "lines": 6457,
       "commands": [],
       "features": []
     },
