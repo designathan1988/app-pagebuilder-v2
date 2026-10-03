@@ -1167,6 +1167,11 @@
     },
     {
       "kind": "handler",
+      "id": "checks.applyFix",
+      "status": "registered"
+    },
+    {
+      "kind": "handler",
       "id": "inspector.search",
       "status": "registered"
     },

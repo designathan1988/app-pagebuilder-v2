@@ -891,8 +891,18 @@ export const layoutFileSchema = z.strictObject({
 
 // ---------------------------------------------------------------- checks (the Checks tab of the dock)
 // The categories the Checks tab groups its issues by, each arriving with the feature that produces its checks.
+// A check's automatic fix (the plan's stage 6; the audit's AUD-16): the rule it fixes, the door of checks.applyFix that
+// offers it beside the issue, and how the fix is made, by the owner of what it changes: an element inserted at the end
+// of the element the issue is about (element.insert, the palette entry), the heading's next level (element.setTag), or
+// the element's attribute field opened in Settings (inspector.reveal).
+export const checkFixSchema = z.discriminatedUnion('kind', [
+  z.strictObject({ rule: i18nKey, door: doorRef, kind: z.literal('insert'), entry: kebabId }),
+  z.strictObject({ rule: i18nKey, door: doorRef, kind: z.literal('next-level') }),
+  z.strictObject({ rule: i18nKey, door: doorRef, kind: z.literal('reveal'), attribute: camelId }),
+]);
 export const checksFileSchema = z.strictObject({
   categories: z.array(z.strictObject({ id: kebabId, labelKey: i18nKey, feature: featureId })).min(1),
+  fixes: z.array(checkFixSchema),
 });
 
 // ---------------------------------------------------------------- glossary (src/i18n/glossary.json)

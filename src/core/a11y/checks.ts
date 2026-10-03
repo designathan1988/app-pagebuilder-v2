@@ -24,6 +24,8 @@ export interface CheckIssue {
   // the rule it breaks, and the fix to suggest (both message keys)
   readonly rule: MessageId;
   readonly fix: MessageId;
+  // a heading that skips a level: the level it should take, the one after the heading before it (checks.fix)
+  readonly level?: number;
 }
 
 // WCAG 2.1's minimum contrast for body text
@@ -104,7 +106,7 @@ export function checksOf(document: DocumentJson, properties: CheckProperties): r
     let heading = seenHeading;
     if (level !== null) {
       const depth = Number(level[1]);
-      if (seenHeading !== 0 && depth > seenHeading + 1) issues.push({ node: node.id, category: 'accessibility', rule: 'checks.headingLevel', fix: 'checks.headingLevel.fix' });
+      if (seenHeading !== 0 && depth > seenHeading + 1) issues.push({ node: node.id, category: 'accessibility', rule: 'checks.headingLevel', fix: 'checks.headingLevel.fix', level: seenHeading + 1 });
       heading = depth;
     }
     if (node.tag === 'img' && !('alt' in node.attributes)) issues.push({ node: node.id, category: 'accessibility', rule: 'checks.imageAlt', fix: 'checks.imageAlt.fix' });

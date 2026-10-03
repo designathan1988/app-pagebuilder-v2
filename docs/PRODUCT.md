@@ -61,7 +61,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | ID | Requirement | Source | Status | Proof / problems |
 |---|---|---|---|---|
 | REQ-U01 | One working tree at the root, no worktrees, agent branches, parallel copies, blocking hooks | the /goal of 2026-09-28 (`docs/archive/history/builder-brief-2026-09-28.md`), CLAUDE.md | done | one tree, `main`; `git worktree list` shows one |
-| REQ-U02 | Complete, never minimal: no stub, placeholder, TODO or "first version" counts as done | memory "complete-not-minimal", plan rules, AGENTS.md | partial | no TODO in `src/`; AUD-16 (steppers, auto-fix dropped) |
+| REQ-U02 | Complete, never minimal: no stub, placeholder, TODO or "first version" counts as done | memory "complete-not-minimal", plan rules, AGENTS.md | done | no TODO in `src/`; AUD-16 closed (QA 164 the steppers, QA 166 the Checks fixes) |
 | REQ-U03 | A basic test for every feature; at the end of a block the tests of the block; the complete suite once at the end | brief orders 1–2 (2026-09-28), memory | done | 2,537 browser tests, 2,409 unit; AUD-35 |
 | REQ-U04 | Browser verification always with Playwright on the installed Chrome (`channel: 'chrome'`), a photo per step | brief order 3 | done | `npm run ui`, the suite, the audit journeys |
 | REQ-U05 | Never edit, skip or loosen a test or a scenario to make it pass | brief order 4, CLAUDE.md | done | phase 6 of the audit: no assertion lost except two deliberate removals (AUD-16) |
@@ -159,7 +159,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-6.2 | Shorthand writer (padding, margin, border, inset, gap, radius, font) | done | QA 51 |
 | STG-6.3 | No `padding: 0px` on every div; plain divs get no class | done | QA 51 |
 | STG-6.4 | Class names by role in the project's code language, unnumbered across pages, batch rename | done | QA 51, 82, 163 |
-| STG-6.5 | `<html lang>`, `<button type>`; Checks rules with automatic fixes | partial | QA 51; the auto-fix removed (AUD-16, DEC-31) |
+| STG-6.5 | `<html lang>`, `<button type>`; Checks rules with automatic fixes | done | QA 51; the export always writes lang, button and input types (QA 160); QA 166 (one fix door per rule) |
 | STG-6.6 | Fidelity remeasured: ≥ 85 % desktop, ≥ 80 % at 834 and 390 | partial | after QA 150: 86.2 / 81.0 / 75.0 % common (80.6 / 77.1 / 72.2 adjusted), the study's values again; 390 below target: the M2/M3 rebuild is redone in phase G2 |
 | STG-7.1 | Variables in every field and the colour picker; make a variable from a value | done | QA 72, 76, 111 |
 | STG-7.2 | Find uses and replace across the site | done | QA 111; C1 |
@@ -385,7 +385,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-13 | 2 | F6 never focuses the canvas page | audit; J12 | done (QA 162) |
 | AUD-14 | 2 | Export class names partly Portuguese and numbered | audit; J14 | done (QA 163) |
 | AUD-15 | 2 | Capture: 98 % corpus never measured, login capture absent, MDN logo missing | audit; QA 117, 119 | open |
-| AUD-16 | 2 | Plan items dropped without a user decision (steppers, auto-fix) | audit | partial (QA 164 the steppers; the Checks auto-fixes in E5) |
+| AUD-16 | 2 | Plan items dropped without a user decision (steppers, auto-fix) | audit | done (QA 164 the steppers, QA 166 the Checks fixes) |
 | AUD-17 | 2 | `hover-measure` not available in the contract while its code runs | audit | open |
 | AUD-18 | 2 | 39 features without a behaviour section | audit | open |
 | AUD-19 | 2 | Apply a class to every similar element reaches every element of the type | audit | open |
@@ -464,7 +464,7 @@ Stages 13, 15, 16 and 17 stay out (DEC-08, kept by the user on 2026-10-02).
 | DEC-28 | Flow elements are reordered (drop line); absolute and fixed ones placed freely, with smart guides | dogfooding pass | — | `docs/archive/STATUS.md` |
 | DEC-29 | A page's root takes a unique name | dogfooding pass | — | `docs/archive/STATUS.md`; QA 31 |
 | DEC-30 | Step buttons dropped from numeric fields | the agent, 2026-09-30 (`9f6c561`), kept by QA 71 | withdrawn 2026-10-03 (AUD-16, the plan's stage 3): the steppers are back, QA 164 | spec `inspector-number-fields` Problem 5 |
-| DEC-31 | `checks.fixOutput` removed: the output derives lang and button type | the agent, 2026-10-02 (`89cefa2`) | not a user decision (AUD-16) | QA 83 |
+| DEC-31 | `checks.fixOutput` removed: the output derives lang and button type | the agent, 2026-10-02 (`89cefa2`) | kept for those two (the export writes them, and the input type since QA 160); the Checks fixes the plan asked for came as checks.applyFix (QA 166, AUD-16) | QA 83 |
 | DEC-32 | `layout/` and `motion/` are the sole module candidates (R5) | 2026-10-01 | — | `b662713`, `docs/archive/history/module-ownership.md` |
 | DEC-33 | Variables are left out of the command bar | 2026-10-02 | — | QA 88 |
 | DEC-34 | `hover-measure` stays unregistered (no scenario can hover) | design-system chapter | contradicted by active code (AUD-17) | `docs/archive/STATUS.md` |

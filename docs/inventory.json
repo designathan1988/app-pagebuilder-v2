@@ -2,11 +2,11 @@
   "totals": {
     "features": 214,
     "built": 213,
-    "commands": 370,
-    "doors": 1337,
-    "scenarios": 1756,
-    "modules": 417,
-    "lines": 77517
+    "commands": 371,
+    "doors": 1343,
+    "scenarios": 1762,
+    "modules": 418,
+    "lines": 77623
   },
   "features": [
     {
@@ -2262,12 +2262,14 @@
       "built": true,
       "commands": [
         "selection.select",
-        "workspace.setPanelOpen"
+        "workspace.setPanelOpen",
+        "checks.applyFix"
       ],
-      "doors": 32,
-      "scenarios": 1,
+      "doors": 38,
+      "scenarios": 7,
       "modules": [
         "src/core/selection/selection.ts",
+        "src/editor/checks/fix.ts",
         "src/editor/workspace/panels.ts"
       ]
     },
@@ -3271,7 +3273,7 @@
   "modules": [
     {
       "path": "src/app/commands.ts",
-      "lines": 510,
+      "lines": 512,
       "commands": [],
       "features": []
     },
@@ -3307,7 +3309,7 @@
     },
     {
       "path": "src/core/a11y/checks.ts",
-      "lines": 128,
+      "lines": 130,
       "commands": [],
       "features": []
     },
@@ -3782,7 +3784,7 @@
     },
     {
       "path": "src/core/export/names.ts",
-      "lines": 240,
+      "lines": 249,
       "commands": [],
       "features": []
     },
@@ -5141,6 +5143,16 @@
       "features": []
     },
     {
+      "path": "src/editor/checks/fix.ts",
+      "lines": 41,
+      "commands": [
+        "checks.applyFix"
+      ],
+      "features": [
+        "accessibility-checks"
+      ]
+    },
+    {
       "path": "src/editor/clipboard.ts",
       "lines": 97,
       "commands": [],
@@ -5979,7 +5991,7 @@
     },
     {
       "path": "src/editor/shell/dock.tsx",
-      "lines": 213,
+      "lines": 227,
       "commands": [],
       "features": []
     },
@@ -6499,13 +6511,13 @@
     },
     {
       "path": "src/generated/commands.ts",
-      "lines": 633,
+      "lines": 634,
       "commands": [],
       "features": []
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6479,
+      "lines": 6493,
       "commands": [],
       "features": []
     },
@@ -6529,7 +6541,7 @@
     },
     {
       "path": "src/manifest/check.ts",
-      "lines": 2349,
+      "lines": 2362,
       "commands": [],
       "features": []
     },
@@ -6565,7 +6577,7 @@
     },
     {
       "path": "src/manifest/schema.ts",
-      "lines": 1330,
+      "lines": 1340,
       "commands": [],
       "features": []
     },

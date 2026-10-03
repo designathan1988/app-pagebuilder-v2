@@ -4,7 +4,7 @@
 import { useMemo } from 'react';
 import { checksOf, type CheckIssue } from '../../core/a11y/checks.ts';
 import { manifest } from '../../manifest/runtime.ts';
-import type { FeatureId, MessageId } from '../../generated/ids.ts';
+import type { DoorId, FeatureId, MessageId } from '../../generated/ids.ts';
 import { isFeatureBuilt } from '../../app/features.ts';
 import { locate } from '../../core/document/model.ts';
 import { TimelinePanel } from '../timeline/panel.tsx';
@@ -61,6 +61,12 @@ function DocumentJson() {
 // it is about, so pressing a row selects that element on the canvas and in the Layers (Problems 3: an image with no alt
 // and no source is one row, never two doors for one element). The list is read from the store, so it follows every command;
 // it never blocks editing or the export — a page with issues is a page like any other.
+// the automatic fix of each rule that has one (checks.json fixes): its door of checks.applyFix, drawn beside the row (a
+// button inside the row's own button would be no button), with the element and the rule it fixes
+const FIXES = new Map(manifest.checks.fixes.flatMap((fix) => {
+  const entry = manifest.doorByRef.get(fix.door as DoorId);
+  return entry === undefined ? [] : [[fix.rule, entry] as const];
+}));
 // whether each category of the checks arrives with a built feature (checks.json)
 const CATEGORY_BUILT = new Map(manifest.checks.categories.map((one) => [one.id, isFeatureBuilt(one.feature as FeatureId)] as const));
 // the issues of each element together, in the order the list first names the element
@@ -107,6 +113,14 @@ function Checks() {
                   ))}
                 </span>
               </DoorControl>
+              {held.some((issue) => FIXES.has(issue.rule)) ? (
+                <span className="dock-checks__fixes">
+                  {held.map((issue) => {
+                    const fix = FIXES.get(issue.rule);
+                    return fix === undefined ? null : <DoorControl key={issue.rule} entry={fix} args={{ target: issue.node, rule: issue.rule }} className="dock-checks__fix-button" />;
+                  })}
+                </span>
+              ) : null}
             </li>
           ))}
         </ul>

@@ -20,5 +20,42 @@
       "labelKey": "checks.category.export",
       "feature": "export-file-tree"
     }
+  ],
+  "fixes": [
+    {
+      "rule": "checks.formSubmit",
+      "door": "checks.applyFix#checks-fix-form-submit",
+      "kind": "insert",
+      "entry": "button"
+    },
+    {
+      "rule": "checks.headingLevel",
+      "door": "checks.applyFix#checks-fix-heading-level",
+      "kind": "next-level"
+    },
+    {
+      "rule": "checks.imageAlt",
+      "door": "checks.applyFix#checks-fix-image-alt",
+      "kind": "reveal",
+      "attribute": "alt"
+    },
+    {
+      "rule": "checks.imageSource",
+      "door": "checks.applyFix#checks-fix-image-source",
+      "kind": "reveal",
+      "attribute": "src"
+    },
+    {
+      "rule": "checks.iframeTitle",
+      "door": "checks.applyFix#checks-fix-iframe-title",
+      "kind": "reveal",
+      "attribute": "title"
+    },
+    {
+      "rule": "checks.linkHref",
+      "door": "checks.applyFix#checks-fix-link-href",
+      "kind": "reveal",
+      "attribute": "href"
+    }
   ]
 }

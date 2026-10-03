@@ -74,6 +74,7 @@ export const RULES = [
   'feature-command-link',
   'i18n-missing',
   'command-name',
+  'handler-reference',
   'value-set',
   'all-properties',
   'css-syntax',
@@ -811,6 +812,11 @@ export function checkManifest(input: ManifestInput): CheckResult {
     for (const [di, d] of r.doors.entries()) ref(doorByRef.has(d), 'properties.json', `recipes[${i}].doors[${di}]`, `unknown door "${d}"`);
   }
   for (const [i, k] of p.checks.categories.entries()) ref(featureIndex.has(k.feature), 'checks.json', `categories[${i}].feature`, `unknown feature "${k.feature}"`);
+  for (const [i, fix] of p.checks.fixes.entries()) {
+    ref(doorByRef.has(fix.door), 'checks.json', `fixes[${i}].door`, `unknown door "${fix.door}"`);
+    if (fix.kind === 'insert') ref(paletteEntryIds.has(fix.entry), 'checks.json', `fixes[${i}].entry`, `unknown palette entry "${fix.entry}"`);
+    if (fix.kind === 'reveal') ref(attributeById.has(fix.attribute), 'checks.json', `fixes[${i}].attribute`, `unknown attribute "${fix.attribute}"`);
+  }
   for (const [i, k] of p.interactions.keyContexts.entries()) {
     if (k.inherits !== null) ref(contextIds.has(k.inherits), 'interactions.json', `keyContexts[${i}].inherits`, `unknown key context "${k.inherits}"`);
   }
@@ -1023,6 +1029,7 @@ export function checkManifest(input: ManifestInput): CheckResult {
   p.layout.menus.forEach((m, i) => noteKey(m.labelKey, `layout.json menus[${i}].labelKey`));
   for (const [panel, data] of Object.entries(p.layout.panels)) noteKey(data.labelKey, `layout.json panels.${panel}.labelKey`);
   p.checks.categories.forEach((k, i) => noteKey(k.labelKey, `checks.json categories[${i}].labelKey`));
+  p.checks.fixes.forEach((fix, i) => noteKey(fix.rule, `checks.json fixes[${i}].rule`));
 
   const catalogues = new Map<string, Record<string, unknown>>();
   for (const locale of p.environment.locales.available) {
@@ -1055,6 +1062,12 @@ export function checkManifest(input: ManifestInput): CheckResult {
       }
     }
   }
+
+  // ---- handler-reference: every command has its handler in references.json, as registered or planned: the browser
+  // runner reads its built commands there, so a command left out drops its feature's scenarios without a word (phase E5
+  // met it: checks.applyFix ran in no test)
+  const handlers = new Set(p.references.references.filter((r) => r.kind === 'handler').map((r) => r.id));
+  for (const c of commands) if (!handlers.has(c.command.id)) report('handler-reference', 'references.json', 'references', `${c.command.id} has no handler reference: add { kind: "handler", id: "${c.command.id}", status } `);
 
   // ---- command-name: a command whose label has placeholders names itself without them too, for the texts that name
   // it with none of its arguments at hand (a refused or failed change, store.ts; the audit's AUD-01: "Set {property}

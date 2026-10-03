@@ -1069,6 +1069,30 @@
       "reader": "src/editor/doors/placement.ts"
     },
     {
+      "field": "checks:fixes",
+      "reader": "src/editor/shell/dock.tsx"
+    },
+    {
+      "field": "checks:fixes[].rule",
+      "reader": "src/editor/shell/dock.tsx"
+    },
+    {
+      "field": "checks:fixes[].door",
+      "reader": "src/editor/shell/dock.tsx"
+    },
+    {
+      "field": "checks:fixes[].kind",
+      "reader": "src/editor/checks/fix.ts"
+    },
+    {
+      "field": "checks:fixes[].entry",
+      "reader": "src/editor/checks/fix.ts"
+    },
+    {
+      "field": "checks:fixes[].attribute",
+      "reader": "src/editor/checks/fix.ts"
+    },
+    {
       "field": "checks:categories",
       "reader": "src/editor/shell/dock.tsx"
     },

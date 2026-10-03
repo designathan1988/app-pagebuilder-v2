@@ -223,6 +223,20 @@
   gap: var(--space-2);
 }
 
+/* the automatic fixes of a row's issues (checks.fix): buttons under the row, from its start, beside the words they act on */
+.dock-checks__list > li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.dock-checks__fixes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0 var(--space-3) var(--space-2) calc(var(--space-3) + var(--space-7) + var(--space-2));
+}
+
 .dock-checks__none {
   margin: 0;
   color: var(--color-text-subtle);

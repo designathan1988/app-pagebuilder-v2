@@ -124,6 +124,7 @@ import type { EditorUi } from '../editor/state.ts';
 import { openPageProperties } from '../editor/inspector/page-properties.ts';
 import { cancelField, scrubField, setFieldUnit, stepField } from '../editor/inspector/number-field.ts';
 import { revealField, searchInspector, toggleSection, setMode } from '../editor/inspector/sections.ts';
+import { fixCheck } from '../editor/checks/fix.ts';
 import { toggleRow } from '../editor/inspector/concept-rows.ts';
 import { setOffset, setOpen } from '../editor/quick-panel/quick-panel.ts';
 import { setEditMode } from '../editor/canvas/edit-mode.ts';
@@ -497,6 +498,7 @@ export const COMMANDS = {
   'inspector.toggleRow': toggleRow,
   'inspector.setMode': setMode,
   'inspector.reveal': revealField,
+  'checks.applyFix': fixCheck,
   'inspector.search': searchInspector,
   'codePanel.setPane': setPane,
   'codePanel.copyPane': copyPane,

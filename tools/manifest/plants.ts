@@ -241,6 +241,15 @@ export const PLANTS: Plant[] = [
     },
   },
   {
+    id: 'handler-reference-missing',
+    rule: 'handler-reference',
+    description: 'inspector.reveal has no handler reference',
+    apply: (m) => {
+      const file = m.files['references.json'] as { references: { kind: string; id: string }[] };
+      file.references = file.references.filter((r) => !(r.kind === 'handler' && r.id === 'inspector.reveal'));
+    },
+  },
+  {
     id: 'command-name-missing',
     rule: 'command-name',
     description: 'style.set, labelled "Set {property} to {value}", has no name without placeholders',

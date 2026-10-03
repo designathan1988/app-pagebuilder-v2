@@ -70,6 +70,7 @@ export interface CommandArgs {
   "breakpoints.rename": { readonly breakpoint: string; readonly name: string };
   "breakpoints.setWidth": { readonly breakpoint: string; readonly width: number };
   "breakpoints.remove": { readonly breakpoint: string; readonly styles: "discard" | "wider" | "narrower" };
+  "checks.applyFix": { readonly target: NodeId; readonly rule: "checks.formSubmit" | "checks.headingLevel" | "checks.imageAlt" | "checks.imageSource" | "checks.iframeTitle" | "checks.linkHref" };
   "clipboard.copy": Record<string, never>;
   "clipboard.paste": { readonly clipboard: ClipboardContent };
   "clipboard.cut": Record<string, never>;
@@ -566,7 +567,7 @@ export const FEATURE_COMMANDS: Readonly<Record<FeatureId, readonly CommandId[]>>
   "panel-combine-tabs": ["workspace.movePanel","workspace.setActiveTab"],
   "workspace-persist-reset": ["workspace.toggleInspector","workspace.reset","workspace.resizeSplitter","workspace.movePanel","inspector.toggleSection"],
   "status-bar": ["selection.select","view.setBreakpoint","view.setStyleState"],
-  "accessibility-checks": ["selection.select","workspace.setPanelOpen"],
+  "accessibility-checks": ["selection.select","workspace.setPanelOpen","checks.applyFix"],
   "keyboard-panel-navigation": ["focus.next","focus.previous","focus.first","focus.last","focus.activate","focus.nextRegion","focus.previousRegion","focus.canvas"],
   "layers-keyboard-navigation": ["selection.select","focus.next","focus.previous","focus.first","focus.last","element.moveUp","element.moveDown","element.delete","layers.startRename","layers.expandOrFocusChild","layers.collapseOrFocusParent","selection.range"],
   "clipboard-cut-system": ["clipboard.cut"],

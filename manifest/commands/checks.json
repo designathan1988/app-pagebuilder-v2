@@ -1,0 +1,228 @@
+{
+  "domain": "checks",
+  "commands": [
+    {
+      "id": "checks.applyFix",
+      "labelKey": "command.checks.applyFix",
+      "owner": "src/editor/checks/fix.ts",
+      "introducedBy": "accessibility-checks",
+      "args": {
+        "target": {
+          "type": "node",
+          "values": [],
+          "optional": false
+        },
+        "rule": {
+          "type": "enum",
+          "values": [
+            "checks.formSubmit",
+            "checks.headingLevel",
+            "checks.imageAlt",
+            "checks.imageSource",
+            "checks.iframeTitle",
+            "checks.linkHref"
+          ],
+          "optional": false
+        }
+      },
+      "availability": {
+        "predicate": "always",
+        "refusalKey": null
+      },
+      "refusals": [
+        "status.stale",
+        "status.refused.onlyAccepts",
+        "status.refused.requiresParent",
+        "status.refused.interactiveInside",
+        "status.refused.formInForm",
+        "status.refused.singleChild",
+        "status.refused.labelOneControl",
+        "status.refused.noChildren",
+        "status.refused.notInside",
+        "status.locked.insert",
+        "status.locked.edit",
+        "status.locked.byAncestor",
+        "status.tag.notEquivalent",
+        "status.readOnlyTab"
+      ],
+      "confirmation": null,
+      "history": {
+        "undoable": true,
+        "coalesce": "none",
+        "undoRestoresSelection": "before-command",
+        "transaction": "per-dispatch",
+        "noChange": "no-entry"
+      },
+      "entryPoints": [
+        {
+          "id": "checks-fix-form-submit",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "accessibility-checks",
+          "panel": "checks",
+          "control": "fix",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "checks.fix.formSubmit",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-checks",
+            "order": 2
+          },
+          "adapter": {
+            "selection": "target",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "rule": "checks.formSubmit"
+          }
+        },
+        {
+          "id": "checks-fix-heading-level",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "accessibility-checks",
+          "panel": "checks",
+          "control": "fix",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "checks.fix.headingLevel",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-checks",
+            "order": 3
+          },
+          "adapter": {
+            "selection": "target",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "rule": "checks.headingLevel"
+          }
+        },
+        {
+          "id": "checks-fix-image-alt",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "accessibility-checks",
+          "panel": "checks",
+          "control": "fix",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "checks.fix.imageAlt",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-checks",
+            "order": 4
+          },
+          "adapter": {
+            "selection": "target",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "rule": "checks.imageAlt"
+          }
+        },
+        {
+          "id": "checks-fix-image-source",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "accessibility-checks",
+          "panel": "checks",
+          "control": "fix",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "checks.fix.imageSource",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-checks",
+            "order": 5
+          },
+          "adapter": {
+            "selection": "target",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "rule": "checks.imageSource"
+          }
+        },
+        {
+          "id": "checks-fix-iframe-title",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "accessibility-checks",
+          "panel": "checks",
+          "control": "fix",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "checks.fix.iframeTitle",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-checks",
+            "order": 6
+          },
+          "adapter": {
+            "selection": "target",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "rule": "checks.iframeTitle"
+          }
+        },
+        {
+          "id": "checks-fix-link-href",
+          "kind": "panel-control",
+          "drawnAs": "button",
+          "pressed": false,
+          "feature": "accessibility-checks",
+          "panel": "checks",
+          "control": "fix",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "checks.fix.linkHref",
+          "faceLabelKey": null,
+          "icon": null,
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "dock-checks",
+            "order": 7
+          },
+          "adapter": {
+            "selection": "target",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "rule": "checks.linkHref"
+          }
+        }
+      ]
+    }
+  ]
+}
