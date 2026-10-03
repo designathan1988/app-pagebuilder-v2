@@ -5,7 +5,7 @@ the last complete browser run on a clean tree (`docs/feature-results.json`, writ
 hand. `npm run inventory:check` fails while this file is out of step. The requirements these features answer, and the
 open problems, are in `docs/PRODUCT.md`.
 
-214 features (213 built), 370 commands, 1335 doors, 1754 scenarios.
+214 features (213 built), 370 commands, 1337 doors, 1756 scenarios.
 
 No complete browser run on a clean tree has been recorded yet: the next one writes `docs/feature-results.json`.
 
@@ -75,7 +75,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
 | `inspector-panel` | Inspector shows the selection's identity and collapsible property sections | yes | 16 | 10 | [inspector-panel](../spec/BEHAVIOUR.md#inspector-panel) | 10 | — |
-| `inspector-number-fields` | Numeric property fields, built with the Size section's Width and Height: typing, units, steppers and scrubbing | yes | 19 | 10 | [inspector-number-fields](../spec/BEHAVIOUR.md#inspector-number-fields) | 6 | — |
+| `inspector-number-fields` | Numeric property fields, built with the Size section's Width and Height: typing, units, steppers and scrubbing | yes | 21 | 12 | [inspector-number-fields](../spec/BEHAVIOUR.md#inspector-number-fields) | 6 | — |
 | `props-display` | Edit display with every keyword | yes | 11 | 1 | [props-display](../spec/BEHAVIOUR.md#props-display) | 4 | — |
 | `props-flex-container` | Flex container controls: direction, wrap, alignment matrix and gap | yes | 20 | 11 | [props-flex-container](../spec/BEHAVIOUR.md#props-flex-container) | 2 | — |
 | `props-grid-container` | Grid container controls: column and row tracks, gap and auto flow | yes | 21 | 16 | [props-grid-container](../spec/BEHAVIOUR.md#props-grid-container) | 3 | — |

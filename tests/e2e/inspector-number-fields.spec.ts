@@ -20,6 +20,8 @@ const UP = 'field.step#key-arrow-up-in-number-field';
 const DOWN = 'field.step#key-arrow-down-in-number-field';
 const PAGE_UP = 'field.step#key-page-up-in-number-field';
 const PAGE_DOWN = 'field.step#key-page-down-in-number-field';
+const STEP_UP = 'field.step#inspector-step-up';
+const STEP_DOWN = 'field.step#inspector-step-down';
 const SCRUB = 'field.scrub#panel-drag-field-label-horizontal';
 const UNIT = 'field.setUnit#inspector-unit-menu';
 const DRAG_ESCAPE = 'drag.cancel#key-escape-in-drag';
@@ -150,13 +152,48 @@ test('the arrows step by 1, with Shift by 10, with Alt by 0.1, PageUp and PageDo
   await expect.poll(() => stored(page)).toEqual({ width: '240px', undoSteps: 1, present: true });
 });
 
-test('a field is lean: its value, its unit and no step buttons (spec inspector-number-fields, Problem 5)', runs(OPEN, SELECT, WIDTH, ENTER), async ({ page }) => {
+// The step buttons come back (the audit's AUD-16: the plan's stage 3 asked for them, and 9f6c561 dropped them without
+// the person's decision; DEC-30 withdrawn): shown while the field is hovered or holds the focus, never at rest.
+test('the step buttons step by 1, with Shift by 10 and with Alt by 0.1; clicks in a row are one undo step, one after a pause starts another', runs(OPEN, SELECT, WIDTH, ENTER, STEP_UP, STEP_DOWN), async ({ page }) => {
+  await typeWidth(page, '240');
+  await expect.poll(() => stored(page)).toEqual({ width: '240px', undoSteps: 1, present: true });
+  const pause = await burstClock(page);
+  const row = control(page, WIDTH);
+  // at rest: neither hovered nor holding the focus
+  await row.locator('input').evaluate((element) => element.blur());
+  await page.mouse.move(0, 0);
+  await expect(row.locator(`[data-door="${STEP_UP}"]`), 'no step button at rest').toBeHidden();
+  await row.locator('.input-wrap').hover();
+  const button = (ref: string) => control(page, ref, { args: { property: 'width' } });
+  await button(STEP_UP).click();
+  await expect.poll(() => stored(page)).toEqual({ width: '241px', undoSteps: 2, present: true });
+  await button(STEP_UP).click({ modifiers: ['Shift'] });
+  await expect.poll(() => stored(page)).toEqual({ width: '251px', undoSteps: 2, present: true });
+  await button(STEP_DOWN).click({ modifiers: ['Alt'] });
+  await expect.poll(() => stored(page)).toEqual({ width: '250.9px', undoSteps: 2, present: true });
+  await pause();
+  await button(STEP_DOWN).click();
+  await expect.poll(() => stored(page)).toEqual({ width: '249.9px', undoSteps: 3, present: true });
+  // the page draws 249.9px to Chrome's layout unit (1/64 px): 249.890625px
+  await expect.poll(async () => Math.abs(parseFloat(await computedWidth(page)) - 249.9)).toBeLessThanOrEqual(1 / 64);
+});
+
+test('a step button held down steps again and again, and the whole hold is one undo step', runs(OPEN, SELECT, WIDTH, ENTER, STEP_UP), async ({ page }) => {
   await typeWidth(page, '240');
   await expect.poll(() => stored(page)).toEqual({ width: '240px', undoSteps: 1, present: true });
   const row = control(page, WIDTH);
-  await row.hover();
-  await row.locator('input').focus();
-  expect(await row.locator('[data-door^="field.step#"]').count(), 'no step button, hovered or focused').toBe(0);
+  await row.locator('.input-wrap').hover();
+  const up = control(page, STEP_UP, { args: { property: 'width' } });
+  const box = await up.boundingBox();
+  if (box === null) throw new Error('the step up button is not drawn');
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.waitForTimeout(700);
+  await page.mouse.up();
+  const after = await stored(page);
+  // the first step at the press, then one after 250 ms and every 50 ms: far more than one step in 700 ms
+  expect(parseFloat(after.width ?? ''), 'the hold stepped again and again').toBeGreaterThan(245);
+  expect(after.undoSteps, 'one undo step for the whole hold').toBe(2);
 });
 
 test('the scrub follows the pointer live and the whole drag is one undo step; Shift and Alt read on every move', runs(OPEN, SELECT, WIDTH, ENTER, SCRUB, UNDO), async ({ page }) => {

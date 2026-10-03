@@ -9820,6 +9820,64 @@
             "direction": "down",
             "size": "page"
           }
+        },
+        {
+          "id": "inspector-step-up",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "inspector-number-fields",
+          "panel": "inspector",
+          "control": "step-up",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "field.stepUp",
+          "faceLabelKey": null,
+          "icon": "chevron-up",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "field",
+            "order": 2
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "direction": "up",
+            "size": "step"
+          }
+        },
+        {
+          "id": "inspector-step-down",
+          "kind": "panel-control",
+          "drawnAs": "icon-button",
+          "pressed": false,
+          "feature": "inspector-number-fields",
+          "panel": "inspector",
+          "control": "step-down",
+          "modifier": null,
+          "gesture": null,
+          "labelKey": "field.stepDown",
+          "faceLabelKey": null,
+          "icon": "chevron-down",
+          "disabledReasonKey": "common.notAvailableYet",
+          "placement": {
+            "region": "field",
+            "order": 3
+          },
+          "adapter": {
+            "selection": "none",
+            "offers": null,
+            "writes": [],
+            "fields": []
+          },
+          "args": {
+            "direction": "down",
+            "size": "step"
+          }
         }
       ]
     },

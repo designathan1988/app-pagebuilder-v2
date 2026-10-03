@@ -490,6 +490,19 @@ export function registerSlider(element: HTMLInputElement, commit: (value: string
   return () => SLIDER_COMMITS.delete(element);
 }
 
+// A control that repeats while held (a number field's step buttons, shell/field.tsx, which carry data-repeat): the press
+// runs its step, with the
+// one key it holds; held down, the step runs again after numberField.repeatDelay and then every
+// numberField.repeatInterval (Chromium's press-and-hold), until the release, a cancel or the pointer leaving it. The
+// press keeps the focus where it is.
+const REPEATS = new WeakMap<HTMLElement, (modifier: string | null) => void>();
+const REPEAT_DELAY = numberConstant('numberField.repeatDelay');
+const REPEAT_INTERVAL = numberConstant('numberField.repeatInterval');
+export function registerRepeat(element: HTMLElement, step: (modifier: string | null) => void): () => void {
+  REPEATS.set(element, step);
+  return () => REPEATS.delete(element);
+}
+
 
 // The text toolbar over the canvas while a text is edited (text-toolbar.tsx): its controls run their own doors, so a
 // press there is no press on the page under it, and it leaves the focus in the edited text (spec
@@ -722,6 +735,14 @@ export function installPointer(store: EditorStore, target: Window = window): () 
   let scrubbing: { readonly press: Extract<Press, { on: 'scrub' }>; readonly startX: number } | null = null;
   // a slider a field draws (A3.30), held: what its release writes
   let sliding: { readonly element: HTMLInputElement; readonly commit: (value: string) => void; readonly pointer: number } | null = null;
+  // a repeating control held down (registerRepeat): its element, the pointer and the timer of its next step
+  let repeating: { readonly element: HTMLElement; readonly pointer: number; timer: number } | null = null;
+  const stopRepeating = () => {
+    if (repeating === null) return;
+    window.clearTimeout(repeating.timer);
+    window.clearInterval(repeating.timer);
+    repeating = null;
+  };
   // the drag of a shadow's light: its press, and where the pointer went down on the screen
   let lighting: { readonly press: Extract<Press, { on: 'pad' }>; readonly startX: number } | null = null;
   // The light follows the pointer from the press on: X and Y are the pointer's offset from the pad's centre, whole
@@ -1436,6 +1457,22 @@ export function installPointer(store: EditorStore, target: Window = window): () 
       sliding = { element: event.target, commit, pointer: event.pointerId };
       return;
     }
+    // a control that repeats while held (registerRepeat): it steps now, and again while held
+    const repeater = event.button === 0 && event.target instanceof Element ? event.target.closest<HTMLElement>('[data-repeat]') : null;
+    const repeat = repeater === null ? undefined : REPEATS.get(repeater);
+    if (repeater !== null && repeat !== undefined) {
+      event.preventDefault();
+      const held = modifierOf(event);
+      repeat(held);
+      const hold = { element: repeater, pointer: event.pointerId, timer: 0 };
+      repeating = hold;
+      hold.timer = window.setTimeout(() => {
+        if (repeating !== hold) return;
+        repeat(held);
+        hold.timer = window.setInterval(() => repeat(held), REPEAT_INTERVAL);
+      }, REPEAT_DELAY);
+      return;
+    }
     // the colour picker's area, during its session: the colour it points at, then at every move while held
     const area = session !== null && event.button === 0 && event.target instanceof Element ? event.target.closest<HTMLElement>('[data-color-area]') : null;
     if (area !== null) {
@@ -1566,6 +1603,8 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     run(next.effect);
   };
   const onMove = (event: PointerEvent) => {
+    // a repeating control stops once the pointer leaves it
+    if (repeating !== null && event.pointerId === repeating.pointer && !(event.target instanceof Node && repeating.element.contains(event.target))) stopRepeating();
     if (tooling !== null) {
       if (event.pointerId !== tooling.pointer) return;
       const step = tooling.session.move(toolPoint(event));
@@ -1765,6 +1804,10 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     if (event.pointerId === captured) captured = null;
     // the key held at the release: the duplicate's (spec drag-duplicate)
     releaseModifier = modifierOf(event);
+    if (repeating !== null && event.pointerId === repeating.pointer) {
+      stopRepeating();
+      return;
+    }
     // a slider's release: what it was left on, written once through the field's own commit (A3.30)
     if (sliding !== null) {
       if (event.pointerId !== sliding.pointer) return;
@@ -1871,6 +1914,7 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     setPressing(false);
     captured = null;
     sliding = null;
+    stopRepeating();
     dropHandleGestures();
     const next = step(machine, { type: 'cancel' });
     machine = next.machine;

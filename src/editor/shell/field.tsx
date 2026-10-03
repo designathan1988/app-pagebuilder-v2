@@ -43,7 +43,7 @@ import { GLYPHS, doorSlots } from '../doors/placement.ts';
 import { quickPanelOpen } from '../quick-panel/quick-panel.ts';
 import { unitMenu } from '../../core/style/units.ts';
 import { cssFamily, familyOf, isFontFile } from '../../core/files/fonts.ts';
-import { afterGesture, pointerPressing, registerSlider } from '../input/pointer.ts';
+import { afterGesture, pointerPressing, registerRepeat, registerSlider } from '../input/pointer.ts';
 import { MODEL_RULES, useEditorState, useStore, type EditorStore, layeredRules } from '../store.ts';
 import { styleClassOf, styleSource } from '../inspector/style-target.ts';
 import { useMenuLayer } from '../doors/menu.tsx';
@@ -75,9 +75,10 @@ const RESET = doorSlots('field').find((p) => p.door.kind === 'panel-control' && 
 // 2 step up · 3 step down · 4 reset this value). The region also carries the doors other components draw beside a
 // field — the colour swatch (a colour field, color.tsx) and the choose buttons of a field that names a file or a
 // link (inspector.tsx) — and those are no parts of it: drawing them here put a stray item button inside every field.
-// the parts a lean field draws beside its value (spec inspector-number-fields, Problem 5): its unit menu and its Reset;
-// it steps with its keys and its label's scrub, never with buttons of its own
-const PART_CONTROLS = new Set(['unit-menu', 'property-reset']);
+// the parts a number field draws (spec inspector-number-fields, Problem 5): its unit menu, its step buttons (shown while
+// it is hovered or holds the focus, so they take no room from its value at rest) and its Reset
+const STEP_CONTROLS = new Set(['step-up', 'step-down']);
+const PART_CONTROLS = new Set(['unit-menu', ...STEP_CONTROLS, 'property-reset']);
 const PARTS = doorSlots('field').filter((p) => p.door.kind === 'panel-control' && PART_CONTROLS.has(p.door.control));
 // the label's scrub: the panel drag pressed on a field's label
 const SCRUB = manifest.doors.find((d) => d.door.kind === 'panel-drag' && d.door.source === 'field-label') ?? null;
@@ -264,6 +265,42 @@ export function useTokenSuggestions(property: string): readonly string[] {
 }
 
 type Dispatch = (id: CommandId, args: unknown) => DispatchResult;
+
+// A step button (field.step, the plan's stage 3): a press steps the text the field holds by one, by ten with Shift and
+// by a tenth with Alt (the command reads the modifier); held down, it steps again and again, the pointer owner's
+// press-and-hold (input/pointer.ts registerRepeat), and the whole hold is one undo step (the command coalesces steps
+// within numberField.stepBurstWindow). The press keeps the focus where it is, so a field being typed in keeps its
+// text; the keys step the field itself, so the button is no Tab stop.
+function StepButton({ entry, property, shown, input, ready }: { readonly entry: DoorEntry; readonly property: string; readonly shown: string; readonly input: RefObject<HTMLInputElement | null>; readonly ready: boolean }) {
+  const store = useStore();
+  const door = useDoor(entry, { property }, undefined, ready);
+  const button = useRef<HTMLButtonElement>(null);
+  const available = door.available;
+  useEffect(() => {
+    const element = button.current;
+    if (element === null || !available) return;
+    return registerRepeat(element, (modifier) => {
+      const held = modifier !== null && entry.command.args.modifier?.values.includes(modifier) === true ? { modifier } : {};
+      (store.dispatch as Dispatch)(entry.command.id, { ...entry.door.args, property, value: input.current?.value || shown, ...held });
+    });
+  }, [store, entry, property, shown, input, available]);
+  return (
+    <button
+      ref={button}
+      type="button"
+      className={`field__step${available ? '' : ' is-unavailable'}`}
+      data-door={entry.ref}
+      data-args={JSON.stringify({ property, value: shown })}
+      data-repeat=""
+      tabIndex={-1}
+      aria-label={door.label}
+      title={door.title}
+      aria-disabled={available ? undefined : true}
+    >
+      {entry.door.icon !== null ? <Icon name={entry.door.icon} size="xs" /> : null}
+    </button>
+  );
+}
 
 // The project's fonts (the manifest's custom-fonts; core/files/fonts.ts): the families the font menu offers above the
 // system stacks, each drawn in its own face (the menu previews a value by the family it names).
@@ -572,6 +609,12 @@ export function NumberField({ entry, door, property, label, bare = false, labell
       {prefix !== null ? <span className="field__prefix">{prefix}</span> : null}
       <FieldValueSlot value={mixed ? t('inspector.mixedValue') : wordOfKeyword(compactFieldValue(base, true).value, t)}>
         <input ref={input} className="input" role="spinbutton" disabled={!available} aria-label={label} inputMode="decimal" spellCheck={false} data-key-context={NUMBER_FIELD_CONTEXT} placeholder={mixed ? t('inspector.mixedValue') : effective || undefined} aria-invalid={refused.text !== null ? true : undefined} onInput={refused.dismiss} />
+        {/* the step buttons lie over the value's end, so they take no room from the number (inspector.css .field__steps) */}
+        <span className="field__steps">
+          {PARTS.filter((part) => part.door.kind === 'panel-control' && STEP_CONTROLS.has(part.door.control)).map((part) => (
+            <StepButton key={part.ref} entry={part} property={property} shown={base} input={input} ready={available} />
+          ))}
+        </span>
       </FieldValueSlot>
         {PARTS.filter((part) => part.door.kind === 'panel-control' && part.door.control === 'unit-menu').map((part) => (
           <UnitMenu key={part.ref} entry={part} property={property} shown={base} input={input} ready={available} suggestions={{ field: entry, values: tokens, labelOf: (value) => valueLabel(property, value), keep: (value) => keepValue(store, command, property, value, store.getState().selection) }} />
@@ -584,7 +627,7 @@ export function NumberField({ entry, door, property, label, bare = false, labell
   // inside the cell it shrank the number of a pair to nothing while the field was focused). It is drawn only while
   // the element holds a value of its own (spec inspector-provenance-reset, Problems in Pager 5), and shows while its
   // field is hovered or holds the focus (inspector.css .field__end).
-  const resets = PARTS.filter((part) => !(part.door.kind === 'panel-control' && part.door.control === 'unit-menu')).map((part) => {
+  const resets = PARTS.filter((part) => !(part.door.kind === 'panel-control' && (part.door.control === 'unit-menu' || STEP_CONTROLS.has(part.door.control)))).map((part) => {
     if (part === RESET && !anyStored) return null;
     // the reset names what it resets (A3.24): what a screen reader reads
     const named = part === RESET ? { label: t('field.reset.of', { property: propertyWord(t, property) }) } : {};

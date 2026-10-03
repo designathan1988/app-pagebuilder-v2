@@ -1066,6 +1066,48 @@
   background: var(--color-surface-hover);
 }
 
+/* The step buttons (spec inspector-number-fields, Problem 5): a column of two over the value's end, in the field's own
+   fill; they never take room from the number (the audit's A.0, the plan's lean field: the number's width is
+   guaranteed). Shown while the field is hovered or holds the focus, and hidden while text typed in it is not kept yet
+   (data-draft "typed", input/drafts.ts), so the caret never goes under them. */
+.field__steps {
+  display: none;
+}
+
+.input-wrap--number:hover .field__steps,
+.input-wrap--number:focus-within .field__steps {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface-sunken);
+}
+
+.input-wrap--number:has(.input[data-draft='typed']) .field__steps {
+  display: none;
+}
+
+.field__step {
+  display: inline-flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-7);
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: none;
+  color: var(--color-text-subtle);
+}
+
+.field__step:not([aria-disabled="true"]):hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text);
+}
+
 .field__unit-value {
   font-family: var(--font-mono);
 }

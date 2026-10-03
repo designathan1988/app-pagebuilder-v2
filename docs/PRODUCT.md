@@ -87,7 +87,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | PLAN-R3 | Forms with masks and validation, complete catalogue | done | stage 9; feature `forms-masks-validation` |
 | PLAN-R4 | Animation working and a real timeline | done | stage 10; `motion-timeline` 58/58 |
 | PLAN-R5 | The visual layout tool (Layout Composer / Spatial Layout Compiler), an isolated removable module | done, redefined | stage 11; DEC-16, DEC-17 |
-| PLAN-R6 | Every panel looked at and fixed; professional fields (typing, steppers, presets with preview, smart input) | partial | stage 3, 5; AUD-16 (steppers) |
+| PLAN-R6 | Every panel looked at and fixed; professional fields (typing, steppers, presets with preview, smart input) | done | stage 3, 5; QA 164 (steppers) |
 | PLAN-R7 | The interface equal to the canonical layout | partial | REQ-U14 |
 | PLAN-R8 | Open any web address and see the page on the canvas, editable | partial | stage 12; AUD-15 |
 | PLAN-R9 | Commit and push to the new repository, always | done | REQ-U10 |
@@ -122,7 +122,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-2.4 | Side-by-side view of 2–4 breakpoints, editable | done | QA 69; feature `side-by-side-view` |
 | STG-2.5 | Export media queries and inspector badges from the project's list | done | QA 67, 70; the cascade order QA 150 (`export-cascade.spec.ts`) |
 | STG-3.1 | Lean field (J6): value and unit cell, Reset outside the value | done | QA 52, 56; flow `lean-field` |
-| STG-3.2 | Steppers, arrows ±1/±10/±0.1, wheel, scrub, one undo step per drag | partial | QA 71 (keys, wheel, scrub); steppers dropped (AUD-16, DEC-30) |
+| STG-3.2 | Steppers, arrows ±1/±10/±0.1, wheel, scrub, one undo step per drag | done | QA 71 (keys, wheel, scrub); QA 164 (steppers back) |
 | STG-3.3 | Smart input: bare numbers (J18), arithmetic and `calc()`, shorthand (J27), Portuguese keywords | done | QA 47, 71, 76 |
 | STG-3.4 | Values with preview: colour variables, contrast, project fonts first, presets, easing curves, gradients, shadows | done | QA 72–79; QA 161 (project fonts first, AUD-12) |
 | STG-3.5 | Inherited values read without zoom (J19); Border and Shadow summaries | done | QA 77 |
@@ -385,7 +385,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-13 | 2 | F6 never focuses the canvas page | audit; J12 | done (QA 162) |
 | AUD-14 | 2 | Export class names partly Portuguese and numbered | audit; J14 | done (QA 163) |
 | AUD-15 | 2 | Capture: 98 % corpus never measured, login capture absent, MDN logo missing | audit; QA 117, 119 | open |
-| AUD-16 | 2 | Plan items dropped without a user decision (steppers, auto-fix) | audit | open |
+| AUD-16 | 2 | Plan items dropped without a user decision (steppers, auto-fix) | audit | partial (QA 164 the steppers; the Checks auto-fixes in E5) |
 | AUD-17 | 2 | `hover-measure` not available in the contract while its code runs | audit | open |
 | AUD-18 | 2 | 39 features without a behaviour section | audit | open |
 | AUD-19 | 2 | Apply a class to every similar element reaches every element of the type | audit | open |
@@ -463,7 +463,7 @@ Stages 13, 15, 16 and 17 stay out (DEC-08, kept by the user on 2026-10-02).
 | DEC-27 | Global shortcuts wait while a field has the focus | dogfooding pass | modified by DEC-14 | `docs/archive/STATUS.md` |
 | DEC-28 | Flow elements are reordered (drop line); absolute and fixed ones placed freely, with smart guides | dogfooding pass | — | `docs/archive/STATUS.md` |
 | DEC-29 | A page's root takes a unique name | dogfooding pass | — | `docs/archive/STATUS.md`; QA 31 |
-| DEC-30 | Step buttons dropped from numeric fields | the agent, 2026-09-30 (`9f6c561`), kept by QA 71 | not a user decision (AUD-16) | spec `inspector-number-fields` Problem 5 |
+| DEC-30 | Step buttons dropped from numeric fields | the agent, 2026-09-30 (`9f6c561`), kept by QA 71 | withdrawn 2026-10-03 (AUD-16, the plan's stage 3): the steppers are back, QA 164 | spec `inspector-number-fields` Problem 5 |
 | DEC-31 | `checks.fixOutput` removed: the output derives lang and button type | the agent, 2026-10-02 (`89cefa2`) | not a user decision (AUD-16) | QA 83 |
 | DEC-32 | `layout/` and `motion/` are the sole module candidates (R5) | 2026-10-01 | — | `b662713`, `docs/archive/history/module-ownership.md` |
 | DEC-33 | Variables are left out of the command bar | 2026-10-02 | — | QA 88 |

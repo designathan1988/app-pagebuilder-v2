@@ -661,6 +661,20 @@
       "note": "Arrow presses on the same field and property, each within this time of the previous one, are one undo step (the audit's A3.32; the same window as history.nudgeBurstWindow)."
     },
     {
+      "id": "numberField.repeatDelay",
+      "value": 250,
+      "unit": "ms",
+      "source": "spec/BEHAVIOUR.md#inspector-number-fields",
+      "note": "A step button held down steps again after this long (Chromium’s press-and-hold repeat, ui/views/repeat_controller.cc)."
+    },
+    {
+      "id": "numberField.repeatInterval",
+      "value": 50,
+      "unit": "ms",
+      "source": "spec/BEHAVIOUR.md#inspector-number-fields",
+      "note": "A step button held down steps once every this long after the first repeat; shorter than numberField.stepBurstWindow, so a hold is one undo step."
+    },
+    {
       "id": "colorPicker.sliderStep",
       "value": 1,
       "unit": "percent",

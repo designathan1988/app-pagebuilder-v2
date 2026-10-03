@@ -3,10 +3,10 @@
     "features": 214,
     "built": 213,
     "commands": 370,
-    "doors": 1335,
-    "scenarios": 1754,
+    "doors": 1337,
+    "scenarios": 1756,
     "modules": 417,
-    "lines": 77426
+    "lines": 77517
   },
   "features": [
     {
@@ -655,8 +655,8 @@
         "field.setUnit",
         "field.cancel"
       ],
-      "doors": 183,
-      "scenarios": 19,
+      "doors": 185,
+      "scenarios": 21,
       "modules": [
         "src/core/style/set.ts",
         "src/editor/inspector/number-field.ts"
@@ -725,7 +725,7 @@
         "field.cancel",
         "field.step"
       ],
-      "doors": 29,
+      "doors": 31,
       "scenarios": 18,
       "modules": [
         "src/core/style/spacing.ts",
@@ -5420,7 +5420,7 @@
     },
     {
       "path": "src/editor/input/pointer.ts",
-      "lines": 2083,
+      "lines": 2127,
       "commands": [],
       "features": []
     },
@@ -6003,7 +6003,7 @@
     },
     {
       "path": "src/editor/shell/field.tsx",
-      "lines": 1553,
+      "lines": 1596,
       "commands": [],
       "features": []
     },
@@ -6505,7 +6505,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6475,
+      "lines": 6479,
       "commands": [],
       "features": []
     },
