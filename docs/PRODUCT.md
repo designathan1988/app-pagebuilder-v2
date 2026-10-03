@@ -400,7 +400,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-28 | 1 | Remaining divergences from the canonical interface (icons, palette footer, naming, event card Options) | audit | done (QA 179, 180) |
 | AUD-29 | 1 | 16 targets under 24 × 24 px | audit | done (QA 181; the splitters: TS1) |
 | AUD-30 | 1 | Documents and comments that contradict the application; 347 comments citing deleted documents (now archived) | audit | done (QA 182) |
-| AUD-31 | 1 | The `forms-mask` flow broken since `87eb183` | audit | open |
+| AUD-31 | 1 | The `forms-mask` flow broken since `87eb183` | audit | done (QA 183) |
 | AUD-32 | 1 | Minified-style source in the assistant and some tests | audit | open |
 | AUD-33 | 1 | 11 controls outside the manifest (`data-local`) | audit | open |
 | AUD-34 | 1 | A test edited per new feature; misfiled manifest group | audit | open |
@@ -413,6 +413,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | BW1 | 2 | The border fields of an element with no border of its own show the canvas’s zoomed computed width: a 1 px border reads `1.69014px` at 59 % | QA 177, the text-fits test | done (QA 178) |
 | FL1 | 1 | layout-composer’s scenario done-closes-the-composer failed once in a run of 157: its Escape reached the page while the Layout tool was still coming on (the focus moves into a panel two frames after it opens); six reruns pass | QA 179, the AUD-28 block run | open (the module’s owner told) |
 | TS1 | 1 | The panel splitters are 6 px wide, under WCAG 2.5.8’s 24 px: a 24 px hit area would cover the Layers rows’ buttons, the Insert tiles and the ruler beside them, and no other control sets a panel’s width (no equivalent). A decision: room taken from the panels for a gutter, or an equivalent control (a panel-width setting or command) | QA 181 | open (needs the user’s decision) |
+| CL1 | 1 | The Form section’s Preset field cuts its value (“Brazilian taxpaye…”) once a mask preset is chosen, a state the text-fits test never reaches | QA 183, the forms-mask flow’s photo | open |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 
@@ -590,7 +591,7 @@ predicate hardening, the invariant probe in the gate, and the security set.
 | Command | What it verifies | Time |
 |---|---|---|
 | `npm run check:fast` | `gen:check` (generated files untouched), `manifest:check` (the contract's schema and rules, every scenario's data), `inventory:check` (inventory, features table and owners in step with the source), both typechecks, lint (tokens, catalogue texts, pointer and key owners, no React in the core), the unit suite with coverage floors — among them the headless scenario runner (`tools/runner/headless.test.ts`), the documents the sources cite resolving (`tools/inventory/citations.test.ts`, AUD-30) and the silent-failure fuzz | ~1–2 min |
-| `npm run ui -- <flow>` | One of the 55 flows of `tools/ui/flows.ts`: real gestures in the installed Chrome, a photo per step into `.cache/logs/ui-<flow>-<time>/`, failing on a console error, an incident or an unmet expectation (`PORT` names the app's port) | ≤ 30 s each |
+| `npm run ui -- <flow>` | One of the 57 flows of `tools/ui/flows.ts` (played by `tools/ui/play.ts`; the browser suite plays every one as a test of its own, `tests/e2e/flows.spec.ts`): real gestures in the installed Chrome, a photo per step into `.cache/logs/ui-<flow>-<time>/`, failing on a console error, an incident or an unmet expectation (`PORT` names the app's port) | ≤ 30 s each |
 | `npm run e2e:affected` | The browser tests of the features a change reaches (shared runtimes and unmapped sources select everything; R4) | varies |
 | `npm run e2e -- <spec>` | The tests of what a block built | varies |
 | `npm run e2e` | The complete browser suite: every scenario through every door, plus the specs (2,537 tests); a complete run on a clean tree writes `docs/feature-results.json`, which `npm run inventory` turns into `docs/FEATURES.md` | ~16 min |
