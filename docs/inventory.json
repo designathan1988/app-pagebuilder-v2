@@ -4,9 +4,9 @@
     "built": 214,
     "commands": 371,
     "doors": 1344,
-    "scenarios": 1768,
+    "scenarios": 1769,
     "modules": 420,
-    "lines": 77713
+    "lines": 77744
   },
   "features": [
     {
@@ -1559,7 +1559,7 @@
         "element.insert"
       ],
       "doors": 5,
-      "scenarios": 4,
+      "scenarios": 5,
       "modules": [
         "src/core/structure/insert.ts"
       ]
@@ -4449,7 +4449,7 @@
     },
     {
       "path": "src/core/structure/insert.ts",
-      "lines": 241,
+      "lines": 272,
       "commands": [
         "element.createNaturalChild",
         "element.insert"

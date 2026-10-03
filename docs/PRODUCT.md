@@ -389,7 +389,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-17 | 2 | `hover-measure` not available in the contract while its code runs | audit | done (QA 167) |
 | AUD-18 | 2 | 39 features without a behaviour section | audit | done (QA 168) |
 | AUD-19 | 2 | Apply a class to every similar element reaches every element of the type | audit | done (QA 169) |
-| AUD-20 | 2 | The Grid template keeps empty cells when a card is inserted | audit | open |
+| AUD-20 | 2 | The Grid template keeps empty cells when a card is inserted | audit | done (QA 170) |
 | AUD-21 | 2 | First panel still the Explorer; Insert called Elements in menus | audit; J26 | open |
 | AUD-22 | 2 | html-validate errors in the `motion` fixture's export | audit | done (QA 160) |
 | AUD-23 | 1 | pt-BR values clipped in the inspector | audit | open |

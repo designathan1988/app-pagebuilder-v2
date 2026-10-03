@@ -7552,6 +7552,8 @@ Enter/Space on a focused tile.
 
    Required: templates and wrap commands take their Row/Column layout styles from the same owner (manifest feature `templates-layout`). Solved by the wrappers of elements.json: `wrappers[].styles` (the row's `column-gap`, the column's `row-gap`) and `wrappers[].childStyles` (the row's children grown alike, `flex-grow:1`) are what every path builds — the R and C keys, a side drop, and the templates' own trees (spec wrap-row-column, Problems in Pager 5; the user's real-use audit, item 3.11).
 
+2. **An element placed in the Grid went after its empty cells** (the audit's AUD-20, 2026-10-02, journey M2: Insert › Grid, then Insert › Card, left a row of three empty dashed cells above the card). Required: an element placed at a grid's end with no place asked for (a palette click with the grid selected) takes the grid's first empty cell — a container holding nothing, untouched (no styles, classes or attributes of its own, neither locked, hidden nor a component's) — in its place, one undo step; a drop at a place keeps that place, and a grid without an empty cell takes the element at its end.
+
 ## text-edit-inline
 
 How Pager behaves, observed by running it from `.cache/pager-run` (Chrome, window 1600×900) and read from its source. Source references are `path:line` inside Pager. Test document: Section > [Paragraph, Heading].

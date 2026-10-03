@@ -5,7 +5,7 @@ the last complete browser run on a clean tree (`docs/feature-results.json`, writ
 hand. `npm run inventory:check` fails while this file is out of step. The requirements these features answer, and the
 open problems, are in `docs/PRODUCT.md`.
 
-214 features (214 built), 371 commands, 1344 doors, 1768 scenarios.
+214 features (214 built), 371 commands, 1344 doors, 1769 scenarios.
 
 No complete browser run on a clean tree has been recorded yet: the next one writes `docs/feature-results.json`.
 
@@ -157,7 +157,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `templates-layout` | Layout templates: Container, Row, Column, Grid | yes | 4 | 1 | [templates-layout](../spec/BEHAVIOUR.md#templates-layout) | 1 | — |
+| `templates-layout` | Layout templates: Container, Row, Column, Grid | yes | 5 | 1 | [templates-layout](../spec/BEHAVIOUR.md#templates-layout) | 2 | — |
 | `templates-content` | Content templates: lists, table, form, select and figure | yes | 7 | 1 | [templates-content](../spec/BEHAVIOUR.md#templates-content) | 1 | — |
 | `templates-sections` | Section templates: Card, Hero, Navbar, Sidebar, Gallery | yes | 5 | 1 | [templates-sections](../spec/BEHAVIOUR.md#templates-sections) | 1 | — |
 | `reusable-components` | Reusable components with instances | yes | 10 | 9 | [reusable-components](../spec/BEHAVIOUR.md#reusable-components) | 4 | — |

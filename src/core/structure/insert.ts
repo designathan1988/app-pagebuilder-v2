@@ -19,7 +19,7 @@ import { placementRefusal } from '../elements/content-model.ts';
 import { lockRefusal } from '../nodes/flags.ts';
 import { pageShown } from '../project/pages.ts';
 import { startingParts } from '../elements/table.ts';
-import { tracksForChildren } from '../style/tracks.ts';
+import { COLUMNS_PROPERTY, tracksForChildren } from '../style/tracks.ts';
 import { registerReferenceKind } from '../store/references.ts';
 
 // A name no node of the document has: the base itself, else the base followed by the first free number from 2.
@@ -216,6 +216,26 @@ function withSiblingClasses(node: DocNode, siblings: readonly DocNode[]): DocNod
   return shared.length === 0 ? node : { ...node, classes: shared };
 }
 
+// The first empty cell of a grid, which an element placed at the grid's end takes instead (the audit's AUD-20: Insert ›
+// Grid, then Insert › Card, left the grid's three empty cells above the card): a child of a parent that writes its
+// columns (a grid: the Grid template's, the grid wrapper's) that is a container holding nothing, untouched — no styles,
+// classes or attributes of its own, neither locked, hidden nor a component's. -1 when the parent has none.
+function emptyCell(parent: DocNode, rules: ModelRules): number {
+  const base = (parent.styles as Readonly<Record<string, Readonly<Record<string, Readonly<Record<string, unknown>>>>>>)[rules.baseLayer.breakpoint]?.[rules.baseLayer.state];
+  if (base?.[COLUMNS_PROPERTY] === undefined) return -1;
+  const untouched = (child: DocNode): boolean =>
+    rules.elements.get(child.type)?.content === 'children' &&
+    child.children.length === 0 &&
+    Object.keys(child.styles).length === 0 &&
+    child.classes.length === 0 &&
+    Object.keys(child.attributes).length === 0 &&
+    child.locked !== true &&
+    child.hidden !== true &&
+    child.component === undefined &&
+    child.componentPart === undefined;
+  return parent.children.findIndex(untouched);
+}
+
 export const insertCommand = registerHandler('element.insert', ({ state, ids, rules, words }, { entry, parent, index }): Outcome<never> => {
   const node = paletteNode(nodeMaker(state.document, rules, ids, words), entry);
   const at = placement(state, state.selection, rules, parent, index, node);
@@ -228,6 +248,17 @@ export const insertCommand = registerHandler('element.insert', ({ state, ids, ru
   const refused = placementRefusal(state.document, rules, receiver.id, [node]);
   if (refused !== null) return { kind: 'refused', message: refused };
   const placed = withSiblingClasses(node, receiver.children);
+  // placed at a grid's end with no place asked for: it takes the grid's first empty cell (emptyCell)
+  const cell = index === undefined && at.index === receiver.children.length ? emptyCell(receiver, rules) : -1;
+  if (cell >= 0) {
+    const path = [...at.parent.path, 'children', cell];
+    return {
+      kind: 'change',
+      patches: [{ op: 'remove', path }, { op: 'add', path, value: placed }],
+      selection: [node.id],
+      message: message('status.placed', { element: node.name, parent: receiver.name, position: cell + 1, count: receiver.children.length }),
+    };
+  }
   return {
     kind: 'change',
     patches: [{ op: 'add', path: [...at.parent.path, 'children', at.index], value: placed }],

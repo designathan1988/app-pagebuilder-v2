@@ -534,6 +534,152 @@
             "export": null
           },
           "refusals": []
+        },
+        {
+          "id": "an-element-placed-in-the-grid-takes-its-first-empty-cell",
+          "setup": {
+            "fixture": "empty",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": "fit"
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-insert",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.insert#elements-tile",
+              "args": {
+                "entry": "template-grid"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.insert#elements-tile",
+              "args": {
+                "entry": "paragraph"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.insert#elements-tile"
+          ],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/@children",
+                "value": [
+                  {
+                    "type": "div",
+                    "name": "Grid",
+                    "tag": "div",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "display": "grid",
+                          "grid-template-columns": "repeat(3, minmax(0, 1fr))",
+                          "column-gap": "16px",
+                          "row-gap": "16px"
+                        }
+                      },
+                      "tablet": {
+                        "base": {
+                          "grid-template-columns": "repeat(2, minmax(0, 1fr))"
+                        }
+                      },
+                      "phone": {
+                        "base": {
+                          "grid-template-columns": "minmax(0, 1fr)"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "name": "Paragraph",
+                        "tag": "p",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "A freshly created paragraph.",
+                        "children": []
+                      },
+                      {
+                        "type": "div",
+                        "name": "Container 2",
+                        "tag": "div",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": null,
+                        "children": []
+                      },
+                      {
+                        "type": "div",
+                        "name": "Container 3",
+                        "tag": "div",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": null,
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Grid/Paragraph"
+            ],
+            "history": {
+              "undoSteps": 2,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.placed",
+                  "params": {
+                    "element": "Paragraph",
+                    "parent": "Grid",
+                    "position": 1,
+                    "count": 3
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          },
+          "refusals": []
         }
       ]
     },
