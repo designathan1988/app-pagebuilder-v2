@@ -1203,6 +1203,48 @@
       ]
     },
     {
+      "id": "project-language",
+      "built": true,
+      "commands": [
+        "project.setLanguage",
+        "project.setCodeLanguage",
+        "workspace.setActiveTab",
+        "project.export"
+      ],
+      "doors": 11,
+      "scenarios": 4,
+      "modules": [
+        "src/core/export/export.ts",
+        "src/core/project/language.ts",
+        "src/editor/workspace/layout.ts"
+      ]
+    },
+    {
+      "id": "site-colours",
+      "built": true,
+      "commands": [
+        "design.replaceColour",
+        "design.colourToVariable"
+      ],
+      "doors": 2,
+      "scenarios": 3,
+      "modules": [
+        "src/core/design/site-colours.ts"
+      ]
+    },
+    {
+      "id": "style-suggestions",
+      "built": true,
+      "commands": [
+        "design.applySuggestion"
+      ],
+      "doors": 1,
+      "scenarios": 1,
+      "modules": [
+        "src/core/design/suggest.ts"
+      ]
+    },
+    {
       "id": "elements-structure",
       "built": true,
       "commands": [
@@ -1553,6 +1595,19 @@
       ]
     },
     {
+      "id": "class-moves",
+      "built": true,
+      "commands": [
+        "classes.moveInto",
+        "classes.applyToSimilar"
+      ],
+      "doors": 3,
+      "scenarios": 4,
+      "modules": [
+        "src/core/design/classes.ts"
+      ]
+    },
+    {
       "id": "templates-layout",
       "built": true,
       "commands": [
@@ -1628,6 +1683,30 @@
       "scenarios": 5,
       "modules": [
         "src/core/structure/insert.ts"
+      ]
+    },
+    {
+      "id": "component-master-edit",
+      "built": true,
+      "commands": [
+        "components.updateFromInstance"
+      ],
+      "doors": 1,
+      "scenarios": 1,
+      "modules": [
+        "src/core/design/components.ts"
+      ]
+    },
+    {
+      "id": "component-variants",
+      "built": true,
+      "commands": [
+        "components.setVariant"
+      ],
+      "doors": 1,
+      "scenarios": 3,
+      "modules": [
+        "src/core/design/components.ts"
       ]
     },
     {
@@ -2434,6 +2513,20 @@
       ]
     },
     {
+      "id": "capture-url",
+      "built": true,
+      "commands": [
+        "project.captureUrl",
+        "workspace.openDialog"
+      ],
+      "doors": 6,
+      "scenarios": 3,
+      "modules": [
+        "src/editor/import/capture.ts",
+        "src/editor/workspace/dialogs.ts"
+      ]
+    },
+    {
       "id": "code-panel-view",
       "built": true,
       "commands": [
@@ -2796,6 +2889,22 @@
       ]
     },
     {
+      "id": "command-bar-find",
+      "built": true,
+      "commands": [
+        "pages.switch",
+        "selection.select",
+        "classes.apply"
+      ],
+      "doors": 13,
+      "scenarios": 3,
+      "modules": [
+        "src/core/design/classes.ts",
+        "src/core/project/pages.ts",
+        "src/core/selection/selection.ts"
+      ]
+    },
+    {
       "id": "shortcuts-e2e-sweep",
       "built": true,
       "commands": [],
@@ -2841,6 +2950,22 @@
       "modules": [
         "src/core/style/tracks.ts",
         "src/editor/canvas/grid-edit.ts"
+      ]
+    },
+    {
+      "id": "batch-rename",
+      "built": true,
+      "commands": [
+        "element.renameMany",
+        "workspace.openDialog",
+        "contextMenu.open"
+      ],
+      "doors": 9,
+      "scenarios": 3,
+      "modules": [
+        "src/core/nodes/rename-many.ts",
+        "src/editor/menus/context-menu.ts",
+        "src/editor/workspace/dialogs.ts"
       ]
     },
     {
@@ -3142,131 +3267,6 @@
       "modules": [
         "src/editor/view/breakpoints.ts",
         "src/editor/view/overlays.ts"
-      ]
-    },
-    {
-      "id": "project-language",
-      "built": true,
-      "commands": [
-        "project.setLanguage",
-        "project.setCodeLanguage",
-        "workspace.setActiveTab",
-        "project.export"
-      ],
-      "doors": 11,
-      "scenarios": 4,
-      "modules": [
-        "src/core/export/export.ts",
-        "src/core/project/language.ts",
-        "src/editor/workspace/layout.ts"
-      ]
-    },
-    {
-      "id": "batch-rename",
-      "built": true,
-      "commands": [
-        "element.renameMany",
-        "workspace.openDialog",
-        "contextMenu.open"
-      ],
-      "doors": 9,
-      "scenarios": 3,
-      "modules": [
-        "src/core/nodes/rename-many.ts",
-        "src/editor/menus/context-menu.ts",
-        "src/editor/workspace/dialogs.ts"
-      ]
-    },
-    {
-      "id": "command-bar-find",
-      "built": true,
-      "commands": [
-        "pages.switch",
-        "selection.select",
-        "classes.apply"
-      ],
-      "doors": 13,
-      "scenarios": 3,
-      "modules": [
-        "src/core/design/classes.ts",
-        "src/core/project/pages.ts",
-        "src/core/selection/selection.ts"
-      ]
-    },
-    {
-      "id": "site-colours",
-      "built": true,
-      "commands": [
-        "design.replaceColour",
-        "design.colourToVariable"
-      ],
-      "doors": 2,
-      "scenarios": 3,
-      "modules": [
-        "src/core/design/site-colours.ts"
-      ]
-    },
-    {
-      "id": "class-moves",
-      "built": true,
-      "commands": [
-        "classes.moveInto",
-        "classes.applyToSimilar"
-      ],
-      "doors": 3,
-      "scenarios": 4,
-      "modules": [
-        "src/core/design/classes.ts"
-      ]
-    },
-    {
-      "id": "style-suggestions",
-      "built": true,
-      "commands": [
-        "design.applySuggestion"
-      ],
-      "doors": 1,
-      "scenarios": 1,
-      "modules": [
-        "src/core/design/suggest.ts"
-      ]
-    },
-    {
-      "id": "component-master-edit",
-      "built": true,
-      "commands": [
-        "components.updateFromInstance"
-      ],
-      "doors": 1,
-      "scenarios": 1,
-      "modules": [
-        "src/core/design/components.ts"
-      ]
-    },
-    {
-      "id": "component-variants",
-      "built": true,
-      "commands": [
-        "components.setVariant"
-      ],
-      "doors": 1,
-      "scenarios": 3,
-      "modules": [
-        "src/core/design/components.ts"
-      ]
-    },
-    {
-      "id": "capture-url",
-      "built": true,
-      "commands": [
-        "project.captureUrl",
-        "workspace.openDialog"
-      ],
-      "doors": 6,
-      "scenarios": 3,
-      "modules": [
-        "src/editor/import/capture.ts",
-        "src/editor/workspace/dialogs.ts"
       ]
     }
   ],

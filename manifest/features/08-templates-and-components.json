@@ -6770,6 +6770,549 @@
           "refusals": []
         }
       ]
+    },
+    {
+      "id": "component-master-edit",
+      "titleKey": "feature.componentMasterEdit",
+      "commands": [
+        "components.updateFromInstance"
+      ],
+      "dependsOn": [
+        "reusable-components"
+      ],
+      "spec": "spec/BEHAVIOUR.md#component-master-edit",
+      "intent": {
+        "title": "An instance edited in place updates its component and every instance",
+        "steps": [
+          "Edit one instance (add an element, change its styles), then right-click it: Update the component from this instance."
+        ],
+        "expected": [
+          "The component and every other instance take the new structure and styles; each instance keeps its own texts."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "an-edited-instance-updates-the-component-and-the-others",
+          "setup": {
+            "fixture": "catalog-edited",
+            "selection": [
+              "/Page/Plans/Plan"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "contextMenu.open#canvas-right-click-element-or-page",
+              "args": {
+                "target": "/Page/Plans/Plan"
+              },
+              "target": "/Page/Plans/Plan",
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "components.updateFromInstance#context-menu",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "components.updateFromInstance#context-menu"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@components",
+                "value": [
+                  {
+                    "name": "Plan",
+                    "tree": {
+                      "type": "article",
+                      "name": "Plan",
+                      "tag": "article",
+                      "attributes": {},
+                      "classes": [],
+                      "styles": {
+                        "desktop": {
+                          "base": {
+                            "padding-top": "24px"
+                          }
+                        }
+                      },
+                      "text": null,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "name": "PlanTitle",
+                          "tag": "h3",
+                          "attributes": {},
+                          "classes": [],
+                          "styles": {},
+                          "text": "Plan name",
+                          "children": []
+                        },
+                        {
+                          "type": "paragraph",
+                          "name": "PlanPrice",
+                          "tag": "p",
+                          "attributes": {},
+                          "classes": [],
+                          "styles": {},
+                          "text": "Price",
+                          "children": []
+                        },
+                        {
+                          "type": "paragraph",
+                          "name": "PlanNote",
+                          "tag": "p",
+                          "attributes": {},
+                          "classes": [],
+                          "styles": {},
+                          "text": "Cancel anytime",
+                          "children": []
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Plans/@children",
+                "value": [
+                  {
+                    "type": "article",
+                    "name": "Plan",
+                    "tag": "article",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "padding-top": "24px"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "children": [
+                      {
+                        "type": "heading",
+                        "name": "PlanTitle",
+                        "tag": "h3",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "Plan name",
+                        "children": [],
+                        "componentPart": [
+                          0
+                        ]
+                      },
+                      {
+                        "type": "paragraph",
+                        "name": "PlanPrice",
+                        "tag": "p",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "Price",
+                        "children": [],
+                        "componentPart": [
+                          1
+                        ]
+                      },
+                      {
+                        "type": "paragraph",
+                        "name": "PlanNote",
+                        "tag": "p",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "Cancel anytime",
+                        "children": [],
+                        "componentPart": [
+                          2
+                        ]
+                      }
+                    ],
+                    "component": "Plan",
+                    "componentPart": []
+                  },
+                  {
+                    "type": "article",
+                    "name": "Plan 2",
+                    "tag": "article",
+                    "attributes": {},
+                    "classes": [],
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "padding-top": "24px"
+                        }
+                      }
+                    },
+                    "text": null,
+                    "children": [
+                      {
+                        "type": "heading",
+                        "name": "PlanTitle 2",
+                        "tag": "h3",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "Gold",
+                        "children": [],
+                        "componentPart": [
+                          0
+                        ]
+                      },
+                      {
+                        "type": "paragraph",
+                        "name": "PlanPrice 2",
+                        "tag": "p",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "Price",
+                        "children": [],
+                        "componentPart": [
+                          1
+                        ]
+                      },
+                      {
+                        "type": "paragraph",
+                        "name": "PlanNote 2",
+                        "tag": "p",
+                        "attributes": {},
+                        "classes": [],
+                        "styles": {},
+                        "text": "Cancel anytime",
+                        "children": [],
+                        "componentPart": [
+                          2
+                        ]
+                      }
+                    ],
+                    "component": "Plan",
+                    "componentPart": []
+                  }
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Plans/Plan"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Plans/Plan 2",
+                  "property": "padding-top",
+                  "value": "24px"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.components.updated",
+                  "params": {
+                    "name": "Plan",
+                    "count": "1"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "component-variants",
+      "titleKey": "feature.componentVariants",
+      "commands": [
+        "components.setVariant"
+      ],
+      "dependsOn": [
+        "reusable-components"
+      ],
+      "spec": "spec/BEHAVIOUR.md#component-variants",
+      "intent": {
+        "title": "Variants of a component, chosen per instance",
+        "steps": [
+          "Select an instance; in Settings, type or choose its Variant."
+        ],
+        "expected": [
+          "The instance lists the variant's class (.plan--gold) and looks as the variant does; a new name makes the variant."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "an-instance-shows-a-variant",
+          "setup": {
+            "fixture": "catalog-variants",
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "components.setVariant#inspector-component-variant",
+              "args": {
+                "variant": "gold"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "components.setVariant#inspector-component-variant"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Plans/Plan 2/@classes",
+                "value": [
+                  "plan--gold"
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Plans/Plan 2",
+                  "property": "background-color",
+                  "value": "rgb(253, 230, 138)"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.components.variantSet",
+                  "params": {
+                    "name": "Plan 2",
+                    "variant": "gold"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-new-variant-is-made-by-its-name",
+          "setup": {
+            "fixture": "catalog",
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "components.setVariant#inspector-component-variant",
+              "args": {
+                "variant": "featured"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "components.setVariant#inspector-component-variant"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@classes",
+                "value": [
+                  {
+                    "name": "plan--featured",
+                    "styles": {}
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Plans/Plan 2/@classes",
+                "value": [
+                  "plan--featured"
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.components.variantSet",
+                  "params": {
+                    "name": "Plan 2",
+                    "variant": "featured"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-variant-name-that-is-no-name-is-refused",
+          "setup": {
+            "fixture": "catalog-variants",
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "components.setVariant#inspector-component-variant",
+              "args": {
+                "variant": "2 gold"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "components.setVariant#inspector-component-variant"
+          ],
+          "refusals": [
+            {
+              "key": "status.components.badVariant",
+              "document": "unchanged"
+            }
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Plans/Plan 2"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Plans/Plan 2",
+                  "property": "background-color",
+                  "value": "rgba(0, 0, 0, 0)"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.components.badVariant",
+                  "params": {
+                    "variant": "2 gold"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        }
+      ]
     }
   ]
 }

@@ -14,7 +14,12 @@ describe('manifest:check', () => {
     expect(loaded.problems).toEqual([]);
     const result = checkManifest(loaded.input);
     expect(result.problems).toEqual([]);
-    expect(result.summary?.features).toBe(214);
+    // every feature the groups declare is counted (derived, so a new feature edits no test: the audit's AUD-34)
+    const declared = Object.entries(loaded.input.files)
+      .filter(([file]) => file.startsWith('features/'))
+      .reduce((count, [, json]) => count + ((json as { features?: readonly unknown[] }).features?.length ?? 0), 0);
+    expect(declared).toBeGreaterThan(0);
+    expect(result.summary?.features).toBe(declared);
   });
 
   it('has a planted fixture for every rule', () => {

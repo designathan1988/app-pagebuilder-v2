@@ -2649,6 +2649,282 @@
           "refusals": []
         }
       ]
+    },
+    {
+      "id": "batch-rename",
+      "titleKey": "feature.batchRename",
+      "commands": [
+        "element.renameMany",
+        "workspace.openDialog",
+        "contextMenu.open"
+      ],
+      "dependsOn": [
+        "rename-element"
+      ],
+      "spec": "spec/BEHAVIOUR.md#batch-rename",
+      "intent": {
+        "title": "Rename the selected elements at once",
+        "steps": [
+          "Select several elements.",
+          "Rename the selected… from the context menu; type Card {n}."
+        ],
+        "expected": [
+          "Each takes the pattern with its number, in the order selected; one undo step."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "two-cards-are-numbered",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Plans/Grid/CardA",
+              "/Page/Plans/Grid/CardB"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "contextMenu.open#canvas-right-click-element-or-page",
+              "args": {
+                "target": "/Page/Plans/Grid/CardA"
+              },
+              "target": "/Page/Plans/Grid/CardA",
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "workspace.openDialog#context-menu-batch-rename",
+              "args": {
+                "dialog": "batch-rename"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.renameMany#batch-rename-apply",
+              "args": {
+                "pattern": "Plan {n}",
+                "start": 1
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.renameMany#batch-rename-apply"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Plans/Grid/CardA/@name",
+                "value": "Plan 1"
+              },
+              {
+                "op": "set",
+                "path": "/Page/Plans/Grid/CardB/@name",
+                "value": "Plan 2"
+              }
+            ],
+            "selection": [
+              "/Page/Plans/Grid/Plan 1",
+              "/Page/Plans/Grid/Plan 2"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.rename.many",
+                  "params": {
+                    "count": 2
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-first-number-below-one-is-refused",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Plans/Grid/CardA",
+              "/Page/Plans/Grid/CardB"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "contextMenu.open#canvas-right-click-element-or-page",
+              "args": {
+                "target": "/Page/Plans/Grid/CardA"
+              },
+              "target": "/Page/Plans/Grid/CardA",
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "workspace.openDialog#context-menu-batch-rename",
+              "args": {
+                "dialog": "batch-rename"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "element.renameMany#batch-rename-apply",
+              "args": {
+                "pattern": "Plan {n}",
+                "start": 0
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "element.renameMany#batch-rename-apply"
+          ],
+          "refusals": [
+            {
+              "key": "status.rename.patternInvalid",
+              "document": "unchanged"
+            }
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Plans/Grid/CardA",
+              "/Page/Plans/Grid/CardB"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.rename.patternInvalid",
+                  "params": {}
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "the-dialog-opens-from-the-context-menu",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [
+              "/Page/Plans/Grid/CardA",
+              "/Page/Plans/Grid/CardB"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "contextMenu.open#canvas-right-click-element-or-page",
+              "args": {
+                "target": "/Page/Plans/Grid/CardA"
+              },
+              "target": "/Page/Plans/Grid/CardA",
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "workspace.openDialog#context-menu-batch-rename",
+              "args": {
+                "dialog": "batch-rename"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "workspace.openDialog#context-menu-batch-rename"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Plans/Grid/CardA",
+              "/Page/Plans/Grid/CardB"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": null,
+            "editor": {
+              "regions": [
+                {
+                  "region": "batch-rename-dialog",
+                  "measure": "width",
+                  "relation": "greater-than",
+                  "value": 200,
+                  "reference": null
+                }
+              ],
+              "computed": []
+            },
+            "persistence": null,
+            "export": null
+          }
+        }
+      ]
     }
   ]
 }

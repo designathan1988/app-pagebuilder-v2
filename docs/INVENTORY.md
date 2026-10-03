@@ -94,6 +94,9 @@ edited by hand. `npm run inventory:check` fails while this file and the manifest
 | `export-zip` | yes | 2 | 13 | 5 | `src/core/export/export.ts` `src/core/page/settings.ts` |
 | `css-variables-tokens` | yes | 5 | 29 | 11 | `src/core/design/tokens.ts` `src/editor/workspace/panels.ts` |
 | `export-bem-css` | yes | 2 | 5 | 3 | `src/core/elements/attributes.ts` `src/core/export/export.ts` |
+| `project-language` | yes | 4 | 11 | 4 | `src/core/export/export.ts` `src/core/project/language.ts` `src/editor/workspace/layout.ts` |
+| `site-colours` | yes | 2 | 2 | 3 | `src/core/design/site-colours.ts` |
+| `style-suggestions` | yes | 1 | 1 | 1 | `src/core/design/suggest.ts` |
 | `elements-structure` | yes | 2 | 11 | 12 | `src/core/elements/link.ts` `src/core/structure/insert.ts` |
 | `elements-text` | yes | 3 | 13 | 6 | `src/core/elements/link.ts` `src/core/elements/tag.ts` `src/core/structure/insert.ts` |
 | `elements-lists` | yes | 2 | 10 | 11 | `src/core/structure/duplicate.ts` `src/core/structure/insert.ts` |
@@ -116,12 +119,15 @@ edited by hand. `npm run inventory:check` fails while this file and the manifest
 | `settings-class-management` | yes | 5 | 6 | 6 | `src/core/design/classes.ts` `src/core/elements/attributes.ts` `src/editor/inspector/style-target.ts` |
 | `settings-audit` | yes | 9 | 146 | 26 | `src/core/design/classes.ts` `src/core/elements/attributes.ts` `src/core/elements/inputs.ts` `src/core/elements/tag.ts` `src/editor/canvas/text-edit.ts` |
 | `forms-masks-validation` | yes | 2 | 135 | 75 | `src/core/elements/attributes.ts` `src/core/elements/inputs.ts` |
+| `class-moves` | yes | 2 | 3 | 4 | `src/core/design/classes.ts` |
 | `templates-layout` | yes | 1 | 5 | 5 | `src/core/structure/insert.ts` |
 | `templates-content` | yes | 1 | 5 | 7 | `src/core/structure/insert.ts` |
 | `templates-sections` | yes | 1 | 5 | 5 | `src/core/structure/insert.ts` |
 | `reusable-components` | yes | 5 | 9 | 10 | `src/core/design/components.ts` `src/editor/shell/component-prompt.ts` |
 | `repeat-element` | yes | 2 | 5 | 6 | `src/core/design/components.ts` |
 | `templates-components` | yes | 1 | 5 | 5 | `src/core/structure/insert.ts` |
+| `component-master-edit` | yes | 1 | 1 | 1 | `src/core/design/components.ts` |
+| `component-variants` | yes | 1 | 1 | 3 | `src/core/design/components.ts` |
 | `palette-search-groups` | yes | 2 | 6 | 1 | `src/core/structure/insert.ts` `src/editor/palette/palette.ts` |
 | `palette-density` | yes | 1 | 4 | 3 | `src/editor/palette/palette.ts` |
 | `layers-expand-collapse-all` | yes | 2 | 2 | 3 | `src/editor/layers/tree.ts` |
@@ -172,6 +178,7 @@ edited by hand. `npm run inventory:check` fails while this file and the manifest
 | `html-import-states` | yes | 2 | 10 | 1 | `src/core/import/import.ts` `src/editor/view/preview.ts` |
 | `html-import-roundtrip` | yes | 2 | 10 | 1 | `src/core/export/export.ts` `src/core/import/import.ts` |
 | `clipboard-paste-external` | yes | 1 | 4 | 2 | `src/core/clipboard/clipboard.ts` |
+| `capture-url` | yes | 2 | 6 | 3 | `src/editor/import/capture.ts` `src/editor/workspace/dialogs.ts` |
 | `code-panel-view` | yes | 3 | 32 | 5 | `src/editor/code-panel/code-panel.ts` `src/editor/view/editor-view.ts` `src/editor/workspace/panels.ts` |
 | `code-panel-selection-sync` | yes | 1 | 7 | 1 | `src/core/selection/selection.ts` |
 | `code-panel-copy-download` | yes | 2 | 2 | 2 | `src/editor/code-panel/code-panel.ts` |
@@ -196,9 +203,11 @@ edited by hand. `npm run inventory:check` fails while this file and the manifest
 | `custom-fonts` | yes | 3 | 178 | 1 | `src/core/export/export.ts` `src/core/files/files.ts` `src/core/style/set.ts` |
 | `explorer-open-folder` | yes | 2 | 6 | 4 | `src/core/export/export.ts` `src/core/import/folder.ts` |
 | `code-panel-edit-js` | yes | 5 | 21 | 3 | `src/core/export/export.ts` `src/core/files/files.ts` `src/core/page/settings.ts` `src/editor/view/preview.ts` |
+| `command-bar-find` | yes | 3 | 13 | 3 | `src/core/design/classes.ts` `src/core/project/pages.ts` `src/core/selection/selection.ts` |
 | `shortcuts-e2e-sweep` | yes | 0 | 0 | 1 |  |
 | `layout-actions` | yes | 6 | 26 | 14 | `src/core/structure/wrap.ts` `src/core/style/direction.ts` `src/core/style/divider.ts` `src/core/style/organize.ts` |
 | `canvas-grid-editor` | yes | 8 | 15 | 6 | `src/core/style/tracks.ts` `src/editor/canvas/grid-edit.ts` |
+| `batch-rename` | yes | 3 | 9 | 3 | `src/core/nodes/rename-many.ts` `src/editor/menus/context-menu.ts` `src/editor/workspace/dialogs.ts` |
 | `assistant-chat` | yes | 15 | 41 | 15 | `src/editor/assistant/state.ts` `src/editor/workspace/panels.ts` |
 | `layout-composer` | yes | 16 | 69 | 40 | `src/editor/workspace/panels.ts` `src/modules/layout-composer/host/handlers.ts` |
 | `motion-interactions` | yes | 3 | 22 | 64 | `src/core/motion/commands.ts` |
@@ -214,15 +223,6 @@ edited by hand. `npm run inventory:check` fails while this file and the manifest
 | `shared-regions` | yes | 6 | 35 | 5 | `src/core/data/commands.ts` `src/core/project/pages.ts` `src/core/text/text.ts` `src/editor/workspace/panels.ts` |
 | `project-breakpoints` | yes | 9 | 198 | 15 | `src/core/export/export.ts` `src/core/style/set.ts` `src/editor/view/breakpoint-table.ts` `src/editor/view/breakpoints.ts` `src/editor/workspace/dialogs.ts` |
 | `side-by-side-view` | yes | 2 | 12 | 2 | `src/editor/view/breakpoints.ts` `src/editor/view/overlays.ts` |
-| `project-language` | yes | 4 | 11 | 4 | `src/core/export/export.ts` `src/core/project/language.ts` `src/editor/workspace/layout.ts` |
-| `batch-rename` | yes | 3 | 9 | 3 | `src/core/nodes/rename-many.ts` `src/editor/menus/context-menu.ts` `src/editor/workspace/dialogs.ts` |
-| `command-bar-find` | yes | 3 | 13 | 3 | `src/core/design/classes.ts` `src/core/project/pages.ts` `src/core/selection/selection.ts` |
-| `site-colours` | yes | 2 | 2 | 3 | `src/core/design/site-colours.ts` |
-| `class-moves` | yes | 2 | 3 | 4 | `src/core/design/classes.ts` |
-| `style-suggestions` | yes | 1 | 1 | 1 | `src/core/design/suggest.ts` |
-| `component-master-edit` | yes | 1 | 1 | 1 | `src/core/design/components.ts` |
-| `component-variants` | yes | 1 | 1 | 3 | `src/core/design/components.ts` |
-| `capture-url` | yes | 2 | 6 | 3 | `src/editor/import/capture.ts` `src/editor/workspace/dialogs.ts` |
 
 ## The largest modules
 

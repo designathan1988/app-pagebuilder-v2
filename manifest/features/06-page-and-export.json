@@ -2725,6 +2725,772 @@
           "refusals": []
         }
       ]
+    },
+    {
+      "id": "project-language",
+      "titleKey": "feature.projectLanguage",
+      "commands": [
+        "project.setLanguage",
+        "project.setCodeLanguage",
+        "workspace.setActiveTab",
+        "project.export"
+      ],
+      "dependsOn": [
+        "inspector-panel"
+      ],
+      "spec": "spec/BEHAVIOUR.md#project-language",
+      "intent": {
+        "title": "The project's languages",
+        "steps": [
+          "Select the page and open Settings.",
+          "Type the project language and the code language."
+        ],
+        "expected": [
+          "Every page without its own language is exported in the project's; the exported classes are named in the code language."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "the-project-is-set-to-portuguese",
+          "setup": {
+            "fixture": "empty",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.setLanguage#inspector-project-language",
+              "args": {
+                "language": "pt-BR"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.setLanguage#inspector-project-language"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@language",
+                "value": "pt-BR"
+              }
+            ],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.project.languageSet",
+                  "params": {
+                    "language": "pt-BR"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-word-that-is-no-language-tag-is-refused",
+          "setup": {
+            "fixture": "empty",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.setLanguage#inspector-project-language",
+              "args": {
+                "language": "portuguese!"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.setLanguage#inspector-project-language"
+          ],
+          "refusals": [
+            {
+              "key": "status.project.languageInvalid",
+              "document": "unchanged"
+            }
+          ],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.project.languageInvalid",
+                  "params": {
+                    "value": "portuguese!"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "the-code-is-named-in-portuguese",
+          "setup": {
+            "fixture": "empty",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.setCodeLanguage#inspector-code-language",
+              "args": {
+                "language": "pt-BR"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.setCodeLanguage#inspector-code-language"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@codeLanguage",
+                "value": "pt-BR"
+              }
+            ],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.project.codeLanguageSet",
+                  "params": {
+                    "language": "pt-BR"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "the-export-writes-the-project-language",
+          "setup": {
+            "fixture": "empty",
+            "selection": [
+              "/Page"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setActiveTab#inspector-tab-settings",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.setLanguage#inspector-project-language",
+              "args": {
+                "language": "pt-BR"
+              },
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "project.export#toolbar-top-bar-export",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "project.export#toolbar-top-bar-export"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@language",
+                "value": "pt-BR"
+              }
+            ],
+            "selection": [
+              "/Page"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": []
+            },
+            "editor": null,
+            "persistence": null,
+            "export": {
+              "files": [
+                {
+                  "path": "index.html",
+                  "present": [
+                    "<html lang=\"pt-BR\""
+                  ],
+                  "absent": []
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "site-colours",
+      "titleKey": "feature.siteColours",
+      "commands": [
+        "design.replaceColour",
+        "design.colourToVariable"
+      ],
+      "dependsOn": [
+        "css-variables-tokens"
+      ],
+      "spec": "spec/BEHAVIOUR.md#site-colours",
+      "intent": {
+        "title": "Colours in use, replaced or made a variable across the site",
+        "steps": [
+          "Open Styles; under Colours in use, type another colour in a colour's field, or press its variable button."
+        ],
+        "expected": [
+          "Every value of the site that names the colour, however it is written, names the new one (or the new variable), in one undo step."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "a-colour-is-replaced-across-the-site",
+          "setup": {
+            "fixture": "site-colours",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-styles",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "design.replaceColour#styles-site-colour-replace",
+              "args": {
+                "colour": "#b9512a",
+                "value": "#1d4ed8"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "design.replaceColour#styles-site-colour-replace"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@classes",
+                "value": [
+                  {
+                    "name": "accent",
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "color": "#1d4ed8"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/desktop/base/color",
+                "value": "#1d4ed8"
+              },
+              {
+                "op": "set",
+                "path": "/Page/Intro/@styles/desktop/base/background-image",
+                "value": "linear-gradient(90deg, #1d4ed8, #ffffff)"
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Title",
+                  "property": "color",
+                  "value": "rgb(29, 78, 216)"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.siteColours.replaced",
+                  "params": {
+                    "colour": "#b9512a",
+                    "value": "#1d4ed8",
+                    "count": "3"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-colour-becomes-a-variable-every-use-names",
+          "setup": {
+            "fixture": "site-colours",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-styles",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "design.colourToVariable#styles-site-colour-variable",
+              "args": {
+                "colour": "#b9512a",
+                "name": "color-1"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "design.colourToVariable#styles-site-colour-variable"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@tokens",
+                "value": [
+                  {
+                    "name": "color-1",
+                    "kind": "color",
+                    "value": "#b9512a"
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/@classes",
+                "value": [
+                  {
+                    "name": "accent",
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "color": "var(--color-1)"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Title/@styles/desktop/base/color",
+                "value": "var(--color-1)"
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Title",
+                  "property": "color",
+                  "value": "rgb(185, 81, 42)"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.siteColours.madeVariable",
+                  "params": {
+                    "colour": "#b9512a",
+                    "name": "color-1",
+                    "count": "2"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "a-value-that-is-no-colour-is-refused",
+          "setup": {
+            "fixture": "site-colours",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-styles",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "design.replaceColour#styles-site-colour-replace",
+              "args": {
+                "colour": "#b9512a",
+                "value": "bluish"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "design.replaceColour#styles-site-colour-replace"
+          ],
+          "refusals": [
+            {
+              "key": "status.siteColours.invalid",
+              "document": "unchanged"
+            }
+          ],
+          "expect": {
+            "document": [],
+            "selection": [],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Title",
+                  "property": "color",
+                  "value": "rgb(185, 81, 42)"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.siteColours.invalid",
+                  "params": {
+                    "value": "bluish"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "style-suggestions",
+      "titleKey": "feature.styleSuggestions",
+      "commands": [
+        "design.applySuggestion"
+      ],
+      "dependsOn": [],
+      "spec": "spec/BEHAVIOUR.md#style-suggestions",
+      "intent": {
+        "title": "Repeated styles offered as one class",
+        "steps": [
+          "Open Styles: under Suggestions, press Make class .section beside 2 × Section share padding."
+        ],
+        "expected": [
+          "A class holds the shared declarations, every section lists it and keeps none of them of its own, one undo step."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "the-sections-shared-padding-becomes-one-class",
+          "setup": {
+            "fixture": "repeated-sections",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "workspace.setPanelOpen#toolbar-activity-bar-styles",
+              "args": {},
+              "target": null,
+              "drop": null,
+              "action": false,
+              "hold": false,
+              "type": null
+            },
+            {
+              "door": "design.applySuggestion#styles-suggestion-apply",
+              "args": {
+                "type": "section",
+                "name": "section"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "design.applySuggestion#styles-suggestion-apply"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/@classes",
+                "value": [
+                  {
+                    "name": "section",
+                    "styles": {
+                      "desktop": {
+                        "base": {
+                          "padding-top": "56px",
+                          "padding-right": "40px",
+                          "padding-bottom": "56px",
+                          "padding-left": "40px"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Hero/@styles",
+                "value": {}
+              },
+              {
+                "op": "set",
+                "path": "/Page/Hero/@classes",
+                "value": [
+                  "section"
+                ]
+              },
+              {
+                "op": "set",
+                "path": "/Page/Plans/@styles",
+                "value": {}
+              },
+              {
+                "op": "set",
+                "path": "/Page/Plans/@classes",
+                "value": [
+                  "section"
+                ]
+              }
+            ],
+            "selection": [],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Plans",
+                  "property": "padding-top",
+                  "value": "56px"
+                }
+              ],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.suggest.applied",
+                  "params": {
+                    "name": "section",
+                    "count": "2"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        }
+      ]
     }
   ]
 }

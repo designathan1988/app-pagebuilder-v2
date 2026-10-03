@@ -125,6 +125,9 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `export-zip` | Export the page as a ZIP with HTML and a separate CSS file | yes | 5 | 2 | [export-zip](../spec/BEHAVIOUR.md#export-zip) | 8 | — |
 | `css-variables-tokens` | Design tokens as CSS variables | yes | 11 | 7 | [css-variables-tokens](../spec/BEHAVIOUR.md#css-variables-tokens) | 7 | — |
 | `export-bem-css` | Exported CSS uses readable BEM classes and is deterministic | yes | 3 | 1 | [export-bem-css](../spec/BEHAVIOUR.md#export-bem-css) | 5 | — |
+| `project-language` | The project’s languages | yes | 4 | 3 | [project-language](../spec/BEHAVIOUR.md#project-language) | 0 | — |
+| `site-colours` | Colours in use, replaced or made a variable across the site | yes | 3 | 2 | [site-colours](../spec/BEHAVIOUR.md#site-colours) | 0 | — |
+| `style-suggestions` | Repeated styles offered as one class | yes | 1 | 1 | [style-suggestions](../spec/BEHAVIOUR.md#style-suggestions) | 0 | — |
 
 ## 07-elements
 
@@ -152,6 +155,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `settings-class-management` | Manage Settings classes and attributes | yes | 6 | 5 | [settings-class-management](../spec/BEHAVIOUR.md#settings-class-management) | 0 | — |
 | `settings-audit` | Organised Settings | yes | 26 | 26 | [settings-audit](../spec/BEHAVIOUR.md#settings-audit) | 1 | — |
 | `forms-masks-validation` | Form masks and validation | yes | 75 | 74 | [forms-masks-validation](../spec/BEHAVIOUR.md#forms-masks-validation) | 0 | — |
+| `class-moves` | Move styles into a class; apply a class to every similar element | yes | 4 | 3 | [class-moves](../spec/BEHAVIOUR.md#class-moves) | 1 | — |
 
 ## 08-templates-and-components
 
@@ -163,6 +167,8 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `reusable-components` | Reusable components with instances | yes | 10 | 9 | [reusable-components](../spec/BEHAVIOUR.md#reusable-components) | 4 | — |
 | `repeat-element` | Repeat an element | yes | 6 | 6 | [repeat-element](../spec/BEHAVIOUR.md#repeat-element) | 0 | — |
 | `templates-components` | Component templates: Form group, Button group, Tabs, Accordion, Modal | yes | 5 | 1 | [templates-components](../spec/BEHAVIOUR.md#templates-components) | 1 | — |
+| `component-master-edit` | An instance edited in place updates its component and every instance | yes | 1 | 1 | [component-master-edit](../spec/BEHAVIOUR.md#component-master-edit) | 0 | — |
+| `component-variants` | Variants of a component, chosen per instance | yes | 3 | 1 | [component-variants](../spec/BEHAVIOUR.md#component-variants) | 0 | — |
 
 ## 09-panels
 
@@ -253,6 +259,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `html-import-states` | Import pseudo-class rules as state styles | yes | 1 | 2 | [html-import-states](../spec/BEHAVIOUR.md#html-import-states) | 1 | — |
 | `html-import-roundtrip` | Exported pages import back unchanged | yes | 1 | 2 | [html-import-roundtrip](../spec/BEHAVIOUR.md#html-import-roundtrip) | 1 | — |
 | `clipboard-paste-external` | Paste HTML and text copied from outside the app | yes | 2 | 2 | [clipboard-paste-external](../spec/BEHAVIOUR.md#clipboard-paste-external) | 2 | — |
+| `capture-url` | Open any web address as a page of the project | yes | 3 | 2 | [capture-url](../spec/BEHAVIOUR.md#capture-url) | 0 | — |
 
 ## 17-code-panel
 
@@ -292,6 +299,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `custom-fonts` | Use custom font files | yes | 1 | 1 | [custom-fonts](../spec/BEHAVIOUR.md#custom-fonts) | 1 | — |
 | `explorer-open-folder` | Open a whole folder from disk | yes | 4 | 3 | [explorer-open-folder](../spec/BEHAVIOUR.md#explorer-open-folder) | 1 | — |
 | `code-panel-edit-js` | Edit JavaScript files in the Code panel | yes | 3 | 3 | [code-panel-edit-js](../spec/BEHAVIOUR.md#code-panel-edit-js) | 1 | — |
+| `command-bar-find` | Pages, layers and classes in the command bar | yes | 3 | 3 | [command-bar-find](../spec/BEHAVIOUR.md#command-bar-find) | 0 | — |
 
 ## 20-shortcut-sweep
 
@@ -305,6 +313,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 |---|---|---|---|---|---|---|---|
 | `layout-actions` | Wrap in a container or a grid, swap the direction, stack on the phone, organize the children and divide the columns | yes | 14 | 26 | [layout-actions](../spec/BEHAVIOUR.md#layout-actions) | 3 | — |
 | `canvas-grid-editor` | Edit a grid on the canvas: its tracks, its cells and the items in them | yes | 6 | 6 | [canvas-grid-editor](../spec/BEHAVIOUR.md#canvas-grid-editor) | 3 | — |
+| `batch-rename` | Renaming in batch | yes | 3 | 2 | [batch-rename](../spec/BEHAVIOUR.md#batch-rename) | 0 | — |
 
 ## 22-assistant
 
@@ -345,12 +354,3 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 |---|---|---|---|---|---|---|---|
 | `project-breakpoints` | The project's own breakpoints | yes | 15 | 10 | [project-breakpoints](../spec/BEHAVIOUR.md#project-breakpoints) | 0 | — |
 | `side-by-side-view` | Breakpoints side by side | yes | 2 | 2 | [side-by-side-view](../spec/BEHAVIOUR.md#side-by-side-view) | 0 | — |
-| `project-language` | The project’s languages | yes | 4 | 3 | [project-language](../spec/BEHAVIOUR.md#project-language) | 0 | — |
-| `batch-rename` | Renaming in batch | yes | 3 | 2 | [batch-rename](../spec/BEHAVIOUR.md#batch-rename) | 0 | — |
-| `command-bar-find` | Pages, layers and classes in the command bar | yes | 3 | 3 | [command-bar-find](../spec/BEHAVIOUR.md#command-bar-find) | 0 | — |
-| `site-colours` | Colours in use, replaced or made a variable across the site | yes | 3 | 2 | [site-colours](../spec/BEHAVIOUR.md#site-colours) | 0 | — |
-| `class-moves` | Move styles into a class; apply a class to every similar element | yes | 4 | 3 | [class-moves](../spec/BEHAVIOUR.md#class-moves) | 1 | — |
-| `style-suggestions` | Repeated styles offered as one class | yes | 1 | 1 | [style-suggestions](../spec/BEHAVIOUR.md#style-suggestions) | 0 | — |
-| `component-master-edit` | An instance edited in place updates its component and every instance | yes | 1 | 1 | [component-master-edit](../spec/BEHAVIOUR.md#component-master-edit) | 0 | — |
-| `component-variants` | Variants of a component, chosen per instance | yes | 3 | 1 | [component-variants](../spec/BEHAVIOUR.md#component-variants) | 0 | — |
-| `capture-url` | Open any web address as a page of the project | yes | 3 | 2 | [capture-url](../spec/BEHAVIOUR.md#capture-url) | 0 | — |

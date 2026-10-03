@@ -403,7 +403,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-31 | 1 | The `forms-mask` flow broken since `87eb183` | audit | done (QA 183) |
 | AUD-32 | 1 | Minified-style source in the assistant and some tests | audit | done (QA 186) |
 | AUD-33 | 1 | 11 controls outside the manifest (`data-local`) | audit | done (QA 187) |
-| AUD-34 | 1 | A test edited per new feature; misfiled manifest group | audit | open |
+| AUD-34 | 1 | A test edited per new feature; misfiled manifest group | audit | done (QA 188) |
 | AUD-35 | 1 | Weak tests and thinly covered features | audit | open |
 | AUD-36 | 1 | Undo by keys over its 35 ms per-group reference | audit; QA 44, 80 | open |
 | AUD-38 | 1 | Crash journal silently off for projects over the storage quota (probable) | audit | open |

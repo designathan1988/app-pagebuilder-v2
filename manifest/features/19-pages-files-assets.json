@@ -6158,6 +6158,205 @@
           "refusals": []
         }
       ]
+    },
+    {
+      "id": "command-bar-find",
+      "titleKey": "feature.commandBarFind",
+      "commands": [
+        "pages.switch",
+        "selection.select",
+        "classes.apply"
+      ],
+      "dependsOn": [
+        "command-bar"
+      ],
+      "spec": "spec/BEHAVIOUR.md#command-bar-find",
+      "intent": {
+        "title": "Pages, layers and classes in the command bar",
+        "steps": [
+          "Open the command bar and type a page's, an element's or a class's name (or @ first)."
+        ],
+        "expected": [
+          "Go to the page, select the element, or apply the class to the selection."
+        ]
+      },
+      "scenarios": [
+        {
+          "id": "the-bar-goes-to-a-page-by-its-name",
+          "setup": {
+            "fixture": "content-site",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "pages.switch#command-bar-go-to-page",
+              "args": {
+                "page": "/About page"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "pages.switch#command-bar-go-to-page"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [],
+            "selection": [],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.pages.opened",
+                  "params": {
+                    "name": "About"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "the-bar-selects-an-element-by-its-name",
+          "setup": {
+            "fixture": "aurora",
+            "selection": [],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "selection.select#command-bar-select-layer",
+              "args": {
+                "target": "/Page/Hero/Title"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "selection.select#command-bar-select-layer"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [],
+            "selection": [
+              "/Page/Hero/Title"
+            ],
+            "history": {
+              "undoSteps": 0,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [],
+              "geometry": [],
+              "feedback": [
+                {
+                  "key": "status.selected",
+                  "params": {
+                    "name": "Title"
+                  }
+                }
+              ]
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        },
+        {
+          "id": "the-bar-applies-a-class-to-the-selection",
+          "setup": {
+            "fixture": "classes-title",
+            "selection": [
+              "/Page/Title"
+            ],
+            "context": "global",
+            "breakpoint": "desktop",
+            "state": "base",
+            "locale": "en",
+            "viewport": "desktop-1440",
+            "zoom": 100
+          },
+          "steps": [
+            {
+              "door": "classes.apply#command-bar-apply-class",
+              "args": {
+                "className": "accent"
+              },
+              "target": null,
+              "drop": null,
+              "action": true,
+              "hold": false,
+              "type": null
+            }
+          ],
+          "doors": [
+            "classes.apply#command-bar-apply-class"
+          ],
+          "refusals": [],
+          "expect": {
+            "document": [
+              {
+                "op": "set",
+                "path": "/Page/Title/@classes",
+                "value": [
+                  "accent"
+                ]
+              }
+            ],
+            "selection": [
+              "/Page/Title"
+            ],
+            "history": {
+              "undoSteps": 1,
+              "undoRestores": true,
+              "redoRestores": true
+            },
+            "render": {
+              "computed": [
+                {
+                  "node": "/Page/Title",
+                  "property": "color",
+                  "value": "rgb(185, 81, 42)"
+                }
+              ],
+              "geometry": [],
+              "feedback": []
+            },
+            "editor": null,
+            "persistence": null,
+            "export": null
+          }
+        }
+      ]
     }
   ]
 }
