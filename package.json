@@ -33,7 +33,8 @@
     "journey": "node tools/journey/run.ts",
     "journey:check": "node --test tools/journey/*.test.mjs",
     "journey:offline": "node tools/journey/cli.mjs",
-    "fidelity": "node tools/journey/fidelity.ts"
+    "fidelity": "node tools/journey/fidelity.ts",
+    "parity": "playwright test -c tools/parity/parity.config.ts && node tools/parity/report.ts"
   },
   "dependencies": {
     "html-to-image": "1.11.13",

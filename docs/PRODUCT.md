@@ -102,7 +102,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-0.1 | New repository: origin = app-pagebuilder-v2, old repository remote `v1` | done | `git remote -v` |
 | STG-0.2 | Each J reproduced first by a failing test (`tests/e2e/jornada03-*.spec.ts`) | done | QA 200: `tests/e2e/jornada03.json` maps J1–J28 to the tests that replay them (checked by `tools/inventory/jornada03.test.ts`), `tests/e2e/jornada03.spec.ts` replays the seven no test replayed |
 | STG-0.3 | Task meter: `npm run journey -- <task>` replays M1…C5/P1…P4 with the scoreboard | done | QA 201: `tools/journey/` (19 tasks in Chrome, the scoreboard of H1–H17, `npm run fidelity`); H10 and H16 stay with the export checks and `npm run perf` |
-| STG-0.4 | Parity with the canonical: 12 states × dark/light × en/pt-BR, numeric diff per control, PAIRING-2 generated | partial | `tools/parity/pair.ts` (12 states × 2 themes, English only, region boxes); `docs/archive/PAIRING-2.md` was written by hand; DEC-09 |
+| STG-0.4 | Parity with the canonical: 12 states × dark/light × en/pt-BR, numeric diff per control, PAIRING-2 generated | partial | QA 203: `npm run parity` measures the 48 pairs and writes `docs/PAIRING.md`; 5,452 divergences of 223 kinds open |
 | STG-0.5 | Performance budget: input to frame p50/p95, opening, undo | done | `npm run perf` (QA 44, 80); AUD-36 |
 | STG-1.J1a | A refused commit becomes a spoken refusal; the dispatch answers `refused` | done | QA 32 (`917a35b`); named without placeholders and contained per region QA 149 |
 | STG-1.J1b | `var()` in a composite written into its longhands; mixed composites refused before patches | done | QA 32 |
@@ -609,7 +609,8 @@ predicate hardening, the invariant probe in the gate, and the security set.
 | `npm run perf:layout` | The Layout tool's pointer budget (≤ 16 ms per move) | — |
 | `npm run modules:removal <name>` | The application builds and checks without a module | minutes |
 | `npm run companion` | The Builder Companion on 127.0.0.1:5410 (capture of web addresses, the assistant's bridge and MCP tools) | — |
-| `node tools/parity/pair.ts <state> [light]` | The app against `design/final/index.html` in one of 12 states, region by region, crops and a report in `.cache/logs/parity-<time>/`; `node tools/parity/join.ts <dir>` joins each pair (needs the canonical served on 5394, `.claude/launch.json` design-static) | ~10 s each |
+| `npm run parity` | The app's e2e build and `design/final/index.html` measured side by side in Chrome, 12 states × 2 themes × 2 languages, every region and control both mark; writes `docs/pairing.json` and `docs/PAIRING.md` (`tools/parity/`) | ~6 min |
+| `node tools/parity/pair.ts <state> [light]` | The app against `design/final/index.html` in one of 12 states, region by region, crops and a report in `.cache/logs/parity-<time>/`; `node tools/parity/join.ts <dir>` joins each pair (needs the canonical served on 5394: `node tools/parity/serve-design.ts`) | ~10 s each |
 | `npm run journey [-- <task>…]` | The jornada03 tasks (M1…M5, M3R, D1…D4, C1…C5, P2…P4, H2) replayed in Chrome on the e2e build, a photo per step, then the scoreboard of H1–H17 (`tools/journey/`; records and photos in `.cache/logs/journey/`) | ~3 min |
 | `npm run fidelity -- <site> <target.html>` | The study's fidelity measure of an exported site against the original at 1440, 1180, 834 and 390 | ~20 s |
 | `npm run journey:offline`, `npm run journey:check` | The study's offline scorer and its tests | seconds |

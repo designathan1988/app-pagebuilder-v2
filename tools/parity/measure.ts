@@ -1,0 +1,110 @@
+// The numeric pairing of the app with the canonical design (STG-0.4): what each side draws in a state — every region
+// both mark with data-region, every control both mark with data-door (the n-th drawn of each door, in document order) —
+// measured the same way, and the divergences between the two beyond the tolerances below.
+import type { Page } from '@playwright/test';
+
+export interface Measured {
+  readonly id: string;
+  readonly width: number;
+  readonly height: number;
+  readonly font: string;
+  readonly color: string;
+  readonly background: string;
+  readonly radius: string;
+  // a control holds words (its width is its words'), else it is an icon or a box
+  readonly worded: boolean;
+  // it draws an icon (an svg, whose strokes take its colour)
+  readonly icon: boolean;
+  // it draws an edge (a border), so its corners show
+  readonly edged: boolean;
+}
+export interface Drawn {
+  readonly regions: readonly Measured[];
+  readonly controls: readonly Measured[];
+}
+export interface Divergence {
+  readonly kind: 'region' | 'control';
+  readonly id: string;
+  readonly property: string;
+  readonly canon: string;
+  readonly app: string;
+}
+
+// What a page draws inside the window: its regions and its controls, each keyed by its mark (a control: its door and
+// the order it is drawn in among that door's controls).
+export const drawn = (page: Page): Promise<Drawn> =>
+  page.evaluate(() => {
+    const inside = (r: DOMRect) => r.width >= 2 && r.height >= 2 && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
+    // a control's face: the element a person reads and presses (a field's input, a row's button), whichever element
+    // carries the door's mark on each side (the design marks an input, the app the field's row)
+    const faceOf = (el: Element): Element => (el.matches('input, select, textarea, button') ? el : (el.querySelector('input:not([type=hidden]), select, textarea') ?? el));
+    const measure = (marked: Element, id: string) => {
+      const el = id.includes(' ') ? faceOf(marked) : marked;
+      const r = el.getBoundingClientRect();
+      const s = getComputedStyle(el);
+      return {
+        id,
+        width: Math.round(r.width * 10) / 10,
+        height: Math.round(r.height * 10) / 10,
+        font: `${s.fontSize} ${s.fontWeight}`,
+        color: s.color,
+        background: s.backgroundColor,
+        radius: s.borderTopLeftRadius,
+        worded: (el.textContent ?? '').trim() !== '' || (el instanceof HTMLInputElement && el.value.trim() !== ''),
+        icon: el.querySelector('svg') !== null || el.localName === 'svg',
+        edged: parseFloat(s.borderTopWidth) > 0 && s.borderTopStyle !== 'none',
+      };
+    };
+    const regions = [...document.querySelectorAll('[data-region]')].filter((el) => inside(el.getBoundingClientRect())).map((el) => measure(el, el.getAttribute('data-region') as string));
+    const seen = new Map<string, number>();
+    const controls = [...document.querySelectorAll('[data-door]')]
+      .filter((el) => inside(el.getBoundingClientRect()))
+      .map((el) => {
+        const door = el.getAttribute('data-door') as string;
+        const n = (seen.get(door) ?? 0) + 1;
+        seen.set(door, n);
+        return measure(el, `${door} ${n}`);
+      });
+    return { regions, controls };
+  });
+
+// the tolerances: a size within 2 px (a region's within 4: what it holds may differ by a line), a colour within 16 of
+// each channel's sum of differences, the font and the radius alike
+const SIZE = { region: 4, control: 2 } as const;
+const COLOUR = 16;
+const channels = (colour: string) => (colour.match(/[\d.]+/g) ?? []).map(Number);
+const colourDistance = (a: string, b: string) => {
+  const [x, y] = [channels(a), channels(b)];
+  // a transparent colour (alpha 0) is no colour, whatever its channels say
+  const clear = (c: number[]) => c.length === 4 && c[3] === 0;
+  if (clear(x) || clear(y)) return clear(x) && clear(y) ? 0 : Number.POSITIVE_INFINITY;
+  return [0, 1, 2].reduce((sum, i) => sum + Math.abs((x[i] ?? 0) - (y[i] ?? 0)), 0);
+};
+
+// The divergences of one kind of thing drawn: a thing the canonical draws that the app does not, and every measure of
+// a thing both draw that differs beyond its tolerance, where it shows. (A region or a control the app draws and the
+// canonical does not is the app's own: the canonical shows one state of one page.) What shows: a width where no words
+// set it; a font where there are words; a colour where there are words or an icon; corners where a background or an
+// edge draws them.
+export function diverging(kind: Divergence['kind'], canon: readonly Measured[], app: readonly Measured[]): Divergence[] {
+  const found: Divergence[] = [];
+  const doors = new Set(app.map((one) => one.id.split(' ')[0]));
+  for (const one of canon) {
+    const other = app.find((candidate) => candidate.id === one.id);
+    if (other === undefined) {
+      // a control drawn fewer times in the app is the content's (the project holds fewer rows); a door the app draws
+      // nowhere in the state is missing
+      if (kind === 'region' || !doors.has(one.id.split(' ')[0])) found.push({ kind, id: one.id, property: 'drawn', canon: 'yes', app: 'no' });
+      continue;
+    }
+    const add = (property: string, a: string, b: string) => found.push({ kind, id: one.id, property, canon: a, app: b });
+    if (Math.abs(one.height - other.height) > SIZE[kind]) add('height', `${one.height}`, `${other.height}`);
+    if ((kind === 'region' || !one.worded) && Math.abs(one.width - other.width) > SIZE[kind]) add('width', `${one.width}`, `${other.width}`);
+    if ((one.worded || other.worded) && one.font !== other.font) add('font', one.font, other.font);
+    if ((one.worded || one.icon || other.worded || other.icon) && colourDistance(one.color, other.color) > COLOUR) add('colour', one.color, other.color);
+    if (colourDistance(one.background, other.background) > COLOUR) add('background', one.background, other.background);
+    const cornered = (m: Measured) => m.edged || colourDistance(m.background, 'rgba(0, 0, 0, 0)') !== 0;
+    if ((cornered(one) || cornered(other)) && one.radius !== other.radius) add('radius', one.radius, other.radius);
+  }
+  return found;
+}

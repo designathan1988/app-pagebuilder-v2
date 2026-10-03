@@ -1,0 +1,18 @@
+{
+  "about": "The recorded decisions (docs/PRODUCT.md, section 4) that keep a divergence of the app from the canonical design; tools/parity/report.ts reads them. A match names a divergence's kind, its mark (a region's id, a control's door without its order), and optionally its property and state.",
+  "decisions": [
+    {
+      "decision": "DEC-03",
+      "why": "Fit leaves 8 px around the page, where the canonical shows 24",
+      "matches": [
+        { "kind": "region", "id": "canvas-frame", "property": "width" },
+        { "kind": "region", "id": "canvas-frame", "property": "height" }
+      ]
+    },
+    {
+      "decision": "DEC-21",
+      "why": "Page tabs carry no ×; code file tabs do",
+      "matches": [{ "kind": "control", "id": "files.closeTab#file-tab-close", "property": "drawn" }]
+    }
+  ]
+}
