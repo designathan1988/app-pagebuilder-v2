@@ -6,7 +6,7 @@
     "doors": 1350,
     "scenarios": 1819,
     "modules": 424,
-    "lines": 79903
+    "lines": 79910
   },
   "features": [
     {
@@ -5352,7 +5352,7 @@
     },
     {
       "path": "src/editor/explorer/file-tabs.ts",
-      "lines": 52,
+      "lines": 56,
       "commands": [
         "files.closeTab"
       ],
@@ -6185,7 +6185,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1196,
+      "lines": 1199,
       "commands": [],
       "features": []
     },

@@ -286,7 +286,9 @@ function NameField({ node }: { readonly node: DocNode }) {
 // token stands for — the value the stylesheet holds, so the document keeps a colour and not the name of a token — and
 // the dot's door with no colour takes it away again, which the palette's first row offers while a colour is set. The
 // row wears the colour and the canvas draws the element's selection in it; it never reaches the export.
-function LayerPalette({ entry, node }: { readonly entry: DoorEntry; readonly node: DocNode }) {
+// A coloured row's palette stands where its dot is, before its icon, the dot its door (lead); a row without a colour
+// offers it among its actions, on the row's hover.
+function LayerPalette({ entry, node, lead = false }: { readonly entry: DoorEntry; readonly node: DocNode; readonly lead?: boolean }) {
   const t = useT();
   // the palette is open while the person is using it: the dot's press opens it (its own command re-writes the colour
   // it already holds, so the press changes nothing), a swatch press closes it
@@ -299,10 +301,11 @@ function LayerPalette({ entry, node }: { readonly entry: DoorEntry; readonly nod
     return held === '' ? token : held;
   };
   return (
-    <span className={open ? 'row__palette is-open' : 'row__palette'} style={chosen === undefined ? undefined : { '--row-colour': layerColourCss(chosen) } as CSSProperties}>
+    <span className={`row__palette${lead ? ' row__palette--lead' : ''}${open ? ' is-open' : ''}`} style={chosen === undefined ? undefined : { '--row-colour': layerColourCss(chosen) } as CSSProperties}>
       <span onClick={() => setOpen((one) => !one)}>
-        <DoorControl entry={entry} args={{ target: node.id, color: chosen ?? '' }} tabbable={false} />
+        <DoorControl entry={entry} args={{ target: node.id, color: chosen ?? '' }} tabbable={false} {...(lead ? { icon: null } : {})} />
       </span>
+      {lead && chosen !== undefined ? <span className="row__colour-dot" style={{ '--row-colour': layerColourCss(chosen) } as CSSProperties} aria-hidden /> : null}
       <span className="row__swatches" role="group" aria-label={t('layers.labelColour')}>
         {chosen === undefined ? null : <span className="row__swatch row__swatch--none" onClick={() => setOpen(false)}><DoorControl entry={entry} args={{ target: node.id, color: '' }} tabbable={false} /></span>}
         {/* the colour the row wears is drawn marked and is no door: pressing it would change nothing, and the dot
@@ -457,7 +460,7 @@ function LayersRow({ node, depth, view }: { readonly node: DocNode; readonly dep
         )}
         {/* a coloured row shows its colour before its icon, as the canonical layers list does (stage 5); the palette
             that chooses it stays among the row's actions */}
-        {colour === undefined ? null : <span className="row__colour-dot" style={{ '--row-colour': layerColourCss(colour) } as CSSProperties} aria-hidden />}
+        {colour === undefined || LAYERS_COLOUR === undefined ? null : <LayerPalette entry={LAYERS_COLOUR} node={node} lead />}
         {/* an instance of a component wears the component's icon and names its component (jornada03 J21) */}
         <Icon name={node.component !== undefined ? COMPONENT_ICON : (elementIcon(node.type) ?? GLYPHS.folder)} size="sm" />
         {renaming ? (
@@ -486,7 +489,7 @@ function LayersRow({ node, depth, view }: { readonly node: DocNode; readonly dep
             b.ref !== LAYERS_COLOUR?.ref ? (
               <DoorControl key={b.ref} entry={b} args={{ target: node.id }} tabbable={false} />
             ) : (
-              <LayerPalette key={b.ref} entry={b} node={node} />
+              colour === undefined ? <LayerPalette key={b.ref} entry={b} node={node} /> : null
             ),
           )}
           <RowPickTarget node={node} />

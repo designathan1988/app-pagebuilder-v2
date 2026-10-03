@@ -7,65 +7,63 @@ Never edited by hand: `tools/parity/pairing.test.ts` fails while it is out of st
 Every region both sides mark (`data-region`) and every control both mark (`data-door`, the n-th of each door) is
 measured on both sides; a divergence is a size beyond 2 px (a region's beyond 4), a font, a colour beyond 16 of the
 channels' summed difference, or corners, where they show — or something the design draws and the app does not.
-Open: 464 divergences of 68 kinds. Decisions (docs/PRODUCT.md, section 4) keep the others.
+Open: 336 divergences of 66 kinds. Decisions (docs/PRODUCT.md, section 4) keep the others.
 
 | State | Theme | Language | Regions | Controls | Open | Kept by a decision |
 |---|---|---|---|---|---|---|
-| default | dark | en | 15 | 117 | 5 | 13 |
-| selection | dark | en | 16 | 117 | 6 | 13 |
-| breakpoint | dark | en | 15 | 126 | 7 | 16 |
-| menu | dark | en | 16 | 134 | 14 | 14 |
-| context | dark | en | 16 | 133 | 9 | 14 |
-| palette | dark | en | 16 | 119 | 6 | 13 |
-| multi | dark | en | 15 | 116 | 8 | 13 |
-| state | dark | en | 12 | 77 | 3 | 15 |
-| text | dark | en | 15 | 113 | 11 | 16 |
-| interaction | dark | en | 14 | 107 | 34 | 8 |
-| hover | dark | en | 12 | 102 | 8 | 12 |
-| drag | dark | en | 14 | 117 | 5 | 13 |
-| default | light | en | 15 | 117 | 5 | 13 |
-| selection | light | en | 16 | 117 | 6 | 13 |
-| breakpoint | light | en | 15 | 126 | 7 | 16 |
-| menu | light | en | 16 | 134 | 14 | 14 |
-| context | light | en | 16 | 133 | 9 | 14 |
-| palette | light | en | 16 | 119 | 6 | 13 |
-| multi | light | en | 15 | 116 | 8 | 13 |
-| state | light | en | 12 | 77 | 3 | 15 |
-| text | light | en | 15 | 113 | 11 | 16 |
-| interaction | light | en | 14 | 107 | 34 | 8 |
-| hover | light | en | 12 | 102 | 8 | 12 |
-| drag | light | en | 14 | 117 | 5 | 13 |
-| default | dark | pt-BR | 15 | 117 | 5 | 14 |
-| selection | dark | pt-BR | 16 | 117 | 6 | 14 |
-| breakpoint | dark | pt-BR | 15 | 126 | 7 | 16 |
-| menu | dark | pt-BR | 16 | 134 | 14 | 15 |
-| context | dark | pt-BR | 16 | 133 | 9 | 15 |
-| palette | dark | pt-BR | 16 | 119 | 6 | 14 |
-| multi | dark | pt-BR | 15 | 116 | 8 | 13 |
-| state | dark | pt-BR | 12 | 77 | 3 | 15 |
-| text | dark | pt-BR | 15 | 113 | 11 | 16 |
-| interaction | dark | pt-BR | 14 | 107 | 34 | 8 |
-| hover | dark | pt-BR | 12 | 102 | 8 | 13 |
-| drag | dark | pt-BR | 14 | 117 | 5 | 14 |
-| default | light | pt-BR | 15 | 117 | 5 | 14 |
-| selection | light | pt-BR | 16 | 117 | 6 | 14 |
-| breakpoint | light | pt-BR | 15 | 126 | 7 | 16 |
-| menu | light | pt-BR | 16 | 134 | 14 | 15 |
-| context | light | pt-BR | 16 | 133 | 9 | 15 |
-| palette | light | pt-BR | 16 | 119 | 6 | 14 |
-| multi | light | pt-BR | 15 | 116 | 8 | 13 |
-| state | light | pt-BR | 12 | 77 | 3 | 15 |
-| text | light | pt-BR | 15 | 113 | 11 | 16 |
-| interaction | light | pt-BR | 14 | 107 | 34 | 8 |
-| hover | light | pt-BR | 12 | 102 | 8 | 13 |
-| drag | light | pt-BR | 14 | 117 | 5 | 14 |
+| default | dark | en | 15 | 117 | 2 | 10 |
+| selection | dark | en | 16 | 117 | 3 | 10 |
+| breakpoint | dark | en | 15 | 126 | 4 | 13 |
+| menu | dark | en | 16 | 134 | 11 | 11 |
+| context | dark | en | 16 | 133 | 6 | 11 |
+| palette | dark | en | 16 | 119 | 3 | 10 |
+| multi | dark | en | 15 | 116 | 5 | 10 |
+| state | dark | en | 12 | 77 | 2 | 12 |
+| text | dark | en | 15 | 113 | 8 | 13 |
+| interaction | dark | en | 14 | 107 | 31 | 5 |
+| hover | dark | en | 12 | 102 | 7 | 9 |
+| drag | dark | en | 14 | 117 | 2 | 10 |
+| default | light | en | 15 | 117 | 2 | 10 |
+| selection | light | en | 16 | 117 | 3 | 10 |
+| breakpoint | light | en | 15 | 126 | 4 | 13 |
+| menu | light | en | 16 | 134 | 11 | 11 |
+| context | light | en | 16 | 133 | 6 | 11 |
+| palette | light | en | 16 | 119 | 3 | 10 |
+| multi | light | en | 15 | 116 | 5 | 10 |
+| state | light | en | 12 | 77 | 2 | 12 |
+| text | light | en | 15 | 113 | 8 | 13 |
+| interaction | light | en | 14 | 107 | 31 | 5 |
+| hover | light | en | 12 | 102 | 7 | 9 |
+| drag | light | en | 14 | 117 | 2 | 10 |
+| default | dark | pt-BR | 15 | 117 | 2 | 11 |
+| selection | dark | pt-BR | 16 | 117 | 3 | 11 |
+| breakpoint | dark | pt-BR | 15 | 126 | 4 | 13 |
+| menu | dark | pt-BR | 16 | 134 | 11 | 12 |
+| context | dark | pt-BR | 16 | 133 | 6 | 12 |
+| palette | dark | pt-BR | 16 | 119 | 3 | 11 |
+| multi | dark | pt-BR | 15 | 116 | 5 | 10 |
+| state | dark | pt-BR | 12 | 77 | 2 | 12 |
+| text | dark | pt-BR | 15 | 113 | 8 | 13 |
+| interaction | dark | pt-BR | 14 | 107 | 31 | 5 |
+| hover | dark | pt-BR | 12 | 102 | 7 | 10 |
+| drag | dark | pt-BR | 14 | 117 | 2 | 11 |
+| default | light | pt-BR | 15 | 117 | 2 | 11 |
+| selection | light | pt-BR | 16 | 117 | 3 | 11 |
+| breakpoint | light | pt-BR | 15 | 126 | 4 | 13 |
+| menu | light | pt-BR | 16 | 134 | 11 | 12 |
+| context | light | pt-BR | 16 | 133 | 6 | 12 |
+| palette | light | pt-BR | 16 | 119 | 3 | 11 |
+| multi | light | pt-BR | 15 | 116 | 5 | 10 |
+| state | light | pt-BR | 12 | 77 | 2 | 12 |
+| text | light | pt-BR | 15 | 113 | 8 | 13 |
+| interaction | light | pt-BR | 14 | 107 | 31 | 5 |
+| hover | light | pt-BR | 12 | 102 | 7 | 10 |
+| drag | light | pt-BR | 14 | 117 | 2 | 11 |
 
 ## Open divergences
 
 | What | Pairs | Design | App | First pairs |
 |---|---|---|---|---|
-| control `element.setLayerColor#layers-row-colour-dot` colour | 80 | rgb(217, 222, 230) | rgb(168, 176, 189) | default/dark/en, default/dark/en, selection/dark/en |
-| control `files.open#file-tab` drawn | 48 | yes | no | default/dark/en, selection/dark/en, breakpoint/dark/en |
 | region `inspector-selector-bar` height | 40 | 153 | 159 | default/dark/en, selection/dark/en, breakpoint/dark/en |
 | region `quick-panel` colour | 36 | rgb(135, 145, 160) | rgb(168, 176, 189) | default/dark/en, selection/dark/en, selection/dark/en |
 | control `animation.rename#timeline-animation-name-field` drawn | 8 | yes | no | interaction/dark/en, interaction/dark/en, interaction/light/en |
@@ -79,9 +77,9 @@ Open: 464 divergences of 68 kinds. Decisions (docs/PRODUCT.md, section 4) keep t
 | control `animation.setSettings#timeline-setting-duration` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `animation.setSettings#timeline-setting-iterations` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `components.create#context-menu` drawn | 4 | yes | no | context/dark/en, context/light/en, context/dark/pt-BR |
-| control `element.moveDown#context-menu` background | 4 | rgb(44, 196, 176) | rgba(0, 0, 0, 0) | context/dark/en, context/light/en, context/dark/pt-BR |
+| control `element.moveDown#context-menu` background | 4 | rgb(44, 196, 176) | rgb(31, 36, 44) | context/dark/en, context/light/en, context/dark/pt-BR |
 | control `element.moveDown#context-menu` colour | 4 | rgb(4, 32, 28) | rgb(217, 222, 230) | context/dark/en, context/light/en, context/dark/pt-BR |
-| control `element.moveDown#menu-arrange` background | 4 | rgb(44, 196, 176) | rgba(0, 0, 0, 0) | menu/dark/en, menu/light/en, menu/dark/pt-BR |
+| control `element.moveDown#menu-arrange` background | 4 | rgb(44, 196, 176) | rgb(31, 36, 44) | menu/dark/en, menu/light/en, menu/dark/pt-BR |
 | control `element.moveDown#menu-arrange` colour | 4 | rgb(4, 32, 28) | rgb(217, 222, 230) | menu/dark/en, menu/light/en, menu/dark/pt-BR |
 | control `element.setTag#quick-panel-tag` font | 4 | 12px 400 | 11px 400 | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
 | control `interactions.add#inspector-interaction-add` font | 4 | 12px 600 | 12px 400 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
@@ -136,7 +134,7 @@ Open: 464 divergences of 68 kinds. Decisions (docs/PRODUCT.md, section 4) keep t
 ## Kept by a decision
 
 - **DEC-03** (Fit leaves 8 px around the page, where the canonical shows 24): region `canvas-frame` height; region `canvas-frame` width
-- **DEC-21** (Page tabs carry no ×; code file tabs do): control `files.closeTab#file-tab-close` drawn
+- **DEC-21** (Page tabs carry no ×; code file tabs do): nothing diverges by it in this run
 - **DEC-41** (the app offers more than the mock shows (every property in All, more menu items, the reverse directions, more quick-panel fields, Layers under every view): its heights, and the controls it pushes out of the window): control `style.set#inspector-background-color` drawn; control `style.set#inspector-color` drawn; control `style.set#inspector-flex-direction` width; control `style.set#inspector-font-family` drawn; control `style.set#inspector-font-size` drawn; control `style.set#inspector-font-weight` drawn; control `style.set#inspector-letter-spacing` drawn; control `style.set#inspector-line-height` drawn; control `style.set#inspector-opacity` drawn; control `style.set#inspector-overflow` drawn; control `style.set#inspector-text-align` drawn; control `style.set#inspector-text-transform` drawn; control `style.set#inspector-transition` drawn; control `style.set#inspector-translate-y` drawn; control `style.setBackgroundImage#inspector-background-image-gradient-add` drawn; control `style.setBorder#inspector-border-border-editor` drawn; control `style.setRadius#inspector-border-radius-radius-editor` drawn; control `style.setShadows#inspector-box-shadow-shadow-add` drawn; region `context-menu` height; region `explorer-layers` height; region `insert` height; region `inspector-interactions` height; region `inspector-style` height; region `layers-row` height; region `menu:arrange` height; region `quick-panel` height; region `styles` height
 
 ## Faces measured in the app

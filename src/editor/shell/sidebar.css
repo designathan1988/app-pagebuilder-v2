@@ -505,6 +505,31 @@
   pointer-events: auto;
 }
 
+/* the lead palette: the coloured row's dot as its door, a 24 px target before the row's icon, the palette under it */
+.row__palette--lead {
+  flex: none;
+  width: var(--size-target-min);
+  height: var(--size-target-min);
+}
+
+.row__palette--lead > span > .door {
+  width: var(--size-target-min);
+  height: var(--size-target-min);
+  opacity: 1;
+}
+
+.row__palette--lead > .row__colour-dot {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  pointer-events: none;
+}
+
+.row__palette--lead .row__swatches {
+  right: auto;
+  left: 0;
+}
+
 .row__swatch {
   display: inline-flex;
   flex: 0 0 auto;

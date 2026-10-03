@@ -109,7 +109,8 @@ export async function setUpState(app: Page, state: State): Promise<void> {
   const { name, target } = SELECTED[state];
   // the sidebar's view the design shows in the state (its Styles view in the State state, else the Explorer), opened
   // from the activity bar: a fresh profile opens on Insert (the audit's AUD-21), which the design does not show
-  await app.locator(`[data-door="workspace.setPanelOpen#toolbar-activity-bar-${state === 'state' ? 'styles' : 'explorer'}"]`).click();
+  // the Explorer first, where the setup's rows are (the State state takes its Styles view at the end)
+  await app.locator('[data-door="workspace.setPanelOpen#toolbar-activity-bar-explorer"]').click();
   await app.waitForTimeout(300);
   // the inspector showing every property, as the design's mode bar does (All, not Essentials only)
   const all = app.locator('[data-door="inspector.setMode#inspector-mode-all"]').first();
@@ -128,6 +129,15 @@ export async function setUpState(app: Page, state: State): Promise<void> {
     await app.keyboard.press(key);
     await app.waitForTimeout(150);
   }
+  // the design's file tabs hold the stylesheet open beside the pages: opened from the Explorer's row, then the home
+  // page's tab brought back to the front
+  await app.locator('.row[data-file="css/styles.css"] .row__main').first().click();
+  await app.waitForTimeout(300);
+  await app.locator('[data-door="pages.switch#file-tab"]').first().click();
+  await app.waitForTimeout(300);
+  // the file showed in the Code view: the canvas back, as the toolbar's Canvas brings it
+  await app.locator('[data-door="view.setEditorView#toolbar-canvas-toolbar-canvas"]').first().click();
+  await app.waitForTimeout(300);
   await openTo(app, name);
   // the element selected once first: Layers opens its branch, so the rows of its siblings are there to click
   await row.click(app, name);
@@ -162,10 +172,13 @@ export async function setUpState(app: Page, state: State): Promise<void> {
   if (state === 'menu') {
     await app.locator('[data-menu="arrange"]').click();
     await app.waitForTimeout(400);
+    // the design's pointer on Move down, the first item the selection can take
+    await app.locator('[data-door="element.moveDown#menu-arrange"]').first().hover();
   }
   if (state === 'context') {
     await row.click(app, name, { button: 'right' });
     await app.waitForTimeout(400);
+    await app.locator('[data-door="element.moveDown#context-menu"]').first().hover();
   }
   if (state === 'palette') {
     await app.keyboard.press('Control+K');
@@ -226,5 +239,5 @@ export async function setUpState(app: Page, state: State): Promise<void> {
   // the pointer rests where it hovers nothing (a menu stays open: the pointer leaving it does not close it)
   // in the multiple selection the design's pointer rests on the Footer's row, which shows its actions
   if (state === 'multi') await (await revealed(app, 'Footer')).hover();
-  else if (state !== 'palette' && state !== 'hover' && state !== 'drag') await app.mouse.move(1, 899);
+  else if (state !== 'palette' && state !== 'hover' && state !== 'drag' && state !== 'menu' && state !== 'context') await app.mouse.move(1, 899);
 }

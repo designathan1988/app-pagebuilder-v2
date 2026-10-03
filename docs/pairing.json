@@ -59,48 +59,6 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -198,48 +156,6 @@
           "property": "height",
           "canon": "647",
           "app": "641"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -347,48 +263,6 @@
           "property": "height",
           "canon": "649",
           "app": "611"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -520,48 +394,6 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -607,7 +439,7 @@
           "id": "element.moveDown#menu-arrange 1",
           "property": "background",
           "canon": "rgb(44, 196, 176)",
-          "app": "rgba(0, 0, 0, 0)"
+          "app": "rgb(31, 36, 44)"
         },
         {
           "kind": "control",
@@ -725,48 +557,6 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -812,7 +602,7 @@
           "id": "element.moveDown#context-menu 1",
           "property": "background",
           "canon": "rgb(44, 196, 176)",
-          "app": "rgba(0, 0, 0, 0)"
+          "app": "rgb(31, 36, 44)"
         },
         {
           "kind": "control",
@@ -885,48 +675,6 @@
           "property": "height",
           "canon": "254",
           "app": "249"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -1006,48 +754,6 @@
           "property": "colour",
           "canon": "rgb(135, 145, 160)",
           "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -1172,34 +878,6 @@
         },
         {
           "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-background-color 1",
           "property": "drawn",
           "canon": "yes",
@@ -1311,48 +989,6 @@
           "property": "height",
           "canon": "677",
           "app": "611"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -1498,52 +1134,10 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
           "id": "interactions.update#layers-row-pick-target 1",
           "property": "background",
           "canon": "rgb(58, 26, 52)",
           "app": "rgb(107, 107, 107)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -1843,34 +1437,6 @@
         },
         {
           "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -1957,52 +1523,10 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
           "id": "selection.select#layers-row 6",
           "property": "background",
           "canon": "rgba(0, 0, 0, 0)",
           "app": "color(srgb 0.894118 0.435294 0.815686 / 0.12)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -2096,48 +1620,6 @@
           "property": "height",
           "canon": "647",
           "app": "641"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -2238,48 +1720,6 @@
           "property": "height",
           "canon": "647",
           "app": "641"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -2387,48 +1827,6 @@
           "property": "height",
           "canon": "649",
           "app": "611"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -2560,48 +1958,6 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -2647,7 +2003,7 @@
           "id": "element.moveDown#menu-arrange 1",
           "property": "background",
           "canon": "rgb(11, 127, 114)",
-          "app": "rgba(0, 0, 0, 0)"
+          "app": "rgb(232, 235, 239)"
         },
         {
           "kind": "control",
@@ -2765,48 +2121,6 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -2852,7 +2166,7 @@
           "id": "element.moveDown#context-menu 1",
           "property": "background",
           "canon": "rgb(11, 127, 114)",
-          "app": "rgba(0, 0, 0, 0)"
+          "app": "rgb(232, 235, 239)"
         },
         {
           "kind": "control",
@@ -2925,48 +2239,6 @@
           "property": "height",
           "canon": "254",
           "app": "249"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -3046,48 +2318,6 @@
           "property": "colour",
           "canon": "rgb(91, 99, 110)",
           "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -3212,34 +2442,6 @@
         },
         {
           "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-background-color 1",
           "property": "drawn",
           "canon": "yes",
@@ -3351,48 +2553,6 @@
           "property": "height",
           "canon": "677",
           "app": "611"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -3538,52 +2698,10 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
           "id": "interactions.update#layers-row-pick-target 1",
           "property": "background",
           "canon": "rgb(249, 231, 243)",
           "app": "rgb(240, 240, 240)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -3883,34 +3001,6 @@
         },
         {
           "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -3997,52 +3087,10 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
           "id": "selection.select#layers-row 6",
           "property": "background",
           "canon": "rgba(0, 0, 0, 0)",
           "app": "color(srgb 0.752941 0.211765 0.541176 / 0.12)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -4136,48 +3184,6 @@
           "property": "height",
           "canon": "647",
           "app": "641"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -4285,48 +3291,6 @@
           "property": "height",
           "canon": "647",
           "app": "641"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -4441,48 +3405,6 @@
           "property": "height",
           "canon": "649",
           "app": "583"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -4614,48 +3536,6 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -4708,7 +3588,7 @@
           "id": "element.moveDown#menu-arrange 1",
           "property": "background",
           "canon": "rgb(44, 196, 176)",
-          "app": "rgba(0, 0, 0, 0)"
+          "app": "rgb(31, 36, 44)"
         },
         {
           "kind": "control",
@@ -4826,48 +3706,6 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -4920,7 +3758,7 @@
           "id": "element.moveDown#context-menu 1",
           "property": "background",
           "canon": "rgb(44, 196, 176)",
-          "app": "rgba(0, 0, 0, 0)"
+          "app": "rgb(31, 36, 44)"
         },
         {
           "kind": "control",
@@ -4993,48 +3831,6 @@
           "property": "height",
           "canon": "254",
           "app": "249"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -5121,48 +3917,6 @@
           "property": "colour",
           "canon": "rgb(135, 145, 160)",
           "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -5287,34 +4041,6 @@
         },
         {
           "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-background-color 1",
           "property": "drawn",
           "canon": "yes",
@@ -5426,48 +4152,6 @@
           "property": "height",
           "canon": "677",
           "app": "611"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -5613,52 +4297,10 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
           "id": "interactions.update#layers-row-pick-target 1",
           "property": "background",
           "canon": "rgb(58, 26, 52)",
           "app": "rgb(107, 107, 107)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -5958,34 +4600,6 @@
         },
         {
           "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -6079,52 +4693,10 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
           "id": "selection.select#layers-row 6",
           "property": "background",
           "canon": "rgba(0, 0, 0, 0)",
           "app": "color(srgb 0.894118 0.435294 0.815686 / 0.12)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -6225,48 +4797,6 @@
           "property": "height",
           "canon": "647",
           "app": "641"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -6374,48 +4904,6 @@
           "property": "height",
           "canon": "647",
           "app": "641"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -6530,48 +5018,6 @@
           "property": "height",
           "canon": "649",
           "app": "583"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -6703,48 +5149,6 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -6797,7 +5201,7 @@
           "id": "element.moveDown#menu-arrange 1",
           "property": "background",
           "canon": "rgb(11, 127, 114)",
-          "app": "rgba(0, 0, 0, 0)"
+          "app": "rgb(232, 235, 239)"
         },
         {
           "kind": "control",
@@ -6915,48 +5319,6 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -7009,7 +5371,7 @@
           "id": "element.moveDown#context-menu 1",
           "property": "background",
           "canon": "rgb(11, 127, 114)",
-          "app": "rgba(0, 0, 0, 0)"
+          "app": "rgb(232, 235, 239)"
         },
         {
           "kind": "control",
@@ -7082,48 +5444,6 @@
           "property": "height",
           "canon": "254",
           "app": "249"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -7210,48 +5530,6 @@
           "property": "colour",
           "canon": "rgb(91, 99, 110)",
           "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -7376,34 +5654,6 @@
         },
         {
           "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-background-color 1",
           "property": "drawn",
           "canon": "yes",
@@ -7515,48 +5765,6 @@
           "property": "height",
           "canon": "677",
           "app": "611"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -7702,52 +5910,10 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
           "id": "interactions.update#layers-row-pick-target 1",
           "property": "background",
           "canon": "rgb(249, 231, 243)",
           "app": "rgb(240, 240, 240)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
@@ -8047,34 +6213,6 @@
         },
         {
           "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
           "id": "style.set#inspector-flex-direction 1",
           "property": "width",
           "canon": "60",
@@ -8168,52 +6306,10 @@
         },
         {
           "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "element.setLayerColor#layers-row-colour-dot 2",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
           "id": "selection.select#layers-row 6",
           "property": "background",
           "canon": "rgba(0, 0, 0, 0)",
           "app": "color(srgb 0.752941 0.211765 0.541176 / 0.12)"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 2",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.open#file-tab 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "files.closeTab#file-tab-close 3",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
         },
         {
           "kind": "control",
