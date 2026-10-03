@@ -3166,7 +3166,8 @@
         "refusalKey": "status.locked.edit"
       },
       "refusals": [
-        "status.styleState.notApplicable"
+        "status.styleState.notApplicable",
+        "status.locked.byAncestor"
       ],
       "confirmation": null,
       "history": {

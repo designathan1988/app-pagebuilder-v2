@@ -430,6 +430,62 @@ describe('the store', () => {
     expect(s.store.getState().selection).toEqual(after.selection);
   });
 
+  // the audit's AUD-08: a gesture took a command's patches before the commit validated them, so in production a refused
+  // commit inside a gesture left its patches in the gesture's history entry
+  it('keeps a refused change out of the gesture it ran in', () => {
+    clearIncidents();
+    const twinResize = registerHandler('geometry.resize', ({ state }) => {
+      const root = state.document.pages[0]?.tree;
+      const at = root === undefined ? null : locate(state.document, root.id);
+      if (at === null || root === undefined) return { kind: 'refused', message: message('status.refused.intoItself') };
+      const twin: DocNode = { id: root.id, type: 'div', name: 'Twin', tag: 'div', attributes: {}, classes: [], styles: {}, text: null, children: [] };
+      return { kind: 'change', patches: [{ op: 'add', path: [...at.path, 'children', 0], value: twin }] };
+    });
+    const s = testStore({ ...TEST_COMMANDS, 'geometry.resize': twinResize }, TEST_PREDICATES, false);
+    const initial = s.store.getState();
+    const gesture = s.store.gesture();
+    gesture.dispatch('element.insert', { entry: 'container' });
+    const inserted = s.store.getState().document;
+    expect(gesture.dispatch('geometry.resize', { width: '100px' }).status).toBe('refused');
+    gesture.commit();
+    expect(s.store.getState().document).toEqual(inserted);
+    s.store.dispatch('history.undo', {});
+    expect(s.store.getState().document).toEqual(initial.document);
+    // the redo replays the insert alone: the refused patches never joined the entry
+    s.store.dispatch('history.redo', {});
+    expect(s.store.getState().document).toEqual(inserted);
+    clearIncidents();
+  });
+
+  // the audit's AUD-08: a predicate refusing with a key the command does not declare threw before anything was said
+  it('says a predicate\'s undeclared refusal before reporting it as a defect', () => {
+    clearIncidents();
+    const odd = { ...TEST_PREDICATES, hasSelection: registerPredicate('hasSelection', (state) => state.selection.length > 0, () => message('status.pages.added', { file: 'x' })) };
+    const loose = testStore(TEST_COMMANDS, odd, false);
+    const answer = loose.store.dispatch('selection.clear', {});
+    expect(answer.status).toBe('refused');
+    expect(loose.store.getState().message?.key).toBe('status.pages.added');
+    expect(incidents().map((i) => i.what)).toContain('selection.clear: its predicate refuses with status.pages.added, which the manifest does not declare for it');
+    // development: the same words first, then the throw
+    const strict = testStore(TEST_COMMANDS, odd, true);
+    expect(() => strict.store.dispatch('selection.clear', {})).toThrow(/does not declare/);
+    expect(strict.store.getState().message?.key).toBe('status.pages.added');
+    clearIncidents();
+  });
+
+  // the audit's AUD-08: refusal() and canRun() let a handler's throw out into the control that asked
+  it('answers a control that asks about a handler that throws with the failure, and records it', () => {
+    clearIncidents();
+    const throwing = registerHandler('element.insert', () => {
+      throw new Error('a defect');
+    });
+    const s = testStore({ ...TEST_COMMANDS, 'element.insert': throwing }, TEST_PREDICATES, true);
+    expect(s.store.refusal('element.insert', { entry: 'container' })?.key).toBe('status.change.failed');
+    expect(s.store.canRun('element.insert', { entry: 'container' })).toBe(false);
+    expect(incidents().some((i) => i.what === 'element.insert threw while its control asked whether it would run')).toBe(true);
+    clearIncidents();
+  });
+
   it('restores the state from before a cancelled gesture and records nothing', () => {
     const s = testStore();
     insertInto(s);

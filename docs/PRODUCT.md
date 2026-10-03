@@ -377,7 +377,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-05 | 3 | Export then import loses design tokens and unused classes | audit | done (QA 154) |
 | AUD-06 | 3 | Canvas 41–46 % of the window at 1280 × 720 (H17, J25); the fix measured width | audit | done (QA 155) |
 | AUD-07 | 2 | The document core executes DOM | audit | open |
-| AUD-08 | 2 | Store robustness: undeclared predicate refusals throw, gesture patches recorded before validation, `refusal()` does not catch | audit | open |
+| AUD-08 | 2 | Store robustness: undeclared predicate refusals throw, gesture patches recorded before validation, `refusal()` does not catch | audit | done (QA 157) |
 | AUD-09 | 2 | Handlers throw instead of refusing on stale or malformed references | audit | open |
 | AUD-10 | 2 | Unbounded ZIP inflation; the preview's key relay trusts any opaque-origin frame; the test port in production | audit; open since the module handoff (`docs/archive/history/coordination.md`) | open |
 | AUD-11 | 2 | `js/motion.js`, `js/lottie.min.js` not protected generated paths | audit; QA 124 | open |

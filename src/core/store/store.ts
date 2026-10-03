@@ -370,8 +370,15 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     if (predicate && !predicate.test(state, layeredNow(), args)) {
       const declared = message((command.availability.refusalKey ?? 'common.notAvailableYet') as Message['key']);
       const refusal = predicate.refusal?.(state, layeredNow(), args) ?? declared;
-      if (refusal.key !== declared.key && !(command.refusals as readonly string[]).includes(refusal.key)) throw new Error(`${id}: its predicate refuses with ${refusal.key}, which the manifest does not declare for it`);
       publish(commit({ ...state, message: refusal, refused: true }, id));
+      // a refusal the manifest does not declare for the command is a defect of the contract, said after the person has
+      // the words (the audit's AUD-08: it threw before anything was said): the incident feed records it, and
+      // development and tests throw
+      if (refusal.key !== declared.key && !(command.refusals as readonly string[]).includes(refusal.key)) {
+        const defect = `${id}: its predicate refuses with ${refusal.key}, which the manifest does not declare for it`;
+        reportError(defect, defect);
+        if (options.freeze) throw new Error(defect);
+      }
       return { status: 'refused', message: refusal };
     }
     // a handler that throws is a defect too, never a silent one (jornada03 J1): the incident feed keeps what it threw,
@@ -447,11 +454,9 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     const chosen = outcome.selection ?? before.selection;
     const selection = followed === null ? chosen : chosen.filter((node) => locate(applied.document, node) !== null);
     let history = before.history;
-    if (documentChanged && gesture) {
-      gesture.command ??= id;
-      gesture.patches.push(...applied.applied);
-      gesture.inverses.unshift(...applied.inverses);
-    } else if (documentChanged && ownedGroup === null) {
+    // a gesture's transaction takes the patches once the commit accepts them, below (the audit's AUD-08: they joined it
+    // before, and a refused commit inside a gesture left them in its history entry)
+    if (documentChanged && gesture === null && ownedGroup === null) {
       const { key, within } = coalescing(command, args, before.selection);
       const tx: Transaction = { command: id, patches: applied.applied, inverses: applied.inverses, selectionBefore: before.selection, selectionAfter: selection, at: clock.now(), coalesceKey: key, message: outcome.message ?? null };
       history = record(before.history, tx, key !== null && key === previousMergeable ? within : null);
@@ -479,7 +484,11 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
         publish(committed);
         return { status: 'refused', message: refused };
       }
-      if (documentChanged && ownedGroup !== null) {
+      if (documentChanged && gesture !== null) {
+        gesture.command ??= id;
+        gesture.patches.push(...applied.applied);
+        gesture.inverses.unshift(...applied.inverses);
+      } else if (documentChanged && ownedGroup !== null) {
         ownedGroup.command ??= id;
         ownedGroup.patches.push(...applied.applied);
         ownedGroup.inverses.unshift(...applied.inverses);
@@ -505,10 +514,17 @@ export function createStore<Ui>(options: StoreOptions<Ui>): Store<Ui> {
     if (group !== null && command.history.undoable) return group.busy;
     if (!isBuilt(entry)) return message('common.notAvailableYet');
     const predicate = predicates[command.availability.predicate as keyof PredicateTable<Ui>];
-    if (predicate && !predicate.test(state, layeredNow(), args)) return predicate.refusal?.(state, layeredNow(), args) ?? message((command.availability.refusalKey ?? 'common.notAvailableYet') as Message['key']);
-    const outcome = entry.run(handlerContext(), args);
-    if (group !== null && groupBlocked(outcome, true)) return group.busy;
-    return outcome.kind === 'refused' ? outcome.message : null;
+    // a predicate or a handler that throws while a control asks is a defect, said as a failure and recorded, never a
+    // throw into the control that asked (the audit's AUD-08: with no error boundary, it blanked the editor)
+    try {
+      if (predicate && !predicate.test(state, layeredNow(), args)) return predicate.refusal?.(state, layeredNow(), args) ?? message((command.availability.refusalKey ?? 'common.notAvailableYet') as Message['key']);
+      const outcome = entry.run(handlerContext(), args);
+      if (group !== null && groupBlocked(outcome, true)) return group.busy;
+      return outcome.kind === 'refused' ? outcome.message : null;
+    } catch (error) {
+      reportError(`${id} threw while its control asked whether it would run`, error instanceof Error ? (error.stack ?? error.message) : String(error));
+      return message('status.change.failed', { command: nameOf(command) });
+    }
   };
 
   return {

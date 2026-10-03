@@ -5507,7 +5507,8 @@
         "status.value.invalid",
         "status.value.negativePadding",
         "status.locked.edit",
-        "status.styleState.notApplicable"
+        "status.styleState.notApplicable",
+        "status.locked.byAncestor"
       ],
       "confirmation": null,
       "history": {
@@ -6138,7 +6139,8 @@
       "refusals": [
         "status.value.invalid",
         "status.locked.edit",
-        "status.styleState.notApplicable"
+        "status.styleState.notApplicable",
+        "status.locked.byAncestor"
       ],
       "confirmation": null,
       "history": {
@@ -6770,7 +6772,8 @@
       "refusals": [
         "status.value.invalid",
         "status.locked.edit",
-        "status.styleState.notApplicable"
+        "status.styleState.notApplicable",
+        "status.locked.byAncestor"
       ],
       "confirmation": null,
       "history": {
@@ -7073,7 +7076,8 @@
         "status.locked.edit",
         "status.gradient.none",
         "status.gradient.minStops",
-        "status.styleState.notApplicable"
+        "status.styleState.notApplicable",
+        "status.locked.byAncestor"
       ],
       "confirmation": null,
       "history": {
@@ -7724,7 +7728,8 @@
       "refusals": [
         "status.value.invalid",
         "status.locked.edit",
-        "status.styleState.notApplicable"
+        "status.styleState.notApplicable",
+        "status.locked.byAncestor"
       ],
       "confirmation": null,
       "history": {
@@ -8689,7 +8694,8 @@
       "refusals": [
         "status.value.invalid",
         "status.locked.edit",
-        "status.styleState.notApplicable"
+        "status.styleState.notApplicable",
+        "status.locked.byAncestor"
       ],
       "confirmation": null,
       "history": {
@@ -9128,7 +9134,8 @@
       "refusals": [
         "status.value.invalid",
         "status.locked.edit",
-        "status.styleState.notApplicable"
+        "status.styleState.notApplicable",
+        "status.locked.byAncestor"
       ],
       "confirmation": null,
       "history": {
@@ -9387,7 +9394,8 @@
         "status.css.unknownProperty",
         "status.css.badValue",
         "status.locked.edit",
-        "status.styleState.notApplicable"
+        "status.styleState.notApplicable",
+        "status.locked.byAncestor"
       ],
       "confirmation": null,
       "history": {
@@ -9505,7 +9513,8 @@
       },
       "refusals": [
         "status.locked.edit",
-        "status.styleState.notApplicable"
+        "status.styleState.notApplicable",
+        "status.locked.byAncestor"
       ],
       "confirmation": null,
       "history": {
