@@ -3243,6 +3243,11 @@ This is the keyboard feature.
      (a picker or a panel closing under it), unchooses it. An unchosen typed key does nothing and the status bar says
      why, once per burst ("Letters typed here do nothing: click the canvas or a Layers row to use their keys, or a
      field to type into it."). The editor opens with the canvas chosen.
+7. **F6 never put the focus on the canvas page** (the audit's AUD-13, 2026-10-02, jornada03 J12: the canvas's stop
+   focused the frame's breakpoint tabs, so the page's tree walk needed a click or Escape). Required: the canvas's stop
+   of the F6 ring is the stage itself: it takes the focus (its key context the canvas's), draws a focus ring, and the
+   canvas's keys act at once (ArrowDown walks into the page from the root when nothing is selected); F6 and Shift+F6
+   go on from the canvas to the regions beside it.
 
 ## keyboard-tree-walk
 

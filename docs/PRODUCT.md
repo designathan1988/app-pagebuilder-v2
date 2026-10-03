@@ -149,7 +149,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-5.12 | Command bar: filter pills, pages, layers, classes, focus into opened panels (J12, J26, D1) | done | QA 88, 104, 126, 135 |
 | STG-5.13 | Canvas overlays: labels never over content (J16), breakpoint band (J22), image marker | done | QA 89, 101, 102, 122, 128 |
 | STG-5.14 | Bottom dock with the canonical strip | done | QA 96 (DEC-02) |
-| STG-5.15 | Keyboard: F6 includes canvas and Layers, arrows start at the root, roving focus (J12) | partial | QA 95, 103, 105; AUD-13 |
+| STG-5.15 | Keyboard: F6 includes canvas and Layers, arrows start at the root, roving focus (J12) | done | QA 95, 103, 105, 162 |
 | STG-5.16 | 1280 × 720: canvas ≥ 55 % (J25) | done | QA 155: the stage 932 × 537 px, 54.3 % of the window as an area, 72.8 % of its width; the width splitters QA 156 |
 | STG-5.17 | Language and texts: browser language, gender-neutral Portuguese, singular forms (J26, J28) | partial | QA 87, 93; AUD-21, AUD-23 |
 | STG-5.18 | Image picker with thumbnails and search (M4) | done | QA 94 |
@@ -242,7 +242,7 @@ The problems of the usability study (`jornada03/REPORT.md` section 3), re-checke
 | J9 | Collapse all empties Layers | done | QA 85 |
 | J10 | Grid tracks show 0 tracks at a breakpoint | done | QA 53 |
 | J11 | Insert search accents, synonyms, order | done | QA 86; M1 |
-| J12 | Keyboard cannot reach canvas or Layers; Ctrl+K pages/layers | partial | QA 88, 95, 103, 104; AUD-13 |
+| J12 | Keyboard cannot reach canvas or Layers; Ctrl+K pages/layers | done | QA 88, 95, 103, 104, 162 |
 | J13 | Upload refuses CSV/JSON; no mapping | done | QA 66; C4 |
 | J14 | Export CSS ~5× hand-written | partial | QA 51 (1.95×); the cascade QA 150; AUD-14 |
 | J15 | Font list: half-typed commit, clipped, uploaded fonts missing | done | QA 42, 73, 161 |
@@ -304,7 +304,7 @@ Thresholds fixed before the study (`jornada03/00-frame/hypotheses.md`); measured
 | C4 | Catalogue of 12 products from `cardapio.csv` | done |
 | C5 | Reload in the middle of an edit | done |
 | P1 | Large page (641 nodes) | done: p50 31.0, p95 44.8 ms |
-| P2 | Editor accessibility from the keyboard | partial (AUD-13) |
+| P2 | Editor accessibility from the keyboard | done (QA 162) |
 | P3 | Small screen 1280 × 720 | done (QA 155: 54.3 %) |
 | P4 | Long history (50 edits undone and redone) | done (exact; 21 ms per step) |
 
@@ -339,7 +339,7 @@ The wishes the study recorded (the plan lists them as 32; its list names 31):
 | WISH-14 | Component badge | done | J21 |
 | WISH-15 | Master edit | done | QA 115 |
 | WISH-16 | Import as a page or a folder | done | J3 |
-| WISH-17 | F6 and arrows | partial | AUD-13 |
+| WISH-17 | F6 and arrows | done | QA 162 |
 | WISH-18 | Ctrl+K pages and layers | done | QA 88 |
 | WISH-19 | Readable class names | partial | AUD-14 |
 | WISH-20 | CSS shorthand | done | STG-6.2 |
@@ -382,7 +382,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-10 | 2 | Unbounded ZIP inflation; the preview's key relay trusts any opaque-origin frame; the test port in production | audit; open since the module handoff (`docs/archive/history/coordination.md`) | done (QA 160) |
 | AUD-11 | 2 | `js/motion.js`, `js/lottie.min.js` not protected generated paths | audit; QA 124 | done (QA 160) |
 | AUD-12 | 2 | The uploaded font only behind "More values" | audit; J15 | done (QA 161) |
-| AUD-13 | 2 | F6 never focuses the canvas page | audit; J12 | open |
+| AUD-13 | 2 | F6 never focuses the canvas page | audit; J12 | done (QA 162) |
 | AUD-14 | 2 | Export class names partly Portuguese and numbered | audit; J14 | open |
 | AUD-15 | 2 | Capture: 98 % corpus never measured, login capture absent, MDN logo missing | audit; QA 117, 119 | open |
 | AUD-16 | 2 | Plan items dropped without a user decision (steppers, auto-fix) | audit | open |

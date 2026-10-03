@@ -232,7 +232,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
 | `accessibility-checks` | Accessibility and structure checks | yes | 1 | 1 | [accessibility-checks](../spec/BEHAVIOUR.md#accessibility-checks) | 4 | — |
-| `keyboard-panel-navigation` | Move between panels and inside them with the keyboard | yes | 8 | 31 | [keyboard-panel-navigation](../spec/BEHAVIOUR.md#keyboard-panel-navigation) | 6 | — |
+| `keyboard-panel-navigation` | Move between panels and inside them with the keyboard | yes | 8 | 31 | [keyboard-panel-navigation](../spec/BEHAVIOUR.md#keyboard-panel-navigation) | 7 | — |
 | `layers-keyboard-navigation` | Operate the Layers tree with the keyboard | yes | 7 | 8 | [layers-keyboard-navigation](../spec/BEHAVIOUR.md#layers-keyboard-navigation) | 4 | — |
 
 ## 15-clipboard-and-styles

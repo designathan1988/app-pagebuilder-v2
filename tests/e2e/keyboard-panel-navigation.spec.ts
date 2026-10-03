@@ -68,3 +68,33 @@ test('Escape inside a panel gives the focus back to the canvas and keeps the sel
   await expect(page.frameLocator('.frame__page').locator('[data-node="n-title"]'), 'Delete deletes the element the canvas holds').toHaveCount(0);
   expect(await page.evaluate(() => JSON.stringify((window as unknown as { __builderTestPort: { document: () => unknown } }).__builderTestPort.document())), 'the document no longer holds it').not.toContain('n-title');
 });
+
+test('F6 puts the keys on the canvas page itself, with a visible focus, and walks on from there', async ({ page }) => {
+  // the audit's AUD-13 (jornada03 J12): the canvas's stop of the F6 ring focused the frame's breakpoint tabs, so the
+  // page's tree walk needed a click or Escape
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await openEditor(page);
+  const chooser = page.waitForEvent('filechooser');
+  await runDoor(page, 'project.open#menu-file');
+  await (await chooser).setFiles({ name: 'aurora.json', mimeType: 'application/json', buffer: fs.readFileSync('manifest/features/fixtures/aurora.json') });
+  await expect(page.frameLocator('.frame__page').locator('[data-node="n-title"]')).toHaveCount(1);
+  const onStage = () => page.evaluate(() => document.activeElement?.matches('.stage') === true);
+  let reached = false;
+  for (let i = 0; i < 12 && !reached; i += 1) {
+    await runDoor(page, f6);
+    reached = await onStage();
+  }
+  expect(reached, 'one stop of the F6 ring is the canvas page itself').toBe(true);
+  expect(await page.evaluate(() => document.activeElement?.matches(':focus-visible') === true), 'the canvas shows it holds the focus').toBe(true);
+  expect(await page.evaluate(() => (document.activeElement === null ? '' : getComputedStyle(document.activeElement).outlineStyle)), 'its focus ring is drawn').toBe('solid');
+  const selection = () => page.evaluate(() => (window as unknown as { __builderTestPort: { selection: () => readonly string[] } }).__builderTestPort.selection());
+  expect(await selection()).toEqual([]);
+  // the canvas's own keys act: the tree walk starts at the page
+  await page.keyboard.press('ArrowDown');
+  await expect.poll(selection, { message: 'ArrowDown walks into the page' }).not.toEqual([]);
+  // and the ring goes on from the canvas, not from its start: one step on and one back is the canvas again
+  await runDoor(page, f6);
+  expect(await onStage()).toBe(false);
+  await runDoor(page, shiftF6);
+  expect(await onStage(), 'Shift+F6 comes back to the canvas page').toBe(true);
+});

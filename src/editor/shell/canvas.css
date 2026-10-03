@@ -418,6 +418,12 @@
   overflow: hidden;
 }
 
+/* the canvas holds the keyboard focus, given by F6 (spec keyboard-panel-navigation; the audit's AUD-13) */
+.stage:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
 /* Space held over the stage arms the pan; a pan in progress grabs (spec zoom-wheel-pan) */
 .stage--armed,
 .stage--armed * {

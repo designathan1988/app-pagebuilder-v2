@@ -36,7 +36,9 @@ export const focusActivate = registerHandler<'focus.activate', EditorUi>('focus.
 const LAYERS_REGION = 'section[data-panel-area="layers"]';
 // a panel's header (its name, Put back, Close)
 const PANEL_HEADER = '[data-region="panel-header"]';
-const REGION_ROOTS: readonly string[] = ['header.top-bar', 'nav.activity-bar', 'aside.sidebar', LAYERS_REGION, '.stage', 'section.code-pane', '.dock-strip', 'aside.right-dock', 'section.panel-window', 'aside.inspector', 'footer.status-bar'];
+// the canvas's stage: the page the frame draws, with its breakpoint tabs
+const STAGE = '.stage';
+const REGION_ROOTS: readonly string[] = ['header.top-bar', 'nav.activity-bar', 'aside.sidebar', LAYERS_REGION, STAGE, 'section.code-pane', '.dock-strip', 'aside.right-dock', 'section.panel-window', 'aside.inspector', 'footer.status-bar'];
 
 // the region roots the window draws, in that order
 const drawnRegions = (): Element[] => REGION_ROOTS.map((one) => document.querySelector(one)).filter((one): one is Element => one !== null);
@@ -44,6 +46,16 @@ const drawnRegions = (): Element[] => REGION_ROOTS.map((one) => document.querySe
 // The keyboard focus goes into a region: its first enabled control takes it, or the region itself when it holds none
 // (a region that takes the focus keeps the focus ring of its own).
 function focusRegion(region: Element): void {
+  // the canvas is entered on the page itself, never on the frame's breakpoint tabs (the audit's AUD-13, jornada03 J12):
+  // the stage takes the focus, its key context the canvas's (input/keymap.ts), so the tree walk and every canvas key act
+  // at once, and it draws the focus ring; it gives the tabindex back when the focus leaves it
+  if (region.matches(STAGE)) {
+    const stage = region as HTMLElement;
+    stage.setAttribute('tabindex', '-1');
+    stage.addEventListener('blur', () => stage.removeAttribute('tabindex'), { once: true });
+    stage.focus({ preventScroll: true });
+    return;
+  }
   // the Layers tree is entered on its row that takes the Tab key (the selected row, else the page's)
   // (the region itself, or the Layers' own panel area around it: never a larger region that holds it, the sidebar)
   const layers = region.matches(LAYERS_REGION) ? region : region.matches('[data-panel-area="layers"]') ? region.querySelector(LAYERS_REGION) : null;
@@ -201,7 +213,7 @@ export function carryOut(move: FocusMove, focused: Element | null): void {
     const step = move === 'nextRegion' ? 1 : -1;
     const region = regions[at < 0 ? (step > 0 ? 0 : regions.length - 1) : (at + step + regions.length) % regions.length] as Element;
     focusRegion(region);
-    if (region.matches('.stage')) chooseCanvasByKeyboard();
+    if (region.matches(STAGE)) chooseCanvasByKeyboard();
     return;
   }
   if (comboboxMove(move, focused)) return;
