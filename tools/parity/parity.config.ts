@@ -11,7 +11,8 @@ const port = process.env.PARITY_PORT ?? '5343';
 
 export default defineConfig({
   testDir: '.',
-  testMatch: /pairing\.parity\.ts$/,
+  // the pairing, or the probe when PARITY_PROBE names a state and its marks (probe.parity.ts)
+  testMatch: process.env.PARITY_PROBE === undefined ? /pairing\.parity\.ts$/ : /probe\.parity\.ts$/,
   fullyParallel: false,
   workers: 1,
   retries: 0,

@@ -1,0 +1,57 @@
+{
+  "about": "Where a side marks a door or a region on a part of what a person sees, or around it, the element measured instead: the closest ancestor of the mark matching closest, or the element inside it matching inside (tools/parity/measure.ts), on the side named. Aliases: a door the design marks that the app draws as other doors. Each says why; docs/PAIRING.md lists them.",
+  "faces": [
+    {
+      "mark": "style.setSpacing#inspector-margin-box-model",
+      "side": "app",
+      "closest": ".box",
+      "why": "the app marks the box's label as the box's door while its sides are unlinked; the design marks the box a person sees"
+    },
+    {
+      "mark": "style.setSpacing#inspector-padding-box-model",
+      "side": "app",
+      "closest": ".box",
+      "why": "the same for the padding box inside it"
+    },
+    {
+      "mark": "files.open#explorer-file-row",
+      "side": "app",
+      "closest": ".row",
+      "why": "the app marks the row's icon as the open door (the row's main area is the move door, and a click on it opens the file too); the design marks the row a person sees"
+    },
+    {
+      "mark": "files.createFile#explorer-new-file",
+      "side": "app",
+      "closest": ".file-maker",
+      "why": "the app's door is the path field, invisible until the icon box it sits in is pressed; the box is what a person sees"
+    },
+    {
+      "mark": "files.createFolder#explorer-new-folder",
+      "side": "app",
+      "closest": ".file-maker",
+      "why": "the same for the new folder"
+    },
+    {
+      "mark": "style.setAlignment#inspector-alignment-matrix",
+      "side": "app",
+      "inside": ".matrix",
+      "why": "the app marks the matrix's row (its label and the matrix) and each cell; the design marks the matrix"
+    },
+    {
+      "mark": "quick-panel",
+      "side": "canon",
+      "inside": ".qp-chip",
+      "why": "closed, the design marks the chip's positioning box around the chip; the app marks the chip itself"
+    }
+  ],
+  "aliases": [
+    {
+      "door": "workspace.setActiveTab#tab-strip-tab",
+      "as": [
+        "workspace.setPanelOpen#dock-strip-timeline",
+        "workspace.setPanelOpen#dock-strip-checks"
+      ],
+      "why": "the closed dock's tabs open the dock at their panel (DEC-02: the canonical strip, Motion beside them), where the design marks them as the tab strip's"
+    }
+  ]
+}

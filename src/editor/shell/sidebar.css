@@ -205,7 +205,10 @@
   white-space: nowrap;
 }
 
+/* the section's name as its toggle: the 24 px target with the small radius (the canonical .sec-t > .ttl) */
 .section-title__toggle {
+  height: var(--size-target-min);
+  border-radius: var(--radius-xs);
   margin-left: calc(var(--space-4) * -1);
   font: inherit;
   letter-spacing: inherit;
@@ -302,6 +305,12 @@
 .row:has(> .door.is-current) {
   background: var(--color-surface-selected);
   box-shadow: inset var(--space-1) 0 0 var(--color-accent);
+}
+
+/* the current row's door is the row's whole face (the canonical .row.is-active): its fill, square */
+.row > .door.is-current {
+  border-radius: 0;
+  background: inherit;
 }
 
 .row.is-selected {
@@ -612,6 +621,11 @@
   height: var(--size-target-min);
   padding: 0;
   justify-content: center;
+}
+
+/* a branch's caret in the subtle colour (the canonical .row .car) */
+.row .door--disclosure {
+  color: var(--color-text-subtle);
 }
 
 .row__caret-space {

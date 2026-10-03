@@ -68,7 +68,26 @@ async function canvasBox(app: Page, name: string): Promise<{ x: number; y: numbe
   if (box === null) throw new Error(`${name} is not drawn selected`);
   return box;
 }
-const rowOf = (app: Page, name: string) => app.locator('[data-door="selection.select#layers-row"]', { hasText: name }).first();
+const rowOf = (app: Page, name: string) => app.locator('[data-door="selection.select#layers-row"]').filter({ has: app.locator('.row__name').getByText(name, { exact: true }) }).first();
+// the branches above each element the states select, from the page down (the canonical fixture's tree)
+const ANCESTORS: Readonly<Record<string, readonly string[]>> = {
+  'Cartão Assinatura': ['Page', 'Main', 'Planos', 'Grade de cartões'],
+  'Cartão Grãos': ['Page', 'Main', 'Planos', 'Grade de cartões'],
+  'Cartão Oficinas': ['Page', 'Main', 'Planos', 'Grade de cartões'],
+  'Título Planos': ['Page', 'Main', 'Planos'],
+  'Título principal': ['Page', 'Main', 'Hero', 'Texto do hero'],
+  'Assinar agora': ['Page', 'Main', 'Hero', 'Texto do hero', 'Ações'],
+};
+// the folded branches above an element opened with their carets, as a person opens them
+async function openTo(app: Page, name: string): Promise<void> {
+  for (const branch of ANCESTORS[name] ?? []) {
+    const caret = (await revealed(app, branch)).locator('[data-door="layers.setExpanded#layers-caret"]');
+    if ((await caret.count()) > 0 && (await caret.getAttribute('aria-expanded')) === 'false') {
+      await caret.click();
+      await app.waitForTimeout(150);
+    }
+  }
+}
 // a layer's row, the Layers panel scrolled with the wheel until it is drawn (the tree draws the rows it shows)
 async function revealed(app: Page, name: string) {
   const tree = app.locator('[data-region="explorer-layers"]').first();
@@ -92,6 +111,16 @@ export async function setUpState(app: Page, state: State): Promise<void> {
   // from the activity bar: a fresh profile opens on Insert (the audit's AUD-21), which the design does not show
   await app.locator(`[data-door="workspace.setPanelOpen#toolbar-activity-bar-${state === 'state' ? 'styles' : 'explorer'}"]`).click();
   await app.waitForTimeout(300);
+  // the inspector showing every property, as the design's mode bar does (All, not Essentials only)
+  const all = app.locator('[data-door="inspector.setMode#inspector-mode-all"]').first();
+  if ((await all.count()) > 0 && (await all.getAttribute('aria-pressed')) !== 'true') await all.click();
+  // the design's view of the canvas: snap and outlines on, as a person turns them on in the canvas toolbar
+  await app.locator('[data-door="snap.setEnabled#toolbar-canvas-toolbar-snap"]').first().click();
+  await app.locator('[data-door="view.toggleOutlines#canvas-tools-outlines"]').first().click();
+  // Layers as the design shows it: every branch folded, then only the selection's opened by selecting it
+  await app.locator('[data-door="layers.collapseAll#toolbar-layers-header-collapse-all"]').first().click();
+  await app.waitForTimeout(200);
+  await openTo(app, name);
   // the element selected once first: Layers opens its branch, so the rows of its siblings are there to click
   await row.click(app, name);
   await app.waitForTimeout(300);
@@ -165,6 +194,8 @@ export async function setUpState(app: Page, state: State): Promise<void> {
       await app.waitForTimeout(400);
     }
   }
+  // the design's sidebar shows Insert while it measures a hover
+  if (state === 'hover') await app.locator('[data-door="workspace.setPanelOpen#toolbar-activity-bar-insert"]').click();
   if (state === 'hover' && other !== null) {
     // the selection kept, the pointer on the next card with Alt held: the distance between them (the design's measure)
     await app.mouse.move(other.x + other.width * 0.3, other.y + other.height * 0.36);

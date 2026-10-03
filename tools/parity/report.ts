@@ -28,6 +28,19 @@ export interface Decision {
   readonly matches: readonly { readonly kind?: string; readonly id: string; readonly property?: string; readonly state?: string }[];
 }
 
+export interface Face {
+  readonly mark: string;
+  readonly side: 'app' | 'canon';
+  readonly closest?: string;
+  readonly inside?: string;
+  readonly why: string;
+}
+export interface Alias {
+  readonly door: string;
+  readonly as: readonly string[];
+  readonly why: string;
+}
+
 const mark = (divergence: Divergence) => divergence.id.replace(/ \d+$/, '');
 export const keptBy = (decisions: readonly Decision[], pair: Pair, divergence: Divergence): Decision | undefined =>
   decisions.find((decision) =>
@@ -36,7 +49,7 @@ export const keptBy = (decisions: readonly Decision[], pair: Pair, divergence: D
     ),
   );
 
-export function pairingDocument(pairs: readonly Pair[], decisions: readonly Decision[]): string {
+export function pairingDocument(pairs: readonly Pair[], decisions: readonly Decision[], faces: readonly Face[] = [], aliases: readonly Alias[] = []): string {
   const open = new Map<string, { readonly example: Divergence; readonly where: string[] }>();
   const kept = new Map<string, Set<string>>();
   const rows = pairs.map((pair) => {
@@ -86,6 +99,13 @@ export function pairingDocument(pairs: readonly Pair[], decisions: readonly Deci
     '',
     ...decisions.map((decision) => `- **${decision.decision}** (${decision.why}): ${[...(kept.get(decision.decision) ?? [])].sort().join('; ') || 'nothing diverges by it in this run'}`),
     '',
+    '## Faces measured in the app',
+    '',
+    'Where the app marks a door on a part of what a person sees, the thing itself is measured (tools/parity/faces.json):',
+    '',
+    ...faces.map((one) => `- \`${one.mark}\` (${one.side === 'app' ? 'the app' : 'the design'}): ${one.closest !== undefined ? `its closest \`${one.closest}\`` : `the \`${one.inside ?? ''}\` inside it`} — ${one.why}`),
+    ...aliases.map((one) => `- \`${one.door}\`: drawn by the app as ${one.as.map((door) => `\`${door}\``).join(', ')} — ${one.why}`),
+    '',
   ].join('\n');
 }
 
@@ -94,8 +114,11 @@ export const DECISIONS = path.join('tools', 'parity', 'decisions.json');
 export const DOCUMENT = path.join('docs', 'PAIRING.md');
 export const readPairs = (): readonly Pair[] => (JSON.parse(fs.readFileSync(PAIRING, 'utf8')) as { pairs: Pair[] }).pairs;
 export const readDecisions = (): readonly Decision[] => (JSON.parse(fs.readFileSync(DECISIONS, 'utf8')) as { decisions: Decision[] }).decisions;
+export const FACES = path.join('tools', 'parity', 'faces.json');
+export const readFaces = (): readonly Face[] => (JSON.parse(fs.readFileSync(FACES, 'utf8')) as { faces: Face[] }).faces;
+export const readAliases = (): readonly Alias[] => (JSON.parse(fs.readFileSync(FACES, 'utf8')) as { aliases?: Alias[] }).aliases ?? [];
 
 if (process.argv[1] !== undefined && path.resolve(process.argv[1]) === path.resolve(import.meta.filename)) {
-  fs.writeFileSync(DOCUMENT, pairingDocument(readPairs(), readDecisions()));
+  fs.writeFileSync(DOCUMENT, pairingDocument(readPairs(), readDecisions(), readFaces(), readAliases()));
   console.log(`${DOCUMENT} written`);
 }

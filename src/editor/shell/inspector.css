@@ -39,13 +39,13 @@
   border-radius: 0;
   color: var(--color-text-muted);
   font-size: var(--fs-body);
+  font-weight: var(--weight-semibold);
   line-height: var(--lh-body);
   white-space: nowrap;
 }
 
 .inspector-header__tabs .door.is-current {
   color: var(--color-text);
-  font-weight: var(--weight-semibold);
   box-shadow: none;
 }
 

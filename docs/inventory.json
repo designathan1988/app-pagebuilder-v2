@@ -6,7 +6,7 @@
     "doors": 1350,
     "scenarios": 1819,
     "modules": 424,
-    "lines": 79844
+    "lines": 79859
   },
   "features": [
     {
@@ -4613,7 +4613,7 @@
     },
     {
       "path": "src/core/style/couplings.ts",
-      "lines": 97,
+      "lines": 101,
       "commands": [],
       "features": []
     },
@@ -4729,7 +4729,7 @@
     },
     {
       "path": "src/core/style/set.ts",
-      "lines": 397,
+      "lines": 407,
       "commands": [
         "style.set"
       ],
@@ -5035,7 +5035,7 @@
     },
     {
       "path": "src/editor/canvas/grid-edit.ts",
-      "lines": 165,
+      "lines": 166,
       "commands": [
         "grid.enterEdit",
         "grid.exitEdit",

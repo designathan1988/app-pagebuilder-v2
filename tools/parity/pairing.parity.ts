@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import { test } from '@playwright/test';
 import { diverging, drawn, type Divergence } from './measure.ts';
 import { STATES, openApp, openCanon, setUpState, type Language, type State, type Theme } from './states.ts';
+import { readAliases, readFaces } from './report.ts';
 
 interface Pair {
   readonly state: State;
@@ -16,6 +17,9 @@ interface Pair {
   readonly divergences: readonly Divergence[];
 }
 const THEMES: readonly Theme[] = ['dark', 'light'];
+const facesOf = (side: 'app' | 'canon') => Object.fromEntries(readFaces().filter((one) => one.side === side).map((one) => [one.mark, { ...(one.closest === undefined ? {} : { closest: one.closest }), ...(one.inside === undefined ? {} : { inside: one.inside }) }]));
+const [APP_FACES, CANON_FACES] = [facesOf('app'), facesOf('canon')];
+const ALIASES = Object.fromEntries(readAliases().map((one) => [one.door, one.as]));
 const LANGUAGES: readonly Language[] = ['en', 'pt-BR'];
 
 test('the app paired with the canonical design in every state, theme and language', async ({ browser, baseURL }) => {
@@ -29,7 +33,7 @@ test('the app paired with the canonical design in every state, theme and languag
         const app = await context.newPage();
         await openApp(app, `${baseURL ?? ''}/`, theme, language);
         await setUpState(app, state);
-        const [a, b] = [await drawn(canon), await drawn(app)];
+        const [a, b] = [await drawn(canon, CANON_FACES), await drawn(app, APP_FACES, ALIASES)];
         pairs.push({ state, theme, language, regions: a.regions.length, controls: a.controls.length, divergences: [...diverging('region', a.regions, b.regions), ...diverging('control', a.controls, b.controls)] });
         await context.close();
       }

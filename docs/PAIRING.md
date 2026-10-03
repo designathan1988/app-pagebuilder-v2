@@ -7,154 +7,88 @@ Never edited by hand: `tools/parity/pairing.test.ts` fails while it is out of st
 Every region both sides mark (`data-region`) and every control both mark (`data-door`, the n-th of each door) is
 measured on both sides; a divergence is a size beyond 2 px (a region's beyond 4), a font, a colour beyond 16 of the
 channels' summed difference, or corners, where they show — or something the design draws and the app does not.
-Open: 5708 divergences of 225 kinds. Decisions (docs/PRODUCT.md, section 4) keep the others.
+Open: 1486 divergences of 116 kinds. Decisions (docs/PRODUCT.md, section 4) keep the others.
 
 | State | Theme | Language | Regions | Controls | Open | Kept by a decision |
 |---|---|---|---|---|---|---|
-| default | dark | en | 15 | 117 | 126 | 5 |
-| selection | dark | en | 16 | 117 | 129 | 5 |
-| breakpoint | dark | en | 15 | 126 | 165 | 5 |
-| menu | dark | en | 16 | 134 | 137 | 5 |
-| context | dark | en | 16 | 133 | 131 | 5 |
-| palette | dark | en | 16 | 119 | 127 | 5 |
-| multi | dark | en | 15 | 116 | 129 | 5 |
-| state | dark | en | 12 | 77 | 56 | 5 |
-| text | dark | en | 15 | 113 | 101 | 5 |
-| interaction | dark | en | 14 | 107 | 108 | 5 |
-| hover | dark | en | 12 | 102 | 101 | 5 |
-| drag | dark | en | 14 | 117 | 122 | 5 |
-| default | light | en | 15 | 117 | 126 | 5 |
-| selection | light | en | 16 | 117 | 129 | 5 |
-| breakpoint | light | en | 15 | 126 | 165 | 5 |
-| menu | light | en | 16 | 134 | 137 | 5 |
-| context | light | en | 16 | 133 | 131 | 5 |
-| palette | light | en | 16 | 119 | 127 | 5 |
-| multi | light | en | 15 | 116 | 129 | 5 |
-| state | light | en | 12 | 77 | 56 | 5 |
-| text | light | en | 15 | 113 | 101 | 5 |
-| interaction | light | en | 14 | 107 | 108 | 5 |
-| hover | light | en | 12 | 102 | 101 | 5 |
-| drag | light | en | 14 | 117 | 122 | 5 |
-| default | dark | pt-BR | 15 | 117 | 125 | 5 |
-| selection | dark | pt-BR | 16 | 117 | 128 | 5 |
-| breakpoint | dark | pt-BR | 15 | 126 | 164 | 5 |
-| menu | dark | pt-BR | 16 | 134 | 136 | 5 |
-| context | dark | pt-BR | 16 | 133 | 130 | 5 |
-| palette | dark | pt-BR | 16 | 119 | 126 | 5 |
-| multi | dark | pt-BR | 15 | 116 | 128 | 5 |
-| state | dark | pt-BR | 12 | 77 | 56 | 5 |
-| text | dark | pt-BR | 15 | 113 | 100 | 5 |
-| interaction | dark | pt-BR | 14 | 107 | 108 | 5 |
-| hover | dark | pt-BR | 12 | 102 | 100 | 5 |
-| drag | dark | pt-BR | 14 | 117 | 121 | 5 |
-| default | light | pt-BR | 15 | 117 | 125 | 5 |
-| selection | light | pt-BR | 16 | 117 | 128 | 5 |
-| breakpoint | light | pt-BR | 15 | 126 | 164 | 5 |
-| menu | light | pt-BR | 16 | 134 | 136 | 5 |
-| context | light | pt-BR | 16 | 133 | 130 | 5 |
-| palette | light | pt-BR | 16 | 119 | 126 | 5 |
-| multi | light | pt-BR | 15 | 116 | 128 | 5 |
-| state | light | pt-BR | 12 | 77 | 56 | 5 |
-| text | light | pt-BR | 15 | 113 | 100 | 5 |
-| interaction | light | pt-BR | 14 | 107 | 108 | 5 |
-| hover | light | pt-BR | 12 | 102 | 100 | 5 |
-| drag | light | pt-BR | 14 | 117 | 121 | 5 |
+| default | dark | en | 15 | 117 | 26 | 5 |
+| selection | dark | en | 16 | 117 | 27 | 5 |
+| breakpoint | dark | en | 15 | 126 | 37 | 5 |
+| menu | dark | en | 16 | 134 | 37 | 5 |
+| context | dark | en | 16 | 133 | 31 | 5 |
+| palette | dark | en | 16 | 119 | 27 | 5 |
+| multi | dark | en | 15 | 116 | 30 | 5 |
+| state | dark | en | 12 | 77 | 29 | 5 |
+| text | dark | en | 15 | 113 | 31 | 5 |
+| interaction | dark | en | 14 | 107 | 39 | 5 |
+| hover | dark | en | 12 | 102 | 29 | 5 |
+| drag | dark | en | 14 | 117 | 25 | 5 |
+| default | light | en | 15 | 117 | 26 | 5 |
+| selection | light | en | 16 | 117 | 27 | 5 |
+| breakpoint | light | en | 15 | 126 | 37 | 5 |
+| menu | light | en | 16 | 134 | 37 | 5 |
+| context | light | en | 16 | 133 | 31 | 5 |
+| palette | light | en | 16 | 119 | 27 | 5 |
+| multi | light | en | 15 | 116 | 30 | 5 |
+| state | light | en | 12 | 77 | 29 | 5 |
+| text | light | en | 15 | 113 | 31 | 5 |
+| interaction | light | en | 14 | 107 | 39 | 5 |
+| hover | light | en | 12 | 102 | 29 | 5 |
+| drag | light | en | 14 | 117 | 25 | 5 |
+| default | dark | pt-BR | 15 | 117 | 27 | 5 |
+| selection | dark | pt-BR | 16 | 117 | 28 | 5 |
+| breakpoint | dark | pt-BR | 15 | 126 | 37 | 5 |
+| menu | dark | pt-BR | 16 | 134 | 38 | 5 |
+| context | dark | pt-BR | 16 | 133 | 32 | 5 |
+| palette | dark | pt-BR | 16 | 119 | 28 | 5 |
+| multi | dark | pt-BR | 15 | 116 | 30 | 5 |
+| state | dark | pt-BR | 12 | 77 | 29 | 5 |
+| text | dark | pt-BR | 15 | 113 | 31 | 5 |
+| interaction | dark | pt-BR | 14 | 107 | 39 | 5 |
+| hover | dark | pt-BR | 12 | 102 | 30 | 5 |
+| drag | dark | pt-BR | 14 | 117 | 26 | 5 |
+| default | light | pt-BR | 15 | 117 | 27 | 5 |
+| selection | light | pt-BR | 16 | 117 | 28 | 5 |
+| breakpoint | light | pt-BR | 15 | 126 | 37 | 5 |
+| menu | light | pt-BR | 16 | 134 | 38 | 5 |
+| context | light | pt-BR | 16 | 133 | 32 | 5 |
+| palette | light | pt-BR | 16 | 119 | 28 | 5 |
+| multi | light | pt-BR | 15 | 116 | 30 | 5 |
+| state | light | pt-BR | 12 | 77 | 29 | 5 |
+| text | light | pt-BR | 15 | 113 | 31 | 5 |
+| interaction | light | pt-BR | 14 | 107 | 39 | 5 |
+| hover | light | pt-BR | 12 | 102 | 30 | 5 |
+| drag | light | pt-BR | 14 | 117 | 26 | 5 |
 
 ## Open divergences
 
 | What | Pairs | Design | App | First pairs |
 |---|---|---|---|---|
-| control `layers.setExpanded#layers-caret` colour | 364 | rgb(135, 145, 160) | rgb(217, 222, 230) | default/dark/en, default/dark/en, default/dark/en |
-| control `layers.setExpanded#layers-caret` radius | 364 | 0px | 3px | default/dark/en, default/dark/en, default/dark/en |
-| control `files.open#explorer-file-row` colour | 240 | rgb(217, 222, 230) | rgb(168, 176, 189) | default/dark/en, default/dark/en, default/dark/en |
-| control `files.open#explorer-file-row` height | 240 | 24 | 16 | default/dark/en, default/dark/en, default/dark/en |
-| control `files.open#explorer-file-row` radius | 240 | 0px | 3px | default/dark/en, default/dark/en, default/dark/en |
-| control `inspector.toggleSection#inspector-section-header` radius | 146 | 0px | 3px | default/dark/en, default/dark/en, default/dark/en |
-| control `pages.switch#file-tab` height | 96 | 33 | 28 | default/dark/en, default/dark/en, selection/dark/en |
-| control `workspace.setActiveTab#tab-strip-tab` drawn | 96 | yes | no | default/dark/en, default/dark/en, selection/dark/en |
+| control `workspace.setActiveTab#tab-strip-tab` background | 96 | rgba(0, 0, 0, 0) | rgb(21, 24, 29) | default/dark/en, default/dark/en, selection/dark/en |
+| control `workspace.setActiveTab#tab-strip-tab` colour | 92 | rgb(168, 176, 189) | rgb(217, 222, 230) | default/dark/en, default/dark/en, selection/dark/en |
 | control `element.setLayerColor#layers-row-colour-dot` colour | 80 | rgb(217, 222, 230) | rgb(168, 176, 189) | default/dark/en, default/dark/en, selection/dark/en |
-| control `element.setLayerColor#layers-row-colour-dot` radius | 80 | 0px | 3px | default/dark/en, default/dark/en, selection/dark/en |
+| control `selection.select#layers-row` background | 76 | rgb(23, 58, 56) | rgba(0, 0, 0, 0) | default/dark/en, default/dark/en, selection/dark/en |
 | control `style.setBorder#inspector-border-border-editor` drawn | 72 | yes | no | default/dark/en, default/dark/en, selection/dark/en |
-| control `element.insert#elements-tile` drawn | 60 | yes | no | hover/dark/en, hover/dark/en, hover/dark/en |
-| control `selection.select#layers-row` background | 60 | rgb(23, 58, 56) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, breakpoint/dark/en |
 | control `files.open#file-tab` drawn | 48 | yes | no | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `grid.toggleColumns#canvas-tools-column-grid` height | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `grid.toggleColumns#canvas-tools-column-grid` width | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `grid.toggleDots#canvas-tools-dot-grid` height | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `grid.toggleDots#canvas-tools-dot-grid` width | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `grid.toggleRows#canvas-tools-row-grid` height | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `grid.toggleRows#canvas-tools-row-grid` width | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
 | control `history.redo#toolbar-top-bar` colour | 48 | rgb(168, 176, 189) | rgb(135, 145, 160) | default/dark/en, selection/dark/en, breakpoint/dark/en |
 | control `history.undo#toolbar-top-bar` colour | 48 | rgb(168, 176, 189) | rgb(135, 145, 160) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `pages.switch#file-tab` background | 48 | rgb(21, 24, 29) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `pages.switch#file-tab` radius | 48 | 0px | 3px | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `snap.setEnabled#toolbar-canvas-toolbar-snap` background | 48 | rgb(18, 58, 54) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `snap.setEnabled#toolbar-canvas-toolbar-snap` colour | 48 | rgb(44, 196, 176) | rgb(168, 176, 189) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `snap.setEnabled#toolbar-canvas-toolbar-snap` height | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `snap.setEnabled#toolbar-canvas-toolbar-snap` width | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `view.toggleOutlines#canvas-tools-outlines` background | 48 | rgb(18, 58, 54) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `view.toggleOutlines#canvas-tools-outlines` colour | 48 | rgb(44, 196, 176) | rgb(168, 176, 189) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `view.toggleOutlines#canvas-tools-outlines` height | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `view.toggleOutlines#canvas-tools-outlines` width | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `view.toggleZones#canvas-tools-zones` height | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `view.toggleZones#canvas-tools-zones` width | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `workspace.setActiveTab#inspector-tab-settings` font | 48 | 12px 600 | 12px 400 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `workspace.setPanelOpen#toolbar-canvas-toolbar-canvas-tools` height | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `workspace.setPanelOpen#toolbar-canvas-toolbar-canvas-tools` width | 48 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `workspace.setActiveTab#inspector-tab-interactions` font | 44 | 12px 600 | 12px 400 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `files.createFile#explorer-new-file` background | 40 | rgba(0, 0, 0, 0) | rgb(15, 17, 21) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `files.createFile#explorer-new-file` colour | 40 | rgb(135, 145, 160) | rgb(217, 222, 230) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `files.createFile#explorer-new-file` radius | 40 | 3px | 2px | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `files.createFolder#explorer-new-folder` background | 40 | rgba(0, 0, 0, 0) | rgb(15, 17, 21) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `files.createFolder#explorer-new-folder` colour | 40 | rgb(135, 145, 160) | rgb(217, 222, 230) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `files.createFolder#explorer-new-folder` radius | 40 | 3px | 2px | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `pages.switch#explorer-page-row` background | 40 | rgb(23, 58, 56) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `pages.switch#explorer-page-row` radius | 40 | 0px | 3px | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `workspace.setPanelOpen#toolbar-layers-header-toggle` height | 40 | 24 | 28 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `workspace.setPanelOpen#toolbar-layers-header-toggle` radius | 40 | 2px | 3px | default/dark/en, selection/dark/en, breakpoint/dark/en |
 | region `explorer-layers` height | 40 | 272 | 440 | default/dark/en, selection/dark/en, breakpoint/dark/en |
 | region `inspector-selector-bar` height | 40 | 153 | 159 | default/dark/en, selection/dark/en, breakpoint/dark/en |
 | region `inspector-style` height | 40 | 647 | 641 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| region `layers-row` height | 40 | 248 | 416 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| region `quick-panel` background | 40 | rgba(0, 0, 0, 0) | rgb(29, 33, 40) | default/dark/en, selection/dark/en, selection/dark/en |
-| region `quick-panel` radius | 40 | 0px | 4px | default/dark/en, selection/dark/en, selection/dark/en |
+| region `layers-row` height | 40 | 248 | 324 | default/dark/en, selection/dark/en, breakpoint/dark/en |
 | control `style.set#inspector-background-color` drawn | 36 | yes | no | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.setSpacing#inspector-margin-box-model` background | 36 | color(srgb 0.94902 0.639216 0.235294 / 0.06) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `style.setSpacing#inspector-margin-box-model` colour | 36 | rgb(217, 222, 230) | rgb(135, 145, 160) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `style.setSpacing#inspector-margin-box-model` font | 36 | 12px 400 | 10px 400 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `style.setSpacing#inspector-margin-box-model` height | 36 | 124 | 14 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `style.setSpacing#inspector-margin-box-model` radius | 36 | 4px | 0px | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `style.setSpacing#inspector-padding-box-model` background | 36 | color(srgb 0.423529 0.811765 0.368627 / 0.08) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `style.setSpacing#inspector-padding-box-model` colour | 36 | rgb(217, 222, 230) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `style.setSpacing#inspector-padding-box-model` height | 36 | 74 | 24 | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| control `style.setSpacing#inspector-padding-box-model` radius | 36 | 3px | 0px | default/dark/en, selection/dark/en, breakpoint/dark/en |
-| region `quick-panel` colour | 36 | rgb(217, 222, 230) | rgb(168, 176, 189) | default/dark/en, selection/dark/en, selection/dark/en |
-| control `palette.toggleGroup#elements-group-header` drawn | 32 | yes | no | hover/dark/en, hover/dark/en, hover/dark/en |
-| control `style.set#inspector-column-gap` background | 32 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.set#inspector-column-gap` colour | 32 | rgb(135, 145, 160) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.set#inspector-display` background | 32 | rgb(18, 58, 54) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.set#inspector-display` colour | 32 | rgb(79, 224, 204) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.set#inspector-display` font | 32 | 12px 600 | 12px 400 | default/dark/en, selection/dark/en, menu/dark/en |
+| control `style.setSpacing#inspector-margin-box-model` radius | 36 | 4px | 3px | default/dark/en, selection/dark/en, breakpoint/dark/en |
+| region `quick-panel` colour | 36 | rgb(135, 145, 160) | rgb(168, 176, 189) | default/dark/en, selection/dark/en, selection/dark/en |
 | control `style.set#inspector-flex-direction` background | 32 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
 | control `style.set#inspector-flex-direction` colour | 32 | rgb(217, 222, 230) | rgb(168, 176, 189) | default/dark/en, selection/dark/en, menu/dark/en |
 | control `style.set#inspector-flex-direction` radius | 32 | 3px | 2px | default/dark/en, selection/dark/en, menu/dark/en |
 | control `style.set#inspector-flex-direction` width | 32 | 60 | 24 | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.set#inspector-height` background | 32 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.set#inspector-height` colour | 32 | rgb(135, 145, 160) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.set#inspector-row-gap` background | 32 | rgb(18, 58, 54) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.set#inspector-row-gap` colour | 32 | rgb(79, 224, 204) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.set#inspector-row-gap` font | 32 | 12px 600 | 12px 400 | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.set#inspector-width` background | 32 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.set#inspector-width` colour | 32 | rgb(135, 145, 160) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.setAlignment#inspector-alignment-matrix` background | 32 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.setAlignment#inspector-alignment-matrix` radius | 32 | 3px | 0px | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.setAlignment#inspector-alignment-matrix` width | 32 | 161 | 267 | default/dark/en, selection/dark/en, menu/dark/en |
+| control `style.setAlignment#inspector-alignment-matrix` width | 32 | 161 | 76 | default/dark/en, selection/dark/en, menu/dark/en |
 | control `style.setBackgroundImage#inspector-background-image-gradient-add` drawn | 32 | yes | no | default/dark/en, selection/dark/en, menu/dark/en |
 | control `tokens.update#variables-value-field` background | 20 | rgba(0, 0, 0, 0) | rgb(15, 17, 21) | state/dark/en, state/dark/en, state/dark/en |
 | control `tokens.update#variables-value-field` radius | 20 | 0px | 2px | state/dark/en, state/dark/en, state/dark/en |
-| control `style.set#inspector-overflow` background | 18 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
-| control `style.set#inspector-overflow` colour | 18 | rgb(135, 145, 160) | rgba(0, 0, 0, 0) | default/dark/en, selection/dark/en, menu/dark/en |
 | control `style.set#inspector-overflow` drawn | 14 | yes | no | default/dark/pt-BR, selection/dark/pt-BR, menu/dark/pt-BR |
+| control `palette.toggleGroup#elements-group-header` height | 12 | 24 | 28 | hover/dark/en, hover/dark/en, hover/dark/en |
 | control `animation.rename#timeline-animation-name-field` drawn | 8 | yes | no | interaction/dark/en, interaction/dark/en, interaction/light/en |
 | control `style.set#inspector-color` drawn | 8 | yes | no | breakpoint/dark/en, text/dark/en, breakpoint/light/en |
 | control `style.set#inspector-font-family` drawn | 8 | yes | no | breakpoint/dark/en, text/dark/en, breakpoint/light/en |
@@ -164,7 +98,6 @@ Open: 5708 divergences of 225 kinds. Decisions (docs/PRODUCT.md, section 4) keep
 | control `style.set#inspector-line-height` drawn | 8 | yes | no | breakpoint/dark/en, text/dark/en, breakpoint/light/en |
 | control `style.set#inspector-text-align` drawn | 8 | yes | no | breakpoint/dark/en, text/dark/en, breakpoint/light/en |
 | control `style.setRadius#inspector-border-radius-radius-editor` drawn | 8 | yes | no | multi/dark/en, state/dark/en, multi/light/en |
-| control `style.setSpacing#inspector-padding-box-model` font | 8 | 12px 400 | 10px 400 | breakpoint/dark/en, multi/dark/en, breakpoint/light/en |
 | control `animation.addKeyframe#timeline-add-keyframe` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `animation.create#timeline-new-animation` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `animation.setSettings#timeline-setting-delay` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
@@ -177,7 +110,6 @@ Open: 5708 divergences of 225 kinds. Decisions (docs/PRODUCT.md, section 4) keep
 | control `element.moveDown#menu-arrange` colour | 4 | rgb(4, 32, 28) | rgb(217, 222, 230) | menu/dark/en, menu/light/en, menu/dark/pt-BR |
 | control `element.moveUp#menu-arrange` colour | 4 | rgb(135, 145, 160) | rgb(217, 222, 230) | menu/dark/en, menu/light/en, menu/dark/pt-BR |
 | control `element.setTag#quick-panel-tag` font | 4 | 12px 400 | 11px 400 | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `element.setTag#quick-panel-tag` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
 | control `interactions.add#inspector-interaction-add` font | 4 | 12px 600 | 12px 400 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `interactions.remove#inspector-interaction-remove` background | 4 | rgba(0, 0, 0, 0) | rgb(21, 24, 29) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `interactions.remove#inspector-interaction-remove` colour | 4 | rgb(168, 176, 189) | rgb(217, 222, 230) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
@@ -190,79 +122,38 @@ Open: 5708 divergences of 225 kinds. Decisions (docs/PRODUCT.md, section 4) keep
 | control `interactions.update#inspector-interaction-scope` radius | 4 | 2px | 3px | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `interactions.update#inspector-interaction-trigger` radius | 4 | 2px | 3px | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `interactions.update#layers-row-pick-target` background | 4 | rgb(58, 26, 52) | rgb(107, 107, 107) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `palette.setDensity#elements-density-icons` drawn | 4 | yes | no | hover/dark/en, hover/light/en, hover/dark/pt-BR |
-| control `palette.setDensity#elements-density-list` drawn | 4 | yes | no | hover/dark/en, hover/light/en, hover/dark/pt-BR |
-| control `palette.setDensity#elements-density-three-columns` drawn | 4 | yes | no | hover/dark/en, hover/light/en, hover/dark/pt-BR |
-| control `palette.setDensity#elements-density-two-columns` drawn | 4 | yes | no | hover/dark/en, hover/light/en, hover/dark/pt-BR |
+| control `palette.setDensity#elements-density-icons` width | 4 | 24 | 48.8 | hover/dark/en, hover/light/en, hover/dark/pt-BR |
+| control `palette.setDensity#elements-density-list` width | 4 | 24 | 48.8 | hover/dark/en, hover/light/en, hover/dark/pt-BR |
+| control `palette.setDensity#elements-density-three-columns` width | 4 | 24 | 48.8 | hover/dark/en, hover/light/en, hover/dark/pt-BR |
+| control `palette.setDensity#elements-density-two-columns` colour | 4 | rgb(79, 224, 204) | rgb(217, 222, 230) | hover/dark/en, hover/light/en, hover/dark/pt-BR |
+| control `palette.setDensity#elements-density-two-columns` width | 4 | 24 | 48.8 | hover/dark/en, hover/light/en, hover/dark/pt-BR |
 | control `position.align#menu-arrange-bottom` colour | 4 | rgb(217, 222, 230) | rgb(135, 145, 160) | menu/dark/en, menu/light/en, menu/dark/pt-BR |
 | control `position.align#menu-arrange-horizontal-center` colour | 4 | rgb(217, 222, 230) | rgb(135, 145, 160) | menu/dark/en, menu/light/en, menu/dark/pt-BR |
 | control `position.align#menu-arrange-left` colour | 4 | rgb(217, 222, 230) | rgb(135, 145, 160) | menu/dark/en, menu/light/en, menu/dark/pt-BR |
 | control `position.align#menu-arrange-right` colour | 4 | rgb(217, 222, 230) | rgb(135, 145, 160) | menu/dark/en, menu/light/en, menu/dark/pt-BR |
 | control `position.align#menu-arrange-top` colour | 4 | rgb(217, 222, 230) | rgb(135, 145, 160) | menu/dark/en, menu/light/en, menu/dark/pt-BR |
 | control `position.align#menu-arrange-vertical-center` colour | 4 | rgb(217, 222, 230) | rgb(135, 145, 160) | menu/dark/en, menu/light/en, menu/dark/pt-BR |
+| control `style.set#inspector-display` background | 4 | rgb(18, 58, 54) | rgb(38, 50, 26) | multi/dark/en, multi/light/en, multi/dark/pt-BR |
+| control `style.set#inspector-display` colour | 4 | rgb(79, 224, 204) | rgb(166, 216, 106) | multi/dark/en, multi/light/en, multi/dark/pt-BR |
 | control `style.set#inspector-opacity` drawn | 4 | yes | no | state/dark/en, state/light/en, state/dark/pt-BR |
+| control `style.set#inspector-row-gap` background | 4 | rgb(18, 58, 54) | rgb(38, 50, 26) | multi/dark/en, multi/light/en, multi/dark/pt-BR |
+| control `style.set#inspector-row-gap` colour | 4 | rgb(79, 224, 204) | rgb(166, 216, 106) | multi/dark/en, multi/light/en, multi/dark/pt-BR |
 | control `style.set#inspector-text-transform` drawn | 4 | yes | no | text/dark/en, text/light/en, text/dark/pt-BR |
 | control `style.set#inspector-transition` drawn | 4 | yes | no | state/dark/en, state/light/en, state/dark/pt-BR |
 | control `style.set#inspector-translate-y` drawn | 4 | yes | no | state/dark/en, state/light/en, state/dark/pt-BR |
-| control `style.set#quick-panel-background` background | 4 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-background` colour | 4 | rgb(217, 222, 230) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-background` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-font-family` background | 4 | rgb(58, 44, 18) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-font-family` colour | 4 | rgb(242, 176, 74) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-font-family` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-font-size` background | 4 | rgb(18, 58, 54) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-font-size` colour | 4 | rgb(79, 224, 204) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
+| control `style.set#quick-panel-font-size` background | 4 | rgb(18, 58, 54) | rgb(58, 44, 18) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
+| control `style.set#quick-panel-font-size` colour | 4 | rgb(79, 224, 204) | rgb(242, 176, 74) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
 | control `style.set#quick-panel-font-size` font | 4 | 12px 600 | 12px 400 | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-font-size` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-font-weight` background | 4 | rgb(58, 44, 18) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-font-weight` colour | 4 | rgb(242, 176, 74) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-font-weight` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-height` background | 4 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-height` colour | 4 | rgb(217, 222, 230) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-height` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-letter-spacing` background | 4 | rgb(58, 44, 18) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-letter-spacing` colour | 4 | rgb(242, 176, 74) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-letter-spacing` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-line-height` background | 4 | rgb(18, 58, 54) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-line-height` colour | 4 | rgb(79, 224, 204) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
+| control `style.set#quick-panel-line-height` background | 4 | rgb(18, 58, 54) | rgb(58, 44, 18) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
+| control `style.set#quick-panel-line-height` colour | 4 | rgb(79, 224, 204) | rgb(242, 176, 74) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
 | control `style.set#quick-panel-line-height` font | 4 | 12px 600 | 12px 400 | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-line-height` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-opacity` background | 4 | rgb(58, 44, 18) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-opacity` colour | 4 | rgb(242, 176, 74) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-opacity` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-rotate` background | 4 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-rotate` colour | 4 | rgb(217, 222, 230) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-rotate` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-scale` background | 4 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-scale` colour | 4 | rgb(217, 222, 230) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-scale` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-text-align` background | 4 | rgb(58, 44, 18) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-text-align` colour | 4 | rgb(242, 176, 74) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-text-align` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-text-colour` background | 4 | rgb(38, 50, 26) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-text-colour` colour | 4 | rgb(166, 216, 106) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-text-colour` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-translate-x` background | 4 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-translate-x` colour | 4 | rgb(217, 222, 230) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-translate-x` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-width` background | 4 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.set#quick-panel-width` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setBackgroundImage#quick-panel-fill-gradient` background | 4 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setBackgroundImage#quick-panel-fill-gradient` colour | 4 | rgb(217, 222, 230) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setBackgroundImage#quick-panel-fill-gradient` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setBorder#quick-panel-border` background | 4 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setBorder#quick-panel-border` colour | 4 | rgb(217, 222, 230) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setBorder#quick-panel-border` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setFilter#quick-panel-effects` background | 4 | rgb(58, 44, 18) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setFilter#quick-panel-effects` colour | 4 | rgb(242, 176, 74) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setFilter#quick-panel-effects` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
+| control `style.set#quick-panel-opacity` background | 4 | rgb(58, 44, 18) | rgb(15, 17, 21) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
+| control `style.set#quick-panel-opacity` colour | 4 | rgb(242, 176, 74) | rgb(217, 222, 230) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
+| control `style.set#quick-panel-text-align` background | 4 | rgb(58, 44, 18) | rgb(15, 17, 21) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
+| control `style.set#quick-panel-text-align` colour | 4 | rgb(242, 176, 74) | rgb(217, 222, 230) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
+| control `style.setFilter#quick-panel-effects` background | 4 | rgb(58, 44, 18) | rgb(15, 17, 21) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
+| control `style.setFilter#quick-panel-effects` colour | 4 | rgb(242, 176, 74) | rgb(217, 222, 230) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
 | control `style.setShadows#inspector-box-shadow-shadow-add` drawn | 4 | yes | no | state/dark/en, state/light/en, state/dark/pt-BR |
-| control `style.setTransform#quick-panel-skew-x` background | 4 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setTransform#quick-panel-skew-x` colour | 4 | rgb(217, 222, 230) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setTransform#quick-panel-skew-x` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setTransform#quick-panel-skew-y` background | 4 | rgb(15, 17, 21) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setTransform#quick-panel-skew-y` colour | 4 | rgb(217, 222, 230) | rgba(0, 0, 0, 0) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| control `style.setTransform#quick-panel-skew-y` radius | 4 | 3px | 2px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
 | control `text.editLink#toolbar-text-toolbar-link` colour | 4 | rgb(217, 222, 230) | rgb(168, 176, 189) | text/dark/en, text/light/en, text/dark/pt-BR |
 | control `text.toggleBold#toolbar-text-toolbar-bold` background | 4 | rgb(18, 58, 54) | rgba(0, 0, 0, 0) | text/dark/en, text/light/en, text/dark/pt-BR |
 | control `text.toggleBold#toolbar-text-toolbar-bold` colour | 4 | rgb(217, 222, 230) | rgb(168, 176, 189) | text/dark/en, text/light/en, text/dark/pt-BR |
@@ -274,18 +165,18 @@ Open: 5708 divergences of 225 kinds. Decisions (docs/PRODUCT.md, section 4) keep
 | control `timeline.setPlayhead#timeline-ruler-click` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `timeline.stop#timeline-stop` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `timeline.toggleLoop#timeline-loop` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `workspace.setActiveTab#inspector-tab-style` font | 4 | 12px 600 | 12px 400 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `workspace.setPanelOpen#toolbar-activity-bar-explorer` colour | 4 | rgb(135, 145, 160) | rgb(217, 222, 230) | hover/dark/en, hover/light/en, hover/dark/pt-BR |
-| control `workspace.setPanelOpen#toolbar-activity-bar-insert` colour | 4 | rgb(217, 222, 230) | rgb(135, 145, 160) | hover/dark/en, hover/light/en, hover/dark/pt-BR |
+| control `workspace.setActiveTab#tab-strip-tab` font | 4 | 12px 600 | 12px 400 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | region `command-palette` height | 4 | 254 | 249 | palette/dark/en, palette/light/en, palette/dark/pt-BR |
-| region `context-menu` height | 4 | 426 | 608 | context/dark/en, context/light/en, context/dark/pt-BR |
+| region `context-menu` height | 4 | 426 | 634 | context/dark/en, context/light/en, context/dark/pt-BR |
 | region `context-menu` width | 4 | 268 | 243.5 | context/dark/en, context/light/en, context/dark/pt-BR |
 | region `dock-timeline` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| region `insert` drawn | 4 | yes | no | hover/dark/en, hover/light/en, hover/dark/pt-BR |
+| region `insert` height | 4 | 836 | 390 | hover/dark/en, hover/light/en, hover/dark/pt-BR |
 | region `inspector-interactions` height | 4 | 800 | 586 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | region `menu:arrange` height | 4 | 452 | 706 | menu/dark/en, menu/light/en, menu/dark/pt-BR |
 | region `menu:arrange` width | 4 | 320 | 253.1 | menu/dark/en, menu/light/en, menu/dark/pt-BR |
+| region `quick-panel` background | 4 | rgba(0, 0, 0, 0) | rgb(29, 33, 40) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
 | region `quick-panel` height | 4 | 466 | 634 | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
+| region `quick-panel` radius | 4 | 0px | 6px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
 | region `styles` height | 4 | 836 | 390 | state/dark/en, state/light/en, state/dark/pt-BR |
 | region `text-toolbar` colour | 4 | rgb(43, 29, 20) | rgb(217, 222, 230) | text/dark/en, text/light/en, text/dark/pt-BR |
 | region `text-toolbar` font | 4 | 60px 400 | 12px 400 | text/dark/en, text/light/en, text/dark/pt-BR |
@@ -294,3 +185,16 @@ Open: 5708 divergences of 225 kinds. Decisions (docs/PRODUCT.md, section 4) keep
 
 - **DEC-03** (Fit leaves 8 px around the page, where the canonical shows 24): region `canvas-frame` height; region `canvas-frame` width
 - **DEC-21** (Page tabs carry no ×; code file tabs do): control `files.closeTab#file-tab-close` drawn
+
+## Faces measured in the app
+
+Where the app marks a door on a part of what a person sees, the thing itself is measured (tools/parity/faces.json):
+
+- `style.setSpacing#inspector-margin-box-model` (the app): its closest `.box` — the app marks the box's label as the box's door while its sides are unlinked; the design marks the box a person sees
+- `style.setSpacing#inspector-padding-box-model` (the app): its closest `.box` — the same for the padding box inside it
+- `files.open#explorer-file-row` (the app): its closest `.row` — the app marks the row's icon as the open door (the row's main area is the move door, and a click on it opens the file too); the design marks the row a person sees
+- `files.createFile#explorer-new-file` (the app): its closest `.file-maker` — the app's door is the path field, invisible until the icon box it sits in is pressed; the box is what a person sees
+- `files.createFolder#explorer-new-folder` (the app): its closest `.file-maker` — the same for the new folder
+- `style.setAlignment#inspector-alignment-matrix` (the app): the `.matrix` inside it — the app marks the matrix's row (its label and the matrix) and each cell; the design marks the matrix
+- `quick-panel` (the design): the `.qp-chip` inside it — closed, the design marks the chip's positioning box around the chip; the app marks the chip itself
+- `workspace.setActiveTab#tab-strip-tab`: drawn by the app as `workspace.setPanelOpen#dock-strip-timeline`, `workspace.setPanelOpen#dock-strip-checks` — the closed dock's tabs open the dock at their panel (DEC-02: the canonical strip, Motion beside them), where the design marks them as the tab strip's
