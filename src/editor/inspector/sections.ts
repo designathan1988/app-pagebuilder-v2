@@ -76,7 +76,7 @@ export function sectionHoldsValue(section: SectionId, held: ReadonlySet<string>)
 }
 
 // Whether the section holds a property the manifest marks as essential (properties.json): the ones the panel shows at
-// first (docs/PROJECT.md), so a section that carries them stays open while the element has no value in it — the
+// first (docs/PRODUCT.md, The interface contract), so a section that carries them stays open while the element has no value in it — the
 // essentials are what the person came for, and a panel whose every section is a closed strip shows nothing at all
 // (the user's correction, 2026-09-28).
 export function sectionEssential(section: SectionId): boolean {

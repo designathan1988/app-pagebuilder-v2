@@ -1,3 +1,5 @@
+> Archived 2026-10-02, superseded by [`docs/PRODUCT.md`](../PRODUCT.md) (DEC-36). Where each part went: the layers, the document and its rules, and the interface → PRODUCT.md 5.1–5.3; the development loop, the two runners, `e2e:affected`, the budgets and adding a feature → section 6; the state of the application (2026-10-01) → the requirements register (section 2) and the generated `docs/FEATURES.md`, its decisions → DEC-02, DEC-24, DEC-25, DEC-26; rules that are never broken → `CLAUDE.md` and PRODUCT.md sections 6–7; repeating the large-page measurement → section 6 (`npm run perf`). Kept whole as it stood at `93d4fb2`.
+
 # Builder
 
 A desktop pagebuilder that runs in recent Chrome only, for professionals who build websites. The edited page renders

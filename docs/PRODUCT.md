@@ -211,7 +211,13 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-12.4 | Pages behind a login (Chrome extension) | missing | AUD-15 |
 | STG-12.5 | Copyright notice in the dialog | done | the capture dialog's text |
 | STG-12.6 | Corpus of 20 sites at ≥ 98 % pixel fidelity per breakpoint | missing | AUD-15 |
-| STG-13 | Publish: preview file, hosted link, ZIP and PWA, Windows, Android, Apple, packaging CI | out | DEC-08 |
+| STG-13.1 | Publish: a single preview file (every page, CSS, images and fonts inside) | out | DEC-08 |
+| STG-13.2 | Publish: a hosted link (GitHub Pages or Netlify) to send to the client | out | DEC-08 |
+| STG-13.3 | Publish: site (ZIP) and PWA (manifest, icons, offline service worker) | out | DEC-08 |
+| STG-13.4 | Publish: Windows (Electron, NSIS installer and portable) | out | DEC-08 |
+| STG-13.5 | Publish: Android (Capacitor, APK and AAB) | out | DEC-08 |
+| STG-13.6 | Publish: Apple (Capacitor iOS, Electron for macOS) | out | DEC-08 |
+| STG-13.7 | Publish: packaging CI (`.github/workflows/package.yml`) | out | DEC-08 |
 | STG-14.1 | MCP server in the Companion exposing the manifest's commands | done | QA 50, 55 |
 | STG-14.2 | Chat in the editor with the user's key, one undo step per turn | done (waiting on the user) | QA 50, 55; a real-provider check needs the user's key |
 | STG-14.3 | Image → layout through the assistant; manual tracing | partial | tracing done (STG-11.11); assistant vision not verified |
@@ -416,7 +422,7 @@ QA-LOG left open. Severity: 4 blocks or loses work, 3 grave, 2 nuisance, 1 cosme
 | DEC-07 | Export class names in English by default, configurable per project | the plan, 2026-10-01 | — | QA 51, 81 |
 | DEC-08 | Stages 13, 15, 16 and 17 are out of scope | the user (stage 16: QA 99; all four: audit brief 2026-10-02) | — | section 1 |
 | DEC-09 | Stage 0.3/0.4 browser tooling deferred | the user's maximum-speed order, 2026-10-01 | — | QA-LOG preamble of the Journey 03 fixes |
-| DEC-10 | The affected-test selector's cost (R4) deferred; safety kept | the user, 2026-10-01 | — | `.memory/review.md` R4 |
+| DEC-10 | The affected-test selector's cost (R4) deferred; safety kept | the user, 2026-10-01 | — | `docs/archive/history/review-2026-10-02.md` R4 |
 | DEC-11 | Solo execution: no subagents | the user, 2026-10-01 and 2026-10-02 | — | `docs/archive/history/coordination.md`; memory |
 | DEC-12 | Codex implements and Claude reviews into `.memory/review.md` | the user, 2026-10-01 | later sessions returned to Claude implementing | AGENTS.md; memory |
 | DEC-13 | The file tabs row is drawn always, one page too | the user, 2026-10-02 | revokes the earlier "only with two files" (A3.18) | `dfe05e8`, QA 131 |
@@ -575,7 +581,31 @@ JSON, computed style or geometry inside the frame, storage after a reload, the f
 proxy; a screen is not done until a photo shows it working; nothing stays hidden (the incident feed records validator
 breaches, window errors, unhandled rejections and render failures, and every browser test fails on a non-empty feed);
 visual baselines (`tests/e2e/visual.spec.ts`, 14 pictures, light and dark) are retaken only on purpose after looking.
-Never two Playwright runs at once.
+Never two Playwright runs at once. Never report something as working without the raw output or the screen that proves
+it; the complete output of every command goes to `.cache/logs/`.
+
+**Two scenario runners, one contract.** The fast runner (`tools/runner/headless.test.ts`, inside `check:fast`) runs
+every scenario through every door as the command and arguments the door hands, on the editor's own store in Node, and
+checks the refusals after their step, the document, the selection, the undo steps, the feedback, undo and redo (about
+900 runs in two seconds). What only a browser proves stays with the browser runner (`tools/runner/scenarios.ts`, which
+remains the contract: every scenario through every door, in the real app): a gesture, a drop, a field that shapes typed
+text, a control that fills its arguments, the colour picker's session, and a run whose outcome depends on the page's
+layout or on the values the browser takes, which the fast runner reports as skipped with the reason. `npm run unit`
+measures what the unit tests and the fast runner reach of `src/core` and `src/editor` (`.cache/coverage/index.html`)
+and fails under the floors of `vitest.config.ts`, raised as tests are added and never lowered; what only the browser
+runner reaches counts there as unreached.
+
+**What `e2e:affected` selects.** It follows runtime imports to built feature owners. Shared keyboard, pointer, store
+and door-dispatch code reaches every browser test even when the inventory maps it to one feature (tests consume these
+owners through doors, not imports); unmapped production sources (CSS, JSON, removed files, the entry `src/main.tsx`
+and `src/editor/app.tsx`) and the shared test and manifest infrastructure select the complete suite with the reason
+printed, so unknown reach never means no tests. Unit tests and declaration files alone start no browser work;
+propagation stops at the command-registration table; `--list` prints the Playwright arguments without a browser.
+
+**Budgets.** The static gate about 1 minute; one flow ≤ 30 seconds; the complete suite ≤ 10 minutes, with Playwright on
+a quarter of the machine's cores (2 to 6 workers) so the machine stays usable — the suite has grown past that budget
+(16.2 minutes for 2,537 tests at `1f7b923`). The census (`tests/e2e/census.spec.ts`) is static and takes seconds: every
+door of a built command is run by some test.
 
 **Adding a feature**: (1) its scenarios in `manifest/features/<group>.json` and, when the behaviour needs words, its
 section in `spec/BEHAVIOUR.md`, in the same commit as the code; (2) its commands and doors in
@@ -598,6 +628,8 @@ journeys of the 19 study tasks, the limits, the accessibility probe, the export 
   the fixtures' contents, Carla's `cardapio.csv`, Marina's texts); the study's evidence under `jornada03/` (personas'
   quotes in its JSON, already reported in English); user quotes kept verbatim inside English documents where the exact
   words are the record (QA-LOG rows quote the user, e.g. "nem o quickpanel coloridinho bonito fez").
+- UI text only through the i18n catalogues (English is the source, pt-BR ships). The product name appears only in
+  `src/config/product.ts`.
 - File names are kebab-case (DEC-35): `src/editor/App.tsx` became `src/editor/app.tsx`. Tools are TypeScript:
   `tools/parity/join.py` became `tools/parity/join.ts` (it composes the two crops on a canvas in the installed Chrome,
   so the repository needs no Python). The exceptions, each for a reason outside the code's style:

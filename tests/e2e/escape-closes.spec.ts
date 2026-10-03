@@ -59,8 +59,8 @@ test('Escape ends a Layers rename and keeps the name', runs(OPEN, ROW, RENAME), 
   expect(await documentJson(page)).toBe(before);
 });
 
-// A confirmation is a modal dialog (docs/PROJECT.md, The interface): the focus starts on Cancel and stays inside it,
-// Escape answers Cancel and keeps everything, and the focus goes back to the control that asked.
+// A confirmation is a modal dialog (docs/PRODUCT.md, The interface contract): the focus starts on Cancel and stays
+// inside it, Escape answers Cancel and keeps everything, and the focus goes back to the control that asked.
 test('Escape answers a confirmation with Cancel, and the focus stays inside it until then', runs(OPEN, ROW, EXPLORER, ADD_PAGE, DELETE_PAGE), async ({ page }) => {
   if (!(await control(page, ADD_PAGE).isVisible())) await runDoor(page, EXPLORER);
   await control(page, ADD_PAGE).click();

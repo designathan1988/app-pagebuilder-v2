@@ -1,3 +1,5 @@
+> Archived 2026-10-02, superseded by [`docs/PRODUCT.md`](../PRODUCT.md) (DEC-36). Where each part went: what it is → PRODUCT.md section 1; the architecture → section 5.1; what is delivered → the requirements register (section 2) and the generated `docs/FEATURES.md`; how it is proven → section 6; stability and the dogfooding pass → `docs/QA-LOG.md` and section 2.3; open, honestly → section 3 (T7) and section 4 (DEC-01, DEC-24 to DEC-29, DEC-34); Jornada 03 stage 1 → section 2.3 (STG-1.*). Its counts are of 2026-10-01; the current ones are generated in `docs/INVENTORY.md`. Kept whole as it stood at `93d4fb2`.
+
 # Status Board
 
 The official summary of the base editor, at the close of its design-system chapter (2026-10-01): the audit of the

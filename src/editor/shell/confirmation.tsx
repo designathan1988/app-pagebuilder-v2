@@ -3,7 +3,7 @@
 // its two answers, in the manifest's words, in a modal dialog over the editor. The answer goes back to the store
 // (store.answer), which runs the waiting dispatch or drops it. Its two buttons are that door's run going on, not doors
 // of their own (data-local).
-// It is a modal dialog as every other (docs/PROJECT.md, The interface): the focus goes to Cancel, the answer that loses
+// It is a modal dialog as every other (docs/PRODUCT.md, The interface contract): the focus goes to Cancel, the answer that loses
 // nothing, and stays inside it (Tab past the last button comes back to the first); Escape, in its dialog key context,
 // is a dismissal, which answers Cancel; and once answered the focus goes back to what had it when it was asked.
 import { useEffect, useRef, useState, type FocusEvent } from 'react';

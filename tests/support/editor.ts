@@ -1,4 +1,4 @@
-// Opening the editor for a browser test, in one place (docs/PROJECT.md): every test runs in a new browser
+// Opening the editor for a browser test, in one place (docs/PRODUCT.md, How to prove): every test runs in a new browser
 // context, a fresh profile with nothing stored, so the editor is loaded once. The tests used to load it, clear its
 // storage and load it again (37 copies of the same three lines), which cost 11% of the scenario tests' CPU; the
 // fresh profile is now proven instead of assumed: what the page had stored before any of its scripts ran is read.

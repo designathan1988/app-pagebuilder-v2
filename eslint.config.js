@@ -38,7 +38,7 @@ export default defineConfig(
   },
   {
     // Every browser test comes through tests/support/test.ts, whose fixture records what the test depends on for the
-    // limited validation (docs/PROJECT.md): a test built on '@playwright/test' directly would be invisible to it.
+    // limited validation (docs/PRODUCT.md, How to prove): a test built on '@playwright/test' directly would be invisible to it.
     files: ['tests/e2e/**/*.ts', 'tools/runner/**/*.ts'],
     rules: {
       'no-restricted-imports': ['error', { paths: [{ name: '@playwright/test', importNames: ['test', 'expect'], message: 'Import test and expect from tests/support/test.ts.' }] }],

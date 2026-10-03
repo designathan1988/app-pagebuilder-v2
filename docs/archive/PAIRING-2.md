@@ -1,3 +1,5 @@
+> Archived 2026-10-02 from `jornada03/PAIRING-2.md`, superseded by [`docs/PRODUCT.md`](../PRODUCT.md): stage 5's closure is STG-5.20 (partial: this record is manual, AUD-28), each surface row is the matching STG-5.* row with its commits, and the four kept on purpose are DEC-20 to DEC-23 (DEC-22 since revoked by `cbd7e18`). Kept whole as it stood at `93d4fb2`.
+
 # Pairing 2 — the app against the canonical design (stage 5)
 
 The plan's stage 5 closes on this record: every surface compared with `design/final/index.html`, what differed, and

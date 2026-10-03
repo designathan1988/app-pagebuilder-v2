@@ -52,8 +52,8 @@ test('a control that cannot act is drawn clearly disabled', async ({ page }) => 
   // The controls that cannot act with the fixture open and one element selected: Undo and Redo, with an empty history
   // (the page root's Hide and Lock are enabled now — the root takes them, which is what its own feature asked for).
   // The three this test named before — the Split and Code views and the Interactions tab — are built too, and drawn
-  // enabled. Disabled is the subtle ink on the control's own container, never faded (docs/PROJECT.md, The interface;
-  // jornada02 G-13): its words stay legible, and the pointer finds no hover plate on it.
+  // enabled. Disabled is the subtle ink on the control's own container, never faded (docs/PRODUCT.md, The interface
+  // contract; jornada02 G-13): its words stay legible, and the pointer finds no hover plate on it.
   const subtle = await page.evaluate(() => {
     const probe = document.body.appendChild(document.createElement('span'));
     probe.style.color = 'var(--color-text-subtle)';
