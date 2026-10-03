@@ -3,10 +3,15 @@
 // every scenario and door passed), fails, cannot run (it is registered as built, but a scenario of it cannot run: the
 // census names why), or not built (it is not registered in the feature table, so its scenarios did not run). A
 // registered feature that fails or cannot run fails the whole run. The status holds only for a clean tree, which it
-// says; it is never written anywhere.
+// says. Only a complete run (every scenario test of every runnable feature) on a clean tree is recorded, by the runner
+// and never by hand, in docs/feature-results.json, from which `npm run inventory` writes docs/FEATURES.md.
 import { execFileSync } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
 import type { FullResult, Reporter, TestCase, TestResult } from '@playwright/test/reporter';
-import { FEATURES, blockers, registered } from './scenarios.ts';
+import { FEATURE_RESULTS, type FeatureResults } from '../inventory/features.ts';
+import { REPO_ROOT } from '../manifest/load.ts';
+import { FEATURES, blockers, registered, runnable } from './scenarios.ts';
 
 export default class StatusReporter implements Reporter {
   private readonly results = new Map<string, { passed: number; failed: number }>();
@@ -42,6 +47,19 @@ export default class StatusReporter implements Reporter {
         if (counts.failed > 0) broken += 1;
         console.log(`  ${f.id}: ${counts.failed === 0 ? 'passes' : 'fails'} (${counts.passed} of ${counts.passed + counts.failed} tests)`);
       }
+    }
+    // a complete run on a clean tree: every scenario test of every runnable feature ended, and nothing but the record
+    // itself differs from the commit
+    const expected = FEATURES.filter(runnable).map((f) => [f.id, f.scenarios.reduce((sum, s) => sum + s.doors.length, 0)] as const);
+    const complete = expected.every(([id, total]) => { const counts = this.results.get(id); return counts !== undefined && counts.passed + counts.failed === total; });
+    const record = path.posix.join(...FEATURE_RESULTS.split(path.sep));
+    const changed = git('status', '--porcelain').split('\n').filter((l) => l !== '' && l.slice(3) !== record);
+    if (complete && changed.length === 0) {
+      const features = Object.fromEntries(expected.map(([id, total]) => [id, { passed: this.results.get(id)?.passed ?? 0, total }]));
+      const tests = Object.values(features).reduce((sum, one) => ({ passed: sum.passed + one.passed, total: sum.total + one.total }), { passed: 0, total: 0 });
+      const results: FeatureResults = { commit, date: git('log', '-1', '--format=%cs'), tests, features };
+      fs.writeFileSync(path.join(REPO_ROOT, FEATURE_RESULTS), `${JSON.stringify(results, null, 2)}\n`);
+      console.log(`recorded the complete run in ${FEATURE_RESULTS}: run npm run inventory to update docs/FEATURES.md`);
     }
     return broken > 0 && result.status === 'passed' ? { status: 'failed' } : undefined;
   }

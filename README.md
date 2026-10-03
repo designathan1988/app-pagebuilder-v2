@@ -13,18 +13,26 @@ inside an iframe scaled with CSS `zoom`; the document JSON is the source of trut
   incident or unmet expectation. `npm run ui -- --list` says what can be run.
 - `npm run e2e` runs the browser tests; at the end of a block, run the tests of what the block built
   (`npm run e2e -- <spec file>`). The complete suite runs once, when the whole application is ready.
-- `npm run inventory` regenerates `docs/INVENTORY.md` (and its machine copy) from the manifest and the source.
+- `npm run inventory` regenerates `docs/INVENTORY.md` (and its machine copy) and `docs/FEATURES.md` from the manifest,
+  the source and the last complete browser run.
+- `npm run companion` starts the Builder Companion (web address capture, the assistant's bridge); `npm run perf`
+  measures the large page. The full list is in `docs/PRODUCT.md` section 6.
 
 ## Where things are
 
 - `manifest/`: the contract — every element type, edited CSS property, interaction constant and command with its
   doors, and every feature with its scenarios. `manifest:check` validates it.
 - `spec/BEHAVIOUR.md`: the behaviour specs, one section per feature, anchored by id (the manifest points at them).
-- `docs/PROJECT.md`: the one project document — layers, rules, the interface contract, the loop, the state.
-- `docs/INVENTORY.md`: generated — every feature, command, door and module, and who owns what.
+- `docs/PRODUCT.md`: the single source of truth — scope, requirements and their status, open problems, decisions,
+  architecture, how to prove things.
+- `docs/FEATURES.md`, `docs/INVENTORY.md`: generated — the state of every feature; every feature, command, door and
+  module, and who owns what.
+- `docs/QA-LOG.md`: the history, one row per commit; `docs/AUDIT-<date>.md`: dated audits; `docs/archive/`: superseded
+  documents.
 - `src/core/`: the document core (no React); `src/editor/`: the editor; `src/app/`: the wiring; `src/manifest/`: the
   contract's reader; `src/generated/`: written by `npm run gen` alone.
 - `tests/`: the browser tests and their one fixture (`tests/support/`).
-- `tools/`: `gen`, `manifest`, `lint`, `runner`, `inventory`, `ui` — what the app is built, checked and driven with.
+- `tools/`: `gen`, `manifest`, `lint`, `runner`, `inventory`, `ui`, `perf`, `parity`, `journey`, `companion`, `modules`
+  — what the app is built, checked and driven with.
 - `design/final/`: the visual contract and the tokens. `reference/` (in the old checkout `../builder-5/`): the read-only
   reference material; never write inside it.

@@ -7,23 +7,24 @@ you the goal, the few rules that are not negotiable, and the facts of this machi
 ## 1. Where things are
 
 - **`CLAUDE.md`** — the rules of this repository. They apply to you as written ("the assistant" means you).
-- **`.memory/plan.md`** — the approved plan (18 stages, in Portuguese): the goal.
+- **`docs/PRODUCT.md`** — the single source of truth: scope, the requirements register with each requirement's status,
+  the open problems, the decisions, the architecture and how to prove things.
 - **`.memory/builder.md`** — your working memory. Keep it current (at most 60 lines) so that after a context
   compaction you know where you are; read it first after one.
 - **`.memory/review.md`** — the reviewer's findings (section 4).
 - **`docs/QA-LOG.md`** — every change so far, one row each, with its commit.
 
-`.memory/` and `.cache/` are ignored by git and exist only on this machine. `.memory/archive/` and the older files
-in `.memory/` (`builder-brief.md`, `audit-checklist.md`, `panel-audit.md`) are background; the plan holds over them.
+`.memory/` and `.cache/` are ignored by git and exist only on this machine. The approved plan of 2026-10-01 is
+translated and archived in `docs/archive/plan-2026-10-01.md`; its items are rows of the requirements register.
 
 ## 2. The goal
 
-Everything in `.memory/plan.md`, to the end: every finding of the Jornada 03 usability study fixed and proven, and
-every capability of stages 2–17 built complete. The scope is the commitment; the order, the technique, the split
-into commits, the use of subagents and the way you prove things are yours to choose. Keep going from one item to
-the next without waiting for anyone. Where something needs the user's own credentials or permission (SDK install,
-Apple account, service tokens, API key, signing certificate), build the field or step for the user, never type a
-credential, note it in your memory under "Waiting on the user", and carry on with what does not depend on it.
+Every requirement of `docs/PRODUCT.md` section 2 that is not **done** or **out**, and every open problem of section 3,
+fixed and proven, most severe first. The scope is the commitment; the order, the technique, the split into commits
+and the way you prove things are yours to choose (subagents are not used: DEC-11). Keep going from one item to the
+next without waiting for anyone. Where something needs the user's own credentials or permission (SDK install,
+service tokens, API key, signing certificate), build the field or step for the user, never type a credential, note it
+in your memory under "Waiting on the user", and carry on with what does not depend on it.
 
 ## 3. Not negotiable (the user's rules)
 

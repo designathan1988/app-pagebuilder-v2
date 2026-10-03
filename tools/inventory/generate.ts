@@ -1,8 +1,10 @@
 // The inventory (the plan's "a generated inventory of everything"): what the application is made of, derived from the
-// manifest and the source — never hand-written, so it cannot go stale. One command, two files:
+// manifest and the source — never hand-written, so it cannot go stale. One command, three files:
 //
-//   manifest/generated/inventory.json   the machine's copy: every feature, command, door, module and their links
-//   docs/INVENTORY.md                   the person's copy: the same facts as tables
+//   docs/inventory.json   the machine's copy: every feature, command, door, module and their links
+//   docs/INVENTORY.md     the person's copy: the same facts as tables
+//   docs/FEATURES.md      the state of every feature (tools/inventory/features.ts): the manifest, the source, the
+//                         behaviour spec and the last complete browser run, joined
 //
 // It answers, without reading the code: which feature owns which commands and doors, which module registers them
 // (the owner of a concept is the module that registers its commands — the hand-written table this replaces), how many
@@ -13,6 +15,7 @@ import path from 'node:path';
 import { isRegistered } from '../../src/core/commands/registry.ts';
 import { FEATURES } from '../../src/app/features.ts';
 import { loadManifest, registrationsIn, REPO_ROOT } from '../manifest/load.ts';
+import { featuresMarkdown, FEATURES_MD } from './features.ts';
 
 // The machine's copy sits beside the person's: the manifest's own folders accept only the files its contract names,
 // and this one is derived from the manifest and the source together (the manifest's checker refused it there).
@@ -153,14 +156,15 @@ export function inventoryMarkdown(inventory: Inventory): string {
   return lines.join('\n');
 }
 
-export function writeInventory(): { json: string; md: string } {
+export function writeInventory(): { json: string; md: string; features: string } {
   const inventory = generate();
-  return { json: inventoryJson(inventory), md: inventoryMarkdown(inventory) };
+  return { json: inventoryJson(inventory), md: inventoryMarkdown(inventory), features: featuresMarkdown(inventory) };
 }
 
 if (process.argv[1]?.endsWith('generate.ts') === true) {
-  const { json, md } = writeInventory();
+  const { json, md, features } = writeInventory();
   fs.writeFileSync(path.join(REPO_ROOT, INVENTORY_JSON), json);
   fs.writeFileSync(path.join(REPO_ROOT, INVENTORY_MD), md);
-  console.log(`inventory: wrote ${INVENTORY_JSON} and ${INVENTORY_MD}`);
+  fs.writeFileSync(path.join(REPO_ROOT, FEATURES_MD), features);
+  console.log(`inventory: wrote ${INVENTORY_JSON}, ${INVENTORY_MD} and ${FEATURES_MD}`);
 }

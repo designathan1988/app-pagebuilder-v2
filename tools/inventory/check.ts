@@ -1,5 +1,6 @@
-// npm run inventory:check: the inventory on disk is what the generator writes now. It reads before it writes (a hand
-// edit is reported, never erased), and it fails on the two things the inventory exists to catch:
+// npm run inventory:check: the inventory and the feature table on disk are what the generator writes now. It reads
+// before it writes (a hand edit is reported, never erased), and it fails on the two things the inventory exists to
+// catch:
 //
 //   - a built feature whose commands no module registers (the feature claims to be built; nothing implements it);
 //   - a module registering commands of a feature that is not built (code for a feature the app does not offer yet).
@@ -7,18 +8,22 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { loadManifest, REPO_ROOT } from '../manifest/load.ts';
 import { generate, inventoryJson, inventoryMarkdown, INVENTORY_JSON, INVENTORY_MD } from './generate.ts';
+import { featuresMarkdown, FEATURES_MD } from './features.ts';
 
 const expected = generate();
 const wantedJson = inventoryJson(expected);
 const wantedMd = inventoryMarkdown(expected);
+const wantedFeatures = featuresMarkdown(expected);
 const at = (file: string) => path.join(REPO_ROOT, file);
 const read = (file: string) => (fs.existsSync(at(file)) ? fs.readFileSync(at(file), 'utf8') : '');
 const heldJson = read(INVENTORY_JSON);
 const heldMd = read(INVENTORY_MD);
+const heldFeatures = read(FEATURES_MD);
 
 const problems: string[] = [];
 if (heldJson !== wantedJson) problems.push(`${INVENTORY_JSON} differs from what the generator writes (run npm run inventory)`);
 if (heldMd !== wantedMd) problems.push(`${INVENTORY_MD} differs from what the generator writes (run npm run inventory)`);
+if (heldFeatures !== wantedFeatures) problems.push(`${FEATURES_MD} differs from what the generator writes (run npm run inventory)`);
 
 // a built feature whose commands nothing registers: code that does not exist behind a door that says it does
 for (const feature of expected.features) {
