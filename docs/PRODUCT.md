@@ -392,7 +392,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-20 | 2 | The Grid template keeps empty cells when a card is inserted | audit | done (QA 170) |
 | AUD-21 | 2 | First panel still the Explorer; Insert called Elements in menus | audit; J26 | done (QA 171) |
 | AUD-22 | 2 | html-validate errors in the `motion` fixture's export | audit | done (QA 160) |
-| AUD-23 | 1 | pt-BR values clipped in the inspector | audit | open |
+| AUD-23 | 1 | pt-BR values clipped in the inspector | audit | done (QA 177) |
 | AUD-24 | 1 | An untranslated save-refusal reason | audit | done (QA 173) |
 | AUD-25 | 1 | Ctrl+A on the page body selects the interface's text | audit | done (QA 175) |
 | AUD-26 | 1 | The New variable kind list does not take the focus (probable) | audit | done (QA 176) |
@@ -410,6 +410,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | R4 | — | `e2e:affected` selects the whole suite for 80 % of source changes | review R4 (deferred by the user, DEC-10) | open |
 | T7 | — | The pointer's module-level singletons matter only with two editors on a page | deferred (DEC-26) | open |
 | RT1 | 1 | A class of the person's that one element lists alone, on an element without styles of its own, imports back as that element's own styles: plain HTML cannot tell it from the export's own class (`class="card"` and its rule either way) | QA 169, the round trip test on a new fixture | open (a limit of plain HTML; spec html-import-roundtrip says it) |
+| BW1 | 2 | The border fields of an element with no border of its own show the canvas’s zoomed computed width: a 1 px border reads `1.69014px` at 59 % | QA 177, the text-fits test | open |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 

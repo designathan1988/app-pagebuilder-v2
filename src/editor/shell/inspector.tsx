@@ -50,6 +50,7 @@ import { SettingsTab } from './inspector-settings.tsx';
 import { Hints, useSingleNode } from '../inspector/selection.tsx';
 import { Affects, TargetChips, classBarControl } from './class-bar.tsx';
 import { Popover, usePopover } from './popover.tsx';
+import { installRowFit } from './row-fit.ts';
 import { breakpointName } from '../../core/document/breakpoints.ts';
 
 const SECTIONS = manifest.properties.sections;
@@ -717,10 +718,13 @@ export function Inspector() {
   const t = useT();
   const open = useEditorState((s) => isPanelOpen(s.ui, 'inspector'));
   const tab = useEditorState((s) => inspectorTab(s.ui));
+  // a row whose label or value does not fit beside the other stacks (row-fit.ts)
+  const aside = useRef<HTMLElement>(null);
+  useEffect(() => (open && aside.current !== null ? installRowFit(aside.current) : undefined), [open]);
   if (!open) return null;
   const Body = TAB_BODIES[tab];
   return (
-    <aside className="inspector" aria-label={t(panelName('inspector'))} data-panel-focus="inspector">
+    <aside ref={aside} className="inspector" aria-label={t(panelName('inspector'))} data-panel-focus="inspector">
       {/* the inspector's width, which the person sets (spec panel-resize) */}
       <Splitter splitter="inspector-width" className="splitter--column-start" />
       <div className="inspector-header" data-region="inspector-header">

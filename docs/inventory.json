@@ -5,8 +5,8 @@
     "commands": 371,
     "doors": 1345,
     "scenarios": 1770,
-    "modules": 420,
-    "lines": 77774
+    "modules": 421,
+    "lines": 77874
   },
   "features": [
     {
@@ -6069,7 +6069,7 @@
     },
     {
       "path": "src/editor/shell/inspector.tsx",
-      "lines": 795,
+      "lines": 799,
       "commands": [],
       "features": []
     },
@@ -6130,6 +6130,12 @@
     {
       "path": "src/editor/shell/region-boundary.tsx",
       "lines": 63,
+      "commands": [],
+      "features": []
+    },
+    {
+      "path": "src/editor/shell/row-fit.ts",
+      "lines": 96,
       "commands": [],
       "features": []
     },

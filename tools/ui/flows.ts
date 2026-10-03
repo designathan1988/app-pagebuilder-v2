@@ -625,6 +625,23 @@ export const FLOWS: readonly Flow[] = [
     ],
   },
   {
+    name: 'pt-br-fit',
+    about: 'in Portuguese no text of the inspector is cut: a row whose word does not fit beside its label lays the label above its values (AUD-23)',
+    steps: [
+      INSERT_PANEL,
+      { door: 'element.insert#elements-tile', labelled: 'Image' },
+      STYLE_TAB,
+      { door: 'inspector.setMode#inspector-mode-all' },
+      { photo: 'english-size-section' },
+      { click: '[data-menu="view"]' },
+      { click: 'button.menu__item:has-text("Language")' },
+      { door: 'preferences.setLanguage#menu-language-pt-br' },
+      { photo: 'portuguese-size-pairs-stacked' },
+      { click: `[data-door="inspector.toggleRow#inspector-row-disclosure"][data-args='{"row":"overflow"}']` },
+      { photo: 'portuguese-overflow-axes' },
+    ],
+  },
+  {
     name: 'bare-radius',
     about: 'a radius accepts the same bare lengths and arithmetic as other length fields',
     steps: [

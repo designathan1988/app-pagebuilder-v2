@@ -1431,7 +1431,7 @@
   text-align: left;
   cursor: default;
 }
-.field__keyword-value { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.field__keyword-value { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .field__keyword .icon { flex: none; color: var(--color-text-subtle); }
 
 /* The grid track editor's header (J10): the axis named, its count, and its add and remove buttons, which stay in this
@@ -1528,4 +1528,32 @@
   flex-wrap: wrap;
   gap: var(--space-2);
   margin-top: var(--space-2);
+}
+
+/* A row whose label or one-word value does not fit beside the other (row-fit.ts) lays its label on a line of its own,
+   above its values, which take the whole row: a translation's long word reflows instead of being cut or broken (spec
+   inspector-panel, Problem 12; the audit's AUD-23). A pair keeps its two halves side by side under the label, and each field's
+   reset stands at the end of the label's line. */
+.inspector .field-row[data-stacked] {
+  grid-template-columns: minmax(0, 1fr);
+}
+.inspector .field-row--pair[data-stacked] {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+[data-region='inspector-style'] .field-row:not(.field-row--pair)[data-stacked]:has(> .field__end) {
+  grid-template-columns: minmax(0, 1fr) var(--size-target-min);
+}
+.inspector .field-row[data-stacked] > .field-row__label {
+  grid-column: 1 / -1;
+}
+[data-region='inspector-style'] .field-row--pair[data-stacked] > .field__end {
+  left: auto;
+  right: 0;
+  bottom: auto;
+  height: var(--size-row);
+}
+/* a detail's values, stacked, start where its set-in label starts (the label's own indent is left as it is: row-fit.ts
+   judges the row by it) */
+.concept-row__details .field-row[data-stacked] > :not(.field-row__label, .field__end) {
+  margin-left: var(--space-6);
 }
