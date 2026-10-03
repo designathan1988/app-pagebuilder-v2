@@ -1,4 +1,4 @@
-// The canvas iframe (ARCHITECTURE.md): a same-origin iframe that only renders. It is sandboxed without scripts, has
+// The canvas iframe (PRODUCT.md §5): a same-origin iframe that only renders. It is sandboxed without scripts, has
 // no event handler of its own and takes no pointer event: every pointer input arrives on the overlay above it
 // (src/editor/input/pointer.ts). The renderer (src/core/render/render.ts) builds the page into its document once and
 // then applies each change of the document to it. One exception while a text is edited in place: the keymap listens

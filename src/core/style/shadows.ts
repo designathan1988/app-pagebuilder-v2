@@ -1,4 +1,4 @@
-// Shadows (ARCHITECTURE.md, Command owners; spec shadow-editor): style.setShadows writes the layers of a box shadow or
+// Shadows (INVENTORY.md, owners; spec shadow-editor): style.setShadows writes the layers of a box shadow or
 // a text shadow into every selected element, one undo step. A shadow is stored as its layers' typed fields (the
 // structure of its property, properties.json structures: colour, X, Y, blur, and for a box shadow spread and inset;
 // hidden), never as CSS text: a hidden layer stays in the document and its editor, only the CSS leaves it out

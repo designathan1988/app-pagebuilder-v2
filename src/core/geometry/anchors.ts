@@ -1,4 +1,4 @@
-// Anchors (ARCHITECTURE.md, Command owners; spec absolute-anchors): which edges of its containing block a positioned
+// Anchors (INVENTORY.md, owners; spec absolute-anchors): which edges of its containing block a positioned
 // element keeps its distances to, per axis: the start edge (left, top), the end edge (right, bottom), both (its size
 // then follows the containing block) or the centre (both insets 0 with auto margins and a fit-content size: centred
 // without translate, which belongs to Move X/Y). The properties are the inset composite's longhands (top, right,

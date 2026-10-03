@@ -1,12 +1,12 @@
-// Edit on canvas (ARCHITECTURE.md, Command owners; spec spacing-handles, radius-border-gap-handles, shadow-handles): the
+// Edit on canvas (INVENTORY.md, owners; spec spacing-handles, radius-border-gap-handles, shadow-handles): the
 // mode in which the canvas draws the handles of one kind of value of the selection (padding or margin bands, the
 // radius corner, border edges, gap bands, the shadow's handles). canvas.setEditMode chooses it from the quick panel's
 // Edit on canvas menu; Escape in the canvas while a mode is on (the canvas-edit-mode key context) leaves it. A mode is
 // editor state: nothing in the document changes and nothing is recorded; it stays while the selection changes.
 //
 // Which modes the menu offers usable: none, and a mode whose handles are built (the canvas-handle doors whose handle
-// starts with the mode's name, their feature registered as built), so a mode never draws nothing (DESIGN.md "Build
-// order"); a mode whose handles edit a structured value (a shadow's layers) applies to an element that holds one
+// starts with the mode's name, their feature registered as built), so a mode never draws nothing (archive/DESIGN.md
+// "Build order"); a mode whose handles edit a structured value (a shadow's layers) applies to an element that holds one
 // (modeApplies: spec shadow-handles, Problems in Pager 2), and is disabled with its reason on any other.
 import { toolKeyContext } from '../input/pointer-tools.ts';
 import { isFeatureBuilt } from '../../app/features.ts';

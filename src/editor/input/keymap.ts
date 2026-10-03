@@ -1,11 +1,11 @@
-// The keymap (ARCHITECTURE.md): the one owner of keys. It runs the shortcut doors
+// The keymap (PRODUCT.md §5): the one owner of keys. It runs the shortcut doors
 // of the manifest in their key contexts; there is no other key table. A context inherits the bindings of the contexts
 // interactions.json names (text editing, menus, the palette, dialogs and fields inherit nothing, so they keep their
-// own keys). A bound chord's browser default is prevented, whether or not its door runs yet (DESIGN.md "Keyboard
-// model"); a door runs when shortcut-rule.ts says so (DESIGN.md "Build order"). While the hand holds an element
-// (core/structure/hand.ts) the canvas's keys are the hand context's, and they act at the hand's aim. A command that
-// takes what the system clipboard holds runs once the clipboard is read (src/editor/clipboard.ts). A door whose
-// gesture gives a held key a meaning (a number field's Shift+ArrowUp) runs with that key held and hands it on.
+// own keys). A bound chord's browser default is prevented, whether or not its door runs yet (archive/DESIGN.md
+// "Keyboard model"); a door runs when shortcut-rule.ts says so (archive/DESIGN.md "Build order"). While the hand holds
+// an element (core/structure/hand.ts) the canvas's keys are the hand context's, and they act at the hand's aim. A
+// command that takes what the system clipboard holds runs once the clipboard is read (src/editor/clipboard.ts). A door
+// whose gesture gives a held key a meaning (a number field's Shift+ArrowUp) runs with that key held and hands it on.
 import { previewing } from '../view/preview.ts';
 import type { CommandId, DoorId, FeatureId, KeyContextId, MessageId } from '../../generated/ids.ts';
 import { normaliseChord } from '../../manifest/chord.ts';
@@ -464,7 +464,7 @@ export function installKeymap(store: EditorStore, target: Window = window): () =
         return;
       }
     }
-    // a bound chord is the editor's whether or not its door runs yet (DESIGN.md "Keyboard model")
+    // a bound chord is the editor's whether or not its door runs yet (archive/DESIGN.md "Keyboard model")
     event.preventDefault();
     // a letter inside a burst of letters is typing: its single-letter shortcut does not run (outside a field and the
     // text edited in place, where letters are text already)

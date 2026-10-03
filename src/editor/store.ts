@@ -1,4 +1,4 @@
-// The editor store binding (ARCHITECTURE.md): creates the one store with the command table, the manifest's commands
+// The editor store binding (PRODUCT.md §5): creates the one store with the command table, the manifest's commands
 // and rules, the ports and the editor state, and exposes it to React. Components read state through
 // useEditorState and change it only through dispatch; no document, selection or editor state lives in useState.
 import { createContext, useContext, useSyncExternalStore } from 'react';

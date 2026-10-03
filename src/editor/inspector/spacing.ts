@@ -1,4 +1,4 @@
-// inspector.toggleSpacingLink (ARCHITECTURE.md, Command owners; spec props-spacing, Problems in Pager 1 and 2): whether
+// inspector.toggleSpacingLink (INVENTORY.md, owners; spec props-spacing, Problems in Pager 1 and 2): whether
 // a box of the box model editor (padding or margin) is edited as one value for its four sides. It changes only how the
 // box is edited and writes nothing to the document (no undo step). The link belongs to the element (J27 of the
 // jornada03 study: one global switch carried the link of the footer to every button): a box whose four sides hold the

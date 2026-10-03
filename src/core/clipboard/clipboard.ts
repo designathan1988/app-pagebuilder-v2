@@ -1,4 +1,4 @@
-// The clipboard (ARCHITECTURE.md, Command owners; specs clipboard-copy-paste, clipboard-paste-external,
+// The clipboard (INVENTORY.md, owners; specs clipboard-copy-paste, clipboard-paste-external,
 // clipboard-cut-system and copy-paste-styles): elements and their styles through the system clipboard, never a copy
 // kept in memory (spec clipboard-copy-paste, Problems in Pager 2).
 //  - Copy writes every selected root (a node no other selected node contains), in document order, with its subtree, in

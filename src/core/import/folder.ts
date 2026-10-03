@@ -1,4 +1,4 @@
-// project.openFolder (ARCHITECTURE.md, Command owners; the manifest's explorer-open-folder): a folder the person
+// project.openFolder (INVENTORY.md, owners; the manifest's explorer-open-folder): a folder the person
 // picked with the browser's directory picker read into a project. Every file lands at the same path in the project's
 // tree, except one whose path belongs to a generated file (css/styles.css, js/interactions.js): that one is kept under
 // a new name (css/styles-1.css, core/files/files.ts pathGenerated). A page's HTML goes through the one owner of

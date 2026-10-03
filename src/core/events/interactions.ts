@@ -1,4 +1,4 @@
-// The interactions of an element (ARCHITECTURE.md, Command owners; group 18; spec events-actions): the document's
+// The interactions of an element (INVENTORY.md, owners; group 18; spec events-actions): the document's
 // `interactions` (model.ts) and the three commands over them — interactions.add, interactions.update,
 // interactions.remove — with the readers the export asks (which animations an event plays, which elements the script
 // addresses).
@@ -291,8 +291,8 @@ export function updateInteractionCommand<Ui>(make: PickMaking<Ui>): RegisteredHa
   if (found === null || typeof interaction !== 'number') return { kind: 'change' };
   const held = interactionsOf(found.node)[interaction];
   if (held === undefined) return { kind: 'change' };
-  // the Target field starts picking (DESIGN.md: not a command of its own; editor state alone, no undo step, nothing of
-  // the document), and the pick itself clears it again
+  // the Target field starts picking (PRODUCT.md §5.3: not a command of its own; editor state alone, no undo step,
+  // nothing of the document), and the pick itself clears it again
   if (changes !== null && typeof changes === 'object' && !Array.isArray(changes) && (changes as Record<string, unknown>).pick === true) {
     return { kind: 'change', ui: make.makePicking(make.makePicked(context.state.ui), interaction) };
   }

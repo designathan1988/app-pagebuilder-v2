@@ -2,8 +2,8 @@
 // keeps the drawing). Pure: boxes in, boxes out — the caller supplies the page's content boxes, the visible canvas and
 // the box being labelled, so the rules can be read (and tested) on their own.
 //
-// The label rule (DESIGN.md "Canvas"): a label never covers page content, and (the canvas audit of 2026-09-29) never
-// covers a control the chrome draws either — a resize handle or an edit band under it would lose the press to the
+// The label rule (archive/DESIGN.md "Canvas"): a label never covers page content, and (the canvas audit of 2026-09-29)
+// never covers a control the chrome draws either — a resize handle or an edit band under it would lose the press to the
 // label, which stands for the element and starts a move. It sits above its element when that space is free, otherwise
 // inside the element's top-left corner when that corner is free, otherwise below the element; with a ghost chip at the
 // pointer (a drag) it keeps clear of the chip too. Where no place is free the label covers the least it can and says so
@@ -112,10 +112,10 @@ function heldInside(box: Box, area: Box): Box {
 
 // A drop label also keeps clear of the drag's ghost chip (`ghost`, the user's real-use audit, item 3.1): a place it
 // would cover is not free, and with none free the label moves beside the chip, on the side with room. The rule's
-// invariant is that no label covers page content (DESIGN.md "Label rule"); the line of a drop spans the receiver, so
-// the three places are tried at its start and then at its far end (a line between two lines of text: the text sits at
-// the left, and the far end is empty), and where even those are not free the place covering the least content wins —
-// never the largest overlap just because it is the documented order.
+// invariant is that no label covers page content (archive/DESIGN.md "Label rule"); the line of a drop spans the
+// receiver, so the three places are tried at its start and then at its far end (a line between two lines of text: the
+// text sits at the left, and the far end is empty), and where even those are not free the place covering the least
+// content wins — never the largest overlap just because it is the documented order.
 export function placeLabel(box: Box, size: { readonly width: number; readonly height: number }, gap: number, content: readonly Box[], canvas: Box, ghost: Box | null = null): { box: Box; placement: Placement; covers: boolean } {
   const far = box.x + box.width - size.width;
   // 'inside' needs the label to fit within the element it names: a label taller than the element spills past its

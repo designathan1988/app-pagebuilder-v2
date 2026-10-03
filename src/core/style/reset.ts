@@ -1,4 +1,4 @@
-// Resetting values (ARCHITECTURE.md, Command owners; spec inspector-provenance-reset): style.reset takes one property
+// Resetting values (INVENTORY.md, owners; spec inspector-provenance-reset): style.reset takes one property
 // (a composite: its longhands) away from the styles of every selected element at the base breakpoint and state, so the
 // element shows what it inherits or its default again; style.resetAll takes every style value of the selected elements
 // away, at every breakpoint and state, one undo step. A locked element refuses both; an element that holds nothing to

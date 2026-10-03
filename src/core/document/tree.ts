@@ -1,4 +1,4 @@
-// The tree's structure, in one place (ARCHITECTURE.md; the plan's T1): the patches that take a subtree out, put
+// The tree's structure, in one place (PRODUCT.md §5; the plan's T1): the patches that take a subtree out, put
 // children in, and release the references that pointed at what is leaving — and the one test that says whether a move
 // would put a node inside itself.
 //

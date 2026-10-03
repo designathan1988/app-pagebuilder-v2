@@ -1,4 +1,4 @@
-// Inline text editing (ARCHITECTURE.md, "The text editing surface"; spec text-edit-inline): text.startEdit,
+// Inline text editing (PRODUCT.md §5, "The text editing surface"; spec text-edit-inline): text.startEdit,
 // text.cancelEdit and text.insertLineBreak, and the editor state of an edit (`ui.textEdit`). The edit happens on the
 // page itself, in the zoomed iframe: the handlers only record the edit in the editor state, and the canvas frame
 // (frame.tsx) has the renderer carry it out on the page (the edited element made editable and focused with the caret

@@ -1,13 +1,13 @@
-// The inspector (DESIGN.md "Inspector"; spec inspector-panel): its header (the tabs, Page properties, the Element
-// actions menu) and the body of the tab it shows (workspace.setActiveTab). A tab whose body the inspector does not draw
-// yet (Interactions, until events-actions) is not available yet (DESIGN.md "Build order").
+// The inspector (archive/DESIGN.md "Inspector"; spec inspector-panel): its header (the tabs, Page properties, the
+// Element actions menu) and the body of the tab it shows (workspace.setActiveTab). A tab whose body the inspector does
+// not draw yet (Interactions, until events-actions) is not available yet (archive/DESIGN.md "Build order").
 //  - Style: the selector bar, then the Style tab's region, as tall as what it shows (the inspector column scrolls it):
 //    with nothing selected, the hints first (and the fields stay empty); then the value-origin legend, Essentials only
 //    / All properties, the property search and the sections, always all eight and in order (properties.json), each
 //    with the fields the manifest
 //    places in inspector-style in their order. A section's header collapses and expands it (inspector.toggleSection);
 //    a collapsed one shows no field and summarises the values the page computes (sections.ts). A field offers every
-//    value of the catalogue in All properties (the generated list and the presets, DESIGN.md) and draws a
+//    value of the catalogue in All properties (the generated list and the presets, PRODUCT.md §5.3) and draws a
 //    keyword-buttons control with the keyword icons of properties.json; the commands behind them arrive with their
 //    features, so each shows "not available yet".
 //  - Settings: no selector bar; its region starts under the header. The text of the one selected text element (its
@@ -97,8 +97,8 @@ const SECTION_DOORS = (() => {
 })();
 const STYLE_SECTIONS = SECTIONS.filter((s) => (SECTION_DOORS.get(s.id) ?? []).length > 0);
 
-// The section header's origin dot (DESIGN.md "Inspector", the value-origin legend; the mockup's .has mark): where the
-// values the section holds come from, read by inspector/origin.ts over every
+// The section header's origin dot (archive/DESIGN.md "Inspector", the value-origin legend; the mockup's .has mark):
+// where the values the section holds come from, read by inspector/origin.ts over every
 // field in that section. Its marks stay visible when the section is closed.
 function SectionOrigin({ section }: { readonly section: SectionId }) {
   const kinds = useEditorState((s) => {
@@ -589,9 +589,9 @@ function PanelField({ entry }: { readonly entry: DoorEntry }) {
   );
 }
 
-// What the selector bar names (DESIGN.md "Inspector": the element's icon, name and tag): the one selected element,
-// with its exported tag (the page root's is body); with several selected, how many; with none, that nothing is. Read
-// from the store's selection, so the inspector never says something the store contradicts.
+// What the selector bar names (archive/DESIGN.md "Inspector": the element's icon, name and tag): the one selected
+// element, with its exported tag (the page root's is body); with several selected, how many; with none, that nothing
+// is. Read from the store's selection, so the inspector never says something the store contradicts.
 function SelectedElement() {
   const t = useT();
   const count = useEditorState((s) => s.selection.length);
@@ -748,8 +748,8 @@ export function Inspector() {
   );
 }
 
-// The selector bar of the Style tab (DESIGN.md "Inspector"): the selected element, its targets, the state picker and
-// the active breakpoint.
+// The selector bar of the Style tab (archive/DESIGN.md "Inspector"): the selected element, its targets, the state
+// picker and the active breakpoint.
 function SelectorBar() {
   const t = useT();
   const none = useEditorState((s) => s.selection.length === 0);

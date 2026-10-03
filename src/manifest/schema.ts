@@ -21,7 +21,8 @@ const constantId = z.string().regex(/^[a-z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)+$/, 'a d
 const cssName = z.string().regex(/^-?[a-z]+(-[a-z0-9]+)*$/, 'a CSS property name');
 const htmlTag = z.string().regex(/^[a-z][a-z0-9]*$/, 'an HTML tag name');
 const ownerPath = z.string().regex(/^src\/[a-z0-9/-]+\.ts$/, 'a planned module path under src/');
-// an icon of the editor's one icon library, Lucide (DESIGN.md "Icons"): manifest:check rule icon-name proves it exists
+// an icon of the editor's one icon library, Lucide (archive/DESIGN.md "Icons"): manifest:check rule icon-name proves it
+// exists
 const iconName = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'a Lucide icon name');
 // a predicate, codec or action id: code registers it under this id (references.json)
 const predicateId = camelId;
@@ -437,8 +438,8 @@ export const propertiesFileSchema = z.strictObject({
   // The computed values the context predicates read (spec props-element-specific, "Our rule"): those of the selected
   // element, own, and those of its parent. The inspector reads them on the canvas and never names a property by hand.
   context: z.strictObject({ own: z.array(cssName).min(1), parent: z.array(cssName).min(1) }),
-  // The pair rows of the Style tab (DESIGN.md "Inspector"): two properties or composites drawn side by side on one
-  // row, under the row's own label — the first field's own name, or the concept both fields serve when the design
+  // The pair rows of the Style tab (archive/DESIGN.md "Inspector"): two properties or composites drawn side by side on
+  // one row, under the row's own label — the first field's own name, or the concept both fields serve when the design
   // names it (the gap's two axes read "Gap", not "Row gap"). A row is where the fields are read together (width and
   // height, the two gap axes); every other field keeps a row of its own. A row may carry a short prefix for the fields
   // whose value would otherwise be ambiguous (the height's H, the gap axes' arrows).
@@ -580,17 +581,17 @@ const adapterSchema = z.strictObject({
   fileReading: z.enum(['text', 'upload', 'folder', 'data']).optional(),
 });
 
-// A region of the interface DESIGN.md names (layout.json lists them); a menu's own region is "menu:<menu>".
+// A region of the interface PRODUCT.md §5.3 names (layout.json lists them); a menu's own region is "menu:<menu>".
 const regionId = z.string().regex(/^[a-z]+(-[a-z]+)*(:[a-z]+(-[a-z]+)*)?$/, 'a region id such as "canvas-toolbar" or "menu:view"');
 
 const placementSchema = z.union([
   z.literal('none'), // a key or a canvas gesture has no control of its own
   z.literal('unplaced'), // not placed yet: manifest:check rule placement refuses it
-  // the region of DESIGN.md that draws the control, and its position there (1 first)
+  // the region of PRODUCT.md §5.3 that draws the control, and its position there (1 first)
   z.strictObject({ region: regionId, order: z.number().int().positive() }),
 ]);
 
-// How a toolbar or panel control is drawn (DESIGN.md "Icons"): an icon button (the icon alone, the label as its
+// How a toolbar or panel control is drawn (archive/DESIGN.md "Icons"): an icon button (the icon alone, the label as its
 // tooltip), a button (its label, after its icon when it has one), the primary button (a button filled with the accent,
 // the region's main action), one of a segmented group, a tab, an item (a row, a tile, a file tab, a chip, the page
 // switcher: its icon and text come from the item it stands for), a field (an input, or a control drawn as one, such as
@@ -827,8 +828,8 @@ export const commandsFileSchema = z.strictObject({
   commands: z.array(commandSchema).min(1),
 });
 
-// ---------------------------------------------------------------- layout (the regions of DESIGN.md)
-// Every region DESIGN.md draws, and the control that opens each menu. A door's placement names one of
+// ---------------------------------------------------------------- layout (the regions of PRODUCT.md §5.3)
+// Every region PRODUCT.md §5.3 draws, and the control that opens each menu. A door's placement names one of
 // these regions. The area says where the region sits: a fixed part of the window, an overlay that
 // opens over it, or "component", the parts of a control repeated wherever it is drawn (every field,
 // every Layers row, every tab strip).

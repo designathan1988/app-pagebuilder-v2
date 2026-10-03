@@ -1,4 +1,4 @@
-// The download port (ARCHITECTURE.md): the one way a command hands the person a file (File › Save project's
+// The download port (PRODUCT.md §5): the one way a command hands the person a file (File › Save project's
 // project.zip, the export). A handler returns the file in its outcome and stays pure; the store gives it to this
 // port once the command has run. The editor's port saves it through the browser (src/editor/download.ts); tests
 // pass one that records what it got, or none.

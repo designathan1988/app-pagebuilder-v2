@@ -1,4 +1,4 @@
-// element.wrapRow, element.wrapColumn, element.wrapContainer and element.wrapGrid (ARCHITECTURE.md, Command owners):
+// element.wrapRow, element.wrapColumn, element.wrapContainer and element.wrapGrid (INVENTORY.md, owners):
 // the one owner of the Row, Column, Container and Grid wrappers (spec wrap-row-column, Problems 1 and 3; the user's
 // real-use audit, item 8.1). The selected roots, which must share one parent, are replaced at
 // the first one's index by a new element of the wrapper's definition (elements.json wrappers, one for every door),

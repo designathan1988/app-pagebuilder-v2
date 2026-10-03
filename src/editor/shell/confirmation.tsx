@@ -1,4 +1,4 @@
-// The confirmation a dispatch waits for (ARCHITECTURE.md, "Store and dispatch": state.confirmation, asked by a
+// The confirmation a dispatch waits for (PRODUCT.md §5, "Store and dispatch": state.confirmation, asked by a
 // command whose manifest entry has a confirmation, such as File › Open over a page that holds work): the question and
 // its two answers, in the manifest's words, in a modal dialog over the editor. The answer goes back to the store
 // (store.answer), which runs the waiting dispatch or drops it. Its two buttons are that door's run going on, not doors

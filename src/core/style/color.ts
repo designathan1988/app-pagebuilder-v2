@@ -1,4 +1,4 @@
-// Colours (ARCHITECTURE.md; spec color-picker, color-picker-oklch): the one reader and writer of the colours the picker
+// Colours (PRODUCT.md §5; spec color-picker, color-picker-oklch): the one reader and writer of the colours the picker
 // works with. A colour is read from CSS text: #rgb, #rrggbb, #rgba, #rrggbbaa, transparent, and the functions rgb(),
 // hsl(), hwb(), lab(), lch(), oklab(), oklch() and color() (srgb, srgb-linear, display-p3, xyz, xyz-d50, xyz-d65), in
 // the modern and the legacy syntax (parseSrgb: sRGB channels from 0 to 1, beyond them for a colour outside sRGB); a

@@ -1,8 +1,8 @@
-// The command bar (DESIGN.md `command-palette`; spec command-bar): a search field over the list of the entries the
-// command bar offers (command-bar/command-bar.ts), each drawn by its command-bar door, with its shortcut. Its keys are
-// the doors of its key context: ArrowDown and ArrowUp move the active entry, Enter runs it (focus.ts: the field is a
-// combobox), Escape and a press on the backdrop close it (ui.dismiss). An entry pressed runs its command, then the bar
-// closes (the close waits for the entry's own click: closing first took the entry away before it ran).
+// The command bar (PRODUCT.md §5.3 `command-palette`; spec command-bar): a search field over the list of the entries
+// the command bar offers (command-bar/command-bar.ts), each drawn by its command-bar door, with its shortcut. Its keys
+// are the doors of its key context: ArrowDown and ArrowUp move the active entry, Enter runs it (focus.ts: the field is
+// a combobox), Escape and a press on the backdrop close it (ui.dismiss). An entry pressed runs its command, then the
+// bar closes (the close waits for the entry's own click: closing first took the entry away before it ran).
 import { Fragment, useContext, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { isFeatureBuilt } from '../../app/features.ts';
 import type { CommandId, FeatureId, MessageId } from '../../generated/ids.ts';

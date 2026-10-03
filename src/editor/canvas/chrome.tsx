@@ -1,4 +1,4 @@
-// The canvas chrome (ARCHITECTURE.md): what the editor draws over the page, on the canvas overlay: the outline of
+// The canvas chrome (PRODUCT.md §5): what the editor draws over the page, on the canvas overlay: the outline of
 // every selected node and the primary's label (its name and its exported tag, so the page root reads "body"); with
 // several selected, the dashed outline of their union and one label counting them ("3 elements selected"); the
 // thinner outline of the node the pointer hovers (pointer.ts); the band of a marquee while pointer.ts draws one
@@ -21,8 +21,8 @@
 // follows scrolling, zoom and layout; the page itself is never touched (only the renderer writes it). Apart from
 // those labels the chrome takes no pointer event, and it has no listener of its own (pointer.ts owns every gesture).
 //
-// Label rule (DESIGN.md "Canvas"): a label never covers page content. It sits above its element when that space is
-// free, otherwise inside the element's top-left corner when that corner is free, otherwise below the element.
+// Label rule (archive/DESIGN.md "Canvas"): a label never covers page content. It sits above its element when that space
+// is free, otherwise inside the element's top-left corner when that corner is free, otherwise below the element.
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type Ref } from 'react';
 import { styleClassOf } from '../inspector/style-target.ts';
 import { useSelectionContext } from '../shell/field.tsx';
@@ -151,10 +151,10 @@ const GHOST_RETURN_MS = ((): number => {
 // pointer and no ghost (and climbs no level of a drag).
 type DropView = Pick<DragView, 'dragged' | 'inserting' | 'proposal' | 'refusal' | 'redirect' | 'levels' | 'side'> & { readonly at: DragView['at'] | null };
 
-// The words of the drag in progress (DESIGN.md "Canvas", drag): what its drop label reads, and, for a palette tile's
-// creation drag, the status bar too (spec palette-drag-insert, Problems in Pager 1 and 2). Over the dragged nodes'
-// own subtree, or where the new element's command refuses it, the refusal; a move reads "Drop in Hero · position 2 of
-// 3"; a creation drag "Insert Paragraph · position 2 of 4 in Hero", or "Insert Container · into Actions" into a
+// The words of the drag in progress (archive/DESIGN.md "Canvas", drag): what its drop label reads, and, for a palette
+// tile's creation drag, the status bar too (spec palette-drag-insert, Problems in Pager 1 and 2). Over the dragged
+// nodes' own subtree, or where the new element's command refuses it, the refusal; a move reads "Drop in Hero · position
+// 2 of 3"; a creation drag "Insert Paragraph · position 2 of 4 in Hero", or "Insert Container · into Actions" into a
 // receiver with no child, and, with no proposal (off the page), "Outside the page — release to cancel.". Null for a
 // move with no proposal. The hand's aim reads as a move, or its refusal. A proposal the level keys climbed says how
 // many receiver levels it climbed ("· ↑1", spec drag-level-keys-escape, Problems in Pager 3): the levels actually
@@ -181,7 +181,7 @@ export function dragWords(document: DocumentJson, view: DropView): Message | nul
 }
 
 // The names from the page root to a node, joined as the breadcrumb joins them; past three levels the outer ones are
-// left out (DESIGN.md "Canvas", drag).
+// left out (archive/DESIGN.md "Canvas", drag).
 const PATH_SHOWN = 3;
 function pathTo(document: DocumentJson, id: NodeId): string {
   const names: string[] = [];
@@ -220,7 +220,7 @@ export function sideLine(target: Box, side: SideView['offer']): Box {
 
 interface Layout {
   readonly selected: readonly Box[];
-  // the box around every selected node, drawn dashed while several are selected (DESIGN.md "Canvas", multi)
+  // the box around every selected node, drawn dashed while several are selected (archive/DESIGN.md "Canvas", multi)
   readonly union: Box | null;
   readonly hovered: Box | null;
   readonly label: { readonly box: Box; readonly placement: Placement; readonly covers?: boolean } | null;
@@ -404,10 +404,10 @@ export function handDrop(hand: HandState): DropView {
 
 // The drop indicator of the drag in progress (spec drag-reorder-canvas, "Visual feedback", and Problems in Pager 3):
 // the insertion line where the dragged nodes will land, the receiving parent's outline, and the label naming the
-// receiver and the position ("Drop in Hero · position 1 of 3", DESIGN.md "Canvas", drag), placed by the label rule
-// next to the line, never at the receiver's far corner. A proposal that the command would refuse (a creation drag's,
-// the hand's aim) is drawn refused (spec palette-drag-insert, Problems in Pager 3). A drag's proposal drawn is the one
-// of the level the level keys set (drag-session.ts), redrawn as soon as a key changes it.
+// receiver and the position ("Drop in Hero · position 1 of 3", archive/DESIGN.md "Canvas", drag), placed by the label
+// rule next to the line, never at the receiver's far corner. A proposal that the command would refuse (a creation
+// drag's, the hand's aim) is drawn refused (spec palette-drag-insert, Problems in Pager 3). A drag's proposal drawn is
+// the one of the level the level keys set (drag-session.ts), redrawn as soon as a key changes it.
 function DropIndicator({ view }: { readonly view: DropView }) {
   const document = useEditorState((s) => s.document);
   const t = useT();
@@ -679,7 +679,7 @@ export function CanvasChrome() {
   // the resize drag in progress, whose distances to the neighbours the canvas draws (item 4.5)
   const resizing = useSyncExternalStore(resizingNow.subscribe, resizingNow.get);
   // the text edited in place (text-edit.ts): its outline and label wear the text editing mode, so the edit never looks
-  // like a plain selection (spec text-edit-inline, Problems in Pager 2; DESIGN.md "Canvas", text)
+  // like a plain selection (spec text-edit-inline, Problems in Pager 2; archive/DESIGN.md "Canvas", text)
   const editing = useEditorState((s) => s.ui.textEdit.node !== null && s.selection.length === 1 && s.selection[0] === s.ui.textEdit.node);
   const t = useT();
   const store = useStore();

@@ -1,4 +1,4 @@
-// The breakpoint the editor shows and edits (ARCHITECTURE.md, Command owners; spec breakpoints-switch,
+// The breakpoint the editor shows and edits (INVENTORY.md, owners; spec breakpoints-switch,
 // project-breakpoints): one of the project's breakpoints (core/document/breakpoints.ts: its own table, else the
 // default of properties.json), a workspace preference restored after a reload, the base one while none is chosen or
 // the chosen one is not the project's. The frame's tabs switch it (view.setBreakpoint); the page inside the frame takes

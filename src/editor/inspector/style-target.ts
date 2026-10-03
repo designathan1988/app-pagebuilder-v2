@@ -1,4 +1,4 @@
-// The style target (ARCHITECTURE.md, Command owners; spec shared-style-classes): what the Style tab's writes go to, the
+// The style target (INVENTORY.md, owners; spec shared-style-classes): what the Style tab's writes go to, the
 // selected elements themselves (the Element chip) or one class every selected element lists (its chip).
 // inspector.setStyleTarget chooses it; it is editor state: nothing in the document changes and nothing is recorded.
 //  - A class target holds only while the project has the class and every selected element lists it

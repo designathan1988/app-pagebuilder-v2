@@ -1,4 +1,4 @@
-// A door whose command is not built stands for no current state (ARCHITECTURE.md "Door rendering"): in the
+// A door whose command is not built stands for no current state (PRODUCT.md §5 "Door rendering"): in the
 // accessibility tree none says it is pressed, selected or checked, and on screen none looks selected, neither beside
 // the other doors of its command in the same place (the dock's tabs, the breakpoint tabs, the view segments) nor
 // as a row beside the other rows of the sidebar. The built commands are the registered handlers of references.json.

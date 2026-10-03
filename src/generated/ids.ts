@@ -2473,7 +2473,7 @@ export const FEATURE_IDS = [
 ] as const;
 export type FeatureId = (typeof FEATURE_IDS)[number];
 
-// the regions of DESIGN.md (layout.json)
+// the regions of manifest/layout.json
 export const REGION_IDS = [
   "top-bar",
   "preview-bar",

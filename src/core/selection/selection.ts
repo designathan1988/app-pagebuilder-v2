@@ -1,4 +1,4 @@
-// The selection (ARCHITECTURE.md, Command owners): which nodes are selected, the primary first. It lives in the
+// The selection (INVENTORY.md, owners): which nodes are selected, the primary first. It lives in the
 // store beside the document, never in it: selecting changes no document and records no history, and undo and redo
 // restore the selection that belonged to the document state they go back to (history.ts).
 import { pageShown } from '../project/pages.ts';

@@ -1,5 +1,5 @@
-// The project's variables in the Styles view (DESIGN.md "Regions", styles; spec css-variables-tokens): the design
-// tokens grouped by kind (Colours, Sizes, Fonts), each a row of its name field (tokens.rename), its value field
+// The project's variables in the Styles view (archive/DESIGN.md "Regions", styles; spec css-variables-tokens): the
+// design tokens grouped by kind (Colours, Sizes, Fonts), each a row of its name field (tokens.rename), its value field
 // (tokens.update) and Delete (tokens.delete), under the section's New variable (tokens.create), which opens the list of
 // kinds: each item makes a variable of its kind with the next free name (the kind, a dash and a number) and its kind's
 // first value. A field keeps its text on Enter or when it is left, as the inspector's text fields do, for the variable

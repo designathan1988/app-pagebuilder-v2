@@ -1,4 +1,4 @@
-// The HTML content model (ARCHITECTURE.md): which element may sit inside which, read from the permitted content and
+// The HTML content model (PRODUCT.md §5): which element may sit inside which, read from the permitted content and
 // the permitted descendants of manifest/generated/html-elements.json (keyed by tag). This slice holds:
 //  - palette-click-insert: a parent whose permitted content is a closed list of elements (<ul> and <ol> take <li>,
 //    <tr> takes <td> and <th>, <table> its rows and sections) accepts only those;

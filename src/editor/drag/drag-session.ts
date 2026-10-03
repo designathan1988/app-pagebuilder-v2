@@ -1,4 +1,4 @@
-// The drag session (ARCHITECTURE.md, Command owners): drag.levelUp, drag.levelDown and drag.cancel, the keys of a drag
+// The drag session (INVENTORY.md, owners): drag.levelUp, drag.levelDown and drag.cancel, the keys of a drag
 // in progress (spec drag-level-keys-escape). The pointer owner (pointer.ts) runs the drag inside its gesture and reads
 // the keys in the drag key context (keymap.ts); this module keeps what the keys change:
 // - The live drag: the drag the pointer owner runs now (an element's, or a palette tile's creation drag), numbered,

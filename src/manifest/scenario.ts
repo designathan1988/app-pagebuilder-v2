@@ -1,4 +1,4 @@
-// The scenario data (ARCHITECTURE.md): how a scenario names the nodes and fields of a document, and how its
+// The scenario data (PRODUCT.md §5): how a scenario names the nodes and fields of a document, and how its
 // document diff applies. manifest:check proves every path of every scenario resolves; the runner
 // (tools/runner/scenarios.ts) resolves the same paths in the document the test port reads and compares the result
 // with matchDocument. Plain TypeScript, no DOM.

@@ -1,4 +1,4 @@
-// The asset picker's state (ARCHITECTURE.md, Command owners; spec explorer-assets-use; the user's real-use audit,
+// The asset picker's state (INVENTORY.md, owners; spec explorer-assets-use; the user's real-use audit,
 // 7.3): the panel that offers the project's image files where a field that names a file is written. Its state is
 // editor state (ui.assetPicker: the attribute it writes, or null); nothing of it is document state. The view that
 // draws the panel is shell/asset-picker.tsx; this module owns the two commands that open and close it.

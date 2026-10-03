@@ -1,4 +1,4 @@
-// text.set (ARCHITECTURE.md, Command owners; spec text-edit-inline): writes a text element's text in one transaction.
+// text.set (INVENTORY.md, owners; spec text-edit-inline): writes a text element's text in one transaction.
 // Its doors are the end of an inline edit (Enter, a click outside the edited element) and the inspector's text field;
 // each hands the node and the content it produced: a plain text, or (an inline edit of a text that is or was marked,
 // spec text-inline-formatting) its whole tree of runs (src/core/text/inline.ts). A line break is stored as "\n" (the

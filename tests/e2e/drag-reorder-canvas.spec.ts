@@ -1,8 +1,8 @@
-// drag-reorder-canvas beyond its scenarios (spec/BEHAVIOUR.md#drag-reorder-canvas, DESIGN.md "Canvas", drag): what the
-// canvas draws while an element is dragged (src/editor/canvas/chrome.tsx): the insertion line across the receiver in
-// the gap where the element will land, the receiver's outline, the drop label beside the line over no text, the
-// dragged element's outline dashed and its name label hidden (Problems in Pager 1); the hysteresis that keeps a drawn
-// proposal until the pointer has moved drag.hysteresis screen pixels; and a press that moves less than
+// drag-reorder-canvas beyond its scenarios (spec/BEHAVIOUR.md#drag-reorder-canvas, archive/DESIGN.md "Canvas", drag):
+// what the canvas draws while an element is dragged (src/editor/canvas/chrome.tsx): the insertion line across the
+// receiver in the gap where the element will land, the receiver's outline, the drop label beside the line over no text,
+// the dragged element's outline dashed and its name label hidden (Problems in Pager 1); the hysteresis that keeps a
+// drawn proposal until the pointer has moved drag.hysteresis screen pixels; and a press that moves less than
 // drag.threshold, which only selects. The document and the selection are read through the read-only test port;
 // the drawing is measured against the elements' boxes inside the frame, mapped to the screen through its CSS zoom.
 import fs from 'node:fs';

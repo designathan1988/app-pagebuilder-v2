@@ -1,4 +1,4 @@
-// Filters (ARCHITECTURE.md, Command owners; spec props-filters-clip): style.setFilter sets the filter functions it is
+// Filters (INVENTORY.md, owners; spec props-filters-clip): style.setFilter sets the filter functions it is
 // given (blur: 4px) in the filter value of every selected element, each in its place or added last, one taken away for
 // an empty argument, the whole declaration for none (Remove filters: removeStyle, reset.ts), in one undo step through
 // writeStyle. The value the functions make is read by the property's codec and written only when the browser takes it,

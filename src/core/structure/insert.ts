@@ -1,4 +1,4 @@
-// element.insert (ARCHITECTURE.md, Command owners): a new element of a palette entry, placed where the arguments say
+// element.insert (INVENTORY.md, owners): a new element of a palette entry, placed where the arguments say
 // or, without them, where the selection says (spec palette-click-insert, "Hit zones"): with nothing selected, the last
 // child of the shown page's root; with a container selected, its last child; with a leaf selected, right after it in
 // its parent. The placement follows the content model (src/core/elements/content-model.ts): a parent that does not

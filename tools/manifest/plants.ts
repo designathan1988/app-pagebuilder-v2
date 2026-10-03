@@ -839,7 +839,7 @@ export const PLANTS: Plant[] = [
   {
     id: 'tooth-proof-module-unknown',
     rule: 'tooth-proof',
-    description: 'canvas-page-iframe names src/core/render/renderer.ts for its tooth proof, which ARCHITECTURE.md does not name',
+    description: 'canvas-page-iframe names src/core/render/renderer.ts for its tooth proof, a file the project does not hold',
     apply: (m) => {
       plantRenderScenario(m).toothProof = 'src/core/render/renderer.ts';
     },
@@ -863,7 +863,7 @@ export const PLANTS: Plant[] = [
   },
 ];
 
-// The placement rules of DESIGN.md: every door has a region, a state is never chosen on the canvas frame or
+// The placement rules of PRODUCT.md §5.3: every door has a region, a state is never chosen on the canvas frame or
 // the canvas toolbar, and no label names two CSS properties.
 PLANTS.push(
   {

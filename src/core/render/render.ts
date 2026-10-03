@@ -1,4 +1,4 @@
-// The renderer (ARCHITECTURE.md): the one writer of a page's HTML and CSS from the document JSON. It builds one page
+// The renderer (PRODUCT.md §5): the one writer of a page's HTML and CSS from the document JSON. It builds one page
 // into the document it is given (the canvas iframe's; it never reads a global document) and then applies each
 // change's patches to that DOM without rebuilding the page: a style patch rewrites that node's rules, a patch of an
 // attribute, a class, the text or the tag updates that node's element, a patch of a node's children reconciles

@@ -295,8 +295,8 @@ function AttributeField({ entry, label, toggle }: { readonly entry: DoorEntry; r
   );
 }
 
-// The Settings tab: no selector bar (DESIGN.md), its region right under the header. With one element selected, the
-// fields of the attributes that apply to its type (elements.json), in their order, the text first.
+// The Settings tab: no selector bar (PRODUCT.md §5.3), its region right under the header. With one element selected,
+// the fields of the attributes that apply to its type (elements.json), in their order, the text first.
 // the project's language fields (core/project/language.ts), drawn under the page root's own settings
 const PROJECT_LANGUAGE = doorSlots('inspector-settings').find((d) => d.door.kind === 'panel-control' && d.door.control === 'project-language');
 const CODE_LANGUAGE = doorSlots('inspector-settings').find((d) => d.door.kind === 'panel-control' && d.door.control === 'code-language');

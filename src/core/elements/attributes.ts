@@ -1,4 +1,4 @@
-// An element's ID, classes and attributes (ARCHITECTURE.md, Command owners; feature props-attributes, and every element
+// An element's ID, classes and attributes (INVENTORY.md, owners; feature props-attributes, and every element
 // feature whose Settings fields are attributes of elements.json): element.setId, element.setClasses and
 // element.setAttribute, each acting on its door's node or the one selected element.
 //  - The text is taken without the spaces around it; an empty one removes the ID or the attribute (the element then

@@ -32,7 +32,8 @@ test.beforeEach(async ({ page }) => {
 // registered as built, so the item is usable and opens the dock's Timeline tab with its 18 doors drawn.
 test('View › Timeline opens the dock on its Timeline tab', runs('workspace.setPanelOpen#menu-view-timeline'), async ({ page }) => {
   const tabs = () => page.locator('[data-region="tab-strip"] [role="tab"]').evaluateAll((els) => els.map((el) => el.textContent));
-  // a fresh profile keeps the dock closed, drawing no strip (the audit's A3.18): the door opens it
+  // a fresh profile keeps the dock closed, drawing only its strip (DEC-02, which revoked A3.18's no strip): the door
+  // opens it
   await openMenu(page, 'view');
   const door = page.locator('[data-door="workspace.setPanelOpen#menu-view-timeline"]');
   await expect(door).not.toHaveAttribute('aria-disabled', 'true');

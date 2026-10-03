@@ -1,4 +1,4 @@
-// The Timeline's editor state for motion (ARCHITECTURE.md, Command owners; spec motion-timeline): `ui.motion` — the
+// The Timeline's editor state for motion (INVENTORY.md, owners; spec motion-timeline): `ui.motion` — the
 // timeline the panel shows, where the playhead sits, the zoom and the scroll of the seconds axis, the bars and
 // keyframes selected, the copied keyframes, whether it records, snaps, previews or runs the canvas — with the editor
 // commands that change it. None of them changes the document or records an undo step: the document's own commands are

@@ -1,4 +1,4 @@
-// geometry.resize (ARCHITECTURE.md, Command owners; spec resize-handles): the selected element's width and height, and
+// geometry.resize (INVENTORY.md, owners; spec resize-handles): the selected element's width and height, and
 // for a positioned element its left and top, written as whole CSS px at the base breakpoint and state through the one
 // writer of declarations (core/style/set.ts). The canvas's handles run it during their drag, in one gesture: the page
 // shows the size live and the history keeps one step. A locked element refuses (spec lock-element). The status bar

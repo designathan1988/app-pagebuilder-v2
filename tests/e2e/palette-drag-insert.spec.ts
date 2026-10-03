@@ -1,13 +1,14 @@
-// palette-drag-insert beyond its scenarios (spec/BEHAVIOUR.md#palette-drag-insert; DESIGN.md "Canvas", drag). A press
-// on a palette tile is split by the pointer owner (src/editor/input/pointer.ts) at drag.threshold: released below it,
-// it is the tile's click and inserts at the selection; moved past it, it is a creation drag, which inserts only where
-// it is dropped on the page, so released outside the page, or back on the tile it started from, it inserts nothing.
-// While it goes on, the canvas chrome (src/editor/canvas/chrome.tsx) draws the drop indicator of a move, its label
-// reading "Insert Paragraph · between Title and Intro · Page › Hero" (Problems in Pager 1), the status bar says the same, or, off
-// the page, "Outside the page — release to cancel." (Problems in Pager 2); where the element's command refuses it the
-// indicator is refused, with that refusal and no line (Problems in Pager 3); and the ghost, the element's icon and
-// name, follows the pointer at drag.ghostOffset (Problems in Pager 4). The document, the selection and the history
-// are read through the read-only test port; the drawing is measured against the elements' boxes inside the frame.
+// palette-drag-insert beyond its scenarios (spec/BEHAVIOUR.md#palette-drag-insert; archive/DESIGN.md "Canvas", drag). A
+// press on a palette tile is split by the pointer owner (src/editor/input/pointer.ts) at drag.threshold: released below
+// it, it is the tile's click and inserts at the selection; moved past it, it is a creation drag, which inserts only
+// where it is dropped on the page, so released outside the page, or back on the tile it started from, it inserts
+// nothing. While it goes on, the canvas chrome (src/editor/canvas/chrome.tsx) draws the drop indicator of a move, its
+// label reading "Insert Paragraph · between Title and Intro · Page › Hero" (Problems in Pager 1), the status bar says
+// the same, or, off the page, "Outside the page — release to cancel." (Problems in Pager 2); where the element's
+// command refuses it the indicator is refused, with that refusal and no line (Problems in Pager 3); and the ghost, the
+// element's icon and name, follows the pointer at drag.ghostOffset (Problems in Pager 4). The document, the selection
+// and the history are read through the read-only test port; the drawing is measured against the elements' boxes inside
+// the frame.
 import fs from 'node:fs';
 import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';

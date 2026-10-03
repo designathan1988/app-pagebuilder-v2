@@ -1,4 +1,4 @@
-// element.setLink (ARCHITECTURE.md, Command owners; spec elements-structure): the link of a Link Block or a link, its
+// element.setLink (INVENTORY.md, owners; spec elements-structure): the link of a Link Block or a link, its
 // attribute `href` (elements.json gives it those element types and this command). Its door is the Settings tab's Link
 // address field, which hands the node it stands for and the text it holds (kept on Enter and when the field loses the
 // focus, src/editor/shell/inspector.tsx); without a node, the one selected element.

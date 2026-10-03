@@ -1,4 +1,4 @@
-// Autosave (ARCHITECTURE.md; spec autosave-restore): the work kept between sessions. After every committed change of
+// Autosave (PRODUCT.md §5; spec autosave-restore): the work kept between sessions. After every committed change of
 // the document or the selection, one record holding the project's format version, the document and the selection
 // is written as soon as the browser is idle (at most autosave.idleWait later, the plan's stage 4: the whole document
 // was serialised inside every input, a selection's too): first to a journal in localStorage — written at once, before

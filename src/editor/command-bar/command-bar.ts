@@ -1,4 +1,4 @@
-// The command bar (ARCHITECTURE.md; spec command-bar; DESIGN.md `command-palette`): commandBar.open shows it and
+// The command bar (PRODUCT.md §5; spec command-bar; PRODUCT.md §5.3 `command-palette`): commandBar.open shows it and
 // ui.dismiss closes it (menus/overlays.ts). What it offers is the manifest's command-bar doors, one entry per door, but
 // an insert door gives one entry per palette entry and an open-panel door one per panel the shell draws a body for;
 // commands first, then insert, open panel, set property and edit property, each group in the order of the command
@@ -25,8 +25,8 @@ export const RECENT_COUNT = constant('commandBar.recentCount');
 
 export type EntryKind = 'command' | 'insert' | 'open-panel' | 'set-property' | 'edit-property' | 'go-to-page' | 'select-layer' | 'apply-class';
 const KIND_ORDER: readonly EntryKind[] = ['command', 'insert', 'open-panel', 'set-property', 'edit-property', 'go-to-page', 'select-layer', 'apply-class'];
-// a scope typed before the query keeps one kind of entry (DESIGN.md: Commands >, Insert +, Panels /, Properties #)
-// and @ the project's own things: its pages to go to, the open page's layers to select, its classes to apply (J12)
+// a scope typed before the query keeps one kind of entry (PRODUCT.md §5.3: Commands >, Insert +, Panels /, Properties
+// #) and @ the project's own things: its pages to go to, the open page's layers to select, its classes to apply (J12)
 const SCOPES: Readonly<Record<string, readonly EntryKind[]>> = { '>': ['command'], '+': ['insert'], '/': ['open-panel'], '#': ['set-property', 'edit-property'], '@': ['go-to-page', 'select-layer', 'apply-class'] };
 export const SCOPE_PREFIXES = Object.keys(SCOPES);
 // the title of the group an entry is listed under (the canonical palette: Commands, Panels), by the scope that keeps it

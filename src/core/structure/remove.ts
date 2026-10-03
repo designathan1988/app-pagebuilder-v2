@@ -1,4 +1,4 @@
-// element.delete (ARCHITECTURE.md, Command owners): the selected nodes leave the document with their whole subtrees, in
+// element.delete (INVENTORY.md, owners): the selected nodes leave the document with their whole subtrees, in
 // one transaction (spec delete-element, "Result in the document"). It acts on the selection's roots (the manifest's
 // adapter.selection "roots"): a selected node inside another selected node goes with that one. The page root is never
 // deleted, nor a locked element or one inside a locked element (spec lock-element, src/core/nodes/flags.ts): the

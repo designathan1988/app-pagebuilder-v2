@@ -1,6 +1,6 @@
-// Overlays (ARCHITECTURE.md, Command owners): ui.dismiss closes what floats over the editor, today the open menu, by
+// Overlays (INVENTORY.md, owners): ui.dismiss closes what floats over the editor, today the open menu, by
 // its doors: Escape in a menu and a press on the backdrop drawn under an open menu. Which menu is open stays the
-// menu's own state (opening a menu is not a command, DESIGN.md); the handler records the dismissal in the editor
+// menu's own state (opening a menu is not a command, PRODUCT.md §5.3); the handler records the dismissal in the editor
 // state, and an open menu closes when a dismissal newer than its opening arrives (menu.tsx).
 import { registerHandler } from '../../core/commands/registry.ts';
 import type { EditorUi } from '../state.ts';

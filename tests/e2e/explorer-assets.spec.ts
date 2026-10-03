@@ -1,9 +1,9 @@
 // explorer-assets / explorer-assets-use / export-assets beyond their scenarios (spec/BEHAVIOUR.md#explorer-assets and
-// explorer-assets-use.md; the user's real-use audit, item 7.3): the Explorer uploads a file (its Upload button, and an
-// image file dropped on the folder), the Source field of an image picks one from the project (the choose button's
-// picker, and the field's own suggestions), an image file dropped on the canvas replaces the source of the image under
-// the pointer — the acceptance — and the export carries every file at its path. The document is read through the
-// read-only test port, the canvas through the frame, the site through the ZIP.
+// spec/BEHAVIOUR.md#explorer-assets-use; the user's real-use audit, item 7.3): the Explorer uploads a file (its Upload
+// button, and an image file dropped on the folder), the Source field of an image picks one from the project (the choose
+// button's picker, and the field's own suggestions), an image file dropped on the canvas replaces the source of the
+// image under the pointer — the acceptance — and the export carries every file at its path. The document is read
+// through the read-only test port, the canvas through the frame, the site through the ZIP.
 import fs from 'node:fs';
 import path from 'node:path';
 import { expect, test, type Page } from '../support/test.ts';

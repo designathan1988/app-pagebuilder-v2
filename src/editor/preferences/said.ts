@@ -1,4 +1,5 @@
-// What a preference change says in the status bar (ARCHITECTURE.md; DESIGN.md "Dock and status bar"; the audit's A3.41:
+// What a preference change says in the status bar (PRODUCT.md §5; archive/DESIGN.md "Dock and status bar"; the audit's
+// A3.41:
 // every preference change reports). The preference is named by its command's label and the value chosen by the label
 // of the door that stands for it, both the manifest's: "Theme: Dark.", "Outlines: on.", "What each row shows: ID on.".
 import { message, type Message } from '../../core/commands/registry.ts';

@@ -1,4 +1,4 @@
-// Restoring a saved version (ARCHITECTURE.md, Command owners; spec autosave-corruption-recovery): the recovery dialog's
+// Restoring a saved version (INVENTORY.md, owners; spec autosave-corruption-recovery): the recovery dialog's
 // Restore loads exactly the document of the version it names, read through the project reader every open uses
 // (archive.ts); the selection and the history start empty (outcome `load`), and autosave, which kept the corrupted
 // record untouched until now, writes it as the current record. A version the reader refuses is refused, naming why.

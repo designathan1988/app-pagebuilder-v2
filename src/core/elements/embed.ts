@@ -1,4 +1,4 @@
-// element.setEmbedMarkup (ARCHITECTURE.md, Command owners; feature embed-html): the markup of the one selected Embed,
+// element.setEmbedMarkup (INVENTORY.md, owners; feature embed-html): the markup of the one selected Embed,
 // third-party widget code stored as it is typed or pasted. On the editing canvas the renderer shows it inside a
 // sandboxed frame where its scripts never run; the export writes it verbatim at its place. The same markup records
 // nothing; a locked element keeps its markup (spec lock-element).

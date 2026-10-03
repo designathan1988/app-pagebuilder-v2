@@ -1,4 +1,4 @@
-// The panels that left their place (specs floating-panels and panel-combine-tabs; ARCHITECTURE.md "The shell
+// The panels that left their place (specs floating-panels and panel-combine-tabs; PRODUCT.md §5 "The shell
 // regions"): a floating window at the point it was dropped, the right dock, a combined area's tabs and stacks, and the
 // hint drawn while a panel is dragged. The drag itself belongs to the pointer owner, which publishes it in
 // panel-drag.ts; this file draws every place that gesture reaches. Each panel's header carries the drag door of the

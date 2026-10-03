@@ -1,4 +1,4 @@
-// Reading a stylesheet for the import (ARCHITECTURE.md, Command owners; the manifest's html-import-styles,
+// Reading a stylesheet for the import (INVENTORY.md, owners; the manifest's html-import-styles,
 // html-import-media-queries and html-import-states): the one owner of a stylesheet's text as rules — each rule's
 // selectors, its declarations, the media query it sits in and the line it is on. The importer resolves the rules onto
 // the nodes it built (src/core/import/import.ts) and the declarations themselves are read by the one owner of a

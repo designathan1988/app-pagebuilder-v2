@@ -1,4 +1,4 @@
-// The system clipboard (ARCHITECTURE.md): the one reader of the browser's clipboard, and the keeper of the editor's
+// The system clipboard (PRODUCT.md §5): the one reader of the browser's clipboard, and the keeper of the editor's
 // own copy. A command that takes what the clipboard holds (an argument of type "clipboard" in the manifest:
 // clipboard.paste, text.paste) runs once its door has read it here, with its content as data (ClipboardContent): its
 // HTML as a tree of texts and elements (parsed into an inert document that runs nothing), its plain text, or the

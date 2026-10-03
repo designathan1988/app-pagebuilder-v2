@@ -1,4 +1,4 @@
-// Snapping on the canvas (ARCHITECTURE.md; spec snap-while-moving): the lines of the targets Snap settings enables,
+// Snapping on the canvas (PRODUCT.md §5; spec snap-while-moving): the lines of the targets Snap settings enables,
 // measured on the page the canvas draws, and the snap of a free drag (the moved box's start, centre and end on each
 // axis) and of a resize (the dragged edges). The pointer owner asks it at every move of those gestures while snap is
 // on and Ctrl is not held (Ctrl suspends snapping for the gesture, Problems in Pager 2); the rule that picks a line is

@@ -1,4 +1,4 @@
-// Node names (ARCHITECTURE.md, Command owners): element.rename (spec rename-element) writes the name a node carries,
+// Node names (INVENTORY.md, owners): element.rename (spec rename-element) writes the name a node carries,
 // the one Layers shows, the canvas label shows and the export derives its BEM classes from, in one transaction. Its
 // door is the end of the rename in place in Layers (src/editor/layers/rename.ts): the row's name field, submitted with
 // Enter or left, hands the node and what the field holds. The name kept is that text without the spaces around it.

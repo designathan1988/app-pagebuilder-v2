@@ -1,10 +1,10 @@
-// drag-drop-inside beyond its scenarios (spec/BEHAVIOUR.md#drag-drop-inside, DESIGN.md "Canvas", drag): what the canvas
-// draws while an element is dragged into a container (src/editor/canvas/chrome.tsx): an empty container outlined
-// dashed with no line; a container with children at the slot of the pointer, with the line at that slot; the page
-// root's own background as a receiver; and, over the dragged element's own subtree, its current place (Problems in Pager
-// 1): the receiver outlined in the danger colour, no line, the label saying why, and a release that changes nothing.
-// The document, the selection and the history are read through the read-only test port; the drawing is measured
-// against the elements' boxes inside the frame, mapped to the screen through its CSS zoom.
+// drag-drop-inside beyond its scenarios (spec/BEHAVIOUR.md#drag-drop-inside, archive/DESIGN.md "Canvas", drag): what
+// the canvas draws while an element is dragged into a container (src/editor/canvas/chrome.tsx): an empty container
+// outlined dashed with no line; a container with children at the slot of the pointer, with the line at that slot; the
+// page root's own background as a receiver; and, over the dragged element's own subtree, its current place (Problems in
+// Pager 1): the receiver outlined in the danger colour, no line, the label saying why, and a release that changes
+// nothing. The document, the selection and the history are read through the read-only test port; the drawing is
+// measured against the elements' boxes inside the frame, mapped to the screen through its CSS zoom.
 import fs from 'node:fs';
 import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';

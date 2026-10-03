@@ -1,4 +1,4 @@
-// The tab guard (ARCHITECTURE.md; spec multi-tab-guard): one tab edits the project at a time. The first tab to open
+// The tab guard (PRODUCT.md §5; spec multi-tab-guard): one tab edits the project at a time. The first tab to open
 // holds the editing lock (the browser's Web Locks, one lock for the project) for its life and edits; a tab that opens
 // while another holds it is read-only (it writes nothing, the store refuses its document commands). Take over editing
 // steals the lock and starts this tab again on the latest saved project; the tab it was taken from, its lock gone,

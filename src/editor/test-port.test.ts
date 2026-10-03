@@ -1,4 +1,4 @@
-// The read-only test port (ARCHITECTURE.md): what a browser check reads of the app. Document, selection and history
+// The read-only test port (PRODUCT.md §5): what a browser check reads of the app. Document, selection and history
 // are copies of the store's state; `explain` answers why; `incidents` carries what the app recorded — so a check that
 // only ever reads can still fail on something the app did wrong.
 import { describe, expect, it } from 'vitest';

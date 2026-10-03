@@ -1,4 +1,4 @@
-// The project as a whole (ARCHITECTURE.md, Command owners; spec new-blank-page): File › New blank page replaces it with
+// The project as a whole (INVENTORY.md, owners; spec new-blank-page): File › New blank page replaces it with
 // the empty project, one page whose root holds nothing, named in the words of the person who starts it, as at a first
 // start. Over a project that holds work it asks first (outcome `confirm`, the manifest's confirmation); over the empty
 // project it does not. The selection and the history start empty (outcome `load`), and autosave writes the blank page.

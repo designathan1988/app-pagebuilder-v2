@@ -1,4 +1,4 @@
-// Tables (ARCHITECTURE.md, Command owners; features elements-tables and table-commands): the parts a new table starts
+// Tables (INVENTORY.md, owners; features elements-tables and table-commands): the parts a new table starts
 // with, and the commands that add and remove its columns and rows. A table is a <table> holding, in order, an optional
 // caption, an optional head (thead), one body (tbody) and an optional foot (tfoot); each group holds rows (tr) and each
 // row cells: header cells (th) in the head, cells (td) elsewhere. Every cell holds a paragraph, so its text is edited

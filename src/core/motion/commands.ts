@@ -1,4 +1,4 @@
-// The commands of motion (ARCHITECTURE.md, Command owners; plan stage 10; specs motion-interactions,
+// The commands of motion (INVENTORY.md, owners; plan stage 10; specs motion-interactions,
 // motion-timeline, motion-behaviours): the interactions of an element (motion.add, motion.update, motion.remove), the
 // project's timelines (create, rename, delete), their actions (add, update, remove, move, resize), keyframes (set,
 // edit, move, delete, paste), markers, and the behaviours of an element. Every handler is pure: it reads the state and

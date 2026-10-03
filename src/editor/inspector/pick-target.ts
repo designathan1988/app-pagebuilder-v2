@@ -1,5 +1,5 @@
-// The target an interaction is being given (ARCHITECTURE.md; spec events-actions; DESIGN.md: "the Target field starts
-// picking (not a command); the target is picked on the canvas or on a Layers row"). `ui.pickTarget` names which
+// The target an interaction is being given (PRODUCT.md §5; spec events-actions; PRODUCT.md §5.3: "the Target field
+// starts picking (not a command); the target is picked on the canvas or on a Layers row"). `ui.pickTarget` names which
 // interaction of the selected element the next press answers: the Target field's door starts it (interactions.update
 // with `changes.pick`), the press on the canvas (`#canvas-click-pick-target`) or on a Layers row
 // (`#layers-row-pick-target`) runs the command with the node it landed on and clears it, and so does another

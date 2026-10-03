@@ -1,4 +1,4 @@
-// Where the value a Style field shows comes from (spec inspector-provenance-reset, Problems in Pager 6; DESIGN.md
+// Where the value a Style field shows comes from (spec inspector-provenance-reset, Problems in Pager 6; PRODUCT.md §5.3
 // "Inspector", the value-origin legend): the one rule the field's origin note reads.
 //  - here: the edited target (the element, or the class while it is the target) holds it at the edited layer;
 //  - breakpoint / state: the target holds it at a larger breakpoint or at the base state (the cascade, set.ts

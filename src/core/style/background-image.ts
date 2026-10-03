@@ -1,4 +1,4 @@
-// The background image (ARCHITECTURE.md, Command owners; specs props-background, gradient-editor): style.setBackgroundImage
+// The background image (INVENTORY.md, owners; specs props-background, gradient-editor): style.setBackgroundImage
 // writes the image a field hands it into its property (background-image; never the background shorthand, so the colour
 // under it stays) of every selected element, in one undo step. Every control of the background's image writes through
 // it (Problems in Pager 5 of the gradient editor):

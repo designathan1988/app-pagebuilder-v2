@@ -1,4 +1,4 @@
-// The Elements panel's own state (ARCHITECTURE.md, Command owners; features palette-search-groups and palette-density):
+// The Elements panel's own state (INVENTORY.md, owners; features palette-search-groups and palette-density):
 // palette.toggleGroup collapses or opens a group of the palette, palette.setDensity lays its tiles out (a list, two or
 // three columns, an icon grid). Both are editor preferences (src/editor/preferences/preferences.ts), kept after a
 // reload; neither changes the document nor records anything. What the search field filters is the panel's own view
@@ -9,7 +9,7 @@ import { commandOf } from '../../manifest/runtime.ts';
 import type { EditorUi } from '../state.ts';
 import { chosen } from '../preferences/said.ts';
 
-// the density while none is chosen (DESIGN.md: two columns is the default in this sidebar width)
+// the density while none is chosen (PRODUCT.md §5.3: two columns is the default in this sidebar width)
 export const DEFAULT_DENSITY: PaletteDensity = 'two-columns';
 
 export const paletteDensity = (ui: EditorUi): PaletteDensity => ui.preferences.paletteDensity ?? DEFAULT_DENSITY;

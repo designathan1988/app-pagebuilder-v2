@@ -21,7 +21,7 @@ export function Slots({ region, render, from = 1, to = Number.POSITIVE_INFINITY 
   );
 }
 
-// the door of a region at an order (DESIGN.md numbers the controls of each region)
+// the door of a region at an order (PRODUCT.md §5.3 numbers the controls of each region)
 export function doorAt(region: RegionId, order: number): DoorEntry | null {
   const slot = slotsIn(region).find((s) => s.order === order && s.kind === 'door');
   return slot?.kind === 'door' ? slot.entry : null;

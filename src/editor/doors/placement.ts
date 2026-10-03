@@ -1,4 +1,4 @@
-// Door placement (ARCHITECTURE.md): what a region of DESIGN.md draws and in which order: the doors the manifest
+// Door placement (PRODUCT.md §5): what a region of PRODUCT.md §5.3 draws and in which order: the doors the manifest
 // places there and the buttons of the menus anchored there (layout.json). No list of buttons is written anywhere else.
 import type { MenuId, RegionId } from '../../generated/ids.ts';
 import type { LayoutFile } from '../../manifest/schema.ts';
@@ -39,7 +39,7 @@ export function drawnAsOf(entry: DoorEntry): string | null {
 }
 
 // The control drawn inside an item of a region (a tab's close button, a class chip's ×): the icon button placed right
-// after the item (DESIGN.md "Regions": each tab is its name then its close button).
+// after the item (archive/DESIGN.md "Regions": each tab is its name then its close button).
 export function partOf(region: RegionId, item: DoorEntry): DoorEntry | null {
   const doors = doorSlots(region);
   const next = doors[doors.indexOf(item) + 1];

@@ -1,7 +1,7 @@
 // A page for the motion runtime's unit tests (never shipped: only the tests import it): a happy-dom window whose
 // Web Animations and animation frames are driven by the test's own clock, so what a timeline does at each time is
 // read exactly. What only a browser can say (the interpolated computed style, the scroll timelines, the compositor) is
-// proven in Chrome (INTEGRATION.md, "What to prove in Chrome").
+// proven in Chrome (spec/BEHAVIOUR.md#motion-runtime).
 import { Window } from 'happy-dom';
 import type { RuntimeConfig } from '../../../core/motion/export.ts';
 

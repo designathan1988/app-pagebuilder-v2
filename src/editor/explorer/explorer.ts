@@ -1,4 +1,4 @@
-// The Explorer's files (ARCHITECTURE.md, Command owners; the manifest's explorer-file-system and code-panel-view):
+// The Explorer's files (INVENTORY.md, owners; the manifest's explorer-file-system and code-panel-view):
 // the rows the Files section lists — what the document generates (one .html per page, the stylesheet
 // css/styles.css, and each script the export writes for what the project holds: js/interactions.js once it has
 // interactions, js/forms.js, js/motion.js, js/lottie.min.js) and the files the project holds
@@ -120,8 +120,8 @@ export function treeRows(document: DocumentJson, rules: ModelRules): readonly Tr
 }
 
 // files.open (the Explorer's file rows and the code files' tabs): the file shows in the code pane, and the centre
-// column shows it — the canvas when the column shows both (split), the code pane otherwise (DESIGN.md: a code file
-// tab shows the file in the Code view).
+// column shows it — the canvas when the column shows both (split), the code pane otherwise (PRODUCT.md §5.3: a code
+// file tab shows the file in the Code view).
 export const openFile = registerHandler<'files.open', EditorUi>(
   'files.open',
   ({ state, rules }, { path }) => {

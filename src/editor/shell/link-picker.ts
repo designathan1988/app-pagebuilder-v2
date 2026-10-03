@@ -1,4 +1,4 @@
-// The link picker's state (ARCHITECTURE.md, Command owners; spec elements-structure; the user's real-use audit, item
+// The link picker's state (INVENTORY.md, owners; spec elements-structure; the user's real-use audit, item
 // 7.4): the one place that chooses what a link points at. Its state is editor state (ui.linkPicker: the node whose
 // link is being chosen, or null); nothing of it is document state. The view that draws it is shell/link-picker.tsx;
 // this module owns the three commands that open it, switch the kind of link and close it.

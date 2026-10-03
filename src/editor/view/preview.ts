@@ -1,4 +1,4 @@
-// Preview (ARCHITECTURE.md, Command owners; spec preview-mode): the page shown as it is exported, without the editor's
+// Preview (INVENTORY.md, owners; spec preview-mode): the page shown as it is exported, without the editor's
 // chrome. Ctrl+P, Ctrl+Enter or the top bar's Preview enter it; Escape, Ctrl+Enter or the preview bar's Exit leave it,
 // with the selection it had given back. While it holds, the shell draws the preview bar and the exported page alone
 // (src/editor/shell/preview.tsx), and the keys are the preview's (the keymap reads `previewing`). It never changes the

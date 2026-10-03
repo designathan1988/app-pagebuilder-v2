@@ -1,4 +1,4 @@
-// element.organize (ARCHITECTURE.md, Command owners; the user's real-use audit, item 8.1): the loose children of the
+// element.organize (INVENTORY.md, owners; the user's real-use audit, item 8.1): the loose children of the
 // selected container become a flex layout whose direction and gap are read from where they lie now. The children's
 // real boxes come from the layout port; the direction is the line they run along (one below the next, or one beside
 // the next, each when their other extent overlaps) and the gap is the whole-pixel distance most of the neighbours

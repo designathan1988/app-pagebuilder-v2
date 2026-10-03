@@ -1,11 +1,12 @@
-// Menus (ARCHITECTURE.md): a menu's button opens it; its items are the doors placed in "menu:<menu>" and the buttons
+// Menus (PRODUCT.md §5): a menu's button opens it; its items are the doors placed in "menu:<menu>" and the buttons
 // of its submenus (menus anchored in it), in their order. An application menu shows every item: one whose command is
-// not built yet is disabled with "not available yet" (DESIGN.md "Overlays"). Opening a menu is not a command, so which
-// menu is open is this component's own state. A menu has no key or pointer listener of its own: its keys are the
-// doors of the "menu" key context, run by the keymap (the arrows, Home and End move the focus, Enter runs the focused
-// item, Escape dismisses). Outside presses close through outside-layer without intercepting the target. A dismissal closes the menus open when it arrives (menus/overlays.ts), and a dismissed menu
-// gives the focus back to its button. The context menu (ContextMenu, at the end) is drawn here too, from the doors the
-// manifest places in the context-menu region; its opening is a command (menus/context-menu.ts).
+// not built yet is disabled with "not available yet" (archive/DESIGN.md "Overlays"). Opening a menu is not a command,
+// so which menu is open is this component's own state. A menu has no key or pointer listener of its own: its keys are
+// the doors of the "menu" key context, run by the keymap (the arrows, Home and End move the focus, Enter runs the
+// focused item, Escape dismisses). Outside presses close through outside-layer without intercepting the target. A
+// dismissal closes the menus open when it arrives (menus/overlays.ts), and a dismissed menu gives the focus back to its
+// button. The context menu (ContextMenu, at the end) is drawn here too, from the doors the manifest places in the
+// context-menu region; its opening is a command (menus/context-menu.ts).
 import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode, type RefObject } from 'react';
 import { locate } from '../../core/document/model.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
@@ -230,7 +231,7 @@ export function MenuButton({ menu, anchor, children, indicator = false, classNam
 // The context menu's items: the doors the manifest places in the context-menu region, in their order.
 const CONTEXT_ITEMS = doorSlots('context-menu');
 
-// The context menu (DESIGN.md "Overlays", spec context-menu), open while the editor state says so
+// The context menu (archive/DESIGN.md "Overlays", spec context-menu), open while the editor state says so
 // (menus/context-menu.ts); each opening draws a new one.
 export function ContextMenu() {
   const opened = useEditorState((s) => openContextMenu(s.ui));

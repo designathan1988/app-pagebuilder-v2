@@ -1,7 +1,7 @@
-// The centre column's view (ARCHITECTURE.md, Command owners; the manifest's code-panel-view): what the column beside
-// the sidebar shows — the canvas, the canvas with the code pane beside it, or the code pane alone (DESIGN.md, "Files,
-// tabs and code"). One owner of which it is and of the door that sets it; the shell draws per `editorView` and the
-// editor keeps the choice in `ui` (workspace/persist.ts carries it between sessions, as it carries the page).
+// The centre column's view (INVENTORY.md, owners; the manifest's code-panel-view): what the column beside
+// the sidebar shows — the canvas, the canvas with the code pane beside it, or the code pane alone (archive/DESIGN.md,
+// "Files, tabs and code"). One owner of which it is and of the door that sets it; the shell draws per `editorView` and
+// the editor keeps the choice in `ui` (workspace/persist.ts carries it between sessions, as it carries the page).
 import { message, registerHandler } from '../../core/commands/registry.ts';
 import type { EditorUi } from '../state.ts';
 

@@ -1,4 +1,4 @@
-// The drop proposal of a drag on the canvas (ARCHITECTURE.md): where the dragged nodes would land for a pointer
+// The drop proposal of a drag on the canvas (PRODUCT.md §5): where the dragged nodes would land for a pointer
 // position, from the nodes under the pointer, their boxes on the screen and the flow of their parents (spec
 // drag-reorder-canvas, "Hit zones and thresholds"). Pure: the pointer owner measures the page through the coordinates
 // module and hands the measures in; the constants are the manifest's (interactions.json).

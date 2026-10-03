@@ -1,4 +1,4 @@
-// The canvas's view switches (ARCHITECTURE.md, Command owners; spec canvas-outlines-zones): Outlines draws a dashed
+// The canvas's view switches (INVENTORY.md, owners; spec canvas-outlines-zones): Outlines draws a dashed
 // box around every element, Zones the padding of every container and the drop area of every empty one. Both are
 // drawn by the canvas chrome over the page, never written into it, and both are preferences (ui.preferences.outlines,
 // ui.preferences.zones), restored after a reload; neither changes the document nor records anything. Each toggle

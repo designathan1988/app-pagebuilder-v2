@@ -1,4 +1,4 @@
-// The project's saved colours (ARCHITECTURE.md, Command owners; feature color-swatches-eyedropper): the colours a
+// The project's saved colours (INVENTORY.md, owners; feature color-swatches-eyedropper): the colours a
 // person saves from the colour picker, kept with the project (the document's `swatches`, in the order they were saved)
 // and listed in every picker. colors.saveSwatch adds a colour once (a colour already saved changes nothing and records
 // nothing); colors.removeSwatch takes one away by its place. Each is one undo step.

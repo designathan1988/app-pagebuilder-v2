@@ -439,9 +439,9 @@
   color: var(--color-text-subtle);
 }
 
-/* Hide and Lock appear on the row under the pointer (DESIGN.md "Component regions", layers-row 8 and 9), so a selected
-   row keeps its whole name. Until then they are transparent, never out of the layout: the pointer that comes to press
-   one shows it, and the keyboard reaches it, which shows it too. */
+/* Hide and Lock appear on the row under the pointer (archive/DESIGN.md "Component regions", layers-row 8 and 9), so a
+   selected row keeps its whole name. Until then they are transparent, never out of the layout: the pointer that comes
+   to press one shows it, and the keyboard reaches it, which shows it too. */
 
 /* The label colour of a Layers row (spec layers-row-colours): the dot the row draws wears the element's colour and
    opens the palette under it while the pointer is on it or the keyboard reaches it */

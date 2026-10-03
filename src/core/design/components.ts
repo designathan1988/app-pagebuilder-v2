@@ -1,4 +1,4 @@
-// The project's components (ARCHITECTURE.md, Command owners; spec reusable-components): a component is a named
+// The project's components (INVENTORY.md, owners; spec reusable-components): a component is a named
 // definition, a tree of elements kept with the project (the document's `components`), whose instances are real
 // subtrees of pages. An instance's root names its component (`component`); each of its elements records the place of the
 // definition element it comes from (`componentPart`, the child indexes from the definition's root). The one owner of:

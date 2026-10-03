@@ -399,7 +399,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-27 | 1 | Duplicated pages ordered newest first | audit | done (QA 174) |
 | AUD-28 | 1 | Remaining divergences from the canonical interface (icons, palette footer, naming, event card Options) | audit | done (QA 179, 180) |
 | AUD-29 | 1 | 16 targets under 24 × 24 px | audit | done (QA 181; the splitters: TS1) |
-| AUD-30 | 1 | Documents and comments that contradict the application; 347 comments citing deleted documents (now archived) | audit | open |
+| AUD-30 | 1 | Documents and comments that contradict the application; 347 comments citing deleted documents (now archived) | audit | done (QA 182) |
 | AUD-31 | 1 | The `forms-mask` flow broken since `87eb183` | audit | open |
 | AUD-32 | 1 | Minified-style source in the assistant and some tests | audit | open |
 | AUD-33 | 1 | 11 controls outside the manifest (`data-local`) | audit | open |
@@ -589,7 +589,7 @@ predicate hardening, the invariant probe in the gate, and the security set.
 
 | Command | What it verifies | Time |
 |---|---|---|
-| `npm run check:fast` | `gen:check` (generated files untouched), `manifest:check` (the contract's schema and rules, every scenario's data), `inventory:check` (inventory, features table and owners in step with the source), both typechecks, lint (tokens, catalogue texts, pointer and key owners, no React in the core), the unit suite with coverage floors — among them the headless scenario runner (`tools/runner/headless.test.ts`) and the silent-failure fuzz | ~1–2 min |
+| `npm run check:fast` | `gen:check` (generated files untouched), `manifest:check` (the contract's schema and rules, every scenario's data), `inventory:check` (inventory, features table and owners in step with the source), both typechecks, lint (tokens, catalogue texts, pointer and key owners, no React in the core), the unit suite with coverage floors — among them the headless scenario runner (`tools/runner/headless.test.ts`), the documents the sources cite resolving (`tools/inventory/citations.test.ts`, AUD-30) and the silent-failure fuzz | ~1–2 min |
 | `npm run ui -- <flow>` | One of the 55 flows of `tools/ui/flows.ts`: real gestures in the installed Chrome, a photo per step into `.cache/logs/ui-<flow>-<time>/`, failing on a console error, an incident or an unmet expectation (`PORT` names the app's port) | ≤ 30 s each |
 | `npm run e2e:affected` | The browser tests of the features a change reaches (shared runtimes and unmapped sources select everything; R4) | varies |
 | `npm run e2e -- <spec>` | The tests of what a block built | varies |

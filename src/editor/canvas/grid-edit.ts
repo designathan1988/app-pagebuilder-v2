@@ -1,4 +1,4 @@
-// The canvas grid editor (ARCHITECTURE.md, Command owners; spec canvas-grid-editor; the user's real-use audit, item
+// The canvas grid editor (INVENTORY.md, owners; spec canvas-grid-editor; the user's real-use audit, item
 // 8.2): a grid container is edited on the canvas itself. A double click on it enters the editor (grid.enterEdit), the
 // Escape of its own key context leaves it (grid.exitEdit; interactions.json grid-edit, which the keymap takes for the
 // canvas's while it is on, canvas/edit-mode.ts keyContextIn). While it lasts the canvas chrome (canvas/grid-editor.tsx)

@@ -1,4 +1,4 @@
-// The page's settings (ARCHITECTURE.md, Command owners; spec page-properties): the attributes elements.json gives the
+// The page's settings (INVENTORY.md, owners; spec page-properties): the attributes elements.json gives the
 // element of a page's root alone (its title, language, direction, and with their features its description, sharing
 // and linked scripts). They belong to the page, not to the root's element: they are stored on the page root
 // (`attributes`), the renderer writes the HTML ones on the page's <html> (lang, dir), and page.setSetting sets them.

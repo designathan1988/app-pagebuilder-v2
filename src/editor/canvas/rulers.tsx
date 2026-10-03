@@ -1,4 +1,4 @@
-// The rulers (ARCHITECTURE.md; spec rulers): the top and left bands of the canvas, drawing the marks rulers.ts places.
+// The rulers (PRODUCT.md §5; spec rulers): the top and left bands of the canvas, drawing the marks rulers.ts places.
 // They follow the zoom, the pan and the page's scroll, highlight the extent of the primary selected element on both
 // bands and mark the pointer while it is over the canvas; they are measured on every animation frame from the frame's
 // geometry (coordinates.ts), which is what the page shows, and they change nothing.

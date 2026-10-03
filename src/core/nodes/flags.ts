@@ -1,4 +1,4 @@
-// Node flags (ARCHITECTURE.md, Command owners): what a node carries for the editor beside its content.
+// Node flags (INVENTORY.md, owners): what a node carries for the editor beside its content.
 //
 // element.toggleHidden (spec hide-element): hides a node on the canvas with its whole subtree, or shows it again. The
 // node stays in the document and in Layers, where it can still be selected; only its hidden flag changes (model.ts:
@@ -141,7 +141,7 @@ export const toggleLockCommand = registerHandler(
   (state, args) => flagged(state.document, state.selection, args.target)?.node.locked === true,
 );
 
-// element.setLayerColor (spec layers-row-colours; ARCHITECTURE.md, Command owners): the label colour of a node, which
+// element.setLayerColor (spec layers-row-colours; INVENTORY.md, owners): the label colour of a node, which
 // tints its Layers row and draws the element's selection on the canvas in it. The colour belongs to the page the node
 // is on and is stored on that page's root (model.ts layerColors), never on the element and never in the export: it is
 // the person's own note about a layer, not a style of the page. A colour replaces the one there; an empty colour takes

@@ -6,7 +6,7 @@
     "doors": 1346,
     "scenarios": 1774,
     "modules": 422,
-    "lines": 78311
+    "lines": 78325
   },
   "features": [
     {
@@ -3354,7 +3354,7 @@
     },
     {
       "path": "src/core/commands/registry.ts",
-      "lines": 205,
+      "lines": 206,
       "commands": [
         "<id>"
       ],
@@ -4224,7 +4224,7 @@
     },
     {
       "path": "src/core/ports/css.ts",
-      "lines": 15,
+      "lines": 16,
       "commands": [],
       "features": []
     },
@@ -4409,7 +4409,7 @@
     },
     {
       "path": "src/core/store/store.ts",
-      "lines": 677,
+      "lines": 678,
       "commands": [],
       "features": []
     },
@@ -5237,7 +5237,7 @@
     },
     {
       "path": "src/editor/data/panel.tsx",
-      "lines": 92,
+      "lines": 93,
       "commands": [],
       "features": []
     },
@@ -5286,7 +5286,7 @@
     },
     {
       "path": "src/editor/doors/menu.tsx",
-      "lines": 279,
+      "lines": 280,
       "commands": [],
       "features": []
     },
@@ -5567,7 +5567,7 @@
     },
     {
       "path": "src/editor/inspector/rows.ts",
-      "lines": 93,
+      "lines": 94,
       "commands": [],
       "features": []
     },
@@ -5873,7 +5873,7 @@
     },
     {
       "path": "src/editor/preferences/said.ts",
-      "lines": 32,
+      "lines": 33,
       "commands": [],
       "features": []
     },
@@ -5885,7 +5885,7 @@
     },
     {
       "path": "src/editor/quick-panel/quick-panel.ts",
-      "lines": 137,
+      "lines": 138,
       "commands": [
         "quickPanel.setOpen",
         "quickPanel.setOffset"
@@ -5949,7 +5949,7 @@
     },
     {
       "path": "src/editor/shell/class-bar.tsx",
-      "lines": 230,
+      "lines": 231,
       "commands": [],
       "features": []
     },
@@ -6009,7 +6009,7 @@
     },
     {
       "path": "src/editor/shell/dock.tsx",
-      "lines": 227,
+      "lines": 228,
       "commands": [],
       "features": []
     },
@@ -6123,7 +6123,7 @@
     },
     {
       "path": "src/editor/shell/preview.tsx",
-      "lines": 75,
+      "lines": 76,
       "commands": [],
       "features": []
     },
@@ -6405,7 +6405,7 @@
     },
     {
       "path": "src/editor/view/selection-size.ts",
-      "lines": 56,
+      "lines": 57,
       "commands": [],
       "features": []
     },
@@ -6448,7 +6448,7 @@
     },
     {
       "path": "src/editor/workspace/layout.ts",
-      "lines": 336,
+      "lines": 337,
       "commands": [
         "workspace.setActiveTab",
         "workspace.setWorkbenchState",
@@ -6601,7 +6601,7 @@
     },
     {
       "path": "src/manifest/schema.ts",
-      "lines": 1355,
+      "lines": 1356,
       "commands": [],
       "features": []
     },

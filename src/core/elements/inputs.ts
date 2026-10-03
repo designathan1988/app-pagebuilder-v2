@@ -1,4 +1,4 @@
-// The rules of form inputs (ARCHITECTURE.md, Command owners; spec elements-form-inputs-rules): which attributes each
+// The rules of form inputs (INVENTORY.md, owners; spec elements-form-inputs-rules): which attributes each
 // type of input takes (HTML's input types), element.setInputType and element.setLabelTarget.
 //  - An input's type is its attribute inputType (written type). Switching it keeps the attributes the new type takes
 //    and drops the others, one undo step (status.input.typeSet).

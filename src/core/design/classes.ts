@@ -1,4 +1,4 @@
-// The project's style classes (ARCHITECTURE.md, Command owners; spec shared-style-classes): a class is a name an element
+// The project's style classes (INVENTORY.md, owners; spec shared-style-classes): a class is a name an element
 // lists in its classes and the styles every element with it takes, kept with the project (the document's `classes`, in
 // the order they were made). The one owner of:
 //  - classes.create: the one selected element's own styles become a new class of the typed name, which the element then

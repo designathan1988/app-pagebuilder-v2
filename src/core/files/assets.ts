@@ -1,4 +1,4 @@
-// Storing an image file and placing it (ARCHITECTURE.md, Command owners; spec explorer-assets-use; the user's real-use
+// Storing an image file and placing it (INVENTORY.md, owners; spec explorer-assets-use; the user's real-use
 // audit, 7.3): assets.insertImageFile stores one image file in the project's files (`src/core/files/files.ts`, the
 // tree's owner) and places an Image that uses it in the document — at the drop position (parent + index), or, when the
 // drop landed on an image (`replace`), as that image's source. The drop position's grammar is element.insert's: the

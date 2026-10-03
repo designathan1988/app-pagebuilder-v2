@@ -1,4 +1,4 @@
-// element.applyHtml (ARCHITECTURE.md, Command owners; the manifest's code-panel-edit-html): the markup the person
+// element.applyHtml (INVENTORY.md, owners; the manifest's code-panel-edit-html): the markup the person
 // edited in the code pane's HTML tab, read as nodes by the importer's rules (src/core/import/import.ts, the one owner
 // of turning markup into nodes) and written on the document in place of the selected element's subtree. The element
 // keeps its id and its name — the markup's root IS that element, so its tag, its attributes and its text come from the

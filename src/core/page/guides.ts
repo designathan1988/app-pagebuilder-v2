@@ -1,4 +1,4 @@
-// Manual guides (ARCHITECTURE.md, Command owners; spec guides-manual): lines across the page at a page px position,
+// Manual guides (INVENTORY.md, owners; spec guides-manual): lines across the page at a page px position,
 // horizontal or vertical, kept on the page's root (its `guides`), never exported. Each is named by its axis and the
 // first number no guide of the page has (horizontal-1), so a person, a scenario and the keys name the same guide.
 //  - guides.create: a guide on an axis at a place (from 0, whole px).

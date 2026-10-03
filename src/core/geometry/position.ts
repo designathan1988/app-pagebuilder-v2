@@ -1,4 +1,4 @@
-// Positioning (ARCHITECTURE.md, Command owners; specs props-position, absolute-free-drag): position.setMode writes how an
+// Positioning (INVENTORY.md, owners; specs props-position, absolute-free-drag): position.setMode writes how an
 // element is positioned (static, relative, absolute, fixed, sticky) into its field's property of every selected
 // element, one undo step, through writeStyle, so the couplings of the property run: absolute (or fixed) keeps the
 // element where it is drawn (keepVisualPlace writes top and left from its current place) and makes a static parent

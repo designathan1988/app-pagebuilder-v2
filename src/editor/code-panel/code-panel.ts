@@ -1,4 +1,4 @@
-// The code pane (ARCHITECTURE.md, Command owners; the manifest's code-panel-view and code-panel-copy-download): what
+// The code pane (INVENTORY.md, owners; the manifest's code-panel-view and code-panel-copy-download): what
 // the pane shows and the two doors that take it away. One owner of the text of an open file — a generated file's text
 // is what the export writes for it (core/export/export.ts, never a second serializer), a project file's is its stored
 // bytes — so the pane, Copy and Download all read the same text. Which file is open is explorer/file-tabs.ts's.
@@ -15,8 +15,8 @@ import { activeFile } from '../explorer/file-tabs.ts';
 import { SCRIPT_PATHS, generatedScripts, kindOf, type FileKind } from '../explorer/explorer.ts';
 
 // Whether the path is one the document generates (a page's file, the stylesheet, a script the export writes and no
-// stored file holds): its text is rendered now, and its path is fixed — the export writes it there (DESIGN.md, "Files,
-// tabs and code").
+// stored file holds): its text is rendered now, and its path is fixed — the export writes it there (archive/DESIGN.md,
+// "Files, tabs and code").
 export function isGenerated(path: string, document: DocumentJson): boolean {
   return document.pages.some((page) => page.file === path) || path === STYLESHEET || (SCRIPT_PATHS.includes(path) && fileAt(document, path) === null);
 }

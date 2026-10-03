@@ -1,4 +1,4 @@
-// Preferences (ARCHITECTURE.md): the UI language and the theme, chosen with preferences.setLanguage and
+// Preferences (PRODUCT.md §5): the UI language and the theme, chosen with preferences.setLanguage and
 // preferences.setTheme, and the inspector's collapsed sections (inspector.toggleSection, whose owner,
 // src/editor/inspector/sections.ts, says what they mean), stored and restored after a reload (features ui-language,
 // theme-switch and inspector-panel).

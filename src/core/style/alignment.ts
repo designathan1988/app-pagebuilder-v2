@@ -1,4 +1,4 @@
-// The alignment matrix (ARCHITECTURE.md, Command owners; spec props-flex-container): style.setAlignment writes where
+// The alignment matrix (INVENTORY.md, owners; spec props-flex-container): style.setAlignment writes where
 // the children of a flex or grid container sit, as the cell a person pressed is drawn (x across: start, center, end;
 // y down), through the composite alignment-matrix: its longhands, justify-content from x and align-items from y
 // (flex-start, center, flex-end), one undo step. The direction is the couplings' (properties.json): a reversed axis

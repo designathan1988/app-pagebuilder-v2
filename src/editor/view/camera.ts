@@ -1,4 +1,4 @@
-// The camera (ARCHITECTURE.md, Command owners; spec zoom-keyboard-buttons): the canvas zoom and the page's horizontal
+// The camera (INVENTORY.md, owners; spec zoom-keyboard-buttons): the canvas zoom and the page's horizontal
 // place on the stage. The zoom is a workspace preference (ui.preferences.zoom, in percent), restored after a reload;
 // absent, the canvas is in Fit mode: the zoom that fits the base breakpoint's width in the stage, with the fit margin on
 // both sides, following every change of the stage's size. Any explicit zoom leaves Fit mode until Fit is chosen again.

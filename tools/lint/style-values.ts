@@ -1,4 +1,4 @@
-// What a literal style value is (ARCHITECTURE.md, Tokens): the analysis behind builder-css/use-tokens (stylesheets)
+// What a literal style value is (PRODUCT.md §5, Tokens): the analysis behind builder-css/use-tokens (stylesheets)
 // and builder/use-tokens (React style objects). Every colour, spacing, size, radius, shadow and font value of the
 // interface comes from a custom property of the generated src/ui/tokens.css.
 import { readFileSync, statSync } from 'node:fs';

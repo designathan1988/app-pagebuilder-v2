@@ -1,4 +1,4 @@
-// The direction an element lays its children along (ARCHITECTURE.md, Command owners; the user's real-use audit, item
+// The direction an element lays its children along (INVENTORY.md, owners; the user's real-use audit, item
 // 8.1): element.swapDirection writes the opposite of what the primary element holds — a flex row into a column and
 // back, a grid's row auto flow into a column and back — for every selected element, at the breakpoint and state the
 // editor edits, through style.set's one writer and its target rules (a class target, an instance's definition).

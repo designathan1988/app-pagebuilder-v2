@@ -1,4 +1,4 @@
-// The style state the editor edits (ARCHITECTURE.md, Command owners; spec state-styles): one of properties.json's
+// The style state the editor edits (INVENTORY.md, owners; spec state-styles): one of properties.json's
 // `states`, Base while none is chosen. The State menu chooses it (view.setStyleState); style writes go to its layer at
 // the active breakpoint (the store's `layer`), and the canvas draws the selected elements with that state applied.
 // Editor state, not a preference: a reload goes back to Base. Choosing it records nothing.

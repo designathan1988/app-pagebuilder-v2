@@ -1,4 +1,4 @@
-// The rulers' marks (ARCHITECTURE.md; spec rulers): page CSS px with 0 at the page's top-left corner (negative before
+// The rulers' marks (PRODUCT.md §5; spec rulers): page CSS px with 0 at the page's top-left corner (negative before
 // it). Labels sit on round values (interactions.json rulers.steps) chosen so that neighbouring labels are at least
 // rulers.minLabelSpacing screen px apart at the zoom; minor ticks on the smallest round step dividing the label step
 // whose screen size is at least rulers.minTick. From what the canvas measures (each band's place on the screen, the

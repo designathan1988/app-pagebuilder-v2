@@ -64,7 +64,7 @@ const INSERT_PANEL = { door: 'workspace.setPanelOpen#toolbar-activity-bar-insert
 const STYLE_TAB = { door: 'workspace.setActiveTab#inspector-tab-style' } as const;
 
 
-// The Layout Composer's twelve mandatory cases (.memory/layout-composer-spec.md): points in the page's px at the
+// The Layout Composer's twelve mandatory cases (spec/BEHAVIOUR.md#layout-composer): points in the page's px at the
 // Desktop width (1440 x 900, the stage the page root is composed in), as fractions of the stage.
 const PX = (x: number, y: number): readonly [number, number] => [x / 1440, y / 900];
 const STAGE = '[data-layout-stage]';

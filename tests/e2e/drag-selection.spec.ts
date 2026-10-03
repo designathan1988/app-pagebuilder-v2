@@ -1,5 +1,5 @@
-// Dragging a selection of several (spec drag-reorder-canvas, Problems in Pager 11; DESIGN.md "Canvas", drag; the
-// user's real-use audit, item 3.4), with a hand's gestures: the two cards' titles, clicked and Shift+clicked on the
+// Dragging a selection of several (spec drag-reorder-canvas, Problems in Pager 11; archive/DESIGN.md "Canvas", drag;
+// the user's real-use audit, item 3.4), with a hand's gestures: the two cards' titles, clicked and Shift+clicked on the
 // canvas, one of them carried to the gap between the Hero's Intro and Actions: both land there in their order, one
 // undo step puts both back. A press on one of them released without a drag selects that one alone. The document, the
 // selection and the history are read through the read-only test port.

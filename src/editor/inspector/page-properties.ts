@@ -1,4 +1,4 @@
-// page.openProperties (ARCHITECTURE.md, Command owners; spec page-properties): Page properties in the inspector's
+// page.openProperties (INVENTORY.md, owners; spec page-properties): Page properties in the inspector's
 // header. The root of the page the canvas shows (the first page, until explorer-pages) becomes the selection, and the
 // inspector, opened if it was hidden, shows the tab whose region holds the fields of the page's settings (the Settings
 // tab: Page title, Page language, Text direction…, spec Problems in Pager 1). Nothing is recorded and the document

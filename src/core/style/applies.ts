@@ -1,4 +1,4 @@
-// Which elements a property applies to (ARCHITECTURE.md; spec props-element-specific). properties.json names, for every
+// Which elements a property applies to (PRODUCT.md §5; spec props-element-specific). properties.json names, for every
 // property, the predicate of the elements it applies to (appliesTo); the element predicates are this module's:
 //  - the kinds, read from the tag the element is written with (a switched tag counts): table; tableOrCaption (a table or
 //    its caption); list (ul, ol, menu and li); media (the replaced elements the object properties act on: img, video,

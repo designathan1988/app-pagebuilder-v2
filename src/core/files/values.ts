@@ -1,4 +1,4 @@
-// What an attribute's stored value is written as (ARCHITECTURE.md; the user's real-use audit, items 7.3 and A3.4): the
+// What an attribute's stored value is written as (PRODUCT.md §5; the user's real-use audit, items 7.3 and A3.4): the
 // one module that turns a stored value into the text the page's output writer puts in the HTML (elementAttributes,
 // src/core/render/output.ts). Two kinds of value are not what they seem in the document: a reference that names another
 // element (a label's `for`, a link's `#anchor`) and a source that names a file of the project. A reference is written

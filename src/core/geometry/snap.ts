@@ -1,4 +1,4 @@
-// Snapping (ARCHITECTURE.md; spec snap-while-moving): while an element is moved or resized with snap on, the edges the
+// Snapping (PRODUCT.md §5; spec snap-while-moving): while an element is moved or resized with snap on, the edges the
 // gesture moves are pulled to the lines of the targets Snap settings enables, within the snap distance. Each axis snaps
 // on its own, to one line: the line of the earliest tier of SNAP_PRIORITY within the distance of any moving edge, the
 // nearest one in that tier (Problems in Pager 1: element edges and centres, guides, the parent and the page win over

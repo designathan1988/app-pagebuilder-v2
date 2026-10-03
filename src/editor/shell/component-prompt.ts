@@ -1,4 +1,4 @@
-// The component name prompt (ARCHITECTURE.md, Command owners; spec reusable-components; the user's real-use audit,
+// The component name prompt (INVENTORY.md, owners; spec reusable-components; the user's real-use audit,
 // item A3.12): "Create a component" asks the name first, so a component is named by the person and its instances are
 // named after it. Its state is editor state (ui.componentPrompt: the element the component is being made from, or
 // null); nothing of it is document state. The view that draws it is shell/component-prompt.tsx, whose field hands

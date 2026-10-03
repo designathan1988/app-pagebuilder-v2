@@ -148,7 +148,7 @@ export interface ManifestSummary {
   undoableCommands: number;
   doors: number;
   doorsByKind: Record<string, number>;
-  // placed doors per region of DESIGN.md (layout.json), and the regions and menus declared
+  // placed doors per region of PRODUCT.md §5.3 (layout.json), and the regions and menus declared
   doorsByRegion: Record<string, number>;
   regions: number;
   menuAnchors: number;
@@ -369,7 +369,7 @@ function parseFiles(input: ManifestInput): { parsed: Parsed | null; problems: Pr
   return { parsed: out as Parsed, problems };
 }
 
-// ---------------------------------------------------------------- ARCHITECTURE.md
+// ---------------------------------------------------------------- PRODUCT.md §5
 
 // The rows of the table under "## Command owners": a module path in backticks, then the command ids it owns in
 // backticks. null when the section is missing.
@@ -716,8 +716,8 @@ export function checkManifest(input: ManifestInput): CheckResult {
     ref(generated[prop.id] !== undefined, 'properties.json', `properties[${i}].id`, `"${prop.id}" is not a CSS property of the generated web data`);
     for (const [di, d] of prop.doors.entries()) ref(doorByRef.has(d), 'properties.json', `properties[${i}].doors[${di}]`, `unknown door "${d}"`);
   }
-  // A pair row draws two properties or composites side by side in one section (DESIGN.md "Inspector"): each field
-  // names an entry of that section, no entry stands in two rows, and the row says its id once.
+  // A pair row draws two properties or composites side by side in one section (archive/DESIGN.md "Inspector"): each
+  // field names an entry of that section, no entry stands in two rows, and the row says its id once.
   const rowEntries = new Map<string, { section: string }>([...p.properties.properties, ...p.properties.composites].map((e) => [e.id, e]));
   const inRow = new Map<string, string>();
   for (const [i, row] of p.properties.rows.entries()) {
@@ -1845,7 +1845,7 @@ export function checkManifest(input: ManifestInput): CheckResult {
 
   checkScenarioData();
 
-  // ---- placement: every door with a control of its own is drawn in a region of DESIGN.md (layout.json)
+  // ---- placement: every door with a control of its own is drawn in a region of PRODUCT.md §5.3 (layout.json)
   const regionById = new Map(p.layout.regions.map((r) => [r.id, r]));
   unique('region', 'layout.json', p.layout.regions.map((r, i) => ({ id: r.id, path: `regions[${i}]` })));
   unique('menu', 'layout.json', p.layout.menus.map((m, i) => ({ id: m.id, path: `menus[${i}]` })));
@@ -1869,12 +1869,12 @@ export function checkManifest(input: ManifestInput): CheckResult {
       continue;
     }
     if (placement === 'unplaced' || placement === 'none') {
-      report('placement', file, `${path}.placement`, `${doorRef} is ${placement === 'none' ? 'placed "none"' : 'still unplaced'}: DESIGN.md gives every ${door.kind} door a region and an order`);
+      report('placement', file, `${path}.placement`, `${doorRef} is ${placement === 'none' ? 'placed "none"' : 'still unplaced'}: the interface contract (docs/PRODUCT.md §5.3) gives every ${door.kind} door a region and an order`);
       continue;
     }
     doorsByRegion[placement.region] = (doorsByRegion[placement.region] ?? 0) + 1;
     if (!regionById.has(placement.region)) {
-      report('placement', file, `${path}.placement.region`, `${doorRef} is placed in the unknown region "${placement.region}" (layout.json lists the regions of DESIGN.md)`);
+      report('placement', file, `${path}.placement.region`, `${doorRef} is placed in the unknown region "${placement.region}" (manifest/layout.json lists the regions)`);
       continue;
     }
     const expected =

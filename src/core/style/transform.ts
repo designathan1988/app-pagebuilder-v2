@@ -1,4 +1,4 @@
-// Transforms (ARCHITECTURE.md, Command owners; spec props-transforms): style.setTransform sets the transform functions
+// Transforms (INVENTORY.md, owners; spec props-transforms): style.setTransform sets the transform functions
 // it is given (skewX: 10deg) in the transform value of every selected element, each in its place or added last, one
 // taken away for an empty argument, in one undo step through writeStyle; the value they make is written only when the
 // browser takes it. Translate, rotate and scale are their own properties, written by style.set.

@@ -1,5 +1,5 @@
-// The Layout Composer's pointer budget (spec layout-composer; .memory/layout-composer-spec.md "16 ms"): while a stroke
-// is held over a composition of fifteen regions, every pointer move's synchronous work — the pointer owner, the
+// The Layout Composer's pointer budget (spec layout-composer; spec/BEHAVIOUR.md#layout-composer "16 ms"): while a
+// stroke is held over a composition of fifteen regions, every pointer move's synchronous work — the pointer owner, the
 // composer's reading of the stroke and the preview it publishes — and the frames the canvas draws are measured in the
 // installed Chrome against the running app (PORT). The report goes to .cache/logs/perf-layout-<time>.json; the process
 // fails when the 95th percentile of a move's work is over the budget.

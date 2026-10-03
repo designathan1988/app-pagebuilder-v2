@@ -1,5 +1,5 @@
-// The colour picker (DESIGN.md "Component regions": color-picker; spec color-picker), the one every colour field opens
-// (its swatch, the door colorPicker.open): a nonmodal popover that cancels on an outside press, beside the
+// The colour picker (archive/DESIGN.md "Component regions": color-picker; spec color-picker), the one every colour
+// field opens (its swatch, the door colorPicker.open): a nonmodal popover that cancels on an outside press, beside the
 // inspector, with its parts in the order of the region's doors:
 //  - the previous colour (the one the picker opened with; a click writes it back) beside the current one;
 //  - the area: saturation across, brightness down, pressed and dragged through the pointer owner (pointer.ts), and two

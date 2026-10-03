@@ -1,4 +1,4 @@
-// element.setTag (ARCHITECTURE.md, Command owners; spec semantic-tag-switch): switches the one selected element between
+// element.setTag (INVENTORY.md, owners; spec semantic-tag-switch): switches the one selected element between
 // its equivalent tags. Its door is the Settings tab's HTML tag field, which hands the text it holds.
 //  - The text is taken without the spaces around it and in lower case (H4 keeps h4). An empty text, or the tag the
 //    element already has, changes nothing and records nothing (history.noChange "no-entry"); the status bar names the

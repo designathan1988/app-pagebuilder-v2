@@ -1,4 +1,4 @@
-// The canvas handles of the Edit on canvas modes (ARCHITECTURE.md, Command owners; spec spacing-handles,
+// The canvas handles of the Edit on canvas modes (INVENTORY.md, owners; spec spacing-handles,
 // radius-border-gap-handles): the one owner of what a handle's door stands for, what value it drags and how that value
 // reaches its command, for the chrome that draws it (edit-handles.tsx), the pointer owner that drags it (pointer.ts) and
 // handle.step, the arrows of a focused handle.

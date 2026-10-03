@@ -1,4 +1,4 @@
-// The animations of an element (ARCHITECTURE.md, Command owners; group 18): the document's `animations` (model.ts) and
+// The animations of an element (INVENTORY.md, owners; group 18): the document's `animations` (model.ts) and
 // every command over them — animation.create, rename, delete, addKeyframe, moveKeyframe, setKeyframeEasing,
 // deleteKeyframe, setSettings — with the one writer of their CSS text (the @keyframes rule and the animation
 // properties), which the canvas (render.ts), the export (output.ts, export.ts) and the timeline preview

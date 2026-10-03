@@ -1,4 +1,4 @@
-// The export (ARCHITECTURE.md, Command owners; spec export-zip): project.export hands the person site.zip, written by
+// The export (INVENTORY.md, owners; spec export-zip): project.export hands the person site.zip, written by
 // the one ZIP writer (core/project/zip.ts), holding each page at its file's path in the project (index.html for the
 // home page) and the stylesheet css/styles.css it links. Nothing of the editor reaches the files: no data attribute of
 // the renderer, no node id, no editor class or rule, no style attribute or <style> element.

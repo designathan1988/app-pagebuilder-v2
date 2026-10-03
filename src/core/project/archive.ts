@@ -1,4 +1,4 @@
-// The project file (ARCHITECTURE.md): what File › Save project writes and File › Open reads: project.zip, or a bare
+// The project file (PRODUCT.md §5): what File › Save project writes and File › Open reads: project.zip, or a bare
 // project.json, the format of the scenario fixtures (manifest/features/fixtures/): the document JSON of model.ts,
 // with its format version. A file that is not a document the model accepts, or whose version this app cannot read, is
 // refused with the reason, and the current document stays as it was. `readProject` is the one reader of a project
@@ -30,8 +30,8 @@ export function readProject(parsed: unknown, rules: ModelRules): { readonly docu
 }
 
 // File › Save project (spec project-save-json): one archive, project.zip, holding project.json, the document alone
-// as the editor holds it (its format version and pages, pretty-printed), and every file the project stores (none
-// yet: the project's files arrive with the file features). The save time is only the entries' modification time,
+// as the editor holds it (its format version, its pages and the files the project stores, which the document carries
+// itself with their bytes; pretty-printed). The save time is only the entries' modification time,
 // from the clock port, so the same document saved twice gives the same project.json. Nothing in the document or the
 // history changes.
 export const PROJECT_ARCHIVE = 'project.zip';

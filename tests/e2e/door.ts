@@ -152,8 +152,8 @@ export function door(ref: string): Door {
 const KEYS: Record<string, string> = { Ctrl: 'Control', '\\': 'Backslash' };
 export const keys = (chord: string): string => chord.split('+').map((k) => KEYS[k] ?? (k.length === 1 ? k.toLowerCase() : k)).join('+');
 
-// The quick panel (src/editor/canvas/quick-panel.tsx) opens from its chip, which is no door (DESIGN.md: opening the
-// quick panel is data-local): a door drawn in it (its fields, More actions) and its grip are reached by opening it
+// The quick panel (src/editor/canvas/quick-panel.tsx) opens from its chip, which is no door (PRODUCT.md §5.3: opening
+// the quick panel is data-local): a door drawn in it (its fields, More actions) and its grip are reached by opening it
 // first, as a person clicks the chip beside the selection.
 const QUICK_PANEL_GRIP = 'quick-panel-grip';
 export const inQuickPanel = (d: Door): boolean => d.kind === 'quick-panel' || (d.kind === 'panel-drag' && d.source === QUICK_PANEL_GRIP);
@@ -166,7 +166,8 @@ export async function openQuickPanel(page: Page): Promise<void> {
 }
 
 // The command bar (src/editor/shell/command-bar.tsx) opens from the top bar's Commands field, which a click reaches
-// wherever the focus is (a field keeps Ctrl+K: DESIGN.md "Keyboard model"); an entry is picked as a person picks it:
+// wherever the focus is (a field keeps Ctrl+K: archive/DESIGN.md "Keyboard model"); an entry is picked as a person
+// picks it:
 // its label typed into the bar's field (English UI), then its row clicked. An insert entry's label names its palette
 // entry and an open-panel entry's its panel; a placeholder a command's label fills in from the state is left out.
 const PALETTE_LABELS = new Map((JSON.parse(fs.readFileSync('manifest/elements.json', 'utf8')) as { palette: { entries: { id: string; labelKey: string }[] }[] }).palette.flatMap((g) => g.entries.map((e) => [e.id, e.labelKey] as const)));

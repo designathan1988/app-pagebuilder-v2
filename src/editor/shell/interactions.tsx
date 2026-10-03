@@ -1,6 +1,6 @@
-// The Interactions tab of the inspector (DESIGN.md "Inspector"; spec events-actions): the selected element, Add, then
-// one card per interaction — Applies to, Trigger, Action (and its own value: a class, an animation, an address), the
-// target it acts on and Options (once or every time, and a delay) — and Remove. Every
+// The Interactions tab of the inspector (archive/DESIGN.md "Inspector"; spec events-actions): the selected element,
+// Add, then one card per interaction — Applies to, Trigger, Action (and its own value: a class, an animation, an
+// address), the target it acts on and Options (once or every time, and a delay) — and Remove. Every
 // control is a door the manifest places in the inspector-interactions region: Add (interactions.add), the card's
 // fields (interactions.update, each fixing the `field` it edits), the target's picks (the canvas door and a Layers
 // row's) and Remove. The target is not typed: the field starts picking (src/editor/inspector/pick-target.ts, DESIGN's

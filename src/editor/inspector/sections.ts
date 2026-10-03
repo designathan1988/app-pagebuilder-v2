@@ -1,10 +1,10 @@
-// The inspector's sections (ARCHITECTURE.md, Command owners; spec inspector-panel): which of them are collapsed, and
+// The inspector's sections (INVENTORY.md, owners; spec inspector-panel): which of them are collapsed, and
 // what a collapsed section's header summarises.
 //
-// inspector.toggleSection collapses or expands one section. Every section starts open (DESIGN.md "Inspector"); the
-// collapsed set is one per section, the same for every element (spec, Problems in Pager 1), so it survives selection
-// changes, and it lives in the preferences (src/editor/preferences/preferences.ts), which keep it after a reload.
-// Toggling records nothing in the history and never touches the document.
+// inspector.toggleSection collapses or expands one section. Every section starts open (archive/DESIGN.md "Inspector");
+// the collapsed set is one per section, the same for every element (spec, Problems in Pager 1), so it survives
+// selection changes, and it lives in the preferences (src/editor/preferences/preferences.ts), which keep it after a
+// reload. Toggling records nothing in the history and never touches the document.
 //
 // A collapsed section's header summarises the values in force of the properties and composites its manifest entry
 // names (properties.json sections[].summary). Most read CSS computed values; Border reads the document's declarations
@@ -32,7 +32,7 @@ import { registerReferenceKind } from '../../core/store/references.ts';
 // no element holds anything (nothing selected): every section the user has not opened stays collapsed
 const EMPTY_HELD: ReadonlySet<string> = new Set();
 
-// the inspector's tabs that show an attribute's field and a property's field (DESIGN.md)
+// the inspector's tabs that show an attribute's field and a property's field (PRODUCT.md §5.3)
 const SETTINGS_TAB = 'settings';
 const STYLE_TAB = 'style';
 

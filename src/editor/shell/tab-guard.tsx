@@ -1,6 +1,6 @@
-// The tab guard's notice (DESIGN.md "Regions": tab-guard; spec multi-tab-guard): while this tab only reads the project,
-// a bar across the top of the window says why (another tab edits it, or took it over) and holds the region's door,
-// Take over editing (project.takeOverEditing).
+// The tab guard's notice (archive/DESIGN.md "Regions": tab-guard; spec multi-tab-guard): while this tab only reads the
+// project, a bar across the top of the window says why (another tab edits it, or took it over) and holds the region's
+// door, Take over editing (project.takeOverEditing).
 import { useSyncExternalStore } from 'react';
 import { isFeatureBuilt } from '../../app/features.ts';
 import type { FeatureId } from '../../generated/ids.ts';

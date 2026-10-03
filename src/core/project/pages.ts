@@ -1,4 +1,4 @@
-// The pages of the project (ARCHITECTURE.md, Command owners; spec explorer-pages): how a project gains a page, keeps
+// The pages of the project (INVENTORY.md, owners; spec explorer-pages): how a project gains a page, keeps
 // its name and its file straight, and loses one. The document holds them in their order (`document.pages`), the
 // Explorer lists them, and every command that acts on "the page" reads the first one until pages.switch arrives.
 //

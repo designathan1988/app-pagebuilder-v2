@@ -1,4 +1,4 @@
-// style.setSpacing (ARCHITECTURE.md, Command owners; spec props-spacing): a box's sides (padding or margin) in the box
+// style.setSpacing (INVENTORY.md, owners; spec props-spacing): a box's sides (padding or margin) in the box
 // model editor. One side writes its own longhand; `all` (a linked box) writes the four longhands, one undo step. What
 // was typed is read as style.set reads it (set.ts readValue: the longhand's codec against what it offers, a bare number
 // in px, written only when the browser takes it): a padding below zero is refused with status.value.negativePadding (a

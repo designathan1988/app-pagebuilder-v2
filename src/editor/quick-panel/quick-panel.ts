@@ -1,4 +1,4 @@
-// The quick panel (ARCHITECTURE.md, Command owners; spec quick-panel; DESIGN.md "Canvas", Quick panel): a small panel
+// The quick panel (INVENTORY.md, owners; spec quick-panel; archive/DESIGN.md "Canvas", Quick panel): a small panel
 // near the primary selected element, collapsed to a chip by default, whose fields are the doors the manifest places in
 // the quick-panel region (each runs the same command as the matching inspector field; canvas/quick-panel.tsx draws
 // them).
@@ -13,10 +13,11 @@
 // history. Its distance, the pointer's horizontal travel, is already in the offset the drag gives.
 //
 // Where the chip goes (placeChip): beside the selection's label, on its right (on its left when the stage has no room
-// there), level with it (DESIGN.md "Canvas": the label, its size chip and the quick panel chip beside it), so it covers
-// no more of the page than the label does. Where the open panel goes (placeQuickPanel): a remembered offset, held inside the stage, whichever part of the element it covers — the person dragged it there; otherwise the side of the
-// element with the most free space where the panel fits (above, below, right, left, in that order on a tie), clear of
-// the element's label above it; with no side free, the side where, held inside the stage, it covers the least of the
+// there), level with it (archive/DESIGN.md "Canvas": the label, its size chip and the quick panel chip beside it), so
+// it covers no more of the page than the label does. Where the open panel goes (placeQuickPanel): a remembered offset,
+// held inside the stage, whichever part of the element it covers — the person dragged it there; otherwise the side of
+// the element with the most free space where the panel fits (above, below, right, left, in that order on a tie), clear
+// of the element's label above it; with no side free, the side where, held inside the stage, it covers the least of the
 // element. The stage keeps an inset free all round.
 //
 // Which fields it shows (appliesTo): a field shows only when its property applies to the selected element, by the

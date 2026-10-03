@@ -1,4 +1,4 @@
-// Panel bodies (ARCHITECTURE.md): whether a panel has its content. A panel has it when the shell draws a body for it,
+// Panel bodies (PRODUCT.md §5): whether a panel has its content. A panel has it when the shell draws a body for it,
 // and the answer is read from the tables the shell draws its bodies from, never from a status written by hand: a
 // sidebar view has a body when SIDEBAR_VIEWS (sidebar.tsx) has one, a dock tab when DOCK_TABS (dock.tsx) has one, a
 // section when the view it is in has one — or, for a section of no view, when SIDEBAR_SECTIONS has one; the panels of

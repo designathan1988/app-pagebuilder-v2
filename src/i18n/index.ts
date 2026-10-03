@@ -1,4 +1,4 @@
-// The i18n runtime (ARCHITECTURE.md): every UI text is a MessageId looked up in the catalogue of a locale.
+// The i18n runtime (PRODUCT.md §5): every UI text is a MessageId looked up in the catalogue of a locale.
 // English (en.json) is the source catalogue and the default UI language; Brazilian Portuguese (pt-BR.json) is the
 // other locale. The catalogues are JSON so that manifest:check can prove every key the manifest names exists in both
 // locales with the same placeholders. This module is plain TypeScript and holds no state: the UI language is a

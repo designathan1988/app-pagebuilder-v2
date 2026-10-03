@@ -1,4 +1,4 @@
-// Coordinates under zoom (ARCHITECTURE.md): the one place that converts between the page (the page's CSS pixels
+// Coordinates under zoom (PRODUCT.md §5): the one place that converts between the page (the page's CSS pixels
 // inside the iframe, from the top-left of the page, scroll included), the frame (the iframe's viewport: the page's
 // CSS pixels from its visible top-left) and the screen (the editor window's client pixels). The iframe is scaled with
 // the standard CSS zoom, so one page pixel is `zoom` screen pixels; its layout keeps the breakpoint's width.
@@ -456,7 +456,7 @@ export const pageLayout: Layout = {
   },
 };
 
-// The page's content on the screen, which a canvas label must never cover (DESIGN.md "Label rule"): the box of
+// The page's content on the screen, which a canvas label must never cover (archive/DESIGN.md "Label rule"): the box of
 // every run of text and of every replaced element (an image, a video, an embedded frame, a form control).
 const REPLACED = 'img, picture, video, audio, canvas, svg, iframe, embed, object, input, textarea, select, button, progress, meter';
 // (read once per version of the page, canvas/page-clock.ts: the page and the frame are the same until it ticks, and

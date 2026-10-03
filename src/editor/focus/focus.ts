@@ -1,4 +1,4 @@
-// Keyboard focus (ARCHITECTURE.md, Command owners): focus.next, focus.previous, focus.first, focus.last and
+// Keyboard focus (INVENTORY.md, owners): focus.next, focus.previous, focus.first, focus.last and
 // focus.activate move the keyboard focus among the items of the region that holds it, or run the focused item. The
 // region is the element that names the focused key context (data-key-context: a menu, a toolbar, a tab strip…) and
 // its items are its own focusable controls, in document order, not those of a region nested in it (a submenu).

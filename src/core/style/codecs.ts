@@ -1,4 +1,4 @@
-// Codecs (ARCHITECTURE.md): the one reader and writer of a property's values. Each property of properties.json names
+// Codecs (PRODUCT.md §5): the one reader and writer of a property's values. Each property of properties.json names
 // its codec; a codec reads the text a person typed into a value of its kind and writes that value back as the CSS text
 // the document stores. Pure: what a property offers (its units, its keywords) comes from the generated lists
 // (src/generated/value-lists.ts) and whether the browser takes the result is the CSS support port's answer, both asked

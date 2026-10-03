@@ -1,4 +1,4 @@
-// parts.toggle (ARCHITECTURE.md, Command owners; feature elements-tables): the optional parts of the selected table
+// parts.toggle (INVENTORY.md, owners; feature elements-tables): the optional parts of the selected table
 // (the table itself or any node inside it): its caption, its head and its foot. A part the table lacks is added in its
 // place (the caption first, the head after the caption, the foot last), with a row of as many cells as the table has
 // columns (header cells in the head); a part it has is removed with what it holds. A table has at most one of each, so

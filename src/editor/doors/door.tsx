@@ -1,4 +1,4 @@
-// Door rendering (ARCHITECTURE.md): one door of the manifest drawn as the control its drawnAs names, with the icon
+// Door rendering (PRODUCT.md §5): one door of the manifest drawn as the control its drawnAs names, with the icon
 // the manifest names, its label from the catalogue, its shortcut as a hint, and disabled with "not available yet"
 // while its command's entry in the command table is NOT_AVAILABLE_YET. Every icon comes from the sprite by a name
 // the manifest gives (a door's icon, a glyph, a panel, an element); no component chooses one.
@@ -34,9 +34,9 @@ export function Icon({ name, size = 'md' }: { readonly name: string; readonly si
 }
 
 // A door is usable only when its command is built and its feature is registered as built (the feature table,
-// src/app/features.ts; DESIGN.md "Build order"): a menu item, a context-menu item or a toolbar button of a feature
-// still to come is drawn "not available yet", or left out of the context menu, even when another feature built its
-// command.
+// src/app/features.ts; archive/DESIGN.md "Build order"): a menu item, a context-menu item or a toolbar button of a
+// feature still to come is drawn "not available yet", or left out of the context menu, even when another feature built
+// its command.
 export function isDoorBuilt(entry: DoorEntry): boolean {
   return isBuilt(COMMANDS[entry.command.id]) && isFeatureBuilt(entry.door.feature as FeatureId);
 }
@@ -52,8 +52,8 @@ export interface DoorState {
   readonly available: boolean;
   readonly current: boolean;
   readonly chord: string | null;
-  // why the control is disabled: "not available yet" while its command is not built (DESIGN.md "Build order"), then
-  // the door's own reason (disabledReasonKey) while its predicate does not hold; null when it is enabled
+  // why the control is disabled: "not available yet" while its command is not built (archive/DESIGN.md "Build order"),
+  // then the door's own reason (disabledReasonKey) while its predicate does not hold; null when it is enabled
   readonly reason: MessageId | null;
   readonly run: () => void;
 }

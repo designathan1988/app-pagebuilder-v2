@@ -1,4 +1,4 @@
-// The timeline's preview (ARCHITECTURE.md, Command owners; spec timeline-preview): timeline.play, timeline.pause,
+// The timeline's preview (INVENTORY.md, owners; spec timeline-preview): timeline.play, timeline.pause,
 // timeline.stop and timeline.toggleLoop hold `ui.timeline` (playing, loop), and the canvas draws the shown animation at
 // the playhead (render.ts `previewTimeline`: the animation properties with the playhead as a negative delay and the play
 // state), so Play animates the element from the stored keyframes, Pause freezes it where the playhead is and Stop puts

@@ -1,4 +1,4 @@
-// Recipes (ARCHITECTURE.md; properties.json recipes): a compatibility recipe is stored by its own id (line-clamp: 3)
+// Recipes (PRODUCT.md §5; properties.json recipes): a compatibility recipe is stored by its own id (line-clamp: 3)
 // and written out as its declarations by the output (src/core/render/output.ts); style.set checks each of them
 // (src/core/style/set.ts). What the recipe shares with the properties it declares is here: a write of one of those
 // properties clears a recipe that says so (shared.otherWrite: clears-recipe; line-clamp's display and overflow),

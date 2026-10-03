@@ -1,4 +1,4 @@
-// The hand (ARCHITECTURE.md, Command owners; spec hand-keyboard-move): the keyboard's drag and drop. hand.take puts
+// The hand (INVENTORY.md, owners; spec hand-keyboard-move): the keyboard's drag and drop. hand.take puts
 // the one selected element into the hand, aimed at the slot it stands in; while it is held the canvas's keys are the
 // hand's (the keymap reads heldHand): hand.aimNext and hand.aimPrevious walk the insertion slots in reading order
 // (aimPrevious is the binding Pager lacks, spec Problems in Pager 1), hand.climb aims right after the current receiver

@@ -1,4 +1,4 @@
-// CSS function lists (ARCHITECTURE.md; specs props-transforms, props-filters-clip): the functions a filter or a
+// CSS function lists (PRODUCT.md §5; specs props-transforms, props-filters-clip): the functions a filter or a
 // transform value holds in order (blur(4px) brightness(1.2); skewX(10deg)), one function's argument read from it, the
 // value with one function set (in its place, else last) or taken away, and the translate value with one axis set.
 // A field of one function (Blur, Skew X) and its command's handler (style.setFilter, style.setTransform) both use it.

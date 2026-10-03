@@ -103,7 +103,7 @@ describe('manifest:check', () => {
     declaration.value = value;
   };
 
-  it('has the planted fixtures of the placement rules of DESIGN.md, each on its own rule', () => {
+  it('has the planted fixtures of the placement rules (docs/PRODUCT.md §5.3), each on its own rule', () => {
     const rules = new Map(PLANTS.map((p) => [p.id, p.rule]));
     expect({
       'door-unplaced': rules.get('door-unplaced'),
@@ -126,7 +126,7 @@ describe('manifest:check', () => {
     });
   });
 
-  it('places every door with a control, and only in a region DESIGN.md names', { timeout: 30_000 }, () => {
+  it('places every door with a control, and only in a region manifest/layout.json names', { timeout: 30_000 }, () => {
     const summary = checkManifest(loaded.input).summary;
     const placed = Object.values(summary?.doorsByRegion ?? {}).reduce((n, x) => n + x, 0);
     expect(placed + (summary?.doorsByKind.shortcut ?? 0)).toBeLessThanOrEqual(summary?.doors ?? 0);

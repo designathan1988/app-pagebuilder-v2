@@ -1,4 +1,4 @@
-// Couplings (ARCHITECTURE.md; properties.json couplings): a style write that triggers a coupling changes what it writes
+// Couplings (PRODUCT.md §5; properties.json couplings): a style write that triggers a coupling changes what it writes
 // in the same command and undo step. A coupling names its trigger (a property about to be written, optionally only some
 // of its values, optionally only when a composite writes it: `via`), its condition (a closed list of predicates over the
 // value the element, or its parent, holds for a property) and its effect (a closed list of actions on the declarations

@@ -1,4 +1,4 @@
-// Pointer input (ARCHITECTURE.md): the one owner of pointer, mouse and drag input on the canvas. Lint rule
+// Pointer input (PRODUCT.md §5): the one owner of pointer, mouse and drag input on the canvas. Lint rule
 // builder/pointer-owner refuses pointer, mouse and drag listeners and props anywhere else; a control's onClick stays
 // with the control. Presses reach the canvas on its overlay (the iframe takes no pointer event) and on the stage
 // around the frame; the node under the pointer comes from the coordinates module.
@@ -726,8 +726,8 @@ export function installPointer(store: EditorStore, target: Window = window): () 
   // never joins a gesture).
   let pickAfter: { entry: DoorEntry; args: Record<string, unknown> } | null = null;
   // a plain press on an element of a selection of several: its click waits for the release, so a drag from it drags
-  // the whole selection (DESIGN.md "Canvas", drag; the user's real-use audit, item 3.4), and a release without a drag
-  // selects that element alone, as the click does
+  // the whole selection (archive/DESIGN.md "Canvas", drag; the user's real-use audit, item 3.4), and a release without
+  // a drag selects that element alone, as the click does
   let deferredClick: { entry: DoorEntry; args: Record<string, unknown> } | null = null;
   // the modifier held at the last release (a drag's Alt duplicates, spec drag-duplicate)
   let releaseModifier: string | null = null;

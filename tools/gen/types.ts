@@ -117,7 +117,7 @@ export function generateTypes(root: string): { file: string; content: string }[]
     idList('PALETTE_GROUP_IDS', 'PaletteGroupId', elements.palette.map((g) => g.id), 'the palette groups'),
     idList('PALETTE_ENTRY_IDS', 'PaletteEntryId', elements.palette.flatMap((g) => g.entries.map((e) => e.id)), 'the palette entries'),
     idList('FEATURE_IDS', 'FeatureId', featureFiles.flatMap((f) => f.features.map((x) => x.id)), 'every feature, in build order'),
-    idList('REGION_IDS', 'RegionId', layout.regions.map((r) => r.id), 'the regions of DESIGN.md (layout.json)'),
+    idList('REGION_IDS', 'RegionId', layout.regions.map((r) => r.id), 'the regions of manifest/layout.json'),
     idList('MENU_IDS', 'MenuId', layout.menus.map((m) => m.id), 'the menus (layout.json)'),
     idList('KEY_CONTEXT_IDS', 'KeyContextId', interactions.keyContexts.map((k) => k.id), 'the key contexts (interactions.json)'),
     idList('CONSTANT_IDS', 'ConstantId', interactions.constants.map((c) => c.id), 'the interaction constants (interactions.json)'),

@@ -1,7 +1,7 @@
-// The centre column (DESIGN.md "Regions" and "Canvas"): the file tabs, the canvas toolbar with the Canvas / Split /
-// Code switch, the rulers, and the frame with its breakpoint tabs along the cascade from the base breakpoint, and the
-// page's iframe (src/editor/canvas/frame.tsx) at the camera's zoom (src/editor/view/camera.ts): the chosen one, or in
-// Fit mode the one that fits the frame to the stage; the frame is placed at the camera's pan.
+// The centre column (archive/DESIGN.md "Regions" and "Canvas"): the file tabs, the canvas toolbar with the Canvas /
+// Split / Code switch, the rulers, and the frame with its breakpoint tabs along the cascade from the base breakpoint,
+// and the page's iframe (src/editor/canvas/frame.tsx) at the camera's zoom (src/editor/view/camera.ts): the chosen one,
+// or in Fit mode the one that fits the frame to the stage; the frame is placed at the camera's pan.
 import { useContext, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
 import type { MessageId } from '../../generated/ids.ts';
 import { manifest, type DoorEntry } from '../../manifest/runtime.ts';
@@ -33,17 +33,17 @@ const NO_CODE: readonly string[] = [];
 
 const drawnAs = (entry: DoorEntry): string | null => (entry.door.kind === 'toolbar' || entry.door.kind === 'panel-control' ? entry.door.drawnAs : null);
 
-// The file tabs (the audit's A3.18): a row only while the project holds more than one file — a single page's tab
-// repeats the page switcher above it. Every open page gets its tab, and the page on the canvas is marked by its
-// door's own current state (pages.switch); a click opens that page (DESIGN.md, "Files, tabs and code": the tabs list
-// the open pages and code files, and a page tab shows the page on the canvas)
+// The file tabs (DEC-13: always drawn, a single page's tab too, as the canonical frame stands it over the canvas; the
+// audit's A3.18 had kept the row for two files and more). Every open page gets its tab, and the page on the canvas is
+// marked by its door's own current state (pages.switch); a click opens that page (archive/DESIGN.md, "Files, tabs and
+// code": the tabs list the open pages and code files, and a page tab shows the page on the canvas)
 function FileTabs() {
   const pages = useEditorState((s) => s.document.pages);
   // the code files the pane holds open (explorer/file-tabs.ts), in the order they were opened
   const code = useEditorState((s) => codeTabs(s.ui)?.open ?? NO_CODE);
   const fileTab = doorSlots('file-tabs').find((d) => d.door.kind === 'panel-control' && d.door.control === 'file-tab');
   const fileClose = doorSlots('file-tabs').find((d) => d.door.kind === 'panel-control' && d.door.control === 'close');
-  // the region's first item is a page's tab (DESIGN.md "Regions": 1 page tab), its close button drawn inside it
+  // the region's first item is a page's tab (archive/DESIGN.md "Regions": 1 page tab), its close button drawn inside it
   const tab = doorSlots('file-tabs').find((d) => drawnAs(d) === 'item');
   // drawn with one page too (the canonical frame: the page's tab always stands over the canvas)
   if (!tab) return null;

@@ -1,4 +1,4 @@
-// Align and distribute (ARCHITECTURE.md, Command owners; spec align-distribute), on absolutely or fixed positioned
+// Align and distribute (INVENTORY.md, owners; spec align-distribute), on absolutely or fixed positioned
 // elements (predicate positionedSelection), as drawn: their border boxes in page px (the layout port).
 //  - position.align: several elements line up on an edge or the centre of the selection's bounds; one element on its
 //    parent's padding box (the layout port's place).

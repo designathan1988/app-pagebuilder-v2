@@ -1,5 +1,5 @@
 // reusable-components beyond its scenarios (spec/BEHAVIOUR.md#reusable-components): the context menu shows only the
-// commands that apply (DESIGN.md context-menu), so Create a component is left out on the page root and inside an
+// commands that apply (PRODUCT.md §5.3 context-menu), so Create a component is left out on the page root and inside an
 // instance, whose refusals no built door reaches (the handlers' refusals are unit tests, components.test.ts); Detach
 // from the component is offered on an instance's root only. The scenarios cannot say an item is not drawn: this test
 // reads the open menu in Chrome, after the document holds the component.

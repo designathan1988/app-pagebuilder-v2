@@ -1,4 +1,4 @@
-// The workspace layout (ARCHITECTURE.md): the dock's state, collapsed to its strip, open, or maximised over the
+// The workspace layout (PRODUCT.md §5): the dock's state, collapsed to its strip, open, or maximised over the
 // canvas area, the active tab of each tab group (the dock's and the inspector's: workspace.setActiveTab), and the
 // panels that left their place: floating windows, the right dock and combined areas (workspace.movePanel; specs
 // floating-panels and panel-combine-tabs). workspace.reset puts the first state back. The first state is data: the
@@ -33,7 +33,8 @@ export interface LayoutState {
   readonly dock: DockState;
   // the dock tab whose body shows
   readonly activeDockTab: Panel | null;
-  // the inspector tab chosen (DESIGN.md "Inspector": Style, Settings, Interactions); absent while the first one shows
+  // the inspector tab chosen (archive/DESIGN.md "Inspector": Style, Settings, Interactions); absent while the first one
+  // shows
   readonly inspectorTab?: string | undefined;
   // the panels floating as windows of their own, in the order they were floated (spec floating-panels)
   readonly floating?: readonly FloatingPanel[] | undefined;
@@ -70,7 +71,7 @@ export function inspectorTab(ui: EditorUi): string {
   return ui.layout.inspectorTab ?? FIRST_INSPECTOR_TAB;
 }
 
-// The inspector tab that draws a region: each tab draws the region named after it, inspector-<tab> (DESIGN.md
+// The inspector tab that draws a region: each tab draws the region named after it, inspector-<tab> (PRODUCT.md §5.3
 // "Regions": inspector-style, inspector-settings, inspector-interactions); null when no tab draws it.
 export function inspectorTabDrawing(region: string): string | null {
   return INSPECTOR_TABS.find((tab) => region === `inspector-${tab}`) ?? null;

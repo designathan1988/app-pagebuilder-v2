@@ -1,4 +1,4 @@
-// The timeline's subject and its playhead (ARCHITECTURE.md, Command owners; specs timeline-keyframes and
+// The timeline's subject and its playhead (INVENTORY.md, owners; specs timeline-keyframes and
 // timeline-preview): `ui.timeline` — which animation of the selected element the panel shows, where the playhead sits
 // (ms), whether it plays and whether it loops — with the two commands that move them (timeline.show, the playhead of
 // the animation the panel has open; timeline.setPlayhead, where it sits) and the readers the panel, the keyframe style

@@ -1,7 +1,7 @@
-// The Timeline panel (DESIGN.md "Dock and status bar": the dock-timeline region; group 18): the animations of the
-// selected element, one row each, the settings of the one the timeline shows, and the track with its ruler, playhead
-// and keyframes. Every control is a door of the manifest placed in the region (the rows of timeline.show, animation
-// .create's button and its name field, animation.rename's field, animation.delete, the seven settings of
+// The Timeline panel (archive/DESIGN.md "Dock and status bar": the dock-timeline region; group 18): the animations of
+// the selected element, one row each, the settings of the one the timeline shows, and the track with its ruler,
+// playhead and keyframes. Every control is a door of the manifest placed in the region (the rows of timeline.show,
+// animation .create's button and its name field, animation.rename's field, animation.delete, the seven settings of
 // animation.setSettings, the play controls, the ruler of timeline.setPlayhead and the keyframes of
 // animation.moveKeyframe, addKeyframe, setKeyframeEasing and deleteKeyframe). The two drags (the playhead along the
 // ruler, a keyframe along the track) are the pointer owner's; this panel only draws them and runs their doors' clicks.

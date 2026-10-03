@@ -1,7 +1,8 @@
-// The Data panel, a view of the sidebar (spec content-data; DESIGN.md "Regions"): the project's collections and the
-// file being imported, the collection shown with its fields, query and items, Connect fields for the selected element,
-// pages made from the open page, and the shared regions. Every control is a door of the manifest's data regions
-// (controls.tsx); what the panel shows is the document and the editor state (state.ts), never a state of its own.
+// The Data panel, a view of the sidebar (spec content-data; archive/DESIGN.md "Regions"): the project's collections and
+// the file being imported, the collection shown with its fields, query and items, Connect fields for the selected
+// element, pages made from the open page, and the shared regions. Every control is a door of the manifest's data
+// regions (controls.tsx); what the panel shows is the document and the editor state (state.ts), never a state of its
+// own.
 import type { ReactNode } from 'react';
 import type { NodeId } from '../../generated/commands.ts';
 import { collectionsOf } from '../../core/data/collections.ts';

@@ -144,8 +144,8 @@ function FieldControl({ entry, bare = false, labelled = false, prefix = null, ro
   const t = useT();
   const target = targetOf(entry);
   // labelled as fieldLabelKey says, or by the row's own label when it has one (a pair row of the gap reads "Gap"). A
-  // field is usable only once its own feature is registered as built (DESIGN.md "Build order"): style.set runs Width
-  // and Height long before Display or Color.
+  // field is usable only once its own feature is registered as built (archive/DESIGN.md "Build order"): style.set runs
+  // Width and Height long before Display or Color.
   const own = entry.door.labelKey !== entry.command.labelKey;
   const door = useDoor(entry, {}, rowLabel !== null ? t(rowLabel) : target && !own ? t(fieldLabelKey(entry)) : undefined, isFeatureBuilt(entry.door.feature as FeatureId));
   if (!target) return null;
@@ -489,8 +489,8 @@ function SpacingField({ entry, box, sides, properties, where, label }: { readonl
   );
 }
 
-// The innermost cell of the box model (DESIGN.md "Sections", the design's centre): the selection's own measured size,
-// in page pixels whatever the zoom — the number a person compares the Width and Height fields against — or, with
+// The innermost cell of the box model (archive/DESIGN.md "Sections", the design's centre): the selection's own measured
+// size, in page pixels whatever the zoom — the number a person compares the Width and Height fields against — or, with
 // several elements selected, how many there are. Nothing with nothing selected.
 function BoxCore() {
   const t = useT();
@@ -501,7 +501,7 @@ function BoxCore() {
   return <span className="box__core">{words}</span>;
 }
 
-// The box model (DESIGN.md "Sections": margin outside, padding inside): the composites drawn as a box model
+// The box model (archive/DESIGN.md "Sections": margin outside, padding inside): the composites drawn as a box model
 // (properties.json control box-model), each a box around the next in their placement order, the first outermost. Each
 // box has its label and its link (inspector.toggleSpacingLink); unlinked, a field on each side writes that side's
 // longhand; linked, one field (the box's own door) writes its four sides. No property is named here.

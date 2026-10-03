@@ -1,4 +1,4 @@
-// Chords (ARCHITECTURE.md): how a shortcut door writes its keys. manifest:check refuses a chord this cannot read and
+// Chords (PRODUCT.md §5): how a shortcut door writes its keys. manifest:check refuses a chord this cannot read and
 // two doors with one chord in one context; the keymap compares a pressed chord with the doors' chords through it.
 
 const MODIFIER_ORDER = ['Ctrl', 'Alt', 'Shift', 'Meta'] as const;

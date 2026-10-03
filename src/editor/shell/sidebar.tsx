@@ -1,9 +1,9 @@
 import { MODULE_SIDEBAR_VIEWS } from '../../app/modules-view.ts';
 import { AssistantPanel } from '../assistant/panel.tsx';
 import { DataPanel } from '../data/panel.tsx';
-// The activity bar and the sidebar (DESIGN.md "Regions"): Explorer (Pages, Files, Layers), Insert (the element grid
-// of elements.json's palette) and Styles (classes and variables). Rows and tiles are the doors of their regions, one
-// per page, node or palette entry; a section's actions are the region's controls before its first item.
+// The activity bar and the sidebar (archive/DESIGN.md "Regions"): Explorer (Pages, Files, Layers), Insert (the element
+// grid of elements.json's palette) and Styles (classes and variables). Rows and tiles are the doors of their regions,
+// one per page, node or palette entry; a section's actions are the region's controls before its first item.
 import { isDataFile } from '../../core/design/data.ts';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type FormEvent, type MouseEvent, type ReactNode } from 'react';
 import { isFeatureBuilt } from '../../app/features.ts';
@@ -100,8 +100,8 @@ const INSERT_TILE = requireDoor('insert', (d) => drawnAs(d) === 'item' && Object
 const INSERT_GROUP = requireDoor('insert', (d) => drawnAs(d) === 'disclosure');
 // a component's tile (components.insertInstance): the project's components, after the element groups
 const COMPONENT_TILE = requireDoor('insert', (d) => drawnAs(d) === 'item' && 'component' in d.command.args);
-// the panel header's doors (DESIGN.md `panel-header`: put the panel back in its place, close it), drawn in the title
-// of each sidebar view; the first only while the panel is away from its place (floating, or docked right)
+// the panel header's doors (PRODUCT.md §5.3 `panel-header`: put the panel back in its place, close it), drawn in the
+// title of each sidebar view; the first only while the panel is away from its place (floating, or docked right)
 const PANEL_HEADER = doorSlots('panel-header');
 // (the door that names a place to move the panel to)
 const DOCK_BACK = PANEL_HEADER.find((entry) => 'to' in entry.door.args);
@@ -342,8 +342,8 @@ function EmptyMark({ node }: { readonly node: DocNode }) {
   ) : null;
 }
 
-// The height a row is drawn with: the token the shell draws every row with (DESIGN.md), so the window and the rows
-// agree by construction (the user's real-use audit, A3.28)
+// The height a row is drawn with: the token the shell draws every row with (PRODUCT.md §5.3), so the window and the
+// rows agree by construction (the user's real-use audit, A3.28)
 const ROW = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--size-row')) || 24;
 // the rows drawn beyond the scroll window, so a scroll never shows a gap
 const OVERSCAN = 8;
@@ -995,9 +995,9 @@ function Insert() {
 }
 const NO_GROUPS: readonly string[] = [];
 
-// The Components group of the Insert view (DESIGN.md `insert` 7; spec reusable-components): a tile per component of the
-// project that the search matches, which places an instance (its click, or its drag onto the page); no group while the
-// project has none.
+// The Components group of the Insert view (PRODUCT.md §5.3 `insert` 7; spec reusable-components): a tile per component
+// of the project that the search matches, which places an instance (its click, or its drag onto the page); no group
+// while the project has none.
 function ComponentTiles({ query, density }: { readonly query: string; readonly density: string }) {
   const t = useT();
   const text = useEditorState((s) => componentsOf(s.document).map((c) => c.name).join('\n'));
@@ -1041,8 +1041,8 @@ function Styles() {
   );
 }
 
-// The project's classes, read-only (DESIGN.md "Regions", styles; spec shared-style-classes): each name and how many
-// elements have it; a class is edited through the selector bar.
+// The project's classes, read-only (archive/DESIGN.md "Regions", styles; spec shared-style-classes): each name and how
+// many elements have it; a class is edited through the selector bar.
 function StyleClasses() {
   const t = useT();
   const text = useEditorState((s) => JSON.stringify(classesOf(s.document).map((c) => [c.name, usesOfClass(s.document, c.name)])));

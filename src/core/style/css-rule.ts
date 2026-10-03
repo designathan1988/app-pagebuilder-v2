@@ -1,4 +1,4 @@
-// style.applyCssRule (ARCHITECTURE.md, Command owners; the manifest's code-panel-edit-css): the CSS the person edited in
+// style.applyCssRule (INVENTORY.md, owners; the manifest's code-panel-edit-css): the CSS the person edited in
 // the code pane's rule for the selected element, written on it. The declarations are parsed by the one owner of a
 // declarations text (style/custom.ts parseDeclarations: "property: value" pairs, a shorthand expanded by its codec, a
 // url() put to the one rule of an address, the first wrong piece refused naming its line and why) and replace the

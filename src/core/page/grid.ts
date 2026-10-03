@@ -1,4 +1,4 @@
-// The page's layout grids (ARCHITECTURE.md, Command owners; spec layout-grid-overlay): the column grid, the row grid
+// The page's layout grids (INVENTORY.md, owners; spec layout-grid-overlay): the column grid, the row grid
 // and the dot grid, each shown or hidden by its toggle. Whether one is shown is a setting of the page, stored on the
 // page root (the attributes gridColumns, gridRows, gridDots of elements.json, which write nothing to the HTML), so
 // it is saved with the document, undone as one step and never exported. Each toggle stands for its grid being shown.

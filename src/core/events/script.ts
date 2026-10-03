@@ -1,4 +1,4 @@
-// The plain JavaScript of a project's interactions (ARCHITECTURE.md, Command owners; group 18, spec export-events-js):
+// The plain JavaScript of a project's interactions (INVENTORY.md, owners; group 18, spec export-events-js):
 // the one writer of the site's `js/interactions.js`, read by the export (core/export/export.ts, which puts it in the
 // archive and links it from the pages that use interactions) and by the preview (previewPage, which runs the same
 // script). No framework, no inline handler, no editor id and no data attribute: every element is addressed by the BEM

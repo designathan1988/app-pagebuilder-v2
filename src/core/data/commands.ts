@@ -1,4 +1,4 @@
-// The content commands (ARCHITECTURE.md, Command owners; spec content-data): the collections and their fields and
+// The content commands (INVENTORY.md, owners; spec content-data): the collections and their fields and
 // items, the bindings of elements, bound lists, pages made from a page, and shared regions. Each handler computes the
 // document its change leads to with the content module's pure functions — the derivation included (derive.ts), so a
 // list, an item page and a shared region already follow the change — and hands the store the difference as patches:

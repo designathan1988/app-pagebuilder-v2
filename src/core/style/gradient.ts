@@ -1,4 +1,4 @@
-// Gradients (ARCHITECTURE.md; spec gradient-editor): the one reader and writer of the gradient a background image
+// Gradients (PRODUCT.md §5; spec gradient-editor): the one reader and writer of the gradient a background image
 // holds, and of the edits the gradient editor makes to it. A gradient is its type (linear, radial, conic), its angle
 // (linear and conic) and its stops (a colour at a position from 0 to 100 %), written as CSS text into background-image
 // only, never the background shorthand (Problems in Pager 1). style.setBackgroundImage applies an edit to the gradient

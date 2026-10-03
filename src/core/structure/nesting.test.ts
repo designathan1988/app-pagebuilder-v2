@@ -1,4 +1,4 @@
-// The nesting grammar, at its one owner (spec nesting-grammar-structure; ARCHITECTURE.md, the content model): the
+// The nesting grammar, at its one owner (spec nesting-grammar-structure; PRODUCT.md §5, the content model): the
 // rules of where an element may sit live in src/core/elements/content-model.ts, and every path that places one asks
 // them. One table of cases runs through every path — wrap, promote, move, tag switch and insert — and each path
 // refuses with the rule's own message and leaves the document as it was. The table names the message key, so a path

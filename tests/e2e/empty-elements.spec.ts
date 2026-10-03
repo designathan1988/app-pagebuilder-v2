@@ -1,7 +1,7 @@
-// Elements with no visible box (spec text-edit-inline, Problems in Pager 4; DESIGN.md "Canvas"; the audit's A3.38): a
-// heading whose text is cleared keeps canvas.emptyTextMinHeight of height on the canvas and takes a click there, and
-// its Layers row says it is empty; the export carries no trace of it. The document is read through the read-only test
-// port, the box inside the frame, the export from its archive.
+// Elements with no visible box (spec text-edit-inline, Problems in Pager 4; archive/DESIGN.md "Canvas"; the audit's
+// A3.38): a heading whose text is cleared keeps canvas.emptyTextMinHeight of height on the canvas and takes a click
+// there, and its Layers row says it is empty; the export carries no trace of it. The document is read through the
+// read-only test port, the box inside the frame, the export from its archive.
 import fs from 'node:fs';
 import { expect, test, type Download, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';

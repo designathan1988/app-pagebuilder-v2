@@ -1,4 +1,4 @@
-// Inline markup (ARCHITECTURE.md; spec text-inline-formatting): the marks a text element's text may carry, bold
+// Inline markup (PRODUCT.md §5; spec text-inline-formatting): the marks a text element's text may carry, bold
 // (<strong>), italic (<em>) and links (<a href>), stored in a node's `inline` beside its plain `text`. The one owner of
 // what that tree may hold and of its canonical form, of the address a link may have, of what a change of the marks
 // over a range of characters does (Ctrl+B, Ctrl+I, a link's address, a paste), and of how pasted markup reads as

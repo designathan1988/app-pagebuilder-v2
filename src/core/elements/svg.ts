@@ -1,4 +1,4 @@
-// SVG/Icon and its shapes (ARCHITECTURE.md, Command owners; spec elements-svg-shapes). The one owner of:
+// SVG/Icon and its shapes (INVENTORY.md, owners; spec elements-svg-shapes). The one owner of:
 //  - element.setSvgMarkup: the markup of the one selected SVG, kept in its svgMarkup attribute once it is SVG markup
 //    whose scripts and event attributes are taken away (sanitizedSvgMarkup); the renderer and the export write it as
 //    the SVG's content, after its shapes. Markup that is not well formed is refused, naming why (an element never

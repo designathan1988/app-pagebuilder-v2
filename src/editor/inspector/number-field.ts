@@ -1,4 +1,4 @@
-// The number fields' commands (ARCHITECTURE.md, Command owners; spec inspector-number-fields): the arithmetic of a
+// The number fields' commands (INVENTORY.md, owners; spec inspector-number-fields): the arithmetic of a
 // numeric field of the inspector, which the field component draws (src/editor/shell/field.tsx). Each takes the field's
 // property and the text the field holds (`value`, what the person sees or typed), works out the new value and writes
 // it through style.set's one writer (`writeStyle` of src/core/style/set.ts): the same refusals (a locked element), one

@@ -113,7 +113,7 @@ export function elementIcon(type: string): string | null {
   return ELEMENT_ICONS.get(type) ?? null;
 }
 
-// The doors placed in a region, in their order there (DESIGN.md: "order" 1 is first).
+// The doors placed in a region, in their order there (PRODUCT.md §5.3: "order" 1 is first).
 export function doorsIn(region: RegionId): readonly DoorEntry[] {
   return manifest.doors
     .filter((d) => typeof d.door.placement === 'object' && d.door.placement.region === region)

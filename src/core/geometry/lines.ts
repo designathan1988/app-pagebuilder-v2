@@ -1,4 +1,4 @@
-// Lines of laid-out boxes (ARCHITECTURE.md; specs drag-reorder-canvas and radius-border-gap-handles, Problems in Pager
+// Lines of laid-out boxes (PRODUCT.md §5; specs drag-reorder-canvas and radius-border-gap-handles, Problems in Pager
 // 5): how a container lays its children out, read from their boxes on the screen. Along x the lines are rows (boxes
 // whose vertical extents overlap share one), along y columns (boxes whose horizontal extents overlap); each line holds
 // its boxes in the order shown along it. The drop proposal finds the slot of a point with them

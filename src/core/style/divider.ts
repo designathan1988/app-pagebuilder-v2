@@ -1,4 +1,4 @@
-// element.setDivider (ARCHITECTURE.md, Command owners; the user's real-use audit, item 8.1): the proportions of two
+// element.setDivider (INVENTORY.md, owners; the user's real-use audit, item 8.1): the proportions of two
 // neighbours in a flex row, dragged by the grip the canvas chrome draws on their boundary. The two children's real
 // boxes come from the layout port; the width asked for the child before the boundary says the fraction of the room
 // they share, and both take it as their growth (a basis of 0, so the row's free space splits by it and the proportion

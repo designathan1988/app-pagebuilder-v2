@@ -1,9 +1,9 @@
 // nest-into-previous and promote-out beyond their scenarios (spec/BEHAVIOUR.md#nest-into-previous,
-// promote-out.md): Arrange › Make child of previous layer and Arrange › Move out of parent, doors of the commands a
-// user can reach once they are built, run the same commands as their keys and the context menu (nest Problems 2,
-// promote Problems 1); Make child of previous layer is disabled, with its reason, when the element before has nothing
-// to hold it (nest Problems 1), and pressing it changes nothing. The document, the selection and the history are read
-// through the read-only test port.
+// spec/BEHAVIOUR.md#promote-out): Arrange › Make child of previous layer and Arrange › Move out of parent, doors of the
+// commands a user can reach once they are built, run the same commands as their keys and the context menu (nest
+// Problems 2, promote Problems 1); Make child of previous layer is disabled, with its reason, when the element before
+// has nothing to hold it (nest Problems 1), and pressing it changes nothing. The document, the selection and the
+// history are read through the read-only test port.
 import fs from 'node:fs';
 import { expect, test, type Page } from '../support/test.ts';
 import { control, openMenu, runDoor, runs } from './door.ts';

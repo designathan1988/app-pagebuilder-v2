@@ -1,4 +1,4 @@
-// The page's accessibility and structure checks (ARCHITECTURE.md, Command owners; the user's real-use audit, 7.5 and
+// The page's accessibility and structure checks (INVENTORY.md, owners; the user's real-use audit, 7.5 and
 // A3.39): the one owner of the list the Checks panel shows. It reads the document and nothing else — never the
 // rendered page, never a computed style — so the list is the same before and after a reload, it updates with every
 // command (the panel reads it from the store), and it never blocks editing or exporting: a check is advice, and the

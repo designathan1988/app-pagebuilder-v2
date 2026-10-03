@@ -1,6 +1,7 @@
 // The measured size of an element, in page pixels (the status bar's readout, the box model's centre): the layout
 // port's own box for it, re-measured on every frame while it is selected, and the same at any zoom — the number a
-// person compares against the Width and Height fields (spec canvas-page-iframe; DESIGN.md "Sections", the box model).
+// person compares against the Width and Height fields (spec canvas-page-iframe; archive/DESIGN.md "Sections", the box
+// model).
 import { useEffect, useState } from 'react';
 import type { NodeId } from '../../generated/commands.ts';
 import { pageLayout } from '../canvas/coordinates.ts';

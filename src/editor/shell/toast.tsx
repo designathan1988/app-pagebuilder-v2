@@ -1,7 +1,7 @@
-// The toast (DESIGN.md "Overlays", region toast): the notice that follows a delete, with its text and the region's
-// doors (Undo). It shows while the state follows a delete (src/core/structure/remove.ts, followsDelete): one at most,
-// a new delete replaces it, and the next message takes it away. It is not a live region: the status bar already says
-// the same message aloud.
+// The toast (archive/DESIGN.md "Overlays", region toast): the notice that follows a delete, with its text and the
+// region's doors (Undo). It shows while the state follows a delete (src/core/structure/remove.ts, followsDelete): one
+// at most, a new delete replaces it, and the next message takes it away. It is not a live region: the status bar
+// already says the same message aloud.
 import { followsDelete } from '../../core/structure/remove.ts';
 import { useEditorState } from '../store.ts';
 import { messageText, useLocale } from '../text.ts';

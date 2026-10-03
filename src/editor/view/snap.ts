@@ -1,4 +1,4 @@
-// Snap (ARCHITECTURE.md, Command owners; spec snap-toggle-settings): whether snapping is on, the targets a moved or
+// Snap (INVENTORY.md, owners; spec snap-toggle-settings): whether snapping is on, the targets a moved or
 // resized edge is pulled to and the distance within which it is, all workspace preferences in the one preferences store
 // (Problems in Pager 3), restored after a reload, never in the document nor the history.
 //  - snap.setEnabled: the Snap button toggles it (Problems in Pager 1: one click), the Snap menu's On and Off set it;

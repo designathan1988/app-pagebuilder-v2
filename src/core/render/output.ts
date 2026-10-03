@@ -1,4 +1,4 @@
-// The page's output (ARCHITECTURE.md): the one owner of what the page writes, on the canvas (render.ts) and in the
+// The page's output (PRODUCT.md §5): the one owner of what the page writes, on the canvas (render.ts) and in the
 // export (core/export/export.ts): the manifest data both need (OutputModel), a node's CSS (nodeCss) and the HTML
 // attributes of its element (elementAttributes). No class and no DOM: every tool can load it.
 import type { ElementsFile, PropertiesFile } from '../../manifest/schema.ts';

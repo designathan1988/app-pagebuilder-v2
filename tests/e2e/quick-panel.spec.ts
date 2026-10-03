@@ -1,7 +1,7 @@
 // quick-panel beyond its scenarios (spec/BEHAVIOUR.md#quick-panel): the panel dragged by its grip stays where it was
 // put for that element after a reload (Problems in Pager 1: its offset from the element, read on the screen), and it
-// shows only the fields whose property applies to the element (DESIGN.md: the text fields for an element that holds
-// text, none for a section). The scenarios cannot say where the panel is drawn relative to its element, nor which
+// shows only the fields whose property applies to the element (PRODUCT.md §5.3: the text fields for an element that
+// holds text, none for a section). The scenarios cannot say where the panel is drawn relative to its element, nor which
 // fields it draws: this test reads the panel's box and fields in Chrome.
 import fs from 'node:fs';
 import { expect, test, type Page } from '../support/test.ts';

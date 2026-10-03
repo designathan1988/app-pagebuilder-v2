@@ -1,4 +1,4 @@
-// A stylesheet read into the document's styles (ARCHITECTURE.md; the manifest's explorer-open-folder): the one reader
+// A stylesheet read into the document's styles (PRODUCT.md §5; the manifest's explorer-open-folder): the one reader
 // of a whole stylesheet — its rules, and where each rule lands on the document. The document JSON is the source of
 // truth, so the rules are not kept as a sheet beside it: a rule whose selectors are single classes lands in the
 // project's class registry (core/design/classes.ts), so its users wear it as an ordinary class, and every other rule

@@ -1,4 +1,4 @@
-// The colour picker (ARCHITECTURE.md, Command owners; spec color-picker): the picker open on a property of the
+// The colour picker (INVENTORY.md, owners; spec color-picker): the picker open on a property of the
 // selection (ui.colorPicker: the property, the value the primary selected element holds for it when it opened, the
 // format its channels show). colorPicker.open opens it from a colour field's swatch; colorPicker.setFormat shows its
 // channels as HSB, RGB, Hex, OKLCH or OKLab (color-picker-oklch); colorPicker.setChannel writes the colour a channel

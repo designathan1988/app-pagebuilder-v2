@@ -1,4 +1,4 @@
-// The one rule of an address (ARCHITECTURE.md, Command owners; the user's real-use audit, A3.2): every field that
+// The one rule of an address (INVENTORY.md, owners; the user's real-use audit, A3.2): every field that
 // writes an address uses it — a link's href (element.setLink), a resource attribute (an image's Source, a form's
 // action, a video's poster, an iframe's src: element.setAttribute), the page's own addresses (page.setSetting), a
 // background image and url() in a free declaration (core/style). One rule, one reason, one normalisation.

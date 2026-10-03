@@ -1,4 +1,4 @@
-// The project's design tokens as CSS variables (ARCHITECTURE.md, Command owners; spec css-variables-tokens): each a
+// The project's design tokens as CSS variables (INVENTORY.md, owners; spec css-variables-tokens): each a
 // name, a kind (a colour, a length, a font size: tokens.create's kinds) and a value, kept with the project (the
 // document's `tokens`, in the order they were made) and named in a style value as var(--name). The one owner of:
 //  - tokens.create, tokens.update, tokens.rename, tokens.delete, one undo step each. A name is a CSS custom property's

@@ -1,5 +1,6 @@
-// The Style tab's layout data (DESIGN.md "Inspector"; spec inspector-advanced-mode): the pair rows — two properties
-// or composites read together, drawn side by side under the first one's label — and the order of fields in a section.
+// The Style tab's layout data (archive/DESIGN.md "Inspector"; spec inspector-advanced-mode): the pair rows — two
+// properties or composites read together, drawn side by side under the first one's label — and the order of fields in a
+// section.
 //
 // Both are declared in properties.json (its `rows` and a section's `groups`) and read here, never named in the panel:
 // the panel asks this module which field shares its line, under which label and with which short prefix, and which
@@ -74,7 +75,7 @@ for (const entry of [...manifest.properties.properties, ...manifest.properties.c
 }
 export const groupOfDoor = (ref: string): string | null => BY_DOOR.get(ref) ?? null;
 
-// The order a section draws its fields in (DESIGN.md "Inspector"): its groups as the section declares them, and
+// The order a section draws its fields in (archive/DESIGN.md "Inspector"): its groups as the section declares them, and
 // inside a group the order the manifest places the doors in. A control that edits no property name of its own takes
 // the group of the field before it, so it stays where the manifest places it.
 export function orderByGroup<T extends { readonly ref: string }>(section: string, entries: readonly T[]): readonly T[] {

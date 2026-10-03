@@ -1,4 +1,4 @@
-// The context menu (ARCHITECTURE.md, Command owners): contextMenu.open, run by a secondary click on the canvas or on
+// The context menu (INVENTORY.md, owners): contextMenu.open, run by a secondary click on the canvas or on
 // a Layers row (spec context-menu). The node it opens on becomes the selection unless it is already selected (a
 // secondary click inside a multi-selection keeps it), and the menu opens: the editor state records the opening with
 // the number of dismissals so far, so the next dismissal closes it (Escape in the menu, a press on the backdrop, or

@@ -1,4 +1,4 @@
-// style.set (ARCHITECTURE.md, Command owners; spec inspector-number-fields): the one writer of a property's value into
+// style.set (INVENTORY.md, owners; spec inspector-number-fields): the one writer of a property's value into
 // the selected elements' styles. A value belongs to one breakpoint and one state: the base ones until the breakpoint
 // and state pickers arrive (view.setBreakpoint, view.setStyleState). Every door that writes one value of one property
 // ends here: a field's Enter, the number fields' steps, scrub and unit menu (src/editor/inspector/number-field.ts),

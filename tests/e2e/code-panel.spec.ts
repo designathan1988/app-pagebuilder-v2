@@ -1,5 +1,5 @@
-// The code pane (manifest features code-panel-view, code-panel-copy-download and code-panel-selection-sync; DESIGN.md
-// "Files, tabs and code"): what the pane shows is what the export writes — the same page's HTML and the same
+// The code pane (manifest features code-panel-view, code-panel-copy-download and code-panel-selection-sync; PRODUCT.md
+// §5.3 "Files, tabs and code"): what the pane shows is what the export writes — the same page's HTML and the same
 // stylesheet, byte for byte — Copy hands away exactly the pane's text, Download the same text as a file, selecting an
 // element marks and scrolls to its lines, and a click inside an element's markup selects that element. The document
 // is read through the read-only test port, the pane through its own lines.

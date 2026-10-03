@@ -1,4 +1,4 @@
-// The code files open in the code pane (ARCHITECTURE.md, Command owners; the manifest's code-panel-view): which files
+// The code files open in the code pane (INVENTORY.md, owners; the manifest's code-panel-view): which files
 // are open, which one the pane shows, and the door that closes one. One owner: the tab strip draws a tab per open file
 // (shell/canvas.tsx, the file-tabs region) beside the pages' tabs, and the code pane draws the active one.
 // A page's own tab is pages.switch's (core/project/pages.ts): the page shows on the canvas, a code file in the pane.

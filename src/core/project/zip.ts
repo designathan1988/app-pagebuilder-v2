@@ -1,4 +1,4 @@
-// ZIP archives (ARCHITECTURE.md): the one writer of the archives the editor hands out (File › Save project's
+// ZIP archives (PRODUCT.md §5): the one writer of the archives the editor hands out (File › Save project's
 // project.zip; the export's ZIP). Standard ZIP (APPNOTE 6.3): each entry stored without compression, its name in
 // UTF-8 (general purpose flag 11), its CRC-32 and its modification time; the same entries at the same time always
 // give the same bytes. Pure: no DOM, no clock (the caller passes the time, from the clock port). And the one reader of

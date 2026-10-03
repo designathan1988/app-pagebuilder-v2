@@ -1,4 +1,4 @@
-// The asset picker (ARCHITECTURE.md, Command owners; spec explorer-assets-use; the user's real-use audit, 7.3): the
+// The asset picker (INVENTORY.md, owners; spec explorer-assets-use; the user's real-use audit, 7.3): the
 // project's image files offered where a field that names a file is written. An image's Source shows a choose button
 // (the door assetPicker.open) beside the field; it opens the picker over a shield, every image the project holds is an
 // item (the door element.setAttribute#asset-picker-choose) that writes the field's attribute with the file's path as

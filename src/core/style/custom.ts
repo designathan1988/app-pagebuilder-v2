@@ -1,4 +1,4 @@
-// style.setCustomDeclarations (ARCHITECTURE.md, Command owners; feature props-attributes): the element's declarations
+// style.setCustomDeclarations (INVENTORY.md, owners; feature props-attributes): the element's declarations
 // written as CSS text, one "property: value;" each, at the base breakpoint and state. The text replaces the
 // declarations the element holds there: a property written is stored with its value, a property left out is removed.
 // A property is an edited property of properties.json, a custom property of the person's own (--brand, the user's

@@ -1,4 +1,4 @@
-// Layers folding (ARCHITECTURE.md): which branches of the Layers tree are folded. It is editor state, kept in memory
+// Layers folding (PRODUCT.md §5): which branches of the Layers tree are folded. It is editor state, kept in memory
 // only (spec layers-tree: not saved, not an undo step): folding never changes the document nor the selection. A
 // branch that hides a selected node unfolds when the selection changes (spec layers-tree, Problems in Pager 2), so a
 // selection made on the canvas always has its row in Layers.

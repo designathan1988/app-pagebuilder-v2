@@ -1,5 +1,5 @@
-// context-menu beyond its scenarios (spec/BEHAVIOUR.md#context-menu, DESIGN.md "Overlays"): the menu shows only the
-// commands that apply to the selection, in the manifest's order, each with its shortcut in the canvas (Problems 2);
+// context-menu beyond its scenarios (spec/BEHAVIOUR.md#context-menu, archive/DESIGN.md "Overlays"): the menu shows only
+// the commands that apply to the selection, in the manifest's order, each with its shortcut in the canvas (Problems 2);
 // a secondary click inside the selection keeps it; the menu stays inside the window; Escape and a click outside give
 // the focus back where it was, and so does a run item (Problems 4); the browser's own menu never opens where the
 // editor's does (Problems 5). What is built is read from the manifest's registry (references.json), never a fixed

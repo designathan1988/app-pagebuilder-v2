@@ -1,8 +1,8 @@
-// Keyboard navigation between the editor's regions (manifest feature keyboard-panel-navigation; DESIGN.md "Keyboard
-// model"): F6 and Shift+F6 move the keyboard focus from region to region (top bar, the left dock, the canvas, the
-// dock, the inspector, the status bar), each region's items are walked with the arrows of its own context, and Escape
-// inside a panel gives the focus back to the canvas — the body of the editor's document, which is the canvas's key
-// context (input/keymap.ts) — with the selection intact. What proves it is the real focus (document.activeElement)
+// Keyboard navigation between the editor's regions (manifest feature keyboard-panel-navigation; archive/DESIGN.md
+// "Keyboard model"): F6 and Shift+F6 move the keyboard focus from region to region (top bar, the left dock, the canvas,
+// the dock, the inspector, the status bar), each region's items are walked with the arrows of its own context, and
+// Escape inside a panel gives the focus back to the canvas — the body of the editor's document, which is the canvas's
+// key context (input/keymap.ts) — with the selection intact. What proves it is the real focus (document.activeElement)
 // after each real key press, never a drawn mark.
 import fs from 'node:fs';
 import { expect, test, type Page } from '../support/test.ts';

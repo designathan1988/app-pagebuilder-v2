@@ -43,7 +43,8 @@ test('the Document tab shows the live document as JSON, read-only, drawn again a
 });
 
 test('Developer tools is kept after a reload with its Document tab; turned off, the tab goes', runs(DEVELOPER), async ({ page }) => {
-  // a fresh profile keeps the dock closed: it draws no strip at all (the audit's A3.18), so it is opened first
+  // a fresh profile keeps the dock closed, drawing only its strip (DEC-02, which revoked A3.18's no strip), so it is
+  // opened first
   await runDoor(page, 'workspace.setPanelOpen#menu-view-workbench');
   expect(await tabs(page)).toEqual(['Timeline', 'Checks']);
   await runDoor(page, DEVELOPER);

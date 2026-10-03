@@ -1,8 +1,8 @@
-// A modal dialog of the editor (DESIGN.md "Regions": dialog; spec workspace-settings-dialog): open while the editor
-// state names it (ui.dialog, workspace/dialogs.ts), drawn centred over a scrim, titled, with the close button of the
-// dialog region in its header (ui.dismiss). It takes the focus when it opens, keeps Tab inside it, names the dialog key
-// context (Escape closes it: ui.dismiss) and, when it closes, gives the focus back to what opened it: the control, or
-// the button of the menu whose item did.
+// A modal dialog of the editor (archive/DESIGN.md "Regions": dialog; spec workspace-settings-dialog): open while the
+// editor state names it (ui.dialog, workspace/dialogs.ts), drawn centred over a scrim, titled, with the close button of
+// the dialog region in its header (ui.dismiss). It takes the focus when it opens, keeps Tab inside it, names the dialog
+// key context (Escape closes it: ui.dismiss) and, when it closes, gives the focus back to what opened it: the control,
+// or the button of the menu whose item did.
 import { useEffect, useRef, useState, type FocusEvent, type ReactNode } from 'react';
 import { isFeatureBuilt } from '../../app/features.ts';
 import type { FeatureId, MessageId, RegionId } from '../../generated/ids.ts';

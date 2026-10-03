@@ -1,4 +1,4 @@
-// Selector matching for the import (ARCHITECTURE.md, Command owners; the manifest's html-import-styles and
+// Selector matching for the import (INVENTORY.md, owners; the manifest's html-import-styles and
 // html-import-states): the one owner of "which elements a CSS selector matches" and of a selector's specificity. The
 // importer resolves each stylesheet rule onto the nodes it built, so a declaration lands on the element it belongs to;
 // nothing else in the editor matches selectors on the document (style.applyCssRule writes the rule of the one selected

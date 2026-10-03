@@ -1,10 +1,10 @@
-// The field component (DESIGN.md "Component regions": `field`, its parts in order: 1 unit menu, 2 step up, 3 step
-// down, 4 reset this value; spec inspector-number-fields): a number or length field of the inspector, drawn for the
-// inspector-field door of its property (style.set). Every part is a door of the `field` region, in its order.
+// The field component (archive/DESIGN.md "Component regions": `field`, its parts in order: 1 unit menu, 2 step up, 3
+// step down, 4 reset this value; spec inspector-number-fields): a number or length field of the inspector, drawn for
+// the inspector-field door of its property (style.set). Every part is a door of the `field` region, in its order.
 //  - The field shows the value the primary selected element holds for the property at the base breakpoint and state,
-//    else the value the page computes for it (a field never shows a blank, DESIGN.md "Inspector"). Typing changes only
-//    the field; it shows the document's value again after every message (Enter kept the value or was refused, Escape
-//    put it back, another command ran) and whenever that value changes.
+//    else the value the page computes for it (a field never shows a blank, archive/DESIGN.md "Inspector"). Typing
+//    changes only the field; it shows the document's value again after every message (Enter kept the value or was
+//    refused, Escape put it back, another command ran) and whenever that value changes.
 //  - Its input names the key context `number-field` (interactions.json), whose doors are Enter (style.set keeps what
 //    the field holds), Escape (field.cancel), ArrowUp/ArrowDown with Shift and Alt and PageUp/PageDown (field.step):
 //    the keymap hands them the field's property and the text it holds; any other key (Delete, Backspace, letters,
@@ -71,8 +71,8 @@ export const keptByFieldEnter = (entry: DoorEntry): boolean => entry.command.id 
 export const COLOR_SWATCH = doorSlots('field').find((p) => p.door.kind === 'panel-control' && p.door.control === 'color-swatch');
 // the part that takes the field's value away (style.reset)
 const RESET = doorSlots('field').find((p) => p.door.kind === 'panel-control' && p.door.control === 'property-reset');
-// The parts a number field draws, in their order (DESIGN.md "Component regions": the `field` row is 1 unit menu ·
-// 2 step up · 3 step down · 4 reset this value). The region also carries the doors other components draw beside a
+// The parts a number field draws, in their order (archive/DESIGN.md "Component regions": the `field` row is 1 unit menu
+// · 2 step up · 3 step down · 4 reset this value). The region also carries the doors other components draw beside a
 // field — the colour swatch (a colour field, color.tsx) and the choose buttons of a field that names a file or a
 // link (inspector.tsx) — and those are no parts of it: drawing them here put a stray item button inside every field.
 // the parts a number field draws (spec inspector-number-fields, Problem 5): its unit menu, its step buttons (shown while
@@ -525,9 +525,9 @@ export interface NumberFieldProps {
   readonly door: DoorState;
   readonly property: string;
   readonly label: string;
-  // A field standing in a pair row (properties.json rows, DESIGN.md "Inspector"): it draws its cells for the row's
-  // grid instead of a row of its own — the value cell alone, with the short prefix the row gives it (the height's H,
-  // the gap's axis mark) — and, when it is the row's first field, its label beside it (the row's label, whose scrub
+  // A field standing in a pair row (properties.json rows, archive/DESIGN.md "Inspector"): it draws its cells for the
+  // row's grid instead of a row of its own — the value cell alone, with the short prefix the row gives it (the height's
+  // H, the gap's axis mark) — and, when it is the row's first field, its label beside it (the row's label, whose scrub
   // handle it is). Its label stays its accessible name and its tooltip.
   readonly bare?: boolean;
   readonly labelled?: boolean;
@@ -1219,7 +1219,7 @@ function useFits(room: RefObject<HTMLElement | null>, measure: RefObject<HTMLEle
 }
 
 // The field's label, the handle its scrub is pressed on (the pointer owner runs the drag); its tooltip is the CSS
-// property name (DESIGN.md "Inspector").
+// property name (archive/DESIGN.md "Inspector").
 function ScrubLabel({ entry, property, shown, label, ready, origin }: { readonly entry: DoorEntry; readonly property: string; readonly shown: string; readonly label: string; readonly ready: boolean; readonly origin?: string }) {
   const door = useDoor(entry, { property }, undefined, ready);
   return (

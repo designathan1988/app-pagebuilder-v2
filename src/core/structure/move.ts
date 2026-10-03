@@ -1,4 +1,4 @@
-// element.moveTo (ARCHITECTURE.md, Command owners): moves the selection's roots (the selected nodes without those an
+// element.moveTo (INVENTORY.md, owners): moves the selection's roots (the selected nodes without those an
 // ancestor of which is selected too, remove.ts) to one parent at one index, in document order. The index counts
 // the parent's children without the moved nodes, so it is the position the first moved node ends at (spec
 // drag-reorder-canvas, "Result in the document": the dragged node is removed from its parent and inserted at the
@@ -11,7 +11,7 @@
 // changes. A
 // move that leaves every node where it was changes nothing and records no history (the store drops it).
 //
-// element.moveUp and element.moveDown (ARCHITECTURE.md, Command owners; spec move-up-down): the selection's roots
+// element.moveUp and element.moveDown (INVENTORY.md, owners; spec move-up-down): the selection's roots
 // (the doors' adapter.selection "roots-same-parent") swap places with their previous (up) or next (down) sibling that
 // is not selected, in one transaction; the relative order of the selected nodes is kept and they never leave their
 // parent. One command for every door (spec, Problems 2). Roots that do not share one parent are refused, and so is a

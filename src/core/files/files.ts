@@ -1,4 +1,4 @@
-// The project's files (ARCHITECTURE.md, Command owners; specs explorer-assets and explorer-assets-use): the uploaded
+// The project's files (INVENTORY.md, owners; specs explorer-assets and explorer-assets-use): the uploaded
 // images and other files of the document (`files`), at their path in the project, with their bytes (base64) and, for
 // an image, the intrinsic size read when it was uploaded. One owner: the tree's shape, the path a new upload takes
 // (`uploadPath`), the lookup by path, the object URL the canvas draws a project image with (`objectUrl`), the reader a

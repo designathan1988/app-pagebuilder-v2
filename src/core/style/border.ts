@@ -1,4 +1,4 @@
-// Borders and radii (ARCHITECTURE.md, Command owners; spec props-border-outline). Every border value is stored as its
+// Borders and radii (INVENTORY.md, owners; spec props-border-outline). Every border value is stored as its
 // longhands and written by one command per kind:
 //  - style.setBorder writes the width, the style and the colour it is given, of all sides (each through its composite,
 //    border-width, border-style, border-color: one to four values, top, right, bottom, left) or of one side (its

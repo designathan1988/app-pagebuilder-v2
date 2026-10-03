@@ -1,12 +1,12 @@
-// The text toolbar (ARCHITECTURE.md; DESIGN.md "Regions", text-toolbar, and "Canvas", text): while a text is edited
-// in place, the doors the manifest places in the text-toolbar region, in their order (Bold, Italic, Link), float with
-// the edit's label above the element; the canvas chrome places them (chrome.tsx). Each is titled with its key in the
-// text editing key context. A press on them leaves the focus, and so the text selection, in the edited text
+// The text toolbar (PRODUCT.md §5; archive/DESIGN.md "Regions", text-toolbar, and "Canvas", text): while a text is
+// edited in place, the doors the manifest places in the text-toolbar region, in their order (Bold, Italic, Link), float
+// with the edit's label above the element; the canvas chrome places them (chrome.tsx). Each is titled with its key in
+// the text editing key context. A press on them leaves the focus, and so the text selection, in the edited text
 // (pointer.ts), so they act on what is selected there.
 //
 // The link prompt: while text.editLink asks for an address (text-edit.ts), a small panel under the toolbar holds the
 // address field, filled with the address of the link the selection is in and selected, so what is typed replaces it.
-// Typing there is not a command (DESIGN.md: data-local); Enter answers text.editLink with the address typed. An
+// Typing there is not a command (PRODUCT.md §5.3: data-local); Enter answers text.editLink with the address typed. An
 // address the command refuses shows its refusal under the field, as the status bar does, and the prompt stays open;
 // the backdrop door under it (ui.dismiss) closes it. It is drawn over the whole window, never on the canvas overlay.
 import { useId, useRef, useState, type CSSProperties, type FormEvent, type RefObject } from 'react';

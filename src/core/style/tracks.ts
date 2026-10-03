@@ -1,4 +1,4 @@
-// Grid tracks (ARCHITECTURE.md; spec props-grid-container, Problems in Pager 3; the user's real-use audit, item A1.2):
+// Grid tracks (PRODUCT.md §5; spec props-grid-container, Problems in Pager 3; the user's real-use audit, item A1.2):
 // the one owner of the track list a grid's axis has and of the value it is written as. A value of equal tracks written
 // in the repeat form the templates use ("repeat(3, minmax(0, 1fr))") reads as its tracks; one written as a list
 // ("1fr 2fr auto") reads as its tracks; none (none, a value no track list, or no value of its own) reads as no tracks.

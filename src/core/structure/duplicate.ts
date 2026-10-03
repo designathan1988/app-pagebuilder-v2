@@ -1,4 +1,4 @@
-// element.duplicate (ARCHITECTURE.md, Command owners): every root of the selection (the manifest's adapter.selection
+// element.duplicate (INVENTORY.md, owners): every root of the selection (the manifest's adapter.selection
 // "roots") is copied whole, with its texts, classes, attributes and styles, and the copy goes right after its
 // original in one transaction (spec duplicate, "Result in the document"). Every node of a copy gets a fresh id and a
 // name no node of the document has (spec, Problems 1: Pager kept the children's names). The copies become the

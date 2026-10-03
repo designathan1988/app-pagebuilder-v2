@@ -1,4 +1,4 @@
-// Panel visibility (ARCHITECTURE.md): which sidebar view is shown, and whether the sidebar, each section of a view,
+// Panel visibility (PRODUCT.md §5): which sidebar view is shown, and whether the sidebar, each section of a view,
 // the inspector, the canvas tools and each dock tab are open. The commands workspace.setPanelOpen, toggleLeftDock,
 // toggleInspector and collapseDocks change it; the status bar reports each change (spec dock-toggles, Problems 1).
 // What a panel is (its name, its place, whether it is open at the first start) is data: `panels` of layout.json.

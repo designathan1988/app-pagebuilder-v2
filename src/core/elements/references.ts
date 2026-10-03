@@ -1,4 +1,4 @@
-// The references between elements (ARCHITECTURE.md, Command owners; spec elements-form-inputs-rules; the user's
+// The references between elements (INVENTORY.md, owners; spec elements-form-inputs-rules; the user's
 // real-use audit, A3.4): a label's `for` and a link's anchor point at another element of the document. One owner: a
 // reference is stored as the target's node id — the internal id, never the `id` attribute the person edits — so
 // renaming or re-numbering the target leaves every reference working, and what the page writes is the id attribute the

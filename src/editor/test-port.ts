@@ -1,4 +1,4 @@
-// The read-only test port (ARCHITECTURE.md): what the end-to-end tests read of the editor, the document, the
+// The read-only test port (PRODUCT.md §5): what the end-to-end tests read of the editor, the document, the
 // selection, the history and the export, each as a copy taken now. It has no other member: it never writes, loads,
 // creates or selects anything, so a test can change the editor only through its doors. It is installed, frozen on
 // window, in the dev server and in the e2e build (the suite tests the packaged app, playwright.config.ts; npm run ui

@@ -1,4 +1,4 @@
-// The project's fonts (ARCHITECTURE.md, Command owners; the manifest's custom-fonts): the font files of the tree and
+// The project's fonts (INVENTORY.md, owners; the manifest's custom-fonts): the font files of the tree and
 // the @font-face rules they need, so a font file the person uploaded is usable as a family in the Style panel's font
 // menu, is drawn by the canvas, and reaches the export. One owner: which files are fonts, the family a font file is
 // known by, and the rule text; the three readers differ only in the address they serve the file from — the export
