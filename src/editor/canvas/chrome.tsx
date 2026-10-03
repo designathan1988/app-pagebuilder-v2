@@ -32,6 +32,7 @@ import { createPortal } from 'react-dom';
 import { message, type Message } from '../../core/commands/registry.ts';
 import { lineage, locate, type DocNode, type DocumentJson, type NodeId } from '../../core/document/model.ts';
 import { lineExtent, linesOf, sameLine } from '../../core/geometry/lines.ts';
+import { layerColourCss } from '../../core/nodes/flags.ts';
 import { heldHand, type HandState } from '../../core/structure/hand.ts';
 import type { MessageId } from '../../generated/ids.ts';
 import { elementIcon, manifest, numberConstant } from '../../manifest/runtime.ts';
@@ -850,7 +851,7 @@ export function CanvasChrome() {
   const shown = selection.length === 0 && hovered === null && drawnBand === null ? EMPTY : layout;
   return (
     // a state other than Base edited: the selection wears the state's colour (the canonical .ov-sel.is-state)
-    <div className="chrome" ref={layer} data-canvas-chrome data-edited-state={state.id === BASE_STATE.id ? undefined : state.id} style={layerColour === null ? undefined : ({ '--color-layer-label': layerColour } as CSSProperties)}>
+    <div className="chrome" ref={layer} data-canvas-chrome data-edited-state={state.id === BASE_STATE.id ? undefined : state.id} style={layerColour === null ? undefined : ({ '--color-layer-label': layerColourCss(layerColour) } as CSSProperties)}>
       <GridOverlay />
       <ViewOverlays />
       {shown.hovered ? <div className="chrome__hover" data-chrome="hover" style={at(shown.hovered)} /> : null}

@@ -146,6 +146,11 @@ export const toggleLockCommand = registerHandler(
 // is on and is stored on that page's root (model.ts layerColors), never on the element and never in the export: it is
 // the person's own note about a layer, not a style of the page. A colour replaces the one there; an empty colour takes
 // it away, which is the row's own way of saying none. One undo step, and the status bar names the node and the colour.
+// The CSS of a label colour, wherever the editor draws it (a Layers row, its dot, the canvas selection): a colour as it
+// is, and a design token's name (the palette's swatches hold `--color-canvas-margin`) as the token it names. Drawn
+// bare, a name is no colour, and the row, its dot and the selection drew none (LC2).
+export const layerColourCss = (colour: string): string => (colour.startsWith('--') ? `var(${colour})` : colour);
+
 export const setLayerColorCommand = registerHandler('element.setLayerColor', ({ state }, { target, color }): Outcome<never> => {
   const at = flagged(state.document, state.selection, target);
   if (at === null) throw new Error(`element.setLayerColor: the document has no node ${String(target ?? state.selection[0])}`);

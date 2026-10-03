@@ -9,6 +9,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, use
 import { isFeatureBuilt } from '../../app/features.ts';
 import { walk, type DocNode, type Location, type Page } from '../../core/document/model.ts';
 import { placement } from '../../core/structure/insert.ts';
+import { layerColourCss } from '../../core/nodes/flags.ts';
 import { pageShown } from '../../core/project/pages.ts';
 import type { DispatchResult } from '../../core/store/store.ts';
 import type { CommandId, FeatureId, MessageId, RegionId } from '../../generated/ids.ts';
@@ -298,7 +299,7 @@ function LayerPalette({ entry, node }: { readonly entry: DoorEntry; readonly nod
     return held === '' ? token : held;
   };
   return (
-    <span className={open ? 'row__palette is-open' : 'row__palette'} style={chosen === undefined ? undefined : { '--row-colour': chosen } as CSSProperties}>
+    <span className={open ? 'row__palette is-open' : 'row__palette'} style={chosen === undefined ? undefined : { '--row-colour': layerColourCss(chosen) } as CSSProperties}>
       <span onClick={() => setOpen((one) => !one)}>
         <DoorControl entry={entry} args={{ target: node.id, color: chosen ?? '' }} tabbable={false} />
       </span>
@@ -440,7 +441,7 @@ function LayersRow({ node, depth, view }: { readonly node: DocNode; readonly dep
         tabIndex={tabStop ? 0 : -1}
         className={`row row--tree${selected ? ' is-selected' : ''}${node.hidden === true ? ' row--hidden' : ''}${node.locked === true ? ' row--locked' : ''}${receiving ? ' is-receiving' : ''}${match ? ' is-match' : ''}${colour === undefined ? '' : ' is-coloured'}`}
         data-drop-position={dropAt}
-        style={{ ...(({ '--depth': depth }) as CSSProperties), ...(colour === undefined ? {} : ({ '--row-colour': colour } as CSSProperties)) }}
+        style={{ ...(({ '--depth': depth }) as CSSProperties), ...(colour === undefined ? {} : ({ '--row-colour': layerColourCss(colour) } as CSSProperties)) }}
         title={door.title}
         data-door={LAYERS_SELECT.ref}
         data-args={JSON.stringify({ target: node.id })}
@@ -456,7 +457,7 @@ function LayersRow({ node, depth, view }: { readonly node: DocNode; readonly dep
         )}
         {/* a coloured row shows its colour before its icon, as the canonical layers list does (stage 5); the palette
             that chooses it stays among the row's actions */}
-        {colour === undefined ? null : <span className="row__colour-dot" style={{ '--row-colour': colour } as CSSProperties} aria-hidden />}
+        {colour === undefined ? null : <span className="row__colour-dot" style={{ '--row-colour': layerColourCss(colour) } as CSSProperties} aria-hidden />}
         {/* an instance of a component wears the component's icon and names its component (jornada03 J21) */}
         <Icon name={node.component !== undefined ? COMPONENT_ICON : (elementIcon(node.type) ?? GLYPHS.folder)} size="sm" />
         {renaming ? (

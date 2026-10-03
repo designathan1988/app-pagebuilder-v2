@@ -44,6 +44,18 @@ test('a swatch writes the colour, the row wears it and the canvas draws it', asy
   const outline = await page.locator('[data-chrome="selection"]').first().evaluate((el) => getComputedStyle(el).outlineColor);
   expect(line, 'the row’s line is the colour the token stands for').not.toBe('rgba(0, 0, 0, 0)');
   expect(outline, 'the canvas selection wears the same colour').toBe(line);
+  // the very colour the token stands for (LC2: drawn by its bare name, the token was no colour, so the line fell back
+  // to the text's ink and the outline with it, which the two checks above let pass)
+  const tokenColour = await page.evaluate((name) => {
+    const probe = document.createElement('span');
+    probe.style.color = `var(${name})`;
+    document.body.append(probe);
+    const value = getComputedStyle(probe).color;
+    probe.remove();
+    return value;
+  }, TOKEN);
+  expect(line, 'the row’s line is the token’s own colour').toBe(tokenColour);
+  await expect(row.locator('.row__colour-dot'), 'the row’s dot wears it too').toHaveCSS('background-color', tokenColour);
   // and it survives a reload (the document holds it)
   await page.reload();
   await expect(page.locator('.workbench')).toBeVisible();

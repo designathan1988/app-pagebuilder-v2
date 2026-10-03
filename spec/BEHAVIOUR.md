@@ -9269,6 +9269,10 @@ Required (manifest feature `layers-row-columns`):
 Required (manifest feature `layers-row-colours`):
 - A row's colour (`element.setLayerColor`) tints the row and the element's selection outline on the canvas; it is kept
   with its page in the document JSON (the page root's `layerColors`), restored after a reload, and never exported.
+- The colour drawn is the one the palette's token stands for: a swatch keeps the token's name (`--color-canvas-margin`,
+  the same in every theme), and the row's line, its dot and the canvas outline draw the token, never its bare name,
+  which is no colour (LC2: they fell back to the text's ink, and the check that compared the line with the outline
+  passed on two inks alike; the test now asks for the token's own colour).
 
 ## embed-html
 
