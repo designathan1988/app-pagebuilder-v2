@@ -51,6 +51,9 @@ const BYPASSES: Readonly<Record<string, Readonly<Record<string, 'time' | 'id'>>>
   Math: { random: 'id' },
   crypto: { randomUUID: 'id', getRandomValues: 'id' },
 };
+// a key's entry of a table, never a member every object has (a read of `rule.constructor.name` found Object's own
+// constructor and reported it as a message the rule does not have)
+const entryOf = <T>(table: Readonly<Record<string, T>> | undefined, key: string): T | undefined => (table !== undefined && Object.hasOwn(table, key) ? table[key] : undefined);
 
 // builder/use-ports: the time is read only through the Clock port and ids come only from the IdGenerator port.
 // The two port modules are the only files the configuration exempts. A read is caught as a member (Date.now,
@@ -71,7 +74,7 @@ const usePorts: Rule.RuleModule = {
         const object = objectName(node.object as Node);
         const property = propertyName(node);
         if (property === null) return;
-        const kind = object !== null ? BYPASSES[object]?.[property] : undefined;
+        const kind = object !== null ? entryOf(entryOf(BYPASSES, object), property) : undefined;
         if (kind !== undefined) context.report({ node, messageId: kind, data: { what: `${object ?? ''}.${property}` } });
         // randomUUID and getRandomValues make ids whatever object they are read from
         else if (property === 'randomUUID' || property === 'getRandomValues') context.report({ node, messageId: 'id', data: { what: `crypto.${property}` } });
@@ -79,11 +82,11 @@ const usePorts: Rule.RuleModule = {
       VariableDeclarator(node) {
         if (node.id.type !== 'ObjectPattern' || !node.init) return;
         const object = objectName(node.init as Node);
-        const reads = object !== null ? BYPASSES[object] : undefined;
+        const reads = object !== null ? entryOf(BYPASSES, object) : undefined;
         if (!reads) return;
         for (const p of node.id.properties) {
           if (p.type !== 'Property' || p.computed || p.key.type !== 'Identifier') continue;
-          const kind = reads[p.key.name];
+          const kind = entryOf(reads, p.key.name);
           if (kind !== undefined) context.report({ node: p, messageId: kind, data: { what: `${object ?? ''}.${p.key.name}` } });
         }
       },

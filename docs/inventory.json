@@ -5,8 +5,8 @@
     "commands": 371,
     "doors": 1345,
     "scenarios": 1770,
-    "modules": 421,
-    "lines": 77874
+    "modules": 422,
+    "lines": 78130
   },
   "features": [
     {
@@ -4011,7 +4011,7 @@
     },
     {
       "path": "src/core/import/selectors.ts",
-      "lines": 206,
+      "lines": 323,
       "commands": [],
       "features": []
     },
@@ -4976,6 +4976,12 @@
       "features": []
     },
     {
+      "path": "src/editor/canvas/browser-defaults.ts",
+      "lines": 44,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/editor/canvas/chrome.tsx",
       "lines": 978,
       "commands": [],
@@ -4983,7 +4989,7 @@
     },
     {
       "path": "src/editor/canvas/coordinates.ts",
-      "lines": 543,
+      "lines": 638,
       "commands": [],
       "features": []
     },

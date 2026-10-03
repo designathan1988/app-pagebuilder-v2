@@ -25,6 +25,9 @@ scripts.run('builder/use-ports', builder.rules['use-ports'], {
     'const date = new Date(0);',
     'const { now } = clock;',
     'const x = Math.max(1, 2);',
+    // a member every object has is no table entry (a CSS rule's kind read from its constructor)
+    'const kind = rule.constructor.name;',
+    'const { constructor } = Math;',
   ],
   invalid: [
     { code: 'const t = Date.now();', errors: [{ messageId: 'time' }] },

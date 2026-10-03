@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { matches, readSelector, type Facts, type Selector } from './selectors.ts';
+import { compareSpecificity, matches, readSelector, specificityOf, splitSelectorList, type Facts, type Selector } from './selectors.ts';
 
 const facts = (tag: string | null, classes: readonly string[] = [], attributes: Readonly<Record<string, string>> = {}, id: string | null = null): Facts => ({ tag, classes, id, attributes: new Map(Object.entries(attributes)) });
 
@@ -62,5 +62,41 @@ describe('matches', () => {
     expect(read('.card').specificity).toEqual([0, 1, 0]);
     expect(read('#lead').specificity).toEqual([1, 0, 0]);
     expect(read('.a.b p').specificity).toEqual([0, 2, 1]);
+  });
+});
+
+// The specificity of any selector (Selectors 4's examples), which the canvas uses to rank the rules the browser
+// matches on an element (BW1).
+describe('specificityOf', () => {
+  it('counts ids, then classes, attributes and pseudo-classes, then types and pseudo-elements', () => {
+    expect(specificityOf('*')).toEqual([0, 0, 0]);
+    expect(specificityOf('li')).toEqual([0, 0, 1]);
+    expect(specificityOf('ul ol+li')).toEqual([0, 0, 3]);
+    expect(specificityOf('h1 + *[rel=up]')).toEqual([0, 1, 1]);
+    expect(specificityOf('ul ol li.red')).toEqual([0, 1, 3]);
+    expect(specificityOf('li.red.level')).toEqual([0, 2, 1]);
+    expect(specificityOf('#x34y')).toEqual([1, 0, 0]);
+    expect(specificityOf('a:hover::before')).toEqual([0, 1, 2]);
+    expect(specificityOf('p:first-line')).toEqual([0, 0, 2]);
+    expect(specificityOf('[data-node="a b"] > .card')).toEqual([0, 2, 0]);
+  });
+
+  it('counts nothing for :where, the most specific argument for :is, :not and :has, and the of-selector of :nth-child', () => {
+    expect(specificityOf(':where(button, input[type="button"])')).toEqual([0, 0, 0]);
+    expect(specificityOf(':where(#a) p')).toEqual([0, 0, 1]);
+    expect(specificityOf(':is(em, #foo)')).toEqual([1, 0, 0]);
+    expect(specificityOf('.qux:where(em, #foo#bar#baz)')).toEqual([0, 1, 0]);
+    expect(specificityOf(':not(em, strong#foo)')).toEqual([1, 0, 1]);
+    expect(specificityOf('.card:has(> img)')).toEqual([0, 1, 1]);
+    expect(specificityOf(':nth-child(2n+1)')).toEqual([0, 1, 0]);
+    expect(specificityOf(':nth-child(even of li.important)')).toEqual([0, 2, 1]);
+    expect(specificityOf('input:not([type="checkbox"]):not([type="radio"])')).toEqual([0, 2, 1]);
+  });
+
+  it('splits a list at its own commas only, and ranks two specificities', () => {
+    expect(splitSelectorList('a, :is(b, c), [title="d, e"]')).toEqual(['a', ':is(b, c)', '[title="d, e"]']);
+    expect(compareSpecificity([0, 1, 0], [0, 0, 9])).toBeGreaterThan(0);
+    expect(compareSpecificity([1, 0, 0], [0, 9, 9])).toBeGreaterThan(0);
+    expect(compareSpecificity([0, 1, 1], [0, 1, 1])).toBe(0);
   });
 });

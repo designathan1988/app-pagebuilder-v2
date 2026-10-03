@@ -6,6 +6,8 @@ import type { ResizeRoom } from '../../core/geometry/resize.ts';
 import { NODE_ATTRIBUTE, nodeSelector } from '../../core/render/render.ts';
 import type { Layout } from '../../core/ports/layout.ts';
 import type { NodeId } from '../../generated/commands.ts';
+import { compareSpecificity, specificityOf, splitSelectorList, type Specificity } from '../../core/import/selectors.ts';
+import { browserLineWidth } from './browser-defaults.ts';
 import { pageVersion } from './page-clock.ts';
 
 export interface Point {
@@ -496,9 +498,9 @@ function readContentBoxes(iframe: HTMLIFrameElement): { x: number; y: number; wi
 // collapsed sections summarise them (src/editor/inspector/sections.ts). A name the browser computes no property of (a
 // recipe's own id, such as line-clamp, whose declarations are prefixed ones) reads as nothing: the typed object model
 // throws on it. A line's width (a border side's, the outline's, the column rule's, with its style: `lines`,
-// core/style/set.ts lineStyles) is the exception (spec inspector-provenance-reset, Problems in
-// Pager 4): Chrome's typed value keeps `medium` under a style of none and follows the canvas zoom, so it computes to
-// 0px under none or hidden (CSS Backgrounds 3) and is read as getComputedStyle gives it otherwise.
+// core/style/set.ts lineStyles) is the exception (spec inspector-provenance-reset, Problems in Pager 4): it computes to
+// 0px under a style of none or hidden (CSS Backgrounds 3), and otherwise is the width the page declares (declaredWidth),
+// never the one the zoomed canvas computes (BW1).
 const NO_LINE: readonly string[] = ['none', 'hidden'];
 export function computedValues(id: string, properties: readonly string[], lines: ReadonlyMap<string, string>): Readonly<Record<string, string>> | null {
   const element = current?.contentDocument?.querySelector(nodeSelector(id as NodeId));
@@ -510,9 +512,102 @@ export function computedValues(id: string, properties: readonly string[], lines:
       const style = lines.get(property);
       if (style === undefined) return [property, typed(property)];
       if (NO_LINE.includes(typed(style))) return [property, '0px'];
-      return [property, element.ownerDocument.defaultView?.getComputedStyle(element).getPropertyValue(property) ?? typed(property)];
+      return [property, declaredWidth(element, property) ?? browserLineWidth(element.localName, element.getAttribute('type'), property, style)];
     }),
   );
+}
+
+// The width keywords, as the browser draws them (CSS Backgrounds 3: thin ≤ medium ≤ thick; Chrome's 1, 3 and 5 px), and
+// the keywords that set a line's width to its initial medium
+const WIDTH_KEYWORDS: Readonly<Record<string, string>> = { thin: '1px', medium: '3px', thick: '5px', initial: '3px', unset: '3px' };
+// a value the declaration alone cannot say (it takes a variable, the parent's or an earlier layer's value): the width
+// the browser gives the line stands for it
+const UNSAID = /var\(|env\(|attr\(|^inherit$|^revert/u;
+// the cascade layer of a rule outside every layer: its declarations beat every layer's (CSS Cascade 5)
+const UNLAYERED = Number.MAX_SAFE_INTEGER;
+// the element's own style attribute: over every rule of its importance
+const STYLE_ATTRIBUTE: Specificity = [Number.MAX_SAFE_INTEGER, 0, 0];
+
+interface Declared {
+  readonly value: string;
+  readonly important: boolean;
+  readonly layer: number;
+  readonly specificity: Specificity;
+  readonly order: number;
+}
+
+// Whether the first declaration wins over the second, as the cascade ranks them: !important first; then the layer (a
+// later layer and no layer win among normal declarations, an earlier layer among important ones); then specificity;
+// then the later one.
+function wins(a: Declared, b: Declared): boolean {
+  if (a.important !== b.important) return a.important;
+  if (a.layer !== b.layer) return a.important ? a.layer < b.layer : a.layer > b.layer;
+  return compareSpecificity(a.specificity, b.specificity) > 0 || (compareSpecificity(a.specificity, b.specificity) === 0 && a.order > b.order);
+}
+
+// The width a line of the element is declared with in the canvas page's stylesheets, or null when none declares one
+// the page can say (BW1). The browser snaps a line's width to whole device pixels and reports it divided by the zoom
+// (css-values-4 "snap as a border width"; Mozilla bug 287624), so the zoomed canvas computes a 1 px border as 1.69014px
+// at 59 % and a 2 px one alike. The rules whose selector the browser matches on the element, inside the @media and
+// @supports blocks that hold now, are ranked as the cascade ranks them (wins; their specificity is import/selectors.ts's
+// specificityOf), and the winner's value is said in px when it is a keyword.
+function declaredWidth(element: Element, property: string): string | null {
+  const view = element.ownerDocument.defaultView;
+  if (view === null) return null;
+  let best: Declared | null = null;
+  let order = 0;
+  const layers = new Map<string, number>();
+  const consider = (style: CSSStyleDeclaration, specificity: Specificity, layer: number): void => {
+    order += 1;
+    const value = style.getPropertyValue(property).trim();
+    if (value === '') return;
+    const found: Declared = { value, important: style.getPropertyPriority(property) === 'important', layer, specificity, order };
+    if (best === null || wins(found, best)) best = found;
+  };
+  // whether a selector matches the element (one the browser cannot read matches nothing)
+  const holds = (selector: string): boolean => {
+    try {
+      return element.matches(selector);
+    } catch {
+      return false;
+    }
+  };
+  // the most specific of a rule's selectors that match the element; null when none does
+  const matching = (selectorText: string): Specificity | null => {
+    let most: Specificity | null = null;
+    for (const selector of splitSelectorList(selectorText)) {
+      if (holds(selector) && (most === null || compareSpecificity(specificityOf(selector), most) > 0)) most = specificityOf(selector);
+    }
+    return most;
+  };
+  const walk = (rules: CSSRuleList, layer: number): void => {
+    for (const rule of rules) {
+      const kind = rule.constructor.name;
+      if (kind === 'CSSStyleRule') {
+        const specificity = matching((rule as CSSStyleRule).selectorText);
+        if (specificity !== null) consider((rule as CSSStyleRule).style, specificity, layer);
+      } else if (kind === 'CSSMediaRule') {
+        if (view.matchMedia((rule as CSSMediaRule).conditionText).matches) walk((rule as CSSMediaRule).cssRules, layer);
+      } else if (kind === 'CSSSupportsRule') {
+        if (view.CSS.supports((rule as CSSSupportsRule).conditionText)) walk((rule as CSSSupportsRule).cssRules, layer);
+      } else if (kind === 'CSSLayerBlockRule') {
+        const name = (rule as CSSLayerBlockRule).name || `anonymous ${String(order)}`;
+        if (!layers.has(name)) layers.set(name, layers.size);
+        walk((rule as CSSLayerBlockRule).cssRules, layers.get(name) ?? 0);
+      }
+    }
+  };
+  for (const sheet of element.ownerDocument.styleSheets) {
+    try {
+      walk(sheet.cssRules, UNLAYERED);
+    } catch {
+      // a stylesheet of another origin keeps its rules to itself
+    }
+  }
+  if (element instanceof view.HTMLElement) consider(element.style, STYLE_ATTRIBUTE, UNLAYERED);
+  const winner = best as Declared | null;
+  if (winner === null || UNSAID.test(winner.value)) return null;
+  return WIDTH_KEYWORDS[winner.value] ?? winner.value;
 }
 
 // The canvas's iframe, for the pointer owner and the canvas overlays.

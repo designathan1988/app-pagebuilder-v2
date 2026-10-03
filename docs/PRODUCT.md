@@ -410,7 +410,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | R4 | — | `e2e:affected` selects the whole suite for 80 % of source changes | review R4 (deferred by the user, DEC-10) | open |
 | T7 | — | The pointer's module-level singletons matter only with two editors on a page | deferred (DEC-26) | open |
 | RT1 | 1 | A class of the person's that one element lists alone, on an element without styles of its own, imports back as that element's own styles: plain HTML cannot tell it from the export's own class (`class="card"` and its rule either way) | QA 169, the round trip test on a new fixture | open (a limit of plain HTML; spec html-import-roundtrip says it) |
-| BW1 | 2 | The border fields of an element with no border of its own show the canvas’s zoomed computed width: a 1 px border reads `1.69014px` at 59 % | QA 177, the text-fits test | open |
+| BW1 | 2 | The border fields of an element with no border of its own show the canvas’s zoomed computed width: a 1 px border reads `1.69014px` at 59 % | QA 177, the text-fits test | done (QA 178) |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 

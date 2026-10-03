@@ -1,7 +1,9 @@
 // Selector matching for the import (ARCHITECTURE.md, Command owners; the manifest's html-import-styles and
 // html-import-states): the one owner of "which elements a CSS selector matches" and of a selector's specificity. The
 // importer resolves each stylesheet rule onto the nodes it built, so a declaration lands on the element it belongs to;
-// nothing else in the editor matches selectors (style.applyCssRule writes the rule of the one selected element).
+// nothing else in the editor matches selectors on the document (style.applyCssRule writes the rule of the one selected
+// element). The canvas is a browser page: what matches an element drawn there the browser says (element.matches), and
+// the specificity that ranks those rules is this module's (specificityOf, for any selector; canvas/coordinates.ts).
 //
 // What it reads: a compound selector of a type (or `*`), classes, an id and attribute tests ([attr], [attr=v],
 // [attr~=v], [attr^=v], [attr$=v], [attr*=v]), joined by the descendant and the child combinators; a trailing
@@ -202,4 +204,119 @@ export function matches(selector: Selector, subject: Facts, ancestors: readonly 
     return false;
   };
   return holds(last - 1, 0);
+}
+
+export type Specificity = readonly [number, number, number];
+
+// A selector list split at its own commas (never at one inside brackets, parentheses or a string).
+export function splitSelectorList(text: string): string[] {
+  const parts: string[] = [];
+  let depth = 0;
+  let quote: string | null = null;
+  let current = '';
+  for (let at = 0; at < text.length; at += 1) {
+    const char = text[at] as string;
+    if (quote !== null) {
+      if (char === '\\') {
+        current += char + (text[at + 1] ?? '');
+        at += 1;
+        continue;
+      }
+      if (char === quote) quote = null;
+    } else if (char === '"' || char === "'") quote = char;
+    else if (char === '(' || char === '[') depth += 1;
+    else if (char === ')' || char === ']') depth -= 1;
+    else if (char === ',' && depth === 0) {
+      parts.push(current.trim());
+      current = '';
+      continue;
+    }
+    current += char;
+  }
+  if (current.trim() !== '') parts.push(current.trim());
+  return parts;
+}
+
+const higher = (a: Specificity, b: Specificity): Specificity => (compareSpecificity(a, b) >= 0 ? a : b);
+// the most specific of a selector list's selectors
+const mostSpecific = (list: string): Specificity => splitSelectorList(list).map(specificityOf).reduce(higher, [0, 0, 0]);
+
+// How two specificities rank: positive when the first wins.
+export function compareSpecificity(a: Specificity, b: Specificity): number {
+  return a[0] - b[0] || a[1] - b[1] || a[2] - b[2];
+}
+
+// the pseudo-elements CSS 2 wrote with one colon
+const LEGACY_ELEMENTS: ReadonlySet<string> = new Set(['before', 'after', 'first-line', 'first-letter']);
+// the pseudo-classes that count their most specific argument
+const BY_ARGUMENT: ReadonlySet<string> = new Set(['is', 'not', 'has', 'matches', '-webkit-any']);
+const IDENT = /^(?:\\.|[\w-]|\P{ASCII})+/u;
+
+// The specificity of any complex selector, as CSS counts it (Selectors 4, "Calculating a selector's specificity"):
+// ids; classes, attributes and pseudo-classes; types and pseudo-elements. :where() counts nothing; :is(), :not() and
+// :has() count their most specific argument; :nth-child() and :nth-last-child() count one pseudo-class and the most
+// specific selector of their "of S". readSelector's own count is the same on the selectors it reads; this one counts
+// every selector, for the canvas, which asks the browser which rules match an element (canvas/coordinates.ts).
+export function specificityOf(selector: string): Specificity {
+  let ids = 0;
+  let others = 0;
+  let types = 0;
+  const add = (more: Specificity): void => {
+    ids += more[0];
+    others += more[1];
+    types += more[2];
+  };
+  let at = 0;
+  // the text inside the parentheses that open at `from`, and the index after them
+  const argument = (from: number): { readonly text: string; readonly end: number } => {
+    let depth = 0;
+    for (let end = from; end < selector.length; end += 1) {
+      if (selector[end] === '(') depth += 1;
+      if (selector[end] === ')') depth -= 1;
+      if (depth === 0) return { text: selector.slice(from + 1, end), end: end + 1 };
+    }
+    return { text: selector.slice(from + 1), end: selector.length };
+  };
+  const ident = (from: number): { readonly text: string; readonly end: number } => {
+    const found = IDENT.exec(selector.slice(from));
+    const text = found === null ? '' : found[0];
+    return { text, end: from + text.length };
+  };
+  while (at < selector.length) {
+    const char = selector[at] as string;
+    if (char === '[') {
+      others += 1;
+      const close = selector.indexOf(']', at);
+      at = close < 0 ? selector.length : close + 1;
+    } else if (char === '#') {
+      ids += 1;
+      at = ident(at + 1).end;
+    } else if (char === '.') {
+      others += 1;
+      at = ident(at + 1).end;
+    } else if (char === ':') {
+      const element = selector[at + 1] === ':';
+      const name = ident(at + (element ? 2 : 1));
+      const lowered = name.text.toLowerCase();
+      at = name.end;
+      const args = selector[at] === '(' ? argument(at) : null;
+      if (args !== null) at = args.end;
+      if (element || LEGACY_ELEMENTS.has(lowered)) types += 1;
+      else if (lowered === 'where') continue;
+      else if (BY_ARGUMENT.has(lowered)) add(mostSpecific(args?.text ?? ''));
+      else {
+        others += 1;
+        const of = (lowered === 'nth-child' || lowered === 'nth-last-child') && args !== null ? /\sof\s/iu.exec(args.text) : null;
+        if (of !== null && args !== null) add(mostSpecific(args.text.slice(of.index + of[0].length)));
+      }
+    } else if (char === '*' || char === '|' || char === '&') {
+      at += 1;
+    } else if (IDENT.test(selector.slice(at, at + 1)) || char === '\\') {
+      types += 1;
+      at = ident(at).end;
+    } else {
+      at += 1;
+    }
+  }
+  return [ids, others, types];
 }
