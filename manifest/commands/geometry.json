@@ -1687,10 +1687,7 @@
         "predicate": "always",
         "refusalKey": null
       },
-      "refusals": [
-        "status.gap.notContainer",
-        "status.shadow.none"
-      ],
+      "refusals": [],
       "confirmation": null,
       "history": {
         "undoable": false

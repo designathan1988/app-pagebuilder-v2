@@ -34,16 +34,13 @@
         "status.refused.onlyAccepts",
         "status.refused.requiresParent",
         "status.refused.interactiveInside",
-        "status.refused.formInForm",
         "status.refused.singleChild",
-        "status.refused.labelOneControl",
         "status.refused.noChildren",
         "status.refused.notInside",
         "status.locked.insert",
         "status.locked.edit",
         "status.locked.byAncestor",
-        "status.tag.notEquivalent",
-        "status.readOnlyTab"
+        "status.tag.notEquivalent"
       ],
       "confirmation": null,
       "history": {

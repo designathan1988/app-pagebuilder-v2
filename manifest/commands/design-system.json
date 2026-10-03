@@ -968,9 +968,8 @@
         "status.refused.onlyAccepts",
         "status.refused.requiresParent",
         "status.refused.interactiveInside",
-        "status.refused.formInForm",
+        "status.refused.notInside",
         "status.refused.singleChild",
-        "status.refused.labelOneControl",
         "status.refused.noChildren",
         "status.locked.insert",
         "status.components.inInstance"
@@ -1114,9 +1113,8 @@
         "status.refused.onlyAccepts",
         "status.refused.requiresParent",
         "status.refused.interactiveInside",
-        "status.refused.formInForm",
+        "status.refused.notInside",
         "status.refused.singleChild",
-        "status.refused.labelOneControl",
         "status.refused.noChildren",
         "status.locked.insert"
       ],
