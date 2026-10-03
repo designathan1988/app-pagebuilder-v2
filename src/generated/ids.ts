@@ -2887,6 +2887,8 @@ export const DEFAULT_LOCALE: Locale = "en";
 // the predicates the manifest names (references.json)
 export const PREDICATE_IDS = [
   "always",
+  "canMoveDown",
+  "canMoveUp",
   "canNestIntoPrevious",
   "canPromote",
   "canRedo",

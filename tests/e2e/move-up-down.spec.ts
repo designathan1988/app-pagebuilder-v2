@@ -14,6 +14,7 @@ const ADD = 'selection.add#canvas-click-element-shift';
 const MENU_UP = 'element.moveUp#menu-arrange';
 const MENU_DOWN = 'element.moveDown#menu-arrange';
 const KEY_UP = 'element.moveUp#key-alt-arrow-up-in-canvas';
+const KEY_DOWN = 'element.moveDown#key-alt-arrow-down-in-canvas';
 const CTRL_Z = 'history.undo#key-ctrl-z-in-global';
 const CTRL_SHIFT_Z = 'history.redo#key-ctrl-shift-z-in-global';
 
@@ -76,7 +77,7 @@ test('Arrange › Move up and Move down are disabled with their reason while not
   }
 });
 
-test('Arrange › Move up and Move down move the selection like the keys, one undo step each', runs('project.open#menu-file', SELECT, MENU_UP, MENU_DOWN, CTRL_Z, CTRL_SHIFT_Z), async ({ page }) => {
+test('Arrange › Move up and Move down move the selection like the keys, one undo step each', runs('project.open#menu-file', SELECT, MENU_UP, MENU_DOWN, KEY_DOWN, CTRL_Z, CTRL_SHIFT_Z), async ({ page }) => {
   await clickNode(page, 'n-actions');
   expect(await read(page)).toEqual({ hero: ['n-title', 'n-intro', 'n-actions'], selection: ['n-actions'], undoSteps: 0 });
 
@@ -90,8 +91,16 @@ test('Arrange › Move up and Move down move the selection like the keys, one un
   expect(await top(page, 'n-actions')).toBeGreaterThan(await top(page, 'n-intro'));
   await expect(page.getByRole('status')).toHaveText('Moved Actions to position 3 of 3 in Hero.');
 
-  // at the end, Move down is refused: nothing changes and no undo step is added
-  await runDoor(page, MENU_DOWN);
+  // at the end, Move down is drawn disabled before any press, its title the words a press would say (MV1: the
+  // canonical Arrange menu); the key says them in the status bar, and nothing changes, no undo step added
+  await openMenu(page, 'arrange');
+  const down = page.locator(`[data-door="${MENU_DOWN}"]`);
+  await expect(down).toHaveAttribute('aria-disabled', 'true');
+  await expect(down).toHaveAttribute('title', /Already at the end of Hero\./);
+  await page.keyboard.press('Escape');
+  // the canvas takes the keys again (the menu's Escape leaves the focus on its button), the selection as it was
+  await clickNode(page, 'n-actions');
+  await runDoor(page, KEY_DOWN);
   await expect(page.getByRole('status')).toHaveText('Already at the end of Hero.');
   expect(await read(page)).toEqual({ hero: ['n-title', 'n-intro', 'n-actions'], selection: ['n-actions'], undoSteps: 2 });
 

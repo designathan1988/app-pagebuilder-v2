@@ -428,6 +428,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AL1 | 3 | The availability of the alignment matrix, the grid editor and the positioned commands read the element's own value only: a card made flex by its class (`.card`) drew the matrix disabled, a grid made by a class could not open the grid editor | QA 207, `src/core/style/value-predicates.test.ts` (red without the fix) | done (QA 207) |
 | FK1 | 1 | `tests/e2e/draft-recovery.spec.ts` "programmatic marks, line breaks and a moved caret survive reload" fails about 1 run in 12 on the committed code (no change of this session's reaches it): a flaky test hides a real failure | QA 208 (12 repeats each side) | open |
 | LC2 | 2 | A label colour from the palette never drew: the swatches keep a token's name, drawn bare as the row's line, its dot and the canvas outline, which is no colour (they fell back to the text's ink), and the test compared the line with the outline only, two inks alike | QA 210, `tests/e2e/layers-row-colours.spec.ts` tightened (red without the fix) | done (QA 210) |
+| MV1 | 1 | Move up and Move down were drawn available on a first or last child (availability: a selection), their refusal said only after the press, where the canonical Arrange menu draws them disabled | QA 212, `src/core/structure/move-availability.test.ts` | done (QA 212) |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 

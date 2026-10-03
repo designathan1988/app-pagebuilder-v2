@@ -428,14 +428,15 @@
       "introducedBy": "move-up-down",
       "args": {},
       "availability": {
-        "predicate": "hasSelection",
-        "refusalKey": "refusal.nothingSelected"
+        "predicate": "canMoveUp",
+        "refusalKey": "status.move.alreadyFirst"
       },
       "refusals": [
         "status.move.alreadyFirst",
         "status.wrap.needsSameParent",
         "status.locked.move",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "refusal.nothingSelected"
       ],
       "confirmation": null,
       "history": {
@@ -558,14 +559,15 @@
       "introducedBy": "move-up-down",
       "args": {},
       "availability": {
-        "predicate": "hasSelection",
-        "refusalKey": "refusal.nothingSelected"
+        "predicate": "canMoveDown",
+        "refusalKey": "status.move.alreadyLast"
       },
       "refusals": [
         "status.move.alreadyLast",
         "status.wrap.needsSameParent",
         "status.locked.move",
-        "status.locked.byAncestor"
+        "status.locked.byAncestor",
+        "refusal.nothingSelected"
       ],
       "confirmation": null,
       "history": {

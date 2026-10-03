@@ -3978,6 +3978,8 @@ How Pager behaves, observed by running it from `.cache/pager-run` (Chrome, windo
 
 No indicator: the element moves on the canvas and in Layers at once, stays selected, and the status bar reads `Moved 1 selected elements within Section.` At the ends: `Already at the start of Section.` / `Already at the end of Section.`
 
+Where a press would move nothing (the selected standing together against the edge they would pass, elements of two parents, nothing selected), Move up and Move down are drawn disabled before any press — the Arrange menu, the context menu — their title the words the press says (`Already at the start of Section.`), as the canonical Arrange menu draws Move up on a first child (availability `canMoveUp`, `canMoveDown`, asking the commands' own check; MV1). A shortcut pressed there says the same words.
+
 ### Result in the document
 
 Observed from [Heading, Paragraph, Paragraph 2] with Paragraph 2 selected:

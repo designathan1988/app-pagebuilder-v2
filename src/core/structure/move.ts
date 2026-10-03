@@ -258,18 +258,43 @@ function shiftAmongSiblings(parent: DocNode, parentPath: readonly (string | numb
   return { patches, moved };
 }
 
+// Why the selection cannot move one place up or down among its siblings, before anything is written: nothing selected,
+// elements of different parents, or nothing would move, the selected standing together against the edge (a page root
+// has no siblings: it is already at the start and the end of its page). The commands' availability (canMoveUp,
+// canMoveDown) and the commands themselves both ask it, so a menu draws the move disabled with the words its press
+// would say (the canonical Arrange menu: Move up disabled on a first child).
+function moveRefusal(document: DocumentJson, selection: Selection, direction: Direction): Message | null {
+  const roots = selectionRoots(document, selection);
+  const first = roots[0];
+  if (first === undefined) return message('refusal.nothingSelected');
+  const parent = first.parent;
+  if (roots.some((r) => r.parent !== parent)) return message('status.wrap.needsSameParent');
+  const within = parent?.name ?? document.pages[first.page]?.name ?? '';
+  const edge = message(direction === 'up' ? 'status.move.alreadyFirst' : 'status.move.alreadyLast', { parent: within });
+  if (parent === null) return edge;
+  const chosen = new Set(roots.map((r) => r.node.id));
+  const places = parent.children.map((child, i) => (chosen.has(child.id) ? i : -1)).filter((i) => i >= 0);
+  // nothing moves when the selected stand together against the edge they would pass (one at the edge with others apart
+  // stays while those move)
+  const count = parent.children.length;
+  const blocked = places.every((place, i) => place === (direction === 'up' ? i : count - places.length + i));
+  return blocked ? edge : null;
+}
+
+export const canMoveUp = registerPredicate('canMoveUp', (state) => moveRefusal(state.document, state.selection, 'up') === null, (state) => moveRefusal(state.document, state.selection, 'up') ?? message('status.move.alreadyFirst', { parent: '' }));
+export const canMoveDown = registerPredicate('canMoveDown', (state) => moveRefusal(state.document, state.selection, 'down') === null, (state) => moveRefusal(state.document, state.selection, 'down') ?? message('status.move.alreadyLast', { parent: '' }));
+
 function move(document: DocumentJson, selection: Selection, direction: Direction): Outcome<never> {
   const roots = selectionRoots(document, selection);
   const first = roots[0];
-  // the availability predicate (hasSelection) lets no door run without a selection; a selection of nodes the document
-  // lacks is a defect of the store
+  // the availability predicate (canMoveUp, canMoveDown) lets no door run without a selection; a selection of nodes the
+  // document lacks is a defect of the store
   if (first === undefined) throw new Error(`element.move${direction === 'up' ? 'Up' : 'Down'}: the selection names no node of the document`);
+  const refused = moveRefusal(document, selection, direction);
+  if (refused !== null) return { kind: 'refused', message: refused };
   const parent = first.parent;
-  if (roots.some((r) => r.parent !== parent)) return { kind: 'refused', message: message('status.wrap.needsSameParent') };
-  // a page root has no siblings: it is already at the start and at the end of its page
-  const within = parent?.name ?? document.pages[first.page]?.name ?? '';
-  const edge = message(direction === 'up' ? 'status.move.alreadyFirst' : 'status.move.alreadyLast', { parent: within });
-  if (parent === null) return { kind: 'refused', message: edge };
+  if (parent === null) throw new Error('element.move: a page root reached the move past its refusal');
+  const edge = message(direction === 'up' ? 'status.move.alreadyFirst' : 'status.move.alreadyLast', { parent: parent.name });
   // a locked node, or one inside a locked element, keeps its place (spec lock-element)
   const locked = firstLockRefusal(document, roots.map((r) => r.node.id), 'status.locked.move');
   if (locked !== null) return { kind: 'refused', message: locked };

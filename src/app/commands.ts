@@ -61,7 +61,7 @@ import {
 import { duplicateCommand } from '../core/structure/duplicate.ts';
 import { handCommands } from '../core/structure/hand.ts';
 import { createNaturalChildCommand, hasNaturalChild, insertCommand } from '../core/structure/insert.ts';
-import { canNestIntoPrevious, canPromote, moveDownCommand, moveToCommand, moveUpCommand, nestIntoPreviousCommand, promoteCommand } from '../core/structure/move.ts';
+import { canMoveDown, canMoveUp, canNestIntoPrevious, canPromote, moveDownCommand, moveToCommand, moveUpCommand, nestIntoPreviousCommand, promoteCommand } from '../core/structure/move.ts';
 import { deleteCommand } from '../core/structure/remove.ts';
 import { canUnwrap, unwrapCommand, wrapBesideCommand, wrapColumnCommand, wrapContainerCommand, wrapGridCommand, wrapRowCommand } from '../core/structure/wrap.ts';
 import { setCustomDeclarationsCommand } from '../core/style/custom.ts';
@@ -518,6 +518,8 @@ export const PREDICATES = {
   singleTextSelection,
   canUnwrap,
   canNestIntoPrevious,
+  canMoveUp,
+  canMoveDown,
   canPromote,
   cellSelected,
   inTable,
