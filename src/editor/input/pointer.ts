@@ -219,6 +219,9 @@ const MENU_HOVER_TOLERANCE = numberConstant('menus.hoverTolerance');
 // autoscroll (spec drag-layout, row 8): the band along the page's visible edges, and the most it scrolls a frame
 const AUTOSCROLL_ZONE = numberConstant('drop.autoscrollZone');
 const AUTOSCROLL_MAX = numberConstant('drop.autoscrollMaxStep');
+// the Layers tree's band: at most this share of the tree's height, and over a row only after a rest in it (LA1)
+const TREE_SHARE = numberConstant('drop.autoscrollTreeShare');
+const TREE_DWELL = numberConstant('drop.autoscrollTreeDwell');
 const EXPAND_DWELL = numberConstant('layers.expandDwell');
 
 // The view's wheel and pan (spec zoom-wheel-pan): over the stage, the wheel runs its door by the modifier held (Ctrl
@@ -703,8 +706,12 @@ export function installPointer(store: EditorStore, target: Window = window): () 
   // whether the pointer has been inside the page's visible box since the drag began, far enough from its edges: the
   // autoscroll waits for it, so a drag that starts at an edge does not scroll at once (spec drag-layout, Problems 3)
   let insideOnce = false;
-  // the same, for the Layers tree (spec drag-autoscroll, Problems in Pager 2)
+  // the same, for the Layers tree (spec drag-autoscroll, Problems in Pager 2), and since when the pointer stands in the
+  // tree's band: a timer of drop.autoscrollTreeDwell started when it enters, and whether it has run out (its rest
+  // there before the tree scrolls under a row, LA1)
   let insideTreeOnce = false;
+  let treeBand: ReturnType<typeof setTimeout> | null = null;
+  let treeRested = false;
   // the press of the gesture, while one is open: a tile's press decides its click or its drop at the release
   let pressed: Press | null = null;
   // where the pointer is on the screen, from its last press or move
@@ -1240,22 +1247,35 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     else if (insideOnce && across && fromBottom >= 0 && fromBottom < AUTOSCROLL_ZONE) step = AUTOSCROLL_MAX * (1 - fromBottom / AUTOSCROLL_ZONE);
     if (step !== 0 && scrollPage(frame, step)) scrolled = true;
     // the Layers tree scrolls the same way while the pointer is over it (Problems in Pager 2: a row below its fold is
-    // reached by dragging): its own box, its own arming, its own scrolled distance — and only where no row lies under
-    // the pointer. The zone is wider than a row, so on a short panel (the Insert view open above it) most rows sit
-    // inside it: a person aiming at a visible row had the tree carried away under the pointer, and the drop landed on
-    // the room the row had left (the audit's tile onto a Layers row landed nowhere). A drag taken past the rows — the
-    // empty room below the last one, above the first — still scrolls, which is what the drag needs to reach them.
+    // reached by dragging): its own box, its own arming, its own scrolled distance. Two things keep a drag aimed at a
+    // visible row from having it carried away (the audit's tile onto a Layers row landed on the room the row had left):
+    // the band is at most a share of the tree's height (drop.autoscrollTreeShare, dnd-kit's threshold), and over a row
+    // the tree scrolls only once the pointer has rested in the band (drop.autoscrollTreeDwell, the time dampening of
+    // hello-pangea/dnd's auto-scroller) — a drag released on the row is done before. Past the rows (the empty room
+    // below the last one, above the first) it scrolls at once. It used to scroll nowhere but there, so a tree taller
+    // than its panel, whose bottom edge always holds a row, never scrolled down to the rows below the fold (LA1).
     const tree = document.querySelector('.layers-tree');
     if (tree !== null) {
       const treeBox = tree.getBoundingClientRect();
+      const treeZone = Math.min(AUTOSCROLL_ZONE, treeBox.height * TREE_SHARE);
       const treeTop = pointerAt.y - treeBox.top;
       const treeBottom = treeBox.bottom - pointerAt.y;
       const overTree = pointerAt.x >= treeBox.left && pointerAt.x <= treeBox.right;
-      if (overTree && treeTop > AUTOSCROLL_ZONE && treeBottom > AUTOSCROLL_ZONE) insideTreeOnce = true;
+      if (overTree && treeTop > treeZone && treeBottom > treeZone) insideTreeOnce = true;
+      const inBand = insideTreeOnce && overTree && ((treeTop >= 0 && treeTop < treeZone) || (treeBottom >= 0 && treeBottom < treeZone));
+      if (!inBand) {
+        if (treeBand !== null) clearTimeout(treeBand);
+        treeBand = null;
+        treeRested = false;
+      } else if (treeBand === null && !treeRested) {
+        treeBand = setTimeout(() => {
+          treeBand = null;
+          treeRested = true;
+        }, TREE_DWELL);
+      }
       const underRow = ROW_SELECT !== null && document.elementFromPoint(pointerAt.x, pointerAt.y)?.closest(`[data-door="${ROW_SELECT.ref}"]`) != null;
       let treeStep = 0;
-      if (!underRow && insideTreeOnce && overTree && treeTop >= 0 && treeTop < AUTOSCROLL_ZONE) treeStep = -AUTOSCROLL_MAX * (1 - treeTop / AUTOSCROLL_ZONE);
-      else if (!underRow && insideTreeOnce && overTree && treeBottom >= 0 && treeBottom < AUTOSCROLL_ZONE) treeStep = AUTOSCROLL_MAX * (1 - treeBottom / AUTOSCROLL_ZONE);
+      if (inBand && (!underRow || treeRested)) treeStep = treeTop < treeZone ? -AUTOSCROLL_MAX * (1 - treeTop / treeZone) : AUTOSCROLL_MAX * (1 - treeBottom / treeZone);
       if (treeStep !== 0) {
         const before = tree.scrollTop;
         tree.scrollTop += treeStep;
@@ -1295,6 +1315,9 @@ export function installPointer(store: EditorStore, target: Window = window): () 
     scrolling = 0;
     insideOnce = false;
     insideTreeOnce = false;
+    if (treeBand !== null) clearTimeout(treeBand);
+    treeBand = null;
+    treeRested = false;
   };
 
   // While a drag goes on, each pointer position proposes a drop; a new proposal replaces the pointer's own only once

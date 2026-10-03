@@ -2652,6 +2652,8 @@ export const CONSTANT_IDS = [
   "canvas.emptyTextMinHeight",
   "drop.autoscrollZone",
   "drop.autoscrollMaxStep",
+  "drop.autoscrollTreeShare",
+  "drop.autoscrollTreeDwell",
   "drop.outsideStageTolerance",
   "drag.ghostOffset",
   "drag.labelOffset",

@@ -379,6 +379,20 @@
       "note": "Largest autoscroll step per animation frame."
     },
     {
+      "id": "drop.autoscrollTreeShare",
+      "value": 0.2,
+      "unit": "fraction",
+      "source": "spec/BEHAVIOUR.md#drag-autoscroll",
+      "note": "The Layers tree's autoscroll band is at most this share of the tree's own height (dnd-kit's default threshold), so on a short panel most rows stay outside it."
+    },
+    {
+      "id": "drop.autoscrollTreeDwell",
+      "value": 400,
+      "unit": "ms",
+      "source": "spec/BEHAVIOUR.md#drag-autoscroll",
+      "note": "Over a row, the Layers tree scrolls only once the pointer has rested this long in its band: a drag aimed at that row and released does not carry it away; one that rests there reaches the rows below the fold (LA1)."
+    },
+    {
       "id": "drop.outsideStageTolerance",
       "value": 8,
       "unit": "screen-px",

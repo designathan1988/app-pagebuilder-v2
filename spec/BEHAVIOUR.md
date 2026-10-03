@@ -1427,7 +1427,7 @@ None.
 ### Problems in Pager
 
 1. **The scroll is a loop of its own and belongs to the drag's owner.** Required: one autoscroll, in the pointer owner (src/editor/input/pointer.ts), registered in the manifest as the feature `drag-autoscroll`, with scenarios: the zone, the step and the arming rule are the constants `drop.autoscrollZone` and `drop.autoscrollMaxStep` of interactions.json.
-2. **Only the page scrolls.** Required: the Layers panel scrolls the same way while the pointer is over it, so a row below the fold can be reached by dragging: its own visible box, its own scroll.
+2. **Only the page scrolls.** Required: the Layers panel scrolls the same way while the pointer is over it, so a row below the fold can be reached by dragging: its own visible box, its own scroll. Its band is at most a fifth of its own height (`drop.autoscrollTreeShare`), and over a row it scrolls only once the pointer has rested in the band for `drop.autoscrollTreeDwell` — a drag aimed at a visible row near the edge and released there keeps that row under the pointer; past the rows it scrolls at once. (LA1, found by AUD-35: the tree scrolled only past its rows, so a tree taller than its panel, whose bottom edge always holds a row, never scrolled down.)
 3. **A drag that starts at the edge scrolls at once.** Required: the scroll waits until the pointer has been properly inside the scroller, beyond the zone, at least once during the drag (spec drag-layout, row 8).
 
 ## drag-drop-inside
