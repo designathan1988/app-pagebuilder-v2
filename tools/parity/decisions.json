@@ -30,7 +30,7 @@
     },
     {
       "decision": "DEC-41",
-      "why": "the app offers more than the mock shows (every property in All, more menu items, the reverse directions, more quick-panel fields, Layers under every view): its heights, and the controls it pushes out of the window",
+      "why": "the app offers more than the mock shows (every property in All, more menu items, the reverse directions, more quick-panel fields, Layers under every view, the class moves under the affects line): its heights, and the controls it pushes out of the window",
       "matches": [
         {
           "kind": "control",
@@ -166,6 +166,11 @@
           "kind": "control",
           "id": "style.set#inspector-flex-direction",
           "property": "width"
+        },
+        {
+          "kind": "region",
+          "id": "inspector-selector-bar",
+          "property": "height"
         }
       ]
     },
@@ -202,6 +207,53 @@
           "kind": "control",
           "id": "position.align#menu-arrange-bottom",
           "property": "colour"
+        }
+      ]
+    },
+    {
+      "decision": "DEC-44",
+      "why": "the app's reading of a state the mock draws otherwise (provenance in a multiple selection, menu widths and the palette's height from their own items, Bold only on a bold selection, the drop container's tint, the picked row)",
+      "matches": [
+        {
+          "kind": "control",
+          "id": "style.set#inspector-display",
+          "state": "multi"
+        },
+        {
+          "kind": "control",
+          "id": "style.set#inspector-row-gap",
+          "state": "multi"
+        },
+        {
+          "kind": "region",
+          "id": "menu:arrange",
+          "property": "width"
+        },
+        {
+          "kind": "region",
+          "id": "context-menu",
+          "property": "width"
+        },
+        {
+          "kind": "region",
+          "id": "command-palette",
+          "property": "height"
+        },
+        {
+          "kind": "control",
+          "id": "text.toggleBold#toolbar-text-toolbar-bold",
+          "property": "background"
+        },
+        {
+          "kind": "control",
+          "id": "interactions.update#layers-row-pick-target",
+          "property": "background"
+        },
+        {
+          "kind": "control",
+          "id": "selection.select#layers-row",
+          "property": "background",
+          "state": "drag"
         }
       ]
     }

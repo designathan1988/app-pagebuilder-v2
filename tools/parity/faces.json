@@ -40,14 +40,26 @@
     {
       "mark": "quick-panel",
       "side": "canon",
-      "inside": ".qp-chip",
-      "why": "closed, the design marks the chip's positioning box around the chip; the app marks the chip itself"
+      "inside": ".qp-chip, .qp-panel",
+      "why": "the design marks the chip's positioning box around the chip, or the open panel's box around the panel; the app marks the chip or the panel itself"
     },
     {
       "mark": "style.set#inspector-flex-direction",
       "side": "app",
       "closest": ".segmented",
       "why": "the app marks each direction's button; the design marks the group of them"
+    },
+    {
+      "mark": "dock-timeline",
+      "side": "app",
+      "closest": ".dock-body",
+      "why": "the app marks the timeline inside the dock's body, taller than it and scrolled there; the design marks the body"
+    },
+    {
+      "mark": "interactions.update#layers-row-pick-target",
+      "side": "app",
+      "closest": ".row",
+      "why": "the app marks each row's Pick button; the design marks the row"
     }
   ],
   "aliases": [
@@ -65,6 +77,13 @@
         "components.startCreate#context-menu"
       ],
       "why": "the app's context menu asks the component's name first (components.startCreate opens the prompt, the audit's A3.12), where the design's item creates it at once"
+    },
+    {
+      "door": "timeline.setPlayhead#timeline-ruler-click",
+      "as": [
+        ".timeline__ruler"
+      ],
+      "why": "the app's ruler is the pointer's (a press on it sets the playhead), not a door's mark"
     }
   ]
 }

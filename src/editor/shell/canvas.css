@@ -1385,3 +1385,8 @@
   color: var(--color-on-mode-state);
   font-family: var(--font-mono);
 }
+
+/* the text toolbar's icon buttons in the toolbar's ink (the canonical bar) */
+.text-toolbar .door--icon-button {
+  color: var(--color-text);
+}

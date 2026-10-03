@@ -73,7 +73,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | REQ-U11 | Reports with every acronym and code explained | plan request 11, memory | done | glossary (section 8) |
 | REQ-U12 | Research on the internet first (official docs, how shipped products solve it) before non-trivial work | the user's global rule of 2026-10-02 | done | QA-LOG rows cite sources from row 39 on |
 | REQ-U13 | No subagents; work directly | memory "no-agents" (2026-10-02), `.memory/coordination.md` solo order | done | — |
-| REQ-U14 | The interface identical to the canonical design `design/final/index.html`, looked at for real | plan request 7; the user, 2026-10-02 | partial | `tools/parity/pair.ts` 12 states × 2 themes; AUD-06, AUD-28 |
+| REQ-U14 | The interface identical to the canonical design `design/final/index.html`, looked at for real | plan request 7; the user, 2026-10-02 | done | QA 220: the pairing with `design/final/index.html` at 0 open divergences in every state, theme and language |
 | REQ-U15 | The Layout tool is one tool; one key per gesture; a selection moves like a design tool | the user, 2026-10-02 (QA 123, 133, 141) | done | feature `layout-composer` 45/45 tests; flows `layout-*` |
 | REQ-U16 | Reviewer reports what/why/evidence, never prescriptions | memory "reviewer-no-prescriptions" | done | `.memory/review.md` protocol |
 | REQ-U17 | No repeated complete suites: code first, tests of the block, complete suite once | memory "no-repeated-full-suites" | done | — |
@@ -88,7 +88,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | PLAN-R4 | Animation working and a real timeline | done | stage 10; `motion-timeline` 58/58 |
 | PLAN-R5 | The visual layout tool (Layout Composer / Spatial Layout Compiler), an isolated removable module | done, redefined | stage 11; DEC-16, DEC-17 |
 | PLAN-R6 | Every panel looked at and fixed; professional fields (typing, steppers, presets with preview, smart input) | done | stage 3, 5; QA 164 (steppers) |
-| PLAN-R7 | The interface equal to the canonical layout | partial | REQ-U14 |
+| PLAN-R7 | The interface equal to the canonical layout | done | REQ-U14 (QA 220) |
 | PLAN-R8 | Open any web address and see the page on the canvas, editable | partial | stage 12; AUD-15 |
 | PLAN-R9 | Commit and push to the new repository, always | done | REQ-U10 |
 | PLAN-R10 | Save the site as an app for Android, Apple, Windows or a site | out | stage 13 (DEC-08) |
@@ -102,7 +102,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-0.1 | New repository: origin = app-pagebuilder-v2, old repository remote `v1` | done | `git remote -v` |
 | STG-0.2 | Each J reproduced first by a failing test (`tests/e2e/jornada03-*.spec.ts`) | done | QA 200: `tests/e2e/jornada03.json` maps J1–J28 to the tests that replay them (checked by `tools/inventory/jornada03.test.ts`), `tests/e2e/jornada03.spec.ts` replays the seven no test replayed |
 | STG-0.3 | Task meter: `npm run journey -- <task>` replays M1…C5/P1…P4 with the scoreboard | done | QA 201: `tools/journey/` (19 tasks in Chrome, the scoreboard of H1–H17, `npm run fidelity`); H10 and H16 stay with the export checks and `npm run perf` |
-| STG-0.4 | Parity with the canonical: 12 states × dark/light × en/pt-BR, numeric diff per control, PAIRING-2 generated | partial | QA 203: `npm run parity`; QA 206: on the design's own page; QA 208: the measure reads what a person sees (`tools/parity/faces.json`), the states as the design's, the first interface fixes; QA 209: the Explorer's order, the dock tabs, pairing by name; QA 211: DEC-41, the states' history and dock; QA 212-216: MV1, FT1, the lead palette, menus, DEC-42/43; QA 217-219: AN2/AN3, densities, selector bar, Timeline: 104 divergences of 24 kinds open |
+| STG-0.4 | Parity with the canonical: 12 states × dark/light × en/pt-BR, numeric diff per control, PAIRING-2 generated | done | QA 203-220: `npm run parity` pairs 12 states × dark/light × en/pt-BR on the design's own page; `docs/PAIRING.md`: 0 open divergences, the rest kept by DEC-03, DEC-21, DEC-41-44 |
 | STG-0.5 | Performance budget: input to frame p50/p95, opening, undo | done | `npm run perf` (QA 44, 80); AUD-36 |
 | STG-1.J1a | A refused commit becomes a spoken refusal; the dispatch answers `refused` | done | QA 32 (`917a35b`); named without placeholders and contained per region QA 149 |
 | STG-1.J1b | `var()` in a composite written into its longhands; mixed composites refused before patches | done | QA 32 |
@@ -154,7 +154,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-5.17 | Language and texts: browser language, gender-neutral Portuguese, singular forms (J26, J28) | partial | QA 87, 93, 171; AUD-23 |
 | STG-5.18 | Image picker with thumbnails and search (M4) | done | QA 94 |
 | STG-5.19 | Status bar parity, never an incident without a message (J1) | done | QA 149, 151 (`refusal-never-blanks.spec.ts`) |
-| STG-5.20 | Stage closure: `PAIRING-2.md` with zero open divergence | partial | `docs/archive/PAIRING-2.md` (manual); AUD-28 |
+| STG-5.20 | Stage closure: `PAIRING-2.md` with zero open divergence | done | QA 220: `docs/PAIRING.md` generated with zero open divergence (kept: DEC-03, DEC-21, DEC-41-44) |
 | STG-6.1 | Identical rule bodies merged, stable between exports | done | QA 51; merged only inside one breakpoint block, the same text every time QA 150 |
 | STG-6.2 | Shorthand writer (padding, margin, border, inset, gap, radius, font) | done | QA 51 |
 | STG-6.3 | No `padding: 0px` on every div; plain divs get no class | done | QA 51 |
@@ -500,6 +500,7 @@ Stages 13, 15, 16 and 17 stay out (DEC-08, kept by the user on 2026-10-02).
 | DEC-41 | Where the app offers more than the canonical mock shows, the design's look applies to what both show and the extra stays: All properties lists every property that applies (the mock shows a selection, so rows it shows fall below the fold), the Arrange and context menus hold more items, Direction offers the reverse directions, the quick panel holds more fields, and Layers stays stacked under every sidebar view; the pairing keeps the heights and the controls pushed out of the window this causes, and nothing else | the user, 2026-10-03 (plan G3 question) | — | `tools/parity/decisions.json`; QA 211 |
 | DEC-42 | Align (left, centre, right, top, middle, bottom) acts on positioned elements only and is drawn disabled for an element in the flow, where the canonical mock draws it available: it moves coordinates | the user, 2026-10-03 | — | `tools/parity/decisions.json`; QA 216 |
 | DEC-43 | The text toolbar's Bold and Italic show the letters B and I, as the canonical design (the full name in the tooltip) | the user, 2026-10-03 | — | QA 216 |
+| DEC-44 | Where the canonical mock draws a state the app reads otherwise, the app's reading stands: in a multiple selection with the Element target a value from the class is Inherited (the mock paints it Here); a menu is as wide as its own words and keys and the command palette as tall as its list (within 51 px and 5 px of the mock's); Bold shows on only when the selection is bold (the mock's selected word is); a drag tints the container that receives the drop and the picked target is the row pressed, not a tinted row | the agent, 2026-10-03, under the user's order to decide (plan G3) | — | `tools/parity/decisions.json`; QA 220 |
 
 ## 5. Architecture
 

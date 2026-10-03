@@ -73,9 +73,11 @@ export const drawn = (page: Page, faces: Readonly<Record<string, FaceRule>> = {}
         color: s.color,
         background: s.backgroundColor,
         radius: s.borderTopLeftRadius,
-        worded: (el.textContent ?? '').trim() !== '' || (el instanceof HTMLInputElement && el.value.trim() !== ''),
+        // a region holds words of its own only in its own text nodes: a region around others' words (the text toolbar
+        // over the page's heading) draws no ink of its own
+        worded: id.includes(' ') ? (el.textContent ?? '').trim() !== '' || (el instanceof HTMLInputElement && el.value.trim() !== '') : [...el.childNodes].some((node) => node.nodeType === 3 && (node.textContent ?? '').trim() !== ''),
         label: (marked.querySelector('.nm, .row__name')?.textContent ?? marked.textContent ?? '').trim().replace(/\s+/g, ' ').slice(0, 60),
-        icon: el.querySelector('svg') !== null || el.localName === 'svg',
+        icon: id.includes(' ') ? el.querySelector('svg') !== null || el.localName === 'svg' : [...el.children].some((child) => child.localName === 'svg'),
         // an edge that draws: a transparent border (the doors' 1 px kept for their hover) draws no corner
         edged: parseFloat(s.borderTopWidth) > 0 && s.borderTopStyle !== 'none' && !/^rgba\(.*,\s*0\)$|^transparent$/.test(s.borderTopColor),
       };
@@ -93,7 +95,7 @@ export const drawn = (page: Page, faces: Readonly<Record<string, FaceRule>> = {}
         return measure(el, `${door} ${n}`);
       });
     for (const [door, others] of Object.entries(aliases)) {
-      const drawnAs = [...document.querySelectorAll(others.map((one) => `[data-door="${one}"]`).join(', '))].filter((el) => shows(el));
+      const drawnAs = [...document.querySelectorAll(others.map((one) => (one.startsWith(".") ? one : `[data-door="${one}"]`)).join(', '))].filter((el) => shows(el));
       drawnAs.forEach((el, i) => controls.push(measure(el, `${door} ${i + 1}`)));
     }
     return { regions, controls };

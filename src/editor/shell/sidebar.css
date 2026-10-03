@@ -807,3 +807,21 @@
   border-color: transparent;
   background: transparent;
 }
+
+/* a row's Pick target while an interaction's target is picked: the small bare icon button, never the browser's own
+   grey button */
+.row__button {
+  display: inline-grid;
+  place-items: center;
+  width: var(--size-target-min);
+  height: var(--size-target-min);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: none;
+  color: var(--color-text-muted);
+}
+
+.row:hover .row__button {
+  color: var(--color-canvas-target);
+}

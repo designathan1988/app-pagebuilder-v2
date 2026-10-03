@@ -939,6 +939,8 @@
 .timeline__ruler {
   position: relative;
   height: var(--size-row);
+  color: var(--color-text-subtle);
+  font-size: var(--fs-caption);
   cursor: pointer;
   background: repeating-linear-gradient(to right, var(--color-border) 0, var(--color-border) 1px, transparent 1px, transparent 10%);
   border-bottom: 1px solid var(--color-border);
@@ -1343,3 +1345,28 @@
   color: var(--color-text-muted);
 }
 
+
+/* the Timeline's Add keyframe the small button (the canonical .btn.sm), New animation in the subtle ink beside the
+   Animations title (the canonical .sec-t .acts .ib), an animation's name the row's 18 px line */
+.timeline [data-door$='#timeline-add-keyframe'] {
+  height: var(--size-control);
+}
+
+.timeline [data-door$='#timeline-new-animation'] {
+  color: var(--color-text-subtle);
+}
+
+.timeline__name .panel-field__text:not(:focus) {
+  height: var(--lh-code);
+}
+
+/* the interaction card's Remove in the head's weight (the canonical .ix-h) */
+.interaction-card__head > .door {
+  font-weight: var(--weight-semibold);
+}
+
+/* a transport toggle that is on keeps the accent (the canonical loop .ib.sm.is-on), over the bare buttons above */
+.timeline__controls .door.is-current {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}

@@ -7,94 +7,71 @@ Never edited by hand: `tools/parity/pairing.test.ts` fails while it is out of st
 Every region both sides mark (`data-region`) and every control both mark (`data-door`, the n-th of each door) is
 measured on both sides; a divergence is a size beyond 2 px (a region's beyond 4), a font, a colour beyond 16 of the
 channels' summed difference, or corners, where they show — or something the design draws and the app does not.
-Open: 104 divergences of 24 kinds. Decisions (docs/PRODUCT.md, section 4) keep the others.
+Open: 0 divergences of 0 kinds. Decisions (docs/PRODUCT.md, section 4) keep the others.
 
 | State | Theme | Language | Regions | Controls | Open | Kept by a decision |
 |---|---|---|---|---|---|---|
 | default | dark | en | 15 | 117 | 0 | 9 |
 | selection | dark | en | 16 | 117 | 0 | 9 |
-| breakpoint | dark | en | 15 | 126 | 3 | 13 |
-| menu | dark | en | 16 | 134 | 1 | 16 |
-| context | dark | en | 16 | 133 | 1 | 10 |
-| palette | dark | en | 16 | 119 | 1 | 9 |
-| multi | dark | en | 15 | 116 | 4 | 10 |
-| state | dark | en | 12 | 77 | 1 | 12 |
-| text | dark | en | 15 | 113 | 4 | 13 |
-| interaction | dark | en | 14 | 107 | 9 | 5 |
-| hover | dark | en | 12 | 102 | 1 | 8 |
-| drag | dark | en | 14 | 117 | 1 | 9 |
+| breakpoint | dark | en | 15 | 126 | 0 | 14 |
+| menu | dark | en | 16 | 134 | 0 | 17 |
+| context | dark | en | 16 | 133 | 0 | 11 |
+| palette | dark | en | 16 | 119 | 0 | 10 |
+| multi | dark | en | 15 | 116 | 0 | 14 |
+| state | dark | en | 12 | 77 | 0 | 13 |
+| text | dark | en | 15 | 113 | 0 | 15 |
+| interaction | dark | en | 14 | 107 | 0 | 6 |
+| hover | dark | en | 12 | 102 | 0 | 8 |
+| drag | dark | en | 14 | 117 | 0 | 10 |
 | default | light | en | 15 | 117 | 0 | 9 |
 | selection | light | en | 16 | 117 | 0 | 9 |
-| breakpoint | light | en | 15 | 126 | 3 | 13 |
-| menu | light | en | 16 | 134 | 1 | 16 |
-| context | light | en | 16 | 133 | 1 | 10 |
-| palette | light | en | 16 | 119 | 1 | 9 |
-| multi | light | en | 15 | 116 | 4 | 10 |
-| state | light | en | 12 | 77 | 1 | 12 |
-| text | light | en | 15 | 113 | 4 | 13 |
-| interaction | light | en | 14 | 107 | 9 | 5 |
-| hover | light | en | 12 | 102 | 1 | 8 |
-| drag | light | en | 14 | 117 | 1 | 9 |
+| breakpoint | light | en | 15 | 126 | 0 | 14 |
+| menu | light | en | 16 | 134 | 0 | 17 |
+| context | light | en | 16 | 133 | 0 | 11 |
+| palette | light | en | 16 | 119 | 0 | 10 |
+| multi | light | en | 15 | 116 | 0 | 14 |
+| state | light | en | 12 | 77 | 0 | 13 |
+| text | light | en | 15 | 113 | 0 | 15 |
+| interaction | light | en | 14 | 107 | 0 | 6 |
+| hover | light | en | 12 | 102 | 0 | 8 |
+| drag | light | en | 14 | 117 | 0 | 10 |
 | default | dark | pt-BR | 15 | 117 | 0 | 10 |
 | selection | dark | pt-BR | 16 | 117 | 0 | 10 |
-| breakpoint | dark | pt-BR | 15 | 126 | 3 | 13 |
-| menu | dark | pt-BR | 16 | 134 | 1 | 17 |
-| context | dark | pt-BR | 16 | 133 | 1 | 11 |
-| palette | dark | pt-BR | 16 | 119 | 1 | 10 |
-| multi | dark | pt-BR | 15 | 116 | 4 | 10 |
-| state | dark | pt-BR | 12 | 77 | 1 | 12 |
-| text | dark | pt-BR | 15 | 113 | 4 | 13 |
-| interaction | dark | pt-BR | 14 | 107 | 9 | 5 |
-| hover | dark | pt-BR | 12 | 102 | 1 | 9 |
-| drag | dark | pt-BR | 14 | 117 | 1 | 10 |
+| breakpoint | dark | pt-BR | 15 | 126 | 0 | 14 |
+| menu | dark | pt-BR | 16 | 134 | 0 | 18 |
+| context | dark | pt-BR | 16 | 133 | 0 | 12 |
+| palette | dark | pt-BR | 16 | 119 | 0 | 11 |
+| multi | dark | pt-BR | 15 | 116 | 0 | 14 |
+| state | dark | pt-BR | 12 | 77 | 0 | 13 |
+| text | dark | pt-BR | 15 | 113 | 0 | 15 |
+| interaction | dark | pt-BR | 14 | 107 | 0 | 6 |
+| hover | dark | pt-BR | 12 | 102 | 0 | 9 |
+| drag | dark | pt-BR | 14 | 117 | 0 | 11 |
 | default | light | pt-BR | 15 | 117 | 0 | 10 |
 | selection | light | pt-BR | 16 | 117 | 0 | 10 |
-| breakpoint | light | pt-BR | 15 | 126 | 3 | 13 |
-| menu | light | pt-BR | 16 | 134 | 1 | 17 |
-| context | light | pt-BR | 16 | 133 | 1 | 11 |
-| palette | light | pt-BR | 16 | 119 | 1 | 10 |
-| multi | light | pt-BR | 15 | 116 | 4 | 10 |
-| state | light | pt-BR | 12 | 77 | 1 | 12 |
-| text | light | pt-BR | 15 | 113 | 4 | 13 |
-| interaction | light | pt-BR | 14 | 107 | 9 | 5 |
-| hover | light | pt-BR | 12 | 102 | 1 | 9 |
-| drag | light | pt-BR | 14 | 117 | 1 | 10 |
+| breakpoint | light | pt-BR | 15 | 126 | 0 | 14 |
+| menu | light | pt-BR | 16 | 134 | 0 | 18 |
+| context | light | pt-BR | 16 | 133 | 0 | 12 |
+| palette | light | pt-BR | 16 | 119 | 0 | 11 |
+| multi | light | pt-BR | 15 | 116 | 0 | 14 |
+| state | light | pt-BR | 12 | 77 | 0 | 13 |
+| text | light | pt-BR | 15 | 113 | 0 | 15 |
+| interaction | light | pt-BR | 14 | 107 | 0 | 6 |
+| hover | light | pt-BR | 12 | 102 | 0 | 9 |
+| drag | light | pt-BR | 14 | 117 | 0 | 11 |
 
 ## Open divergences
 
 | What | Pairs | Design | App | First pairs |
 |---|---|---|---|---|
-| region `inspector-selector-bar` height | 12 | 151 | 187 | breakpoint/dark/en, state/dark/en, text/dark/en |
-| control `animation.addKeyframe#timeline-add-keyframe` height | 4 | 24 | 28 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.create#timeline-new-animation` colour | 4 | rgb(135, 145, 160) | rgb(168, 176, 189) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.rename#timeline-animation-name-field` height | 4 | 18 | 24 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `interactions.remove#inspector-interaction-remove` font | 4 | 12px 600 | 12px 400 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `interactions.update#layers-row-pick-target` background | 4 | rgb(58, 26, 52) | rgb(107, 107, 107) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `palette.setDensity#elements-density-two-columns` colour | 4 | rgb(79, 224, 204) | rgb(217, 222, 230) | hover/dark/en, hover/light/en, hover/dark/pt-BR |
-| control `selection.select#layers-row` background | 4 | rgba(0, 0, 0, 0) | color(srgb 0.894118 0.435294 0.815686 / 0.12) | drag/dark/en, drag/light/en, drag/dark/pt-BR |
-| control `style.set#inspector-display` background | 4 | rgb(18, 58, 54) | rgb(38, 50, 26) | multi/dark/en, multi/light/en, multi/dark/pt-BR |
-| control `style.set#inspector-display` colour | 4 | rgb(79, 224, 204) | rgb(166, 216, 106) | multi/dark/en, multi/light/en, multi/dark/pt-BR |
-| control `style.set#inspector-row-gap` background | 4 | rgb(18, 58, 54) | rgb(38, 50, 26) | multi/dark/en, multi/light/en, multi/dark/pt-BR |
-| control `style.set#inspector-row-gap` colour | 4 | rgb(79, 224, 204) | rgb(166, 216, 106) | multi/dark/en, multi/light/en, multi/dark/pt-BR |
-| control `text.editLink#toolbar-text-toolbar-link` colour | 4 | rgb(217, 222, 230) | rgb(168, 176, 189) | text/dark/en, text/light/en, text/dark/pt-BR |
-| control `text.toggleBold#toolbar-text-toolbar-bold` background | 4 | rgb(18, 58, 54) | rgba(0, 0, 0, 0) | text/dark/en, text/light/en, text/dark/pt-BR |
-| control `timeline.setPlayhead#timeline-ruler-click` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `timeline.toggleLoop#timeline-loop` background | 4 | rgb(18, 58, 54) | rgba(0, 0, 0, 0) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `timeline.toggleLoop#timeline-loop` colour | 4 | rgb(44, 196, 176) | rgb(168, 176, 189) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| region `command-palette` height | 4 | 254 | 249 | palette/dark/en, palette/light/en, palette/dark/pt-BR |
-| region `context-menu` width | 4 | 268 | 243.5 | context/dark/en, context/light/en, context/dark/pt-BR |
-| region `dock-timeline` height | 4 | 212 | 358 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| region `menu:arrange` width | 4 | 320 | 253.1 | menu/dark/en, menu/light/en, menu/dark/pt-BR |
-| region `quick-panel` background | 4 | rgba(0, 0, 0, 0) | rgb(29, 33, 40) | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| region `quick-panel` radius | 4 | 0px | 6px | breakpoint/dark/en, breakpoint/light/en, breakpoint/dark/pt-BR |
-| region `text-toolbar` colour | 4 | rgb(43, 29, 20) | rgb(217, 222, 230) | text/dark/en, text/light/en, text/dark/pt-BR |
 
 ## Kept by a decision
 
 - **DEC-03** (Fit leaves 8 px around the page, where the canonical shows 24): region `canvas-frame` height; region `canvas-frame` width
 - **DEC-21** (Page tabs carry no ×; code file tabs do): nothing diverges by it in this run
-- **DEC-41** (the app offers more than the mock shows (every property in All, more menu items, the reverse directions, more quick-panel fields, Layers under every view): its heights, and the controls it pushes out of the window): control `style.set#inspector-background-color` drawn; control `style.set#inspector-color` drawn; control `style.set#inspector-flex-direction` width; control `style.set#inspector-font-family` drawn; control `style.set#inspector-font-size` drawn; control `style.set#inspector-font-weight` drawn; control `style.set#inspector-letter-spacing` drawn; control `style.set#inspector-line-height` drawn; control `style.set#inspector-opacity` drawn; control `style.set#inspector-overflow` drawn; control `style.set#inspector-text-align` drawn; control `style.set#inspector-text-transform` drawn; control `style.set#inspector-transition` drawn; control `style.set#inspector-translate-y` drawn; control `style.setBackgroundImage#inspector-background-image-gradient-add` drawn; control `style.setBorder#inspector-border-border-editor` drawn; control `style.setRadius#inspector-border-radius-radius-editor` drawn; control `style.setShadows#inspector-box-shadow-shadow-add` drawn; region `context-menu` height; region `explorer-layers` height; region `insert` height; region `inspector-interactions` height; region `inspector-style` height; region `layers-row` height; region `menu:arrange` height; region `quick-panel` height; region `styles` height
+- **DEC-41** (the app offers more than the mock shows (every property in All, more menu items, the reverse directions, more quick-panel fields, Layers under every view, the class moves under the affects line): its heights, and the controls it pushes out of the window): control `style.set#inspector-background-color` drawn; control `style.set#inspector-color` drawn; control `style.set#inspector-flex-direction` width; control `style.set#inspector-font-family` drawn; control `style.set#inspector-font-size` drawn; control `style.set#inspector-font-weight` drawn; control `style.set#inspector-letter-spacing` drawn; control `style.set#inspector-line-height` drawn; control `style.set#inspector-opacity` drawn; control `style.set#inspector-overflow` drawn; control `style.set#inspector-text-align` drawn; control `style.set#inspector-text-transform` drawn; control `style.set#inspector-transition` drawn; control `style.set#inspector-translate-y` drawn; control `style.setBackgroundImage#inspector-background-image-gradient-add` drawn; control `style.setBorder#inspector-border-border-editor` drawn; control `style.setRadius#inspector-border-radius-radius-editor` drawn; control `style.setShadows#inspector-box-shadow-shadow-add` drawn; region `context-menu` height; region `explorer-layers` height; region `insert` height; region `inspector-interactions` height; region `inspector-selector-bar` height; region `inspector-style` height; region `layers-row` height; region `menu:arrange` height; region `quick-panel` height; region `styles` height
 - **DEC-42** (Align acts on positioned elements only): control `position.align#menu-arrange-bottom` colour; control `position.align#menu-arrange-horizontal-center` colour; control `position.align#menu-arrange-left` colour; control `position.align#menu-arrange-right` colour; control `position.align#menu-arrange-top` colour; control `position.align#menu-arrange-vertical-center` colour
+- **DEC-44** (the app's reading of a state the mock draws otherwise (provenance in a multiple selection, menu widths and the palette's height from their own items, Bold only on a bold selection, the drop container's tint, the picked row)): control `interactions.update#layers-row-pick-target` background; control `selection.select#layers-row` background; control `style.set#inspector-display` background; control `style.set#inspector-display` colour; control `style.set#inspector-row-gap` background; control `style.set#inspector-row-gap` colour; control `text.toggleBold#toolbar-text-toolbar-bold` background; region `command-palette` height; region `context-menu` width; region `menu:arrange` width
 
 ## Faces measured in the app
 
@@ -106,7 +83,10 @@ Where the app marks a door on a part of what a person sees, the thing itself is 
 - `files.createFile#explorer-new-file` (the app): its closest `.file-maker` — the app's door is the path field, invisible until the icon box it sits in is pressed; the box is what a person sees
 - `files.createFolder#explorer-new-folder` (the app): its closest `.file-maker` — the same for the new folder
 - `style.setAlignment#inspector-alignment-matrix` (the app): the `.matrix` inside it — the app marks the matrix's row (its label and the matrix) and each cell; the design marks the matrix
-- `quick-panel` (the design): the `.qp-chip` inside it — closed, the design marks the chip's positioning box around the chip; the app marks the chip itself
+- `quick-panel` (the design): the `.qp-chip, .qp-panel` inside it — the design marks the chip's positioning box around the chip, or the open panel's box around the panel; the app marks the chip or the panel itself
 - `style.set#inspector-flex-direction` (the app): its closest `.segmented` — the app marks each direction's button; the design marks the group of them
+- `dock-timeline` (the app): its closest `.dock-body` — the app marks the timeline inside the dock's body, taller than it and scrolled there; the design marks the body
+- `interactions.update#layers-row-pick-target` (the app): its closest `.row` — the app marks each row's Pick button; the design marks the row
 - `workspace.setActiveTab#tab-strip-tab`: drawn by the app as `workspace.setPanelOpen#dock-strip-timeline`, `workspace.setPanelOpen#dock-strip-checks` — the closed dock's tabs open the dock at their panel (DEC-02: the canonical strip, Motion beside them), where the design marks them as the tab strip's
 - `components.create#context-menu`: drawn by the app as `components.startCreate#context-menu` — the app's context menu asks the component's name first (components.startCreate opens the prompt, the audit's A3.12), where the design's item creates it at once
+- `timeline.setPlayhead#timeline-ruler-click`: drawn by the app as `.timeline__ruler` — the app's ruler is the pointer's (a press on it sets the playhead), not a door's mark

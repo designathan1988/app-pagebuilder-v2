@@ -189,20 +189,6 @@
         },
         {
           "kind": "region",
-          "id": "quick-panel",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(29, 33, 40)"
-        },
-        {
-          "kind": "region",
-          "id": "quick-panel",
-          "property": "radius",
-          "canon": "0px",
-          "app": "6px"
-        },
-        {
-          "kind": "region",
           "id": "inspector-selector-bar",
           "property": "height",
           "canon": "151",
@@ -313,7 +299,7 @@
           "id": "menu:arrange",
           "property": "width",
           "canon": "320",
-          "app": "253.1"
+          "app": "269.1"
         },
         {
           "kind": "control",
@@ -441,7 +427,7 @@
           "id": "context-menu",
           "property": "width",
           "canon": "268",
-          "app": "243.5"
+          "app": "259.5"
         },
         {
           "kind": "control",
@@ -803,13 +789,6 @@
         },
         {
           "kind": "region",
-          "id": "text-toolbar",
-          "property": "colour",
-          "canon": "rgb(43, 29, 20)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "region",
           "id": "inspector-selector-bar",
           "property": "height",
           "canon": "123",
@@ -828,13 +807,6 @@
           "property": "background",
           "canon": "rgb(18, 58, 54)",
           "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "text.editLink#toolbar-text-toolbar-link 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
         },
         {
           "kind": "control",
@@ -931,13 +903,6 @@
         },
         {
           "kind": "region",
-          "id": "dock-timeline",
-          "property": "height",
-          "canon": "212",
-          "app": "358"
-        },
-        {
-          "kind": "region",
           "id": "inspector-interactions",
           "property": "height",
           "canon": "800",
@@ -948,56 +913,7 @@
           "id": "interactions.update#layers-row-pick-target 1",
           "property": "background",
           "canon": "rgb(58, 26, 52)",
-          "app": "rgb(107, 107, 107)"
-        },
-        {
-          "kind": "control",
-          "id": "animation.create#timeline-new-animation 1",
-          "property": "colour",
-          "canon": "rgb(135, 145, 160)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "animation.rename#timeline-animation-name-field 1",
-          "property": "height",
-          "canon": "18",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "timeline.toggleLoop#timeline-loop 1",
-          "property": "colour",
-          "canon": "rgb(44, 196, 176)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "timeline.toggleLoop#timeline-loop 1",
-          "property": "background",
-          "canon": "rgb(18, 58, 54)",
           "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "timeline.setPlayhead#timeline-ruler-click 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "animation.addKeyframe#timeline-add-keyframe 1",
-          "property": "height",
-          "canon": "24",
-          "app": "28"
-        },
-        {
-          "kind": "control",
-          "id": "interactions.remove#inspector-interaction-remove 1",
-          "property": "font",
-          "canon": "12px 600",
-          "app": "12px 400"
         }
       ]
     },
@@ -1028,13 +944,6 @@
           "property": "width",
           "canon": "748.8",
           "app": "852"
-        },
-        {
-          "kind": "control",
-          "id": "palette.setDensity#elements-density-two-columns 1",
-          "property": "colour",
-          "canon": "rgb(79, 224, 204)",
-          "app": "rgb(217, 222, 230)"
         },
         {
           "kind": "control",
@@ -1340,20 +1249,6 @@
         },
         {
           "kind": "region",
-          "id": "quick-panel",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(255, 255, 255)"
-        },
-        {
-          "kind": "region",
-          "id": "quick-panel",
-          "property": "radius",
-          "canon": "0px",
-          "app": "6px"
-        },
-        {
-          "kind": "region",
           "id": "inspector-selector-bar",
           "property": "height",
           "canon": "151",
@@ -1464,7 +1359,7 @@
           "id": "menu:arrange",
           "property": "width",
           "canon": "320",
-          "app": "253.1"
+          "app": "269.1"
         },
         {
           "kind": "control",
@@ -1592,7 +1487,7 @@
           "id": "context-menu",
           "property": "width",
           "canon": "268",
-          "app": "243.5"
+          "app": "259.5"
         },
         {
           "kind": "control",
@@ -1954,13 +1849,6 @@
         },
         {
           "kind": "region",
-          "id": "text-toolbar",
-          "property": "colour",
-          "canon": "rgb(43, 29, 20)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "region",
           "id": "inspector-selector-bar",
           "property": "height",
           "canon": "123",
@@ -1979,13 +1867,6 @@
           "property": "background",
           "canon": "rgb(227, 244, 240)",
           "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "text.editLink#toolbar-text-toolbar-link 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
         },
         {
           "kind": "control",
@@ -2082,13 +1963,6 @@
         },
         {
           "kind": "region",
-          "id": "dock-timeline",
-          "property": "height",
-          "canon": "212",
-          "app": "358"
-        },
-        {
-          "kind": "region",
           "id": "inspector-interactions",
           "property": "height",
           "canon": "800",
@@ -2099,56 +1973,7 @@
           "id": "interactions.update#layers-row-pick-target 1",
           "property": "background",
           "canon": "rgb(249, 231, 243)",
-          "app": "rgb(240, 240, 240)"
-        },
-        {
-          "kind": "control",
-          "id": "animation.create#timeline-new-animation 1",
-          "property": "colour",
-          "canon": "rgb(91, 99, 110)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "animation.rename#timeline-animation-name-field 1",
-          "property": "height",
-          "canon": "18",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "timeline.toggleLoop#timeline-loop 1",
-          "property": "colour",
-          "canon": "rgb(11, 127, 114)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "timeline.toggleLoop#timeline-loop 1",
-          "property": "background",
-          "canon": "rgb(227, 244, 240)",
           "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "timeline.setPlayhead#timeline-ruler-click 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "animation.addKeyframe#timeline-add-keyframe 1",
-          "property": "height",
-          "canon": "24",
-          "app": "28"
-        },
-        {
-          "kind": "control",
-          "id": "interactions.remove#inspector-interaction-remove 1",
-          "property": "font",
-          "canon": "12px 600",
-          "app": "12px 400"
         }
       ]
     },
@@ -2179,13 +2004,6 @@
           "property": "width",
           "canon": "748.8",
           "app": "852"
-        },
-        {
-          "kind": "control",
-          "id": "palette.setDensity#elements-density-two-columns 1",
-          "property": "colour",
-          "canon": "rgb(11, 122, 109)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",
@@ -2505,20 +2323,6 @@
         },
         {
           "kind": "region",
-          "id": "quick-panel",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(29, 33, 40)"
-        },
-        {
-          "kind": "region",
-          "id": "quick-panel",
-          "property": "radius",
-          "canon": "0px",
-          "app": "6px"
-        },
-        {
-          "kind": "region",
           "id": "inspector-selector-bar",
           "property": "height",
           "canon": "151",
@@ -2629,7 +2433,7 @@
           "id": "menu:arrange",
           "property": "width",
           "canon": "320",
-          "app": "270.4"
+          "app": "286.4"
         },
         {
           "kind": "control",
@@ -2764,7 +2568,7 @@
           "id": "context-menu",
           "property": "width",
           "canon": "268",
-          "app": "247.9"
+          "app": "263.9"
         },
         {
           "kind": "control",
@@ -3140,13 +2944,6 @@
         },
         {
           "kind": "region",
-          "id": "text-toolbar",
-          "property": "colour",
-          "canon": "rgb(43, 29, 20)",
-          "app": "rgb(217, 222, 230)"
-        },
-        {
-          "kind": "region",
           "id": "inspector-selector-bar",
           "property": "height",
           "canon": "123",
@@ -3165,13 +2962,6 @@
           "property": "background",
           "canon": "rgb(18, 58, 54)",
           "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "text.editLink#toolbar-text-toolbar-link 1",
-          "property": "colour",
-          "canon": "rgb(217, 222, 230)",
-          "app": "rgb(168, 176, 189)"
         },
         {
           "kind": "control",
@@ -3268,13 +3058,6 @@
         },
         {
           "kind": "region",
-          "id": "dock-timeline",
-          "property": "height",
-          "canon": "212",
-          "app": "374"
-        },
-        {
-          "kind": "region",
           "id": "inspector-interactions",
           "property": "height",
           "canon": "800",
@@ -3285,56 +3068,7 @@
           "id": "interactions.update#layers-row-pick-target 1",
           "property": "background",
           "canon": "rgb(58, 26, 52)",
-          "app": "rgb(107, 107, 107)"
-        },
-        {
-          "kind": "control",
-          "id": "animation.create#timeline-new-animation 1",
-          "property": "colour",
-          "canon": "rgb(135, 145, 160)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "animation.rename#timeline-animation-name-field 1",
-          "property": "height",
-          "canon": "18",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "timeline.toggleLoop#timeline-loop 1",
-          "property": "colour",
-          "canon": "rgb(44, 196, 176)",
-          "app": "rgb(168, 176, 189)"
-        },
-        {
-          "kind": "control",
-          "id": "timeline.toggleLoop#timeline-loop 1",
-          "property": "background",
-          "canon": "rgb(18, 58, 54)",
           "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "timeline.setPlayhead#timeline-ruler-click 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "animation.addKeyframe#timeline-add-keyframe 1",
-          "property": "height",
-          "canon": "24",
-          "app": "28"
-        },
-        {
-          "kind": "control",
-          "id": "interactions.remove#inspector-interaction-remove 1",
-          "property": "font",
-          "canon": "12px 600",
-          "app": "12px 400"
         }
       ]
     },
@@ -3365,13 +3099,6 @@
           "property": "width",
           "canon": "748.8",
           "app": "852"
-        },
-        {
-          "kind": "control",
-          "id": "palette.setDensity#elements-density-two-columns 1",
-          "property": "colour",
-          "canon": "rgb(79, 224, 204)",
-          "app": "rgb(217, 222, 230)"
         },
         {
           "kind": "control",
@@ -3705,20 +3432,6 @@
         },
         {
           "kind": "region",
-          "id": "quick-panel",
-          "property": "background",
-          "canon": "rgba(0, 0, 0, 0)",
-          "app": "rgb(255, 255, 255)"
-        },
-        {
-          "kind": "region",
-          "id": "quick-panel",
-          "property": "radius",
-          "canon": "0px",
-          "app": "6px"
-        },
-        {
-          "kind": "region",
           "id": "inspector-selector-bar",
           "property": "height",
           "canon": "151",
@@ -3829,7 +3542,7 @@
           "id": "menu:arrange",
           "property": "width",
           "canon": "320",
-          "app": "270.4"
+          "app": "286.4"
         },
         {
           "kind": "control",
@@ -3964,7 +3677,7 @@
           "id": "context-menu",
           "property": "width",
           "canon": "268",
-          "app": "247.9"
+          "app": "263.9"
         },
         {
           "kind": "control",
@@ -4340,13 +4053,6 @@
         },
         {
           "kind": "region",
-          "id": "text-toolbar",
-          "property": "colour",
-          "canon": "rgb(43, 29, 20)",
-          "app": "rgb(21, 24, 29)"
-        },
-        {
-          "kind": "region",
           "id": "inspector-selector-bar",
           "property": "height",
           "canon": "123",
@@ -4365,13 +4071,6 @@
           "property": "background",
           "canon": "rgb(227, 244, 240)",
           "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "text.editLink#toolbar-text-toolbar-link 1",
-          "property": "colour",
-          "canon": "rgb(21, 24, 29)",
-          "app": "rgb(71, 78, 89)"
         },
         {
           "kind": "control",
@@ -4468,13 +4167,6 @@
         },
         {
           "kind": "region",
-          "id": "dock-timeline",
-          "property": "height",
-          "canon": "212",
-          "app": "374"
-        },
-        {
-          "kind": "region",
           "id": "inspector-interactions",
           "property": "height",
           "canon": "800",
@@ -4485,56 +4177,7 @@
           "id": "interactions.update#layers-row-pick-target 1",
           "property": "background",
           "canon": "rgb(249, 231, 243)",
-          "app": "rgb(240, 240, 240)"
-        },
-        {
-          "kind": "control",
-          "id": "animation.create#timeline-new-animation 1",
-          "property": "colour",
-          "canon": "rgb(91, 99, 110)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "animation.rename#timeline-animation-name-field 1",
-          "property": "height",
-          "canon": "18",
-          "app": "24"
-        },
-        {
-          "kind": "control",
-          "id": "timeline.toggleLoop#timeline-loop 1",
-          "property": "colour",
-          "canon": "rgb(11, 127, 114)",
-          "app": "rgb(71, 78, 89)"
-        },
-        {
-          "kind": "control",
-          "id": "timeline.toggleLoop#timeline-loop 1",
-          "property": "background",
-          "canon": "rgb(227, 244, 240)",
           "app": "rgba(0, 0, 0, 0)"
-        },
-        {
-          "kind": "control",
-          "id": "timeline.setPlayhead#timeline-ruler-click 1",
-          "property": "drawn",
-          "canon": "yes",
-          "app": "no"
-        },
-        {
-          "kind": "control",
-          "id": "animation.addKeyframe#timeline-add-keyframe 1",
-          "property": "height",
-          "canon": "24",
-          "app": "28"
-        },
-        {
-          "kind": "control",
-          "id": "interactions.remove#inspector-interaction-remove 1",
-          "property": "font",
-          "canon": "12px 600",
-          "app": "12px 400"
         }
       ]
     },
@@ -4565,13 +4208,6 @@
           "property": "width",
           "canon": "748.8",
           "app": "852"
-        },
-        {
-          "kind": "control",
-          "id": "palette.setDensity#elements-density-two-columns 1",
-          "property": "colour",
-          "canon": "rgb(11, 122, 109)",
-          "app": "rgb(21, 24, 29)"
         },
         {
           "kind": "control",

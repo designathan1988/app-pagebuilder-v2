@@ -1592,3 +1592,8 @@
 .concept-row__details .field-row[data-stacked] > :not(.field-row__label, .field__end) {
   margin-left: var(--space-6);
 }
+
+/* the density shown in the Here ink (the canonical Insert's chosen density) */
+.insert .segmented--icons .door.is-current {
+  color: var(--color-origin-here);
+}

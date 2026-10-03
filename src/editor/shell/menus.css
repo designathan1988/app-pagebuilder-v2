@@ -90,9 +90,13 @@
   color: var(--color-text-subtle);
 }
 
+/* the item's keys stand apart at its end, in the caption size and the subtle ink (the canonical .mi .sc) */
 .menu__chord {
+  padding-left: var(--space-8);
   border: 0;
   background: none;
+  color: var(--color-text-subtle);
+  font-size: var(--fs-caption);
 }
 
 .menu__sub {
