@@ -158,7 +158,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-6.1 | Identical rule bodies merged, stable between exports | done | QA 51; merged only inside one breakpoint block, the same text every time QA 150 |
 | STG-6.2 | Shorthand writer (padding, margin, border, inset, gap, radius, font) | done | QA 51 |
 | STG-6.3 | No `padding: 0px` on every div; plain divs get no class | done | QA 51 |
-| STG-6.4 | Class names by role in the project's code language, unnumbered across pages, batch rename | partial | QA 51, 82; AUD-14 |
+| STG-6.4 | Class names by role in the project's code language, unnumbered across pages, batch rename | done | QA 51, 82, 163 |
 | STG-6.5 | `<html lang>`, `<button type>`; Checks rules with automatic fixes | partial | QA 51; the auto-fix removed (AUD-16, DEC-31) |
 | STG-6.6 | Fidelity remeasured: ≥ 85 % desktop, ≥ 80 % at 834 and 390 | partial | after QA 150: 86.2 / 81.0 / 75.0 % common (80.6 / 77.1 / 72.2 adjusted), the study's values again; 390 below target: the M2/M3 rebuild is redone in phase G2 |
 | STG-7.1 | Variables in every field and the colour picker; make a variable from a value | done | QA 72, 76, 111 |
@@ -244,7 +244,7 @@ The problems of the usability study (`jornada03/REPORT.md` section 3), re-checke
 | J11 | Insert search accents, synonyms, order | done | QA 86; M1 |
 | J12 | Keyboard cannot reach canvas or Layers; Ctrl+K pages/layers | done | QA 88, 95, 103, 104, 162 |
 | J13 | Upload refuses CSV/JSON; no mapping | done | QA 66; C4 |
-| J14 | Export CSS ~5× hand-written | partial | QA 51 (1.95×); the cascade QA 150; AUD-14 |
+| J14 | Export CSS ~5× hand-written | done | QA 51 (1.95×); the cascade QA 150; the names QA 163 |
 | J15 | Font list: half-typed commit, clipped, uploaded fonts missing | done | QA 42, 73, 161 |
 | J16 | Labels and chips over content | done | QA 101 |
 | J17 | Shift+click range; list jumps | done | QA 84 |
@@ -341,7 +341,7 @@ The wishes the study recorded (the plan lists them as 32; its list names 31):
 | WISH-16 | Import as a page or a folder | done | J3 |
 | WISH-17 | F6 and arrows | done | QA 162 |
 | WISH-18 | Ctrl+K pages and layers | done | QA 88 |
-| WISH-19 | Readable class names | partial | AUD-14 |
+| WISH-19 | Readable class names | done | QA 163 |
 | WISH-20 | CSS shorthand | done | STG-6.2 |
 | WISH-21 | Templates and sections with thumbnails | out | stage 15 |
 | WISH-22 | Search with synonyms | done | J11 |
@@ -383,7 +383,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-11 | 2 | `js/motion.js`, `js/lottie.min.js` not protected generated paths | audit; QA 124 | done (QA 160) |
 | AUD-12 | 2 | The uploaded font only behind "More values" | audit; J15 | done (QA 161) |
 | AUD-13 | 2 | F6 never focuses the canvas page | audit; J12 | done (QA 162) |
-| AUD-14 | 2 | Export class names partly Portuguese and numbered | audit; J14 | open |
+| AUD-14 | 2 | Export class names partly Portuguese and numbered | audit; J14 | done (QA 163) |
 | AUD-15 | 2 | Capture: 98 % corpus never measured, login capture absent, MDN logo missing | audit; QA 117, 119 | open |
 | AUD-16 | 2 | Plan items dropped without a user decision (steppers, auto-fix) | audit | open |
 | AUD-17 | 2 | `hover-measure` not available in the contract while its code runs | audit | open |
@@ -472,6 +472,7 @@ Stages 13, 15, 16 and 17 stay out (DEC-08, kept by the user on 2026-10-02).
 | DEC-36 | This document structure: one product document, generated feature states, superseded documents archived | the audit, 2026-10-02 | supersedes PROJECT.md, STATUS.md, PAIRING-2.md as sources | section 0 table |
 | DEC-37 | The assistant's default model is `claude-opus-5-5`, the person's own key, kept encrypted locally | stage 14 | — | QA 50 |
 | DEC-38 | A style state the selection does not take goes back to Base, and the status bar says so; choosing one is refused | the user, 2026-10-02 (plan question) | — | QA 151; `spec/BEHAVIOUR.md#state-styles` |
+| DEC-39 | A second look of an exported class name takes a BEM modifier that says how it looks beside the first (dark, large, raised…, from its declarations at the base breakpoint), standing alone with every declaration, never a number until every word is taken | plan phase E3, 2026-10-03 (BEM modifiers describe appearance; Webflow's combo classes) | supersedes the numeric suffix of export-bem-css 1 | QA 163; `spec/BEHAVIOUR.md#export-bem-css` |
 
 ## 5. Architecture
 

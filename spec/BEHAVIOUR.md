@@ -2264,12 +2264,12 @@ Exporting records nothing.
 ### Problems in Pager
 
 1. **Hashed, shared classes** (`s-3f9a…`) make the CSS unreadable and change when an unrelated node changes. Required:
-   an element with styles of its own gets a class derived from its layer name in BEM form: an element outside any
-   styled element is a block (Hero → `hero`); a styled element inside a block is an element of it, named after the
-   outermost styled ancestor below the page (Title inside Hero → `hero__title`, "Call to action" →
+   an element with styles of its own gets a class in BEM form: an element outside any styled element is a block (Hero →
+   `hero`); a styled element inside a block is an element of it, named after the outermost styled ancestor below the
+   page, its role and never its modifier (Title inside Hero → `hero__title`, "Call to action" →
    `hero__call-to-action`); an element with an author class and styles of its own is a modifier of its first class
-   (`card` named "Plano assinatura" → `card--plano-assinatura`). A name used twice gets a numeric suffix
-   (`hero__title-2`); the author's classes are kept beside it (manifest feature `export-bem-css`).
+   (`card` named "Plano assinatura" → `card--plano-assinatura`); the author's classes are kept beside it (manifest
+   feature `export-bem-css`).
 2. **Unstyled nodes carry classes and rules.** Required: `css/styles.css` holds one rule per styled element and none
    for the others; no selector uses an id or a data attribute; the product name appears in no class and no rule.
 3. **The same page exports to different files.** Required: two exports of the same document are byte-identical: the
@@ -2282,6 +2282,20 @@ Exporting records nothing.
    first, each holding every element's rules for that breakpoint, as Webflow's export does; identical bodies merge only
    inside one block; a media query the breakpoints do not name is refused, never placed by guess. At every breakpoint
    the exported page has the canvas's computed styles (`tests/e2e/export-cascade.spec.ts`).
+5. **Class names in the person's words and numbered** (the audit's AUD-14, 2026-10-02, Marina's export:
+   `barra-de-navegacao`, `hero__coluna`, `section__sanfona` beside `hero` and `title`; `section-2`,
+   `section__card-3`, `section__title-2`). Required (DEC-07, STG-6.4): a class says the element's role in the
+   project's code language (`src/core/export/names.ts`): a name the vocabulary knows takes its role (Título → `title`);
+   a name the editor gave, in whatever interface language, takes the editor's own name for it in the code language
+   (Sanfona → `accordion`, Barra de navegação → `navigation-bar`, Coluna → `column`); a name the person typed is kept
+   when the project's language is the code language (Pricing Pro → `pricing-pro`); anything else says what the element
+   is (a div by its layout: `grid`, `row`, `column`, `container`; another element by its type). The same role with
+   the same styles is one class across the pages; a second look of a name takes a BEM modifier that says how it looks
+   beside the first one, read from its declarations at the base breakpoint (another heading level `title--h3`; a
+   background `--dark`, `--light` or `--accent`; a background image; a text colour; a larger or smaller font size or
+   weight; a shadow `--raised`; a border `--outlined`; more or less padding `--spacious`/`--compact`; a wider or
+   narrower width; another layout), never a number; `--alt` when none of these differs, and a number only once every
+   word is taken (`--alt-2`). The words are in the code language (roles.json).
 
 ## export-zip
 

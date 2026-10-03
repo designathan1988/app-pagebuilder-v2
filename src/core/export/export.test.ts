@@ -37,14 +37,16 @@ const DOC = page([
 ]);
 
 describe('the export (specs export-zip, export-bem-css)', () => {
-  it('names styled elements in BEM form: blocks, elements of their block, modifiers of an author class, suffixes on collisions', () => {
+  it('names styled elements in BEM form: blocks, elements of their block, modifiers of an author class, a modifier on a collision', () => {
     const { html, css } = exportPage(DOC, 0, RULES);
     expect(html).toContain('<section class="hero">');
     expect(html).toContain('<h1 class="hero__title">A &amp; B</h1>');
     expect(html).toContain('<p class="hero__call-to-action">Go</p>');
     expect(html).toContain('<p>x</p>');
     expect(html).toContain('<article class="card card--plano-assinatura"></article>');
-    expect(html).toContain('<div class="hero-2"></div>');
+    // a second look of a name takes a modifier that says how it looks, never a number (spec export-bem-css 5, the
+    // audit's AUD-14): this Hero has none of the first one's 56 px of padding
+    expect(html).toContain('<div class="hero--compact"></div>');
     expect(css).toContain('.hero__title {\n  font-size: 32px;\n}');
     expect(css).not.toMatch(/#|\[data-/);
   });
@@ -178,5 +180,72 @@ describe('the site stylesheet in cascade order (AUD-02)', () => {
     expect(queries).toEqual([...queries].sort((a, b) => b - a));
     expect(new Set(queries).size).toBe(queries.length);
     expect(siteFiles(document, RULES).css).toBe(css);
+  });
+});
+
+// The audit's AUD-14 (Marina's export: barra-de-navegacao, hero__coluna, section__sanfona; section-2, section__card-3,
+// section__title-2): a project in Portuguese exported with English class names, its names as the editor gives them in
+// Portuguese and as the person typed them, and second looks of a name.
+describe('class names say the role in the code language, and a second look a modifier (spec export-bem-css 5)', () => {
+  const card = (id: string, styles: Record<string, string>) => node(id, 'Cartão', 'article', 'article', { styles: styled(styles) });
+  const heading = (id: string, tag: string) => node(id, 'Título', 'heading', tag, { text: 'T', styles: styled({ 'font-size': tag === 'h2' ? '32px' : '24px' }) });
+  const marina: DocumentJson = {
+    version: 1,
+    language: 'pt-BR',
+    codeLanguage: 'en',
+    pages: [
+      {
+        id: 'p',
+        name: 'Início',
+        file: 'index.html',
+        tree: node('root', 'Página', 'page', 'body', {
+          children: [
+            node('bar', 'Barra de navegação', 'header', 'header', { styles: styled({ display: 'flex' }) }),
+            node('plans', 'Planos', 'section', 'section', {
+              styles: styled({ 'padding-top': '80px' }),
+              children: [
+                heading('h-a', 'h2'),
+                heading('h-b', 'h3'),
+                node('cols', 'Coluna', 'div', 'div', { styles: styled({ display: 'flex', 'flex-direction': 'column' }) }),
+                node('acts', 'Ações', 'div', 'div', { styles: styled({ display: 'flex' }) }),
+                node('grid', 'Grade', 'div', 'div', { styles: styled({ display: 'grid' }) }),
+                node('faq', 'Sanfona', 'details', 'details', { styles: styled({ 'padding-top': '8px' }) }),
+                node('mine', 'Bloco da Marina', 'div', 'div', { styles: styled({ display: 'grid', gap: '8px' }) }),
+                card('c-1', { 'padding-top': '24px' }),
+                card('c-2', { 'padding-top': '24px', 'box-shadow': '0 2px 8px #0003' }),
+                card('c-3', { 'padding-top': '24px', 'background-color': '#14213d' }),
+              ],
+            }),
+            node('quotes', 'Depoimentos', 'section', 'section', { styles: styled({ 'padding-top': '80px', 'background-color': '#14213d' }) }),
+          ],
+        }),
+      },
+    ],
+  } as DocumentJson;
+
+  it('names nothing in Portuguese and numbers nothing', () => {
+    const { html } = exportPage(marina, 0, RULES);
+    const classes = [...html.matchAll(/class="([^"]+)"/g)].flatMap((match) => (match[1] ?? '').split(' '));
+    expect(classes.filter((one) => /barra|coluna|acoes|grade|sanfona|planos|cartao|titulo|depoimentos|marina|bloco/.test(one)), 'no Portuguese').toEqual([]);
+    expect(classes.filter((one) => /-\d/.test(one)), 'no number').toEqual([]);
+  });
+
+  it('takes the editor’s own names in English, a div by its layout, and modifiers for second looks', () => {
+    const { html } = exportPage(marina, 0, RULES);
+    expect(html).toContain('<header class="navbar">');
+    expect(html).toContain('<section class="section">');
+    expect(html).toContain('<h2 class="section__title">');
+    expect(html).toContain('<h3 class="section__title--h3">');
+    expect(html).toContain('<div class="section__column">');
+    expect(html).toContain('<div class="section__actions">');
+    expect(html).toContain('<div class="section__grid">');
+    expect(html).toContain('<details class="section__accordion">');
+    // a div the person named in Portuguese says what it is: a grid, a second look of the first one
+    expect(html).toContain('<div class="section__grid--alt">');
+    expect(html).toContain('<article class="section__card">');
+    expect(html).toContain('<article class="section__card--raised">');
+    expect(html).toContain('<article class="section__card--dark">');
+    // the second section: a dark one
+    expect(html).toContain('<section class="section--dark">');
   });
 });

@@ -6,7 +6,7 @@
     "doors": 1335,
     "scenarios": 1754,
     "modules": 417,
-    "lines": 77194
+    "lines": 77426
   },
   "features": [
     {
@@ -3756,7 +3756,7 @@
     },
     {
       "path": "src/core/export/export.ts",
-      "lines": 463,
+      "lines": 480,
       "commands": [
         "project.export"
       ],
@@ -3782,7 +3782,7 @@
     },
     {
       "path": "src/core/export/names.ts",
-      "lines": 25,
+      "lines": 240,
       "commands": [],
       "features": []
     },

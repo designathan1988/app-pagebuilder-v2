@@ -2606,7 +2606,7 @@
           "refusals": []
         },
         {
-          "id": "a-name-used-twice-gets-a-numeric-suffix",
+          "id": "a-name-used-twice-gets-a-modifier-that-says-how-it-looks",
           "setup": {
             "fixture": "aurora",
             "selection": [
@@ -2707,7 +2707,7 @@
                   "path": "index.html",
                   "present": [
                     "<section class=\"hero\">",
-                    "<h3 class=\"hero-2\">"
+                    "<h3 class=\"hero--h3\">"
                   ],
                   "absent": []
                 },
@@ -2715,7 +2715,7 @@
                   "path": "css/styles.css",
                   "present": [
                     ".hero {",
-                    ".hero-2 {\n  font-size: 20px;\n}"
+                    ".hero--h3 {\n  font-size: 20px;\n}"
                   ],
                   "absent": []
                 }

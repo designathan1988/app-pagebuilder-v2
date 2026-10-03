@@ -21,7 +21,7 @@
 // Exporting changes nothing in the document and records nothing; the status bar names the file.
 import { message, registerHandler } from '../commands/registry.ts';
 import { slug } from '../text/fold.ts';
-import { semanticName, stableClass } from './names.ts';
+import { namingFor, roleWord, variantModifier, type Declarations, type Look, type Naming } from './names.ts';
 import { mergeCssLines } from '../render/clean.ts';
 import { formNodes } from './authoring.ts';
 import { capturedPageStylePath, capturedPageCss, captureAssetPath } from '../import/capture-styles.ts';
@@ -110,14 +110,24 @@ interface SharedClasses {
   // name is unique across the pages and never one of the project's own classes ("card" of a class and "Card" of an
   // element would otherwise share one rule)
   readonly taken: Set<string>;
-  readonly language: string;
   readonly identities: Map<string, string>;
+  // how the names are read (core/export/names.ts: roles in the code language), and the base breakpoint and state whose
+  // declarations say how an element looks
+  readonly naming: Naming;
+  readonly baseLayer: { readonly breakpoint: string; readonly state: string };
+  // the look of the element that first took each generated name: a second look takes a modifier that says how it
+  // differs (none: a class of the person's holds the name)
+  readonly looks: Map<string, Look>;
 }
-const newShared = (document: DocumentJson): SharedClasses => {
+const newShared = (document: DocumentJson, rules: ModelRules): SharedClasses => {
   const taken = new Set<string>((document.classes ?? []).map((one) => one.name));
   for (const page of document.pages) for (const node of walk(page.tree)) for (const own of node.classes) taken.add(own);
-  return { parts: new Map(), reused: new Set(), taken, language: document.codeLanguage ?? 'en', identities: new Map() };
+  const naming = namingFor(document.language, document.codeLanguage ?? 'en', rules);
+  return { parts: new Map(), reused: new Set(), taken, identities: new Map(), naming, baseLayer: rules.baseLayer, looks: new Map() };
 };
+// an element's declarations at the base breakpoint and state
+const baseDeclarations = (node: DocNode, layer: SharedClasses['baseLayer']): Declarations =>
+  (node.styles as Readonly<Record<string, Readonly<Record<string, Declarations>>>>)[layer.breakpoint]?.[layer.state] ?? {};
 
 // The generated class of every styled node of a tree, in document order, unique within it: a block, an element of
 // its block (the outermost styled ancestor below the page), or a modifier of its first author class. An element of an
@@ -127,8 +137,13 @@ const newShared = (document: DocumentJson): SharedClasses => {
 function generatedClasses(tree: DocNode, shared: SharedClasses, addressed: ReadonlySet<NodeId> = new Set()): Map<string, string> {
   const taken = shared.taken;
   const classes = new Map<string, string>();
-  const unique = (base: string, identity: string) => {
-    const name = stableClass(base, identity, '', taken);
+  // the base name for the first look, a modifier of it for every other look (core/export/names.ts variantModifier)
+  const unique = (base: string, look: Look) => {
+    let name = base;
+    if (taken.has(base)) {
+      const joiner = base.includes('--') ? '-' : '--';
+      name = `${base}${joiner}${variantModifier(look, shared.looks.get(base) ?? null, shared.naming.code, (word) => !taken.has(`${base}${joiner}${word}`))}`;
+    } else shared.looks.set(base, look);
     taken.add(name);
     return name;
   };
@@ -147,18 +162,20 @@ function generatedClasses(tree: DocNode, shared: SharedClasses, addressed: Reado
         taken.add(name);
         shared.reused.add(node.id);
       } else {
-        const word = classOf(semanticName(node.name, node.tag ?? node.type.toLowerCase(), shared.language), node.type.toLowerCase());
+        const look: Look = { tag: node.tag, declarations: baseDeclarations(node, shared.baseLayer) };
+        const word = classOf(roleWord({ name: node.name, type: node.type, tag: node.tag, declarations: look.declarations }, shared.naming), node.type.toLowerCase());
         const base = author !== undefined ? `${author}--${word}` : block !== null ? `${block}__${word}` : word;
         const identity = JSON.stringify([base, node.type, node.styles, node.animations ?? [], addressed.has(node.id as NodeId) ? node.id : null]);
         const reused = shared.identities.get(identity);
-        name = reused ?? unique(base, identity);
+        name = reused ?? unique(base, look);
         if (reused !== undefined) shared.reused.add(node.id);
         else shared.identities.set(identity, name);
         if (key !== null && met === undefined) shared.parts.set(key, { name, styles });
       }
       classes.set(node.id, name);
-      // the outermost styled element below the page is the block of every styled element inside it
-      if (block === null && !root && author === undefined) inner = name;
+      // the outermost styled element below the page is the block of every styled element inside it: its role, never
+      // its modifier (BEM: an element of a block, not of a modifier)
+      if (block === null && !root && author === undefined) inner = name.split('--')[0] ?? name;
     }
     node.children.forEach((child) => visit(child, inner, false, within));
   };
@@ -185,7 +202,7 @@ export interface PageCode {
 }
 
 // One page of the document as its HTML file and its CSS.
-export function exportPage(document: DocumentJson, pageIndex: number, rules: ModelRules, shared: SharedClasses = newShared(document)): { readonly html: string; readonly css: string } {
+export function exportPage(document: DocumentJson, pageIndex: number, rules: ModelRules, shared: SharedClasses = newShared(document, rules)): { readonly html: string; readonly css: string } {
   const code = pageLines(document, pageIndex, rules, shared);
   return { html: code.html.map((line) => line.text).join('\n'), css: pageCss(code.css) };
 }
@@ -216,7 +233,7 @@ function runsOn(node: DocNode, inner: readonly DocNode[], rules: ModelRules): bo
   return !(base !== undefined && LAYOUTS.has(base) && displays.every((d) => LAYOUTS.has(d as string)));
 }
 
-export function pageLines(document: DocumentJson, pageIndex: number, manifestRules: ModelRules, shared: SharedClasses = newShared(document), relative = true): PageCode {
+export function pageLines(document: DocumentJson, pageIndex: number, manifestRules: ModelRules, shared: SharedClasses = newShared(document, manifestRules), relative = true): PageCode {
   // the project's breakpoints: its media queries (core/document/breakpoints.ts)
   const rules = rulesForDocument(manifestRules, document);
   const page = document.pages[pageIndex];
@@ -350,7 +367,7 @@ export function siteFiles(
   const usesForms = document.pages.some(page => pageUsesForms(page.tree));
   if (usesForms && scripts === undefined) throw new Error('Configured forms require the site script writer');
   const forms = usesForms && scripts !== undefined ? scripts.forms() : null;
-  const classes = newShared(document);
+  const classes = newShared(document, manifestRules);
   const pages = document.pages.map((page, i) => ({ page, code: pageLines(document, i, rules, classes, relative) }));
   // the project's base style first (core/render/base.ts: the same text the canvas writes), then the design tokens'
   // :root rule (core/design/tokens.ts), then the project's fonts (core/files/fonts.ts: a custom font draws in the
