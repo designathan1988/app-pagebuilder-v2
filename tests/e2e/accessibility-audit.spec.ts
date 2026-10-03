@@ -187,3 +187,50 @@ test('a selected Layers row keeps its detail readable in the dark theme', runs(O
   });
   expect(ratio).toBeGreaterThanOrEqual(4.5);
 });
+
+// Every control the pointer takes is at least 24 x 24 CSS px, or stands within WCAG 2.5.8's exceptions (the audit's
+// AUD-29: sixteen were smaller — the canvas's spacing bands, the values buttons, the colour swatches — and the splitters
+// were not measured). Measured over every control of the editor, the canvas's selection chrome and the dock included,
+// with every inspector section open: a field's input counts by the frame a press focuses it from; an undersized control
+// passes when a 24 px circle on its centre meets no other control nor another such circle (spacing), or when a control of
+// the same name that is large enough does the same on the page (equivalent: a spacing band and the box model's field).
+// The panel splitters are left out by name, an open problem of their own (docs/PRODUCT.md TS1: a 24 px hit area would
+// cover the Layers rows' buttons and the ruler beside them); every other control is held to the rule.
+test('every control the pointer takes is 24 x 24, or within the target-size exceptions (WCAG 2.5.8)', runs(OPEN, ROW, ALL), async ({ page }) => {
+  await openAurora(page, 'n-card-a');
+  await openEverySection(page);
+  await runDoor(page, ALL);
+  await runDoor(page, 'workspace.setPanelOpen#menu-view-workbench');
+  const failing = await page.evaluate(() => {
+    const SIZE = 24;
+    const selector = 'button, a[href], input, select, textarea, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [role="treeitem"], [role="combobox"], [role="slider"], [role="switch"], [role="checkbox"], [role="separator"][tabindex]';
+    const taken = (el: Element) => {
+      const style = getComputedStyle(el);
+      const r = el.getBoundingClientRect();
+      return r.width > 0 && r.height > 0 && style.visibility !== 'hidden' && style.pointerEvents !== 'none' && el.closest('[aria-hidden="true"], .frame__page') === null;
+    };
+    const controls = [...document.querySelectorAll(selector)].filter(taken);
+    // a field's input is pressed through its frame
+    const boxOf = (el: Element) => (el.matches('input, textarea, select') ? (el.closest('.input-wrap, .box__side, .panel-field__form') ?? el) : el).getBoundingClientRect();
+    const nameOf = (el: Element) => (el.getAttribute('aria-label') ?? el.textContent ?? '').trim();
+    const boxes = controls.map((el) => ({ el, box: boxOf(el), name: nameOf(el) }));
+    // the splitters: open, TS1
+    const small = boxes.filter((c) => (c.box.width < SIZE || c.box.height < SIZE) && !c.el.matches('.splitter'));
+    const centre = (r: DOMRect) => ({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
+    const distanceTo = (p: { x: number; y: number }, r: DOMRect) => Math.hypot(Math.max(r.left - p.x, 0, p.x - r.right), Math.max(r.top - p.y, 0, p.y - r.bottom));
+    return small
+      .filter((c) => {
+        const equivalent = c.name !== '' && boxes.some((o) => o !== c && o.name === c.name && o.box.width >= SIZE && o.box.height >= SIZE);
+        if (equivalent) return false;
+        const at = centre(c.box);
+        const spaced = boxes.every((o) => {
+          if (o === c || o.el.contains(c.el) || c.el.contains(o.el)) return true;
+          const undersized = o.box.width < SIZE || o.box.height < SIZE;
+          return undersized ? Math.hypot(centre(o.box).x - at.x, centre(o.box).y - at.y) >= SIZE : distanceTo(at, o.box) >= SIZE / 2;
+        });
+        return !spaced;
+      })
+      .map((c) => `${c.name || c.el.localName} ${Math.round(c.box.width)}x${Math.round(c.box.height)} (${String((c.el as HTMLElement).className).split(' ')[0]})`);
+  });
+  expect(failing, 'controls under 24 x 24 outside the exceptions').toEqual([]);
+});

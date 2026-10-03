@@ -320,10 +320,15 @@
 
 /* the swatch of a colour field: 12 px (the canonical .sw), before the value */
 .quick-panel .field__swatch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex: none;
-  width: var(--space-6);
-  min-width: var(--space-6);
-  height: var(--space-6);
+  width: var(--size-target-min);
+  min-width: var(--size-target-min);
+  height: var(--size-target-min);
+  /* 24 x 24 for the pointer (WCAG 2.5.8) around the 12 px swatch, the room beyond it given back */
+  margin-inline: calc((var(--space-6) - var(--size-target-min)) / 2);
   padding: 0;
   border: 0;
   background: none;
