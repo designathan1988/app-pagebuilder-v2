@@ -36,8 +36,8 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `wrap-row-column` | Wrap the selection in a Row or a Column with R and C | yes | 4 | 4 | [wrap-row-column](../spec/BEHAVIOUR.md#wrap-row-column) | 5 | — |
 | `drag-side-wrap` | Drop beside an element to put both side by side | yes | 3 | 2 | [drag-layout](../spec/BEHAVIOUR.md#drag-layout) | 4 | — |
 | `context-menu` | Right-click context menu on the canvas and in Layers | yes | 7 | 8 | [context-menu](../spec/BEHAVIOUR.md#context-menu) | 6 | — |
-| `nest-into-previous` | Nest the selection into its previous sibling | yes | 5 | 3 | [nest-into-previous](../spec/BEHAVIOUR.md#nest-into-previous) | 3 | — |
-| `promote-out` | Move the selection out of its parent with P | yes | 4 | 3 | [promote-out](../spec/BEHAVIOUR.md#promote-out) | 2 | — |
+| `nest-into-previous` | Nest the selection into its previous sibling | yes | 5 | 3 | [nest-into-previous](../spec/BEHAVIOUR.md#nest-into-previous) | 4 | — |
+| `promote-out` | Move the selection out of its parent with P | yes | 4 | 3 | [promote-out](../spec/BEHAVIOUR.md#promote-out) | 3 | — |
 | `duplicate` | Duplicate the selection with Ctrl+D | yes | 4 | 2 | [duplicate](../spec/BEHAVIOUR.md#duplicate) | 3 | — |
 | `drag-duplicate` | Alt at the release drops a copy and leaves the original | yes | 1 | 1 | [drag-duplicate](../spec/BEHAVIOUR.md#drag-duplicate) | 2 | — |
 | `clipboard-copy-paste` | Copy and paste elements through the system clipboard with Ctrl+C and Ctrl+V | yes | 6 | 3 | [clipboard-copy-paste](../spec/BEHAVIOUR.md#clipboard-copy-paste) | 4 | — |
@@ -47,7 +47,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `text-inline-formatting` | Bold, italic and links inside text with Ctrl+B, Ctrl+I and Ctrl+K | yes | 5 | 7 | [text-inline-formatting](../spec/BEHAVIOUR.md#text-inline-formatting) | 3 | — |
 | `rename-element` | Rename an element with F2 or inline in Layers | yes | 4 | 5 | [rename-element](../spec/BEHAVIOUR.md#rename-element) | 2 | — |
 | `multi-select-click` | Select several elements with Shift+click and Ctrl+click | yes | 7 | 4 | [multi-select-click](../spec/BEHAVIOUR.md#multi-select-click) | 4 | — |
-| `unwrap` | Remove a wrapper and lift its children into its place | yes | 1 | 1 | [unwrap](../spec/BEHAVIOUR.md#unwrap) | 3 | — |
+| `unwrap` | Remove a wrapper and lift its children into its place | yes | 1 | 1 | [unwrap](../spec/BEHAVIOUR.md#unwrap) | 4 | — |
 | `marquee-select` | Select elements by dragging a marquee on the page | yes | 6 | 2 | [marquee-select](../spec/BEHAVIOUR.md#marquee-select) | 4 | — |
 | `multi-select-actions` | Delete, move and duplicate several selected elements at once | yes | 8 | 11 | [multi-select-actions](../spec/BEHAVIOUR.md#multi-select-actions) | 3 | — |
 | `select-container-children` | Select every element in the current container with Ctrl+A | yes | 3 | 2 | [select-container-children](../spec/BEHAVIOUR.md#select-container-children) | 3 | — |
