@@ -2,7 +2,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from '@playwright/test';
-import { CHANNEL, REDUCED_MOTION } from './tools/runner/environment.ts';
+import { CHANNEL, REDUCED_MOTION, VIEWPORT } from './tools/runner/environment.ts';
 
 // The e2e run builds the app once and serves the build on this port (a static `vite preview`, much faster per
 // test than the dev server); it never talks to a stale or foreign server.
@@ -42,6 +42,9 @@ export default defineConfig({
     // the browser and the motion the contract names (manifest/environment.json, tools/runner/environment.ts)
     channel: CHANNEL,
     reducedMotion: REDUCED_MOTION,
+    // the window the contract declares (manifest/environment.json), not Playwright's own 1280 x 720: below the narrow
+    // window's width the sidebar opens over the canvas (src/editor/workspace/narrow.ts)
+    viewport: VIEWPORT,
     // the browser's language is pinned: the editor opens in it (jornada03 J26), and the scenarios name their locale
     locale: 'en-US',
     // no trace while testing: 'retain-on-failure' records every test and costs 38% of the suite's CPU; a failure is

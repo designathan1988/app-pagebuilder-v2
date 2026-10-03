@@ -232,6 +232,13 @@
       "note": "Euclidean pointer movement that turns a press into a drag; below it a release is a click. Shared by canvas, palette and Layers drags, the marquee, resize, spacing and property handles, guides and panel drags. Independent of the zoom."
     },
     {
+      "id": "workspace.narrowWindow",
+      "value": 1366,
+      "unit": "css-px",
+      "source": "spec/BEHAVIOUR.md#panel-resize",
+      "note": "Below this window width the sidebar leaves its column and opens over the canvas (the plan's stage 5, J25: the canvas at least half of a 1280 x 720 window)."
+    },
+    {
       "id": "splitter.step",
       "value": 20,
       "unit": "css-px",

@@ -17,6 +17,7 @@ import './editor/shell/canvas-editing.css';
 import './editor/shell/window-overlays.css';
 import sprite from './ui/icons.svg?raw';
 import { App } from './editor/app.tsx';
+import { windowIsNarrow } from './editor/workspace/narrow.ts';
 import { currentWorkRevision, readSavedWork, readVersions, restoredWork, startAutosave } from './editor/persistence/autosave.ts';
 import { claimEditing, isEditing } from './editor/persistence/tab-guard.ts';
 import { startDrafts } from './editor/persistence/drafts.ts';
@@ -45,7 +46,7 @@ const saved = await readSavedWork();
 const restored = restoredWork(saved, MODEL_RULES);
 // saved work the reader refused: the recovery dialog offers the versions IndexedDB keeps (autosave-corruption-recovery)
 const recovery = saved !== null && restored === null ? await readVersions() : null;
-const store = createEditorStore({ restored, recovery });
+const store = createEditorStore({ restored, recovery, narrow: windowIsNarrow() });
 startAutosave(store, saved, restored !== null, isEditing);
 startDrafts(store, currentWorkRevision, isEditing);
 // what the end-to-end tests read, in every build (src/editor/test-port.ts)

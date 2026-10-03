@@ -23,6 +23,26 @@
   grid-template-columns: var(--size-activity-bar) 0 minmax(0, 1fr) 0;
 }
 
+/* A narrow window (workspace/narrow.ts): the sidebar keeps no column of its own; it opens over the canvas, beside the
+   activity bar, and closes when a press or the focus goes elsewhere (shell/sidebar.tsx) */
+.shell--narrow {
+  grid-template-columns: var(--size-activity-bar) 0 minmax(0, 1fr) var(--size-inspector);
+}
+
+.shell--narrow.shell--no-inspector {
+  grid-template-columns: var(--size-activity-bar) 0 minmax(0, 1fr) 0;
+}
+
+.shell--narrow .sidebar {
+  position: fixed;
+  top: var(--size-top-bar);
+  bottom: var(--size-status-bar);
+  left: var(--size-activity-bar);
+  z-index: var(--z-floating);
+  width: var(--size-sidebar);
+  box-shadow: var(--shadow-3);
+}
+
 
 /* ---------------------------------------------------------------- a region that could not draw (region-boundary.tsx) */
 

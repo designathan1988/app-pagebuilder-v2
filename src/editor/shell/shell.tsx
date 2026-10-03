@@ -44,6 +44,7 @@ import { TopBar } from './top-bar.tsx';
 import { FitZoom, ReportFitZoom } from './slots.tsx';
 import { FloatingWindows, PanelBodyTable, PanelDragLayer, RightDock } from '../workspace/windows.tsx';
 import { RegionBoundary } from './region-boundary.tsx';
+import { NarrowWindow, useWindowNarrow } from '../workspace/narrow.ts';
 
 // which panels the shell draws a body for, from the tables it draws them from (bodies.ts), and the component that
 // draws each body: a floating window and the right dock draw a panel of any place from the same table
@@ -130,7 +131,9 @@ export function Shell() {
   // a web address asked to be captured goes to the Builder Companion (import/capture.ts, spec capture-url)
   useEffect(() => installCapture(store), [store]);
   useEffect(() => installSelectOnFocus(), []);
-  const classes = ['shell', sidebar ? '' : 'shell--no-sidebar', inspector ? '' : 'shell--no-inspector', `shell--dock-${dock}`].filter((c) => c !== '').join(' ');
+  // below the manifest's width the sidebar opens over the canvas (workspace/narrow.ts)
+  const narrow = useWindowNarrow();
+  const classes = ['shell', sidebar ? '' : 'shell--no-sidebar', inspector ? '' : 'shell--no-inspector', narrow ? 'shell--narrow' : '', `shell--dock-${dock}`].filter((c) => c !== '').join(' ');
   // while previewing, the preview bar and the exported page over the editor (spec preview-mode): the editor stays as it
   // is underneath, its canvas included, and the status bar below says so
   const inPreview = useEditorState((s) => previewing(s.ui));
@@ -138,6 +141,7 @@ export function Shell() {
   // focus moves into the preview and comes back to where it was (the interface audit, finding F04)
   const root = usePreviewModal(inPreview);
   return (
+    <NarrowWindow.Provider value={narrow}>
     <PanelBodyTable.Provider value={ALL_BODIES}>
     <PanelBodies.Provider value={drawsBody}>
       <FitZoom.Provider value={zoom}>
@@ -192,5 +196,6 @@ export function Shell() {
       </FitZoom.Provider>
     </PanelBodies.Provider>
     </PanelBodyTable.Provider>
+    </NarrowWindow.Provider>
   );
 }

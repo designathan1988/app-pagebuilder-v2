@@ -2617,6 +2617,7 @@ export type KeyContextId = (typeof KEY_CONTEXT_IDS)[number];
 // the interaction constants (interactions.json)
 export const CONSTANT_IDS = [
   "drag.threshold",
+  "workspace.narrowWindow",
   "splitter.step",
   "drag.hysteresis",
   "drop.leafSplit",

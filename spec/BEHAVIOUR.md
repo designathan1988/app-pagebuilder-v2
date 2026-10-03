@@ -4748,6 +4748,7 @@ Arrows on a focused splitter.
 2. **Shell splitters have no `aria-valuenow` and are removed from the Tab order** (`tabindex="-1"` via `sealRegions`, `src/features/input/index.js:403-408`). Required: every splitter has `role="separator"` with `aria-valuenow` (and min/max) and is reachable by keyboard.
 3. **The default inspector width (300 px) is below its own minimum (320 px),** so the first keyboard step jumps. Required: defaults respect the limits.
 4. **1 px shell splitters are hard to grab.** Required: every splitter has a pointer target of at least 6 px, with the visible line centred on it.
+5. **At 1280 × 720 the canvas had 41 % of the window** (jornada03 J25 and H17; the audit's AUD-06, 2026-10-02: the change for J25 measured 55 % of the width, while the stage had 708 × 537 px). Required: below the narrow window's width (interactions.json `workspace.narrowWindow`, 1366 px) the sidebar keeps no column: it opens over the canvas, beside the activity bar, and a press outside it and the activity bar, or the focus leaving it (Escape takes it to the canvas), closes it as the left dock's toggle does; a first visit in a narrow window opens with it closed, and a workspace the person kept keeps its own. At 1280 × 720 the stage then has at least half of the window, measured as an area (`tests/e2e/narrow-window.spec.ts`), as Webflow's navigator overlays a small window and Figma's panels minimise. The browser tests open the window the contract declares (`manifest/environment.json`, 1440 × 900) unless they measure another.
 
 ## preview-mode
 

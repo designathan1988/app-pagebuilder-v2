@@ -150,7 +150,7 @@ status in `docs/FEATURES.md` (which counts them per feature).
 | STG-5.13 | Canvas overlays: labels never over content (J16), breakpoint band (J22), image marker | done | QA 89, 101, 102, 122, 128 |
 | STG-5.14 | Bottom dock with the canonical strip | done | QA 96 (DEC-02) |
 | STG-5.15 | Keyboard: F6 includes canvas and Layers, arrows start at the root, roving focus (J12) | partial | QA 95, 103, 105; AUD-13 |
-| STG-5.16 | 1280 × 720: canvas ≥ 55 % (J25) | missing | AUD-06 |
+| STG-5.16 | 1280 × 720: canvas ≥ 55 % (J25) | partial | QA 155: the stage 932 × 537 px, 54.3 % of the window as an area and 72.8 % of its width; the width splitters of the plan's row come next (B4b) |
 | STG-5.17 | Language and texts: browser language, gender-neutral Portuguese, singular forms (J26, J28) | partial | QA 87, 93; AUD-21, AUD-23 |
 | STG-5.18 | Image picker with thumbnails and search (M4) | done | QA 94 |
 | STG-5.19 | Status bar parity, never an incident without a message (J1) | done | QA 149, 151 (`refusal-never-blanks.spec.ts`) |
@@ -255,7 +255,7 @@ The problems of the usability study (`jornada03/REPORT.md` section 3), re-checke
 | J22 | Placeholder image spans the width | done | QA 102 |
 | J23 | Text lost on reload | done | QA 41 |
 | J24 | 641-node latency | done | QA 80; perf |
-| J25 | 45 % canvas at 1280 × 720 | missing | AUD-06 |
+| J25 | 45 % canvas at 1280 × 720 | done | 54.3 % (QA 155; `narrow-window.spec.ts`) |
 | J26 | First contact (language, labels, Explorer first, naming) | partial | QA 87; AUD-21 |
 | J27 | Padding link global; longhand only | done | QA 54, 71 |
 | J28 | Copy glitches | partial | QA 76, 93; AUD-23, AUD-28 |
@@ -282,7 +282,7 @@ Thresholds fixed before the study (`jornada03/00-frame/hypotheses.md`); measured
 | H14 | 12-item catalogue ≤ 5 min | done | C4 |
 | H15 | No work lost on reload | done | C5 |
 | H16 | p95 ≤ 100 ms with 300+ elements | done | 44.8 ms at 641 nodes |
-| H17 | Canvas ≥ 50 % at 1280 × 720 | missing | 41.3 % (AUD-06) |
+| H17 | Canvas ≥ 50 % at 1280 × 720 | done | 54.3 % (QA 155) |
 
 ### 2.6 Journey 03 tasks (M, D, C, P)
 
@@ -305,7 +305,7 @@ Thresholds fixed before the study (`jornada03/00-frame/hypotheses.md`); measured
 | C5 | Reload in the middle of an edit | done |
 | P1 | Large page (641 nodes) | done: p50 31.0, p95 44.8 ms |
 | P2 | Editor accessibility from the keyboard | partial (AUD-13) |
-| P3 | Small screen 1280 × 720 | missing (AUD-06) |
+| P3 | Small screen 1280 × 720 | done (QA 155: 54.3 %) |
 | P4 | Long history (50 edits undone and redone) | done (exact; 21 ms per step) |
 
 ### 2.7 The bets (A–F) and the wishes
@@ -375,7 +375,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-03 | 3 | The style state stays on across selections and style writes produce invalid documents | audit | done (QA 151) |
 | AUD-04 | 3 | Unwrap, move out of parent and nest on component instances produce invalid documents | audit | done (QA 152) |
 | AUD-05 | 3 | Export then import loses design tokens and unused classes | audit | done (QA 154) |
-| AUD-06 | 3 | Canvas 41–46 % of the window at 1280 × 720 (H17, J25); the fix measured width | audit | open |
+| AUD-06 | 3 | Canvas 41–46 % of the window at 1280 × 720 (H17, J25); the fix measured width | audit | done (QA 155) |
 | AUD-07 | 2 | The document core executes DOM | audit | open |
 | AUD-08 | 2 | Store robustness: undeclared predicate refusals throw, gesture patches recorded before validation, `refusal()` does not catch | audit | open |
 | AUD-09 | 2 | Handlers throw instead of refusing on stale or malformed references | audit | open |

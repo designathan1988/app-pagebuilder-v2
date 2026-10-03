@@ -5,7 +5,7 @@ import { DataPanel } from '../data/panel.tsx';
 // of elements.json's palette) and Styles (classes and variables). Rows and tiles are the doors of their regions, one
 // per page, node or palette entry; a section's actions are the region's controls before its first item.
 import { isDataFile } from '../../core/design/data.ts';
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type FormEvent, type MouseEvent, type ReactNode } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type FormEvent, type MouseEvent, type ReactNode } from 'react';
 import { isFeatureBuilt } from '../../app/features.ts';
 import { walk, type DocNode, type Location, type Page } from '../../core/document/model.ts';
 import { placement } from '../../core/structure/insert.ts';
@@ -23,7 +23,10 @@ import { renamedNode } from '../layers/rename.ts';
 import { paletteDensity, paletteMatches, paletteRank } from '../palette/palette.ts';
 import { isExpanded, rowDetailsOf, searchView, type SearchView } from '../layers/tree.ts';
 import { MODEL_RULES, useEditorState, useStore, type EditorState } from '../store.ts';
-import { atPlace, isPanelOpen, panelName, stackedSections, type Panel } from '../workspace/panels.ts';
+import { atPlace, isPanelOpen, panelName, stackedSections, toggleLeftDock, type Panel } from '../workspace/panels.ts';
+import { useNarrowWindow } from '../workspace/narrow.ts';
+import { useOutsideLayer } from './outside-layer.ts';
+import { outsidePress } from '../input/pointer/views.ts';
 import { SPLITTERS, combinationAt, splitterSize, type SplitterId } from '../workspace/layout.ts';
 import { PanelArea, PanelGrip } from '../workspace/windows.tsx';
 import { floatingOf } from '../workspace/layout.ts';
@@ -1136,8 +1139,35 @@ export function Sidebar() {
   // panels combined with the view's area (spec panel-combine-tabs): one more tab of it, or one stacked under it; the
   // area then draws itself (PanelArea), so the tab strip and the stacked bodies have one owner
   const combined = useEditorState((s) => combinationAt(s.ui, view).tabs.length > 1 || combinationAt(s.ui, view).stack.length > 0);
+  // In a narrow window the sidebar opens over the canvas (workspace/narrow.ts): a press outside it and its activity bar,
+  // or the focus leaving it for anywhere else (Escape takes it to the canvas), closes it, as the left dock's own toggle
+  // does (workspace.toggleLeftDock)
+  const narrow = useNarrowWindow();
+  const store = useStore();
+  const aside = useRef<HTMLElement>(null);
+  const activity = useRef<HTMLElement | null>(null);
+  useLayoutEffect(() => {
+    activity.current = document.querySelector<HTMLElement>('.activity-bar');
+  });
+  const close = useCallback(() => {
+    if (store.getState().ui.panels.sidebar) (store.dispatch as (id: CommandId, args: unknown) => DispatchResult)(toggleLeftDock.command, {});
+  }, [store]);
+  useOutsideLayer(aside, narrow, close, activity, false);
+  // where the focus went is known once it has moved (Escape hands it to the canvas, which leaves the page's own focus
+  // on its body): read then; a focus left on the body by a press on the panel's own padding keeps it open
+  const pressedInside = useRef(false);
+  useEffect(() => outsidePress.subscribe((target) => void (pressedInside.current = aside.current?.contains(target) === true)), []);
+  const leave = () => {
+    if (!narrow) return;
+    window.setTimeout(() => {
+      const now = document.activeElement;
+      if (now !== null && (aside.current?.contains(now) === true || activity.current?.contains(now) === true)) return;
+      if ((now === null || now === document.body) && pressedInside.current) return;
+      close();
+    }, 0);
+  };
   return (
-    <aside className="sidebar">
+    <aside ref={aside} className="sidebar" onBlur={leave}>
       {combined ? (
         <PanelArea panel={view} />
       ) : (

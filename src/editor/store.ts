@@ -43,6 +43,9 @@ export interface EditorStoreOptions {
   readonly storage?: PreferenceStorage;
   // where the panels and the layout are kept (src/editor/workspace/persist.ts); the browser's storage by default
   readonly workspace?: WorkspaceStorage;
+  // the window is narrow at the start (workspace/narrow.ts): a first visit opens with the sidebar closed, which opens
+  // over the canvas when asked; a workspace the person kept keeps its own
+  readonly narrow?: boolean;
   readonly clock?: Clock;
   readonly ids?: IdGenerator;
   // the work autosave restored (src/editor/persistence/autosave.ts), or none: the empty project; `recovered` when it
@@ -127,7 +130,7 @@ export function createEditorStore(options: EditorStoreOptions = {}): EditorStore
     readOnly: options.ports?.readOnly ?? (() => !isEditing()),
     layer: activeLayer,
     editing: { takeOver },
-    initial: { document, selection: options.restored?.selection ?? [], ui: recoveryUi(initialEditorUi(preferences, workspace), options.recovery ?? null), message: options.restored?.recovered === true ? message('status.save.recovered') : null },
+    initial: { document, selection: options.restored?.selection ?? [], ui: recoveryUi(narrowStart(initialEditorUi(preferences, workspace), workspace === undefined && options.narrow === true), options.recovery ?? null), message: options.restored?.recovered === true ? message('status.save.recovered') : null },
     freeze: options.freeze ?? import.meta.env.DEV,
     // the page of a selected node opens (an undo on another page); Layers unfolds what hides a selected node; a text
     // edit and a rename end once their node is not the selection
@@ -147,6 +150,9 @@ export function createEditorStore(options: EditorStoreOptions = {}): EditorStore
   persistWorkspace(store, options.workspace ?? browserWorkspace);
   return store;
 }
+
+// a first visit in a narrow window opens with the sidebar closed (workspace/narrow.ts)
+const narrowStart = (ui: EditorUi, narrow: boolean): EditorUi => (narrow ? { ...ui, panels: { ...ui.panels, sidebar: false } } : ui);
 
 export const StoreContext = createContext<EditorStore | null>(null);
 

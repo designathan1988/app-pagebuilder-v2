@@ -5,8 +5,8 @@
     "commands": 370,
     "doors": 1335,
     "scenarios": 1752,
-    "modules": 410,
-    "lines": 76643
+    "modules": 411,
+    "lines": 76719
   },
   "features": [
     {
@@ -6093,7 +6093,7 @@
     },
     {
       "path": "src/editor/shell/shell.tsx",
-      "lines": 197,
+      "lines": 202,
       "commands": [],
       "features": []
     },
@@ -6111,7 +6111,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1161,
+      "lines": 1191,
       "commands": [],
       "features": []
     },
@@ -6177,7 +6177,7 @@
     },
     {
       "path": "src/editor/store.ts",
-      "lines": 164,
+      "lines": 170,
       "commands": [],
       "features": []
     },
@@ -6402,6 +6402,12 @@
       ]
     },
     {
+      "path": "src/editor/workspace/narrow.ts",
+      "lines": 33,
+      "commands": [],
+      "features": []
+    },
+    {
       "path": "src/editor/workspace/panel-drag.ts",
       "lines": 102,
       "commands": [],
@@ -6463,7 +6469,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6459,
+      "lines": 6460,
       "commands": [],
       "features": []
     },
@@ -6481,7 +6487,7 @@
     },
     {
       "path": "src/main.tsx",
-      "lines": 65,
+      "lines": 66,
       "commands": [],
       "features": []
     },
