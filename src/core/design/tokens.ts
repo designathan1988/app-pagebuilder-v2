@@ -18,6 +18,7 @@ import { message, registerHandler, type HandlerContext, type Outcome } from '../
 import { walk, type DocNode, type DocumentJson, type StoredValue } from '../document/model.ts';
 import type { Patch } from '../history/transaction.ts';
 import { readValue } from '../style/set.ts';
+import { commandOf } from '../../manifest/runtime.ts';
 
 export interface Token {
   readonly name: string;
@@ -172,6 +173,9 @@ export const createToken = registerHandler('tokens.create', (context, { kind, na
   return { kind: 'change', patches: [patch], message: message('status.tokens.created', { name: typed }) };
 });
 
+// tokens.create's kinds, in their manifest order (a colour, a length, a font size): the kinds a variable may have
+export const TOKEN_KINDS: readonly string[] = commandOf(createToken.command).args.kind?.values ?? [];
+
 function indexOf(document: DocumentJson, name: string): number {
   const at = tokensOf(document).findIndex((t) => t.name === name);
   if (at < 0) throw new Error(`tokens: the project has no variable ${name}`);
@@ -192,17 +196,24 @@ export const updateToken = registerHandler('tokens.update', (context, { token, v
 
 export const renameToken = registerHandler('tokens.rename', (context, { token, name }): Outcome<never> => {
   const { state } = context;
-  const at = indexOf(state.document, token);
+  // the variable must be the project's (indexOf says which is not)
+  indexOf(state.document, token);
   const typed = name.trim();
   const said = message('status.tokens.renamed', { from: token, to: typed });
   if (typed === token) return { kind: 'change', message: said };
   const refused = nameRefusal(state.document, typed, token);
   if (refused !== null) return { kind: 'refused', message: refused };
-  // every value that names it names the new name, wherever it lives: an element's style or animation, a class, a
-  // component's tree, or another variable
-  const uses: Patch[] = usesOf(state.document, token).map((use) => ({ op: 'replace', path: use.path, value: renamedIn(use.value, token, typed) }));
-  return { kind: 'change', patches: [{ op: 'replace', path: ['tokens', at, 'name'], value: typed }, ...uses], message: said };
+  return { kind: 'change', patches: renameTokenPatches(state.document, token, typed), message: said };
 });
+
+// The patches that rename a variable and every value that names it, wherever it lives: an element's style or animation,
+// a class, a component's tree, or another variable (tokens.rename; an import whose variable takes another name because
+// the project holds one of its name with another value: import/destinations.ts)
+export function renameTokenPatches(document: DocumentJson, from: string, to: string): Patch[] {
+  const at = indexOf(document, from);
+  const uses: Patch[] = usesOf(document, from).map((use) => ({ op: 'replace', path: use.path, value: renamedIn(use.value, from, to) }));
+  return [{ op: 'replace', path: ['tokens', at, 'name'], value: to }, ...uses];
+}
 
 export const deleteToken = registerHandler('tokens.delete', ({ state }, { token }): Outcome<never> => {
   const at = indexOf(state.document, token);

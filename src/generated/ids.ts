@@ -4743,6 +4743,8 @@ export const MESSAGE_IDS = [
   "status.import.scripts",
   "status.import.sheetMissing",
   "status.import.unmapped",
+  "status.import.tokensKept",
+  "status.import.unusedClassesKept",
   "status.import.unwrapped",
   "status.input.invalidType",
   "status.input.typeSet",

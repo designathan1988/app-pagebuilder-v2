@@ -6,7 +6,7 @@
     "doors": 1335,
     "scenarios": 1752,
     "modules": 410,
-    "lines": 76551
+    "lines": 76643
   },
   "features": [
     {
@@ -3528,7 +3528,7 @@
     },
     {
       "path": "src/core/design/tokens.ts",
-      "lines": 232,
+      "lines": 243,
       "commands": [
         "tokens.create",
         "tokens.update",
@@ -3966,7 +3966,7 @@
     },
     {
       "path": "src/core/import/destinations.ts",
-      "lines": 82,
+      "lines": 97,
       "commands": [],
       "features": []
     },
@@ -3982,7 +3982,7 @@
     },
     {
       "path": "src/core/import/import.ts",
-      "lines": 1439,
+      "lines": 1503,
       "commands": [
         "project.importHtml"
       ],
@@ -6463,7 +6463,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6457,
+      "lines": 6459,
       "commands": [],
       "features": []
     },

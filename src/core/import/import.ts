@@ -32,6 +32,8 @@
 import type { NodeId, PickedFile } from '../../generated/commands.ts';
 import type { ElementType, MessageId } from '../../generated/ids.ts';
 import { message, registerHandler, type HandlerContext, type Message } from '../commands/registry.ts';
+import { probeOf, TOKEN_KINDS, type Token } from '../design/tokens.ts';
+import { readValue } from '../style/set.ts';
 import { allNodes, isEmptyProject, type DocNode, type DocumentJson, type Page, type ProjectFile, type StoredValue, type Styles } from '../document/model.ts';
 import type { InlineRun } from '../text/inline.ts';
 import { attributeValueRefusal, customAttributeRefusal, type ModelRules } from '../document/validate.ts';
@@ -151,9 +153,12 @@ interface Report {
   readonly sheetsMissing: string[];
   // the references (a link's #fragment, a label's for) that named no element of the imported pages, released
   readonly released: string[];
+  // the variables of the sheets' :root rule kept as the project's, and the classes no element lists kept (AUD-05)
+  readonly tokens: string[];
+  readonly unusedClasses: string[];
 }
 
-const emptyReport = (): Report => ({ scripts: [], handlers: [], unwrapped: [], repaired: [], dropped: [], attributes: [], unmapped: new Map(), approximated: new Map(), declarations: new Map(), sheetsMissing: [], released: [] });
+const emptyReport = (): Report => ({ scripts: [], handlers: [], unwrapped: [], repaired: [], dropped: [], attributes: [], unmapped: new Map(), approximated: new Map(), declarations: new Map(), sheetsMissing: [], released: [], tokens: [], unusedClasses: [] });
 
 const add = (into: Map<string, number[]>, file: string, line: number): void => {
   const held = into.get(file);
@@ -185,6 +190,8 @@ export function reportNotes(report: Report, words: (key: MessageId, params?: Rea
   for (const [file, lines] of report.declarations) notes.push(words('status.import.declarations', { file: named(file), lines: linesOf(lines) }));
   for (const file of report.sheetsMissing) notes.push(words('status.import.sheetMissing', { file }));
   if (report.released.length > 0) notes.push(words('status.import.released', { count: report.released.length, values: [...new Set(report.released)].slice(0, 6).join(', ') }));
+  if (report.tokens.length > 0) notes.push(words('status.import.tokensKept', { names: report.tokens.slice(0, 6).join(', ') }));
+  if (report.unusedClasses.length > 0) notes.push(words('status.import.unusedClassesKept', { names: report.unusedClasses.slice(0, 6).join(', ') }));
   return notes.length === 0 ? '' : ` ${notes.join(' ')}`;
 }
 
@@ -819,6 +826,8 @@ function applyStyles(tree: DocNode, builder: Builder, sources: readonly SheetSou
       // The exported base is already in force. Match its entire selector and declaration list: an author's rule
       // may reuse a value such as margin: 0 on another selector and still needs to be imported.
       if (isBaseRule(rule)) continue;
+      // the project's variables: rootTokens reads them
+      if (isRootTokenRule(rule)) continue;
       const media = mediaPlace(rule.media, rules);
       if (media.unmappable) {
         add(builder.report.unmapped, source.file, rule.line);
@@ -1018,7 +1027,59 @@ function authorClasses(pages: readonly Page[], sources: readonly SheetSource[]):
       });
     }
   }
-  return new Set([...ruled].filter((name) => (uses.get(name) ?? 0) >= 2 || notLast.has(name)));
+  // a class no element lists is the person's too (the export never writes a class for nobody): a variant kept for later,
+  // a class the person made and has not used yet (the audit's AUD-05: they were dropped without a word)
+  return new Set([...ruled].filter((name) => (uses.get(name) ?? 0) === 0 || (uses.get(name) ?? 0) >= 2 || notLast.has(name)));
+}
+
+// the classes a stylesheet defines that no element of the pages lists
+function unusedClasses(pages: readonly Page[], authors: ReadonlySet<string>): readonly string[] {
+  const listed = new Set(pages.flatMap((page) => [...walkNodes(page.tree)].flatMap((node) => node.classes)));
+  return [...authors].filter((name) => !listed.has(name));
+}
+
+// The design tokens a stylesheet declares (the audit's AUD-05: the export writes the project's variables as one :root
+// rule, and the import dropped it as "rules not mapped", so every var(--name) lost its definition). A :root rule of
+// custom properties alone, outside any @media, holds them; each becomes a variable of the project, its kind read from
+// the kinds whose property reads its value, the one whose property is where the sheets use it winning (a length used
+// only in font sizes is a font size), else the first in the manifest's order (a colour, a length). A value of no kind
+// the project's variables have is reported with its line, never guessed.
+const ROOT = ':root';
+export function isRootTokenRule(rule: CssRule): boolean {
+  return rule.media.length === 0 && rule.selector.trim() === ROOT && rule.declarations.length > 0 && rule.declarations.every((declaration) => declaration.text.trim().startsWith('--'));
+}
+
+function rootTokens<Ui>(context: HandlerContext<Ui>, sources: readonly SheetSource[], report: Report): Token[] {
+  const declared = new Map<string, { readonly value: string; readonly file: string; readonly line: number }>();
+  const usedIn = new Map<string, Set<string>>();
+  for (const source of sources) {
+    for (const rule of source.css.rules) {
+      for (const declaration of rule.declarations) {
+        const colon = declaration.text.indexOf(':');
+        if (colon < 0) continue;
+        const property = declaration.text.slice(0, colon).trim();
+        const value = declaration.text.slice(colon + 1).trim().replace(/\s*!important$/i, '');
+        if (isRootTokenRule(rule)) declared.set(property.slice(2), { value, file: source.file, line: declaration.line });
+        else for (const match of value.matchAll(/var\(\s*--([A-Za-z0-9_-]+)/g)) usedIn.set(match[1] as string, (usedIn.get(match[1] as string) ?? new Set()).add(property));
+      }
+    }
+  }
+  const reads = (kind: string, value: string): boolean => {
+    const probe = probeOf(context, kind);
+    return probe !== null && readValue(context, probe, value) !== null;
+  };
+  const tokens: Token[] = [];
+  for (const [name, { value, file, line }] of declared) {
+    // the kinds whose property reads the value, in their manifest order; the one whose property is the only one the
+    // sheets use the variable in wins (a length used only in font sizes is a font size), else the first
+    const readers = TOKEN_KINDS.filter((kind) => reads(kind, value));
+    const uses = usedIn.get(name);
+    const exact = uses === undefined ? undefined : readers.find((kind) => [...uses].every((property) => property === probeOf(context, kind)));
+    const kind = exact ?? readers[0] ?? null;
+    if (kind === null) add(report.unmapped, file, line);
+    else tokens.push({ name, kind, value });
+  }
+  return tokens;
 }
 
 // whether a compound before the last carries a pseudo-class (a state of an ancestor)
@@ -1234,6 +1295,9 @@ export const importHtmlCommand = registerHandler('project.importHtml', (context,
   const authors = authorClasses(pages, sources);
   const definitions = new Map<string, Styles>();
   for (const one of built) applyStyles(one.page.tree, one.builder, sources, authors, definitions);
+  const tokens = rootTokens(context, sources, report);
+  report.tokens.push(...tokens.map((token) => token.name));
+  report.unusedClasses.push(...unusedClasses(pages, authors).filter((name) => definitions.has(name)));
   // A reference that names no element of the imported pages (a link to #search, whose element was a script's, or one the
   // model does not keep) is released as element.applyHtml releases one, so the result stays a valid document; the
   // report names them (the plan's stage 12: a captured page is imported whole)
@@ -1285,7 +1349,7 @@ export const importHtmlCommand = registerHandler('project.importHtml', (context,
     else held[index] = record;
   }
   // the project's languages are the project's own (spec export-clean): an import keeps them, whatever it replaces
-  const parsed = { version: state.document.version, ...projectLanguages(state.document), pages, ...(definitions.size ? { classes: [...definitions].map(([name, styles]) => ({ name, styles })) } : {}), ...(held.length ? { files: held } : {}) };
+  const parsed = { version: state.document.version, ...projectLanguages(state.document), pages, ...(tokens.length ? { tokens } : {}), ...(definitions.size ? { classes: [...definitions].map(([name, styles]) => ({ name, styles })) } : {}), ...(held.length ? { files: held } : {}) };
   const composed = importDestination(context, parsed, replacing ? 'replace' : destination, (target ?? (state.selection.length === 1 ? state.selection[0] : undefined)) as NodeId | undefined);
   if ('refused' in composed) return { kind: 'refused' as const, message: composed.refused };
   const said = message('status.import.done', {

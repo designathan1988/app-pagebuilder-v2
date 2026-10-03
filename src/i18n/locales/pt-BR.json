@@ -1749,6 +1749,8 @@
   "status.import.scripts": "Scripts mantidos (linhas {lines}).",
   "status.import.sheetMissing": "{file} não foi escolhido.",
   "status.import.unmapped": "{file}: regras não mapeadas (linhas {lines}).",
+  "status.import.tokensKept": "Variáveis mantidas da folha de estilos: {names}.",
+  "status.import.unusedClassesKept": "Classes que nenhum elemento usa mantidas: {names}.",
   "status.import.unwrapped": "Elementos desconhecidos desembrulhados (linhas {lines}).",
   "status.input.invalidType": "O tipo de input \"{type}\" não é um tipo HTML válido.",
   "status.input.typeSet": "{name} agora é um campo {type}.",

@@ -1749,6 +1749,8 @@
   "status.import.scripts": "Scripts kept (lines {lines}).",
   "status.import.sheetMissing": "{file} was not picked.",
   "status.import.unmapped": "{file}: rules not mapped (lines {lines}).",
+  "status.import.tokensKept": "Variables kept from the stylesheet: {names}.",
+  "status.import.unusedClassesKept": "Classes no element uses kept: {names}.",
   "status.import.unwrapped": "Unknown elements unwrapped (lines {lines}).",
   "status.input.invalidType": "Input type \"{type}\" is not an HTML input type.",
   "status.input.typeSet": "{name} is now a {type} input.",

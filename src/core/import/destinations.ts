@@ -2,6 +2,7 @@
 import { allNodes, locate, type DocumentJson, type NodeId } from '../document/model.ts';
 import { refreshCopiedIdentities } from '../document/clone.ts';
 import { renameClassPatches } from '../design/classes.ts';
+import { renameTokenPatches } from '../design/tokens.ts';
 import { uniqueFilePath } from '../files/files.ts';
 import { followPaths } from '../files/references.ts';
 import { applyPatches, type Patch } from '../history/transaction.ts';
@@ -30,6 +31,18 @@ export function importDestination(context: HandlerContext<never>, parsed: Docume
     for (let n = 2; occupied.has(next) || (next !== name && classes.has(next)); n += 1) next = `${name}-${n}`;
     occupied.add(next);
     if (next !== name) imported = applyPatches(imported, renameClassPatches(imported, name, next)).document;
+  }
+  // the imported variables beside the project's (AUD-05): one the project holds as it is, by name, kind and value, is the
+  // same and goes once; one whose name the project uses for another value takes a free name, and its uses follow it
+  const held = current.tokens ?? [];
+  const arriving: string[] = [];
+  for (const token of imported.tokens ?? []) {
+    const same = held.find((one) => one.name === token.name);
+    if (same !== undefined && same.kind === token.kind && same.value === token.value) continue;
+    let next = token.name;
+    for (let n = 2; held.some((one) => one.name === next) || (next !== token.name && (imported.tokens ?? []).some((one) => one.name === next)); n += 1) next = `${token.name}-${n}`;
+    if (next !== token.name) imported = applyPatches(imported, renameTokenPatches(imported, token.name, next)).document;
+    arriving.push(next);
   }
   const paths = new Map<string, string>();
   const reserved = new Set<string>();
@@ -75,6 +88,8 @@ export function importDestination(context: HandlerContext<never>, parsed: Docume
     for (const [i, page] of pages.entries()) patches.push({ op: 'add', path: ['pages', current.pages.length + i], value: page });
     selection = [first.tree.id];
   }
+  const tokens = (imported.tokens ?? []).filter((token) => arriving.includes(token.name));
+  if (tokens.length) patches.push({ op: current.tokens === undefined ? 'add' : 'replace', path: ['tokens'], value: [...held, ...tokens] });
   if (imported.classes?.length) patches.push({ op: current.classes === undefined ? 'add' : 'replace', path: ['classes'], value: [...(current.classes ?? []), ...imported.classes] });
   if (files.length) patches.push({ op: current.files === undefined ? 'add' : 'replace', path: ['files'], value: [...(current.files ?? []), ...files] });
   return { patches, selection };

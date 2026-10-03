@@ -246,7 +246,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 
 | Feature | Title | Built | Scenarios | Doors | Behaviour section | Required | Last complete run |
 |---|---|---|---|---|---|---|---|
-| `html-import-structure` | Import an HTML file: tags, text, inline marks and attributes | yes | 7 | 6 | [html-import](../spec/BEHAVIOUR.md#html-import) | 7 | — |
+| `html-import-structure` | Import an HTML file: tags, text, inline marks and attributes | yes | 7 | 6 | [html-import](../spec/BEHAVIOUR.md#html-import) | 8 | — |
 | `html-import-cleaning` | Import cleaning: scripts, unknown elements, broken nesting and the import report | yes | 2 | 2 | none | — | — |
 | `html-import-styles` | Import CSS: style attributes, style blocks and linked stylesheets | yes | 2 | 2 | none | — | — |
 | `html-import-media-queries` | Import @media rules as breakpoint overrides | yes | 2 | 2 | none | — | — |

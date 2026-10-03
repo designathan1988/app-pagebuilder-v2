@@ -273,7 +273,7 @@ Thresholds fixed before the study (`jornada03/00-frame/hypotheses.md`); measured
 | H5 | Preview and export in 1 min, valid | done | M5, 0 html-validate errors |
 | H6 | Colours and spacing named once | done | D1 |
 | H7 | Component ×6 changed once | done | D2 |
-| H8 | HTML imported and editable | done | D3 (AUD-05 on round trip) |
+| H8 | HTML imported and editable | done | D3; the round trip keeps variables and classes QA 154 |
 | H9 | A page from the keyboard alone | done | D4 |
 | H10 | Export a developer accepts (CSS ≤ 2×) | done | its threshold met (1.95×, 0 errors, no inline style); correctness: AUD-02 |
 | H11 | Brand colour ≤ 3 actions | done | C1: 2 actions |
@@ -374,7 +374,7 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | AUD-02 | 3 | Export rule merging breaks the cascade: tablet and phone styles lost; fidelity regressed | audit | done (QA 150) |
 | AUD-03 | 3 | The style state stays on across selections and style writes produce invalid documents | audit | done (QA 151) |
 | AUD-04 | 3 | Unwrap, move out of parent and nest on component instances produce invalid documents | audit | done (QA 152) |
-| AUD-05 | 3 | Export then import loses design tokens and unused classes | audit | open |
+| AUD-05 | 3 | Export then import loses design tokens and unused classes | audit | done (QA 154) |
 | AUD-06 | 3 | Canvas 41–46 % of the window at 1280 × 720 (H17, J25); the fix measured width | audit | open |
 | AUD-07 | 2 | The document core executes DOM | audit | open |
 | AUD-08 | 2 | Store robustness: undeclared predicate refusals throw, gesture patches recorded before validation, `refusal()` does not catch | audit | open |
