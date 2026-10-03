@@ -304,9 +304,15 @@ function LayerPalette({ entry, node }: { readonly entry: DoorEntry; readonly nod
       </span>
       <span className="row__swatches" role="group" aria-label={t('layers.labelColour')}>
         {chosen === undefined ? null : <span className="row__swatch row__swatch--none" onClick={() => setOpen(false)}><DoorControl entry={entry} args={{ target: node.id, color: '' }} tabbable={false} /></span>}
-        {LAYER_COLOURS.map((token) => (
-          <span key={token} className="row__swatch" style={{ background: value(token) }} onClick={() => setOpen(false)}><DoorControl entry={entry} args={{ target: node.id, color: token }} tabbable={false} /></span>
-        ))}
+        {/* the colour the row wears is drawn marked and is no door: pressing it would change nothing, and the dot
+            already stands for it (two controls of one door for the same colour could not be told apart) */}
+        {LAYER_COLOURS.map((token) =>
+          token === chosen ? (
+            <span key={token} className="row__swatch is-chosen" style={{ background: value(token) }} role="img" aria-label={t('layers.colourChosen')} />
+          ) : (
+            <span key={token} className="row__swatch" style={{ background: value(token) }} onClick={() => setOpen(false)}><DoorControl entry={entry} args={{ target: node.id, color: token }} tabbable={false} /></span>
+          ),
+        )}
       </span>
     </span>
   );

@@ -158,7 +158,10 @@ export const setLayerColorCommand = registerHandler('element.setLayerColor', ({ 
   const typed = color.trim();
   if (typed === '') {
     const removed = message('status.layerColor.removed', { name: at.node.name });
-    return held < 0 ? { kind: 'change', message: removed } : { kind: 'change', patches: [{ op: 'remove', path: [...path, held] }], message: removed };
+    if (held < 0) return { kind: 'change', message: removed };
+    // the page's last colour takes the list with it: the model keeps no empty list (absent while there is none; LC1,
+    // found by AUD-35's scenarios: taking the only colour away was refused as an invalid state)
+    return { kind: 'change', patches: [{ op: 'remove', path: list.length === 1 ? path : [...path, held] }], message: removed };
   }
   const said = message('status.layerColor.set', { name: at.node.name });
   if (held >= 0 && list[held]?.colour === typed) return { kind: 'change', message: said };

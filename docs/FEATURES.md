@@ -5,7 +5,7 @@ the last complete browser run on a clean tree (`docs/feature-results.json`, writ
 hand. `npm run inventory:check` fails while this file is out of step. The requirements these features answer, and the
 open problems, are in `docs/PRODUCT.md`.
 
-214 features (214 built), 371 commands, 1346 doors, 1774 scenarios.
+214 features (214 built), 371 commands, 1346 doors, 1775 scenarios.
 
 No complete browser run on a clean tree has been recorded yet: the next one writes `docs/feature-results.json`.
 
@@ -179,7 +179,7 @@ No complete browser run on a clean tree has been recorded yet: the next one writ
 | `layers-expand-collapse-all` | Collapse and expand every branch in Layers | yes | 3 | 3 | [layers-expand-collapse-all](../spec/BEHAVIOUR.md#layers-expand-collapse-all) | 1 | — |
 | `layers-search` | Search the Layers panel | yes | 4 | 2 | [layers-search](../spec/BEHAVIOUR.md#layers-search) | 1 | — |
 | `layers-row-columns` | Choose what each Layers row shows | yes | 3 | 3 | [layers-row-columns](../spec/BEHAVIOUR.md#layers-row-columns) | 1 | — |
-| `layers-row-colours` | Colour labels on Layers rows | yes | 1 | 1 | [layers-row-colours](../spec/BEHAVIOUR.md#layers-row-colours) | 1 | — |
+| `layers-row-colours` | Colour labels on Layers rows | yes | 2 | 1 | [layers-row-colours](../spec/BEHAVIOUR.md#layers-row-colours) | 1 | — |
 
 ## 10-view-and-positioning
 

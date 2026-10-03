@@ -4221,6 +4221,7 @@ export const MESSAGE_IDS = [
   "layers.key.nextRow",
   "layers.key.previousRow",
   "layers.labelColour",
+  "layers.colourChosen",
   "layers.renameByDoubleClick",
   "layers.renameField",
   "layers.rowDetail.attributes",

@@ -1210,6 +1210,7 @@
   "layers.key.nextRow": "Next row",
   "layers.key.previousRow": "Previous row",
   "layers.labelColour": "Label colour",
+  "layers.colourChosen": "The colour the row wears",
   "layers.renameByDoubleClick": "Double-click to rename",
   "layers.renameField": "Element name",
   "layers.rowDetail.attributes": "Attributes",

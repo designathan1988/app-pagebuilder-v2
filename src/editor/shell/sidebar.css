@@ -514,6 +514,12 @@
   border: 1px dashed var(--color-border-strong);
 }
 
+/* the colour the row wears: marked by a ring, and no door (sidebar.tsx LayerPalette) */
+.row__swatch.is-chosen {
+  outline: 2px solid var(--color-text);
+  outline-offset: 1px;
+}
+
 /* an instance's row names its component, in the accent (sidebar.tsx LayersRow, J21) */
 .row__component {
   flex: none;

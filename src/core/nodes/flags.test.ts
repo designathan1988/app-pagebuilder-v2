@@ -20,7 +20,8 @@ import { moveDownCommand, moveToCommand, moveUpCommand, nestIntoPreviousCommand,
 import { deleteCommand } from '../structure/remove.ts';
 import { unwrapCommand, wrapColumnCommand, wrapRowCommand } from '../structure/wrap.ts';
 import { setTextCommand } from '../text/text.ts';
-import { firstLockRefusal, lockOver, lockRefusal, toggleHiddenCommand, toggleLockCommand } from './flags.ts';
+import { firstLockRefusal, lockOver, lockRefusal, setLayerColorCommand, toggleHiddenCommand, toggleLockCommand } from './flags.ts';
+import { documentOf, runHandler } from '../testing/handlers.ts';
 import { deepFreeze } from '../store/store.ts';
 
 const RULES = rulesFromManifest(manifest.elements, manifest.properties, manifest.html);
@@ -245,5 +246,26 @@ describe('a lock refuses every built command that would change the locked node o
     const outcome = runOn(selectAllInContainerCommand, title, ['n-intro'], {} as never);
     expect(outcome).toEqual({ kind: 'change', selection: ['n-intro', 'n-actions'], message: message('status.selection.skipped', { count: 2, skipped: 1 }) });
     expect(runOn(selectAllInContainerCommand, locking(AURORA, 'n-grid'), ['n-card-b'], {} as never)).toEqual({ kind: 'change', selection: [], message: message('status.selection.skipped', { count: 0, skipped: 3 }) });
+  });
+});
+
+// element.setLayerColor (spec layers-row-colours): an empty colour takes a node's colour away; the page's last colour
+// takes the list with it, which the model keeps absent while there is none (LC1: the list was left empty and the
+// change refused as an invalid state)
+describe('element.setLayerColor', () => {
+  const coloured = (colours: readonly { node: string; colour: string }[]): DocumentJson => {
+    const [page] = DOC.pages;
+    if (page === undefined) throw new Error('DOC has a page');
+    return documentOf({ pages: [{ ...page, tree: { ...page.tree, layerColors: colours as never } }] });
+  };
+  it('takes the page’s last colour away with its list', () => {
+    const ran = runHandler(setLayerColorCommand, coloured([{ node: 'Intro', colour: '#ff0000' }]), { target: 'Intro', color: '' });
+    expect(ran.problems).toEqual([]);
+    expect(ran.document.pages[0]?.tree.layerColors).toBeUndefined();
+  });
+  it('takes one colour away and keeps the others', () => {
+    const ran = runHandler(setLayerColorCommand, coloured([{ node: 'Title', colour: '#00ff00' }, { node: 'Intro', colour: '#ff0000' }]), { target: 'Intro', color: '' });
+    expect(ran.problems).toEqual([]);
+    expect(ran.document.pages[0]?.tree.layerColors).toEqual([{ node: 'Title', colour: '#00ff00' }]);
   });
 });

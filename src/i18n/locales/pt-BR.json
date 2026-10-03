@@ -1210,6 +1210,7 @@
   "layers.key.nextRow": "Próxima linha",
   "layers.key.previousRow": "Linha anterior",
   "layers.labelColour": "Cor do rótulo",
+  "layers.colourChosen": "A cor que a linha usa",
   "layers.renameByDoubleClick": "Clique duas vezes para renomear",
   "layers.renameField": "Nome do elemento",
   "layers.rowDetail.attributes": "Atributos",

@@ -4,9 +4,9 @@
     "built": 214,
     "commands": 371,
     "doors": 1346,
-    "scenarios": 1774,
+    "scenarios": 1775,
     "modules": 422,
-    "lines": 79585
+    "lines": 79595
   },
   "features": [
     {
@@ -1781,7 +1781,7 @@
         "element.setLayerColor"
       ],
       "doors": 1,
-      "scenarios": 1,
+      "scenarios": 2,
       "modules": [
         "src/core/nodes/flags.ts"
       ]
@@ -4124,7 +4124,7 @@
     },
     {
       "path": "src/core/nodes/flags.ts",
-      "lines": 169,
+      "lines": 172,
       "commands": [
         "element.toggleHidden",
         "element.toggleLock",
@@ -6171,7 +6171,7 @@
     },
     {
       "path": "src/editor/shell/sidebar.tsx",
-      "lines": 1189,
+      "lines": 1195,
       "commands": [],
       "features": []
     },
@@ -6541,7 +6541,7 @@
     },
     {
       "path": "src/generated/ids.ts",
-      "lines": 6510,
+      "lines": 6511,
       "commands": [],
       "features": []
     },

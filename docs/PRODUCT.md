@@ -417,6 +417,8 @@ commit closes it with its proof; the Status column then names the commit's QA-LO
 | CL1 | 1 | The Form section’s Preset field cuts its value (“Brazilian taxpaye…”) once a mask preset is chosen, a state the text-fits test never reaches | QA 183, the forms-mask flow’s photo | done (QA 184) |
 | AN1 | 2 | Anchoring an element on both edges could narrow it below its text (rounded insets, the text wrapped): the canvas's measure rounded each distance apart | QA 192, AUD-35's strengthened anchor test | done (QA 192) |
 | RF1 | 1 | Five refusals declared and catalogued that no code says (formInForm, labelOneControl, readOnlyTab, canvas.setEditMode's two), and notInside said by 15 commands that did not declare it | QA 194, AUD-35's refusal scenarios | done (QA 194: tools/manifest/declared-refusals.test.ts holds it) |
+| LC1 | 2 | Taking a page's only label colour away was refused as an invalid state (an empty layerColors list left behind) | QA 195, AUD-35's scenarios | done (QA 195) |
+| LP1 | 1 | A coloured Layers row drew its dot and the palette's swatch of its colour as the same door with the same arguments: two controls nothing could tell apart | QA 195, AUD-35's scenarios | done (QA 195) |
 
 ### 3.1 The order of work (approved by the user, 2026-10-02)
 
