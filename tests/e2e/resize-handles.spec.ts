@@ -161,6 +161,8 @@ test('no handle is drawn on the page, on a locked element or on several elements
   // the east handle: the one the short Title draws at the fit zoom (resize.handleRoom)
   await control(page, ROW, { args: { target: 'n-title' } }).click();
   await expect(handle(page, E), 'one element: its handles').toHaveCount(1);
+  const where = await handle(page, E).boundingBox();
+  if (where === null) throw new Error('the east handle is not laid out');
   await control(page, ROW, { args: { target: 'n-page' } }).click();
   await expect(handle(page, E), 'the page: none').toHaveCount(0);
   await control(page, ROW, { args: { target: 'n-title' } }).click();
@@ -169,6 +171,14 @@ test('no handle is drawn on the page, on a locked element or on several elements
   await control(page, ROW, { args: { target: 'n-title' } }).click();
   await control(page, LOCK, { args: { target: 'n-title' } }).click();
   await expect(handle(page, E), 'a locked element: none').toHaveCount(0);
+  // and nothing resizes it (the audit's AUD-35: no handle drawn alone): a drag from where its handle stood leaves the
+  // document as it was
+  const before = await page.evaluate(() => JSON.stringify((window as unknown as Record<string, { document: () => unknown }>).__builderTestPort?.document()));
+  await page.mouse.move(where.x + where.width / 2, where.y + where.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(where.x + where.width / 2 + 60, where.y + where.height / 2, { steps: 8 });
+  await page.mouse.up();
+  expect(await page.evaluate(() => JSON.stringify((window as unknown as Record<string, { document: () => unknown }>).__builderTestPort?.document())), 'the locked Title keeps its size').toBe(before);
 });
 
 // A3.8: every style door writes where the style target is — the Quick Panel, the Style tab, the Edit-on-canvas modes and

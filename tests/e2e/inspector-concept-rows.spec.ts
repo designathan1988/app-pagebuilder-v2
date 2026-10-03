@@ -82,7 +82,11 @@ test('every detail of every row is reachable: opened, each row draws the details
     for (const row of rows) {
       const toggle = control(page, TOGGLE, { args: { row } }).first();
       if ((await toggle.getAttribute('aria-expanded')) === 'false') await toggle.click();
-      await expect(page.locator(`[data-concept-row="${row}"] [role="group"] [data-door]`).first(), `${target}: the details of ${row}`).toBeAttached();
+      const detail = page.locator(`[data-concept-row="${row}"] [role="group"] [data-door]`).first();
+      await expect(detail, `${target}: the details of ${row}`).toBeAttached();
+      // reachable, not only in the markup (the audit's AUD-35): scrolled to, the detail lies in the window
+      await detail.scrollIntoViewIfNeeded();
+      await expect(detail, `${target}: a detail of ${row} in the window`).toBeInViewport();
     }
   }
 });

@@ -99,6 +99,13 @@ test('the Edit on canvas menu disables the gap, with its reason, on a container 
   await expect(gap).toHaveAttribute('aria-disabled', 'true');
   await expect(gap).toHaveAttribute('title', 'Gap — does not apply to the element');
   await expect(control(page, MODE, { args: { mode: 'padding' } }), 'the padding item, which applies, is offered').not.toHaveAttribute('aria-disabled', 'true');
+  // disabled, it does nothing (the audit's AUD-35: the item's words alone): pressed, no mode comes on and no gap band
+  // is drawn
+  await gap.click({ force: true });
+  // two frames: what a mode turned on would have drawn by then
+  await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+  await expect(page.locator('[data-chrome="mode-hint"]'), 'no mode in force').toHaveCount(0);
+  await expect(page.locator('[data-canvas-overlay] .chrome__band--gap'), 'no gap band').toHaveCount(0);
 });
 
 // A3.15: a mode never stays over a selection it cannot edit. The gap mode, on over a flex container, lets go the

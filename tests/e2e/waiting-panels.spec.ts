@@ -77,5 +77,9 @@ test('View › Checks and Help › Keyboard shortcuts open their panels', async 
     // the panel it opens is drawn with content, a region of it and the doors inside
     const shown = page.locator(`[data-region="${region}"]`);
     await expect(shown, ref).toBeVisible();
+    // and what it holds (the audit's AUD-35: the region alone could be empty): the issues or the words that there are
+    // none; the manifest's shortcuts, the command bar's Ctrl+K among them
+    if (region === 'dock-checks') await expect(shown.locator('.dock-checks__list li, .dock-checks__none').first(), ref).toBeVisible();
+    else await expect(shown.locator('[data-shortcut="commandBar.open#key-ctrl-k-in-global"] kbd'), ref).toHaveText(/K$/);
   }
 });

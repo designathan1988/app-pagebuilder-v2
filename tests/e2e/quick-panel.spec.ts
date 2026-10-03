@@ -4,7 +4,7 @@
 // holds text, none for a section). The scenarios cannot say where the panel is drawn relative to its element, nor which
 // fields it draws: this test reads the panel's box and fields in Chrome.
 import fs from 'node:fs';
-import { expect, test, type Page } from '../support/test.ts';
+import { expect, test, type Locator, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
 import { control, openEverySection, runDoor, runs } from './door.ts';
 
@@ -78,10 +78,23 @@ test('the panel shows the fields whose property applies to the element', runs(OP
   await openPanel(page);
   await expect(panel(page).locator(`[data-door="${WIDTH}"]`)).toHaveCount(1);
   await expect(panel(page).locator(`[data-door="${FONT_SIZE}"]`)).toHaveCount(0);
-  // a paragraph: its text fields too
+  // a field drawn is one that applies (the audit's AUD-35: drawn alone): W written, the section takes the width
+  await typeValue(page, panel(page).locator(`[data-door="${WIDTH}"] input`).first(), '420px');
+  // (the frame's zoom leaves a used width a few thousandths of a px off)
+  await expect.poll(() => page.frameLocator('.frame__page').locator('[data-node="n-hero"]').evaluate((el) => Math.round(Number.parseFloat(getComputedStyle(el).width)))).toBe(420);
+  // a paragraph: its text fields too, and its font size field sizes its text
   await control(page, ROW, { args: { target: 'n-intro' } }).click();
   await expect(panel(page).locator(`[data-door="${FONT_SIZE}"]`)).toHaveCount(1);
+  await typeValue(page, panel(page).locator(`[data-door="${FONT_SIZE}"] input`).first(), '30px');
+  await expect.poll(() => page.frameLocator('.frame__page').locator('[data-node="n-intro"]').evaluate((el) => getComputedStyle(el).fontSize)).toBe('30px');
 });
+
+async function typeValue(page: Page, field: Locator, value: string): Promise<void> {
+  await field.click();
+  await page.keyboard.press('Control+A');
+  await page.keyboard.type(value);
+  await page.keyboard.press('Enter');
+}
 
 // A3.34: the panel's fill field is named by what it shows — the background image, url or gradient — never "Gradient"
 // while it holds an address, and typing an address writes that declaration.

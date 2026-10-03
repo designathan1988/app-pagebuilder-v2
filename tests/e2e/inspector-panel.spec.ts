@@ -476,9 +476,14 @@ test('the Timeline tab of the closed strip opens the collapsed dock on its panel
   await expect(panel).toHaveAttribute('aria-label', words(LAYOUT.panels.timeline?.labelKey ?? ''));
   const tab = control(page, DOCK_TAB, { args: { panel: 'timeline' } });
   await expect(tab).toHaveAttribute('aria-selected', 'true');
+  // the Timeline itself, beyond the panel's name (the audit's AUD-35): its animations and track, laid out in the dock
+  const timeline = page.locator('[data-region="dock-timeline"]');
+  await expect(timeline).toBeVisible();
+  expect((await timeline.boundingBox())?.height ?? 0, 'the Timeline has room in the opened dock').toBeGreaterThan(40);
   // and the strip's own tab reaches the same panel while the dock is open
   await runDoor(page, DOCK_TAB, { args: { panel: 'timeline' } });
   await expect(panel).toHaveAttribute('aria-label', words(LAYOUT.panels.timeline?.labelKey ?? ''));
+  await expect(timeline).toBeVisible();
 });
 
 // A3.30: a field's slider writes what the pointer releases on — nothing while it is held, one undo step on release —

@@ -76,4 +76,11 @@ test('add a property offers a list property for a list and not for a section', r
   // choosing it draws its field
   await item('list-style-type').click();
   await expect(drawn(page, LIST_TYPE)).toHaveCount(1);
+  // the field offered is the list's own (the audit's AUD-35: drawn alone): a marker typed there marks the list
+  const field = drawn(page, LIST_TYPE).locator('input').first();
+  await field.click();
+  await page.keyboard.press('Control+A');
+  await page.keyboard.type('square');
+  await page.keyboard.press('Enter');
+  await expect.poll(() => page.frameLocator('.frame__page').locator('[data-node="n-perks"]').evaluate((el) => getComputedStyle(el).listStyleType)).toBe('square');
 });

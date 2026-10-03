@@ -4,7 +4,7 @@
 // alignments away in one undo step (the document read through the read-only test port). The Margin and Padding
 // links carry their own names. One title given a top padding: the Padding top field of both says Mixed.
 import fs from 'node:fs';
-import { expect, test, type Page } from '../support/test.ts';
+import { expect, test, type Locator, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
 import { control, openEverySection, runDoor, runs } from './door.ts';
 
@@ -146,4 +146,25 @@ test('a box link belongs to its element: linking one title leaves the other unli
   await expect(padding, 'the other title keeps its own link').toHaveAttribute('aria-pressed', 'false');
   await control(page, ROW, { args: { target: 'n-card-a-title' } }).click();
   await expect(padding, 'the first title kept the link it was given').toHaveAttribute('aria-pressed', 'true');
+  // what each link does to a value typed (the audit's AUD-35: the pressed state alone): the linked title's one field
+  // writes its four sides, the other title's top field its top side only, as the canvas draws them
+  await typeInto(page, page.locator('.box--padding.is-linked input').first(), '12px');
+  await expect.poll(() => paddingOf(page, 'n-card-a-title')).toEqual(['12px', '12px', '12px', '12px']);
+  await control(page, ROW, { args: { target: 'n-card-b-title' } }).click();
+  const [, right, bottom, left] = await paddingOf(page, 'n-card-b-title');
+  await typeInto(page, page.locator(`[data-door="${PADDING_TOP}"] input`), '8px');
+  await expect.poll(() => paddingOf(page, 'n-card-b-title')).toEqual(['8px', right, bottom, left]);
 });
+
+async function typeInto(page: Page, field: Locator, value: string): Promise<void> {
+  await field.click();
+  await page.keyboard.press('Control+A');
+  await page.keyboard.type(value);
+  await page.keyboard.press('Enter');
+}
+// the padding of an element's four sides, clockwise from the top, as the canvas computes it
+const paddingOf = (page: Page, id: string) =>
+  page.frameLocator('.frame__page').locator(`[data-node="${id}"]`).evaluate((el) => {
+    const style = getComputedStyle(el);
+    return [style.paddingTop, style.paddingRight, style.paddingBottom, style.paddingLeft];
+  });

@@ -116,6 +116,9 @@ test('one click switches directly between neighbouring application menus', async
   await file.click();
   await expect(page.getByRole('menu', { name: 'Arrange' })).toHaveCount(0);
   await expect(page.getByRole('menu', { name: 'File' })).toBeVisible();
+  // one menu at a time, and the one shown is the one its button says is open (the audit's AUD-35)
+  await expect(page.getByRole('menu')).toHaveCount(1);
+  await expect(page.locator('.menu-button[aria-expanded="true"]')).toHaveAttribute('data-menu', 'file');
 });
 
 test('a submenu shows while the pointer is over its item and hides when the pointer leaves it', async ({ page }) => {
@@ -125,6 +128,9 @@ test('a submenu shows while the pointer is over its item and hides when the poin
   await page.getByRole('menuitem', { name: 'Theme', exact: true }).hover();
   await expect(theme).toBeVisible();
   await expect(theme.getByRole('menuitemradio', { name: 'Light' })).toBeVisible();
+  // the pointer carried from the item into the submenu keeps it (the audit's AUD-35): what it holds can be reached
+  await theme.getByRole('menuitemradio', { name: 'Light' }).hover();
+  await expect(theme).toBeVisible();
   // over the View menu's first item, away from the submenu
   await page.getByRole('menu', { name: 'View' }).getByRole('menuitem').first().hover();
   await expect(theme).toBeHidden();

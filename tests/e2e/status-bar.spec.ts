@@ -137,4 +137,12 @@ test('the element count is that of the open page: a new page reads one element',
   await openExplorer(page);
   await runDoor(page, 'pages.add#explorer-add-page');
   await expect(page.locator('.status-bar').getByText('1 element', { exact: true })).toHaveCount(1);
+  // the count is the document's (the audit's AUD-35: the words alone): the new page holds its root alone, and the
+  // canvas draws that page
+  const added = await page.evaluate(() => {
+    const doc = (window as unknown as { __builderTestPort: { document: () => { pages: { tree: { children: unknown[] } }[] } } }).__builderTestPort.document();
+    return { pages: doc.pages.length, children: doc.pages.at(-1)?.tree.children.length };
+  });
+  expect(added).toEqual({ pages: 2, children: 0 });
+  await expect(page.frameLocator('.frame__page').locator('[data-node]')).toHaveCount(1);
 });

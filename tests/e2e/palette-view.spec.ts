@@ -17,6 +17,8 @@ const GROUP = 'palette.toggleGroup#elements-group-header';
 const columns = (page: Page) =>
   page.locator('[data-region="insert"] [data-region="palette-tiles"]').evaluateAll((grids) => grids.map((g) => getComputedStyle(g).gridTemplateColumns.split(' ').length));
 // whether the tiles of a group are drawn: its header is followed by its grid
+// the groups the stored preferences keep collapsed
+const storedGroups = (page: Page) => page.evaluate(() => (JSON.parse(window.localStorage.getItem('preferences') ?? '{}') as { collapsedGroups?: string[] }).collapsedGroups ?? []);
 const groupTiles = (page: Page, group: string) => control(page, GROUP, { args: { group } }).locator('xpath=following-sibling::*[@data-region="palette-tiles"]');
 
 test.beforeEach(async ({ page }) => {
@@ -68,7 +70,10 @@ test('a collapsed group draws none of its tiles, opens again, and stays collapse
   await expect(groupTiles(page, 'structure')).toHaveCount(1);
   await runDoor(page, GROUP, { args: { group: 'text' } });
   await expect(groupTiles(page, 'text')).toHaveCount(1);
+  await expect.poll(() => storedGroups(page), 'opened again, no group is kept collapsed').toEqual([]);
   await runDoor(page, GROUP, { args: { group: 'text' } });
+  // what the next session reads (the audit's AUD-35: the tiles alone could come from a state held in memory)
+  await expect.poll(() => storedGroups(page)).toEqual(['text']);
   await page.reload();
   await expect(page.locator('.workbench')).toBeVisible();
   if ((await page.locator('[data-region="insert"]').count()) === 0) await runDoor(page, INSERT_PANEL);

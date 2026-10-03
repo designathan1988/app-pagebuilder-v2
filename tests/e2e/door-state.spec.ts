@@ -1,11 +1,27 @@
 // A built door that stands for a state says whether it is on, as its door data says it is drawn: a toggle button
 // (pressed) by aria-pressed, a menu item (checked radio or checkbox) by its role and aria-checked, both from the
 // current state the store holds. A door that is no toggle (a close button, a command item) says nothing.
-import { expect, test } from '../support/test.ts';
+import { expect, test, type Page } from '../support/test.ts';
 import { openEditor } from '../support/editor.ts';
 import { openMenu, runDoor, runs, openExplorer } from './door.ts';
 
 const door = (ref: string) => `[data-door="${ref}"]`;
+// what the state words stand for, drawn (the audit's AUD-35: the words alone could say on while nothing changed): the
+// view the sidebar shows, the workbench's height, and the brightness of the window's background
+const shows = async (page: Page, view: 'insert' | 'explorer-pages') => (await page.locator(`[data-region="${view}"]`).count()) === 1;
+const dockHeight = async (page: Page) => (await page.locator('.dock').boundingBox())?.height ?? 0;
+const brightness = (page: Page) =>
+  page.evaluate(() => {
+    // the background painted behind the canvas: the nearest one from the workbench up that is not transparent
+    let element: Element | null = document.querySelector('.workbench');
+    let parts: number[] = [];
+    for (; element !== null; element = element.parentElement) {
+      parts = (getComputedStyle(element).backgroundColor.match(/[\d.]+/g) ?? []).map(Number);
+      if (parts.length === 3 || (parts[3] ?? 0) > 0) break;
+    }
+    const [r = 255, g = 255, b = 255] = element === null ? [] : parts;
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  });
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -21,9 +37,13 @@ test('the toggle buttons of the panels and the workbench say whether they are on
   await expect(page.locator(door('workspace.setPanelOpen#toolbar-activity-bar-insert'))).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator(door('workspace.setPanelOpen#toolbar-canvas-toolbar-canvas-tools'))).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator(door('workspace.setWorkbenchState#toolbar-workbench-strip-toggle'))).toHaveAttribute('aria-pressed', 'false');
+  expect([await shows(page, 'insert'), await shows(page, 'explorer-pages')], 'the sidebar shows Insert, not the Explorer').toEqual([true, false]);
+  const closed = await dockHeight(page);
   await runDoor(page, 'workspace.setPanelOpen#menu-view-workbench');
   await expect(page.locator(door('workspace.setWorkbenchState#toolbar-workbench-strip-toggle'))).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator(door('workspace.setWorkbenchState#toolbar-workbench-strip-maximize'))).toHaveAttribute('aria-pressed', 'false');
+  await expect.poll(() => dockHeight(page), 'shown, the workbench is taller than its strip').toBeGreaterThan(closed + 50);
+  const shown = await dockHeight(page);
   await expect(page.locator(door('workspace.setPanelOpen#workbench-tab-close'))).not.toHaveAttribute('aria-pressed', /.*/);
 
   // from the Explorer, Insert's door turns it on and the Explorer's off
@@ -31,10 +51,12 @@ test('the toggle buttons of the panels and the workbench say whether they are on
   await runDoor(page, 'workspace.setPanelOpen#toolbar-activity-bar-insert');
   await expect(page.locator(door('workspace.setPanelOpen#toolbar-activity-bar-insert'))).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator(door('workspace.setPanelOpen#toolbar-activity-bar-explorer'))).toHaveAttribute('aria-pressed', 'false');
+  expect([await shows(page, 'insert'), await shows(page, 'explorer-pages')], 'the sidebar shows Insert again').toEqual([true, false]);
 
   await runDoor(page, 'workspace.setWorkbenchState#toolbar-workbench-strip-maximize');
   await expect(page.locator(door('workspace.setWorkbenchState#toolbar-workbench-strip-maximize'))).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator(door('workspace.setWorkbenchState#toolbar-workbench-strip-toggle'))).toHaveAttribute('aria-pressed', 'true');
+  await expect.poll(() => dockHeight(page), 'maximised, the workbench takes the height of the canvas too').toBeGreaterThan(shown + 100);
 });
 
 test('the Theme and Language items are one choice of a set and say which is chosen', runs('preferences.setTheme#menu-theme-light'), async ({ page }) => {
@@ -44,17 +66,21 @@ test('the Theme and Language items are one choice of a set and say which is chos
   await expect(item('preferences.setTheme#menu-theme-light')).toHaveAttribute('aria-checked', 'false');
   await expect(item('preferences.setTheme#menu-theme-system')).toHaveAttribute('aria-checked', 'false');
   await page.keyboard.press('Escape');
+  const dark = await brightness(page);
 
   await runDoor(page, 'preferences.setTheme#menu-theme-light');
   await openMenu(page, 'theme');
   await expect(item('preferences.setTheme#menu-theme-light')).toHaveAttribute('aria-checked', 'true');
   await expect(item('preferences.setTheme#menu-theme-dark')).toHaveAttribute('aria-checked', 'false');
   await page.keyboard.press('Escape');
+  // the chosen theme is the one painted: the window's background is brighter than the dark theme's
+  await expect.poll(() => brightness(page), 'the light theme paints a brighter background').toBeGreaterThan(dark + 100);
 
   await openMenu(page, 'language');
   await expect(item('preferences.setLanguage#menu-language-en')).toHaveAttribute('aria-checked', 'true');
   await expect(item('preferences.setLanguage#menu-language-pt-br')).toHaveAttribute('aria-checked', 'false');
   await page.keyboard.press('Escape');
+  await expect(page.locator('html'), 'the chosen language is the one the window speaks').toHaveAttribute('lang', 'en');
 
   // the zoom levels are choices too, and Fit is one of them: the canvas opens in Fit mode, so Fit is the one chosen
   // (spec zoom-keyboard-buttons, Problem 5)

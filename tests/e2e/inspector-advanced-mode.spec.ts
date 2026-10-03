@@ -16,6 +16,9 @@ const WORD_SPACING = 'style.set#inspector-word-spacing';
 const LETTER_SPACING = 'style.set#inspector-letter-spacing';
 const FONT_SIZE = 'style.set#inspector-font-size';
 
+// the mode the window keeps for the next session (the audit's AUD-35: the drawn fields alone could come from a mode
+// held only in memory)
+const storedMode = (page: Page) => page.evaluate(() => (JSON.parse(window.localStorage.getItem('preferences') ?? '{}') as { inspectorMode?: string }).inspectorMode ?? null);
 const drawn = (page: Page, ref: string) => page.locator(`[data-region="inspector-style"] [data-door="${ref}"]`);
 
 async function selectIntro(page: Page): Promise<void> {
@@ -44,6 +47,8 @@ test('essentials only leaves out what is no essential, keeps what holds a value,
   await expect(drawn(page, WORD_SPACING)).toHaveCount(0);
   await expect(drawn(page, LETTER_SPACING)).toHaveCount(1);
   await expect(drawn(page, FONT_SIZE)).toHaveCount(1);
+  await expect(drawn(page, LETTER_SPACING).locator('input'), 'the field kept shows its value').toHaveValue('2px');
+  await expect.poll(() => storedMode(page)).toBe('essentials');
   // the mode stays after a reload
   await page.reload();
   await expect(page.locator('.workbench')).toBeVisible();
@@ -52,4 +57,5 @@ test('essentials only leaves out what is no essential, keeps what holds a value,
   // All properties draws every field again
   await runDoor(page, ALL);
   await expect(drawn(page, WORD_SPACING)).toHaveCount(1);
+  await expect.poll(() => storedMode(page), 'every property is the default, which nothing stores').toBeNull();
 });

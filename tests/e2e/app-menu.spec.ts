@@ -81,10 +81,14 @@ test('with a menu open, the pointer onto another menu button opens that one; wit
   await page.mouse.move(edit.x, edit.y, { steps: 6 });
   await expect(page.locator('[data-menu="edit"]')).toHaveAttribute('aria-expanded', 'true');
   await expect(page.locator('[data-menu="file"]')).toHaveAttribute('aria-expanded', 'false');
+  // the menus themselves, beyond their buttons' words (the audit's AUD-35): Edit's is drawn with its items, File's is gone
+  await expect(page.getByRole('menu', { name: 'Edit' }).getByRole('menuitem').first()).toBeVisible();
+  await expect(page.getByRole('menu', { name: 'File' })).toHaveCount(0);
   await page.keyboard.press('Escape');
   const view = await centre('view');
   await page.mouse.move(view.x, view.y, { steps: 6 });
   await expect(page.locator('[data-menu][aria-expanded="true"]')).toHaveCount(0);
+  await expect(page.getByRole('menu')).toHaveCount(0);
 });
 
 test('a menu the pointer opened on its way stays open under the click that follows; a second click closes it', runs(), async ({ page }) => {
@@ -94,6 +98,9 @@ test('a menu the pointer opened on its way stays open under the click that follo
   await page.locator('.menu-button[data-menu="file"]').click();
   await page.locator('.menu-button[data-menu="edit"]').click();
   await expect(page.getByRole('menu', { name: 'Edit' })).toBeVisible();
+  // open under the click, it works (the audit's AUD-35: drawn alone proved no use): the keys move through its items
+  await page.keyboard.press('ArrowDown');
+  await expect.poll(() => page.evaluate(() => document.activeElement?.closest('[role="menu"]')?.getAttribute('aria-label') ?? null)).toBe('Edit');
   await page.locator('.menu-button[data-menu="edit"]').click();
   await expect(page.getByRole('menu', { name: 'Edit' })).toHaveCount(0);
 });

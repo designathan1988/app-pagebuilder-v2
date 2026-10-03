@@ -61,6 +61,9 @@ test('Escape leaves the preview after a click inside its page', runs(OPEN, PREVI
   const chooser = page.waitForEvent('filechooser');
   await runDoor(page, OPEN);
   await (await chooser).setFiles({ name: 'aurora.json', mimeType: 'application/json', buffer: fs.readFileSync(FIXTURE) });
+  // the project opened (the canvas draws its Title) before the document is read
+  await expect(page.frameLocator('.frame__page').locator('[data-node="n-title"]')).toHaveCount(1);
+  const before = await documentNow(page);
   await page.keyboard.press('Control+P');
   const frame = page.locator('[data-region="preview-page"]');
   await expect(frame).toBeVisible();
@@ -68,6 +71,11 @@ test('Escape leaves the preview after a click inside its page', runs(OPEN, PREVI
   await page.keyboard.press('Escape');
   await expect(frame).toHaveCount(0);
   await expect(page.locator('.workbench')).toBeVisible();
+  // the editor has its keys back and the click in the page changed nothing (the audit's AUD-35: the frame gone alone
+  // left the focus unproven): its own shortcut opens the preview again
+  expect(await documentNow(page)).toBe(before);
+  await page.keyboard.press('Control+P');
+  await expect(frame).toBeVisible();
 });
 
 test('only the previewed page relays a key: another sandboxed frame is not heard', runs(OPEN, PREVIEW), async ({ page }) => {

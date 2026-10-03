@@ -88,6 +88,10 @@ test('while a text is edited, Ctrl+K opens no bar', runs(CLICK, START_EDIT, CTRL
   await expect(page.frameLocator('.frame__page').locator('[data-node="n-title"][contenteditable]')).toHaveCount(1);
   await page.keyboard.press('Control+K');
   await expect(bar(page)).toHaveCount(0);
+  // the key keeps its meaning in the text (the audit's AUD-35: no bar alone proved nothing ran): the link's address
+  // field takes the focus, and the text is still edited
+  await expect(page.locator('[data-local="link-address"]')).toBeFocused();
+  await expect(page.frameLocator('.frame__page').locator('[data-node="n-title"][contenteditable]')).toHaveCount(1);
 });
 
 // The backdrop is the whole window: a press anywhere outside the panel closes the bar, and Escape still closes it after

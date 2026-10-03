@@ -162,13 +162,34 @@ test('a kept line break is drawn as a <br>, and Escape keeps an edit as Enter do
 test('the canvas frame is hidden from assistive technology except while it holds the edited text', runs('project.open#menu-file', SELECT, ENTER_EDIT, ESCAPE), async ({ page }) => {
   const frame = page.locator('.frame__page');
   await expect(frame).toHaveAttribute('aria-hidden', 'true');
+  // what assistive technology reads (the audit's AUD-35: the attribute alone): Chrome's own accessibility tree leaves
+  // the frame out, then holds it while the text is edited
+  expect(await leftOutOfAccessibility(page), 'the frame, nothing edited').toBe(true);
   const at = await centre(page, 'n-intro');
   await page.mouse.click(at.x, at.y);
   await page.keyboard.press('Enter');
   await expect(frame).not.toHaveAttribute('aria-hidden');
+  expect(await leftOutOfAccessibility(page), 'the frame holding the edited text').toBe(false);
   await page.keyboard.press('Escape');
   await expect(frame).toHaveAttribute('aria-hidden', 'true');
+  expect(await leftOutOfAccessibility(page), 'the frame, the edit ended').toBe(true);
 });
+
+// whether Chrome's accessibility tree ignores the canvas frame (the DevTools protocol's Accessibility domain)
+async function leftOutOfAccessibility(page: Page): Promise<boolean> {
+  const cdp = await page.context().newCDPSession(page);
+  try {
+    const { result } = await cdp.send('Runtime.evaluate', { expression: 'document.querySelector(".frame__page")' });
+    if (result.objectId === undefined) throw new Error('the canvas frame is not in the window');
+    const { node } = await cdp.send('DOM.describeNode', { objectId: result.objectId });
+    const { nodes } = await cdp.send('Accessibility.getPartialAXTree', { backendNodeId: node.backendNodeId, fetchRelatives: false });
+    const own = nodes.find((axNode) => axNode.backendDOMNodeId === node.backendNodeId);
+    if (own === undefined) throw new Error('the frame has no node in the accessibility tree');
+    return own.ignored;
+  } finally {
+    await cdp.detach();
+  }
+}
 
 // a colour token of the editor (tokens.css, #rrggbb) as the browser computes a colour
 const token = (page: Page, name: string) =>
