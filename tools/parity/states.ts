@@ -206,9 +206,11 @@ export async function setUpState(app: Page, state: State): Promise<void> {
     await app.waitForTimeout(500);
   }
   if (state === 'interaction') {
-    // the design's dock is open on the Timeline while an event is edited
+    // the design's dock is open on the Timeline while an event is edited, its loop on
     await app.locator('[data-door="workspace.setPanelOpen#dock-strip-timeline"]').first().click();
     await app.waitForTimeout(300);
+    const loop = app.locator('[data-door="timeline.toggleLoop#timeline-loop"]').first();
+    if ((await loop.count()) > 0) await loop.click();
     // the Interactions tab on the button's two events, its click event's target being picked (the design's state)
     await app.locator('[data-door$="#inspector-tab-interactions"]').first().click();
     await app.waitForTimeout(400);

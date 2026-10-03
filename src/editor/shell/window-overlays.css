@@ -873,6 +873,33 @@
   min-height: var(--size-row);
 }
 
+/* the timeline's values in the code face, the small radius, no edge (the canonical .f) */
+.timeline__side .panel-field__text {
+  border-color: transparent;
+  border-radius: var(--radius-xs);
+  font: var(--fw-code) var(--fs-code) / var(--lh-code) var(--font-mono);
+}
+
+.timeline__name,
+.timeline__setting {
+  display: contents;
+}
+
+.timeline__name .panel-field__text:not(:focus) {
+  background: transparent;
+}
+
+.timeline__setting.is-set .panel-field__text {
+  background: var(--color-origin-here-soft);
+  color: var(--color-origin-here);
+  font-weight: var(--weight-semibold);
+}
+
+.timeline__setting.is-default .panel-field__text {
+  background: var(--color-surface-sunken);
+  color: var(--color-origin-default);
+}
+
 .timeline__track-area {
   display: flex;
   flex-direction: column;

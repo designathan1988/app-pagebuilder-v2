@@ -7,79 +7,67 @@ Never edited by hand: `tools/parity/pairing.test.ts` fails while it is out of st
 Every region both sides mark (`data-region`) and every control both mark (`data-door`, the n-th of each door) is
 measured on both sides; a divergence is a size beyond 2 px (a region's beyond 4), a font, a colour beyond 16 of the
 channels' summed difference, or corners, where they show — or something the design draws and the app does not.
-Open: 188 divergences of 38 kinds. Decisions (docs/PRODUCT.md, section 4) keep the others.
+Open: 104 divergences of 24 kinds. Decisions (docs/PRODUCT.md, section 4) keep the others.
 
 | State | Theme | Language | Regions | Controls | Open | Kept by a decision |
 |---|---|---|---|---|---|---|
-| default | dark | en | 15 | 117 | 1 | 10 |
-| selection | dark | en | 16 | 117 | 1 | 10 |
+| default | dark | en | 15 | 117 | 0 | 9 |
+| selection | dark | en | 16 | 117 | 0 | 9 |
 | breakpoint | dark | en | 15 | 126 | 3 | 13 |
-| menu | dark | en | 16 | 134 | 2 | 17 |
-| context | dark | en | 16 | 133 | 2 | 11 |
-| palette | dark | en | 16 | 119 | 2 | 10 |
+| menu | dark | en | 16 | 134 | 1 | 16 |
+| context | dark | en | 16 | 133 | 1 | 10 |
+| palette | dark | en | 16 | 119 | 1 | 9 |
 | multi | dark | en | 15 | 116 | 4 | 10 |
 | state | dark | en | 12 | 77 | 1 | 12 |
 | text | dark | en | 15 | 113 | 4 | 13 |
-| interaction | dark | en | 14 | 107 | 23 | 5 |
-| hover | dark | en | 12 | 102 | 2 | 9 |
-| drag | dark | en | 14 | 117 | 2 | 10 |
-| default | light | en | 15 | 117 | 1 | 10 |
-| selection | light | en | 16 | 117 | 1 | 10 |
+| interaction | dark | en | 14 | 107 | 9 | 5 |
+| hover | dark | en | 12 | 102 | 1 | 8 |
+| drag | dark | en | 14 | 117 | 1 | 9 |
+| default | light | en | 15 | 117 | 0 | 9 |
+| selection | light | en | 16 | 117 | 0 | 9 |
 | breakpoint | light | en | 15 | 126 | 3 | 13 |
-| menu | light | en | 16 | 134 | 2 | 17 |
-| context | light | en | 16 | 133 | 2 | 11 |
-| palette | light | en | 16 | 119 | 2 | 10 |
+| menu | light | en | 16 | 134 | 1 | 16 |
+| context | light | en | 16 | 133 | 1 | 10 |
+| palette | light | en | 16 | 119 | 1 | 9 |
 | multi | light | en | 15 | 116 | 4 | 10 |
 | state | light | en | 12 | 77 | 1 | 12 |
 | text | light | en | 15 | 113 | 4 | 13 |
-| interaction | light | en | 14 | 107 | 23 | 5 |
-| hover | light | en | 12 | 102 | 2 | 9 |
-| drag | light | en | 14 | 117 | 2 | 10 |
-| default | dark | pt-BR | 15 | 117 | 1 | 11 |
-| selection | dark | pt-BR | 16 | 117 | 1 | 11 |
+| interaction | light | en | 14 | 107 | 9 | 5 |
+| hover | light | en | 12 | 102 | 1 | 8 |
+| drag | light | en | 14 | 117 | 1 | 9 |
+| default | dark | pt-BR | 15 | 117 | 0 | 10 |
+| selection | dark | pt-BR | 16 | 117 | 0 | 10 |
 | breakpoint | dark | pt-BR | 15 | 126 | 3 | 13 |
-| menu | dark | pt-BR | 16 | 134 | 2 | 18 |
-| context | dark | pt-BR | 16 | 133 | 2 | 12 |
-| palette | dark | pt-BR | 16 | 119 | 2 | 11 |
+| menu | dark | pt-BR | 16 | 134 | 1 | 17 |
+| context | dark | pt-BR | 16 | 133 | 1 | 11 |
+| palette | dark | pt-BR | 16 | 119 | 1 | 10 |
 | multi | dark | pt-BR | 15 | 116 | 4 | 10 |
 | state | dark | pt-BR | 12 | 77 | 1 | 12 |
 | text | dark | pt-BR | 15 | 113 | 4 | 13 |
-| interaction | dark | pt-BR | 14 | 107 | 23 | 5 |
-| hover | dark | pt-BR | 12 | 102 | 2 | 10 |
-| drag | dark | pt-BR | 14 | 117 | 2 | 11 |
-| default | light | pt-BR | 15 | 117 | 1 | 11 |
-| selection | light | pt-BR | 16 | 117 | 1 | 11 |
+| interaction | dark | pt-BR | 14 | 107 | 9 | 5 |
+| hover | dark | pt-BR | 12 | 102 | 1 | 9 |
+| drag | dark | pt-BR | 14 | 117 | 1 | 10 |
+| default | light | pt-BR | 15 | 117 | 0 | 10 |
+| selection | light | pt-BR | 16 | 117 | 0 | 10 |
 | breakpoint | light | pt-BR | 15 | 126 | 3 | 13 |
-| menu | light | pt-BR | 16 | 134 | 2 | 18 |
-| context | light | pt-BR | 16 | 133 | 2 | 12 |
-| palette | light | pt-BR | 16 | 119 | 2 | 11 |
+| menu | light | pt-BR | 16 | 134 | 1 | 17 |
+| context | light | pt-BR | 16 | 133 | 1 | 11 |
+| palette | light | pt-BR | 16 | 119 | 1 | 10 |
 | multi | light | pt-BR | 15 | 116 | 4 | 10 |
 | state | light | pt-BR | 12 | 77 | 1 | 12 |
 | text | light | pt-BR | 15 | 113 | 4 | 13 |
-| interaction | light | pt-BR | 14 | 107 | 23 | 5 |
-| hover | light | pt-BR | 12 | 102 | 2 | 10 |
-| drag | light | pt-BR | 14 | 117 | 2 | 11 |
+| interaction | light | pt-BR | 14 | 107 | 9 | 5 |
+| hover | light | pt-BR | 12 | 102 | 1 | 9 |
+| drag | light | pt-BR | 14 | 117 | 1 | 10 |
 
 ## Open divergences
 
 | What | Pairs | Design | App | First pairs |
 |---|---|---|---|---|
-| region `inspector-selector-bar` height | 40 | 153 | 159 | default/dark/en, selection/dark/en, breakpoint/dark/en |
+| region `inspector-selector-bar` height | 12 | 151 | 187 | breakpoint/dark/en, state/dark/en, text/dark/en |
 | control `animation.addKeyframe#timeline-add-keyframe` height | 4 | 24 | 28 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `animation.create#timeline-new-animation` colour | 4 | rgb(135, 145, 160) | rgb(168, 176, 189) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.rename#timeline-animation-name-field` background | 4 | rgba(0, 0, 0, 0) | rgb(21, 24, 29) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.rename#timeline-animation-name-field` font | 4 | 12px 400 | 15px 400 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `animation.rename#timeline-animation-name-field` height | 4 | 18 | 24 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.rename#timeline-animation-name-field` radius | 4 | 0px | 2px | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.setSettings#timeline-setting-delay` background | 4 | rgb(15, 17, 21) | rgb(21, 24, 29) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.setSettings#timeline-setting-delay` colour | 4 | rgb(135, 145, 160) | rgb(217, 222, 230) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.setSettings#timeline-setting-delay` font | 4 | 12px 400 | 15px 400 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.setSettings#timeline-setting-duration` background | 4 | rgb(18, 58, 54) | rgb(21, 24, 29) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.setSettings#timeline-setting-duration` colour | 4 | rgb(79, 224, 204) | rgb(217, 222, 230) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.setSettings#timeline-setting-duration` font | 4 | 12px 600 | 15px 400 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.setSettings#timeline-setting-iterations` background | 4 | rgb(15, 17, 21) | rgb(21, 24, 29) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.setSettings#timeline-setting-iterations` colour | 4 | rgb(135, 145, 160) | rgb(217, 222, 230) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `animation.setSettings#timeline-setting-iterations` font | 4 | 12px 400 | 15px 400 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `interactions.remove#inspector-interaction-remove` font | 4 | 12px 600 | 12px 400 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `interactions.update#layers-row-pick-target` background | 4 | rgb(58, 26, 52) | rgb(107, 107, 107) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `palette.setDensity#elements-density-two-columns` colour | 4 | rgb(79, 224, 204) | rgb(217, 222, 230) | hover/dark/en, hover/light/en, hover/dark/pt-BR |
@@ -93,8 +81,6 @@ Open: 188 divergences of 38 kinds. Decisions (docs/PRODUCT.md, section 4) keep t
 | control `timeline.setPlayhead#timeline-ruler-click` drawn | 4 | yes | no | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `timeline.toggleLoop#timeline-loop` background | 4 | rgb(18, 58, 54) | rgba(0, 0, 0, 0) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | control `timeline.toggleLoop#timeline-loop` colour | 4 | rgb(44, 196, 176) | rgb(168, 176, 189) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `workspace.setWorkbenchState#toolbar-workbench-strip-toggle` background | 4 | rgba(0, 0, 0, 0) | rgb(18, 58, 54) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
-| control `workspace.setWorkbenchState#toolbar-workbench-strip-toggle` colour | 4 | rgb(168, 176, 189) | rgb(44, 196, 176) | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |
 | region `command-palette` height | 4 | 254 | 249 | palette/dark/en, palette/light/en, palette/dark/pt-BR |
 | region `context-menu` width | 4 | 268 | 243.5 | context/dark/en, context/light/en, context/dark/pt-BR |
 | region `dock-timeline` height | 4 | 212 | 358 | interaction/dark/en, interaction/light/en, interaction/dark/pt-BR |

@@ -125,6 +125,13 @@
   background: var(--color-surface-sunken);
 }
 
+/* a class's chip and its × inside the group's one edge: the group is the canonical 26 px .tgt */
+.target-chip-group > .target-chip {
+  height: var(--size-target-min);
+  padding-right: 0;
+  border: 0;
+}
+
 .target-chip {
   display: inline-flex;
   align-items: center;
@@ -1551,6 +1558,11 @@
   flex-wrap: wrap;
   gap: var(--space-2);
   margin-top: var(--space-2);
+}
+
+/* no moves to offer: the line is its words alone (its margin made the canonical 16 px line 20) */
+.affects__actions:empty {
+  display: none;
 }
 
 /* A row whose label or one-word value does not fit beside the other (row-fit.ts) lays its label on a line of its own,

@@ -18,7 +18,8 @@ const look = (page: Page, names: readonly string[]) =>
     return `${name}:\n${found.map((el) => {
       const r = el.getBoundingClientRect();
       const css = getComputedStyle(el);
-      const colours = `colour ${css.color} background ${css.backgroundColor} left edge ${css.borderLeftColor}`;
+      const children = [...el.children].map((child) => `${child.localName}.${(child.getAttribute('class') ?? '').split(' ')[0]} ${Math.round(child.getBoundingClientRect().height)}`).join(', ');
+      const colours = `colour ${css.color} background ${css.backgroundColor} left edge ${css.borderLeftColor} children [${children}]`;
       return `  <${el.localName} class="${el.getAttribute('class') ?? ''}"> ${Math.round(r.width)}x${Math.round(r.height)} @${Math.round(r.x)},${Math.round(r.y)} ${colours}\n    ${el.outerHTML.replace(/\s+/g, ' ').slice(0, 600)}`;
     }).join('\n') || '  (not drawn)'}`;
   }).join('\n'), names);

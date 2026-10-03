@@ -7,7 +7,7 @@
 // ruler, a keyframe along the track) are the pointer owner's; this panel only draws them and runs their doors' clicks.
 import { useState, type CSSProperties } from 'react';
 import type { DoorId } from '../../generated/ids.ts';
-import { animationsOf, SETTINGS, settingLabel } from '../../core/animation/animation.ts';
+import { animationsOf, defaultSetting, SETTINGS, settingLabel } from '../../core/animation/animation.ts';
 import { locate, type Animation } from '../../core/document/model.ts';
 import type { DoorEntry } from '../../manifest/runtime.ts';
 import { manifest } from '../../manifest/runtime.ts';
@@ -115,19 +115,23 @@ export function TimelinePanel() {
         {shown !== null && shownName !== null ? (
           <>
             <div className="timeline__row">
-              {NAME_FIELD !== null ? <PanelField entry={NAME_FIELD} args={{ animation: shownName }} value={shownName} label={t('timeline.name')} /> : null}
+              {/* the name reads as the row's words until it is edited (the canonical Animations' row) */}
+              {NAME_FIELD !== null ? <span className="timeline__name"><PanelField entry={NAME_FIELD} args={{ animation: shownName }} value={shownName} label={t('timeline.name')} /></span> : null}
             </div>
             <p className="timeline__title">{t('timeline.settings')}</p>
             <div className="timeline__settings">
+              {/* a setting the animation holds in the Here ink, one left at its default in the default ink (the canonical
+                  timeline's o-here and o-def) */}
               {SETTING_DOORS.map(({ setting, entry }) => (
-                <PanelField
-                  key={setting}
-                  entry={entry}
-                  args={{ animation: shownName }}
-                  value={settingValue(shown.animation, setting)}
-                  label={t(settingLabel(setting))}
-                  offered={offeredValues(entry)}
-                />
+                <span key={setting} className={`timeline__setting ${shown.animation.settings[setting] === defaultSetting(setting) ? 'is-default' : 'is-set'}`}>
+                  <PanelField
+                    entry={entry}
+                    args={{ animation: shownName }}
+                    value={settingValue(shown.animation, setting)}
+                    label={t(settingLabel(setting))}
+                    offered={offeredValues(entry)}
+                  />
+                </span>
               ))}
             </div>
           </>

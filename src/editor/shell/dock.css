@@ -47,6 +47,12 @@
   margin-left: auto;
 }
 
+/* the strip's own toggle says open or closed by its glyph, never by the pressed fill (the canonical strip) */
+.dock-strip__actions .door--icon-button.is-current {
+  background: none;
+  color: var(--color-text-muted);
+}
+
 /* the number of issues beside the Checks tab (design/final .badge) */
 .dock-strip__badge {
   display: inline-grid;
