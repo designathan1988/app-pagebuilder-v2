@@ -13,7 +13,7 @@ import { siteScripts } from '../forms/script.ts';
 import type { ModelRules } from '../../core/document/validate.ts';
 import type { EditorUi } from '../state.ts';
 import { editorView } from '../view/editor-view.ts';
-import { isFileOpen, openedFile } from './file-tabs.ts';
+import { isFileShown, openedFile } from './file-tabs.ts';
 
 // what a row is, by its path: the badge a row shows and the syntax the pane colours it with
 export type FileKind = 'html' | 'css' | 'js' | 'image' | 'font' | 'other';
@@ -144,7 +144,7 @@ export const openFile = registerHandler<'files.open', EditorUi>(
     const ui = openedFile(state.ui, path);
     return { kind: 'change', ui: editorView(state.ui) === 'split' ? ui : { ...ui, editorView: 'code' }, message: message('status.files.opened', { path }) };
   },
-  (state, { path }) => typeof path === 'string' && isFileOpen(state.ui, path),
+  (state, { path }) => typeof path === 'string' && isFileShown(state.ui, path),
 );
 
 // files.startRename (the Explorer's row, a double-click on its name — the Layers row's own pattern): which row is

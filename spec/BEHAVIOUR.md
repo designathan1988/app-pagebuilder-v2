@@ -9336,6 +9336,9 @@ Required (manifest feature `code-panel-view`):
   side by side, Code draws the pane alone.
 - The pane's tabs (`codePanel.setPane`) show the open page's HTML, the stylesheet and the scripts, with line numbers and
   syntax colouring, each exactly the text the export writes, updated after every command.
+- A code file's tab over the canvas (`files.open#file-tab`) is the current one, and its close button with it, only while
+  its file shows: the active file in the Code view or in Split. Over the canvas alone the page's tab is current, the
+  code files' tabs stay open and unmarked (FT1: every open file's tab was drawn current beside the page's).
 
 ## code-panel-copy-download
 

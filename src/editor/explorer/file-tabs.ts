@@ -16,6 +16,10 @@ export interface CodeTabsState {
 export const codeTabs = (ui: EditorUi): CodeTabsState | null => ui.code ?? null;
 export const isFileOpen = (ui: EditorUi, path: string): boolean => codeTabs(ui)?.open.includes(path) === true;
 export const activeFile = (ui: EditorUi): string | null => codeTabs(ui)?.active ?? null;
+// The file a person sees: the active one while the centre shows the code (the Code view, or Split beside the canvas).
+// Its tab is the current one, and the page's while the canvas alone shows (FT1: every open file's tab, and the active
+// one's close button, were drawn current over the canvas, two tabs selected at once where the design marks one).
+export const isFileShown = (ui: EditorUi, path: string): boolean => activeFile(ui) === path && editorView(ui) !== 'canvas';
 
 // The state with a file open and shown; a file already open is shown, not opened twice.
 export function openedFile(ui: EditorUi, path: string): EditorUi {
@@ -47,5 +51,5 @@ export const closeFileTab = registerHandler<'files.closeTab', EditorUi>(
     // the pane goes with its last file: the centre column shows the canvas again (Split stays as it is)
     return { kind: 'change', ui: ui.code === undefined && editorView(ui) === 'code' ? { ...ui, editorView: undefined } : ui, message: message('status.files.closed', { path }) };
   },
-  (state, { path }) => codeTabs(state.ui)?.active === path,
+  (state, { path }) => typeof path === 'string' && isFileShown(state.ui, path),
 );
