@@ -642,6 +642,7 @@
 
 .palette-group__header {
   width: 100%;
+  height: var(--size-target-min);
   margin-top: var(--space-2);
   font-weight: var(--weight-semibold);
   color: var(--color-text-muted);

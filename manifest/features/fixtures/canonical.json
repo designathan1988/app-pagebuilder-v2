@@ -178,7 +178,16 @@
             "font-size": "44px",
             "font-weight": "400",
             "line-height": "52px",
-            "letter-spacing": "-0.6px"
+            "letter-spacing": "-0.6px",
+            "text-align": "left",
+            "opacity": "1",
+            "filter": "none"
+          }
+        },
+        "tablet": {
+          "base": {
+            "font-size": "36px",
+            "line-height": "42px"
           }
         }
       }
@@ -584,8 +593,7 @@
                             "interactions": [
                               {
                                 "trigger": "click",
-                                "action": "play-animation",
-                                "once": true
+                                "action": "play-animation"
                               },
                               {
                                 "trigger": "hover",
